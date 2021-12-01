@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/shared/">
+        <file>images/32x32/file_browser.png</file>
+    </qresource>
+</RCC>
