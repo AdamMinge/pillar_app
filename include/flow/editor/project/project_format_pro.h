@@ -17,8 +17,8 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<api::IProject> load(const QString &file_name) override;
-  bool save(const api::IProject &project) override;
+  std::unique_ptr<api::IProject> load(const QString &file_name, QString *error) override;
+  bool save(const api::IProject &project, const QString &file_name, QString *error) override;
 };
 
 #endif//FLOW_PROJECT_FORMAT_PRO_H

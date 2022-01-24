@@ -24,8 +24,11 @@ namespace api
 
   IReadableFlowDocumentFormat::~IReadableFlowDocumentFormat() = default;
 
-  bool IReadableFlowDocumentFormat::save(const IDocument &document)
+  bool IReadableFlowDocumentFormat::save(const IDocument &document, const QString &file_name, QString *error)
   {
+    if (error)
+      *error = tr("Document format is readable only");
+
     return false;
   }
 
@@ -43,8 +46,11 @@ namespace api
 
   IWritableFlowDocumentFormat::~IWritableFlowDocumentFormat() = default;
 
-  std::unique_ptr<IDocument> IWritableFlowDocumentFormat::load(const QString &file_name)
+  std::unique_ptr<IDocument> IWritableFlowDocumentFormat::load(const QString &file_name, QString *error)
   {
+    if (error)
+      *error = tr("Document format is writable only");
+
     return nullptr;
   }
 

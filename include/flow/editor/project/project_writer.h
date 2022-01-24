@@ -18,7 +18,7 @@ public:
   ~ProjectWriter();
 
   void write(const Project &project, QIODevice &device);
-  bool write(const Project &project, const QString &file_name);
+  bool write(const Project &project, const QString &file_name, QString *error = nullptr);
 
 private:
   std::unique_ptr<ProjectWriterImpl> m_impl;

@@ -47,16 +47,24 @@ FlowDocumentReader::FlowDocumentReader()
 
 FlowDocumentReader::~FlowDocumentReader() = default;
 
-std::unique_ptr<FlowDocument> FlowDocumentReader::read(QIODevice &device)
+std::unique_ptr<FlowDocument> FlowDocumentReader::read(QIODevice &device, QString *error)
 {
-  return m_impl->readDocument(device);
+  auto document = m_impl->readDocument(device);
+  if (!document && error) *error = QObject::tr("Failed to load document");
+  return document;
 }
 
-std::unique_ptr<FlowDocument> FlowDocumentReader::read(const QString &file_name)
+std::unique_ptr<FlowDocument> FlowDocumentReader::read(const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+    if (error) *error = QObject::tr("Failed to open file = %1").arg(file_name);
     return nullptr;
+  }
 
-  return m_impl->readDocument(file);
+  auto document = m_impl->readDocument(file);
+  if (!document && error) *error = QObject::tr("Failed to load document");
+
+  return document;
 }

@@ -17,8 +17,8 @@ public:
   explicit FlowDocumentReader();
   ~FlowDocumentReader();
 
-  std::unique_ptr<FlowDocument> read(QIODevice &device);
-  std::unique_ptr<FlowDocument> read(const QString &file_name);
+  std::unique_ptr<FlowDocument> read(QIODevice &device, QString *error = nullptr);
+  std::unique_ptr<FlowDocument> read(const QString &file_name, QString *error = nullptr);
 
 private:
   std::unique_ptr<FlowDocumentReaderImpl> m_impl;

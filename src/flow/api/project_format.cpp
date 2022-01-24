@@ -24,8 +24,11 @@ namespace api
 
   IReadableProjectFormat::~IReadableProjectFormat() = default;
 
-  bool IReadableProjectFormat::save(const IProject &project)
+  bool IReadableProjectFormat::save(const IProject &project, const QString &file_name, QString *error)
   {
+    if (error)
+      *error = tr("Project format is readable only");
+
     return false;
   }
 
@@ -43,8 +46,11 @@ namespace api
 
   IWritableProjectFormat::~IWritableProjectFormat() = default;
 
-  std::unique_ptr<IProject> IWritableProjectFormat::load(const QString &file_name)
+  std::unique_ptr<IProject> IWritableProjectFormat::load(const QString &file_name, QString *error)
   {
+    if (error)
+      *error = tr("Project format is writable only");
+
     return nullptr;
   }
 

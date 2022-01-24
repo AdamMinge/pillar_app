@@ -28,7 +28,7 @@ namespace api
     virtual void setReaderFormat(IProjectFormat *format) = 0;
     virtual void setWriterFormat(IProjectFormat *format) = 0;
 
-    virtual bool save(const QString &file_name) = 0;
+    virtual bool save(const QString &file_name, QString *error) = 0;
 
   Q_SIGNALS:
     void fileNameChanged(const QString &new_file_name, const QString &old_file_name);

@@ -14,7 +14,7 @@ class Project : public api::IProject
 
 public:
   static std::unique_ptr<api::IProject> create();
-  static std::unique_ptr<api::IProject> load(const QString &file_name, api::IProjectFormat *format = nullptr);
+  static std::unique_ptr<api::IProject> load(const QString &file_name, api::IProjectFormat *format = nullptr, QString *error = nullptr);
 
 public:
   ~Project() override;
@@ -29,7 +29,7 @@ public:
   void setReaderFormat(api::IProjectFormat *format) override;
   void setWriterFormat(api::IProjectFormat *format) override;
 
-  bool save(const QString &file_name) override;
+  bool save(const QString &file_name, QString *error) override;
 
 protected:
   explicit Project(QObject *parent = nullptr);

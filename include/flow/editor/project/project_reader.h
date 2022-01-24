@@ -17,8 +17,8 @@ public:
   explicit ProjectReader();
   ~ProjectReader();
 
-  std::unique_ptr<Project> read(QIODevice &device);
-  std::unique_ptr<Project> read(const QString &file_name);
+  std::unique_ptr<Project> read(QIODevice &device, QString *error = nullptr);
+  std::unique_ptr<Project> read(const QString &file_name, QString *error = nullptr);
 
 private:
   std::unique_ptr<ProjectReaderImpl> m_impl;

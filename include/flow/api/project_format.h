@@ -18,8 +18,8 @@ namespace api
     explicit IProjectFormat(QObject *parent = nullptr);
     ~IProjectFormat() override;
 
-    virtual std::unique_ptr<IProject> load(const QString &file_name) = 0;
-    virtual bool save(const IProject &project) = 0;
+    virtual std::unique_ptr<IProject> load(const QString &file_name, QString *error) = 0;
+    virtual bool save(const IProject &project, const QString &file_name, QString *error) = 0;
   };
 
   class IReadableProjectFormat : public IProjectFormat
@@ -30,7 +30,7 @@ namespace api
     explicit IReadableProjectFormat(QObject *parent = nullptr);
     ~IReadableProjectFormat() override;
 
-    bool save(const IProject &project) override;
+    bool save(const IProject &project, const QString &file_name, QString *error) override;
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 
@@ -42,7 +42,7 @@ namespace api
     explicit IWritableProjectFormat(QObject *parent = nullptr);
     ~IWritableProjectFormat() override;
 
-    std::unique_ptr<IProject> load(const QString &file_name) override;
+    std::unique_ptr<IProject> load(const QString &file_name, QString *error) override;
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 

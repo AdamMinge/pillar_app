@@ -47,16 +47,25 @@ ProjectReader::ProjectReader()
 
 ProjectReader::~ProjectReader() = default;
 
-std::unique_ptr<Project> ProjectReader::read(QIODevice &device)
+std::unique_ptr<Project> ProjectReader::read(QIODevice &device, QString *error)
 {
-  return m_impl->readProject(device);
+  auto project = m_impl->readProject(device);
+  if (!project && error) *error = QObject::tr("Failed to load project");
+
+  return project;
 }
 
-std::unique_ptr<Project> ProjectReader::read(const QString &file_name)
+std::unique_ptr<Project> ProjectReader::read(const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+    if (error) *error = QObject::tr("Failed to open file = %1").arg(file_name);
     return nullptr;
+  }
 
-  return m_impl->readProject(file);
+  auto project = m_impl->readProject(file);
+  if (!project && error) *error = QObject::tr("Failed to load project");
+
+  return project;
 }

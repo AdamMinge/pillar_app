@@ -284,12 +284,13 @@ bool DocumentManager::saveDocument(api::IDocument *document)
 {
   Q_ASSERT(document);
 
-  if (!document->save(document->getFileName()))
+  QString error;
+  if (!document->save(document->getFileName(), &error))
   {
     switchToDocument(document);
     QMessageBox::critical(
       m_widget->window(),
-      tr("Error Saving File"), "Something went wrong");
+      tr("Error Saving File"), error);
     return false;
   }
 
@@ -300,20 +301,31 @@ bool DocumentManager::saveDocumentAs(api::IDocument *document)
 {
   Q_ASSERT(document);
 
-  const auto filter = FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Write}.getFilter();
+  auto selectedFilter = QString{};
+  if (auto format = document->getWriterFormat(); format)
+    selectedFilter = format->getNameFilter();
+
+  auto format_helper = FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Write};
   const auto file_name = utils::QtExtendedFileDialog::getSaveFileName(
     m_widget->window(), tr("Save Document As"),
-    document->getFileName(), filter);
+    document->getFileName(), format_helper.getFilter(), &selectedFilter);
 
   if (file_name.isEmpty())
     return false;
 
-  if (!document->save(file_name))
+  auto format = format_helper.findFormatByNameFilter(selectedFilter);
+  Q_ASSERT(format);
+
+  document->setWriterFormat(format);
+  document->setWriterFormat(format);
+
+  QString error;
+  if (!document->save(file_name, &error))
   {
     switchToDocument(document);
     QMessageBox::critical(
       m_widget->window(),
-      tr("Error Saving File"), "Something went wrong");
+      tr("Error Saving File"), error);
     return false;
   }
 

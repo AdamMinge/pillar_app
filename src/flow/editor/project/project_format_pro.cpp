@@ -33,14 +33,14 @@ bool ProjectFormatPro::supportsFile(const QString &filename) const
   return false;
 }
 
-std::unique_ptr<api::IProject> ProjectFormatPro::load(const QString &file_name)
+std::unique_ptr<api::IProject> ProjectFormatPro::load(const QString &file_name, QString *error)
 {
   ProjectReader project_reader;
-  return project_reader.read(file_name);
+  return project_reader.read(file_name, error);
 }
 
-bool ProjectFormatPro::save(const api::IProject &project)
+bool ProjectFormatPro::save(const api::IProject &project, const QString &file_name, QString *error)
 {
   ProjectWriter project_writer;
-  return project_writer.write(dynamic_cast<const Project &>(project), project.getFileName());
+  return project_writer.write(dynamic_cast<const Project &>(project), file_name, error);
 }

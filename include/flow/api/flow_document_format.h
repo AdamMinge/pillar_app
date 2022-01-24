@@ -25,7 +25,7 @@ namespace api
     explicit IReadableFlowDocumentFormat(QObject *parent = nullptr);
     ~IReadableFlowDocumentFormat() override;
 
-    bool save(const IDocument &document) override;
+    bool save(const IDocument &document, const QString &file_name, QString *error) override;
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 
@@ -37,7 +37,7 @@ namespace api
     explicit IWritableFlowDocumentFormat(QObject *parent = nullptr);
     ~IWritableFlowDocumentFormat() override;
 
-    std::unique_ptr<IDocument> load(const QString &file_name) override;
+    std::unique_ptr<IDocument> load(const QString &file_name, QString *error) override;
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 

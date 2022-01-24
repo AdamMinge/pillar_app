@@ -72,6 +72,12 @@
         <source>untitled</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../src/flow/editor/document/document.cpp" line="87"/>
+        <location filename="../../src/flow/editor/document/document.cpp" line="110"/>
+        <source>Wrong document format</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DocumentManager</name>
@@ -96,13 +102,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="292"/>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="316"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="293"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="328"/>
         <source>Error Saving File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="305"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="310"/>
         <source>Save Document As</source>
         <translation type="unfinished"></translation>
     </message>
@@ -196,6 +202,12 @@
     <message>
         <location filename="../../src/flow/editor/project/project.cpp" line="43"/>
         <source>untitled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project.cpp" line="76"/>
+        <location filename="../../src/flow/editor/project/project.cpp" line="100"/>
+        <source>Wrong project format</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -381,6 +393,29 @@
     <message>
         <location filename="../../src/flow/editor/project/project_window.cpp" line="583"/>
         <source>There is currently open project. Do you want to close it and open new one now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="53"/>
+        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="67"/>
+        <source>Failed to load document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="62"/>
+        <location filename="../../src/flow/editor/document/flow/flow_document_writer.cpp" line="59"/>
+        <location filename="../../src/flow/editor/project/project_reader.cpp" line="63"/>
+        <location filename="../../src/flow/editor/project/project_writer.cpp" line="58"/>
+        <source>Failed to open file = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_reader.cpp" line="53"/>
+        <location filename="../../src/flow/editor/project/project_reader.cpp" line="68"/>
+        <source>Failed to load project</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

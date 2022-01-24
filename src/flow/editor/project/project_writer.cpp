@@ -50,16 +50,22 @@ void ProjectWriter::write(const Project &project, QIODevice &device)
   m_impl->writeProject(project, device);
 }
 
-bool ProjectWriter::write(const Project &project, const QString &file_name)
+bool ProjectWriter::write(const Project &project, const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+    if (error) *error = QObject::tr("Failed to open file = %1").arg(file_name);
     return false;
+  }
 
   m_impl->writeProject(project, file);
 
   if (file.error() != QFileDevice::NoError)
+  {
+    if (error) *error = file.errorString();
     return false;
+  }
 
   file.close();
   return true;

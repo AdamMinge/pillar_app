@@ -15,7 +15,7 @@ class Document : public api::IDocument
   Q_OBJECT
 
 public:
-  static std::unique_ptr<api::IDocument> load(const QString &file_name, api::IDocumentFormat *format = nullptr);
+  static std::unique_ptr<api::IDocument> load(const QString &file_name, api::IDocumentFormat *format = nullptr, QString *error = nullptr);
 
 public:
   ~Document() override;
@@ -35,7 +35,7 @@ public:
   void setReaderFormat(api::IDocumentFormat *format) override;
   void setWriterFormat(api::IDocumentFormat *format) override;
 
-  bool save(const QString &file_name) override;
+  bool save(const QString &file_name, QString *error) override;
 
 protected:
   explicit Document(Type type, QObject *parent = nullptr);

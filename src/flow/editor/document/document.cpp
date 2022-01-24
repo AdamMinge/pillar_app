@@ -78,14 +78,17 @@ void Document::setWriterFormat(api::IDocumentFormat *format)
   m_write_format = format->getShortName();
 }
 
-bool Document::save(const QString &file_name)
+bool Document::save(const QString &file_name, QString *error)
 {
   auto document_format = getWriterFormat();
 
   if (!document_format)
+  {
+    if (error) *error = tr("Wrong document format");
     return false;
+  }
 
-  if (!document_format->save(*this))
+  if (!document_format->save(*this, file_name, error))
     return false;
 
   setFileName(file_name);
@@ -94,7 +97,7 @@ bool Document::save(const QString &file_name)
   return true;
 }
 
-std::unique_ptr<api::IDocument> Document::load(const QString &file_name, api::IDocumentFormat *format)
+std::unique_ptr<api::IDocument> Document::load(const QString &file_name, api::IDocumentFormat *format, QString *error)
 {
   if (!format)
   {
@@ -102,5 +105,11 @@ std::unique_ptr<api::IDocument> Document::load(const QString &file_name, api::ID
     format = format_helper.findFormatByFileName(file_name);
   }
 
-  return format->load(file_name);
+  if (!format)
+  {
+    if (error) *error = tr("Wrong document format");
+    return nullptr;
+  }
+
+  return format->load(file_name, error);
 }

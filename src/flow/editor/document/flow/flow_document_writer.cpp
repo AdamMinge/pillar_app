@@ -2,8 +2,8 @@
 #include <QFile>
 #include <QXmlStreamWriter>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/flow/flow_document_writer.h"
 #include "flow/editor/document/flow/flow_document.h"
+#include "flow/editor/document/flow/flow_document_writer.h"
 /* -------------------------------------------------------------------------- */
 
 /* --------------------------- FlowDocumentWriterImpl ----------------------- */
@@ -51,16 +51,22 @@ void FlowDocumentWriter::write(const FlowDocument &document, QIODevice &device)
   m_impl->writeDocument(document, device);
 }
 
-bool FlowDocumentWriter::write(const FlowDocument &document, const QString &file_name)
+bool FlowDocumentWriter::write(const FlowDocument &document, const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+    if (error) *error = QObject::tr("Failed to open file = %1").arg(file_name);
     return false;
+  }
 
   m_impl->writeDocument(document, file);
 
   if (file.error() != QFileDevice::NoError)
+  {
+    if (error) *error = file.errorString();
     return false;
+  }
 
   file.close();
   return true;

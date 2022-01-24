@@ -17,8 +17,8 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<api::IDocument> load(const QString &file_name) override;
-  bool save(const api::IDocument &document) override;
+  std::unique_ptr<api::IDocument> load(const QString &file_name, QString *error) override;
+  bool save(const api::IDocument &document, const QString &file_name, QString *error) override;
 };
 
 #endif//FLOW_DOCUMENT_FORMAT_FLOW_H

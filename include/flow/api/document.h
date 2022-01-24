@@ -40,7 +40,7 @@ namespace api
     virtual void setReaderFormat(IDocumentFormat *format) = 0;
     virtual void setWriterFormat(IDocumentFormat *format) = 0;
 
-    virtual bool save(const QString &file_name) = 0;
+    virtual bool save(const QString &file_name, QString *error) = 0;
 
   Q_SIGNALS:
     void modifiedChanged();
