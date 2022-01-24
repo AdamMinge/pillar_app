@@ -1,7 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/flow/flow_document_format_flow.h"
-/* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document.h"
+#include "flow/editor/document/flow/flow_document_reader.h"
+#include "flow/editor/document/flow/flow_document_writer.h"
+#include "flow/editor/document/flow/flow_document.h"
 /* -------------------------------------------------------------------------- */
 
 FlowDocumentFormatFlow::FlowDocumentFormatFlow(QObject *parent)
@@ -34,10 +35,12 @@ bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const
 
 std::unique_ptr<api::IDocument> FlowDocumentFormatFlow::load(const QString &file_name)
 {
-  return nullptr;// TODO implementation
+  FlowDocumentReader document_reader;
+  return document_reader.read(file_name);
 }
 
 bool FlowDocumentFormatFlow::save(const api::IDocument &document)
 {
-  return false;// TODO implementation
+  FlowDocumentWriter document_writer;
+  return document_writer.write(dynamic_cast< const FlowDocument&>(document), document.getFileName());
 }

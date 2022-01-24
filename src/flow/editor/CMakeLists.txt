@@ -145,6 +145,7 @@ flow_add_application(editor
         DEPENDS
         Qt6::Widgets
         flow::api
+        flow::pointer_cast
         flow::qtdialog
         flow::qtdpi
         flow::qtfilesystemwatcher

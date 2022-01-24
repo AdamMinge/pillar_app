@@ -7,10 +7,7 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-namespace api
-{
-  class IProject;
-}
+class Project;
 
 class ProjectReader
 {
@@ -20,8 +17,8 @@ public:
   explicit ProjectReader();
   ~ProjectReader();
 
-  std::unique_ptr<api::IProject> read(QIODevice &device);
-  std::unique_ptr<api::IProject> read(const QString &file_name);
+  std::unique_ptr<Project> read(QIODevice &device);
+  std::unique_ptr<Project> read(const QString &file_name);
 
 private:
   std::unique_ptr<ProjectReaderImpl> m_impl;

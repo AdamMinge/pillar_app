@@ -7,6 +7,8 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
+class FlowDocument;
+
 class FlowDocumentReader
 {
   class FlowDocumentReaderImpl;
@@ -14,6 +16,9 @@ class FlowDocumentReader
 public:
   explicit FlowDocumentReader();
   ~FlowDocumentReader();
+
+  std::unique_ptr<FlowDocument> read(QIODevice &device);
+  std::unique_ptr<FlowDocument> read(const QString &file_name);
 
 private:
   std::unique_ptr<FlowDocumentReaderImpl> m_impl;

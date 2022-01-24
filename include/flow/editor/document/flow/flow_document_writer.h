@@ -7,6 +7,8 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
+class FlowDocument;
+
 class FlowDocumentWriter
 {
   class FlowDocumentWriterImpl;
@@ -14,6 +16,9 @@ class FlowDocumentWriter
 public:
   explicit FlowDocumentWriter();
   ~FlowDocumentWriter();
+
+  void write(const FlowDocument &document, QIODevice &device);
+  bool write(const FlowDocument &document, const QString &file_name);
 
 private:
   std::unique_ptr<FlowDocumentWriterImpl> m_impl;

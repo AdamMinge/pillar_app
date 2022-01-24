@@ -2,8 +2,7 @@
 #include "flow/editor/project/project_format_pro.h"
 #include "flow/editor/project/project_reader.h"
 #include "flow/editor/project/project_writer.h"
-/* ------------------------------------ Api --------------------------------- */
-#include "flow/api/project.h"
+#include "flow/editor/project/project.h"
 /* -------------------------------------------------------------------------- */
 
 ProjectFormatPro::ProjectFormatPro(QObject *parent)
@@ -43,5 +42,5 @@ std::unique_ptr<api::IProject> ProjectFormatPro::load(const QString &file_name)
 bool ProjectFormatPro::save(const api::IProject &project)
 {
   ProjectWriter project_writer;
-  return project_writer.write(project, project.getFileName());
+  return project_writer.write(dynamic_cast<const Project&>(project), project.getFileName());
 }

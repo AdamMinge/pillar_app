@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.11)
 # -------------------------------------------------------------------------------------------------- #
 # -------------------------------------- Add subdirectories ---------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
+add_subdirectory(pointer_cast)
 add_subdirectory(qtdialog)
 add_subdirectory(qtdpi)
 add_subdirectory(qtfilesystemwatcher)

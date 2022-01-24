@@ -3,8 +3,7 @@
 #include <QXmlStreamWriter>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/project_writer.h"
-/* ------------------------------------ Api --------------------------------- */
-#include "flow/api/project.h"
+#include "flow/editor/project/project.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectWriterImpl -------------------------- */
@@ -15,13 +14,13 @@ public:
   explicit ProjectWriterImpl() = default;
   ~ProjectWriterImpl() = default;
 
-  void writeProject(const api::IProject &project, QIODevice &device);
+  void writeProject(const Project &project, QIODevice &device);
 
 private:
-  void writeProject(QXmlStreamWriter &writer, const api::IProject &project);
+  void writeProject(QXmlStreamWriter &writer, const Project &project);
 };
 
-void ProjectWriter::ProjectWriterImpl::writeProject(const api::IProject &project, QIODevice &device)
+void ProjectWriter::ProjectWriterImpl::writeProject(const Project &project, QIODevice &device)
 {
   QXmlStreamWriter writer(&device);
 
@@ -30,7 +29,7 @@ void ProjectWriter::ProjectWriterImpl::writeProject(const api::IProject &project
   writer.writeEndDocument();
 }
 
-void ProjectWriter::ProjectWriterImpl::writeProject(QXmlStreamWriter &writer, const api::IProject &project)
+void ProjectWriter::ProjectWriterImpl::writeProject(QXmlStreamWriter &writer, const Project &project)
 {
   writer.writeStartElement(QStringLiteral("project"));
 
@@ -46,12 +45,12 @@ ProjectWriter::ProjectWriter()
 
 ProjectWriter::~ProjectWriter() = default;
 
-void ProjectWriter::write(const api::IProject &project, QIODevice &device)
+void ProjectWriter::write(const Project &project, QIODevice &device)
 {
   m_impl->writeProject(project, device);
 }
 
-bool ProjectWriter::write(const api::IProject &project, const QString &file_name)
+bool ProjectWriter::write(const Project &project, const QString &file_name)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

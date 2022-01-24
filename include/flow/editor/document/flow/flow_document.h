@@ -10,7 +10,7 @@ class FlowDocument : public Document
   Q_OBJECT
 
 public:
-  static std::unique_ptr<FlowDocument> create();
+  static std::unique_ptr<api::IDocument> create();
 
 public:
   ~FlowDocument() override;

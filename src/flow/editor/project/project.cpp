@@ -4,12 +4,12 @@
 #include "flow/editor/format_helper.h"
 #include "flow/editor/project/project.h"
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/project_format.h"
+#include <flow/api/project_format.h>
 /* -------------------------------------------------------------------------- */
 
 std::unique_ptr<api::IProject> Project::create()
 {
-  auto project = std::unique_ptr<IProject>(new Project);
+  auto project = std::unique_ptr<Project>(new Project);
   return project;
 }
 
