@@ -15,7 +15,7 @@ ProjectFormatPro::~ProjectFormatPro() = default;
 
 QString ProjectFormatPro::getNameFilter() const
 {
-  return tr("Project files (*.pro *xml)");
+  return tr("Project files (*.pro *.xml)");
 }
 
 QString ProjectFormatPro::getShortName() const

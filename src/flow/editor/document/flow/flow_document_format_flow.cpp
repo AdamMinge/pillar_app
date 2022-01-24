@@ -13,7 +13,7 @@ FlowDocumentFormatFlow::~FlowDocumentFormatFlow() = default;
 
 QString FlowDocumentFormatFlow::getNameFilter() const
 {
-  return tr("Project files (*.flow *.xml)");
+  return tr("Flow files (*.flow *.xml)");
 }
 
 QString FlowDocumentFormatFlow::getShortName() const

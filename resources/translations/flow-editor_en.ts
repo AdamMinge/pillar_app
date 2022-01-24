@@ -124,7 +124,7 @@
     <name>FlowDocumentFormatFlow</name>
     <message>
         <location filename="../../src/flow/editor/document/flow/flow_document_format_flow.cpp" line="16"/>
-        <source>Project files (*.flow *.xml)</source>
+        <source>Flow files (*.flow *.xml)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -211,7 +211,7 @@
     <name>ProjectFormatPro</name>
     <message>
         <location filename="../../src/flow/editor/project/project_format_pro.cpp" line="18"/>
-        <source>Project files (*.pro *xml)</source>
+        <source>Project files (*.pro *.xml)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
