@@ -12,7 +12,7 @@
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/api/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qtdialog/qtextendedfiledialog.h>
+#include <flow/utils/qt/dialog/extended_file_dialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_no_project_window.h"
 /* -------------------------------------------------------------------------- */

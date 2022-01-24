@@ -19,9 +19,9 @@
 #include <flow/api/document_format.h>
 #include <flow/api/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qtdialog/qtdialogwithtoggleview.h>
-#include <flow/utils/qtdialog/qtextendedfiledialog.h>
-#include <flow/utils/qtdpi/qtdpiinfo.h>
+#include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
+#include <flow/utils/qt/dialog/extended_file_dialog.h>
+#include <flow/utils/qt/dpi/dpi_info.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_project_window.h"
 /* -------------------------------------------------------------------------- */

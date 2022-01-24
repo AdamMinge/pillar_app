@@ -7,8 +7,8 @@
 #include "flow/editor/console_dock.h"
 #include "flow/editor/logging_manager.h"
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qtdpi/qtdpiinfo.h>
-#include <flow/utils/qtlineedit/qtlineeditwithhistory.h>
+#include <flow/utils/qt/dpi/dpi_info.h>
+#include <flow/utils/qt/line_edit/line_edit_with_history.h>
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- ConsoleOutputWidget ------------------------- */

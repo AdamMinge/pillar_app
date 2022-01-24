@@ -2,8 +2,8 @@
 #include <QFile>
 #include <QXmlStreamWriter>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/project_writer.h"
 #include "flow/editor/project/project.h"
+#include "flow/editor/project/project_writer.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectWriterImpl -------------------------- */

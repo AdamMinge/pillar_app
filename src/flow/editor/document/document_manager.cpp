@@ -10,8 +10,8 @@
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/api/document_format.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qtdialog/qtextendedfiledialog.h>
-#include <flow/utils/qtfilesystemwatcher/qtfilesystemwatcher.h>
+#include <flow/utils/qt/dialog/extended_file_dialog.h>
+#include <flow/utils/qt/file_system_watcher/file_system_watcher.h>
 /* -------------------------------------------------------------------------- */
 
 QScopedPointer<DocumentManager> DocumentManager::m_instance = QScopedPointer<DocumentManager>(nullptr);

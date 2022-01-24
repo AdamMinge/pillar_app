@@ -145,14 +145,14 @@ flow_add_application(editor
         DEPENDS
         Qt6::Widgets
         flow::api
-        flow::pointer_cast
-        flow::qtdialog
-        flow::qtdpi
-        flow::qtfilesystemwatcher
-        flow::qtlineedit
-        flow::qtpropertybrowser
-        flow::qtview
-        flow::qtzip)
+        utils::pointer_cast
+        utils::dialog
+        utils::dpi
+        utils::file_system_watcher
+        utils::line_edit
+        utils::property_browser
+        utils::view
+        utils::archive)
 
 flow_add_translations(editor
         QM_DIR ${resources_root}/translations/

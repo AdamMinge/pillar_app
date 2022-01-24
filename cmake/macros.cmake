@@ -216,7 +216,7 @@ macro(flow_add_utils target)
     endif()
 
     add_library(${target} ${THIS_SOURCES})
-    add_library(flow::${target} ALIAS ${target})
+    add_library(utils::${target} ALIAS ${target})
 
     if(THIS_DEPENDS)
         target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -269,7 +269,7 @@ macro(flow_add_plugins target)
     endif()
 
     add_library(${target} ${THIS_SOURCES})
-    add_library(flow::${target} ALIAS ${target})
+    add_library(plugin::${target} ALIAS ${target})
 
     if(THIS_DEPENDS)
         target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})

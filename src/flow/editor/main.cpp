@@ -3,10 +3,10 @@
 #include <QCommandLineParser>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
+#include "flow/editor/document/flow/flow_document_format_flow.h"
 #include "flow/editor/main_window.h"
 #include "flow/editor/plugin_manager.h"
 #include "flow/editor/project/project_format_pro.h"
-#include "flow/editor/document/flow/flow_document_format_flow.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */
@@ -62,7 +62,7 @@ void CommandLineParser::process(const QCoreApplication &app)
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
-static void registerDefaultPlugins(QApplication& app)
+static void registerDefaultPlugins(QApplication &app)
 {
   auto project_default_format = new ProjectFormatPro(&app);
   auto flow_document_default_format = new FlowDocumentFormatFlow(&app);
