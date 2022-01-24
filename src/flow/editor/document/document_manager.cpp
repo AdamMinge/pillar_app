@@ -9,7 +9,7 @@
 #include "flow/editor/format_helper.h"
 /* ------------------------------------ Api --------------------------------- */
 #include "flow/api/document_format.h"
-/* ----------------------------------- Shared ------------------------------- */
+/* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qtdialog/qtextendedfiledialog.h>
 #include <flow/utils/qtfilesystemwatcher/qtfilesystemwatcher.h>
 /* -------------------------------------------------------------------------- */

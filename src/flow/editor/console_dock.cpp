@@ -6,7 +6,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/console_dock.h"
 #include "flow/editor/logging_manager.h"
-/* ----------------------------------- Shared ------------------------------- */
+/* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qtdpi/qtdpiinfo.h>
 #include <flow/utils/qtlineedit/qtlineeditwithhistory.h>
 /* -------------------------------------------------------------------------- */

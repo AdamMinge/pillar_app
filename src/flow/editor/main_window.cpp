@@ -4,8 +4,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/about_dialog.h"
 #include "flow/editor/action_manager.h"
-#include "flow/editor/document/document.h"
-#include "flow/editor/document/document_manager.h"
 #include "flow/editor/language_manager.h"
 #include "flow/editor/main_window.h"
 #include "flow/editor/preferences_manager.h"

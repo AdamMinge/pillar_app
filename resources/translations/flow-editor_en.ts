@@ -139,20 +139,20 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="38"/>
-        <location filename="../../src/flow/editor/main_window.cpp" line="149"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="36"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="147"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="39"/>
-        <location filename="../../src/flow/editor/main_window.cpp" line="150"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="37"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="148"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="40"/>
-        <location filename="../../src/flow/editor/main_window.cpp" line="151"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="38"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="149"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>

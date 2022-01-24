@@ -11,7 +11,7 @@
 #include "flow/editor/project/recent_project_list_model.h"
 /* ------------------------------------ Api --------------------------------- */
 #include "flow/api/project_format.h"
-/* ----------------------------------- Shared ------------------------------- */
+/* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qtdialog/qtextendedfiledialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_no_project_window.h"

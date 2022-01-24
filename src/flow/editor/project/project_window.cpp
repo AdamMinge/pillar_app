@@ -18,7 +18,7 @@
 /* ------------------------------------ Api --------------------------------- */
 #include "flow/api/document_format.h"
 #include "flow/api/project_format.h"
-/* ----------------------------------- Shared ------------------------------- */
+/* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qtdialog/qtdialogwithtoggleview.h>
 #include <flow/utils/qtdialog/qtextendedfiledialog.h>
 #include <flow/utils/qtdpi/qtdpiinfo.h>

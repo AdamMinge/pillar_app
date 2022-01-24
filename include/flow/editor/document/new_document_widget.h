@@ -5,7 +5,10 @@
 #include <QWidget>
 /* -------------------------------------------------------------------------- */
 
-class Document;
+namespace api
+{
+  class IDocument;
+}
 
 class NewDocumentWidget : public QWidget
 {
@@ -15,7 +18,7 @@ public:
   explicit NewDocumentWidget(QWidget *parent = nullptr);
   ~NewDocumentWidget() override;
 
-  [[nodiscard]] virtual std::unique_ptr<Document> createDocument() const = 0;
+  [[nodiscard]] virtual std::unique_ptr<api::IDocument> createDocument() const = 0;
   [[nodiscard]] virtual bool isValid() const = 0;
 
 Q_SIGNALS:

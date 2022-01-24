@@ -15,7 +15,7 @@ QVariant DocumentTypeListModel::data(const QModelIndex &index, int role) const
   if (index.row() < 0 || index.row() > rowCount(QModelIndex{}))
     return QVariant{};
 
-  auto document_type = static_cast<Document::Type>(index.row());
+  auto document_type = static_cast<api::IDocument::Type>(index.row());
   switch (role)// NOLINT(hicpp-multiway-paths-covered)
   {
     case Role::DocumentTypeRole:
@@ -33,30 +33,30 @@ QVariant DocumentTypeListModel::data(const QModelIndex &index, int role) const
 
 int DocumentTypeListModel::rowCount(const QModelIndex &parent) const
 {
-  return static_cast<int>(Document::Type::Unknown);
+  return static_cast<int>(api::IDocument::Type::Unknown);
 }
 
-QString DocumentTypeListModel::getDocumentNameForType(Document::Type type)
+QString DocumentTypeListModel::getDocumentNameForType(api::IDocument::Type type)
 {
   switch (type)
   {
-    case Document::Type::Flow:
+    case api::IDocument::Type::Flow:
       return tr("Flow");
 
-    case Document::Type::Unknown:
+    case api::IDocument::Type::Unknown:
     default:
       return tr("Unknown");
   }
 }
 
-QIcon DocumentTypeListModel::getDocumentIconForType(Document::Type type)
+QIcon DocumentTypeListModel::getDocumentIconForType(api::IDocument::Type type)
 {
   switch (type)
   {
-    case Document::Type::Flow:
+    case api::IDocument::Type::Flow:
       return QIcon(":/images/64x64/flow_document.png");
 
-    case Document::Type::Unknown:
+    case api::IDocument::Type::Unknown:
     default:
       return QIcon(":/images/64x64/unknown_document.png");
   }

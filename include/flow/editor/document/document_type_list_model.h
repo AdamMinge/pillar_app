@@ -5,8 +5,8 @@
 #include <QAbstractListModel>
 #include <QIcon>
 #include <QStringList>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/document.h"
 /* -------------------------------------------------------------------------- */
 
 class DocumentTypeListModel : public QAbstractListModel
@@ -29,8 +29,8 @@ public:
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
 
 private:
-  [[nodiscard]] static QString getDocumentNameForType(Document::Type type);
-  [[nodiscard]] static QIcon getDocumentIconForType(Document::Type type);
+  [[nodiscard]] static QString getDocumentNameForType(api::IDocument::Type type);
+  [[nodiscard]] static QIcon getDocumentIconForType(api::IDocument::Type type);
 };
 
 #endif//FLOW_DOCUMENT_TYPE_LIST_MODEL_H

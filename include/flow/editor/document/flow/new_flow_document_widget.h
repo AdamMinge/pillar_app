@@ -21,7 +21,7 @@ public:
   explicit NewFlowDocumentWidget(QWidget *parent = nullptr);
   ~NewFlowDocumentWidget() override;
 
-  [[nodiscard]] std::unique_ptr<Document> createDocument() const override;
+  [[nodiscard]] std::unique_ptr<api::IDocument> createDocument() const override;
   [[nodiscard]] bool isValid() const override;
 
 protected:
