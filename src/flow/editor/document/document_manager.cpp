@@ -8,8 +8,8 @@
 #include "flow/editor/document/no_document_widget.h"
 #include "flow/editor/format_helper.h"
 /* ----------------------------------- Shared ------------------------------- */
-#include <flow/shared/qtdialog/qtextendedfiledialog.h>
-#include <flow/shared/qtfilesystemwatcher/qtfilesystemwatcher.h>
+#include <flow/utils/qtdialog/qtextendedfiledialog.h>
+#include <flow/utils/qtfilesystemwatcher/qtfilesystemwatcher.h>
 /* -------------------------------------------------------------------------- */
 
 QScopedPointer<DocumentManager> DocumentManager::m_instance = QScopedPointer<DocumentManager>(nullptr);
@@ -27,12 +27,13 @@ void DocumentManager::deleteInstance()
   m_instance.reset(nullptr);
 }
 
-DocumentManager::DocumentManager() : m_widget(new QWidget()),
-                                     m_tab_bar(new QTabBar(m_widget.data())),
-                                     m_editor_stack(new QStackedLayout()),
-                                     m_no_document_widget(new NoDocumentWidget(m_widget)),
-                                     m_file_system_watcher(new tools::QtFileSystemWatcher()),
-                                     m_undo_group(new QUndoGroup(this))
+DocumentManager::DocumentManager()
+    : m_widget(new QWidget()),
+      m_tab_bar(new QTabBar(m_widget.data())),
+      m_editor_stack(new QStackedLayout()),
+      m_no_document_widget(new NoDocumentWidget(m_widget)),
+      m_file_system_watcher(new utils::QtFileSystemWatcher()),
+      m_undo_group(new QUndoGroup(this))
 {
   m_tab_bar->setExpanding(false);
   m_tab_bar->setDocumentMode(true);
@@ -52,7 +53,7 @@ DocumentManager::DocumentManager() : m_widget(new QWidget()),
   connect(m_tab_bar, &QTabBar::tabMoved, this, &DocumentManager::documentTabMoved);
   connect(m_tab_bar, &QTabBar::tabCloseRequested, this, &DocumentManager::documentCloseRequested);
 
-  connect(m_file_system_watcher.get(), &tools::QtFileSystemWatcher::pathsChanged, this, &DocumentManager::filesChanged);
+  connect(m_file_system_watcher.get(), &utils::QtFileSystemWatcher::pathsChanged, this, &DocumentManager::filesChanged);
 }
 
 DocumentManager::~DocumentManager() = default;
@@ -298,7 +299,7 @@ bool DocumentManager::saveDocumentAs(Document *document)
   Q_ASSERT(document);
 
   const auto filter = FormatHelper<DocumentFormat>{FileFormat::Capability::Write}.getFilter();
-  const auto file_name = tools::QtExtendedFileDialog::getSaveFileName(
+  const auto file_name = utils::QtExtendedFileDialog::getSaveFileName(
     m_widget->window(), tr("Save Document As"),
     document->getFileName(), filter);
 

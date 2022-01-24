@@ -152,11 +152,19 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 # ------------------------------------ create engine editor ---------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-flow_add_tool(flow-editor
+flow_add_application(editor
         SOURCES ${sources} ${includes} ${uis} ${resources}
-        DEPENDS Qt6::Widgets tool::flow-shared)
+        DEPENDS Qt6::Widgets
 
-flow_add_translations(flow-editor
+        flow::qtdialog
+        flow::qtdpi
+        flow::qtfilesystemwatcher
+        flow::qtlineedit
+        flow::qtpropertybrowser
+        flow::qtview
+        flow::qtzip)
+
+flow_add_translations(editor
         QM_DIR ${resources_root}/translations/
         INCLUDES ${include_root}
         SOURCES ${source_root}

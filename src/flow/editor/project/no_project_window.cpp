@@ -11,7 +11,7 @@
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
 /* ----------------------------------- Shared ------------------------------- */
-#include <flow/shared/qtdialog/qtextendedfiledialog.h>
+#include <flow/utils/qtdialog/qtextendedfiledialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_no_project_window.h"
 /* -------------------------------------------------------------------------- */
@@ -61,7 +61,7 @@ void NoProjectWindow::openProject()
   const auto project_dir = recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter = FormatHelper<ProjectFormat>{FileFormat::Capability::Read}.getFilter();
 
-  const auto file_name = tools::QtExtendedFileDialog::getOpenFileName(
+  const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Project"), project_dir, filter);
 
   if (file_name.isEmpty())

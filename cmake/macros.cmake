@@ -9,7 +9,7 @@ macro(flow_add_module target)
     endif()
 
     add_library(${target} ${THIS_SOURCES})
-    add_library(engine::${target} ALIAS ${target})
+    add_library(flow::${target} ALIAS ${target})
 
     if(THIS_DEPENDS)
         target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -65,6 +65,11 @@ endmacro()
 # -------------------------------------------------------------------------------------------------- #
 function(flow_export_modules)
 
+    if(NOT TARGET flowConfigExport)
+        message("Can't export flowConfigExport. No modules were found.")
+        return()
+    endif()
+
     if (BUILD_SHARED_LIBS)
         set(config_name "shared")
     else()
@@ -106,11 +111,11 @@ endfunction()
 # -------------------------------------------------------------------------------------------------- #
 # --------------------------- Define a macro that helps add application ---------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-macro(flow_add_application target)
+macro(_flow_add_executable target)
 
     cmake_parse_arguments(THIS "" "RESOURCES_DIR" "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
     if (NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
-        message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_application: ${THIS_UNPARSED_ARGUMENTS}")
+        message(FATAL_ERROR "Extra unparsed arguments when calling _flow_add_executable: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
 
     add_executable(${target} ${THIS_SOURCES})
@@ -151,7 +156,7 @@ macro(flow_add_test target)
         message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_test: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
 
-    flow_add_application(${target}
+    _flow_add_executable(${target}
             SOURCES ${THIS_SOURCES}
             DEPENDS ${THIS_DEPENDS}
             DEPENDS_PRIVATE GTest::gtest GTest::gmock ${THIS_DEPENDS_PRIVATE}
@@ -171,7 +176,7 @@ macro(flow_add_example target)
         message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_test: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
 
-    flow_add_application(${target}
+    _flow_add_executable(${target}
             SOURCES ${THIS_SOURCES}
             DEPENDS ${THIS_DEPENDS}
             DEPENDS_PRIVATE ${THIS_DEPENDS_PRIVATE}
@@ -184,17 +189,17 @@ endmacro()
 # -------------------------------------------------------------------------------------------------- #
 # ------------------------------ Define a macro that helps add tool -------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-macro(flow_add_tool target)
+macro(flow_add_application target)
 
     cmake_parse_arguments(THIS "" "RESOURCES_DIR" "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
     if (NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
-        message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_test: ${THIS_UNPARSED_ARGUMENTS}")
+        message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_application: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
 
-    flow_add_application(${target}
+    _flow_add_executable(${target}
             SOURCES ${THIS_SOURCES}
             DEPENDS ${THIS_DEPENDS}
-            DEPENDS_PRIVATE GTest::gtest GTest::gmock ${THIS_DEPENDS_PRIVATE}
+            DEPENDS_PRIVATE ${THIS_DEPENDS_PRIVATE}
             RESOURCES_DIR ${THIS_RESOURCES_DIR})
 
     target_include_directories(${target}
@@ -206,17 +211,70 @@ macro(flow_add_tool target)
 
 endmacro()
 # -------------------------------------------------------------------------------------------------- #
-# ---------------------------- Define a macro that helps add tool lib ------------------------------ #
+# ---------------------------- Define a macro that helps add utils lib ----------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-macro(flow_add_tool_lib target)
+macro(flow_add_utils target)
 
     cmake_parse_arguments(THIS "" "" "SOURCES;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS" ${ARGN})
     if (NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
-        message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_tool_lib: ${THIS_UNPARSED_ARGUMENTS}")
+        message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_utils: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
 
     add_library(${target} ${THIS_SOURCES})
-    add_library(tool::${target} ALIAS ${target})
+    add_library(flow::${target} ALIAS ${target})
+
+    if(THIS_DEPENDS)
+        target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
+    endif()
+
+    if(THIS_DEPENDS_PRIVATE)
+        target_link_libraries(${target} PRIVATE ${THIS_DEPENDS_PRIVATE})
+    endif()
+
+    if(THIS_PRECOMPILE_HEADERS)
+        target_precompile_headers(${target} PUBLIC ${THIS_PRECOMPILE_HEADERS})
+    endif()
+
+    if(THIS_PRECOMPILE_PRIVATE_HEADERS)
+        target_precompile_headers(${target} PRIVATE ${THIS_PRECOMPILE_PRIVATE_HEADERS})
+    endif()
+
+    string(REPLACE "-" "_" NAME_UPPER "${target}")
+    string(TOUPPER "${NAME_UPPER}" NAME_UPPER)
+    set_target_properties(${target} PROPERTIES DEFINE_SYMBOL ${NAME_UPPER}_EXPORTS)
+
+    if(BUILD_SHARED_LIBS)
+        set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
+    else()
+        set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -s-d)
+        set_target_properties(${target} PROPERTIES RELEASE_POSTFIX -s)
+    endif()
+
+    set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
+    set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
+
+    target_include_directories(${target}
+            PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>
+            INTERFACE $<INSTALL_INTERFACE:include>
+            PRIVATE ${PROJECT_SOURCE_DIR}/src)
+
+    if(NOT BUILD_SHARED_LIBS)
+        target_compile_definitions(${target} PUBLIC "FLOW_STATIC")
+    endif()
+
+endmacro()
+# -------------------------------------------------------------------------------------------------- #
+# ---------------------------- Define a macro that helps add plugins ------------------------------- #
+# -------------------------------------------------------------------------------------------------- #
+macro(flow_add_plugins target)
+
+    cmake_parse_arguments(THIS "" "" "SOURCES;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS" ${ARGN})
+    if (NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
+        message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_utils: ${THIS_UNPARSED_ARGUMENTS}")
+    endif()
+
+    add_library(${target} ${THIS_SOURCES})
+    add_library(flow::${target} ALIAS ${target})
 
     if(THIS_DEPENDS)
         target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})

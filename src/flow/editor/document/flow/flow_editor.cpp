@@ -113,9 +113,9 @@ QList<QDockWidget *> FlowEditor::getDockWidgets() const
   return QList<QDockWidget *>{m_undo_dock};
 }
 
-QList<tools::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const
+QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const
 {
-  return QList<tools::QtDialogWithToggleView *>{};
+  return QList<utils::QtDialogWithToggleView *>{};
 }
 
 void FlowEditor::performStandardAction(StandardAction standard_action)

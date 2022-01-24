@@ -47,12 +47,12 @@
 <context>
     <name>ConsoleDock</name>
     <message>
-        <location filename="../../src/flow/editor/console_dock.cpp" line="32"/>
+        <location filename="../../src/flow/editor/console_dock.cpp" line="33"/>
         <source>Clear Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/console_dock.cpp" line="123"/>
+        <location filename="../../src/flow/editor/console_dock.cpp" line="124"/>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
@@ -76,33 +76,33 @@
 <context>
     <name>DocumentManager</name>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="136"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="137"/>
         <source>Error Reloading File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="137"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="138"/>
         <source>Error reloading &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="158"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="159"/>
         <source>Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="159"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="160"/>
         <source>Error opening &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="289"/>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="313"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="290"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="314"/>
         <source>Error Saving File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="302"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="303"/>
         <source>Save Document As</source>
         <translation type="unfinished"></translation>
     </message>

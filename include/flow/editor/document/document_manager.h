@@ -19,7 +19,7 @@
 
 class NoDocumentWidget;
 class DocumentEditor;
-namespace tools
+namespace utils
 {
   class QtFileSystemWatcher;
 }
@@ -99,7 +99,7 @@ private:
   QTabBar *m_tab_bar;
   QStackedLayout *m_editor_stack;
 
-  QScopedPointer<tools::QtFileSystemWatcher> m_file_system_watcher;
+  QScopedPointer<utils::QtFileSystemWatcher> m_file_system_watcher;
   QUndoGroup *m_undo_group;
 };
 

@@ -9,7 +9,7 @@
 /* -------------------------------------------------------------------------- */
 
 class Issue;
-namespace tools
+namespace utils
 {
   class QtLineEditWithHistory;
 }
@@ -48,7 +48,7 @@ private:
 
 private:
   QPlainTextEdit *m_plain_text_edit;
-  tools::QtLineEditWithHistory *m_line_edit_with_history;
+  utils::QtLineEditWithHistory *m_line_edit_with_history;
   QPushButton *m_clear_button;
 };
 

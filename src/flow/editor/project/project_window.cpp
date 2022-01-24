@@ -18,9 +18,9 @@
 #include "flow/editor/project/project_window.h"
 #include "flow/editor/project_dock.h"
 /* ----------------------------------- Shared ------------------------------- */
-#include <flow/shared/qtdialog/qtdialogwithtoggleview.h>
-#include <flow/shared/qtdialog/qtextendedfiledialog.h>
-#include <flow/shared/qtdpi/qtdpiinfo.h>
+#include <flow/utils/qtdialog/qtdialogwithtoggleview.h>
+#include <flow/utils/qtdialog/qtextendedfiledialog.h>
+#include <flow/utils/qtdpi/qtdpiinfo.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_project_window.h"
 /* -------------------------------------------------------------------------- */
@@ -40,14 +40,14 @@ void adjustMenuSize(QObject *object)
       if (auto child_menu = action->menu(); child_menu)
       {
         adjustMenuSize(child_menu);
-        width += tools::QtDpiInfo::dpiScaled(5);
+        width += utils::QtDpiInfo::dpiScaled(5);
       }
 
       if (max_width < width)
         max_width = width;
     }
 
-    menu->setFixedWidth(max_width + tools::QtDpiInfo::dpiScaled(45));
+    menu->setFixedWidth(max_width + utils::QtDpiInfo::dpiScaled(45));
   } else
   {
     for (auto child_menu : object->findChildren<QMenu *>(QString{}, Qt::FindDirectChildrenOnly))
@@ -301,7 +301,7 @@ void ProjectWindow::openProject()
   const auto project_dir = recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter = FormatHelper<ProjectFormat>{FileFormat::Capability::Read}.getFilter();
 
-  const auto file_name = tools::QtExtendedFileDialog::getOpenFileName(
+  const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Project"), project_dir, filter);
 
   if (!file_name.isEmpty())
@@ -353,7 +353,7 @@ void ProjectWindow::openDocument()
   const auto project_dir = QFileInfo(project->getFileName()).absoluteDir().absolutePath();
   const auto filter = FormatHelper<DocumentFormat>{FileFormat::Capability::Read}.getFilter();
 
-  const auto file_name = tools::QtExtendedFileDialog::getOpenFileName(
+  const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Document"), project_dir, filter);
 
   if (!file_name.isEmpty())

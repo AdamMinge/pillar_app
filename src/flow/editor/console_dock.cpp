@@ -7,8 +7,8 @@
 #include "flow/editor/console_dock.h"
 #include "flow/editor/logging_manager.h"
 /* ----------------------------------- Shared ------------------------------- */
-#include <flow/shared/qtdpi/qtdpiinfo.h>
-#include <flow/shared/qtlineedit/qtlineeditwithhistory.h>
+#include <flow/utils/qtdpi/qtdpiinfo.h>
+#include <flow/utils/qtlineedit/qtlineeditwithhistory.h>
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- ConsoleOutputWidget ------------------------- */
@@ -26,10 +26,11 @@ void ConsoleOutputWidget::contextMenuEvent(QContextMenuEvent *event)
 
 /* -------------------------------- ConsoleDock ----------------------------- */
 
-ConsoleDock::ConsoleDock(QWidget *parent) : QDockWidget(parent),
-                                            m_plain_text_edit(new ConsoleOutputWidget()),
-                                            m_line_edit_with_history(new tools::QtLineEditWithHistory()),
-                                            m_clear_button(new QPushButton(tr("Clear Console")))
+ConsoleDock::ConsoleDock(QWidget *parent)
+    : QDockWidget(parent),
+      m_plain_text_edit(new ConsoleOutputWidget()),
+      m_line_edit_with_history(new utils::QtLineEditWithHistory()),
+      m_clear_button(new QPushButton(tr("Clear Console")))
 {
   setObjectName(QLatin1String("Scene"));
 
@@ -45,7 +46,7 @@ ConsoleDock::ConsoleDock(QWidget *parent) : QDockWidget(parent),
 
   bottomBar->addWidget(m_line_edit_with_history);
   bottomBar->addWidget(m_clear_button);
-  bottomBar->setSpacing(tools::QtDpiInfo::dpiScaled(2));
+  bottomBar->setSpacing(utils::QtDpiInfo::dpiScaled(2));
 
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
@@ -60,8 +61,8 @@ ConsoleDock::ConsoleDock(QWidget *parent) : QDockWidget(parent),
                                      nullptr, nullptr, Qt::WidgetShortcut);
 
   connect(m_line_edit_with_history, &QLineEdit::returnPressed, this, &ConsoleDock::executeScript);
-  connect(prev_shortcut, &QShortcut::activated, m_line_edit_with_history, &tools::QtLineEditWithHistory::movePrev);
-  connect(next_shortcut, &QShortcut::activated, m_line_edit_with_history, &tools::QtLineEditWithHistory::moveNext);
+  connect(prev_shortcut, &QShortcut::activated, m_line_edit_with_history, &utils::QtLineEditWithHistory::movePrev);
+  connect(next_shortcut, &QShortcut::activated, m_line_edit_with_history, &utils::QtLineEditWithHistory::moveNext);
   connect(m_clear_button, &QPushButton::pressed, m_plain_text_edit, &QPlainTextEdit::clear);
 
   auto &logging_manager = LoggingManager::getInstance();

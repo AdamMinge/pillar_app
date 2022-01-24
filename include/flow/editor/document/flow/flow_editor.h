@@ -37,7 +37,7 @@ public:
   void restoreState() override;
 
   [[nodiscard]] QList<QDockWidget *> getDockWidgets() const override;
-  [[nodiscard]] QList<tools::QtDialogWithToggleView *> getDialogWidgets() const override;
+  [[nodiscard]] QList<utils::QtDialogWithToggleView *> getDialogWidgets() const override;
 
   void performStandardAction(StandardAction standard_action) override;
   [[nodiscard]] StandardActions getEnabledStandardActions() const override;
