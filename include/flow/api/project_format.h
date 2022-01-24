@@ -5,42 +5,47 @@
 #include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
-class IProject;
-
-class IProjectFormat : public IFileFormat
+namespace api
 {
-  Q_OBJECT
 
-public:
-  explicit IProjectFormat(QObject *parent = nullptr);
-  ~IProjectFormat() override;
+  class IProject;
 
-  virtual std::unique_ptr<IProject> load(const QString &file_name) = 0;
-  virtual bool save(const IProject &project) = 0;
-};
+  class IProjectFormat : public IFileFormat
+  {
+    Q_OBJECT
 
-class IReadableProjectFormat : public IProjectFormat
-{
-  Q_OBJECT
+  public:
+    explicit IProjectFormat(QObject *parent = nullptr);
+    ~IProjectFormat() override;
 
-public:
-  explicit IReadableProjectFormat(QObject *parent = nullptr);
-  ~IReadableProjectFormat() override;
+    virtual std::unique_ptr<IProject> load(const QString &file_name) = 0;
+    virtual bool save(const IProject &project) = 0;
+  };
 
-  bool save(const IProject &project) override;
-  [[nodiscard]] Capabilities getCapabilities() const override;
-};
+  class IReadableProjectFormat : public IProjectFormat
+  {
+    Q_OBJECT
 
-class IWritableProjectFormat : public IProjectFormat
-{
-  Q_OBJECT
+  public:
+    explicit IReadableProjectFormat(QObject *parent = nullptr);
+    ~IReadableProjectFormat() override;
 
-public:
-  explicit IWritableProjectFormat(QObject *parent = nullptr);
-  ~IWritableProjectFormat() override;
+    bool save(const IProject &project) override;
+    [[nodiscard]] Capabilities getCapabilities() const override;
+  };
 
-  std::unique_ptr<IProject> load(const QString &file_name) override;
-  [[nodiscard]] Capabilities getCapabilities() const override;
-};
+  class IWritableProjectFormat : public IProjectFormat
+  {
+    Q_OBJECT
+
+  public:
+    explicit IWritableProjectFormat(QObject *parent = nullptr);
+    ~IWritableProjectFormat() override;
+
+    std::unique_ptr<IProject> load(const QString &file_name) override;
+    [[nodiscard]] Capabilities getCapabilities() const override;
+  };
+
+}// namespace api
 
 #endif//FLOW_INTERFACE_PROJECT_FORMAT_H

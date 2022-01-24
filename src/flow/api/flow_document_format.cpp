@@ -3,49 +3,54 @@
 #include "flow/api/document.h"
 /* -------------------------------------------------------------------------- */
 
-/* ------------------------------- FlowDocumentFormat --------------------------- */
-
-IFlowDocumentFormat::IFlowDocumentFormat(QObject *parent)
-    : IDocumentFormat(parent)
+namespace api
 {
-}
 
-IFlowDocumentFormat::~IFlowDocumentFormat() = default;
+  /* ------------------------------- FlowDocumentFormat --------------------------- */
 
-/* --------------------------- ReadableFlowDocumentFormat ----------------------- */
+  IFlowDocumentFormat::IFlowDocumentFormat(QObject *parent)
+      : IDocumentFormat(parent)
+  {
+  }
 
-IReadableFlowDocumentFormat::IReadableFlowDocumentFormat(QObject *parent)
-    : IFlowDocumentFormat(parent)
-{
-}
+  IFlowDocumentFormat::~IFlowDocumentFormat() = default;
 
-IReadableFlowDocumentFormat::~IReadableFlowDocumentFormat() = default;
+  /* --------------------------- ReadableFlowDocumentFormat ----------------------- */
 
-bool IReadableFlowDocumentFormat::save(const IDocument &document)
-{
-  return false;
-}
+  IReadableFlowDocumentFormat::IReadableFlowDocumentFormat(QObject *parent)
+      : IFlowDocumentFormat(parent)
+  {
+  }
 
-IReadableFlowDocumentFormat::Capabilities IReadableFlowDocumentFormat::getCapabilities() const
-{
-  return Capability::Read;
-}
+  IReadableFlowDocumentFormat::~IReadableFlowDocumentFormat() = default;
 
-/* --------------------------- WritableFlowDocumentFormat ----------------------- */
+  bool IReadableFlowDocumentFormat::save(const IDocument &document)
+  {
+    return false;
+  }
 
-IWritableFlowDocumentFormat::IWritableFlowDocumentFormat(QObject *parent)
-    : IFlowDocumentFormat(parent)
-{
-}
+  IReadableFlowDocumentFormat::Capabilities IReadableFlowDocumentFormat::getCapabilities() const
+  {
+    return Capability::Read;
+  }
 
-IWritableFlowDocumentFormat::~IWritableFlowDocumentFormat() = default;
+  /* --------------------------- WritableFlowDocumentFormat ----------------------- */
 
-std::unique_ptr<IDocument> IWritableFlowDocumentFormat::load(const QString &file_name)
-{
-  return nullptr;
-}
+  IWritableFlowDocumentFormat::IWritableFlowDocumentFormat(QObject *parent)
+      : IFlowDocumentFormat(parent)
+  {
+  }
 
-IWritableFlowDocumentFormat::Capabilities IWritableFlowDocumentFormat::getCapabilities() const
-{
-  return Capability::Write;
-}
+  IWritableFlowDocumentFormat::~IWritableFlowDocumentFormat() = default;
+
+  std::unique_ptr<IDocument> IWritableFlowDocumentFormat::load(const QString &file_name)
+  {
+    return nullptr;
+  }
+
+  IWritableFlowDocumentFormat::Capabilities IWritableFlowDocumentFormat::getCapabilities() const
+  {
+    return Capability::Write;
+  }
+
+}//namespace api

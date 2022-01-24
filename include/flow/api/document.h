@@ -8,54 +8,59 @@
 #include <QUndoStack>
 /* -------------------------------------------------------------------------- */
 
-class IDocumentFormat;
-
-class IDocument : public QObject
+namespace api
 {
-  Q_OBJECT
 
-public:
-  enum class Type;
+  class IDocumentFormat;
 
-public:
-  ~IDocument() override;
+  class IDocument : public QObject
+  {
+    Q_OBJECT
 
-  [[nodiscard]] Type getType() const;
+  public:
+    enum class Type;
 
-  void virtual setFileName(const QString &file_name) = 0;
-  [[nodiscard]] virtual QString getFileName() const = 0;
+  public:
+    ~IDocument() override;
 
-  [[nodiscard]] virtual QString getDisplayName() const = 0;
-  [[nodiscard]] virtual QDateTime getLastModified() const = 0;
+    [[nodiscard]] Type getType() const;
 
-  [[nodiscard]] virtual bool isModified() const = 0;
-  [[nodiscard]] virtual QUndoStack *getUndoStack() const = 0;
+    virtual void setFileName(const QString &file_name) = 0;
+    [[nodiscard]] virtual QString getFileName() const = 0;
 
-  [[nodiscard]] virtual IDocumentFormat *getReaderFormat() const = 0;
-  [[nodiscard]] virtual IDocumentFormat *getWriterFormat() const = 0;
+    [[nodiscard]] virtual QString getDisplayName() const = 0;
+    [[nodiscard]] virtual QDateTime getLastModified() const = 0;
 
-  virtual void setReaderFormat(IDocumentFormat *format) = 0;
-  virtual void setWriterFormat(IDocumentFormat *format) = 0;
+    [[nodiscard]] virtual bool isModified() const = 0;
+    [[nodiscard]] virtual QUndoStack *getUndoStack() const = 0;
 
-  virtual bool save(const QString &file_name) = 0;
+    [[nodiscard]] virtual IDocumentFormat *getReaderFormat() const = 0;
+    [[nodiscard]] virtual IDocumentFormat *getWriterFormat() const = 0;
 
-Q_SIGNALS:
-  void modifiedChanged();
-  void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
+    virtual void setReaderFormat(IDocumentFormat *format) = 0;
+    virtual void setWriterFormat(IDocumentFormat *format) = 0;
 
-  void saved();
+    virtual bool save(const QString &file_name) = 0;
 
-protected:
-  explicit IDocument(Type type, QObject *parent = nullptr);
+  Q_SIGNALS:
+    void modifiedChanged();
+    void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
 
-private:
-  Type m_type;
-};
+    void saved();
 
-enum class IDocument::Type
-{
-  Flow,
-  Unknown,
-};
+  protected:
+    explicit IDocument(Type type, QObject *parent = nullptr);
+
+  private:
+    Type m_type;
+  };
+
+  enum class IDocument::Type
+  {
+    Flow,
+    Unknown,
+  };
+
+}// namespace api
 
 #endif//FLOW_INTERFACE_DOCUMENT_H

@@ -2,15 +2,16 @@
 #define FLOW_FORMAT_HELPER_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/file_format.h"
 #include "flow/editor/plugin_manager.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
 template<typename FORMAT>
 class FormatHelper
 {
 public:
-  explicit FormatHelper(FileFormat::Capabilities capabilities);
+  explicit FormatHelper(api::IFileFormat::Capabilities capabilities);
 
   [[nodiscard]] const QString &getFilter() const;
   [[nodiscard]] const QList<FORMAT *> &getFormats() const;
@@ -25,7 +26,7 @@ private:
 };
 
 template<typename FORMAT>
-FormatHelper<FORMAT>::FormatHelper(FileFormat::Capabilities capabilities)
+FormatHelper<FORMAT>::FormatHelper(api::IFileFormat::Capabilities capabilities)
 {
   PluginManager::getInstance().forEach<FORMAT>([this, capabilities](auto format) {
     if (format->hasCapabilities(capabilities))

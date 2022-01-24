@@ -6,63 +6,45 @@
 #include <QIcon>
 #include <QObject>
 #include <QUndoStack>
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/document.h"
 /* -------------------------------------------------------------------------- */
 
-class DocumentFormat;
-
-class Document : public QObject
+class Document : public api::IDocument
 {
   Q_OBJECT
 
 public:
-  enum class Type;
-
-public:
-  static std::unique_ptr<Document> load(const QString &file_name, DocumentFormat *format = nullptr);
+  static std::unique_ptr<api::IDocument> load(const QString &file_name, api::IDocumentFormat *format = nullptr);
 
 public:
   ~Document() override;
 
-  [[nodiscard]] Type getType() const;
+  void setFileName(const QString &file_name) override;
+  [[nodiscard]] QString getFileName() const override;
 
-  void setFileName(const QString &file_name);
-  [[nodiscard]] QString getFileName() const;
+  [[nodiscard]] QString getDisplayName() const override;
+  [[nodiscard]] QDateTime getLastModified() const override;
 
-  [[nodiscard]] QString getDisplayName() const;
-  [[nodiscard]] QDateTime getLastModified() const;
+  [[nodiscard]] bool isModified() const override;
+  [[nodiscard]] QUndoStack *getUndoStack() const override;
 
-  [[nodiscard]] bool isModified() const;
-  [[nodiscard]] QUndoStack *getUndoStack() const;
+  [[nodiscard]] api::IDocumentFormat *getReaderFormat() const override;
+  [[nodiscard]] api::IDocumentFormat *getWriterFormat() const override;
 
-  [[nodiscard]] DocumentFormat *getReaderFormat() const;
-  [[nodiscard]] DocumentFormat *getWriterFormat() const;
+  void setReaderFormat(api::IDocumentFormat *format) override;
+  void setWriterFormat(api::IDocumentFormat *format) override;
 
-  void setReaderFormat(DocumentFormat *format);
-  void setWriterFormat(DocumentFormat *format);
-
-  bool save(const QString &file_name);
-
-Q_SIGNALS:
-  void modifiedChanged();
-  void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
-
-  void saved();
+  bool save(const QString &file_name) override;
 
 protected:
   explicit Document(Type type, QObject *parent = nullptr);
 
 private:
-  Type m_type;
   QString m_file_name;
   QString m_write_format;
   QString m_read_format;
   QUndoStack *m_undo_stack;
-};
-
-enum class Document::Type
-{
-  Flow,
-  Unknown,
 };
 
 #endif//FLOW_DOCUMENT_H

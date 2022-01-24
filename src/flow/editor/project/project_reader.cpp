@@ -2,8 +2,8 @@
 #include <QFile>
 #include <QXmlStreamReader>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/format/project_reader.h"
 #include "flow/editor/project/project.h"
+#include "flow/editor/project/project_reader.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectReaderImpl -------------------------- */
@@ -14,13 +14,13 @@ public:
   explicit ProjectReaderImpl() = default;
   ~ProjectReaderImpl() = default;
 
-  std::unique_ptr<Project> readProject(QIODevice &device);
+  std::unique_ptr<api::IProject> readProject(QIODevice &device);
 
 private:
-  std::unique_ptr<Project> readProject(QXmlStreamReader &writer);
+  std::unique_ptr<api::IProject> readProject(QXmlStreamReader &writer);
 };
 
-std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QIODevice &device)
+std::unique_ptr<api::IProject> ProjectReader::ProjectReaderImpl::readProject(QIODevice &device)
 {
   QXmlStreamReader reader;
   reader.setDevice(&device);
@@ -31,7 +31,7 @@ std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QIODevice
   return readProject(reader);
 }
 
-std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QXmlStreamReader &writer)
+std::unique_ptr<api::IProject> ProjectReader::ProjectReaderImpl::readProject(QXmlStreamReader &writer)
 {
   return Project::create();
 }
@@ -45,12 +45,12 @@ ProjectReader::ProjectReader()
 
 ProjectReader::~ProjectReader() = default;
 
-std::unique_ptr<Project> ProjectReader::read(QIODevice &device)
+std::unique_ptr<api::IProject> ProjectReader::read(QIODevice &device)
 {
   return m_impl->readProject(device);
 }
 
-std::unique_ptr<Project> ProjectReader::read(const QString &file_name)
+std::unique_ptr<api::IProject> ProjectReader::read(const QString &file_name)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

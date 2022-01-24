@@ -1,7 +1,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QXmlStreamReader>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/flow/format/flow_document_reader.h"
+#include "flow/editor/document/flow/flow_document_reader.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- FlowDocumentReaderImpl -------------------------- */

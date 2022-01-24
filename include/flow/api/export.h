@@ -1,5 +1,5 @@
-#ifndef FLOW_QTDIALOG_EXPORT_H
-#define FLOW_QTDIALOG_EXPORT_H
+#ifndef FLOW_API_EXPORT_H
+#define FLOW_API_EXPORT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
@@ -12,4 +12,4 @@
 #endif
 
 
-#endif//FLOW_EXPORT_H
+#endif//FLOW_API_EXPORT_H

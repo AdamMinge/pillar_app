@@ -5,9 +5,14 @@
 #include "flow/api/project_format.h"
 /* -------------------------------------------------------------------------- */
 
-IProject::IProject(QObject *parent)
-    : QObject(parent)
+namespace api
 {
-}
 
-IProject::~IProject() = default;
+  IProject::IProject(QObject *parent)
+      : QObject(parent)
+  {
+  }
+
+  IProject::~IProject() = default;
+
+}//namespace api

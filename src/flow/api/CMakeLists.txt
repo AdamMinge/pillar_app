@@ -13,6 +13,7 @@ set(sources
         ${source_root}/project.cpp
         ${source_root}/project_format.cpp
         ${source_root}/document.cpp
+        ${source_root}/document_format.cpp
         ${source_root}/flow_document_format.cpp)
 
 set(includes

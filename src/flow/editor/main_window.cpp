@@ -177,7 +177,7 @@ void MainWindow::openAbout()
   m_about_dialog->raise();
 }
 
-void MainWindow::currentProjectChanged(Project *project)
+void MainWindow::currentProjectChanged(api::IProject *project)
 {
   auto prev_current_widget = m_stacked_widget->currentWidget();
   auto next_current_widget = project ? static_cast<QWidget *>(m_project_window) : static_cast<QWidget *>(m_no_project_window);

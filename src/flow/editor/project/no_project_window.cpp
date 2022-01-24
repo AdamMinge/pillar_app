@@ -3,13 +3,14 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/format_helper.h"
 #include "flow/editor/preferences_manager.h"
-#include "flow/editor/project/format/project_format.h"
 #include "flow/editor/project/new_project_dialog.h"
 #include "flow/editor/project/no_project_window.h"
 #include "flow/editor/project/project.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/project_format.h"
 /* ----------------------------------- Shared ------------------------------- */
 #include <flow/utils/qtdialog/qtextendedfiledialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
@@ -59,7 +60,7 @@ void NoProjectWindow::openProject()
 {
   const auto recent_project_files = getPreferencesManager().getRecentProjectFiles();
   const auto project_dir = recent_project_files.empty() ? QString{} : recent_project_files.last();
-  const auto filter = FormatHelper<ProjectFormat>{FileFormat::Capability::Read}.getFilter();
+  const auto filter = FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Read}.getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Project"), project_dir, filter);

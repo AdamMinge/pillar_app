@@ -1,6 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/flow/flow_document.h"
-#include "flow/editor/document/flow/format/flow_document_format.h"
 /* -------------------------------------------------------------------------- */
 
 std::unique_ptr<FlowDocument> FlowDocument::create()

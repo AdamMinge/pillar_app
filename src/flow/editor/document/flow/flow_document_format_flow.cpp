@@ -1,10 +1,11 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/flow/format/flow_document_format_flow.h"
-#include "flow/editor/document/document.h"
+#include "flow/editor/document/flow/flow_document_format_flow.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/document.h"
 /* -------------------------------------------------------------------------- */
 
 FlowDocumentFormatFlow::FlowDocumentFormatFlow(QObject *parent)
-    : FlowDocumentFormat(parent)
+    : IFlowDocumentFormat(parent)
 {
 }
 
@@ -31,12 +32,12 @@ bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const
   return false;
 }
 
-std::unique_ptr<Document> FlowDocumentFormatFlow::load(const QString &file_name)
+std::unique_ptr<api::IDocument> FlowDocumentFormatFlow::load(const QString &file_name)
 {
   return nullptr;// TODO implementation
 }
 
-bool FlowDocumentFormatFlow::save(const Document &document)
+bool FlowDocumentFormatFlow::save(const api::IDocument &document)
 {
   return false;// TODO implementation
 }

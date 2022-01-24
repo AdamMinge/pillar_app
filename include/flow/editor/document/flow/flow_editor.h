@@ -25,12 +25,12 @@ public:
   explicit FlowEditor(QObject *parent = nullptr);
   ~FlowEditor() override;
 
-  void setCurrentDocument(Document *document) override;
+  void setCurrentDocument(api::IDocument *document) override;
 
-  void addDocument(Document *document) override;
-  void removeDocument(Document *document) override;
+  void addDocument(api::IDocument *document) override;
+  void removeDocument(api::IDocument *document) override;
 
-  [[nodiscard]] Document *getCurrentDocument() const override;
+  [[nodiscard]] api::IDocument *getCurrentDocument() const override;
   [[nodiscard]] QWidget *getEditorWidget() const override;
 
   void saveState() override;

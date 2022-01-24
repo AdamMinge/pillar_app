@@ -2,24 +2,19 @@
 #include <QFileInfo>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/document.h"
-#include "flow/editor/document/format/document_format.h"
 #include "flow/editor/format_helper.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/document_format.h"
 /* -------------------------------------------------------------------------- */
 
 Document::Document(Type type, QObject *parent)
-    : QObject(parent),
-      m_type(type),
+    : IDocument(type, parent),
       m_undo_stack(new QUndoStack(this))
 {
   connect(m_undo_stack, &QUndoStack::cleanChanged, this, &Document::modifiedChanged);
 }
 
 Document::~Document() = default;
-
-Document::Type Document::getType() const
-{
-  return m_type;
-}
 
 void Document::setFileName(const QString &file_name)
 {
@@ -61,25 +56,25 @@ QUndoStack *Document::getUndoStack() const
   return m_undo_stack;
 }
 
-DocumentFormat *Document::getReaderFormat() const
+api::IDocumentFormat *Document::getReaderFormat() const
 {
-  return FormatHelper<DocumentFormat>{FileFormat::Capability::Read}.findFormatByShortName(m_read_format);
+  return FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Read}.findFormatByShortName(m_read_format);
 }
 
-DocumentFormat *Document::getWriterFormat() const
+api::IDocumentFormat *Document::getWriterFormat() const
 {
-  return FormatHelper<DocumentFormat>{FileFormat::Capability::Write}.findFormatByShortName(m_write_format);
+  return FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Write}.findFormatByShortName(m_write_format);
 }
 
-void Document::setReaderFormat(DocumentFormat *format)
+void Document::setReaderFormat(api::IDocumentFormat *format)
 {
-  Q_ASSERT(format && format->hasCapabilities(FileFormat::Capability::Read));
+  Q_ASSERT(format && format->hasCapabilities(api::IFileFormat::Capability::Read));
   m_read_format = format->getShortName();
 }
 
-void Document::setWriterFormat(DocumentFormat *format)
+void Document::setWriterFormat(api::IDocumentFormat *format)
 {
-  Q_ASSERT(format && format->hasCapabilities(FileFormat::Capability::Write));
+  Q_ASSERT(format && format->hasCapabilities(api::IFileFormat::Capability::Write));
   m_write_format = format->getShortName();
 }
 
@@ -99,11 +94,11 @@ bool Document::save(const QString &file_name)
   return true;
 }
 
-std::unique_ptr<Document> Document::load(const QString &file_name, DocumentFormat *format)
+std::unique_ptr<api::IDocument> Document::load(const QString &file_name, api::IDocumentFormat *format)
 {
   if (!format)
   {
-    auto format_helper = FormatHelper<DocumentFormat>{FileFormat::Capability::Read};
+    auto format_helper = FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Read};
     format = format_helper.findFormatByFileName(file_name);
   }
 

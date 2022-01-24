@@ -5,37 +5,42 @@
 #include "flow/api/document_format.h"
 /* -------------------------------------------------------------------------- */
 
-class IFlowDocumentFormat : public IDocumentFormat
+namespace api
 {
-  Q_OBJECT
 
-public:
-  explicit IFlowDocumentFormat(QObject *parent = nullptr);
-  ~IFlowDocumentFormat() override;
-};
+  class IFlowDocumentFormat : public IDocumentFormat
+  {
+    Q_OBJECT
 
-class IReadableFlowDocumentFormat : public IFlowDocumentFormat
-{
-  Q_OBJECT
+  public:
+    explicit IFlowDocumentFormat(QObject *parent = nullptr);
+    ~IFlowDocumentFormat() override;
+  };
 
-public:
-  explicit IReadableFlowDocumentFormat(QObject *parent = nullptr);
-  ~IReadableFlowDocumentFormat() override;
+  class IReadableFlowDocumentFormat : public IFlowDocumentFormat
+  {
+    Q_OBJECT
 
-  bool save(const IDocument &document) override;
-  [[nodiscard]] Capabilities getCapabilities() const override;
-};
+  public:
+    explicit IReadableFlowDocumentFormat(QObject *parent = nullptr);
+    ~IReadableFlowDocumentFormat() override;
 
-class IWritableFlowDocumentFormat : public IFlowDocumentFormat
-{
-  Q_OBJECT
+    bool save(const IDocument &document) override;
+    [[nodiscard]] Capabilities getCapabilities() const override;
+  };
 
-public:
-  explicit IWritableFlowDocumentFormat(QObject *parent = nullptr);
-  ~IWritableFlowDocumentFormat() override;
+  class IWritableFlowDocumentFormat : public IFlowDocumentFormat
+  {
+    Q_OBJECT
 
-  std::unique_ptr<IDocument> load(const QString &file_name) override;
-  [[nodiscard]] Capabilities getCapabilities() const override;
-};
+  public:
+    explicit IWritableFlowDocumentFormat(QObject *parent = nullptr);
+    ~IWritableFlowDocumentFormat() override;
+
+    std::unique_ptr<IDocument> load(const QString &file_name) override;
+    [[nodiscard]] Capabilities getCapabilities() const override;
+  };
+
+}// namespace api
 
 #endif//FLOW_INTERFACE_FLOW_DOCUMENT_FORMAT_H

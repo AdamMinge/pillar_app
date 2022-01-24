@@ -4,36 +4,32 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIcon>
 #include <QObject>
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/project.h"
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormat;
-
-class Project : public QObject
+class Project : public api::IProject
 {
   Q_OBJECT
 
 public:
-  static std::unique_ptr<Project> create();
-  static std::unique_ptr<Project> load(const QString &file_name, ProjectFormat *format = nullptr);
+  static std::unique_ptr<api::IProject> create();
+  static std::unique_ptr<api::IProject> load(const QString &file_name, api::IProjectFormat *format = nullptr);
 
 public:
   ~Project() override;
 
-  void setFileName(const QString &file_name);
-  [[nodiscard]] QString getFileName() const;
-  [[nodiscard]] QString getDisplayName() const;
+  void setFileName(const QString &file_name) override;
+  [[nodiscard]] QString getFileName() const override;
+  [[nodiscard]] QString getDisplayName() const override;
 
-  [[nodiscard]] ProjectFormat *getReaderFormat() const;
-  [[nodiscard]] ProjectFormat *getWriterFormat() const;
+  [[nodiscard]] api::IProjectFormat *getReaderFormat() const override;
+  [[nodiscard]] api::IProjectFormat *getWriterFormat() const override;
 
-  void setReaderFormat(ProjectFormat *format);
-  void setWriterFormat(ProjectFormat *format);
+  void setReaderFormat(api::IProjectFormat *format) override;
+  void setWriterFormat(api::IProjectFormat *format) override;
 
-  bool save(const QString &file_name);
-
-Q_SIGNALS:
-  void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
-  void saved();
+  bool save(const QString &file_name) override;
 
 protected:
   explicit Project(QObject *parent = nullptr);

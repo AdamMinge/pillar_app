@@ -36,7 +36,7 @@ NewProjectDialog::~NewProjectDialog()
   writeSettings();
 }
 
-std::unique_ptr<Project> NewProjectDialog::create()
+std::unique_ptr<api::IProject> NewProjectDialog::create()
 {
   if (exec() != QDialog::Accepted)
     return nullptr;

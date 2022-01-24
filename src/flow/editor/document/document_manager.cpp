@@ -2,11 +2,13 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/document/document.h"
 #include "flow/editor/document/document_editor.h"
 #include "flow/editor/document/document_manager.h"
-#include "flow/editor/document/format/document_format.h"
 #include "flow/editor/document/no_document_widget.h"
 #include "flow/editor/format_helper.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/document_format.h"
 /* ----------------------------------- Shared ------------------------------- */
 #include <flow/utils/qtdialog/qtextendedfiledialog.h>
 #include <flow/utils/qtfilesystemwatcher/qtfilesystemwatcher.h>
@@ -63,13 +65,13 @@ QWidget *DocumentManager::getWidget() const
   return m_widget.data();
 }
 
-void DocumentManager::addEditor(Document::Type document_type, std::unique_ptr<DocumentEditor> editor)
+void DocumentManager::addEditor(api::IDocument::Type document_type, std::unique_ptr<DocumentEditor> editor)
 {
   m_editor_stack->addWidget(editor->getEditorWidget());
   m_editor_for_document_type.insert(std::make_pair(document_type, std::move(editor)));
 }
 
-void DocumentManager::removeEditor(Document::Type document_type)
+void DocumentManager::removeEditor(api::IDocument::Type document_type)
 {
   Q_ASSERT(m_editor_for_document_type.contains(document_type));
   m_editor_for_document_type.erase(document_type);
@@ -81,7 +83,7 @@ void DocumentManager::removeAllEditors()
     removeEditor(m_editor_for_document_type.begin()->first);
 }
 
-DocumentEditor *DocumentManager::getEditor(Document::Type document_type) const
+DocumentEditor *DocumentManager::getEditor(api::IDocument::Type document_type) const
 {
   if (m_editor_for_document_type.contains(document_type))
     return m_editor_for_document_type.at(document_type).get();
@@ -95,12 +97,12 @@ DocumentEditor *DocumentManager::getCurrentEditor() const
   return current_document ? getEditor(current_document->getType()) : nullptr;
 }
 
-void DocumentManager::addDocument(std::unique_ptr<Document> document)
+void DocumentManager::addDocument(std::unique_ptr<api::IDocument> document)
 {
   insertDocument(static_cast<int>(m_documents.size()), std::move(document));
 }
 
-void DocumentManager::insertDocument(int index, std::unique_ptr<Document> document)
+void DocumentManager::insertDocument(int index, std::unique_ptr<api::IDocument> document)
 {
   Q_ASSERT(document);
   auto document_ptr = document.get();
@@ -120,8 +122,8 @@ void DocumentManager::insertDocument(int index, std::unique_ptr<Document> docume
   auto document_index = m_tab_bar->insertTab(index, tab_text);
   m_tab_bar->setTabToolTip(document_index, document_ptr->getFileName());
 
-  connect(document_ptr, &Document::fileNameChanged, this, &DocumentManager::fileNameChanged);
-  connect(document_ptr, &Document::modifiedChanged, this, [this, document_ptr]() { updateDocumentTab(document_ptr); });
+  connect(document_ptr, &api::IDocument::fileNameChanged, this, &DocumentManager::fileNameChanged);
+  connect(document_ptr, &api::IDocument::modifiedChanged, this, [this, document_ptr]() { updateDocumentTab(document_ptr); });
 
   switchToDocument(document_index);
 }
@@ -193,7 +195,7 @@ void DocumentManager::removeAllDocuments()
     removeDocument(m_tab_bar->currentIndex());
 }
 
-Document *DocumentManager::getDocument(int index) const
+api::IDocument *DocumentManager::getDocument(int index) const
 {
   if (index < m_documents.size() && index >= 0)
     return m_documents.at(index).get();
@@ -201,13 +203,13 @@ Document *DocumentManager::getDocument(int index) const
   return nullptr;
 }
 
-Document *DocumentManager::getCurrentDocument() const
+api::IDocument *DocumentManager::getCurrentDocument() const
 {
   auto index = m_tab_bar->currentIndex();
   return getDocument(index);
 }
 
-int DocumentManager::findDocument(Document *document) const
+int DocumentManager::findDocument(api::IDocument *document) const
 {
   auto found = std::find_if(m_documents.begin(), m_documents.end(), [document](auto &current_document) {
     return current_document.get() == document;
@@ -236,7 +238,7 @@ void DocumentManager::switchToDocument(int index)
   m_tab_bar->setCurrentIndex(index);
 }
 
-void DocumentManager::switchToDocument(Document *document)
+void DocumentManager::switchToDocument(api::IDocument *document)
 {
   auto found_iter = std::find_if(m_documents.begin(), m_documents.end(), [&document](auto &&current_document) {
     return current_document.get() == document;
@@ -278,7 +280,7 @@ void DocumentManager::restoreState()
     editor->restoreState();
 }
 
-bool DocumentManager::saveDocument(Document *document)
+bool DocumentManager::saveDocument(api::IDocument *document)
 {
   Q_ASSERT(document);
 
@@ -294,11 +296,11 @@ bool DocumentManager::saveDocument(Document *document)
   return true;
 }
 
-bool DocumentManager::saveDocumentAs(Document *document)
+bool DocumentManager::saveDocumentAs(api::IDocument *document)
 {
   Q_ASSERT(document);
 
-  const auto filter = FormatHelper<DocumentFormat>{FileFormat::Capability::Write}.getFilter();
+  const auto filter = FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Write}.getFilter();
   const auto file_name = utils::QtExtendedFileDialog::getSaveFileName(
     m_widget->window(), tr("Save Document As"),
     document->getFileName(), filter);
@@ -318,7 +320,7 @@ bool DocumentManager::saveDocumentAs(Document *document)
   return true;
 }
 
-const std::vector<std::unique_ptr<Document>> &DocumentManager::getDocuments() const
+const std::vector<std::unique_ptr<api::IDocument>> &DocumentManager::getDocuments() const
 {
   return m_documents;
 }
@@ -378,13 +380,13 @@ void DocumentManager::fileNameChanged(const QString &new_file_name, const QStrin
   if (!old_file_name.isEmpty())
     m_file_system_watcher->removePath(old_file_name);
 
-  auto document = dynamic_cast<Document *>(sender());
+  auto document = dynamic_cast<api::IDocument *>(sender());
   Q_ASSERT(document);
 
   updateDocumentTab(document);
 }
 
-void DocumentManager::updateDocumentTab(Document *document)
+void DocumentManager::updateDocumentTab(api::IDocument *document)
 {
   const auto index = findDocument(document);
   Q_ASSERT(document && index != -1);

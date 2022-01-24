@@ -1,11 +1,11 @@
 #ifndef FLOW_PROJECT_FORMAT_PRO_H
 #define FLOW_PROJECT_FORMAT_PRO_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/format/project_format.h"
+/* ------------------------------------ Api --------------------------------- */
+#include "flow/api/project_format.h"
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormatPro : public ProjectFormat
+class ProjectFormatPro : public api::IProjectFormat
 {
   Q_OBJECT
 
@@ -17,8 +17,8 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<Project> load(const QString &file_name) override;
-  bool save(const Project &project) override;
+  std::unique_ptr<api::IProject> load(const QString &file_name) override;
+  bool save(const api::IProject &project) override;
 };
 
 #endif//FLOW_PROJECT_FORMAT_PRO_H

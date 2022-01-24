@@ -3,49 +3,54 @@
 #include "flow/api/project.h"
 /* -------------------------------------------------------------------------- */
 
-/* ------------------------------- ProjectFormat ---------------------------- */
-
-IProjectFormat::IProjectFormat(QObject *parent)
-    : IFileFormat(parent)
+namespace api
 {
-}
 
-IProjectFormat::~IProjectFormat() = default;
+  /* ------------------------------- ProjectFormat ---------------------------- */
 
-/* --------------------------- ReadableProjectFormat ------------------------ */
+  IProjectFormat::IProjectFormat(QObject *parent)
+      : IFileFormat(parent)
+  {
+  }
 
-IReadableProjectFormat::IReadableProjectFormat(QObject *parent)
-    : IProjectFormat(parent)
-{
-}
+  IProjectFormat::~IProjectFormat() = default;
 
-IReadableProjectFormat::~IReadableProjectFormat() = default;
+  /* --------------------------- ReadableProjectFormat ------------------------ */
 
-bool IReadableProjectFormat::save(const IProject &project)
-{
-  return false;
-}
+  IReadableProjectFormat::IReadableProjectFormat(QObject *parent)
+      : IProjectFormat(parent)
+  {
+  }
 
-IReadableProjectFormat::Capabilities IReadableProjectFormat::getCapabilities() const
-{
-  return Capability::Read;
-}
+  IReadableProjectFormat::~IReadableProjectFormat() = default;
 
-/* --------------------------- WritableProjectFormat ------------------------ */
+  bool IReadableProjectFormat::save(const IProject &project)
+  {
+    return false;
+  }
 
-IWritableProjectFormat::IWritableProjectFormat(QObject *parent)
-    : IProjectFormat(parent)
-{
-}
+  IReadableProjectFormat::Capabilities IReadableProjectFormat::getCapabilities() const
+  {
+    return Capability::Read;
+  }
 
-IWritableProjectFormat::~IWritableProjectFormat() = default;
+  /* --------------------------- WritableProjectFormat ------------------------ */
 
-std::unique_ptr<IProject> IWritableProjectFormat::load(const QString &file_name)
-{
-  return nullptr;
-}
+  IWritableProjectFormat::IWritableProjectFormat(QObject *parent)
+      : IProjectFormat(parent)
+  {
+  }
 
-IWritableProjectFormat::Capabilities IWritableProjectFormat::getCapabilities() const
-{
-  return Capability::Write;
-}
+  IWritableProjectFormat::~IWritableProjectFormat() = default;
+
+  std::unique_ptr<IProject> IWritableProjectFormat::load(const QString &file_name)
+  {
+    return nullptr;
+  }
+
+  IWritableProjectFormat::Capabilities IWritableProjectFormat::getCapabilities() const
+  {
+    return Capability::Write;
+  }
+
+}//namespace api

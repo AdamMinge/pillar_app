@@ -2,19 +2,24 @@
 #include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
-IFileFormat::IFileFormat(QObject *parent)
-    : QObject(parent)
+namespace api
 {
-}
 
-IFileFormat::~IFileFormat() = default;
+  IFileFormat::IFileFormat(QObject *parent)
+      : QObject(parent)
+  {
+  }
 
-bool IFileFormat::hasCapabilities(Capabilities capabilities) const
-{
-  return (getCapabilities() & capabilities) == capabilities;
-}
+  IFileFormat::~IFileFormat() = default;
 
-IFileFormat::Capabilities IFileFormat::getCapabilities() const
-{
-  return Capability::ReadWrite;
-}
+  bool IFileFormat::hasCapabilities(Capabilities capabilities) const
+  {
+    return (getCapabilities() & capabilities) == capabilities;
+  }
+
+  IFileFormat::Capabilities IFileFormat::getCapabilities() const
+  {
+    return Capability::ReadWrite;
+  }
+
+}//namespace api

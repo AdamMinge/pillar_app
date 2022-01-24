@@ -6,33 +6,38 @@
 #include <QObject>
 /* -------------------------------------------------------------------------- */
 
-class IProjectFormat;
-
-class IProject : public QObject
+namespace api
 {
-  Q_OBJECT
 
-public:
-  ~IProject() override;
+  class IProjectFormat;
 
-  virtual void setFileName(const QString &file_name) = 0;
-  [[nodiscard]] virtual QString getFileName() const = 0;
-  [[nodiscard]] virtual QString getDisplayName() const = 0;
+  class IProject : public QObject
+  {
+    Q_OBJECT
 
-  [[nodiscard]] virtual IProjectFormat *getReaderFormat() const = 0;
-  [[nodiscard]] virtual IProjectFormat *getWriterFormat() const = 0;
+  public:
+    ~IProject() override;
 
-  virtual void setReaderFormat(IProjectFormat *format) = 0;
-  virtual void setWriterFormat(IProjectFormat *format) = 0;
+    virtual void setFileName(const QString &file_name) = 0;
+    [[nodiscard]] virtual QString getFileName() const = 0;
+    [[nodiscard]] virtual QString getDisplayName() const = 0;
 
-  virtual bool save(const QString &file_name) = 0;
+    [[nodiscard]] virtual IProjectFormat *getReaderFormat() const = 0;
+    [[nodiscard]] virtual IProjectFormat *getWriterFormat() const = 0;
 
-Q_SIGNALS:
-  void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
-  void saved();
+    virtual void setReaderFormat(IProjectFormat *format) = 0;
+    virtual void setWriterFormat(IProjectFormat *format) = 0;
 
-protected:
-  explicit IProject(QObject *parent = nullptr);
-};
+    virtual bool save(const QString &file_name) = 0;
+
+  Q_SIGNALS:
+    void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
+    void saved();
+
+  protected:
+    explicit IProject(QObject *parent = nullptr);
+  };
+
+}// namespace api
 
 #endif//FLOW_INTERFACE_PROJECT_H

@@ -7,7 +7,10 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-class Project;
+namespace api
+{
+  class IProject;
+}
 
 class ProjectWriter
 {
@@ -17,8 +20,8 @@ public:
   explicit ProjectWriter();
   ~ProjectWriter();
 
-  void write(const Project &project, QIODevice &device);
-  bool write(const Project &project, const QString &file_name);
+  void write(const api::IProject &project, QIODevice &device);
+  bool write(const api::IProject &project, const QString &file_name);
 
 private:
   std::unique_ptr<ProjectWriterImpl> m_impl;

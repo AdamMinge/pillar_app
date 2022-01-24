@@ -25,7 +25,6 @@ set(sources
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
         ${source_root}/project_dock.cpp
-        ${source_root}/file_format.cpp
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_manager.cpp
@@ -35,11 +34,9 @@ set(sources
         ${source_root}/project/new_project_dialog.cpp
         ${source_root}/project/recent_project_list_model.cpp
         ${source_root}/project/recent_project_list_delegate.cpp
-
-        ${source_root}/project/format/project_format.cpp
-        ${source_root}/project/format/project_format_pro.cpp
-        ${source_root}/project/format/project_writer.cpp
-        ${source_root}/project/format/project_reader.cpp
+        ${source_root}/project/project_format_pro.cpp
+        ${source_root}/project/project_writer.cpp
+        ${source_root}/project/project_reader.cpp
 
         ${source_root}/document/document.cpp
         ${source_root}/document/document_editor.cpp
@@ -56,11 +53,9 @@ set(sources
         ${source_root}/document/flow/flow_editor.cpp
         ${source_root}/document/flow/flow_scene.cpp
         ${source_root}/document/flow/flow_view.cpp
-
-        ${source_root}/document/flow/format/flow_document_format.cpp
-        ${source_root}/document/flow/format/flow_document_format_flow.cpp
-        ${source_root}/document/flow/format/flow_document_reader.cpp
-        ${source_root}/document/flow/format/flow_document_writer.cpp
+        ${source_root}/document/flow/flow_document_format_flow.cpp
+        ${source_root}/document/flow/flow_document_reader.cpp
+        ${source_root}/document/flow/flow_document_writer.cpp
 
         ${source_root}/commands/command.cpp
         ${source_root}/commands/group_command.cpp)
@@ -79,7 +74,6 @@ set(includes
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
         ${include_root}/project_dock.h
-        ${include_root}/file_format.h
         ${include_root}/format_helper.h
 
         ${include_root}/project/project.h
@@ -90,11 +84,9 @@ set(includes
         ${include_root}/project/new_project_dialog.h
         ${include_root}/project/recent_project_list_model.h
         ${include_root}/project/recent_project_list_delegate.h
-
-        ${include_root}/project/format/project_format.h
-        ${include_root}/project/format/project_format_pro.h
-        ${include_root}/project/format/project_writer.h
-        ${include_root}/project/format/project_reader.h
+        ${include_root}/project/project_format_pro.h
+        ${include_root}/project/project_writer.h
+        ${include_root}/project/project_reader.h
 
         ${include_root}/document/document.h
         ${include_root}/document/document_editor.h
@@ -106,18 +98,14 @@ set(includes
         ${include_root}/document/document_type_list_model.h
         ${include_root}/document/document_type_list_delegate.h
 
-        ${include_root}/document/format/document_format.h
-
         ${include_root}/document/flow/new_flow_document_widget.h
         ${include_root}/document/flow/flow_document.h
         ${include_root}/document/flow/flow_editor.h
         ${include_root}/document/flow/flow_scene.h
         ${include_root}/document/flow/flow_view.h
-
-        ${include_root}/document/flow/format/flow_document_format.h
-        ${include_root}/document/flow/format/flow_document_format_flow.h
-        ${include_root}/document/flow/format/flow_document_reader.h
-        ${include_root}/document/flow/format/flow_document_writer.h
+        ${include_root}/document/flow/flow_document_format_flow.h
+        ${include_root}/document/flow/flow_document_reader.h
+        ${include_root}/document/flow/flow_document_writer.h
 
         ${include_root}/commands/command.h
         ${include_root}/commands/group_command.h)

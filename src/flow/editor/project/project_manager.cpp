@@ -1,7 +1,6 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/format/project_format.h"
 #include "flow/editor/project/project.h"
 #include "flow/editor/project/project_manager.h"
 /* -------------------------------------------------------------------------- */
@@ -27,12 +26,12 @@ ProjectManager::ProjectManager() : m_current_project(nullptr)
 
 ProjectManager::~ProjectManager() = default;
 
-void ProjectManager::addProject(std::unique_ptr<Project> project)
+void ProjectManager::addProject(std::unique_ptr<api::IProject> project)
 {
   insertProject(static_cast<int>(m_projects.size()), std::move(project));
 }
 
-void ProjectManager::insertProject(int index, std::unique_ptr<Project> project)
+void ProjectManager::insertProject(int index, std::unique_ptr<api::IProject> project)
 {
   Q_ASSERT(project);
   auto project_ptr = project.get();
@@ -63,7 +62,7 @@ void ProjectManager::removeAllProjects()
     removeProject(0);
 }
 
-Project *ProjectManager::getProject(int index) const
+api::IProject *ProjectManager::getProject(int index) const
 {
   if (index < m_projects.size() && index >= 0)
     return m_projects.at(index).get();
@@ -71,12 +70,12 @@ Project *ProjectManager::getProject(int index) const
   return nullptr;
 }
 
-Project *ProjectManager::getCurrentProject() const
+api::IProject *ProjectManager::getCurrentProject() const
 {
   return m_current_project;
 }
 
-int ProjectManager::findProject(Project *project) const
+int ProjectManager::findProject(api::IProject *project) const
 {
   auto found = std::find_if(m_projects.begin(), m_projects.end(), [project](auto &current_project) {
     return current_project.get() == project;
@@ -107,7 +106,7 @@ void ProjectManager::switchToProject(int index)
   return switchToProject(found_project);
 }
 
-void ProjectManager::switchToProject(Project *project)
+void ProjectManager::switchToProject(api::IProject *project)
 {
   if (m_current_project == project)
     return;

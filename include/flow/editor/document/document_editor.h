@@ -6,7 +6,11 @@
 #include <QObject>
 /* -------------------------------------------------------------------------- */
 
-class Document;
+namespace api
+{
+  class IDocument;
+}
+
 namespace utils
 {
   class QtDialogWithToggleView;
@@ -30,12 +34,12 @@ public:
 public:
   ~DocumentEditor() override;
 
-  virtual void setCurrentDocument(Document *document) = 0;
+  virtual void setCurrentDocument(api::IDocument *document) = 0;
 
-  virtual void addDocument(Document *document) = 0;
-  virtual void removeDocument(Document *document) = 0;
+  virtual void addDocument(api::IDocument *document) = 0;
+  virtual void removeDocument(api::IDocument *document) = 0;
 
-  [[nodiscard]] virtual Document *getCurrentDocument() const = 0;
+  [[nodiscard]] virtual api::IDocument *getCurrentDocument() const = 0;
   [[nodiscard]] virtual QWidget *getEditorWidget() const = 0;
 
   virtual void saveState() = 0;

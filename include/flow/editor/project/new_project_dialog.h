@@ -5,10 +5,14 @@
 #include <QDialog>
 /* -------------------------------------------------------------------------- */
 
-class Project;
 namespace Ui
 {
   class NewProjectDialog;
+}
+
+namespace api
+{
+  class IProject;
 }
 
 class NewProjectDialog : public QDialog
@@ -22,7 +26,7 @@ public:
   explicit NewProjectDialog(QWidget *parent = nullptr);
   ~NewProjectDialog() override;
 
-  [[nodiscard]] std::unique_ptr<Project> create();
+  [[nodiscard]] std::unique_ptr<api::IProject> create();
 
 protected:
   void changeEvent(QEvent *event) override;
