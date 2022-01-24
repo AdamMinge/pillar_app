@@ -4,6 +4,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/main_window.h"
+#include "flow/editor/plugin_manager.h"
+#include "flow/editor/project/project_format_pro.h"
+#include "flow/editor/document/flow/flow_document_format_flow.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */
@@ -57,6 +60,17 @@ void CommandLineParser::process(const QCoreApplication &app)
   parser.process(app);
 }
 
+/* -------------------------- RegisterDefaultPlugins ------------------------ */
+
+static void registerDefaultPlugins(QApplication& app)
+{
+  auto project_default_format = new ProjectFormatPro(&app);
+  auto flow_document_default_format = new FlowDocumentFormatFlow(&app);
+
+  PluginManager::getInstance().addObject(project_default_format);
+  PluginManager::getInstance().addObject(flow_document_default_format);
+}
+
 /* ----------------------------------- main --------------------------------- */
 
 int main(int argc, char **argv)
@@ -71,6 +85,8 @@ int main(int argc, char **argv)
 
   CommandLineParser parser;
   parser.process(app);
+
+  registerDefaultPlugins(app);
 
   MainWindow mainWindow;
   mainWindow.show();
