@@ -27,7 +27,7 @@ macro(flow_add_module target)
         target_precompile_headers(${target} PRIVATE ${THIS_PRECOMPILE_PRIVATE_HEADERS})
     endif()
 
-    foreach(target_depends ${THIS_DEPENDS} ${THIS_DEPENDS_PRIVATE})
+    foreach(target_depends ${THIS_DEPENDS})
         install(TARGETS ${target_depends} EXPORT flowConfigExport)
     endforeach()
 
@@ -64,11 +64,6 @@ endmacro()
 # --------------------------- Define a macro that helps export engine ------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
 function(flow_export_modules)
-
-    if(NOT TARGET flowConfigExport)
-        message("Can't export flowConfigExport. No modules were found.")
-        return()
-    endif()
 
     if (BUILD_SHARED_LIBS)
         set(config_name "shared")

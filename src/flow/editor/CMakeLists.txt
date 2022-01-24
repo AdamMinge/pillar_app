@@ -154,8 +154,9 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_application(editor
         SOURCES ${sources} ${includes} ${uis} ${resources}
-        DEPENDS Qt6::Widgets
-
+        DEPENDS
+        Qt6::Widgets
+        flow::api
         flow::qtdialog
         flow::qtdpi
         flow::qtfilesystemwatcher
