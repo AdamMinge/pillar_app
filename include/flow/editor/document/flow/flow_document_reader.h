@@ -20,6 +20,9 @@ public:
   std::unique_ptr<FlowDocument> read(QIODevice &device, QString *error = nullptr);
   std::unique_ptr<FlowDocument> read(const QString &file_name, QString *error = nullptr);
 
+  bool isValid(const QString& file_name);
+  bool isValid(QIODevice &device);
+
 private:
   std::unique_ptr<FlowDocumentReaderImpl> m_impl;
 };

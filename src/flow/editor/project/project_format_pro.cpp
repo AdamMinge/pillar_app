@@ -28,7 +28,10 @@ bool ProjectFormatPro::supportsFile(const QString &filename) const
     return true;
 
   if (filename.endsWith(QLatin1String(".xml"), Qt::CaseSensitive))
-    return true;// TODO implementation ( check xml body )
+  {
+    ProjectReader project_reader;
+    return project_reader.isValid(filename);
+  }
 
   return false;
 }

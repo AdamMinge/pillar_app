@@ -28,7 +28,10 @@ bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const
     return true;
 
   if (filename.endsWith(QLatin1String(".xml"), Qt::CaseSensitive))
-    return true;// TODO implementation ( check xml body )
+  {
+    FlowDocumentReader document_reader;
+    return document_reader.isValid(filename);
+  }
 
   return false;
 }

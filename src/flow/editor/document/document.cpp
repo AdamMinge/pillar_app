@@ -81,7 +81,6 @@ void Document::setWriterFormat(api::IDocumentFormat *format)
 bool Document::save(const QString &file_name, QString *error)
 {
   auto document_format = getWriterFormat();
-
   if (!document_format)
   {
     if (error) *error = tr("Wrong document format");

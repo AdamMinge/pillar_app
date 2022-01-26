@@ -73,8 +73,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document.cpp" line="87"/>
-        <location filename="../../src/flow/editor/document/document.cpp" line="110"/>
+        <location filename="../../src/flow/editor/document/document.cpp" line="86"/>
+        <location filename="../../src/flow/editor/document/document.cpp" line="109"/>
         <source>Wrong document format</source>
         <translation type="unfinished"></translation>
     </message>
@@ -205,8 +205,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project.cpp" line="76"/>
-        <location filename="../../src/flow/editor/project/project.cpp" line="100"/>
+        <location filename="../../src/flow/editor/project/project.cpp" line="75"/>
+        <location filename="../../src/flow/editor/project/project.cpp" line="98"/>
         <source>Wrong project format</source>
         <translation type="unfinished"></translation>
     </message>
@@ -399,22 +399,22 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="53"/>
-        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="67"/>
+        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="65"/>
+        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="79"/>
         <source>Failed to load document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="62"/>
+        <location filename="../../src/flow/editor/document/flow/flow_document_reader.cpp" line="74"/>
         <location filename="../../src/flow/editor/document/flow/flow_document_writer.cpp" line="59"/>
-        <location filename="../../src/flow/editor/project/project_reader.cpp" line="63"/>
+        <location filename="../../src/flow/editor/project/project_reader.cpp" line="75"/>
         <location filename="../../src/flow/editor/project/project_writer.cpp" line="58"/>
         <source>Failed to open file = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_reader.cpp" line="53"/>
-        <location filename="../../src/flow/editor/project/project_reader.cpp" line="68"/>
+        <location filename="../../src/flow/editor/project/project_reader.cpp" line="65"/>
+        <location filename="../../src/flow/editor/project/project_reader.cpp" line="80"/>
         <source>Failed to load project</source>
         <translation type="unfinished"></translation>
     </message>

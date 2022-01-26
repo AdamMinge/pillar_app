@@ -17,6 +17,7 @@ public:
   ~FlowDocumentReaderImpl() = default;
 
   std::unique_ptr<FlowDocument> readDocument(QIODevice &device);
+  bool isValid(QIODevice &device);
 
 private:
   std::unique_ptr<FlowDocument> readDocument(QXmlStreamReader &writer);
@@ -27,7 +28,7 @@ std::unique_ptr<FlowDocument> FlowDocumentReader::FlowDocumentReaderImpl::readDo
   QXmlStreamReader reader;
   reader.setDevice(&device);
 
-  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("document")))
+  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("flow document")))
     return nullptr;
 
   return readDocument(reader);
@@ -36,6 +37,17 @@ std::unique_ptr<FlowDocument> FlowDocumentReader::FlowDocumentReaderImpl::readDo
 std::unique_ptr<FlowDocument> FlowDocumentReader::FlowDocumentReaderImpl::readDocument(QXmlStreamReader &writer)
 {
   return utils::cast_unique_ptr<FlowDocument>(FlowDocument::create());
+}
+
+bool FlowDocumentReader::FlowDocumentReaderImpl::isValid(QIODevice &device)
+{
+  QXmlStreamReader reader;
+  reader.setDevice(&device);
+
+  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("flow document")))
+    return false;
+
+  return true;
 }
 
 /* ------------------------------- FlowDocumentReader ---------------------------- */
@@ -67,4 +79,18 @@ std::unique_ptr<FlowDocument> FlowDocumentReader::read(const QString &file_name,
   if (!document && error) *error = QObject::tr("Failed to load document");
 
   return document;
+}
+
+bool FlowDocumentReader::isValid(const QString& file_name)
+{
+  QFile file(file_name);
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    return false;
+
+  return m_impl->isValid(file);
+}
+
+bool FlowDocumentReader::isValid(QIODevice &device)
+{
+  return m_impl->isValid(device);
 }

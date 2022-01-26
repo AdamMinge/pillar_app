@@ -17,6 +17,7 @@ public:
   ~ProjectReaderImpl() = default;
 
   std::unique_ptr<Project> readProject(QIODevice &device);
+  bool isValid(QIODevice &device);
 
 private:
   std::unique_ptr<Project> readProject(QXmlStreamReader &writer);
@@ -36,6 +37,17 @@ std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QIODevice
 std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QXmlStreamReader &writer)
 {
   return utils::cast_unique_ptr<Project>(Project::create());
+}
+
+bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device)
+{
+  QXmlStreamReader reader;
+  reader.setDevice(&device);
+
+  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("project")))
+    return false;
+
+  return true;
 }
 
 /* ------------------------------- ProjectReader ---------------------------- */
@@ -68,4 +80,18 @@ std::unique_ptr<Project> ProjectReader::read(const QString &file_name, QString *
   if (!project && error) *error = QObject::tr("Failed to load project");
 
   return project;
+}
+
+bool ProjectReader::isValid(const QString& file_name)
+{
+  QFile file(file_name);
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    return false;
+
+  return m_impl->isValid(file);
+}
+
+bool ProjectReader::isValid(QIODevice &device)
+{
+  return m_impl->isValid(device);
 }
