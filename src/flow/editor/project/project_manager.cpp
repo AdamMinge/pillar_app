@@ -119,19 +119,19 @@ bool ProjectManager::switchToProject(const QString &file_name)
 {
   auto index = findProject(file_name);
   auto found_project = getProject(index);
-  if (found_project)
+  if (!found_project)
     return false;
 
   switchToProject(found_project);
   return true;
 }
 
-bool ProjectManager::loadProject(const QString &file_name)
+bool ProjectManager::loadProject(const QString &file_name, QString* error)
 {
   if (switchToProject(file_name))
     return true;
 
-  auto project = Project::load(file_name);
+  auto project = Project::load(file_name, nullptr, error);
   if (!project)
     return false;
 

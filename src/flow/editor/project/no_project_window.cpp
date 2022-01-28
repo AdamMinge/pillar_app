@@ -17,9 +17,19 @@
 #include "project/ui_no_project_window.h"
 /* -------------------------------------------------------------------------- */
 
+/* -------------------------------- Preferences ----------------------------- */
+
+struct NoProjectWindow::Preferences {
+  Preference<QByteArray> no_project_window_geometry = Preference<QByteArray>("no_project_window/geometry");
+  Preference<QByteArray> no_project_window_state = Preference<QByteArray>("no_project_window/state");
+};
+
+/* ------------------------------ NoProjectWindow --------------------------- */
+
 NoProjectWindow::NoProjectWindow(QWidget *parent)
     : QMainWindow(parent),
       m_ui(new Ui::NoProjectWindow),
+      m_preferences(new Preferences),
       m_recent_projects_model(new RecentProjectListModel),
       m_recent_projects_delegate(new RecentProjectListDelegate),
       m_search_proxy_model(new QSortFilterProxyModel)
@@ -31,6 +41,21 @@ NoProjectWindow::NoProjectWindow(QWidget *parent)
 }
 
 NoProjectWindow::~NoProjectWindow() = default;
+
+void NoProjectWindow::writeSettings()
+{
+  m_preferences->no_project_window_geometry = saveGeometry();
+  m_preferences->no_project_window_state = saveState();
+}
+
+void NoProjectWindow::readSettings()
+{
+  auto window_geometry = m_preferences->no_project_window_geometry.get();
+  auto window_state = m_preferences->no_project_window_state.get();
+
+  if (!window_geometry.isNull()) restoreGeometry(window_geometry);
+  if (!window_state.isNull()) restoreState(window_state);
+}
 
 void NoProjectWindow::changeEvent(QEvent *event)
 {
@@ -68,19 +93,14 @@ void NoProjectWindow::openProject()
   if (file_name.isEmpty())
     return;
 
-  auto project = Project::load(file_name);
-  auto project_ptr = project.get();
-
-  if (project)
+  QString error;
+  if(!getProjectManager().loadProject(file_name, &error))
   {
-    getProjectManager().addProject(std::move(project));
-    getProjectManager().switchToProject(project_ptr);
-  } else
-  {
-    QMessageBox::critical(this,
-                          tr("Error Opening File"),
-                          tr("Error opening '%1'").arg(file_name));
+    QMessageBox::critical(this, tr("Error Opening File"), error);
+    return;
   }
+
+  getPreferencesManager().addRecentProjectFile(file_name);
 }
 
 void NoProjectWindow::createProject()
@@ -91,7 +111,7 @@ void NoProjectWindow::createProject()
     auto project_ptr = project.get();
 
     getProjectManager().addProject(std::move(project));
-    getProjectManager().switchToProject(project_ptr);
+    getPreferencesManager().addRecentProjectFile(project_ptr->getFileName());
   }
 }
 
@@ -99,8 +119,6 @@ void NoProjectWindow::openRecentProject(const QModelIndex &index)
 {
   auto project_path = index.data(RecentProjectListModel::Role::ProjectPathRole).toString();
   getProjectManager().loadProject(project_path);
-
-  //TODO Implementation
 }
 
 void NoProjectWindow::searchRecentProject(const QString &search)

@@ -11,12 +11,14 @@ set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
         ${source_root}/line_edit_with_history.cpp
-        ${source_root}/file_browser_line_edit.cpp)
+        ${source_root}/file_browser_line_edit.cpp
+        ${source_root}/dir_browser_line_edit.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/line_edit_with_history.h
-        ${include_root}/file_browser_line_edit.h)
+        ${include_root}/file_browser_line_edit.h
+        ${include_root}/dir_browser_line_edit.h)
 
 set(resources
         ${resources_root}/flow-utils-line-edit-images.qrc)

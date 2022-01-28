@@ -20,6 +20,8 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct MainWindow::Preferences {
+  Preference<QByteArray> main_window_geometry = Preference<QByteArray>("main_window/geometry");
+  Preference<QByteArray> main_window_state = Preference<QByteArray>("main_window/state");
   Preference<QLocale> application_language = Preference<QLocale>("application/language");
   Preference<QString> application_style = Preference<QString>("application/style");
 };
@@ -121,12 +123,23 @@ void MainWindow::initConnections()
 
 void MainWindow::writeSettings()
 {
+  m_preferences->main_window_geometry = saveGeometry();
+  m_preferences->main_window_state = saveState();
   m_preferences->application_language = getLanguageManager().getCurrentLanguage();
   m_preferences->application_style = getStyleManager().getCurrentStyle();
+
+  m_no_project_window->writeSettings();
+  m_project_window->writeSettings();
 }
 
 void MainWindow::readSettings()
 {
+  auto window_geometry = m_preferences->main_window_geometry.get();
+  auto window_state = m_preferences->main_window_state.get();
+
+  if (!window_geometry.isNull()) restoreGeometry(window_geometry);
+  if (!window_state.isNull()) restoreState(window_state);
+
   auto application_language = m_preferences->application_language.get();
   auto application_style = m_preferences->application_style.get();
 
@@ -138,6 +151,9 @@ void MainWindow::readSettings()
 
   if (!application_style.isEmpty())
     getStyleManager().setStyle(application_style);
+
+  m_no_project_window->readSettings();
+  m_project_window->readSettings();
 }
 
 void MainWindow::retranslateUi()

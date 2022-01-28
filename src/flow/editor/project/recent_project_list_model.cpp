@@ -53,5 +53,5 @@ void RecentProjectListModel::recentProjectFilesChanged()
 
 QIcon RecentProjectListModel::getProjectIcon(const QModelIndex &index) const
 {
-  return QIcon{};// TODO Implementation
+  return QIcon(":/images/64x64/project.png");
 }

@@ -21,9 +21,15 @@ class NoProjectWindow : public QMainWindow
 {
   Q_OBJECT
 
+private:
+  struct Preferences;
+
 public:
   explicit NoProjectWindow(QWidget *parent = nullptr);
   ~NoProjectWindow() override;
+
+  void writeSettings();
+  void readSettings();
 
 protected:
   void changeEvent(QEvent *event) override;
@@ -46,6 +52,8 @@ private:
 
 private:
   QScopedPointer<Ui::NoProjectWindow> m_ui;
+  QScopedPointer<Preferences> m_preferences;
+
   QScopedPointer<RecentProjectListModel> m_recent_projects_model;
   QScopedPointer<RecentProjectListDelegate> m_recent_projects_delegate;
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;

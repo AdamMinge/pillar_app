@@ -59,8 +59,8 @@ void adjustMenuSize(QObject *object)
 /* -------------------------------- Preferences ----------------------------- */
 
 struct ProjectWindow::Preferences {
-  Preference<QByteArray> project_widget_geometry = Preference<QByteArray>("project_widget/geometry");
-  Preference<QByteArray> project_widget_state = Preference<QByteArray>("project_widget/state");
+  Preference<QByteArray> project_window_geometry = Preference<QByteArray>("project_window/geometry");
+  Preference<QByteArray> project_window_state = Preference<QByteArray>("project_window/state");
 };
 
 /* ------------------------------- ProjectWindow ---------------------------- */
@@ -108,7 +108,6 @@ ProjectWindow::ProjectWindow(QWidget *parent)
   updateWindowTitle();
   updateRecentProjectFiles();
 
-  readSettings();
   retranslateUi();
 }
 
@@ -118,7 +117,6 @@ void ProjectWindow::closeEvent(QCloseEvent *event)
 {
   if (confirmAllSave())
   {
-    writeSettings();
     event->accept();
   } else
   {
@@ -313,12 +311,11 @@ bool ProjectWindow::openProject(const QString &file_name)
 {
   if (!getProjectManager().switchToProject(file_name))
   {
-    auto project = Project::load(file_name);
+    QString error;
+    auto project = Project::load(file_name, nullptr, &error);
     if (!project)
     {
-      QMessageBox::critical(nullptr,
-                            tr("Error Opening File"),
-                            tr("Error opening '%1'").arg(file_name));
+      QMessageBox::critical(nullptr, tr("Error Opening File"), error);
       return false;
     }
 
@@ -435,19 +432,19 @@ void ProjectWindow::performDelete()// NOLINT(readability-convert-member-function
 
 void ProjectWindow::writeSettings()
 {
-  m_preferences->project_widget_geometry = saveGeometry();
-  m_preferences->project_widget_state = saveState();
+  m_preferences->project_window_geometry = saveGeometry();
+  m_preferences->project_window_state = saveState();
 
   getDocumentManager().saveState();
 }
 
 void ProjectWindow::readSettings()
 {
-  auto main_window_geometry = m_preferences->project_widget_geometry.get();
-  auto main_window_state = m_preferences->project_widget_state.get();
+  auto window_geometry = m_preferences->project_window_geometry.get();
+  auto window_state = m_preferences->project_window_state.get();
 
-  if (!main_window_geometry.isNull()) restoreGeometry(main_window_geometry);
-  if (!main_window_state.isNull()) restoreState(main_window_state);
+  if (!window_geometry.isNull()) restoreGeometry(window_geometry);
+  if (!window_state.isNull()) restoreState(window_state);
 
   getDocumentManager().restoreState();
 }
@@ -585,6 +582,7 @@ bool ProjectWindow::switchProject(std::unique_ptr<api::IProject> project)
 
   if (ret == QMessageBox::Yes && closeProject())
   {
+    getProjectManager().removeAllProjects();
     getProjectManager().addProject(std::move(project));
     return true;
   }
