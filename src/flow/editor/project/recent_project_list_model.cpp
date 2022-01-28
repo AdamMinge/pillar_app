@@ -5,7 +5,8 @@
 #include "flow/editor/project/recent_project_list_model.h"
 /* -------------------------------------------------------------------------- */
 
-RecentProjectListModel::RecentProjectListModel(QObject *parent) : QAbstractListModel(parent)
+RecentProjectListModel::RecentProjectListModel(QObject *parent)
+    : QAbstractListModel(parent)
 {
   connect(std::addressof(PreferencesManager::getInstance()), &PreferencesManager::recentProjectFilesChanged,
           this, &RecentProjectListModel::recentProjectFilesChanged);

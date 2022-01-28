@@ -5,8 +5,9 @@
 #include "flow/editor/document/undo_dock.h"
 /* -------------------------------------------------------------------------- */
 
-UndoDock::UndoDock(QWidget *parent) : QDockWidget(parent),
-                                      m_undo_view(new QUndoView(this))
+UndoDock::UndoDock(QWidget *parent)
+    : QDockWidget(parent),
+      m_undo_view(new QUndoView(this))
 {
   setObjectName(QLatin1String("History"));
 

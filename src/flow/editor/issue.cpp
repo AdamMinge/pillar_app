@@ -2,9 +2,10 @@
 #include "flow/editor/issue.h"
 /* -------------------------------------------------------------------------- */
 
-Issue::Issue(Severity severity, QString text, Callback callback) : m_severity(severity),
-                                                                   m_text(std::move(text)),
-                                                                   m_callback(std::move(callback))
+Issue::Issue(Severity severity, QString text, Callback callback)
+    : m_severity(severity),
+      m_text(std::move(text)),
+      m_callback(std::move(callback))
 {
 }
 

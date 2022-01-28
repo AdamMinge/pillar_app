@@ -14,7 +14,6 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="m_central_widget"/>
-  <widget class="QStatusBar" name="m_status_bar"/>
   <widget class="QMenuBar" name="m_menu_bar">
    <property name="geometry">
     <rect>

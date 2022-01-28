@@ -4,7 +4,8 @@
 #include "flow/editor/document/document_type_list_model.h"
 /* -------------------------------------------------------------------------- */
 
-DocumentTypeListModel::DocumentTypeListModel(QObject *parent) : QAbstractListModel(parent)
+DocumentTypeListModel::DocumentTypeListModel(QObject *parent)
+    : QAbstractListModel(parent)
 {
 }
 

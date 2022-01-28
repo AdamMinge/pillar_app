@@ -4,7 +4,8 @@
 #include "flow/editor/issue_dock.h"
 /* -------------------------------------------------------------------------- */
 
-IssueDock::IssueDock(QWidget *parent) : QDockWidget(parent)
+IssueDock::IssueDock(QWidget *parent)
+    : QDockWidget(parent)
 {
   setObjectName(QLatin1String("Issue"));
 

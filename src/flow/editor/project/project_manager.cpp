@@ -20,7 +20,8 @@ void ProjectManager::deleteInstance()
   m_instance.reset(nullptr);
 }
 
-ProjectManager::ProjectManager() : m_current_project(nullptr)
+ProjectManager::ProjectManager()
+    : m_current_project(nullptr)
 {
 }
 
@@ -126,7 +127,7 @@ bool ProjectManager::switchToProject(const QString &file_name)
   return true;
 }
 
-bool ProjectManager::loadProject(const QString &file_name, QString* error)
+bool ProjectManager::loadProject(const QString &file_name, QString *error)
 {
   if (switchToProject(file_name))
     return true;

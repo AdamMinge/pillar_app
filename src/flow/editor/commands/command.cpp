@@ -2,8 +2,9 @@
 #include "flow/editor/commands/command.h"
 /* -------------------------------------------------------------------------- */
 
-Command::Command(Type type, Command *parent) : QUndoCommand(parent),
-                                               m_type(type)
+Command::Command(Type type, Command *parent)
+    : QUndoCommand(parent),
+      m_type(type)
 {
 }
 

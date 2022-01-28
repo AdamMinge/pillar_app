@@ -82,7 +82,7 @@ std::unique_ptr<Project> ProjectReader::read(const QString &file_name, QString *
   return project;
 }
 
-bool ProjectReader::isValid(const QString& file_name)
+bool ProjectReader::isValid(const QString &file_name)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

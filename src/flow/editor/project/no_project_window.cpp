@@ -94,7 +94,7 @@ void NoProjectWindow::openProject()
     return;
 
   QString error;
-  if(!getProjectManager().loadProject(file_name, &error))
+  if (!getProjectManager().loadProject(file_name, &error))
   {
     QMessageBox::critical(this, tr("Error Opening File"), error);
     return;

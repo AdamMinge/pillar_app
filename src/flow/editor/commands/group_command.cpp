@@ -2,7 +2,8 @@
 #include "flow/editor/commands/group_command.h"
 /* -------------------------------------------------------------------------- */
 
-GroupCommand::GroupCommand(Command *parent) : Command(Type::GroupCommand, parent)
+GroupCommand::GroupCommand(Command *parent)
+    : Command(Type::GroupCommand, parent)
 {
 }
 

@@ -6,10 +6,11 @@
 #include "flow/editor/document/document_type_list_model.h"
 /* -------------------------------------------------------------------------- */
 
-DocumentTypeListDelegate::DocumentTypeListDelegate(QObject *parent) : QStyledItemDelegate(parent),
-                                                                      m_icon_size(64, 64),
-                                                                      m_margins(0, 0, 0, 0),
-                                                                      m_spacing(0, 0)
+DocumentTypeListDelegate::DocumentTypeListDelegate(QObject *parent)
+    : QStyledItemDelegate(parent),
+      m_icon_size(64, 64),
+      m_margins(0, 0, 0, 0),
+      m_spacing(0, 0)
 {
 }
 

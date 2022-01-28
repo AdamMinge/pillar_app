@@ -81,7 +81,7 @@ std::unique_ptr<FlowDocument> FlowDocumentReader::read(const QString &file_name,
   return document;
 }
 
-bool FlowDocumentReader::isValid(const QString& file_name)
+bool FlowDocumentReader::isValid(const QString &file_name)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
