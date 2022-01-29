@@ -132,12 +132,11 @@ bool DocumentManager::reloadDocumentAt(int index)
 {
   const auto &document = m_documents.at(index);
 
-  auto new_document = Document::load(document->getFileName());
+  QString error;
+  auto new_document = Document::load(document->getFileName(), nullptr, &error);
   if (!new_document)
   {
-    QMessageBox::critical(m_widget.get(),
-                          tr("Error Reloading File"),
-                          tr("Error reloading '%1'").arg(document->getFileName()));
+    QMessageBox::critical(m_widget.get(), tr("Error Reloading File"), error);
 
     document->setFileName(QString{});
     return false;
@@ -154,12 +153,11 @@ bool DocumentManager::loadDocument(const QString &file_name)
   if (switchToDocument(file_name))
     return true;
 
-  auto document = Document::load(file_name);
+  QString error;
+  auto document = Document::load(file_name, nullptr, &error);
   if (!document)
   {
-    QMessageBox::critical(m_widget.get(),
-                          tr("Error Opening File"),
-                          tr("Error opening '%1'").arg(file_name));
+    QMessageBox::critical(m_widget.get(), tr("Error Opening File"), error);
     return false;
   }
 

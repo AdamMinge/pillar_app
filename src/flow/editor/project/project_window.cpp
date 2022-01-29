@@ -582,8 +582,11 @@ bool ProjectWindow::switchProject(std::unique_ptr<api::IProject> project)
 
   if (ret == QMessageBox::Yes && closeProject())
   {
+    auto project_ptr = project.get();
+
     getProjectManager().removeAllProjects();
     getProjectManager().addProject(std::move(project));
+    getPreferencesManager().addRecentProjectFile(project_ptr->getFileName());
     return true;
   }
 

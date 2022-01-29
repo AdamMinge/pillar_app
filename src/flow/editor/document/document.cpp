@@ -110,5 +110,12 @@ std::unique_ptr<api::IDocument> Document::load(const QString &file_name, api::ID
     return nullptr;
   }
 
-  return format->load(file_name, error);
+  auto document = format->load(file_name, error);
+  document->setFileName(file_name);
+
+  document->setReaderFormat(format);
+  if (format->hasCapabilities(api::IFileFormat::Capability::Write))
+    document->setWriterFormat(format);
+
+  return document;
 }

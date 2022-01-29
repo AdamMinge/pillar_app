@@ -4,42 +4,42 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="36"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="37"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="50"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="51"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="51"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="52"/>
         <source>This Project is open source and &lt;br/&gt; contributions are welcomed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="52"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="53"/>
         <source>Visit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="53"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="54"/>
         <source>https://github.com/AdamMinge/flow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="54"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="55"/>
         <source>GitHub/AdamMinge/flow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="55"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="56"/>
         <source>for more information or to report a bug &lt;br&gt; or to suggest a new feature.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/about_dialog.cpp" line="56"/>
+        <location filename="../../src/flow/editor/about_dialog.cpp" line="57"/>
         <source>Copyright © 2021 Adam Minge. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -87,28 +87,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="140"/>
-        <source>Error reloading &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="161"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="160"/>
         <source>Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="162"/>
-        <source>Error opening &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="293"/>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="328"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="291"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="326"/>
         <source>Error Saving File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_manager.cpp" line="310"/>
+        <location filename="../../src/flow/editor/document/document_manager.cpp" line="308"/>
         <source>Save Document As</source>
         <translation type="unfinished"></translation>
     </message>
@@ -116,12 +106,12 @@
 <context>
     <name>DocumentTypeListModel</name>
     <message>
-        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="44"/>
+        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="45"/>
         <source>Flow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="48"/>
+        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="49"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -137,7 +127,7 @@
 <context>
     <name>IssueDock</name>
     <message>
-        <location filename="../../src/flow/editor/issue_dock.cpp" line="32"/>
+        <location filename="../../src/flow/editor/issue_dock.cpp" line="33"/>
         <source>Issue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -445,12 +435,12 @@
 <context>
     <name>UndoDock</name>
     <message>
-        <location filename="../../src/flow/editor/document/undo_dock.cpp" line="48"/>
+        <location filename="../../src/flow/editor/document/undo_dock.cpp" line="49"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/undo_dock.cpp" line="49"/>
+        <location filename="../../src/flow/editor/document/undo_dock.cpp" line="50"/>
         <source>&lt;empty&gt;</source>
         <translation type="unfinished"></translation>
     </message>

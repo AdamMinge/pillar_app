@@ -28,7 +28,7 @@ std::unique_ptr<FlowDocument> FlowDocumentReader::FlowDocumentReaderImpl::readDo
   QXmlStreamReader reader;
   reader.setDevice(&device);
 
-  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("flow document")))
+  if (reader.readNextStartElement() && reader.name() != QStringLiteral("flow"))
     return nullptr;
 
   return readDocument(reader);
@@ -44,7 +44,7 @@ bool FlowDocumentReader::FlowDocumentReaderImpl::isValid(QIODevice &device)
   QXmlStreamReader reader;
   reader.setDevice(&device);
 
-  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("flow document")))
+  if (reader.readNextStartElement() && reader.name() != QStringLiteral("flow document"))
     return false;
 
   return true;

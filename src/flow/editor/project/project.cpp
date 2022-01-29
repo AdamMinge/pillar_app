@@ -99,5 +99,12 @@ std::unique_ptr<api::IProject> Project::load(const QString &file_name, api::IPro
     return nullptr;
   }
 
-  return format->load(file_name, error);
+  auto project = format->load(file_name, error);
+  project->setFileName(file_name);
+
+  project->setReaderFormat(format);
+  if (format->hasCapabilities(api::IFileFormat::Capability::Write))
+    project->setWriterFormat(format);
+
+  return project;
 }

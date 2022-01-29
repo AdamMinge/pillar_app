@@ -31,7 +31,7 @@ void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(const FlowDocumen
 
 void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(QXmlStreamWriter &writer, const FlowDocument &document)
 {
-  writer.writeStartElement(QStringLiteral("flow document"));
+  writer.writeStartElement(QStringLiteral("flow"));
 
   writer.writeEndElement();
 }
