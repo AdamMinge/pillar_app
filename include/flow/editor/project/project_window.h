@@ -14,7 +14,8 @@ namespace Ui
 namespace api
 {
   class IDocument;
-}
+  class IProject;
+}// namespace api
 
 class PreferencesManager;
 class DocumentManager;
@@ -50,6 +51,7 @@ protected:
 
 private Q_SLOTS:
   void documentChanged(api::IDocument *document);
+  void projectChanged(api::IProject *project);
 
   bool confirmSave(api::IDocument *document);
   bool confirmAllSave();

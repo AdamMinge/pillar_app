@@ -5,15 +5,17 @@ cmake_minimum_required(VERSION 3.11)
 # -------------------------------------------------------------------------------------------------- #
 # -------------------------------------- Set files variable ---------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/flow/utils/qt/file_system_watcher)
-set(include_root ${FLOW_SOURCE_DIR}/include/flow/utils/qt/file_system_watcher)
+set(source_root ${FLOW_SOURCE_DIR}/src/flow/utils/qt/file_system)
+set(include_root ${FLOW_SOURCE_DIR}/include/flow/utils/qt/file_system)
 
 set(sources
-        ${source_root}/file_system_watcher.cpp)
+        ${source_root}/file_system_watcher.cpp
+        ${source_root}/file_system_proxy_model.cpp)
 
 set(includes
         ${include_root}/export.h
-        ${include_root}/file_system_watcher.h)
+        ${include_root}/file_system_watcher.h
+        ${include_root}/file_system_proxy_model.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

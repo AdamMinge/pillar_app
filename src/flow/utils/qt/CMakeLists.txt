@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.11)
 # -------------------------------------------------------------------------------------------------- #
 add_subdirectory(dialog)
 add_subdirectory(dpi)
-add_subdirectory(file_system_watcher)
+add_subdirectory(file_system)
 add_subdirectory(line_edit)
 add_subdirectory(property_browser)
 add_subdirectory(view)

@@ -1,7 +1,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/utils/qt/file_system_watcher/file_system_watcher.h"
+#include "flow/utils/qt/file_system/file_system_watcher.h"
 /* -------------------------------------------------------------------------- */
 
 namespace utils

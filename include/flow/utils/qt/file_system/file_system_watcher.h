@@ -7,7 +7,7 @@
 #include <QSet>
 #include <QTimer>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/utils/qt/file_system_watcher/export.h"
+#include "flow/utils/qt/file_system/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace utils

@@ -24,7 +24,6 @@ set(sources
         ${source_root}/settings_dialog.cpp
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
-        ${source_root}/project_dock.cpp
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_manager.cpp
@@ -32,6 +31,7 @@ set(sources
         ${source_root}/project/project_window.cpp
         ${source_root}/project/no_project_window.cpp
         ${source_root}/project/new_project_dialog.cpp
+        ${source_root}/project/project_dock.cpp
         ${source_root}/project/recent_project_list_model.cpp
         ${source_root}/project/recent_project_list_delegate.cpp
         ${source_root}/project/project_format_pro.cpp
@@ -73,7 +73,6 @@ set(includes
         ${include_root}/settings_dialog.h
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
-        ${include_root}/project_dock.h
         ${include_root}/format_helper.h
 
         ${include_root}/project/project.h
@@ -82,6 +81,7 @@ set(includes
         ${include_root}/project/project_window.h
         ${include_root}/project/no_project_window.h
         ${include_root}/project/new_project_dialog.h
+        ${include_root}/project/project_dock.h
         ${include_root}/project/recent_project_list_model.h
         ${include_root}/project/recent_project_list_delegate.h
         ${include_root}/project/project_format_pro.h
