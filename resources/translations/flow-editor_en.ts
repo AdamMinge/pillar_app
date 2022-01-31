@@ -228,6 +228,76 @@
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="105"/>
+        <source>Delete File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="105"/>
+        <source>Delete Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="107"/>
+        <source>Are you sure that you want to permanently delete this file?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="108"/>
+        <source>Are you sure that you want to permanently delete this directory and all its contents?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="111"/>
+        <source>Failed to delete the file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="111"/>
+        <source>Failed to delete the directory!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="142"/>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="143"/>
+        <source>&amp;Refactor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="144"/>
+        <source>&amp;Open In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="148"/>
+        <source>&amp;Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="157"/>
+        <source>&amp;Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="159"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="162"/>
+        <source>&amp;Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="165"/>
+        <source>&amp;System Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ProjectFormatPro</name>

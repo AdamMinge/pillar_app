@@ -98,6 +98,9 @@ std::unique_ptr<api::IProject> Project::load(const QString &file_name,
   }
 
   auto project = format->load(file_name, error);
+  if(!project)
+    return nullptr;
+
   project->setFileName(file_name);
 
   project->setReaderFormat(format);
