@@ -37,11 +37,13 @@ public:
 
   [[nodiscard]] QWidget *getWidget() const;
 
-  void addEditor(api::IDocument::Type document_type, std::unique_ptr<DocumentEditor> editor);
+  void addEditor(api::IDocument::Type document_type,
+                 std::unique_ptr<DocumentEditor> editor);
   void removeEditor(api::IDocument::Type document_type);
   void removeAllEditors();
 
-  [[nodiscard]] DocumentEditor *getEditor(api::IDocument::Type document_type) const;
+  [[nodiscard]] DocumentEditor *
+  getEditor(api::IDocument::Type document_type) const;
   [[nodiscard]] DocumentEditor *getCurrentEditor() const;
 
   void addDocument(std::unique_ptr<api::IDocument> document);
@@ -71,7 +73,8 @@ public:
   bool reloadDocumentAt(int index);
   bool loadDocument(const QString &file_name);
 
-  [[nodiscard]] const std::vector<std::unique_ptr<api::IDocument>> &getDocuments() const;
+  [[nodiscard]] const std::vector<std::unique_ptr<api::IDocument>> &
+  getDocuments() const;
 
 Q_SIGNALS:
   void currentDocumentChanged(api::IDocument *document);
@@ -85,14 +88,16 @@ private Q_SLOTS:
   void documentTabMoved(int from, int to);
 
   void filesChanged(const QStringList &file_names);
-  void fileNameChanged(const QString &new_file_name, const QString &old_file_name);
+  void fileNameChanged(const QString &new_file_name,
+                       const QString &old_file_name);
   void updateDocumentTab(api::IDocument *document);
 
 private:
   static QScopedPointer<DocumentManager> m_instance;
 
   std::vector<std::unique_ptr<api::IDocument>> m_documents;
-  std::unordered_map<api::IDocument::Type, std::unique_ptr<DocumentEditor>> m_editor_for_document_type;
+  std::unordered_map<api::IDocument::Type, std::unique_ptr<DocumentEditor>>
+    m_editor_for_document_type;
 
   QPointer<QWidget> m_widget;
   NoDocumentWidget *m_no_document_widget;

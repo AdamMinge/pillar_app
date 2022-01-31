@@ -39,7 +39,8 @@ inline void REPORT(const Issue &issue)
   LoggingManager::getInstance().reportIssue(issue);
 }
 
-inline void REPORT(Issue::Severity severity, QString text, Issue::Callback callback = Issue::Callback{})
+inline void REPORT(Issue::Severity severity, QString text,
+                   Issue::Callback callback = Issue::Callback{})
 {
   REPORT(Issue(severity, std::move(text), std::move(callback)));
 }

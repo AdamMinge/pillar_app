@@ -6,8 +6,7 @@
 
 DocumentTypeListModel::DocumentTypeListModel(QObject *parent)
     : QAbstractListModel(parent)
-{
-}
+{}
 
 DocumentTypeListModel::~DocumentTypeListModel() = default;
 

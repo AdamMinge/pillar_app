@@ -20,20 +20,22 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct MainWindow::Preferences {
-  Preference<QByteArray> main_window_geometry = Preference<QByteArray>("main_window/geometry");
-  Preference<QByteArray> main_window_state = Preference<QByteArray>("main_window/state");
-  Preference<QLocale> application_language = Preference<QLocale>("application/language");
-  Preference<QString> application_style = Preference<QString>("application/style");
+  Preference<QByteArray> main_window_geometry =
+    Preference<QByteArray>("main_window/geometry");
+  Preference<QByteArray> main_window_state =
+    Preference<QByteArray>("main_window/state");
+  Preference<QLocale> application_language =
+    Preference<QLocale>("application/language");
+  Preference<QString> application_style =
+    Preference<QString>("application/style");
 };
 
 /* -------------------------------- MainWindow ------------------------------ */
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      m_ui(new Ui::MainWindow),
+    : QMainWindow(parent), m_ui(new Ui::MainWindow),
       m_preferences(new Preferences),
-      m_stacked_widget(new QStackedWidget(this)),
-      m_project_window(nullptr),
+      m_stacked_widget(new QStackedWidget(this)), m_project_window(nullptr),
       m_no_project_window(nullptr),
       m_about_action(new QAction(tr("&About..."), this)),
       m_settings_action(new QAction(tr("&Settings..."), this)),
@@ -52,29 +54,34 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() = default;
 
-LanguageManager &MainWindow::getLanguageManager() const// NOLINT(readability-convert-member-functions-to-static)
+LanguageManager &MainWindow::getLanguageManager()
+  const// NOLINT(readability-convert-member-functions-to-static)
 {
   return LanguageManager::getInstance();
 }
 
-ProjectManager &MainWindow::getProjectManager() const// NOLINT(readability-convert-member-functions-to-static)
+ProjectManager &MainWindow::getProjectManager()
+  const// NOLINT(readability-convert-member-functions-to-static)
 {
   return ProjectManager::getInstance();
 }
 
-StyleManager &MainWindow::getStyleManager() const// NOLINT(readability-convert-member-functions-to-static)
+StyleManager &MainWindow::getStyleManager()
+  const// NOLINT(readability-convert-member-functions-to-static)
 {
   return StyleManager::getInstance();
 }
 
-ActionManager &MainWindow::getActionManager() const// NOLINT(readability-convert-member-functions-to-static)
+ActionManager &MainWindow::getActionManager()
+  const// NOLINT(readability-convert-member-functions-to-static)
 {
   return ActionManager::getInstance();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-  if (auto current_widget = m_stacked_widget->currentWidget(); current_widget->close())
+  if (auto current_widget = m_stacked_widget->currentWidget();
+      current_widget->close())
   {
     writeSettings();
     event->accept();
@@ -115,17 +122,20 @@ void MainWindow::initUi()
 void MainWindow::initConnections()
 {
   connect(m_about_action, &QAction::triggered, this, &MainWindow::openAbout);
-  connect(m_settings_action, &QAction::triggered, this, &MainWindow::openSettings);
+  connect(m_settings_action, &QAction::triggered, this,
+          &MainWindow::openSettings);
   connect(m_exit_action, &QAction::triggered, this, &MainWindow::close);
 
-  connect(&getProjectManager(), &ProjectManager::currentProjectChanged, this, &MainWindow::currentProjectChanged);
+  connect(&getProjectManager(), &ProjectManager::currentProjectChanged, this,
+          &MainWindow::currentProjectChanged);
 }
 
 void MainWindow::writeSettings()
 {
   m_preferences->main_window_geometry = saveGeometry();
   m_preferences->main_window_state = saveState();
-  m_preferences->application_language = getLanguageManager().getCurrentLanguage();
+  m_preferences->application_language =
+    getLanguageManager().getCurrentLanguage();
   m_preferences->application_style = getStyleManager().getCurrentStyle();
 
   m_no_project_window->writeSettings();
@@ -194,10 +204,14 @@ void MainWindow::openAbout()
 void MainWindow::currentProjectChanged(api::IProject *project)
 {
   auto prev_current_widget = m_stacked_widget->currentWidget();
-  auto next_current_widget = project ? static_cast<QWidget *>(m_project_window) : static_cast<QWidget *>(m_no_project_window);
+  auto next_current_widget = project
+                               ? static_cast<QWidget *>(m_project_window)
+                               : static_cast<QWidget *>(m_no_project_window);
 
-  disconnect(prev_current_widget, &QWidget::windowTitleChanged, this, &MainWindow::updateWindowTitle);
-  connect(next_current_widget, &QWidget::windowTitleChanged, this, &MainWindow::updateWindowTitle);
+  disconnect(prev_current_widget, &QWidget::windowTitleChanged, this,
+             &MainWindow::updateWindowTitle);
+  connect(next_current_widget, &QWidget::windowTitleChanged, this,
+          &MainWindow::updateWindowTitle);
 
   m_stacked_widget->setCurrentWidget(next_current_widget);
 

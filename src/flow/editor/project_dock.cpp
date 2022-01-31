@@ -4,8 +4,7 @@
 #include "flow/editor/project_dock.h"
 /* -------------------------------------------------------------------------- */
 
-ProjectDock::ProjectDock(QWidget *parent)
-    : QDockWidget(parent)
+ProjectDock::ProjectDock(QWidget *parent) : QDockWidget(parent)
 {
   setObjectName(QLatin1String("Project"));
 
@@ -28,7 +27,4 @@ void ProjectDock::changeEvent(QEvent *event)
   }
 }
 
-void ProjectDock::retranslateUi()
-{
-  setWindowTitle(tr("Project"));
-}
+void ProjectDock::retranslateUi() { setWindowTitle(tr("Project")); }

@@ -4,8 +4,7 @@
 #include "flow/editor/issue_dock.h"
 /* -------------------------------------------------------------------------- */
 
-IssueDock::IssueDock(QWidget *parent)
-    : QDockWidget(parent)
+IssueDock::IssueDock(QWidget *parent) : QDockWidget(parent)
 {
   setObjectName(QLatin1String("Issue"));
 
@@ -28,7 +27,4 @@ void IssueDock::changeEvent(QEvent *event)
   }
 }
 
-void IssueDock::retranslateUi()
-{
-  setWindowTitle(tr("Issue"));
-}
+void IssueDock::retranslateUi() { setWindowTitle(tr("Issue")); }

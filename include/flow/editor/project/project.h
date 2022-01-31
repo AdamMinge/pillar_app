@@ -14,7 +14,9 @@ class Project : public api::IProject
 
 public:
   static std::unique_ptr<api::IProject> create();
-  static std::unique_ptr<api::IProject> load(const QString &file_name, api::IProjectFormat *format = nullptr, QString *error = nullptr);
+  static std::unique_ptr<api::IProject>
+  load(const QString &file_name, api::IProjectFormat *format = nullptr,
+       QString *error = nullptr);
 
 public:
   ~Project() override;

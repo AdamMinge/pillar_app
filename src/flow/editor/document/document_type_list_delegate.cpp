@@ -7,16 +7,15 @@
 /* -------------------------------------------------------------------------- */
 
 DocumentTypeListDelegate::DocumentTypeListDelegate(QObject *parent)
-    : QStyledItemDelegate(parent),
-      m_icon_size(64, 64),
-      m_margins(0, 0, 0, 0),
+    : QStyledItemDelegate(parent), m_icon_size(64, 64), m_margins(0, 0, 0, 0),
       m_spacing(0, 0)
-{
-}
+{}
 
 DocumentTypeListDelegate::~DocumentTypeListDelegate() = default;
 
-void DocumentTypeListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void DocumentTypeListDelegate::paint(QPainter *painter,
+                                     const QStyleOptionViewItem &option,
+                                     const QModelIndex &index) const
 {
   QStyleOptionViewItem opt(option);
   initStyleOption(&opt, index);
@@ -28,7 +27,8 @@ void DocumentTypeListDelegate::paint(QPainter *painter, const QStyleOptionViewIt
                                     -m_margins.right(), -m_margins.bottom());
 
   auto is_last_index = index.model()->rowCount() - 1 == index.row();
-  auto name = index.data(DocumentTypeListModel::Role::DocumentTypeNameRole).toString();
+  auto name =
+    index.data(DocumentTypeListModel::Role::DocumentTypeNameRole).toString();
 
   painter->save();
 
@@ -36,17 +36,24 @@ void DocumentTypeListDelegate::paint(QPainter *painter, const QStyleOptionViewIt
   painter->setClipRect(rect);
   painter->setFont(opt.font);
 
-  painter->fillRect(rect, opt.state & QStyle::State_Selected ? palette.highlight().color() : palette.light().color());
+  painter->fillRect(rect, opt.state & QStyle::State_Selected
+                            ? palette.highlight().color()
+                            : palette.light().color());
 
   painter->drawLine(is_last_index ? rect.left() : content_rect.left(),
                     rect.bottom(), rect.right(), rect.bottom());
 
-  painter->drawPixmap(content_rect.left(), content_rect.top(),
-                      index.data(DocumentTypeListModel::Role::DocumentTypeIconRole).value<QIcon>().pixmap(m_icon_size));
+  painter->drawPixmap(
+    content_rect.left(), content_rect.top(),
+    index.data(DocumentTypeListModel::Role::DocumentTypeIconRole)
+      .value<QIcon>()
+      .pixmap(m_icon_size));
 
   auto text_rect = content_rect.adjusted(
     m_icon_size.width() + m_spacing.width(),
-    static_cast<int>((content_rect.top() + m_icon_size.height() - opt.font.pointSize() * 1.4) / 2),
+    static_cast<int>(
+      (content_rect.top() + m_icon_size.height() - opt.font.pointSize() * 1.4) /
+      2),
     0, 0);
 
   font.setPointSizeF(opt.font.pointSize() * 1.4);
@@ -57,12 +64,14 @@ void DocumentTypeListDelegate::paint(QPainter *painter, const QStyleOptionViewIt
   painter->restore();
 }
 
-QSize DocumentTypeListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize DocumentTypeListDelegate::sizeHint(const QStyleOptionViewItem &option,
+                                         const QModelIndex &index) const
 {
   QStyleOptionViewItem opt(option);
   initStyleOption(&opt, index);
 
-  return QSize{opt.rect.width(), m_icon_size.height() + m_margins.top() + m_margins.bottom()};
+  return QSize{opt.rect.width(),
+               m_icon_size.height() + m_margins.top() + m_margins.bottom()};
 }
 
 void DocumentTypeListDelegate::setIconSize(const QSize &size)
@@ -85,7 +94,8 @@ const QMargins &DocumentTypeListDelegate::getMargins() const
   return m_margins;
 }
 
-void DocumentTypeListDelegate::setSpacing(int vertical_spacing, int horizontal_spacing)
+void DocumentTypeListDelegate::setSpacing(int vertical_spacing,
+                                          int horizontal_spacing)
 {
   m_spacing.setWidth(vertical_spacing);
   m_spacing.setHeight(horizontal_spacing);

@@ -52,22 +52,18 @@ namespace utils
 
   QSize QtDpiInfo::dpiScaled(const QSize &value)
   {
-    return QSize(dpiScaled(value.width()),
-                 dpiScaled(value.height()));
+    return QSize(dpiScaled(value.width()), dpiScaled(value.height()));
   }
 
   QPoint QtDpiInfo::dpiScaled(const QPoint &value)
   {
-    return QPoint(dpiScaled(value.x()),
-                  dpiScaled(value.y()));
+    return QPoint(dpiScaled(value.x()), dpiScaled(value.y()));
   }
 
   QRectF QtDpiInfo::dpiScaled(const QRectF &value)
   {
-    return QRectF(dpiScaled(value.x()),
-                  dpiScaled(value.y()),
-                  dpiScaled(value.width()),
-                  dpiScaled(value.height()));
+    return QRectF(dpiScaled(value.x()), dpiScaled(value.y()),
+                  dpiScaled(value.width()), dpiScaled(value.height()));
   }
 
 }// namespace utils

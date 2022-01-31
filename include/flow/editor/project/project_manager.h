@@ -37,7 +37,7 @@ public:
   void switchToProject(api::IProject *project);
   bool switchToProject(const QString &file_name);
 
-  bool loadProject(const QString &file_name, QString* error = nullptr);
+  bool loadProject(const QString &file_name, QString *error = nullptr);
 
 Q_SIGNALS:
   void currentProjectChanged(api::IProject *project);

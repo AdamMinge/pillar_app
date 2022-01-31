@@ -23,18 +23,21 @@ private:
   std::unique_ptr<Project> readProject(QXmlStreamReader &writer);
 };
 
-std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QIODevice &device)
+std::unique_ptr<Project>
+ProjectReader::ProjectReaderImpl::readProject(QIODevice &device)
 {
   QXmlStreamReader reader;
   reader.setDevice(&device);
 
-  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("project")))
+  if (!(reader.readNextStartElement() &&
+        reader.name() == QStringLiteral("project")))
     return nullptr;
 
   return readProject(reader);
 }
 
-std::unique_ptr<Project> ProjectReader::ProjectReaderImpl::readProject(QXmlStreamReader &writer)
+std::unique_ptr<Project>
+ProjectReader::ProjectReaderImpl::readProject(QXmlStreamReader &writer)
 {
   return utils::cast_unique_ptr<Project>(Project::create());
 }
@@ -44,7 +47,8 @@ bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device)
   QXmlStreamReader reader;
   reader.setDevice(&device);
 
-  if (!(reader.readNextStartElement() && reader.name() == QStringLiteral("project")))
+  if (!(reader.readNextStartElement() &&
+        reader.name() == QStringLiteral("project")))
     return false;
 
   return true;
@@ -52,10 +56,8 @@ bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device)
 
 /* ------------------------------- ProjectReader ---------------------------- */
 
-ProjectReader::ProjectReader()
-    : m_impl(std::make_unique<ProjectReaderImpl>())
-{
-}
+ProjectReader::ProjectReader() : m_impl(std::make_unique<ProjectReaderImpl>())
+{}
 
 ProjectReader::~ProjectReader() = default;
 
@@ -67,7 +69,8 @@ std::unique_ptr<Project> ProjectReader::read(QIODevice &device, QString *error)
   return project;
 }
 
-std::unique_ptr<Project> ProjectReader::read(const QString &file_name, QString *error)
+std::unique_ptr<Project> ProjectReader::read(const QString &file_name,
+                                             QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -85,8 +88,7 @@ std::unique_ptr<Project> ProjectReader::read(const QString &file_name, QString *
 bool ProjectReader::isValid(const QString &file_name)
 {
   QFile file(file_name);
-  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    return false;
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
 
   return m_impl->isValid(file);
 }

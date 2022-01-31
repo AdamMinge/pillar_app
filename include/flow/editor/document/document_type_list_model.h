@@ -25,11 +25,13 @@ public:
   explicit DocumentTypeListModel(QObject *parent = nullptr);
   ~DocumentTypeListModel() override;
 
-  [[nodiscard]] QVariant data(const QModelIndex &index, int role) const override;
+  [[nodiscard]] QVariant data(const QModelIndex &index,
+                              int role) const override;
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
 
 private:
-  [[nodiscard]] static QString getDocumentNameForType(api::IDocument::Type type);
+  [[nodiscard]] static QString
+  getDocumentNameForType(api::IDocument::Type type);
   [[nodiscard]] static QIcon getDocumentIconForType(api::IDocument::Type type);
 };
 

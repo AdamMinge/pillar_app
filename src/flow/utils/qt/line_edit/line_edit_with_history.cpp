@@ -5,11 +5,9 @@
 namespace utils
 {
 
-  QtLineEditWithHistory::QtLineEditWithHistory(QWidget *parent) : QLineEdit(parent),
-                                                                  m_history({}),
-                                                                  m_history_position(0)
-  {
-  }
+  QtLineEditWithHistory::QtLineEditWithHistory(QWidget *parent)
+      : QLineEdit(parent), m_history({}), m_history_position(0)
+  {}
 
   QtLineEditWithHistory::~QtLineEditWithHistory() = default;
 
@@ -27,14 +25,12 @@ namespace utils
     clear();
   }
 
-  QStringList QtLineEditWithHistory::getHistory() const
-  {
-    return m_history;
-  }
+  QStringList QtLineEditWithHistory::getHistory() const { return m_history; }
 
   void QtLineEditWithHistory::move(qsizetype direction)
   {
-    auto new_history_position = qBound(0, m_history_position + direction, m_history.size());
+    auto new_history_position =
+      qBound(0, m_history_position + direction, m_history.size());
     if (new_history_position != m_history_position)
     {
       if (new_history_position < m_history.size())
@@ -46,14 +42,8 @@ namespace utils
     }
   }
 
-  void QtLineEditWithHistory::moveNext()
-  {
-    move(1);
-  }
+  void QtLineEditWithHistory::moveNext() { move(1); }
 
-  void QtLineEditWithHistory::movePrev()
-  {
-    move(-1);
-  }
+  void QtLineEditWithHistory::movePrev() { move(-1); }
 
 }// namespace utils

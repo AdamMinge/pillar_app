@@ -16,14 +16,18 @@ namespace utils
 
   public:
     explicit QtExtendedFileDialog(QWidget *parent, Qt::WindowFlags flags);
-    explicit QtExtendedFileDialog(QWidget *parent = nullptr, const QString &caption = QString(),
-                                  const QString &directory = QString(), const QString &filter = QString());
+    explicit QtExtendedFileDialog(QWidget *parent = nullptr,
+                                  const QString &caption = QString(),
+                                  const QString &directory = QString(),
+                                  const QString &filter = QString());
     ~QtExtendedFileDialog() override;
 
-    static QString getExistingDirectory(
-      QWidget *parent = nullptr, const QString &caption = QString(),
-      const QString &dir = QString(), QFileDialog::Options options = ShowDirsOnly,
-      const QString &top_dir = QString());
+    static QString
+    getExistingDirectory(QWidget *parent = nullptr,
+                         const QString &caption = QString(),
+                         const QString &dir = QString(),
+                         QFileDialog::Options options = ShowDirsOnly,
+                         const QString &top_dir = QString());
 
     static QUrl getExistingDirectoryUrl(
       QWidget *parent = nullptr, const QString &caption = QString(),

@@ -14,17 +14,24 @@
 namespace utils
 {
 
-  QtExtendedFileDialog::QtExtendedFileDialog(const QFileDialogArgs &args) : QFileDialog(args)
+  QtExtendedFileDialog::QtExtendedFileDialog(const QFileDialogArgs &args)
+      : QFileDialog(args)
   {
     init();
   }
 
-  QtExtendedFileDialog::QtExtendedFileDialog(QWidget *parent, Qt::WindowFlags flags) : QFileDialog(parent, flags)
+  QtExtendedFileDialog::QtExtendedFileDialog(QWidget *parent,
+                                             Qt::WindowFlags flags)
+      : QFileDialog(parent, flags)
   {
     init();
   }
 
-  QtExtendedFileDialog::QtExtendedFileDialog(QWidget *parent, const QString &caption, const QString &directory, const QString &filter) : QFileDialog(parent, caption, directory, filter)
+  QtExtendedFileDialog::QtExtendedFileDialog(QWidget *parent,
+                                             const QString &caption,
+                                             const QString &directory,
+                                             const QString &filter)
+      : QFileDialog(parent, caption, directory, filter)
   {
     init();
   }
@@ -32,7 +39,8 @@ namespace utils
   QtExtendedFileDialog::~QtExtendedFileDialog() = default;
 
   QString QtExtendedFileDialog::getExistingDirectory(
-    QWidget *parent, const QString &caption, const QString &dir, QFileDialog::Options options, const QString &top_dir)
+    QWidget *parent, const QString &caption, const QString &dir,
+    QFileDialog::Options options, const QString &top_dir)
   {
     const QStringList schemes = QStringList(QStringLiteral("file"));
     const QUrl selectedUrl = getExistingDirectoryUrl(
@@ -45,8 +53,9 @@ namespace utils
   }
 
   QUrl QtExtendedFileDialog::getExistingDirectoryUrl(
-    QWidget *parent, const QString &caption, const QUrl &dir, QFileDialog::Options options,
-    const QStringList &supportedSchemes, const QString &top_dir)
+    QWidget *parent, const QString &caption, const QUrl &dir,
+    QFileDialog::Options options, const QStringList &supportedSchemes,
+    const QString &top_dir)
   {
     QtExtendedFileDialog dialog(parent, caption);
     dialog.setDirectoryUrl(dir);
@@ -64,41 +73,46 @@ namespace utils
   {
     setOptions(QFileDialog::DontUseNativeDialog);
 
-    connect(this, SIGNAL(directoryEntered(QString)),
-            this, SLOT(checkHistory()));
-    connect(this, SIGNAL(directoryEntered(QString)),
-            this, SLOT(checkGoToParentAndBack()));
-    connect(findChild<QToolButton *>("backButton"), SIGNAL(clicked()),
-            this, SLOT(checkGoToParentAndBack()));
-    connect(findChild<QToolButton *>("forwardButton"), SIGNAL(clicked()),
-            this, SLOT(checkGoToParentAndBack()));
-    connect(findChild<QLineEdit *>("fileNameEdit"), SIGNAL(textChanged(QString)),
-            this, SLOT(checkLineEdit(QString)));
-    connect(findChild<QComboBox *>("lookInCombo"), qOverload<int>(&QComboBox::currentIndexChanged),
-            this, &QtExtendedFileDialog::checkComboBox);
+    connect(this, SIGNAL(directoryEntered(QString)), this,
+            SLOT(checkHistory()));
+    connect(this, SIGNAL(directoryEntered(QString)), this,
+            SLOT(checkGoToParentAndBack()));
+    connect(findChild<QToolButton *>("backButton"), SIGNAL(clicked()), this,
+            SLOT(checkGoToParentAndBack()));
+    connect(findChild<QToolButton *>("forwardButton"), SIGNAL(clicked()), this,
+            SLOT(checkGoToParentAndBack()));
+    connect(findChild<QLineEdit *>("fileNameEdit"),
+            SIGNAL(textChanged(QString)), this, SLOT(checkLineEdit(QString)));
+    connect(findChild<QComboBox *>("lookInCombo"),
+            qOverload<int>(&QComboBox::currentIndexChanged), this,
+            &QtExtendedFileDialog::checkComboBox);
 
     findChild<QLineEdit *>("fileNameEdit")->installEventFilter(this);
     findChild<QWidget *>("listView")->installEventFilter(this);
     findChild<QWidget *>("treeView")->installEventFilter(this);
-    findChild<QLineEdit *>("fileNameEdit")->completer()->popup()->installEventFilter(this);
+    findChild<QLineEdit *>("fileNameEdit")
+      ->completer()
+      ->popup()
+      ->installEventFilter(this);
   }
 
   bool QtExtendedFileDialog::eventFilter(QObject *object, QEvent *event)
   {
-    if (event->type() != QEvent::KeyPress)
-      return false;
+    if (event->type() != QEvent::KeyPress) return false;
 
     int key = dynamic_cast<QKeyEvent *>(event)->key();
-    if (object->objectName() == "listView" || object->objectName() == "treeView")
+    if (object->objectName() == "listView" ||
+        object->objectName() == "treeView")
     {
-      return (Qt::Key_Backspace == key && !pathFits(directory().absolutePath()));
+      return (Qt::Key_Backspace == key &&
+              !pathFits(directory().absolutePath()));
     } else
     {
-      if (Qt::Key_Return != key && Qt::Key_Enter != key)
-        return false;
+      if (Qt::Key_Return != key && Qt::Key_Enter != key) return false;
 
       QString text = findChild<QLineEdit *>("fileNameEdit")->text();
-      QString path = QDir::cleanPath(directory().absolutePath() + (text.startsWith("/") ? "" : "/") + text);
+      QString path = QDir::cleanPath(directory().absolutePath() +
+                                     (text.startsWith("/") ? "" : "/") + text);
       bool a = QDir(text).isAbsolute();
 
       return !((!a && pathFits(path)) || (a && pathFits(text)));
@@ -107,8 +121,7 @@ namespace utils
 
   void QtExtendedFileDialog::setTopDir(const QString &path)
   {
-    if (path == m_top_dir)
-      return;
+    if (path == m_top_dir) return;
 
     m_top_dir = (!path.isEmpty() && QFileInfo(path).isDir()) ? path : QString();
 
@@ -123,21 +136,19 @@ namespace utils
       line_edit->setText(line_edit->text());
     }
 
-    if (!m_top_dir.isEmpty())
-      findChild<QWidget *>("sidebar")->hide();
+    if (!m_top_dir.isEmpty()) findChild<QWidget *>("sidebar")->hide();
 
     checkGoToParentAndBack();
   }
 
-  QString QtExtendedFileDialog::getTopDir() const
-  {
-    return m_top_dir;
-  }
+  QString QtExtendedFileDialog::getTopDir() const { return m_top_dir; }
 
   bool QtExtendedFileDialog::pathFits(const QString &path, bool exact) const
   {
-    return m_top_dir.isEmpty() || (path.startsWith(m_top_dir) &&
-                                   (exact ? path.length() >= m_top_dir.length() : path.length() > m_top_dir.length()));
+    return m_top_dir.isEmpty() ||
+           (path.startsWith(m_top_dir) &&
+            (exact ? path.length() >= m_top_dir.length()
+                   : path.length() > m_top_dir.length()));
   }
 
   void QtExtendedFileDialog::checkHistory()
@@ -145,8 +156,7 @@ namespace utils
     QStringList list = history();
     for (auto i = list.size() - 1; i >= 0; --i)
     {
-      if (!pathFits(list.at(i)))
-        list.removeAt(i);
+      if (!pathFits(list.at(i))) list.removeAt(i);
     }
 
     setHistory(list);
@@ -164,10 +174,13 @@ namespace utils
 
   void QtExtendedFileDialog::checkLineEdit(const QString &text)
   {
-    QAbstractButton *btn = findChild<QDialogButtonBox *>("buttonBox")->buttons().first();
-    QString path = QDir::cleanPath(directory().absolutePath() + (text.startsWith("/") ? "" : "/") + text);
+    QAbstractButton *btn =
+      findChild<QDialogButtonBox *>("buttonBox")->buttons().first();
+    QString path = QDir::cleanPath(directory().absolutePath() +
+                                   (text.startsWith("/") ? "" : "/") + text);
     bool a = QDir(text).isAbsolute();
-    btn->setEnabled(btn->isEnabled() && ((!a && pathFits(path, true)) || (a && pathFits(text, true))));
+    btn->setEnabled(btn->isEnabled() && ((!a && pathFits(path, true)) ||
+                                         (a && pathFits(text, true))));
   }
 
   void QtExtendedFileDialog::checkComboBox(int index)

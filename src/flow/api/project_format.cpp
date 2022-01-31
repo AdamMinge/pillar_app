@@ -8,10 +8,7 @@ namespace api
 
   /* ------------------------------- ProjectFormat ---------------------------- */
 
-  IProjectFormat::IProjectFormat(QObject *parent)
-      : IFileFormat(parent)
-  {
-  }
+  IProjectFormat::IProjectFormat(QObject *parent) : IFileFormat(parent) {}
 
   IProjectFormat::~IProjectFormat() = default;
 
@@ -19,20 +16,20 @@ namespace api
 
   IReadableProjectFormat::IReadableProjectFormat(QObject *parent)
       : IProjectFormat(parent)
-  {
-  }
+  {}
 
   IReadableProjectFormat::~IReadableProjectFormat() = default;
 
-  bool IReadableProjectFormat::save(const IProject &project, const QString &file_name, QString *error)
+  bool IReadableProjectFormat::save(const IProject &project,
+                                    const QString &file_name, QString *error)
   {
-    if (error)
-      *error = tr("Project format is readable only");
+    if (error) *error = tr("Project format is readable only");
 
     return false;
   }
 
-  IReadableProjectFormat::Capabilities IReadableProjectFormat::getCapabilities() const
+  IReadableProjectFormat::Capabilities
+  IReadableProjectFormat::getCapabilities() const
   {
     return Capability::Read;
   }
@@ -41,20 +38,20 @@ namespace api
 
   IWritableProjectFormat::IWritableProjectFormat(QObject *parent)
       : IProjectFormat(parent)
-  {
-  }
+  {}
 
   IWritableProjectFormat::~IWritableProjectFormat() = default;
 
-  std::unique_ptr<IProject> IWritableProjectFormat::load(const QString &file_name, QString *error)
+  std::unique_ptr<IProject>
+  IWritableProjectFormat::load(const QString &file_name, QString *error)
   {
-    if (error)
-      *error = tr("Project format is writable only");
+    if (error) *error = tr("Project format is writable only");
 
     return nullptr;
   }
 
-  IWritableProjectFormat::Capabilities IWritableProjectFormat::getCapabilities() const
+  IWritableProjectFormat::Capabilities
+  IWritableProjectFormat::getCapabilities() const
   {
     return Capability::Write;
   }

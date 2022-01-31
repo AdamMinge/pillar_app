@@ -29,8 +29,7 @@ namespace utils
   template<typename VIEW>
   requires std::derived_from<VIEW, QAbstractItemView>
   QtUnselectableView<VIEW>::QtUnselectableView(QWidget *parent) : VIEW(parent)
-  {
-  }
+  {}
 
   template<typename VIEW>
   requires std::derived_from<VIEW, QAbstractItemView>
@@ -41,12 +40,14 @@ namespace utils
   void QtUnselectableView<VIEW>::mousePressEvent(QMouseEvent *event)
   {
     auto item = VIEW::indexAt(event->pos());
-    auto selected = VIEW::selectionModel()->isSelected(VIEW::indexAt(event->pos()));
+    auto selected =
+      VIEW::selectionModel()->isSelected(VIEW::indexAt(event->pos()));
 
     if ((item.row() == -1 && item.column() == -1) || selected)
     {
       VIEW::clearSelection();
-      VIEW::selectionModel()->setCurrentIndex(QModelIndex(), QItemSelectionModel::Select);
+      VIEW::selectionModel()->setCurrentIndex(QModelIndex(),
+                                              QItemSelectionModel::Select);
     }
 
     VIEW::mousePressEvent(event);

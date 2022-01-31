@@ -8,9 +8,6 @@ std::unique_ptr<api::IDocument> FlowDocument::create()
   return document;
 }
 
-FlowDocument::FlowDocument(QObject *parent)
-    : Document(Type::Flow, parent)
-{
-}
+FlowDocument::FlowDocument(QObject *parent) : Document(Type::Flow, parent) {}
 
 FlowDocument::~FlowDocument() = default;

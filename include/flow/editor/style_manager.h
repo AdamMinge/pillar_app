@@ -51,9 +51,8 @@ template<typename REGISTERED_TYPE, typename... ARGS>
 void StyleManager::registerStyle(const QString &style_name, ARGS &&...args)
 {
   Q_ASSERT(!m_factories.contains(style_name));
-  auto creator = StyleFactory([&args...]() {
-    return new REGISTERED_TYPE(std::forward<ARGS>(args)...);
-  });
+  auto creator = StyleFactory(
+    [&args...]() { return new REGISTERED_TYPE(std::forward<ARGS>(args)...); });
 
   m_factories.insert(std::make_pair(style_name, creator));
   Q_EMIT styleRegistered(style_name);

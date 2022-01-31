@@ -5,25 +5,19 @@
 #include "flow/editor/project/project_manager.h"
 /* -------------------------------------------------------------------------- */
 
-QScopedPointer<ProjectManager> ProjectManager::m_instance = QScopedPointer<ProjectManager>(nullptr);
+QScopedPointer<ProjectManager> ProjectManager::m_instance =
+  QScopedPointer<ProjectManager>(nullptr);
 
 ProjectManager &ProjectManager::getInstance()
 {
-  if (m_instance.isNull())
-    m_instance.reset(new ProjectManager);
+  if (m_instance.isNull()) m_instance.reset(new ProjectManager);
 
   return *m_instance;
 }
 
-void ProjectManager::deleteInstance()
-{
-  m_instance.reset(nullptr);
-}
+void ProjectManager::deleteInstance() { m_instance.reset(nullptr); }
 
-ProjectManager::ProjectManager()
-    : m_current_project(nullptr)
-{
-}
+ProjectManager::ProjectManager() : m_current_project(nullptr) {}
 
 ProjectManager::~ProjectManager() = default;
 
@@ -32,7 +26,8 @@ void ProjectManager::addProject(std::unique_ptr<api::IProject> project)
   insertProject(static_cast<int>(m_projects.size()), std::move(project));
 }
 
-void ProjectManager::insertProject(int index, std::unique_ptr<api::IProject> project)
+void ProjectManager::insertProject(int index,
+                                   std::unique_ptr<api::IProject> project)
 {
   Q_ASSERT(project);
   auto project_ptr = project.get();
@@ -51,16 +46,14 @@ void ProjectManager::removeProject(int index)
       return project.get() == project_to_remove;
     });
 
-  if (project_to_remove == m_current_project)
-    switchToProject(nullptr);
+  if (project_to_remove == m_current_project) switchToProject(nullptr);
 
   m_projects.erase(removed_project_iter, m_projects.end());
 }
 
 void ProjectManager::removeAllProjects()
 {
-  while (!m_projects.empty())
-    removeProject(0);
+  while (!m_projects.empty()) removeProject(0);
 }
 
 api::IProject *ProjectManager::getProject(int index) const
@@ -78,24 +71,24 @@ api::IProject *ProjectManager::getCurrentProject() const
 
 int ProjectManager::findProject(api::IProject *project) const
 {
-  auto found = std::find_if(m_projects.begin(), m_projects.end(), [project](auto &current_project) {
-    return current_project.get() == project;
-  });
+  auto found = std::find_if(m_projects.begin(), m_projects.end(),
+                            [project](auto &current_project) {
+                              return current_project.get() == project;
+                            });
 
-  if (found == m_projects.end())
-    return -1;
+  if (found == m_projects.end()) return -1;
 
   return static_cast<int>(std::distance(m_projects.begin(), found));
 }
 
 int ProjectManager::findProject(const QString &file_name) const
 {
-  auto found = std::find_if(m_projects.begin(), m_projects.end(), [&file_name](auto &current_project) {
-    return current_project->getFileName() == file_name;
-  });
+  auto found = std::find_if(
+    m_projects.begin(), m_projects.end(), [&file_name](auto &current_project) {
+      return current_project->getFileName() == file_name;
+    });
 
-  if (found == m_projects.end())
-    return -1;
+  if (found == m_projects.end()) return -1;
 
   return static_cast<int>(std::distance(m_projects.begin(), found));
 }
@@ -109,8 +102,7 @@ void ProjectManager::switchToProject(int index)
 
 void ProjectManager::switchToProject(api::IProject *project)
 {
-  if (m_current_project == project)
-    return;
+  if (m_current_project == project) return;
 
   m_current_project = project;
   Q_EMIT currentProjectChanged(m_current_project);
@@ -120,8 +112,7 @@ bool ProjectManager::switchToProject(const QString &file_name)
 {
   auto index = findProject(file_name);
   auto found_project = getProject(index);
-  if (!found_project)
-    return false;
+  if (!found_project) return false;
 
   switchToProject(found_project);
   return true;
@@ -129,12 +120,10 @@ bool ProjectManager::switchToProject(const QString &file_name)
 
 bool ProjectManager::loadProject(const QString &file_name, QString *error)
 {
-  if (switchToProject(file_name))
-    return true;
+  if (switchToProject(file_name)) return true;
 
   auto project = Project::load(file_name, nullptr, error);
-  if (!project)
-    return false;
+  if (!project) return false;
 
   addProject(std::move(project));
   return true;

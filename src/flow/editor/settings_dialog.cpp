@@ -6,8 +6,7 @@
 /* -------------------------------------------------------------------------- */
 
 SettingsDialog::SettingsDialog(QWidget *parent)
-    : QDialog(parent),
-      m_ui(new Ui::SettingsDialog())
+    : QDialog(parent), m_ui(new Ui::SettingsDialog())
 {
   m_ui->setupUi(this);
 

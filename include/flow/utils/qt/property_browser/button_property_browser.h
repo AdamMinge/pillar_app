@@ -49,7 +49,8 @@ namespace utils
 
   class QtButtonPropertyBrowserPrivate;
 
-  class PROPERTY_BROWSER_API QtButtonPropertyBrowser : public QtAbstractPropertyBrowser
+  class PROPERTY_BROWSER_API QtButtonPropertyBrowser
+      : public QtAbstractPropertyBrowser
   {
     Q_OBJECT
   public:

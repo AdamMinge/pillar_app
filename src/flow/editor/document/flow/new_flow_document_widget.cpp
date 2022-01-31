@@ -14,8 +14,7 @@ struct NewFlowDocumentWidget::Preferences {
 /* --------------------------- NewFlowDocumentWidget ------------------------ */
 
 NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
-    : NewDocumentWidget(parent),
-      m_ui(new Ui::NewFlowDocumentWidget())
+    : NewDocumentWidget(parent), m_ui(new Ui::NewFlowDocumentWidget())
 {
   m_ui->setupUi(this);
 
@@ -26,17 +25,13 @@ NewFlowDocumentWidget::~NewFlowDocumentWidget() = default;
 
 std::unique_ptr<api::IDocument> NewFlowDocumentWidget::createDocument() const
 {
-  if (!isValid())
-    return nullptr;
+  if (!isValid()) return nullptr;
 
   auto flow_document = FlowDocument::create();
   return flow_document;
 }
 
-bool NewFlowDocumentWidget::isValid() const
-{
-  return true;
-}
+bool NewFlowDocumentWidget::isValid() const { return true; }
 
 void NewFlowDocumentWidget::changeEvent(QEvent *event)
 {
@@ -52,7 +47,4 @@ void NewFlowDocumentWidget::changeEvent(QEvent *event)
   }
 }
 
-void NewFlowDocumentWidget::retranslateUi()
-{
-  m_ui->retranslateUi(this);
-}
+void NewFlowDocumentWidget::retranslateUi() { m_ui->retranslateUi(this); }

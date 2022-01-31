@@ -100,18 +100,16 @@ namespace utils
   {
     m_mainLayout = new QGridLayout();
     parent->setLayout(m_mainLayout);
-    QLayoutItem *item = new QSpacerItem(0, 0,
-                                        QSizePolicy::Fixed, QSizePolicy::Expanding);
+    QLayoutItem *item =
+      new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_mainLayout->addItem(item, 0, 0);
   }
 
   void QtGroupBoxPropertyBrowserPrivate::slotEditorDestroyed()
   {
     QWidget *editor = qobject_cast<QWidget *>(q_ptr->sender());
-    if (!editor)
-      return;
-    if (!m_widgetToItem.contains(editor))
-      return;
+    if (!editor) return;
+    if (!m_widgetToItem.contains(editor)) return;
     m_widgetToItem[editor]->widget = 0;
     m_widgetToItem.remove(editor);
   }
@@ -134,8 +132,7 @@ namespace utils
         w = par->groupBox;
         l = par->layout;
         oldRow = par->children.indexOf(item);
-        if (hasHeader(par))
-          oldRow += 2;
+        if (hasHeader(par)) oldRow += 2;
       }
 
       if (item->widget)
@@ -149,14 +146,14 @@ namespace utils
         item->widgetLabel = new QLabel(w);
       }
       int span = 1;
-      if (item->widget)
-        l->addWidget(item->widget, oldRow, 1, 1, 1);
+      if (item->widget) l->addWidget(item->widget, oldRow, 1, 1, 1);
       else if (item->widgetLabel)
         l->addWidget(item->widgetLabel, oldRow, 1, 1, 1);
       else
         span = 2;
       item->label = new QLabel(w);
-      item->label->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+      item->label->setSizePolicy(
+        QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
       l->addWidget(item->label, oldRow, 0, 1, span);
 
       updateItem(item);
@@ -169,7 +166,9 @@ namespace utils
     QTimer::singleShot(0, q_ptr, SLOT(slotUpdate()));
   }
 
-  void QtGroupBoxPropertyBrowserPrivate::propertyInserted(QtBrowserItem *index, QtBrowserItem *afterIndex)
+  void
+  QtGroupBoxPropertyBrowserPrivate::propertyInserted(QtBrowserItem *index,
+                                                     QtBrowserItem *afterIndex)
   {
     WidgetItem *afterItem = m_indexToItem.value(afterIndex);
     WidgetItem *parentItem = m_indexToItem.value(index->parent());
@@ -183,8 +182,7 @@ namespace utils
     if (!afterItem)
     {
       row = 0;
-      if (parentItem)
-        parentItem->children.insert(0, newItem);
+      if (parentItem) parentItem->children.insert(0, newItem);
       else
         m_children.insert(0, newItem);
     } else
@@ -199,8 +197,7 @@ namespace utils
         m_children.insert(row, newItem);
       }
     }
-    if (parentItem && hasHeader(parentItem))
-      row += 2;
+    if (parentItem && hasHeader(parentItem)) row += 2;
 
     if (!parentItem)
     {
@@ -226,8 +223,7 @@ namespace utils
           w = par->groupBox;
           l = par->layout;
           oldRow = par->children.indexOf(parentItem);
-          if (hasHeader(par))
-            oldRow += 2;
+          if (hasHeader(par)) oldRow += 2;
         }
         parentItem->groupBox = new QGroupBox(w);
         parentItem->layout = new QGridLayout();
@@ -264,21 +260,22 @@ namespace utils
     }
 
     newItem->label = new QLabel(parentWidget);
-    newItem->label->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+    newItem->label->setSizePolicy(
+      QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
     newItem->widget = createEditor(index->property(), parentWidget);
     if (!newItem->widget)
     {
       newItem->widgetLabel = new QLabel(parentWidget);
     } else
     {
-      QObject::connect(newItem->widget, SIGNAL(destroyed()), q_ptr, SLOT(slotEditorDestroyed()));
+      QObject::connect(newItem->widget, SIGNAL(destroyed()), q_ptr,
+                       SLOT(slotEditorDestroyed()));
       m_widgetToItem[newItem->widget] = newItem;
     }
 
     insertRow(layout, row);
     int span = 1;
-    if (newItem->widget)
-      layout->addWidget(newItem->widget, row, 1);
+    if (newItem->widget) layout->addWidget(newItem->widget, row, 1);
     else if (newItem->widgetLabel)
       layout->addWidget(newItem->widgetLabel, row, 1);
     else
@@ -306,22 +303,17 @@ namespace utils
     {
       row = parentItem->children.indexOf(item);
       parentItem->children.removeAt(row);
-      if (hasHeader(parentItem))
-        row += 2;
+      if (hasHeader(parentItem)) row += 2;
     } else
     {
       row = m_children.indexOf(item);
       m_children.removeAt(row);
     }
 
-    if (item->widget)
-      delete item->widget;
-    if (item->label)
-      delete item->label;
-    if (item->widgetLabel)
-      delete item->widgetLabel;
-    if (item->groupBox)
-      delete item->groupBox;
+    if (item->widget) delete item->widget;
+    if (item->label) delete item->label;
+    if (item->widgetLabel) delete item->widgetLabel;
+    if (item->groupBox) delete item->groupBox;
 
     if (!parentItem)
     {
@@ -342,8 +334,7 @@ namespace utils
       {
         l = par->layout;
         oldRow = par->children.indexOf(parentItem);
-        if (hasHeader(par))
-          oldRow += 2;
+        if (hasHeader(par)) oldRow += 2;
       }
 
       if (parentItem->widget)
@@ -372,7 +363,8 @@ namespace utils
     delete item;
   }
 
-  void QtGroupBoxPropertyBrowserPrivate::insertRow(QGridLayout *layout, int row) const
+  void QtGroupBoxPropertyBrowserPrivate::insertRow(QGridLayout *layout,
+                                                   int row) const
   {
     QMap<QLayoutItem *, QRect> itemToPos;
     int idx = 0;
@@ -389,15 +381,18 @@ namespace utils
       }
     }
 
-    const QMap<QLayoutItem *, QRect>::ConstIterator icend = itemToPos.constEnd();
-    for (QMap<QLayoutItem *, QRect>::ConstIterator it = itemToPos.constBegin(); it != icend; ++it)
+    const QMap<QLayoutItem *, QRect>::ConstIterator icend =
+      itemToPos.constEnd();
+    for (QMap<QLayoutItem *, QRect>::ConstIterator it = itemToPos.constBegin();
+         it != icend; ++it)
     {
       const QRect r = it.value();
       layout->addItem(it.key(), r.x(), r.y(), r.width(), r.height());
     }
   }
 
-  void QtGroupBoxPropertyBrowserPrivate::removeRow(QGridLayout *layout, int row) const
+  void QtGroupBoxPropertyBrowserPrivate::removeRow(QGridLayout *layout,
+                                                   int row) const
   {
     QMap<QLayoutItem *, QRect> itemToPos;
     int idx = 0;
@@ -414,8 +409,10 @@ namespace utils
       }
     }
 
-    const QMap<QLayoutItem *, QRect>::ConstIterator icend = itemToPos.constEnd();
-    for (QMap<QLayoutItem *, QRect>::ConstIterator it = itemToPos.constBegin(); it != icend; ++it)
+    const QMap<QLayoutItem *, QRect>::ConstIterator icend =
+      itemToPos.constEnd();
+    for (QMap<QLayoutItem *, QRect>::ConstIterator it = itemToPos.constBegin();
+         it != icend; ++it)
     {
       const QRect r = it.value();
       layout->addItem(it.key(), r.x(), r.y(), r.width(), r.height());
@@ -424,8 +421,7 @@ namespace utils
 
   bool QtGroupBoxPropertyBrowserPrivate::hasHeader(WidgetItem *item) const
   {
-    if (item->widget)
-      return true;
+    if (item->widget) return true;
     return false;
   }
 
@@ -476,7 +472,8 @@ namespace utils
       item->widget->setFont(font);
       item->widget->setEnabled(property->isEnabled());
       const QString valueToolTip = property->valueToolTip();
-      item->widget->setToolTip(valueToolTip.isEmpty() ? property->valueText() : valueToolTip);
+      item->widget->setToolTip(valueToolTip.isEmpty() ? property->valueText()
+                                                      : valueToolTip);
     }
     //item->setIcon(1, property->valueIcon());
   }
@@ -515,7 +512,8 @@ namespace utils
     Creates a property browser with the given \a parent.
 */
   QtGroupBoxPropertyBrowser::QtGroupBoxPropertyBrowser(QWidget *parent)
-      : QtAbstractPropertyBrowser(parent), d_ptr(new QtGroupBoxPropertyBrowserPrivate)
+      : QtAbstractPropertyBrowser(parent),
+        d_ptr(new QtGroupBoxPropertyBrowserPrivate)
   {
     d_ptr->q_ptr = this;
 
@@ -534,15 +532,21 @@ namespace utils
 */
   QtGroupBoxPropertyBrowser::~QtGroupBoxPropertyBrowser()
   {
-    const QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *, QtBrowserItem *>::ConstIterator icend = d_ptr->m_itemToIndex.constEnd();
-    for (QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *, QtBrowserItem *>::ConstIterator it = d_ptr->m_itemToIndex.constBegin(); it != icend; ++it)
+    const QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *,
+               QtBrowserItem *>::ConstIterator icend =
+      d_ptr->m_itemToIndex.constEnd();
+    for (QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *,
+              QtBrowserItem *>::ConstIterator it =
+           d_ptr->m_itemToIndex.constBegin();
+         it != icend; ++it)
       delete it.key();
   }
 
   /*!
     \reimp
 */
-  void QtGroupBoxPropertyBrowser::itemInserted(QtBrowserItem *item, QtBrowserItem *afterItem)
+  void QtGroupBoxPropertyBrowser::itemInserted(QtBrowserItem *item,
+                                               QtBrowserItem *afterItem)
   {
     d_ptr->propertyInserted(item, afterItem);
   }

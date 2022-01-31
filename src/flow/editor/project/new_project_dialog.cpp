@@ -16,14 +16,14 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NewProjectDialog::Preferences {
-  Preference<QByteArray> new_project_dialog_geometry = Preference<QByteArray>("new_project_dialog/geometry");
+  Preference<QByteArray> new_project_dialog_geometry =
+    Preference<QByteArray>("new_project_dialog/geometry");
 };
 
 /* ----------------------------- NewProjectDialog -------------------------- */
 
 NewProjectDialog::NewProjectDialog(QWidget *parent)
-    : QDialog(parent),
-      m_ui(new Ui::NewProjectDialog()),
+    : QDialog(parent), m_ui(new Ui::NewProjectDialog()),
       m_preferences(new Preferences)
 {
   m_ui->setupUi(this);
@@ -35,19 +35,18 @@ NewProjectDialog::NewProjectDialog(QWidget *parent)
   retranslateUi();
 }
 
-NewProjectDialog::~NewProjectDialog()
-{
-  writeSettings();
-}
+NewProjectDialog::~NewProjectDialog() { writeSettings(); }
 
 std::unique_ptr<api::IProject> NewProjectDialog::create()
 {
-  if (exec() != QDialog::Accepted)
-    return nullptr;
+  if (exec() != QDialog::Accepted) return nullptr;
 
 
-  auto format_helper = FormatHelper<ProjectFormatPro>{api::IFileFormat::Capability::Write};
-  auto format = format_helper.getFormats().isEmpty() ? nullptr : format_helper.getFormats().front();
+  auto format_helper =
+    FormatHelper<ProjectFormatPro>{api::IFileFormat::Capability::Write};
+  auto format = format_helper.getFormats().isEmpty()
+                  ? nullptr
+                  : format_helper.getFormats().front();
 
   QString error = tr("Wrong project format");
   if (format)
@@ -58,10 +57,10 @@ std::unique_ptr<api::IProject> NewProjectDialog::create()
 
     const auto name = m_ui->m_project_name_edit->text();
     const auto path = m_ui->m_project_path_edit->text();
-    const auto file_name = QDir(path).filePath(name + "." + format->getShortName());
+    const auto file_name =
+      QDir(path).filePath(name + "." + format->getShortName());
 
-    if (project->save(file_name, &error))
-      return project;
+    if (project->save(file_name, &error)) return project;
   }
 
   QMessageBox::critical(this, tr("Error Project Creation"), error);
@@ -73,8 +72,7 @@ void NewProjectDialog::projectNameChanged()
   const auto name = m_ui->m_project_name_edit->text();
 
   auto error_message = QString{};
-  if (name.isEmpty())
-    error_message = tr("Please enter some name");
+  if (name.isEmpty()) error_message = tr("Please enter some name");
 
   m_ui->m_project_name_error_message->setVisible(!error_message.isEmpty());
   m_ui->m_project_name_error_message->setText(error_message);
@@ -89,7 +87,8 @@ void NewProjectDialog::projectPathChanged()
   auto file_info = QFileInfo{path};
   auto dir = QDir{path};
 
-  auto path_is_incorrect = !file_info.exists() || ((!file_info.isDir()) || (!file_info.isWritable()));
+  auto path_is_incorrect =
+    !file_info.exists() || ((!file_info.isDir()) || (!file_info.isWritable()));
   auto dir_is_empty = !dir.isEmpty();
 
   auto error_message = QString{};
@@ -134,10 +133,13 @@ void NewProjectDialog::initUi()
 
 void NewProjectDialog::initConnections()
 {
-  connect(m_ui->m_project_name_edit, &QLineEdit::textChanged, this, &NewProjectDialog::projectNameChanged);
-  connect(m_ui->m_project_path_edit, &QLineEdit::textChanged, this, &NewProjectDialog::projectPathChanged);
+  connect(m_ui->m_project_name_edit, &QLineEdit::textChanged, this,
+          &NewProjectDialog::projectNameChanged);
+  connect(m_ui->m_project_path_edit, &QLineEdit::textChanged, this,
+          &NewProjectDialog::projectPathChanged);
 
-  connect(m_ui->m_create_button, &QPushButton::pressed, this, &NewProjectDialog::accept);
+  connect(m_ui->m_create_button, &QPushButton::pressed, this,
+          &NewProjectDialog::accept);
 }
 
 void NewProjectDialog::retranslateUi()
@@ -154,6 +156,8 @@ void NewProjectDialog::writeSettings()
 
 void NewProjectDialog::readSettings()
 {
-  auto new_project_dialog_geometry = m_preferences->new_project_dialog_geometry.get();
-  if (!new_project_dialog_geometry.isNull()) restoreGeometry(new_project_dialog_geometry);
+  auto new_project_dialog_geometry =
+    m_preferences->new_project_dialog_geometry.get();
+  if (!new_project_dialog_geometry.isNull())
+    restoreGeometry(new_project_dialog_geometry);
 }

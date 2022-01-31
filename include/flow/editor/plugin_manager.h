@@ -45,8 +45,7 @@ void PluginManager::forEach(const std::function<void(TYPE *)> &function)
 {
   for (auto object : m_objects)
   {
-    if (auto result = qobject_cast<TYPE *>(object); result)
-      function(result);
+    if (auto result = qobject_cast<TYPE *>(object); result) function(result);
   }
 }
 
@@ -57,8 +56,7 @@ TYPE *PluginManager::forOne(const std::function<bool(TYPE *)> &function)
   {
     if (auto result = qobject_cast<TYPE *>(object); result)
     {
-      if (function(result))
-        return result;
+      if (function(result)) return result;
     }
   }
 

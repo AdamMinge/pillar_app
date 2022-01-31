@@ -2,20 +2,17 @@
 #include "flow/editor/plugin_manager.h"
 /* -------------------------------------------------------------------------- */
 
-QScopedPointer<PluginManager> PluginManager::m_instance = QScopedPointer<PluginManager>(nullptr);
+QScopedPointer<PluginManager> PluginManager::m_instance =
+  QScopedPointer<PluginManager>(nullptr);
 
 PluginManager &PluginManager::getInstance()
 {
-  if (m_instance.isNull())
-    m_instance.reset(new PluginManager);
+  if (m_instance.isNull()) m_instance.reset(new PluginManager);
 
   return *m_instance;
 }
 
-void PluginManager::deleteInstance()
-{
-  m_instance.reset(nullptr);
-}
+void PluginManager::deleteInstance() { m_instance.reset(nullptr); }
 
 PluginManager::~PluginManager() = default;
 

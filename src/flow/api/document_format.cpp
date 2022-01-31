@@ -5,10 +5,7 @@
 namespace api
 {
 
-  IDocumentFormat::IDocumentFormat(QObject *parent)
-      : IFileFormat(parent)
-  {
-  }
+  IDocumentFormat::IDocumentFormat(QObject *parent) : IFileFormat(parent) {}
 
   IDocumentFormat::~IDocumentFormat() = default;
 

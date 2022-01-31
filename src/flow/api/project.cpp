@@ -8,10 +8,7 @@
 namespace api
 {
 
-  IProject::IProject(QObject *parent)
-      : QObject(parent)
-  {
-  }
+  IProject::IProject(QObject *parent) : QObject(parent) {}
 
   IProject::~IProject() = default;
 

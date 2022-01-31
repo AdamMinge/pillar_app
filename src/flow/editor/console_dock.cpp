@@ -18,8 +18,7 @@ void ConsoleOutputWidget::contextMenuEvent(QContextMenuEvent *event)
   std::unique_ptr<QMenu> menu{createStandardContextMenu(event->pos())};
 
   menu->addSeparator();
-  menu->addAction(tr("Clear Console"),
-                  this, &QPlainTextEdit::clear);
+  menu->addAction(tr("Clear Console"), this, &QPlainTextEdit::clear);
 
   menu->exec(event->globalPos());
 }
@@ -27,8 +26,7 @@ void ConsoleOutputWidget::contextMenuEvent(QContextMenuEvent *event)
 /* -------------------------------- ConsoleDock ----------------------------- */
 
 ConsoleDock::ConsoleDock(QWidget *parent)
-    : QDockWidget(parent),
-      m_plain_text_edit(new ConsoleOutputWidget()),
+    : QDockWidget(parent), m_plain_text_edit(new ConsoleOutputWidget()),
       m_line_edit_with_history(new utils::QtLineEditWithHistory()),
       m_clear_button(new QPushButton(tr("Clear Console")))
 {
@@ -60,15 +58,22 @@ ConsoleDock::ConsoleDock(QWidget *parent)
   auto next_shortcut = new QShortcut(Qt::Key_Down, m_line_edit_with_history,
                                      nullptr, nullptr, Qt::WidgetShortcut);
 
-  connect(m_line_edit_with_history, &QLineEdit::returnPressed, this, &ConsoleDock::executeScript);
-  connect(prev_shortcut, &QShortcut::activated, m_line_edit_with_history, &utils::QtLineEditWithHistory::movePrev);
-  connect(next_shortcut, &QShortcut::activated, m_line_edit_with_history, &utils::QtLineEditWithHistory::moveNext);
-  connect(m_clear_button, &QPushButton::pressed, m_plain_text_edit, &QPlainTextEdit::clear);
+  connect(m_line_edit_with_history, &QLineEdit::returnPressed, this,
+          &ConsoleDock::executeScript);
+  connect(prev_shortcut, &QShortcut::activated, m_line_edit_with_history,
+          &utils::QtLineEditWithHistory::movePrev);
+  connect(next_shortcut, &QShortcut::activated, m_line_edit_with_history,
+          &utils::QtLineEditWithHistory::moveNext);
+  connect(m_clear_button, &QPushButton::pressed, m_plain_text_edit,
+          &QPlainTextEdit::clear);
 
   auto &logging_manager = LoggingManager::getInstance();
-  connect(&logging_manager, &LoggingManager::onInfoIssueReport, this, &ConsoleDock::onInfoIssueReport);
-  connect(&logging_manager, &LoggingManager::onWarningIssueReport, this, &ConsoleDock::onWarningIssueReport);
-  connect(&logging_manager, &LoggingManager::onErrorIssueReport, this, &ConsoleDock::onErrorIssueReport);
+  connect(&logging_manager, &LoggingManager::onInfoIssueReport, this,
+          &ConsoleDock::onInfoIssueReport);
+  connect(&logging_manager, &LoggingManager::onWarningIssueReport, this,
+          &ConsoleDock::onWarningIssueReport);
+  connect(&logging_manager, &LoggingManager::onErrorIssueReport, this,
+          &ConsoleDock::onErrorIssueReport);
 
   retranslateUi();
 }
@@ -91,26 +96,23 @@ void ConsoleDock::changeEvent(QEvent *event)
 
 void ConsoleDock::onInfoIssueReport(const Issue &issue)
 {
-  m_plain_text_edit->appendHtml(
-    QLatin1String("<pre>") +
-    issue.getText().toHtmlEscaped() +
-    QLatin1String("</pre>"));
+  m_plain_text_edit->appendHtml(QLatin1String("<pre>") +
+                                issue.getText().toHtmlEscaped() +
+                                QLatin1String("</pre>"));
 }
 
 void ConsoleDock::onWarningIssueReport(const Issue &issue)
 {
-  m_plain_text_edit->appendHtml(
-    QLatin1String("<pre style='color:orange'>") +
-    issue.getText().toHtmlEscaped() +
-    QLatin1String("</pre>"));
+  m_plain_text_edit->appendHtml(QLatin1String("<pre style='color:orange'>") +
+                                issue.getText().toHtmlEscaped() +
+                                QLatin1String("</pre>"));
 }
 
 void ConsoleDock::onErrorIssueReport(const Issue &issue)
 {
-  m_plain_text_edit->appendHtml(
-    QLatin1String("<pre style='color:red'>") +
-    issue.getText().toHtmlEscaped() +
-    QLatin1String("</pre>"));
+  m_plain_text_edit->appendHtml(QLatin1String("<pre style='color:red'>") +
+                                issue.getText().toHtmlEscaped() +
+                                QLatin1String("</pre>"));
 }
 
 void ConsoleDock::executeScript()
@@ -119,7 +121,4 @@ void ConsoleDock::executeScript()
   m_line_edit_with_history->appendToHistory(m_line_edit_with_history->text());
 }
 
-void ConsoleDock::retranslateUi()
-{
-  setWindowTitle(tr("Console"));
-}
+void ConsoleDock::retranslateUi() { setWindowTitle(tr("Console")); }
