@@ -18,8 +18,9 @@
 /* -------------------------------------------------------------------------- */
 
 ProjectDock::ProjectDock(QWidget *parent)
-    : QDockWidget(parent), m_current_project(nullptr), m_view(new QTreeView(this)),
-      m_model(new QFileSystemModel(this)), m_proxy(new utils::FileSystemProxyModel(this)),
+    : QDockWidget(parent), m_current_project(nullptr),
+      m_view(new QTreeView(this)), m_model(new QFileSystemModel(this)),
+      m_proxy(new utils::FileSystemProxyModel(this)),
       m_icon_provider(new QFileIconProvider())
 {
   setObjectName(QLatin1String("Project"));
@@ -38,7 +39,9 @@ void ProjectDock::setProject(api::IProject *project)
 
   m_current_project = project;
 
-  const auto dir = m_current_project ? QFileInfo{m_current_project->getFileName()}.dir() : QDir{};
+  const auto dir = m_current_project
+                     ? QFileInfo{m_current_project->getFileName()}.dir()
+                     : QDir{};
   auto upDir = dir;
   upDir.cdUp();
 
@@ -85,7 +88,8 @@ void ProjectDock::initUi()
 void ProjectDock::initConnections()
 {
   connect(m_view, &QTreeView::activated, this, &ProjectDock::openDocument);
-  connect(m_view, &QTreeView::customContextMenuRequested, this, &ProjectDock::openContextMenu);
+  connect(m_view, &QTreeView::customContextMenuRequested, this,
+          &ProjectDock::openContextMenu);
 }
 
 void ProjectDock::retranslateUi() { setWindowTitle(tr("Project")); }
@@ -102,16 +106,19 @@ void ProjectDock::removeFile(const QModelIndex &index)
   const auto path = index.data(QFileSystemModel::FilePathRole).toString();
   const auto is_file = QFileInfo(path).isFile();
 
-  const auto message_title = is_file ? tr("Delete File") : tr("Delete Directory");
+  const auto message_title =
+    is_file ? tr("Delete File") : tr("Delete Directory");
   const auto question_message =
     is_file ? tr("Are you sure that you want to permanently delete this file?")
             : tr("Are you sure that you want to permanently delete this "
                  "directory and all its contents?");
-  const auto information_message =
-    is_file ? tr("Failed to delete the file!") : tr("Failed to delete the directory!");
+  const auto information_message = is_file
+                                     ? tr("Failed to delete the file!")
+                                     : tr("Failed to delete the directory!");
 
-  auto ret = QMessageBox::question(this, message_title, question_message,
-                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+  auto ret =
+    QMessageBox::question(this, message_title, question_message,
+                          QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
 
   if (ret == QMessageBox::Yes)
   {
@@ -136,7 +143,8 @@ void ProjectDock::openContextMenu(const QPoint &position)
 {
   const auto index = m_view->indexAt(position);
   const auto file_path = index.data(QFileSystemModel::FilePathRole).toString();
-  const auto directory_index = QFileInfo(file_path).isFile() ? index.parent() : index;
+  const auto directory_index =
+    QFileInfo(file_path).isFile() ? index.parent() : index;
 
   QMenu menu;
   QMenu new_menu(tr("&New"));
@@ -154,15 +162,19 @@ void ProjectDock::openContextMenu(const QPoint &position)
 
     if (index != root_index)
     {
-      refactor_menu.addAction(tr("&Rename"), [this, index]() { renameFile(index); });
+      refactor_menu.addAction(tr("&Rename"),
+                              [this, index]() { renameFile(index); });
       refactor_menu.addSeparator();
-      refactor_menu.addAction(tr("&Delete"), [this, index]() { removeFile(index); });
+      refactor_menu.addAction(tr("&Delete"),
+                              [this, index]() { removeFile(index); });
     }
 
-    open_in_menu.addAction(tr("&Files"), [this, directory_index]() { openFile(directory_index); });
+    open_in_menu.addAction(
+      tr("&Files"), [this, directory_index]() { openFile(directory_index); });
 
     if (QFileInfo(file_path).isFile())
-      open_in_menu.addAction(tr("&System Editor"), [this, index]() { openFile(index); });
+      open_in_menu.addAction(tr("&System Editor"),
+                             [this, index]() { openFile(index); });
   }
 
   if (!new_menu.isEmpty()) menu.addMenu(&new_menu);
@@ -180,5 +192,6 @@ void ProjectDock::openDocument(const QModelIndex &index)
   auto file_path = source_index.data(QFileSystemModel::FilePathRole).toString();
   auto file_info = QFileInfo(file_path);
 
-  if (file_info.isFile()) DocumentManager::getInstance().loadDocument(file_path);
+  if (file_info.isFile())
+    DocumentManager::getInstance().loadDocument(file_path);
 }

@@ -106,8 +106,7 @@ std::unique_ptr<api::IDocument> Document::load(const QString &file_name,
   }
 
   auto document = format->load(file_name, error);
-  if(!document)
-    return nullptr;
+  if (!document) return nullptr;
 
   document->setFileName(file_name);
 

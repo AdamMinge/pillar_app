@@ -41,13 +41,13 @@ private:
   void retranslateUi();
 
 private Q_SLOTS:
-  void openFile(const QModelIndex& index);
-  void removeFile(const QModelIndex& index);
-  void renameFile(const QModelIndex& index);
+  void openFile(const QModelIndex &index);
+  void removeFile(const QModelIndex &index);
+  void renameFile(const QModelIndex &index);
   void newDirectory();
 
-  void openContextMenu(const QPoint& position);
-  void openDocument(const QModelIndex& index);
+  void openContextMenu(const QPoint &position);
+  void openDocument(const QModelIndex &index);
 
 private:
   api::IProject *m_current_project;
