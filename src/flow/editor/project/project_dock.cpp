@@ -9,8 +9,8 @@
 #include <QTreeView>
 #include <QUrl>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/action_manager.h"
 #include "flow/editor/document/document_manager.h"
+#include "flow/editor/document/new_document_dialog.h"
 #include "flow/editor/project/project_dock.h"
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/api/project.h>
@@ -74,6 +74,7 @@ void ProjectDock::initUi()
   m_proxy->setSourceModel(m_model);
 
   m_view->setModel(m_proxy);
+  m_view->setHeaderHidden(true);
   m_view->setColumnHidden(1, true);
   m_view->setColumnHidden(2, true);
   m_view->setColumnHidden(3, true);
@@ -175,26 +176,39 @@ void ProjectDock::newDirectory(const QModelIndex &index)
   }
 }
 
+void ProjectDock::newDocument(const QModelIndex &index)
+{
+  Q_ASSERT(index.isValid());
+  const auto dir = QDir{index.data(QFileSystemModel::FilePathRole).toString()};
+
+  auto new_document_dialog =
+    QScopedPointer<NewDocumentDialog>(new NewDocumentDialog(this));
+  if (auto document = new_document_dialog->create(); document)
+    DocumentManager::getInstance().addDocument(std::move(document));
+}
+
 void ProjectDock::openContextMenu(const QPoint &position)
 {
   const auto index = m_view->indexAt(position);
   const auto file_path = index.data(QFileSystemModel::FilePathRole).toString();
   const auto directory_index =
     QFileInfo(file_path).isFile() ? index.parent() : index;
+  const auto valid_directory_index =
+    directory_index.isValid()
+      ? directory_index
+      : m_proxy->mapFromSource(m_model->index(m_model->rootPath()));
 
   QMenu menu;
   QMenu new_menu(tr("&New"));
   QMenu refactor_menu(tr("&Refactor"));
   QMenu open_in_menu(tr("&Open In"));
 
-  new_menu.addAction(ActionManager::getInstance().findAction("new_document"));
+  new_menu.addAction(tr("&Document"), [this, valid_directory_index]() {
+    newDocument(valid_directory_index);
+  });
   new_menu.addSeparator();
-  new_menu.addAction(tr("&Directory"), [this, directory_index]() {
-    auto index = directory_index;
-    if (!directory_index.isValid())
-      index = m_proxy->mapFromSource(m_model->index(m_model->rootPath()));
-
-    newDirectory(index);
+  new_menu.addAction(tr("&Directory"), [this, valid_directory_index]() {
+    newDirectory(valid_directory_index);
   });
 
   if (index.isValid())
