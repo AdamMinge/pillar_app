@@ -3,6 +3,7 @@
 #include <QEvent>
 #include <QFileIconProvider>
 #include <QFileSystemModel>
+#include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
 #include <QTreeView>
@@ -106,6 +107,9 @@ void ProjectDock::removeFile(const QModelIndex &index)
   const auto path = index.data(QFileSystemModel::FilePathRole).toString();
   const auto is_file = QFileInfo(path).isFile();
 
+  auto remove_method =
+    is_file ? std::function<bool()>([&path]() { return QFile(path).remove(); })
+            : ([&path]() { return QDir(path).removeRecursively(); });
   const auto message_title =
     is_file ? tr("Delete File") : tr("Delete Directory");
   const auto question_message =
@@ -122,7 +126,7 @@ void ProjectDock::removeFile(const QModelIndex &index)
 
   if (ret == QMessageBox::Yes)
   {
-    if (is_file ? !QFile(path).remove() : !QDir(path).removeRecursively())
+    if (!remove_method())
       QMessageBox::information(this, message_title, information_message);
   }
 }
@@ -130,13 +134,44 @@ void ProjectDock::removeFile(const QModelIndex &index)
 void ProjectDock::renameFile(const QModelIndex &index)
 {
   Q_ASSERT(index.isValid());
-  const auto path = index.data(QFileSystemModel::FilePathRole).toString();
-  // TODO Implementation
+  const auto file_info =
+    QFileInfo{index.data(QFileSystemModel::FilePathRole).toString()};
+  const auto new_name =
+    QInputDialog::getText(this, tr("Rename File"), tr("New Name:"),
+                          QLineEdit::Normal, file_info.fileName());
+
+  if (!new_name.isEmpty() && new_name != file_info.fileName())
+  {
+    if (!QFile::rename(file_info.filePath(),
+                       QFileInfo{file_info.dir(), new_name}.filePath()))
+    {
+      QMessageBox::information(this, tr("Rename File"),
+                               tr("Failed to rename the file!"));
+    }
+  }
 }
 
-void ProjectDock::newDirectory()
+void ProjectDock::newDirectory(const QModelIndex &index)
 {
-  // TODO Implementation
+  Q_ASSERT(index.isValid());
+  const auto dir = QDir{index.data(QFileSystemModel::FilePathRole).toString()};
+
+  const auto new_name =
+    QInputDialog::getText(this, tr("Create Directory"), tr("Directory Name:"));
+
+  if (!new_name.isEmpty())
+  {
+    if (!dir.entryList(QStringList{} << new_name, QDir::Dirs).isEmpty())
+    {
+      QMessageBox::information(
+        this, tr("Create Directory"),
+        tr("A directory with that name already exists!"));
+    } else if (!dir.mkdir(new_name))
+    {
+      QMessageBox::information(this, tr("Create Directory"),
+                               tr("Failed to create the directory!"));
+    }
+  }
 }
 
 void ProjectDock::openContextMenu(const QPoint &position)
@@ -153,7 +188,13 @@ void ProjectDock::openContextMenu(const QPoint &position)
 
   new_menu.addAction(ActionManager::getInstance().findAction("new_document"));
   new_menu.addSeparator();
-  new_menu.addAction(tr("&Directory"), [this]() { newDirectory(); });
+  new_menu.addAction(tr("&Directory"), [this, directory_index]() {
+    auto index = directory_index;
+    if (!directory_index.isValid())
+      index = m_proxy->mapFromSource(m_model->index(m_model->rootPath()));
+
+    newDirectory(index);
+  });
 
   if (index.isValid())
   {
