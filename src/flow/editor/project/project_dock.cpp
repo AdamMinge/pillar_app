@@ -69,6 +69,7 @@ void ProjectDock::changeEvent(QEvent *event)
 void ProjectDock::initUi()
 {
   m_model->setIconProvider(m_icon_provider.get());
+  m_model->setReadOnly(false);
 
   m_proxy->setSourceModel(m_model);
 
