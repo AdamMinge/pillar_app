@@ -12,7 +12,9 @@ namespace utils
 {
 
   QtNameAndPathFiller::QtNameAndPathFiller(QWidget *parent)
-      : QWidget(parent), m_ui(new Ui::QtNameAndPathFiller)
+      : QWidget(parent), m_ui(new Ui::QtNameAndPathFiller),
+        m_name_validations(NameValidation::All),
+        m_path_validations(PathValidation::All)
   {
     initUi();
     initConnections();
@@ -21,6 +23,40 @@ namespace utils
   }
 
   QtNameAndPathFiller::~QtNameAndPathFiller() = default;
+
+  void QtNameAndPathFiller::setNameValidations(NameValidations validations)
+  {
+    m_name_validations = validations;
+    nameChanged();
+  }
+
+  QtNameAndPathFiller::NameValidations
+  QtNameAndPathFiller::getNameValidations() const
+  {
+    return m_name_validations;
+  }
+
+  void QtNameAndPathFiller::setPathValidations(PathValidations validations)
+  {
+    m_path_validations = validations;
+    pathChanged();
+  }
+
+  QtNameAndPathFiller::PathValidations
+  QtNameAndPathFiller::getPathValidations() const
+  {
+    return m_path_validations;
+  }
+
+  void QtNameAndPathFiller::setBrowserDir(const QDir &dir)
+  {
+    m_ui->m_path_edit->setBrowserDir(dir.path());
+  }
+
+  QDir QtNameAndPathFiller::getBrowserDir() const
+  {
+    return QDir{m_ui->m_path_edit->text()};
+  }
 
   QString QtNameAndPathFiller::getName() const
   {
@@ -58,7 +94,8 @@ namespace utils
     const auto name = m_ui->m_name_edit->text();
 
     auto error_message = QString{};
-    if (name.isEmpty()) error_message = tr("Please enter some name");
+    if (m_name_validations.testFlag(NameValidation::NotEmpty) && name.isEmpty())
+      error_message = getNameErrorMessage();
 
     m_ui->m_name_error_message->setText(error_message);
     m_ui->m_name_error_message->setVisible(!error_message.isEmpty());
@@ -74,13 +111,18 @@ namespace utils
     auto file_info = QFileInfo{path};
     auto dir = QDir{path};
 
-    auto path_is_incorrect = !file_info.exists() || ((!file_info.isDir()) ||
-                                                     (!file_info.isWritable()));
-    auto dir_is_empty = !dir.isEmpty();
+    auto path_is_empty =
+      m_path_validations.testFlag(PathValidation::NotEmpty) && path.isEmpty();
+    auto dir_is_not_empty =
+      m_path_validations.testFlag(PathValidation::DirIsEmpty) && !dir.isEmpty();
+    auto path_is_incorrect =
+      m_path_validations.testFlag(PathValidation::DirExists) &&
+      (!file_info.exists() ||
+       ((!file_info.isDir()) || (!file_info.isWritable())));
 
     auto error_message = QString{};
-    if (path_is_incorrect || dir_is_empty)
-      error_message = tr("Please choose an empty folder");
+    if(path_is_empty || dir_is_not_empty || path_is_incorrect)
+      error_message = getPathErrorMessage();
 
     m_ui->m_path_error_message->setText(error_message);
     m_ui->m_path_error_message->setVisible(!error_message.isEmpty());
@@ -109,5 +151,24 @@ namespace utils
   }
 
   void QtNameAndPathFiller::retranslateUi() { m_ui->retranslateUi(this); }
+
+  QString QtNameAndPathFiller::getNameErrorMessage() const
+  {
+    return m_name_validations ? tr("Please enter some name") : QString{};
+  }
+
+  QString QtNameAndPathFiller::getPathErrorMessage() const
+  {
+    auto error_message = QString{};
+
+    if (m_path_validations.testFlag(PathValidation::NotEmpty))
+      error_message = tr("Please enter some path");
+    if (m_path_validations.testFlag(PathValidation::DirExists))
+      error_message = tr("Please choose some folder");
+    if (m_path_validations.testFlag(PathValidation::DirIsEmpty))
+      error_message = tr("Please choose an empty folder");
+
+    return error_message;
+  }
 
 }// namespace utils

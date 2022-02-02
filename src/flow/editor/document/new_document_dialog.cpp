@@ -87,6 +87,10 @@ void NewDocumentDialog::initUi()
 {
   m_ui->setupUi(this);
 
+  m_ui->m_name_and_path_filler->setPathValidations(
+    utils::QtNameAndPathFiller::PathValidation::NotEmpty |
+    utils::QtNameAndPathFiller::PathValidation::DirExists);
+
   m_ui->m_document_type_list->setModel(m_document_types_model.get());
   m_ui->m_document_type_list->setItemDelegate(m_document_types_delegate.get());
 

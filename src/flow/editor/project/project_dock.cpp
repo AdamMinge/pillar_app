@@ -183,6 +183,7 @@ void ProjectDock::newDocument(const QModelIndex &index)
 
   auto new_document_dialog =
     QScopedPointer<NewDocumentDialog>(new NewDocumentDialog(this));
+
   if (auto document = new_document_dialog->create(); document)
     DocumentManager::getInstance().addDocument(std::move(document));
 }

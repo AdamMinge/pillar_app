@@ -156,7 +156,7 @@
 <context>
     <name>NewDocumentDialog</name>
     <message>
-        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="126"/>
+        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="130"/>
         <source>New Document</source>
         <translation type="unfinished"></translation>
     </message>
@@ -282,47 +282,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="202"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="203"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="203"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="204"/>
         <source>&amp;Refactor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="204"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="205"/>
         <source>&amp;Open In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="206"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="207"/>
         <source>&amp;Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="210"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="211"/>
         <source>&amp;Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="221"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="222"/>
         <source>&amp;Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="224"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="225"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="229"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="230"/>
         <source>&amp;Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="232"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="233"/>
         <source>&amp;System Editor</source>
         <translation type="unfinished"></translation>
     </message>
