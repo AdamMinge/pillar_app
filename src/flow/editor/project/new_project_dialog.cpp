@@ -26,8 +26,6 @@ NewProjectDialog::NewProjectDialog(QWidget *parent)
     : QDialog(parent), m_ui(new Ui::NewProjectDialog()),
       m_preferences(new Preferences)
 {
-  m_ui->setupUi(this);
-
   initUi();
   initConnections();
 
@@ -55,8 +53,8 @@ std::unique_ptr<api::IProject> NewProjectDialog::create()
     project->setWriterFormat(format);
     project->setWriterFormat(format);
 
-    const auto name = m_ui->m_project_name_edit->text();
-    const auto path = m_ui->m_project_path_edit->text();
+    const auto name = m_ui->m_name_and_path_filler->getName();
+    const auto path = m_ui->m_name_and_path_filler->getPath();
     const auto file_name =
       QDir(path).filePath(name + "." + format->getShortName());
 
@@ -65,46 +63,6 @@ std::unique_ptr<api::IProject> NewProjectDialog::create()
 
   QMessageBox::critical(this, tr("Error Project Creation"), error);
   return nullptr;
-}
-
-void NewProjectDialog::projectNameChanged()
-{
-  const auto name = m_ui->m_project_name_edit->text();
-
-  auto error_message = QString{};
-  if (name.isEmpty()) error_message = tr("Please enter some name");
-
-  m_ui->m_project_name_error_message->setVisible(!error_message.isEmpty());
-  m_ui->m_project_name_error_message->setText(error_message);
-
-  updateCreateButton();
-}
-
-void NewProjectDialog::projectPathChanged()
-{
-  const auto path = m_ui->m_project_path_edit->text();
-
-  auto file_info = QFileInfo{path};
-  auto dir = QDir{path};
-
-  auto path_is_incorrect =
-    !file_info.exists() || ((!file_info.isDir()) || (!file_info.isWritable()));
-  auto dir_is_empty = !dir.isEmpty();
-
-  auto error_message = QString{};
-  if (path_is_incorrect || dir_is_empty)
-    error_message = tr("Please choose an empty folder");
-
-  m_ui->m_project_path_error_message->setVisible(!error_message.isEmpty());
-  m_ui->m_project_path_error_message->setText(error_message);
-
-  updateCreateButton();
-}
-
-void NewProjectDialog::updateCreateButton()
-{
-  const auto path_error = m_ui->m_project_path_error_message->text();
-  m_ui->m_create_button->setEnabled(path_error.isEmpty());
 }
 
 void NewProjectDialog::changeEvent(QEvent *event)
@@ -121,25 +79,25 @@ void NewProjectDialog::changeEvent(QEvent *event)
   }
 }
 
+void NewProjectDialog::updateCreateButton()
+{
+  m_ui->m_create_button->setEnabled(m_ui->m_name_and_path_filler->isValid());
+}
 
 void NewProjectDialog::initUi()
 {
-  m_ui->m_project_path_edit->setBrowserCaption(tr("Select Project Directory"));
-  m_ui->m_project_path_edit->setBrowserDir(QString{});
+  m_ui->setupUi(this);
 
-  projectNameChanged();
-  projectPathChanged();
+  updateCreateButton();
 }
 
 void NewProjectDialog::initConnections()
 {
-  connect(m_ui->m_project_name_edit, &QLineEdit::textChanged, this,
-          &NewProjectDialog::projectNameChanged);
-  connect(m_ui->m_project_path_edit, &QLineEdit::textChanged, this,
-          &NewProjectDialog::projectPathChanged);
-
   connect(m_ui->m_create_button, &QPushButton::pressed, this,
           &NewProjectDialog::accept);
+  connect(m_ui->m_name_and_path_filler,
+          &utils::QtNameAndPathFiller::validStateChanged, this,
+          &NewProjectDialog::updateCreateButton);
 }
 
 void NewProjectDialog::retranslateUi()

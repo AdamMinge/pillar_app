@@ -156,17 +156,7 @@
 <context>
     <name>NewDocumentDialog</name>
     <message>
-        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="88"/>
-        <source>Please enter some name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="106"/>
-        <source>Please choose any folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="164"/>
+        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="126"/>
         <source>New Document</source>
         <translation type="unfinished"></translation>
     </message>
@@ -174,32 +164,17 @@
 <context>
     <name>NewProjectDialog</name>
     <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="51"/>
+        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="49"/>
         <source>Wrong project format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="66"/>
+        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="64"/>
         <source>Error Project Creation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="75"/>
-        <source>Please enter some name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="96"/>
-        <source>Please choose an empty folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="127"/>
-        <source>Select Project Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="149"/>
+        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="107"/>
         <source>New Project</source>
         <translation type="unfinished"></translation>
     </message>

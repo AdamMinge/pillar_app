@@ -31,6 +31,9 @@ public:
 protected:
   void changeEvent(QEvent *event) override;
 
+private Q_SLOTS:
+  void updateCreateButton();
+
 private:
   void initUi();
   void initConnections();
@@ -39,11 +42,6 @@ private:
 
   void writeSettings();
   void readSettings();
-
-private Q_SLOTS:
-  void projectNameChanged();
-  void projectPathChanged();
-  void updateCreateButton();
 
 private:
   static const QString template_error_message;

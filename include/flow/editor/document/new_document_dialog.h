@@ -33,9 +33,6 @@ protected:
 
 private Q_SLOTS:
   void documentTypeChanged(const QModelIndex &index);
-
-  void documentNameChanged();
-  void documentPathChanged();
   void updateCreateButton();
 
 private:

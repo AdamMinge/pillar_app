@@ -26,8 +26,6 @@ NewDocumentDialog::NewDocumentDialog(QWidget *parent)
       m_document_types_model(new DocumentTypeListModel()),
       m_document_types_delegate(new DocumentTypeListDelegate())
 {
-  m_ui->setupUi(this);
-
   initUi();
   initConnections();
 
@@ -80,45 +78,15 @@ void NewDocumentDialog::documentTypeChanged(const QModelIndex &index)
           m_ui->m_create_button, &QPushButton::setEnabled);
 }
 
-void NewDocumentDialog::documentNameChanged()
-{
-  const auto name = m_ui->m_document_name_edit->text();
-
-  auto error_message = QString{};
-  if (name.isEmpty()) error_message = tr("Please enter some name");
-
-  m_ui->m_document_name_error_message->setVisible(!error_message.isEmpty());
-  m_ui->m_document_name_error_message->setText(error_message);
-
-  updateCreateButton();
-}
-
-void NewDocumentDialog::documentPathChanged()
-{
-  const auto path = m_ui->m_document_path_edit->text();
-
-  auto file_info = QFileInfo{path};
-  auto path_is_incorrect =
-    !file_info.exists() || ((!file_info.isDir()) || (!file_info.isWritable()));
-
-  auto error_message = QString{};
-  if (path_is_incorrect)
-    error_message = tr("Please choose any folder");
-
-  m_ui->m_document_path_error_message->setVisible(!error_message.isEmpty());
-  m_ui->m_document_path_error_message->setText(error_message);
-
-  updateCreateButton();
-}
-
 void NewDocumentDialog::updateCreateButton()
 {
-  const auto path_error = m_ui->m_document_path_error_message->text();
-  m_ui->m_create_button->setEnabled(path_error.isEmpty());
+  m_ui->m_create_button->setEnabled(m_ui->m_name_and_path_filler->isValid());
 }
 
 void NewDocumentDialog::initUi()
 {
+  m_ui->setupUi(this);
+
   m_ui->m_document_type_list->setModel(m_document_types_model.get());
   m_ui->m_document_type_list->setItemDelegate(m_document_types_delegate.get());
 
@@ -136,8 +104,7 @@ void NewDocumentDialog::initUi()
 
   m_ui->m_document_type_list->setCurrentIndex(m_document_types_model->index(0));
 
-  documentNameChanged();
-  documentPathChanged();
+  updateCreateButton();
 }
 
 void NewDocumentDialog::initConnections()
@@ -147,14 +114,9 @@ void NewDocumentDialog::initConnections()
   connect(m_ui->m_document_type_list->selectionModel(),
           &QItemSelectionModel::currentChanged, this,
           &NewDocumentDialog::documentTypeChanged);
-
-  connect(m_ui->m_document_name_edit, &QLineEdit::textChanged, this,
-          &NewDocumentDialog::documentNameChanged);
-  connect(m_ui->m_document_path_edit, &QLineEdit::textChanged, this,
-          &NewDocumentDialog::documentPathChanged);
-
-  connect(m_ui->m_create_button, &QPushButton::pressed, this,
-          &NewDocumentDialog::accept);
+  connect(m_ui->m_name_and_path_filler,
+          &utils::QtNameAndPathFiller::validStateChanged, this,
+          &NewDocumentDialog::updateCreateButton);
 }
 
 void NewDocumentDialog::retranslateUi()

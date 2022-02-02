@@ -12,4 +12,5 @@ add_subdirectory(line_edit)
 add_subdirectory(property_browser)
 add_subdirectory(view)
 add_subdirectory(archive)
+add_subdirectory(widget)
 # -------------------------------------------------------------------------------------------------- #

@@ -152,7 +152,8 @@ flow_add_application(editor
         utils::line_edit
         utils::property_browser
         utils::view
-        utils::archive)
+        utils::archive
+        utils::widget)
 
 flow_add_translations(editor
         QM_DIR ${resources_root}/translations/
