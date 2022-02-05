@@ -121,7 +121,7 @@ namespace utils
        ((!file_info.isDir()) || (!file_info.isWritable())));
 
     auto error_message = QString{};
-    if(path_is_empty || dir_is_not_empty || path_is_incorrect)
+    if (path_is_empty || dir_is_not_empty || path_is_incorrect)
       error_message = getPathErrorMessage();
 
     m_ui->m_path_error_message->setText(error_message);
