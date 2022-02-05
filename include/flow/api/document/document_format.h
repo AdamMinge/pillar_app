@@ -5,7 +5,7 @@
 #include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
 
   class IDocument;
@@ -24,6 +24,6 @@ namespace api
                       QString *error) = 0;
   };
 
-}// namespace api
+}// namespace api::document
 
 #endif//FLOW_INTERFACE_DOCUMENT_FORMAT_H

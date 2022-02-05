@@ -6,7 +6,7 @@
 #include <QObject>
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
   class IDocument;
 }
@@ -34,12 +34,13 @@ public:
 public:
   ~DocumentEditor() override;
 
-  virtual void setCurrentDocument(api::IDocument *document) = 0;
+  virtual void setCurrentDocument(api::document::IDocument *document) = 0;
 
-  virtual void addDocument(api::IDocument *document) = 0;
-  virtual void removeDocument(api::IDocument *document) = 0;
+  virtual void addDocument(api::document::IDocument *document) = 0;
+  virtual void removeDocument(api::document::IDocument *document) = 0;
 
-  [[nodiscard]] virtual api::IDocument *getCurrentDocument() const = 0;
+  [[nodiscard]] virtual api::document::IDocument *
+  getCurrentDocument() const = 0;
   [[nodiscard]] virtual QWidget *getEditorWidget() const = 0;
 
   virtual void saveState() = 0;

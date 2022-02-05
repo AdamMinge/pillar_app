@@ -1,9 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/api/project_format.h"
-#include "flow/api/project.h"
+#include "flow/api/project/project_format.h"
+#include "flow/api/project/project.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::project
 {
 
   /* ------------------------------- ProjectFormat ---------------------------- */
@@ -56,4 +56,4 @@ namespace api
     return Capability::Write;
   }
 
-}//namespace api
+}//namespace api::project

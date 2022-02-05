@@ -21,13 +21,13 @@ ProjectManager::ProjectManager() : m_current_project(nullptr) {}
 
 ProjectManager::~ProjectManager() = default;
 
-void ProjectManager::addProject(std::unique_ptr<api::IProject> project)
+void ProjectManager::addProject(std::unique_ptr<api::project::IProject> project)
 {
   insertProject(static_cast<int>(m_projects.size()), std::move(project));
 }
 
-void ProjectManager::insertProject(int index,
-                                   std::unique_ptr<api::IProject> project)
+void ProjectManager::insertProject(
+  int index, std::unique_ptr<api::project::IProject> project)
 {
   Q_ASSERT(project);
   auto project_ptr = project.get();
@@ -56,7 +56,7 @@ void ProjectManager::removeAllProjects()
   while (!m_projects.empty()) removeProject(0);
 }
 
-api::IProject *ProjectManager::getProject(int index) const
+api::project::IProject *ProjectManager::getProject(int index) const
 {
   if (index < m_projects.size() && index >= 0)
     return m_projects.at(index).get();
@@ -64,12 +64,12 @@ api::IProject *ProjectManager::getProject(int index) const
   return nullptr;
 }
 
-api::IProject *ProjectManager::getCurrentProject() const
+api::project::IProject *ProjectManager::getCurrentProject() const
 {
   return m_current_project;
 }
 
-int ProjectManager::findProject(api::IProject *project) const
+int ProjectManager::findProject(api::project::IProject *project) const
 {
   auto found = std::find_if(m_projects.begin(), m_projects.end(),
                             [project](auto &current_project) {
@@ -100,7 +100,7 @@ void ProjectManager::switchToProject(int index)
   return switchToProject(found_project);
 }
 
-void ProjectManager::switchToProject(api::IProject *project)
+void ProjectManager::switchToProject(api::project::IProject *project)
 {
   if (m_current_project == project) return;
 

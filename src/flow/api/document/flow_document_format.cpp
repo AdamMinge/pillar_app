@@ -1,9 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/api/flow_document_format.h"
-#include "flow/api/document.h"
+#include "flow/api/document/flow_document_format.h"
+#include "flow/api/document/document.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
 
   /* ------------------------------- FlowDocumentFormat --------------------------- */
@@ -59,4 +59,4 @@ namespace api
     return Capability::Write;
   }
 
-}//namespace api
+}//namespace api::document

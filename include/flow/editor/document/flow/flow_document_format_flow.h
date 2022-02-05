@@ -2,10 +2,10 @@
 #define FLOW_DOCUMENT_FORMAT_FLOW_H
 
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/flow_document_format.h"
+#include "flow/api/document/flow_document_format.h"
 /* -------------------------------------------------------------------------- */
 
-class FlowDocumentFormatFlow : public api::IFlowDocumentFormat
+class FlowDocumentFormatFlow : public api::document::IFlowDocumentFormat
 {
   Q_OBJECT
 
@@ -17,9 +17,9 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<api::IDocument> load(const QString &file_name,
-                                       QString *error) override;
-  bool save(const api::IDocument &document, const QString &file_name,
+  std::unique_ptr<api::document::IDocument> load(const QString &file_name,
+                                                 QString *error) override;
+  bool save(const api::document::IDocument &document, const QString &file_name,
             QString *error) override;
 };
 

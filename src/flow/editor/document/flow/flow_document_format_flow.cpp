@@ -34,14 +34,14 @@ bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const
   return false;
 }
 
-std::unique_ptr<api::IDocument>
+std::unique_ptr<api::document::IDocument>
 FlowDocumentFormatFlow::load(const QString &file_name, QString *error)
 {
   FlowDocumentReader document_reader;
   return document_reader.read(file_name, error);
 }
 
-bool FlowDocumentFormatFlow::save(const api::IDocument &document,
+bool FlowDocumentFormatFlow::save(const api::document::IDocument &document,
                                   const QString &file_name, QString *error)
 {
   FlowDocumentWriter document_writer;

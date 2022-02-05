@@ -23,7 +23,8 @@ NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
 
 NewFlowDocumentWidget::~NewFlowDocumentWidget() = default;
 
-std::unique_ptr<api::IDocument> NewFlowDocumentWidget::createDocument() const
+std::unique_ptr<api::document::IDocument>
+NewFlowDocumentWidget::createDocument() const
 {
   if (!isValid()) return nullptr;
 

@@ -10,20 +10,24 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow/api)
 
 set(sources
         ${source_root}/file_format.cpp
-        ${source_root}/project.cpp
-        ${source_root}/project_format.cpp
-        ${source_root}/document.cpp
-        ${source_root}/document_format.cpp
-        ${source_root}/flow_document_format.cpp)
+
+        ${source_root}/project/project.cpp
+        ${source_root}/project/project_format.cpp
+
+        ${source_root}/document/document.cpp
+        ${source_root}/document/document_format.cpp
+        ${source_root}/document/flow_document_format.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/file_format.h
-        ${include_root}/project.h
-        ${include_root}/project_format.h
-        ${include_root}/document.h
-        ${include_root}/document_format.h
-        ${include_root}/flow_document_format.h)
+
+        ${include_root}/project/project.h
+        ${include_root}/project/project_format.h
+
+        ${include_root}/document/document.h
+        ${include_root}/document/document_format.h
+        ${include_root}/document/flow_document_format.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

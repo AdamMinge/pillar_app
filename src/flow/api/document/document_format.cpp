@@ -1,12 +1,12 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/api/document_format.h"
+#include "flow/api/document/document_format.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
 
   IDocumentFormat::IDocumentFormat(QObject *parent) : IFileFormat(parent) {}
 
   IDocumentFormat::~IDocumentFormat() = default;
 
-}//namespace api
+}//namespace api::document

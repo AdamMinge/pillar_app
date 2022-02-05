@@ -201,7 +201,7 @@ void MainWindow::openAbout()
   m_about_dialog->raise();
 }
 
-void MainWindow::currentProjectChanged(api::IProject *project)
+void MainWindow::currentProjectChanged(api::project::IProject *project)
 {
   auto prev_current_widget = m_stacked_widget->currentWidget();
   auto next_current_widget = project

@@ -38,7 +38,7 @@ FlowEditor::FlowEditor(QObject *parent)
 
 FlowEditor::~FlowEditor() = default;
 
-void FlowEditor::setCurrentDocument(api::IDocument *document)
+void FlowEditor::setCurrentDocument(api::document::IDocument *document)
 {
   if (m_current_document == document) return;
 
@@ -50,7 +50,7 @@ void FlowEditor::setCurrentDocument(api::IDocument *document)
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
 }
 
-void FlowEditor::addDocument(api::IDocument *document)
+void FlowEditor::addDocument(api::document::IDocument *document)
 {
   auto flow_document = dynamic_cast<FlowDocument *>(document);
   Q_ASSERT(flow_document);
@@ -64,7 +64,7 @@ void FlowEditor::addDocument(api::IDocument *document)
   m_scene_stack->addWidget(view);
 }
 
-void FlowEditor::removeDocument(api::IDocument *document)
+void FlowEditor::removeDocument(api::document::IDocument *document)
 {
   auto flow_document = dynamic_cast<FlowDocument *>(document);
   Q_ASSERT(flow_document);
@@ -78,7 +78,7 @@ void FlowEditor::removeDocument(api::IDocument *document)
   view->deleteLater();
 }
 
-api::IDocument *FlowEditor::getCurrentDocument() const
+api::document::IDocument *FlowEditor::getCurrentDocument() const
 {
   return m_current_document;
 }

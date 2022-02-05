@@ -2,10 +2,10 @@
 #define FLOW_PROJECT_FORMAT_PRO_H
 
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/project_format.h"
+#include "flow/api/project/project_format.h"
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormatPro : public api::IProjectFormat
+class ProjectFormatPro : public api::project::IProjectFormat
 {
   Q_OBJECT
 
@@ -17,9 +17,9 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<api::IProject> load(const QString &file_name,
-                                      QString *error) override;
-  bool save(const api::IProject &project, const QString &file_name,
+  std::unique_ptr<api::project::IProject> load(const QString &file_name,
+                                               QString *error) override;
+  bool save(const api::project::IProject &project, const QString &file_name,
             QString *error) override;
 };
 

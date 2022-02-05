@@ -35,7 +35,7 @@ NewDocumentDialog::NewDocumentDialog(QWidget *parent)
 
 NewDocumentDialog::~NewDocumentDialog() { writeSettings(); }
 
-std::unique_ptr<api::IDocument> NewDocumentDialog::create()
+std::unique_ptr<api::document::IDocument> NewDocumentDialog::create()
 {
   if (exec() != QDialog::Accepted) return nullptr;
 
@@ -63,7 +63,7 @@ void NewDocumentDialog::changeEvent(QEvent *event)
 void NewDocumentDialog::documentTypeChanged(const QModelIndex &index)
 {
   auto document_type = index.data(DocumentTypeListModel::Role::DocumentTypeRole)
-                         .value<api::IDocument::Type>();
+                         .value<api::document::IDocument::Type>();
 
   auto prev_widget =
     dynamic_cast<NewDocumentWidget *>(m_ui->m_stacked_widget->currentWidget());
@@ -98,13 +98,13 @@ void NewDocumentDialog::initUi()
   m_document_types_delegate->setMargins(QMargins(10, 5, 10, 5));
   m_document_types_delegate->setSpacing(10, 15);
 
-  m_document_create_widgets[api::IDocument::Type::Flow] =
+  m_document_create_widgets[api::document::IDocument::Type::Flow] =
     new NewFlowDocumentWidget(this);
 
   m_ui->m_stacked_widget->addWidget(
-    m_document_create_widgets[api::IDocument::Type::Flow]);
+    m_document_create_widgets[api::document::IDocument::Type::Flow]);
   m_ui->m_stacked_widget->setCurrentWidget(
-    m_document_create_widgets[api::IDocument::Type::Flow]);
+    m_document_create_widgets[api::document::IDocument::Type::Flow]);
 
   m_ui->m_document_type_list->setCurrentIndex(m_document_types_model->index(0));
 

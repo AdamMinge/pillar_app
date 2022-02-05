@@ -4,7 +4,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDialog>
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document.h"
+#include "flow/api/document/document.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -26,7 +26,7 @@ public:
   explicit NewDocumentDialog(QWidget *parent = nullptr);
   ~NewDocumentDialog() override;
 
-  [[nodiscard]] std::unique_ptr<api::IDocument> create();
+  [[nodiscard]] std::unique_ptr<api::document::IDocument> create();
 
 protected:
   void changeEvent(QEvent *event) override;
@@ -51,7 +51,8 @@ private:
   QScopedPointer<DocumentTypeListModel> m_document_types_model;
   QScopedPointer<DocumentTypeListDelegate> m_document_types_delegate;
 
-  std::map<api::IDocument::Type, NewDocumentWidget *> m_document_create_widgets;
+  std::map<api::document::IDocument::Type, NewDocumentWidget *>
+    m_document_create_widgets;
 };
 
 #endif//FLOW_NEW_DOCUMENT_DIALOG_H

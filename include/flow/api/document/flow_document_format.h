@@ -2,10 +2,10 @@
 #define FLOW_INTERFACE_FLOW_DOCUMENT_FORMAT_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/api/document_format.h"
+#include "document_format.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
 
   class IFlowDocumentFormat : public IDocumentFormat
@@ -43,6 +43,6 @@ namespace api
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 
-}// namespace api
+}// namespace api::document
 
 #endif//FLOW_INTERFACE_FLOW_DOCUMENT_FORMAT_H

@@ -4,7 +4,7 @@
 #include "flow/editor/document/document.h"
 #include "flow/editor/format_helper.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document_format.h>
+#include <flow/api/document/document_format.h>
 /* -------------------------------------------------------------------------- */
 
 Document::Document(Type type, QObject *parent)
@@ -45,26 +45,28 @@ bool Document::isModified() const { return !m_undo_stack->isClean(); }
 
 QUndoStack *Document::getUndoStack() const { return m_undo_stack; }
 
-api::IDocumentFormat *Document::getReaderFormat() const
+api::document::IDocumentFormat *Document::getReaderFormat() const
 {
-  return FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Read}
+  return FormatHelper<api::document::IDocumentFormat>{
+    api::IFileFormat::Capability::Read}
     .findFormatByShortName(m_read_format);
 }
 
-api::IDocumentFormat *Document::getWriterFormat() const
+api::document::IDocumentFormat *Document::getWriterFormat() const
 {
-  return FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Write}
+  return FormatHelper<api::document::IDocumentFormat>{
+    api::IFileFormat::Capability::Write}
     .findFormatByShortName(m_write_format);
 }
 
-void Document::setReaderFormat(api::IDocumentFormat *format)
+void Document::setReaderFormat(api::document::IDocumentFormat *format)
 {
   Q_ASSERT(format &&
            format->hasCapabilities(api::IFileFormat::Capability::Read));
   m_read_format = format->getShortName();
 }
 
-void Document::setWriterFormat(api::IDocumentFormat *format)
+void Document::setWriterFormat(api::document::IDocumentFormat *format)
 {
   Q_ASSERT(format &&
            format->hasCapabilities(api::IFileFormat::Capability::Write));
@@ -88,14 +90,14 @@ bool Document::save(const QString &file_name, QString *error)
   return true;
 }
 
-std::unique_ptr<api::IDocument> Document::load(const QString &file_name,
-                                               api::IDocumentFormat *format,
-                                               QString *error)
+std::unique_ptr<api::document::IDocument>
+Document::load(const QString &file_name, api::document::IDocumentFormat *format,
+               QString *error)
 {
   if (!format)
   {
-    auto format_helper =
-      FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Read};
+    auto format_helper = FormatHelper<api::document::IDocumentFormat>{
+      api::IFileFormat::Capability::Read};
     format = format_helper.findFormatByFileName(file_name);
   }
 

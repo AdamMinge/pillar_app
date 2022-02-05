@@ -16,8 +16,8 @@
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document_format.h>
-#include <flow/api/project_format.h>
+#include <flow/api/document/document_format.h>
+#include <flow/api/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
@@ -156,19 +156,19 @@ PreferencesManager &ProjectWindow::getPreferencesManager()
   return PreferencesManager::getInstance();
 }
 
-void ProjectWindow::documentChanged(api::IDocument *document)
+void ProjectWindow::documentChanged(api::document::IDocument *document)
 {
   updateActions();
   updateWindowTitle();
   updateRecentProjectFiles();
 }
 
-void ProjectWindow::projectChanged(api::IProject *project)
+void ProjectWindow::projectChanged(api::project::IProject *project)
 {
   m_project_dock->setProject(project);
 }
 
-bool ProjectWindow::confirmSave(api::IDocument *document)
+bool ProjectWindow::confirmSave(api::document::IDocument *document)
 {
   if (!document || !document->isModified()) return true;
 
@@ -307,7 +307,8 @@ void ProjectWindow::openProject()
   const auto project_dir =
     recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter =
-    FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Read}
+    FormatHelper<api::project::IProjectFormat>{
+      api::IFileFormat::Capability::Read}
       .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
@@ -360,7 +361,8 @@ void ProjectWindow::openDocument()
   const auto project_dir =
     QFileInfo(project->getFileName()).absoluteDir().absolutePath();
   const auto filter =
-    FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Read}
+    FormatHelper<api::document::IDocumentFormat>{
+      api::IFileFormat::Capability::Read}
       .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
@@ -392,7 +394,7 @@ bool ProjectWindow::closeDocument()
 }
 
 bool ProjectWindow::saveDocument(
-  api::IDocument
+  api::document::IDocument
     *document)// NOLINT(readability-convert-member-functions-to-static)
 {
   Q_ASSERT(document);
@@ -406,7 +408,7 @@ bool ProjectWindow::saveDocument(
 }
 
 bool ProjectWindow::saveDocumentAs(
-  api::IDocument
+  api::document::IDocument
     *document)// NOLINT(readability-convert-member-functions-to-static)
 {
   Q_ASSERT(document);
@@ -479,7 +481,7 @@ void ProjectWindow::initUi()
   addDockWidget(Qt::BottomDockWidgetArea, m_issue_dock);
   tabifyDockWidget(m_console_dock, m_issue_dock);
 
-  getDocumentManager().addEditor(api::IDocument::Type::Flow,
+  getDocumentManager().addEditor(api::document::IDocument::Type::Flow,
                                  std::make_unique<FlowEditor>());
 
   m_ui->m_menu_bar->addMenu(m_project_menu);
@@ -523,7 +525,7 @@ void ProjectWindow::initConnections()
 {
   auto undoGroup = getDocumentManager().getUndoGroup();
 
-  connect(getDocumentManager().getEditor(api::IDocument::Type::Flow),
+  connect(getDocumentManager().getEditor(api::document::IDocument::Type::Flow),
           &DocumentEditor::enabledStandardActionsChanged, this,
           &ProjectWindow::updateActions);
 
@@ -613,7 +615,8 @@ void ProjectWindow::retranslateUi()
   adjustMenuSize(this);
 }
 
-bool ProjectWindow::switchProject(std::unique_ptr<api::IProject> project)
+bool ProjectWindow::switchProject(
+  std::unique_ptr<api::project::IProject> project)
 {
   auto ret = QMessageBox::warning(this, tr("Open Project"),
                                   tr("There is currently open project. Do you "

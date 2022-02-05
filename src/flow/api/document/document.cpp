@@ -1,10 +1,10 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/api/document.h"
+#include "flow/api/document/document.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
 
   IDocument::IDocument(Type type, QObject *parent)
@@ -15,4 +15,4 @@ namespace api
 
   IDocument::Type IDocument::getType() const { return m_type; }
 
-}// namespace api
+}// namespace api::document

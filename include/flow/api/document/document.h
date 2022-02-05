@@ -8,7 +8,7 @@
 #include <QUndoStack>
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::document
 {
 
   class IDocumentFormat;
@@ -62,6 +62,6 @@ namespace api
     Unknown,
   };
 
-}// namespace api
+}// namespace api::document
 
 #endif//FLOW_INTERFACE_DOCUMENT_H

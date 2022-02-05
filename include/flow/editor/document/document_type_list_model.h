@@ -6,7 +6,7 @@
 #include <QIcon>
 #include <QStringList>
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document.h"
+#include "flow/api/document/document.h"
 /* -------------------------------------------------------------------------- */
 
 class DocumentTypeListModel : public QAbstractListModel
@@ -31,8 +31,9 @@ public:
 
 private:
   [[nodiscard]] static QString
-  getDocumentNameForType(api::IDocument::Type type);
-  [[nodiscard]] static QIcon getDocumentIconForType(api::IDocument::Type type);
+  getDocumentNameForType(api::document::IDocument::Type type);
+  [[nodiscard]] static QIcon
+  getDocumentIconForType(api::document::IDocument::Type type);
 };
 
 #endif//FLOW_DOCUMENT_TYPE_LIST_MODEL_H

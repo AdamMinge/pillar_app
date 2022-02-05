@@ -13,8 +13,14 @@ namespace Ui
 
 namespace api
 {
-  class IDocument;
-  class IProject;
+  namespace project
+  {
+    class IProject;
+  }
+  namespace document
+  {
+    class IDocument;
+  }
 }// namespace api
 
 class PreferencesManager;
@@ -50,10 +56,10 @@ protected:
   [[nodiscard]] static PreferencesManager &getPreferencesManager();
 
 private Q_SLOTS:
-  void documentChanged(api::IDocument *document);
-  void projectChanged(api::IProject *project);
+  void documentChanged(api::document::IDocument *document);
+  void projectChanged(api::project::IProject *project);
 
-  bool confirmSave(api::IDocument *document);
+  bool confirmSave(api::document::IDocument *document);
   bool confirmAllSave();
 
   void updateActions();
@@ -70,8 +76,8 @@ private Q_SLOTS:
   void openDocument();
   bool closeDocument(int index);
   bool closeDocument();
-  bool saveDocument(api::IDocument *document);
-  bool saveDocumentAs(api::IDocument *document);
+  bool saveDocument(api::document::IDocument *document);
+  bool saveDocumentAs(api::document::IDocument *document);
   bool saveAllDocuments();
 
   void performCut();
@@ -85,7 +91,7 @@ private:
 
   void retranslateUi();
 
-  bool switchProject(std::unique_ptr<api::IProject> project);
+  bool switchProject(std::unique_ptr<api::project::IProject> project);
 
 private:
   QScopedPointer<Ui::ProjectWindow> m_ui;

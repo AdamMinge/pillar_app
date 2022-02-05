@@ -10,7 +10,7 @@ class QAbstractFileIconProvider;
 class QFileSystemModel;
 class QTreeView;
 
-namespace api
+namespace api::project
 {
   class IProject;
 }
@@ -28,8 +28,8 @@ public:
   explicit ProjectDock(QWidget *parent = nullptr);
   ~ProjectDock() override;
 
-  void setProject(api::IProject *project);
-  [[nodiscard]] api::IProject *getProject() const;
+  void setProject(api::project::IProject *project);
+  [[nodiscard]] api::project::IProject *getProject() const;
 
 protected:
   void changeEvent(QEvent *event) override;
@@ -51,7 +51,7 @@ private Q_SLOTS:
   void openDocument(const QModelIndex &index);
 
 private:
-  api::IProject *m_current_project;
+  api::project::IProject *m_current_project;
 
   QTreeView *m_view;
   QFileSystemModel *m_model;

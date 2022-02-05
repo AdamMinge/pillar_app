@@ -6,7 +6,7 @@
 #include <QObject>
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::project
 {
 
   class IProjectFormat;
@@ -39,6 +39,6 @@ namespace api
     explicit IProject(QObject *parent = nullptr);
   };
 
-}// namespace api
+}// namespace api::project
 
 #endif//FLOW_INTERFACE_PROJECT_H

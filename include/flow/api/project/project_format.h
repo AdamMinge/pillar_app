@@ -5,7 +5,7 @@
 #include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace api::project
 {
 
   class IProject;
@@ -50,6 +50,6 @@ namespace api
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 
-}// namespace api
+}// namespace api::project
 
 #endif//FLOW_INTERFACE_PROJECT_FORMAT_H

@@ -12,7 +12,7 @@ namespace Ui
   class MainWindow;
 }
 
-namespace api
+namespace api::project
 {
   class IProject;
 }
@@ -61,7 +61,7 @@ private Q_SLOTS:
   void openSettings();
   void openAbout();
 
-  void currentProjectChanged(api::IProject *project);
+  void currentProjectChanged(api::project::IProject *project);
 
   void updateWindowTitle();
 

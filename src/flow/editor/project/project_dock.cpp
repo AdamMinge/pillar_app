@@ -13,7 +13,7 @@
 #include "flow/editor/document/new_document_dialog.h"
 #include "flow/editor/project/project_dock.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/project.h>
+#include <flow/api/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
 /* -------------------------------------------------------------------------- */
@@ -34,7 +34,7 @@ ProjectDock::ProjectDock(QWidget *parent)
 
 ProjectDock::~ProjectDock() = default;
 
-void ProjectDock::setProject(api::IProject *project)
+void ProjectDock::setProject(api::project::IProject *project)
 {
   if (m_current_project == project) return;
 
@@ -50,7 +50,10 @@ void ProjectDock::setProject(api::IProject *project)
   m_view->setRootIndex(m_proxy->mapFromSource(m_model->index(upDir.path())));
 }
 
-api::IProject *ProjectDock::getProject() const { return m_current_project; }
+api::project::IProject *ProjectDock::getProject() const
+{
+  return m_current_project;
+}
 
 void ProjectDock::changeEvent(QEvent *event)
 {

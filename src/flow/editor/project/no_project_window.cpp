@@ -10,7 +10,7 @@
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/project_format.h>
+#include <flow/api/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
@@ -89,7 +89,8 @@ void NoProjectWindow::openProject()
   const auto project_dir =
     recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter =
-    FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Read}
+    FormatHelper<api::project::IProjectFormat>{
+      api::IFileFormat::Capability::Read}
       .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(

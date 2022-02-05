@@ -4,10 +4,10 @@
 #include "flow/editor/format_helper.h"
 #include "flow/editor/project/project.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/project_format.h>
+#include <flow/api/project/project_format.h>
 /* -------------------------------------------------------------------------- */
 
-std::unique_ptr<api::IProject> Project::create()
+std::unique_ptr<api::project::IProject> Project::create()
 {
   auto project = std::unique_ptr<Project>(new Project);
   return project;
@@ -37,26 +37,28 @@ QString Project::getDisplayName() const
   return displayName;
 }
 
-api::IProjectFormat *Project::getReaderFormat() const
+api::project::IProjectFormat *Project::getReaderFormat() const
 {
-  return FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Read}
+  return FormatHelper<api::project::IProjectFormat>{
+    api::IFileFormat::Capability::Read}
     .findFormatByShortName(m_read_format);
 }
 
-api::IProjectFormat *Project::getWriterFormat() const
+api::project::IProjectFormat *Project::getWriterFormat() const
 {
-  return FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Write}
+  return FormatHelper<api::project::IProjectFormat>{
+    api::IFileFormat::Capability::Write}
     .findFormatByShortName(m_write_format);
 }
 
-void Project::setReaderFormat(api::IProjectFormat *format)
+void Project::setReaderFormat(api::project::IProjectFormat *format)
 {
   Q_ASSERT(format &&
            format->hasCapabilities(api::IFileFormat::Capability::Read));
   m_read_format = format->getShortName();
 }
 
-void Project::setWriterFormat(api::IProjectFormat *format)
+void Project::setWriterFormat(api::project::IProjectFormat *format)
 {
   Q_ASSERT(format &&
            format->hasCapabilities(api::IFileFormat::Capability::Write));
@@ -80,14 +82,14 @@ bool Project::save(const QString &file_name, QString *error)
   return true;
 }
 
-std::unique_ptr<api::IProject> Project::load(const QString &file_name,
-                                             api::IProjectFormat *format,
-                                             QString *error)
+std::unique_ptr<api::project::IProject>
+Project::load(const QString &file_name, api::project::IProjectFormat *format,
+              QString *error)
 {
   if (!format)
   {
-    auto format_helper =
-      FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Read};
+    auto format_helper = FormatHelper<api::project::IProjectFormat>{
+      api::IFileFormat::Capability::Read};
     format = format_helper.findFormatByFileName(file_name);
   }
 

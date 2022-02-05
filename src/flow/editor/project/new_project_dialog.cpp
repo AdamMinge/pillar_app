@@ -35,7 +35,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent)
 
 NewProjectDialog::~NewProjectDialog() { writeSettings(); }
 
-std::unique_ptr<api::IProject> NewProjectDialog::create()
+std::unique_ptr<api::project::IProject> NewProjectDialog::create()
 {
   if (exec() != QDialog::Accepted) return nullptr;
 
