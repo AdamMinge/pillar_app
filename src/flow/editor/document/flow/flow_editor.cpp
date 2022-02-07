@@ -22,7 +22,7 @@ struct FlowEditor::Preferences {
 /* -------------------------------- SceneEditor ----------------------------- */
 
 FlowEditor::FlowEditor(QObject *parent)
-    : DocumentEditor(parent), m_current_document(nullptr),
+    : IDocumentEditor(parent), m_current_document(nullptr),
       m_main_window(new QMainWindow()),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_undo_dock(new UndoDock(m_main_window)), m_preferences(new Preferences)

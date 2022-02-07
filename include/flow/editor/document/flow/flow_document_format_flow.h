@@ -1,11 +1,11 @@
 #ifndef FLOW_DOCUMENT_FORMAT_FLOW_H
 #define FLOW_DOCUMENT_FORMAT_FLOW_H
 
-/* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document/flow_document_format.h"
+/* ------------------------------------ Local ------------------------------- */
+#include "flow/editor/document/flow/flow_document_format.h"
 /* -------------------------------------------------------------------------- */
 
-class FlowDocumentFormatFlow : public api::document::IFlowDocumentFormat
+class FlowDocumentFormatFlow : public FlowDocumentFormat
 {
   Q_OBJECT
 

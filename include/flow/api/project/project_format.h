@@ -2,6 +2,7 @@
 #define FLOW_INTERFACE_PROJECT_FORMAT_H
 
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/api/export.h"
 #include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
@@ -10,7 +11,7 @@ namespace api::project
 
   class IProject;
 
-  class IProjectFormat : public IFileFormat
+  class API_API IProjectFormat : public IFileFormat
   {
     Q_OBJECT
 

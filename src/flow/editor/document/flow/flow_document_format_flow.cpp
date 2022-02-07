@@ -6,7 +6,7 @@
 /* -------------------------------------------------------------------------- */
 
 FlowDocumentFormatFlow::FlowDocumentFormatFlow(QObject *parent)
-    : IFlowDocumentFormat(parent)
+    : FlowDocumentFormat(parent)
 {}
 
 FlowDocumentFormatFlow::~FlowDocumentFormatFlow() = default;

@@ -2,6 +2,7 @@
 #define FLOW_INTERFACE_DOCUMENT_FORMAT_H
 
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/api/export.h"
 #include "flow/api/file_format.h"
 /* -------------------------------------------------------------------------- */
 
@@ -10,7 +11,7 @@ namespace api::document
 
   class IDocument;
 
-  class IDocumentFormat : public IFileFormat
+  class API_API IDocumentFormat : public IFileFormat
   {
     Q_OBJECT
 

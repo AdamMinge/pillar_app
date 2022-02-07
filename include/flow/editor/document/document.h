@@ -7,7 +7,7 @@
 #include <QObject>
 #include <QUndoStack>
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document/document.h"
+#include <flow/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
 class Document : public api::document::IDocument

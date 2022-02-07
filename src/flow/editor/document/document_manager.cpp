@@ -3,11 +3,11 @@
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/document.h"
-#include "flow/editor/document/document_editor.h"
 #include "flow/editor/document/document_manager.h"
 #include "flow/editor/document/no_document_widget.h"
 #include "flow/editor/format_helper.h"
 /* ------------------------------------ Api --------------------------------- */
+#include <flow/api/document/document_editor.h>
 #include <flow/api/document/document_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
@@ -63,8 +63,9 @@ DocumentManager::~DocumentManager() = default;
 
 QWidget *DocumentManager::getWidget() const { return m_widget.data(); }
 
-void DocumentManager::addEditor(api::document::IDocument::Type document_type,
-                                std::unique_ptr<DocumentEditor> editor)
+void DocumentManager::addEditor(
+  api::document::IDocument::Type document_type,
+  std::unique_ptr<api::document::IDocumentEditor> editor)
 {
   m_editor_stack->addWidget(editor->getEditorWidget());
   m_editor_for_document_type.insert(
@@ -83,7 +84,7 @@ void DocumentManager::removeAllEditors()
     removeEditor(m_editor_for_document_type.begin()->first);
 }
 
-DocumentEditor *
+api::document::IDocumentEditor *
 DocumentManager::getEditor(api::document::IDocument::Type document_type) const
 {
   if (m_editor_for_document_type.contains(document_type))
@@ -92,7 +93,7 @@ DocumentManager::getEditor(api::document::IDocument::Type document_type) const
   return nullptr;
 }
 
-DocumentEditor *DocumentManager::getCurrentEditor() const
+api::document::IDocumentEditor *DocumentManager::getCurrentEditor() const
 {
   auto current_document = getCurrentDocument();
   return current_document ? getEditor(current_document->getType()) : nullptr;

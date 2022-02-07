@@ -4,6 +4,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIcon>
 #include <QObject>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/api/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace api::project
@@ -11,7 +13,7 @@ namespace api::project
 
   class IProjectFormat;
 
-  class IProject : public QObject
+  class API_API IProject : public QObject
   {
     Q_OBJECT
 

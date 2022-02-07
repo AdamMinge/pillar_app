@@ -14,7 +14,7 @@ struct NewFlowDocumentWidget::Preferences {
 /* --------------------------- NewFlowDocumentWidget ------------------------ */
 
 NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
-    : NewDocumentWidget(parent), m_ui(new Ui::NewFlowDocumentWidget())
+    : INewDocumentWidget(parent), m_ui(new Ui::NewFlowDocumentWidget())
 {
   m_ui->setupUi(this);
 

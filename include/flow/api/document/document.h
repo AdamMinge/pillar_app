@@ -6,6 +6,8 @@
 #include <QIcon>
 #include <QObject>
 #include <QUndoStack>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/api/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace api::document
@@ -13,7 +15,7 @@ namespace api::document
 
   class IDocumentFormat;
 
-  class IDocument : public QObject
+  class API_API IDocument : public QObject
   {
     Q_OBJECT
 

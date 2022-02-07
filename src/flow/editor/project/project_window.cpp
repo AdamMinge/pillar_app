@@ -204,7 +204,7 @@ void ProjectWindow::updateActions()
   auto document_editor = getDocumentManager().getCurrentEditor();
   auto current_document = getDocumentManager().getCurrentDocument();
 
-  DocumentEditor::StandardActions standard_actions;
+  api::document::IDocumentEditor::StandardActions standard_actions;
   if (document_editor)
     standard_actions = document_editor->getEnabledStandardActions();
 
@@ -213,10 +213,14 @@ void ProjectWindow::updateActions()
   m_save_document_as_action->setEnabled(current_document);
   m_save_all_documents_action->setEnabled(current_document);
 
-  m_cut_action->setEnabled(standard_actions & DocumentEditor::CutAction);
-  m_copy_action->setEnabled(standard_actions & DocumentEditor::CopyAction);
-  m_paste_action->setEnabled(standard_actions & DocumentEditor::PasteAction);
-  m_delete_action->setEnabled(standard_actions & DocumentEditor::DeleteAction);
+  m_cut_action->setEnabled(standard_actions &
+                           api::document::IDocumentEditor::CutAction);
+  m_copy_action->setEnabled(standard_actions &
+                            api::document::IDocumentEditor::CopyAction);
+  m_paste_action->setEnabled(standard_actions &
+                             api::document::IDocumentEditor::PasteAction);
+  m_delete_action->setEnabled(standard_actions &
+                              api::document::IDocumentEditor::DeleteAction);
 }
 
 void ProjectWindow::updateWindowTitle()
@@ -428,28 +432,28 @@ void ProjectWindow::
   performCut()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::CutAction);
+    editor->performStandardAction(api::document::IDocumentEditor::CutAction);
 }
 
 void ProjectWindow::
   performCopy()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::CopyAction);
+    editor->performStandardAction(api::document::IDocumentEditor::CopyAction);
 }
 
 void ProjectWindow::
   performPaste()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::PasteAction);
+    editor->performStandardAction(api::document::IDocumentEditor::PasteAction);
 }
 
 void ProjectWindow::
   performDelete()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::DeleteAction);
+    editor->performStandardAction(api::document::IDocumentEditor::DeleteAction);
 }
 
 void ProjectWindow::writeSettings()
@@ -526,7 +530,7 @@ void ProjectWindow::initConnections()
   auto undoGroup = getDocumentManager().getUndoGroup();
 
   connect(getDocumentManager().getEditor(api::document::IDocument::Type::Flow),
-          &DocumentEditor::enabledStandardActionsChanged, this,
+          &api::document::IDocumentEditor::enabledStandardActionsChanged, this,
           &ProjectWindow::updateActions);
 
   connect(undoGroup, &QUndoGroup::cleanChanged, this,

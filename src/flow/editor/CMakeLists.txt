@@ -39,10 +39,8 @@ set(sources
         ${source_root}/project/project_reader.cpp
 
         ${source_root}/document/document.cpp
-        ${source_root}/document/document_editor.cpp
         ${source_root}/document/document_manager.cpp
         ${source_root}/document/new_document_dialog.cpp
-        ${source_root}/document/new_document_widget.cpp
         ${source_root}/document/undo_dock.cpp
         ${source_root}/document/no_document_widget.cpp
         ${source_root}/document/document_type_list_model.cpp
@@ -53,6 +51,7 @@ set(sources
         ${source_root}/document/flow/flow_editor.cpp
         ${source_root}/document/flow/flow_scene.cpp
         ${source_root}/document/flow/flow_view.cpp
+        ${source_root}/document/flow/flow_document_format.cpp
         ${source_root}/document/flow/flow_document_format_flow.cpp
         ${source_root}/document/flow/flow_document_reader.cpp
         ${source_root}/document/flow/flow_document_writer.cpp
@@ -89,10 +88,8 @@ set(includes
         ${include_root}/project/project_reader.h
 
         ${include_root}/document/document.h
-        ${include_root}/document/document_editor.h
         ${include_root}/document/document_manager.h
         ${include_root}/document/new_document_dialog.h
-        ${include_root}/document/new_document_widget.h
         ${include_root}/document/undo_dock.h
         ${include_root}/document/no_document_widget.h
         ${include_root}/document/document_type_list_model.h
@@ -103,6 +100,7 @@ set(includes
         ${include_root}/document/flow/flow_editor.h
         ${include_root}/document/flow/flow_scene.h
         ${include_root}/document/flow/flow_view.h
+        ${include_root}/document/flow/flow_document_format.h
         ${include_root}/document/flow/flow_document_format_flow.h
         ${include_root}/document/flow/flow_document_reader.h
         ${include_root}/document/flow/flow_document_writer.h

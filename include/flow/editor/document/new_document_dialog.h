@@ -4,16 +4,21 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDialog>
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document/document.h"
+#include <flow/api/document/document.h>
 /* -------------------------------------------------------------------------- */
+
+namespace api::document
+{
+  class INewDocumentWidget;
+}
 
 namespace Ui
 {
   class NewDocumentDialog;
 }
+
 class DocumentTypeListModel;
 class DocumentTypeListDelegate;
-class NewDocumentWidget;
 
 class NewDocumentDialog : public QDialog
 {
@@ -51,7 +56,7 @@ private:
   QScopedPointer<DocumentTypeListModel> m_document_types_model;
   QScopedPointer<DocumentTypeListDelegate> m_document_types_delegate;
 
-  std::map<api::document::IDocument::Type, NewDocumentWidget *>
+  std::map<api::document::IDocument::Type, api::document::INewDocumentWidget *>
     m_document_create_widgets;
 };
 

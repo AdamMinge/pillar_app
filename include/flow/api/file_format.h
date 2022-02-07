@@ -3,12 +3,14 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/api/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace api
 {
 
-  class IFileFormat : public QObject
+  class API_API IFileFormat : public QObject
   {
     Q_OBJECT
 

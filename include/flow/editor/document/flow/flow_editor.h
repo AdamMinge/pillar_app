@@ -6,7 +6,7 @@
 #include <QPointer>
 #include <QStackedWidget>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document_editor.h"
+#include "flow/api/document/document_editor.h"
 /* -------------------------------------------------------------------------- */
 
 class FlowDocument;
@@ -14,7 +14,7 @@ class FlowDocument;
 class UndoDock;
 class FlowView;
 
-class FlowEditor : public DocumentEditor
+class FlowEditor : public api::document::IDocumentEditor
 {
   Q_OBJECT
 

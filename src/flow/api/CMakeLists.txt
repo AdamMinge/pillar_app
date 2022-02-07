@@ -15,8 +15,10 @@ set(sources
         ${source_root}/project/project_format.cpp
 
         ${source_root}/document/document.cpp
-        ${source_root}/document/document_format.cpp
-        ${source_root}/document/flow_document_format.cpp)
+        ${source_root}/document/document_editor.cpp
+        ${source_root}/document/new_document_widget.cpp
+        ${source_root}/document/document_manager.cpp
+        ${source_root}/document/document_format.cpp)
 
 set(includes
         ${include_root}/export.h
@@ -26,8 +28,16 @@ set(includes
         ${include_root}/project/project_format.h
 
         ${include_root}/document/document.h
+        ${include_root}/document/document_editor.h
+        ${include_root}/document/new_document_widget.h
+        ${include_root}/document/document_manager.h
         ${include_root}/document/document_format.h
-        ${include_root}/document/flow_document_format.h)
+
+        ${include_root}/node/connection.h
+        ${include_root}/node/node.h
+        ${include_root}/node/node_data.h
+        ${include_root}/node/pin.h
+        ${include_root}/node/type_converter.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

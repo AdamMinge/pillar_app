@@ -39,8 +39,8 @@ std::unique_ptr<api::document::IDocument> NewDocumentDialog::create()
 {
   if (exec() != QDialog::Accepted) return nullptr;
 
-  auto new_document_widget =
-    dynamic_cast<NewDocumentWidget *>(m_ui->m_stacked_widget->currentWidget());
+  auto new_document_widget = dynamic_cast<api::document::INewDocumentWidget *>(
+    m_ui->m_stacked_widget->currentWidget());
   Q_ASSERT(new_document_widget);
 
   return new_document_widget->createDocument();
@@ -65,16 +65,16 @@ void NewDocumentDialog::documentTypeChanged(const QModelIndex &index)
   auto document_type = index.data(DocumentTypeListModel::Role::DocumentTypeRole)
                          .value<api::document::IDocument::Type>();
 
-  auto prev_widget =
-    dynamic_cast<NewDocumentWidget *>(m_ui->m_stacked_widget->currentWidget());
+  auto prev_widget = dynamic_cast<api::document::INewDocumentWidget *>(
+    m_ui->m_stacked_widget->currentWidget());
   auto next_widget = m_document_create_widgets[document_type];
 
   m_ui->m_stacked_widget->setCurrentWidget(next_widget);
   m_ui->m_create_button->setEnabled(next_widget->isValid());
 
-  disconnect(prev_widget, &NewDocumentWidget::isValidChanged,
+  disconnect(prev_widget, &api::document::INewDocumentWidget::isValidChanged,
              m_ui->m_create_button, &QPushButton::setEnabled);
-  connect(next_widget, &NewDocumentWidget::isValidChanged,
+  connect(next_widget, &api::document::INewDocumentWidget::isValidChanged,
           m_ui->m_create_button, &QPushButton::setEnabled);
 }
 
