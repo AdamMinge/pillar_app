@@ -11,7 +11,8 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow//modules/node)
 set(sources
         ${source_root}/pin.cpp
         ${source_root}/node.cpp
-        ${source_root}/connection.cpp)
+        ${source_root}/connection.cpp
+        ${source_root}/nodes_factory.cpp)
 
 set(includes
         ${include_root}/export.h
@@ -20,7 +21,8 @@ set(includes
         ${include_root}/node.h
         ${include_root}/node_data.h
         ${include_root}/connection.h
-        ${include_root}/type_converter.h)
+        ${include_root}/type_converter.h
+        ${include_root}/nodes_factory.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

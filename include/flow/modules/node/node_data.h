@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QString>
+#include <QObject>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
@@ -10,15 +11,16 @@
 namespace node
 {
 
-  class NODE_API NodeData
+  class NODE_API NodeData : public QObject
   {
+    Q_OBJECT
+
   public:
     explicit NodeData() = default;
-    virtual ~NodeData() = default;
+    ~NodeData() override = default;
 
     virtual void assign(const NodeData &data) = 0;
 
-    [[nodiscard]] virtual QString getId() const = 0;
     [[nodiscard]] virtual QString getName() const = 0;
   };
 

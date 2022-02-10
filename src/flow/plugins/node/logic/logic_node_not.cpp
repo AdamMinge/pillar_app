@@ -1,3 +1,5 @@
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QObject>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/node/logic/logic_node_not.h"
 #include "flow/plugins/node/logic/logic_node_data.h"
@@ -21,5 +23,8 @@ namespace plugins::node::logic
     const auto out_data = LogicNodeData(!value_A);
     out_pin.setData(out_data);
   }
+
+  QString LogicNodeNot::getName() const { return QObject::tr("Logic Not"); }
+
 
 }// namespace plugins::node::logic

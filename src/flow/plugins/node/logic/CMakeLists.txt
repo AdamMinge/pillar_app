@@ -9,6 +9,7 @@ set(source_root ${FLOW_SOURCE_DIR}/src/flow/plugins/node/logic)
 set(include_root ${FLOW_SOURCE_DIR}/include/flow/plugins/node/logic)
 
 set(sources
+        ${source_root}/logic_nodes_factory.cpp
         ${source_root}/logic_node_data.cpp
         ${source_root}/logic_node.cpp
         ${source_root}/logic_node_not.cpp
@@ -17,6 +18,7 @@ set(sources
 
 set(includes
         ${include_root}/export.h
+        ${include_root}/logic_nodes_factory.h
         ${include_root}/logic_node_data.h
         ${include_root}/logic_node.h
         ${include_root}/logic_node_not.h

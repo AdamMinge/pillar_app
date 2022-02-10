@@ -22,7 +22,8 @@ namespace node
 
   void Pin::setData(const node::NodeData &data)
   {
-    Q_ASSERT(m_data->getId() == data.getId());
+    Q_ASSERT(m_data->staticMetaObject.className() ==
+             data.staticMetaObject.className());
 
     m_data->assign(data);
     Q_EMIT dataChanged(*m_data);

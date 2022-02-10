@@ -11,9 +11,13 @@ namespace plugins::node::logic
 
   class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams
   {
+    Q_OBJECT
+
   public:
     explicit LogicNodeOr();
     ~LogicNodeOr() override;
+
+    [[nodiscard]] QString getName() const override;
 
   protected:
     void compute() override;

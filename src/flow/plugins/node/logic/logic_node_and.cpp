@@ -1,3 +1,5 @@
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QObject>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/node/logic/logic_node_and.h"
 #include "flow/plugins/node/logic/logic_node_data.h"
@@ -24,5 +26,7 @@ namespace plugins::node::logic
     const auto out_data = LogicNodeData(value_A & value_B);
     out_pin.setData(out_data);
   }
+
+  QString LogicNodeAnd::getName() const { return QObject::tr("Logic And"); }
 
 }// namespace plugins::node::logic

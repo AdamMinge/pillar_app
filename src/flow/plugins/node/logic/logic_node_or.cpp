@@ -25,4 +25,7 @@ namespace plugins::node::logic
     out_pin.setData(out_data);
   }
 
+  QString LogicNodeOr::getName() const { return QObject::tr("Logic Or"); }
+
+
 }// namespace plugins::node::logic

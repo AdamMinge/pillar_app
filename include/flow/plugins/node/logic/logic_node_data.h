@@ -21,7 +21,6 @@ namespace plugins::node::logic
 
     void assign(const NodeData &data) override;
 
-    [[nodiscard]] QString getId() const override;
     [[nodiscard]] QString getName() const override;
 
   private:

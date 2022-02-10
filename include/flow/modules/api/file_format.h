@@ -40,6 +40,7 @@ namespace api
 
 }// namespace api
 
+Q_DECLARE_INTERFACE(api::IFileFormat, "org.flow.FileFormat")
 Q_DECLARE_OPERATORS_FOR_FLAGS(api::IFileFormat::Capabilities);
 
 #endif//FLOW_INTERFACE_FILE_FORMAT_H

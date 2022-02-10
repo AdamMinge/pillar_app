@@ -23,6 +23,8 @@ namespace node
 
     [[nodiscard]] const Pin &getPin(Pin::Type type, unsigned index) const;
     [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
+    
+    [[nodiscard]] virtual QString getName() const = 0;
 
   protected:
     void insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index);
@@ -32,8 +34,7 @@ namespace node
     virtual void compute() = 0;
 
   private:
-    [[nodiscard]] std::vector<std::unique_ptr<Pin>> &
-    getPins(Pin::Type type);
+    [[nodiscard]] std::vector<std::unique_ptr<Pin>> &getPins(Pin::Type type);
     [[nodiscard]] const std::vector<std::unique_ptr<Pin>> &
     getPins(Pin::Type type) const;
 

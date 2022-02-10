@@ -11,9 +11,13 @@ namespace plugins::node::logic
 
   class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam
   {
+    Q_OBJECT
+
   public:
     explicit LogicNodeNot();
     ~LogicNodeNot() override;
+
+    [[nodiscard]] QString getName() const override;
 
   protected:
     void compute() override;

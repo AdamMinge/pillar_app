@@ -1,3 +1,5 @@
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QObject>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/node/logic/logic_node_data.h"
 /* -------------------------------------------------------------------------- */
@@ -15,12 +17,10 @@ namespace plugins::node::logic
 
   void LogicNodeData::assign(const NodeData &data)
   {
-    auto logic_node_data = dynamic_cast<const LogicNodeData &>(data);
+    auto& logic_node_data = dynamic_cast<const LogicNodeData &>(data);
     setValue(logic_node_data.getValue());
   }
 
-  QString LogicNodeData::getId() const { return QLatin1String("LogicData"); }
-
-  QString LogicNodeData::getName() const { return QLatin1String("Logic Data"); }
+  QString LogicNodeData::getName() const { return QObject::tr("Logic Data"); }
 
 }// namespace plugins::node::logic
