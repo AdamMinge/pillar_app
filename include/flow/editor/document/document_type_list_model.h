@@ -6,7 +6,7 @@
 #include <QIcon>
 #include <QStringList>
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document/document.h>
+#include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
 class DocumentTypeListModel : public QAbstractListModel

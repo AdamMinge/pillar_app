@@ -4,7 +4,7 @@
 #include "flow/editor/document/document.h"
 #include "flow/editor/format_helper.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document/document_format.h>
+#include <flow/modules/api/document/document_format.h>
 /* -------------------------------------------------------------------------- */
 
 Document::Document(Type type, QObject *parent)

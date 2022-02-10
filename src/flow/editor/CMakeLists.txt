@@ -143,6 +143,7 @@ flow_add_application(editor
         DEPENDS
         Qt6::Widgets
         flow::api
+        flow::node
         utils::pointer_cast
         utils::dialog
         utils::dpi

@@ -5,8 +5,8 @@
 #include <QHash>
 #include <QPointer>
 #include <QStackedWidget>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/api/document/document_editor.h"
+/* ----------------------------------- Api ---------------------------------- */
+#include <flow/modules/api/document/document_editor.h>
 /* -------------------------------------------------------------------------- */
 
 class FlowDocument;

@@ -16,8 +16,8 @@
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document/document_format.h>
-#include <flow/api/project/project_format.h>
+#include <flow/modules/api/document/document_format.h>
+#include <flow/modules/api/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
 #include <flow/utils/qt/dialog/extended_file_dialog.h>

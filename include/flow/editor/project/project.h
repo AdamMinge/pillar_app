@@ -5,7 +5,7 @@
 #include <QIcon>
 #include <QObject>
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/project/project.h>
+#include <flow/modules/api/project/project.h>
 /* -------------------------------------------------------------------------- */
 
 class Project : public api::project::IProject

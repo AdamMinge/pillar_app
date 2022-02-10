@@ -13,6 +13,12 @@ namespace plugins::node::logic
 
   bool LogicNodeData::getValue() const { return m_value; }
 
+  void LogicNodeData::assign(const NodeData &data)
+  {
+    auto logic_node_data = dynamic_cast<const LogicNodeData &>(data);
+    setValue(logic_node_data.getValue());
+  }
+
   QString LogicNodeData::getId() const { return QLatin1String("LogicData"); }
 
   QString LogicNodeData::getName() const { return QLatin1String("Logic Data"); }

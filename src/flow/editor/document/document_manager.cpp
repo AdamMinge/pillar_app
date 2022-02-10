@@ -7,8 +7,8 @@
 #include "flow/editor/document/no_document_widget.h"
 #include "flow/editor/format_helper.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document/document_editor.h>
-#include <flow/api/document/document_format.h>
+#include <flow/modules/api/document/document_editor.h>
+#include <flow/modules/api/document/document_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
 #include <flow/utils/qt/file_system/file_system_watcher.h>

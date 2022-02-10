@@ -10,7 +10,7 @@
 /* --------------------------------- Standard ------------------------------- */
 #include <unordered_map>
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document/document_manager.h>
+#include <flow/modules/api/document/document_manager.h>
 /* -------------------------------------------------------------------------- */
 
 class NoDocumentWidget;

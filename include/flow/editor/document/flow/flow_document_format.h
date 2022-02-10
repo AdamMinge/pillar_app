@@ -2,7 +2,7 @@
 #define FLOW_FLOW_DOCUMENT_FORMAT_H
 
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document/document_format.h>
+#include <flow/modules/api/document/document_format.h>
 /* -------------------------------------------------------------------------- */
 
 class FlowDocumentFormat : public api::document::IDocumentFormat

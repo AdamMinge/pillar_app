@@ -10,12 +10,18 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow/plugins/node/logic)
 
 set(sources
         ${source_root}/logic_node_data.cpp
-        ${source_root}/node_or.cpp)
+        ${source_root}/logic_node.cpp
+        ${source_root}/logic_node_not.cpp
+        ${source_root}/logic_node_and.cpp
+        ${source_root}/logic_node_or.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/logic_node_data.h
-        ${include_root}/node_or.h)
+        ${include_root}/logic_node.h
+        ${include_root}/logic_node_not.h
+        ${include_root}/logic_node_and.h
+        ${include_root}/logic_node_or.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

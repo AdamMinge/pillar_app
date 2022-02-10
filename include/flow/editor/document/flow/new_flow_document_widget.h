@@ -2,7 +2,7 @@
 #define FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
 
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document/new_document_widget.h"
+#include <flow/modules/api/document/new_document_widget.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui

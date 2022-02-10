@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/flow/flow_document_format.h"
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document/document.h"
+#include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
 
