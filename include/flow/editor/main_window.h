@@ -19,6 +19,7 @@ namespace api::project
 
 class LanguageManager;
 class ProjectManager;
+class PluginManager;
 class ActionManager;
 class StyleManager;
 
@@ -41,6 +42,7 @@ public:
 
   [[nodiscard]] LanguageManager &getLanguageManager() const;
   [[nodiscard]] ProjectManager &getProjectManager() const;
+  [[nodiscard]] PluginManager& getPluginManager() const;
   [[nodiscard]] StyleManager &getStyleManager() const;
   [[nodiscard]] ActionManager &getActionManager() const;
 
@@ -54,6 +56,9 @@ private:
 
   void writeSettings();
   void readSettings();
+
+  void writePlugins();
+  void readPlugins();
 
   void retranslateUi();
 

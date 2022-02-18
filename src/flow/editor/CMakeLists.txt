@@ -17,6 +17,7 @@ set(sources
         ${source_root}/style_manager.cpp
         ${source_root}/action_manager.cpp
         ${source_root}/plugin_manager.cpp
+        ${source_root}/plugin.cpp
         ${source_root}/preferences_manager.cpp
         ${source_root}/logging_manager.cpp
         ${source_root}/issue.cpp
@@ -65,6 +66,7 @@ set(includes
         ${include_root}/style_manager.h
         ${include_root}/action_manager.h
         ${include_root}/plugin_manager.h
+        ${include_root}/plugin.h
         ${include_root}/preferences_manager.h
         ${include_root}/logging_manager.h
         ${include_root}/issue.h

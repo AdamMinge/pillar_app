@@ -4,7 +4,10 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
 #include <QScopedPointer>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/plugin.h"
 /* -------------------------------------------------------------------------- */
+
 
 class PluginManager : public QObject
 {
@@ -17,6 +20,9 @@ public:
 public:
   ~PluginManager() override;
 
+  void loadPlugins(QString plugins_path = {});
+  [[nodiscard]] std::list<Plugin*> getPlugins();
+
   void addObject(QObject *object);
   void removeObject(QObject *object);
 
@@ -25,7 +31,7 @@ public:
   template<typename TYPE>
   TYPE *forOne(const std::function<bool(TYPE *)> &function);
   template<typename TYPE>
-  QList<TYPE *> getObjects();
+  [[nodiscard]] QList<TYPE *> getObjects();
 
 Q_SIGNALS:
   void objectAdded(QObject *object);
@@ -38,6 +44,7 @@ private:
   static QScopedPointer<PluginManager> m_instance;
 
   QObjectList m_objects;
+  std::list<Plugin> m_plugins;
 };
 
 template<typename TYPE>
@@ -69,7 +76,7 @@ QList<TYPE *> PluginManager::getObjects()
   QList<TYPE *> objects{};
   for (auto object : m_objects)
   {
-    if (auto result = qobject_cast<TYPE>(object); result)
+    if (auto result = qobject_cast<TYPE *>(object); result)
       objects.append(result);
   }
 

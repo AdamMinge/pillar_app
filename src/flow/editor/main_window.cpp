@@ -6,6 +6,7 @@
 #include "flow/editor/action_manager.h"
 #include "flow/editor/language_manager.h"
 #include "flow/editor/main_window.h"
+#include "flow/editor/plugin_manager.h"
 #include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/no_project_window.h"
 #include "flow/editor/project/project.h"
@@ -28,6 +29,8 @@ struct MainWindow::Preferences {
     Preference<QLocale>("application/language");
   Preference<QString> application_style =
     Preference<QString>("application/style");
+  Preference<QStringList> application_disabled_plugins =
+    Preference<QStringList>("application/disabled_plugins");
 };
 
 /* -------------------------------- MainWindow ------------------------------ */
@@ -54,26 +57,37 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() = default;
 
-LanguageManager &MainWindow::getLanguageManager()
-  const// NOLINT(readability-convert-member-functions-to-static)
+LanguageManager &MainWindow::
+  getLanguageManager()// NOLINT(readability-convert-member-functions-to-static)
+  const
 {
   return LanguageManager::getInstance();
 }
 
-ProjectManager &MainWindow::getProjectManager()
-  const// NOLINT(readability-convert-member-functions-to-static)
+ProjectManager &MainWindow::
+  getProjectManager()// NOLINT(readability-convert-member-functions-to-static)
+  const
 {
   return ProjectManager::getInstance();
 }
 
-StyleManager &MainWindow::getStyleManager()
-  const// NOLINT(readability-convert-member-functions-to-static)
+PluginManager &MainWindow::
+  getPluginManager()// NOLINT(readability-convert-member-functions-to-static)
+  const
+{
+  return PluginManager::getInstance();
+}
+
+StyleManager &MainWindow::
+  getStyleManager()// NOLINT(readability-convert-member-functions-to-static)
+  const
 {
   return StyleManager::getInstance();
 }
 
-ActionManager &MainWindow::getActionManager()
-  const// NOLINT(readability-convert-member-functions-to-static)
+ActionManager &MainWindow::
+  getActionManager()// NOLINT(readability-convert-member-functions-to-static)
+  const
 {
   return ActionManager::getInstance();
 }
@@ -138,6 +152,8 @@ void MainWindow::writeSettings()
     getLanguageManager().getCurrentLanguage();
   m_preferences->application_style = getStyleManager().getCurrentStyle();
 
+  writePlugins();
+
   m_no_project_window->writeSettings();
   m_project_window->writeSettings();
 }
@@ -162,8 +178,34 @@ void MainWindow::readSettings()
   if (!application_style.isEmpty())
     getStyleManager().setStyle(application_style);
 
+  readPlugins();
+
   m_no_project_window->readSettings();
   m_project_window->readSettings();
+}
+
+void MainWindow::writePlugins()
+{
+  auto disabled_plugins = QStringList{};
+  for (const auto plugin : getPluginManager().getPlugins())
+  {
+    if (plugin->isDynamic() && !plugin->getFileName().isEmpty() &&
+        !plugin->isEnabled())
+      disabled_plugins << plugin->getFileName();
+  }
+
+  m_preferences->application_disabled_plugins = disabled_plugins;
+}
+
+void MainWindow::readPlugins()
+{
+  const auto disabled_plugins =
+    m_preferences->application_disabled_plugins.get();
+
+  for (getPluginManager().loadPlugins(); auto plugin : getPluginManager().getPlugins())
+  {
+    if (!disabled_plugins.contains(plugin->getFileName())) plugin->enable();
+  }
 }
 
 void MainWindow::retranslateUi()
