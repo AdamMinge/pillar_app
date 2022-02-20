@@ -22,6 +22,9 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private:
+  void initUi();
+  void initConnections();
+
   void retranslateUi();
 
 private:

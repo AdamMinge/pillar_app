@@ -154,7 +154,8 @@ flow_add_application(editor
         utils::property_browser
         utils::view
         utils::archive
-        utils::widget)
+        utils::widget
+        utils::stacked_widget)
 
 flow_add_translations(editor
         QM_DIR ${resources_root}/translations/

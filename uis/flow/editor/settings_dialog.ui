@@ -34,6 +34,9 @@
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
+     <attribute name="headerVisible">
+      <bool>false</bool>
+     </attribute>
     </widget>
    </item>
    <item row="0" column="0">
@@ -50,7 +53,7 @@
     </widget>
    </item>
    <item row="0" column="1" rowspan="2">
-    <widget class="QStackedWidget" name="m_setting_widgets">
+    <widget class="utils::QtStackedWidget" name="m_setting_widgets">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -61,6 +64,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>utils::QtStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">flow/utils/qt/stacked_widget/stacked_widget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

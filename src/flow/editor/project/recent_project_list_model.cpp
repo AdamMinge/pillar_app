@@ -19,7 +19,7 @@ RecentProjectListModel::~RecentProjectListModel() = default;
 
 QVariant RecentProjectListModel::data(const QModelIndex &index, int role) const
 {
-  if (index.row() < 0 || index.row() >= rowCount(QModelIndex{}))
+  if (index.row() < 0 || index.row() >= rowCount(index.parent()))
     return QVariant{};
 
   switch (role)

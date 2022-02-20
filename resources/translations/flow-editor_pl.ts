@@ -533,7 +533,7 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../../src/flow/editor/settings_dialog.cpp" line="36"/>
+        <location filename="../../src/flow/editor/settings_dialog.cpp" line="53"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
