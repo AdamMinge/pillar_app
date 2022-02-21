@@ -22,9 +22,13 @@ set(sources
         ${source_root}/logging_manager.cpp
         ${source_root}/issue.cpp
         ${source_root}/about_dialog.cpp
-        ${source_root}/settings_dialog.cpp
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
+
+        ${source_root}/settings/settings_dialog.cpp
+        ${source_root}/settings/plugin_settings_widget.cpp
+        ${source_root}/settings/shortcuts_settings_widget.cpp
+        ${source_root}/settings/appearance_settings_widget.cpp
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_manager.cpp
@@ -71,10 +75,14 @@ set(includes
         ${include_root}/logging_manager.h
         ${include_root}/issue.h
         ${include_root}/about_dialog.h
-        ${include_root}/settings_dialog.h
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
         ${include_root}/format_helper.h
+
+        ${include_root}/settings/settings_dialog.h
+        ${include_root}/settings/plugin_settings_widget.h
+        ${include_root}/settings/shortcuts_settings_widget.h
+        ${include_root}/settings/appearance_settings_widget.h
 
         ${include_root}/project/project.h
         ${include_root}/project/project_manager.h

@@ -11,8 +11,6 @@
 namespace utils
 {
 
-  class QtStackedWidgetTreeModel;
-
   class STACKED_WIDGET_API QtStackedWidget : public QStackedWidget
   {
     Q_OBJECT
@@ -31,7 +29,7 @@ namespace utils
 
   private:
     [[nodiscard]] static QList<QWidget *>
-    getStackedWidgets(const QtStackedWidgetTreeModel *model);
+    getStackedWidgets(const QAbstractItemModel *model);
 
   private:
     QAbstractItemView *m_view;

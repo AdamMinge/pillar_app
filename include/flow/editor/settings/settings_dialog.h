@@ -21,9 +21,15 @@ public:
 protected:
   void changeEvent(QEvent *event) override;
 
+private Q_SLOTS:
+  void filterSettings(const QString& filter);
+
 private:
   void initUi();
   void initConnections();
+
+  [[nodiscard]] QAbstractItemModel *
+  createStackedWidgetTreeModel();
 
   void retranslateUi();
 

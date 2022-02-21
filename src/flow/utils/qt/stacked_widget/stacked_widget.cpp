@@ -54,7 +54,7 @@ namespace utils
         current_index.data(QtStackedWidgetTreeModel::Role::WidgetRole)
           .value<QWidget *>();
 
-      setCurrentWidget(current_widget);
+      if (current_widget) setCurrentWidget(current_widget);
     }
   }
 
@@ -62,17 +62,15 @@ namespace utils
   {
     for (auto i = 0; i < count(); ++i) removeWidget(widget(i));
 
-    if (auto stacked_widget_tree_model =
-          qobject_cast<QtStackedWidgetTreeModel *>(model);
-        stacked_widget_tree_model)
+    if (model)
     {
-      auto widgets = getStackedWidgets(stacked_widget_tree_model);
+      auto widgets = getStackedWidgets(model);
       for (auto widget : widgets) addWidget(widget);
     }
   }
 
   QList<QWidget *>
-  QtStackedWidget::getStackedWidgets(const QtStackedWidgetTreeModel *model)
+  QtStackedWidget::getStackedWidgets(const QAbstractItemModel *model)
   {
     auto stacked_widgets = QList<QWidget *>{};
     auto indexes_to_process = std::stack<QModelIndex>{};
@@ -94,7 +92,8 @@ namespace utils
           current_index.data(QtStackedWidgetTreeModel::Role::WidgetRole)
             .value<QWidget *>();
 
-        if (!stacked_widgets.contains(widget)) stacked_widgets.append(widget);
+        if (widget && !stacked_widgets.contains(widget))
+          stacked_widgets.append(widget);
       }
     }
 

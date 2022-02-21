@@ -14,7 +14,9 @@ namespace utils
   class STACKED_WIDGET_API QtStackedWidgetTreeItem
   {
   public:
-    explicit QtStackedWidgetTreeItem(QString name, QWidget *widget);
+    explicit QtStackedWidgetTreeItem(
+      QString name, QWidget *widget,
+      std::initializer_list<QtStackedWidgetTreeItem *> children = {});
     ~QtStackedWidgetTreeItem();
 
     [[nodiscard]] QtStackedWidgetTreeItem *getParent();

@@ -12,7 +12,7 @@
 #include "flow/editor/project/project.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
-#include "flow/editor/settings_dialog.h"
+#include "flow/editor/settings/settings_dialog.h"
 #include "flow/editor/style_manager.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "ui_main_window.h"

@@ -8,9 +8,12 @@ namespace utils
   /* ------------------------- QtStackedWidgetTreeItem----------------------- */
 
   QtStackedWidgetTreeItem::QtStackedWidgetTreeItem(
-    QString name, QWidget *widget)
+    QString name, QWidget *widget,
+    std::initializer_list<QtStackedWidgetTreeItem *> children)
       : m_parent(nullptr), m_name(std::move(name)), m_widget(widget)
   {
+    std::for_each(children.begin(), children.end(),
+                  [this](auto child) { addChild(child); });
   }
 
   QtStackedWidgetTreeItem::~QtStackedWidgetTreeItem()
@@ -94,7 +97,12 @@ namespace utils
 
   Qt::ItemFlags QtStackedWidgetTreeModel::flags(const QModelIndex &index) const
   {
-    return index.isValid() ? QAbstractItemModel::flags(index) : Qt::NoItemFlags;
+    auto widget = data(index, Role::WidgetRole).value<QWidget *>();
+    auto flags =
+      index.isValid() ? QAbstractItemModel::flags(index) : Qt::NoItemFlags;
+
+    if (!widget) flags &= ~Qt::ItemIsSelectable;
+    return flags;
   }
 
   QVariant QtStackedWidgetTreeModel::data(const QModelIndex &index,
@@ -106,6 +114,12 @@ namespace utils
     auto item = static_cast<QtStackedWidgetTreeItem *>(index.internalPointer());
     switch (role)
     {
+      case Qt::FontRole: {
+        auto font = QFont();
+        font.setBold(!index.parent().isValid());
+        return font;
+      }
+
       case Qt::DisplayRole:
       case Role::NameRole:
         return item->getName();
