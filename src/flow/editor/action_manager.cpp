@@ -23,8 +23,9 @@ ActionManager::~ActionManager() = default;
 
 void ActionManager::registerAction(QAction *action, const QString &id)
 {
-  Q_ASSERT_X(!m_actions.contains(id, action), "ActionManager::registerAction",
-             "duplicate action");
+  Q_ASSERT_X(
+    !m_actions.contains(id, action), "ActionManager::registerAction",
+    "duplicate action");
 
   m_actions.insert(id, action);
   m_last_known_shortcuts.insert(id, action->shortcut());
@@ -32,8 +33,9 @@ void ActionManager::registerAction(QAction *action, const QString &id)
   connect(action, &QAction::changed, [this, id, action]() {
     if (m_applying_tooltip_with_shortcut) return;
 
-    if (!m_applying_shortcut && m_default_shortcuts.contains(id) &&
-        m_last_known_shortcuts.value(id) != action->shortcut())
+    if (
+      !m_applying_shortcut && m_default_shortcuts.contains(id) &&
+      m_last_known_shortcuts.value(id) != action->shortcut())
     {
       m_default_shortcuts.insert(id, action->shortcut());
 
@@ -61,8 +63,9 @@ void ActionManager::registerAction(QAction *action, const QString &id)
 
 void ActionManager::unregisterAction(QAction *action, const QString &id)
 {
-  Q_ASSERT_X(m_actions.contains(id, action), "ActionManager::unregisterAction",
-             "unknown action");
+  Q_ASSERT_X(
+    m_actions.contains(id, action), "ActionManager::unregisterAction",
+    "unknown action");
 
   m_actions.remove(id, action);
   action->disconnect(this);
@@ -73,15 +76,15 @@ void ActionManager::unregisterAction(QAction *action, const QString &id)
 
 void ActionManager::registerMenu(QMenu *menu, const QString &id)
 {
-  Q_ASSERT_X(!m_menus.contains(id), "ActionManager::registerMenu",
-             "duplicate id");
+  Q_ASSERT_X(
+    !m_menus.contains(id), "ActionManager::registerMenu", "duplicate id");
   m_menus.insert(id, menu);
 }
 
 void ActionManager::unregisterMenu(const QString &id)
 {
-  Q_ASSERT_X(m_menus.contains(id), "ActionManager::unregisterMenu",
-             "unknown id");
+  Q_ASSERT_X(
+    m_menus.contains(id), "ActionManager::unregisterMenu", "unknown id");
   m_menus.remove(id);
 }
 
@@ -104,12 +107,12 @@ QList<QString> ActionManager::getActions() const
 
 QList<QString> ActionManager::getMenus() const { return m_menus.keys(); }
 
-void ActionManager::setCustomShortcut(const QString &id,
-                                      const QKeySequence &keySequence)
+void ActionManager::setCustomShortcut(
+  const QString &id, const QKeySequence &keySequence)
 {
   auto actions = m_actions.values(id);
-  Q_ASSERT_X(!actions.isEmpty(), "ActionManager::setCustomShortcut",
-             "unknown id");
+  Q_ASSERT_X(
+    !actions.isEmpty(), "ActionManager::setCustomShortcut", "unknown id");
 
   if (!hasCustomShortcut(id))
     m_default_shortcuts.insert(id, actions.first()->shortcut());
@@ -129,8 +132,8 @@ void ActionManager::resetCustomShortcut(const QString &id)
   if (!hasCustomShortcut(id)) return;
 
   auto actions = m_actions.values(id);
-  Q_ASSERT_X(!actions.isEmpty(), "ActionManager::resetCustomShortcut",
-             "unknown id");
+  Q_ASSERT_X(
+    !actions.isEmpty(), "ActionManager::resetCustomShortcut", "unknown id");
 
   m_resetting_shortcut = true;
 

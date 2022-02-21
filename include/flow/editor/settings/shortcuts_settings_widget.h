@@ -10,7 +10,7 @@ class ShortcutsSettingsWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit ShortcutsSettingsWidget(QWidget* parent = nullptr);
+  explicit ShortcutsSettingsWidget(QWidget *parent = nullptr);
   ~ShortcutsSettingsWidget() override;
 
 protected:

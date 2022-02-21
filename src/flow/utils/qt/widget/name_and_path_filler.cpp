@@ -144,10 +144,12 @@ namespace utils
 
   void QtNameAndPathFiller::initConnections()
   {
-    connect(m_ui->m_name_edit, &QLineEdit::textChanged, this,
-            qOverload<>(&QtNameAndPathFiller::nameChanged));
-    connect(m_ui->m_path_edit, &QLineEdit::textChanged, this,
-            qOverload<>(&QtNameAndPathFiller::pathChanged));
+    connect(
+      m_ui->m_name_edit, &QLineEdit::textChanged, this,
+      qOverload<>(&QtNameAndPathFiller::nameChanged));
+    connect(
+      m_ui->m_path_edit, &QLineEdit::textChanged, this,
+      qOverload<>(&QtNameAndPathFiller::pathChanged));
   }
 
   void QtNameAndPathFiller::retranslateUi() { m_ui->retranslateUi(this); }

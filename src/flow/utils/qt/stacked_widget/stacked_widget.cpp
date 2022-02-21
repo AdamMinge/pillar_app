@@ -20,21 +20,24 @@ namespace utils
 
     if (m_view && m_view->selectionModel())
     {
-      disconnect(m_view->selectionModel(),
-                 &QItemSelectionModel::selectionChanged, this,
-                 &QtStackedWidget::selectionChanged);
-      disconnect(m_view->selectionModel(), &QItemSelectionModel::modelChanged,
-                 this, &QtStackedWidget::modelChanged);
+      disconnect(
+        m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this,
+        &QtStackedWidget::selectionChanged);
+      disconnect(
+        m_view->selectionModel(), &QItemSelectionModel::modelChanged, this,
+        &QtStackedWidget::modelChanged);
     }
 
     m_view = view;
 
     if (m_view && m_view->selectionModel())
     {
-      connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
-              this, &QtStackedWidget::selectionChanged);
-      connect(m_view->selectionModel(), &QItemSelectionModel::modelChanged,
-              this, &QtStackedWidget::modelChanged);
+      connect(
+        m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this,
+        &QtStackedWidget::selectionChanged);
+      connect(
+        m_view->selectionModel(), &QItemSelectionModel::modelChanged, this,
+        &QtStackedWidget::modelChanged);
     }
 
     modelChanged(m_view->model());
@@ -43,8 +46,8 @@ namespace utils
 
   const QAbstractItemView *QtStackedWidget::getView() const { return m_view; }
 
-  void QtStackedWidget::selectionChanged(const QItemSelection &selected,
-                                         const QItemSelection &deselected)
+  void QtStackedWidget::selectionChanged(
+    const QItemSelection &selected, const QItemSelection &deselected)
   {
     const auto indexes = selected.indexes();
     if (!indexes.empty())

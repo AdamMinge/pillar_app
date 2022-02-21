@@ -31,8 +31,8 @@ bool PluginImpl::isDynamic() const { return !isStatic(); }
 class DynamicPluginImpl : public PluginImpl
 {
 public:
-  explicit DynamicPluginImpl(std::unique_ptr<QPluginLoader> loader,
-                             QString file_name);
+  explicit DynamicPluginImpl(
+    std::unique_ptr<QPluginLoader> loader, QString file_name);
   ~DynamicPluginImpl() override;
 
   [[nodiscard]] QString getFileName() const override;
@@ -49,8 +49,8 @@ private:
   QObject *m_instance;
 };
 
-DynamicPluginImpl::DynamicPluginImpl(std::unique_ptr<QPluginLoader> loader,
-                                     QString file_name)
+DynamicPluginImpl::DynamicPluginImpl(
+  std::unique_ptr<QPluginLoader> loader, QString file_name)
     : m_loader(std::move(loader)), m_file_name(std::move(file_name)),
       m_instance(nullptr)
 {}

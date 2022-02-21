@@ -53,8 +53,9 @@ void SettingsDialog::initUi()
 
 void SettingsDialog::initConnections()
 {
-  connect(m_ui->m_setting_search, &QLineEdit::textChanged, this,
-          &SettingsDialog::filterSettings);
+  connect(
+    m_ui->m_setting_search, &QLineEdit::textChanged, this,
+    &SettingsDialog::filterSettings);
 }
 
 QAbstractItemModel *SettingsDialog::createStackedWidgetTreeModel()

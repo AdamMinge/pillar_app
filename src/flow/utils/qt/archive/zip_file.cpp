@@ -14,8 +14,8 @@ namespace utils
     if ((executor) < 0) return false;                                          \
   } while (0);
 
-  static bool is_zip_valid(const QString &file_name, int compression_level,
-                           char mode)
+  static bool
+  is_zip_valid(const QString &file_name, int compression_level, char mode)
   {
     auto zip =
       zip_open(file_name.toStdString().c_str(), compression_level, mode);
@@ -25,8 +25,8 @@ namespace utils
     return success;
   }
 
-  std::unique_ptr<QtZipFile> QtZipFile::load(QString file_name,
-                                             int compression_level)
+  std::unique_ptr<QtZipFile>
+  QtZipFile::load(QString file_name, int compression_level)
   {
     if (is_zip_valid(file_name, compression_level, 'r'))
       return std::unique_ptr<QtZipFile>(
@@ -34,8 +34,8 @@ namespace utils
     return nullptr;
   }
 
-  std::unique_ptr<QtZipFile> QtZipFile::create(QString file_name,
-                                               int compression_level)
+  std::unique_ptr<QtZipFile>
+  QtZipFile::create(QString file_name, int compression_level)
   {
     if (is_zip_valid(file_name, compression_level, 'w'))
       return std::unique_ptr<QtZipFile>(
@@ -55,8 +55,8 @@ namespace utils
     return append_entry(entry_name, {entry_name});
   }
 
-  bool QtZipFile::append_entry(const QString &entry_name,
-                               const QStringList &entry_names_to_merge)
+  bool QtZipFile::append_entry(
+    const QString &entry_name, const QStringList &entry_names_to_merge)
   {
     return execute('a', [&entry_name, &entry_names_to_merge](auto zip) {
       SAFE_EXECUTE(zip_entry_open(zip, entry_name.toStdString().c_str()));
@@ -69,8 +69,8 @@ namespace utils
     });
   }
 
-  bool QtZipFile::append_entry(const QString &entry_name,
-                               const QByteArray &byteArray)
+  bool QtZipFile::append_entry(
+    const QString &entry_name, const QByteArray &byteArray)
   {
     return execute('a', [&entry_name, &byteArray](auto zip) {
       SAFE_EXECUTE(zip_entry_open(zip, entry_name.toStdString().c_str()));
@@ -103,15 +103,15 @@ namespace utils
 
   bool QtZipFile::extract(const QString &extract_dir)
   {
-    SAFE_EXECUTE(zip_extract(m_file_name.toStdString().c_str(),
-                             extract_dir.toStdString().c_str(), nullptr,
-                             nullptr));
+    SAFE_EXECUTE(zip_extract(
+      m_file_name.toStdString().c_str(), extract_dir.toStdString().c_str(),
+      nullptr, nullptr));
 
     return true;
   }
 
-  bool QtZipFile::extract(const QString &entry_name,
-                          const QString &extract_entry_name)
+  bool QtZipFile::extract(
+    const QString &entry_name, const QString &extract_entry_name)
   {
     return execute('r', [&entry_name, &extract_entry_name](auto zip) {
       SAFE_EXECUTE(zip_entry_open(zip, entry_name.toStdString().c_str()));
@@ -123,8 +123,8 @@ namespace utils
     });
   }
 
-  bool QtZipFile::extract(const QStringList &entry_names,
-                          const QString &extract_dir)
+  bool
+  QtZipFile::extract(const QStringList &entry_names, const QString &extract_dir)
   {
     return execute('r', [&entry_names, &extract_dir](auto zip) {
       for (const auto &entry_name : entry_names)
@@ -166,8 +166,8 @@ namespace utils
     return getEntryNames().contains(name);
   }
 
-  bool QtZipFile::execute(char mode,
-                          const std::function<bool(zip_t *zip)> &function) const
+  bool QtZipFile::execute(
+    char mode, const std::function<bool(zip_t *zip)> &function) const
   {
     auto zip =
       zip_open(m_file_name.toStdString().c_str(), m_compression_level, mode);

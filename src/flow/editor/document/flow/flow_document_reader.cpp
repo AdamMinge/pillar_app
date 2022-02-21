@@ -47,8 +47,9 @@ bool FlowDocumentReader::FlowDocumentReaderImpl::isValid(QIODevice &device)
   QXmlStreamReader reader;
   reader.setDevice(&device);
 
-  if (reader.readNextStartElement() &&
-      reader.name() != QStringLiteral("flow document"))
+  if (
+    reader.readNextStartElement() &&
+    reader.name() != QStringLiteral("flow document"))
     return false;
 
   return true;
@@ -62,16 +63,16 @@ FlowDocumentReader::FlowDocumentReader()
 
 FlowDocumentReader::~FlowDocumentReader() = default;
 
-std::unique_ptr<FlowDocument> FlowDocumentReader::read(QIODevice &device,
-                                                       QString *error)
+std::unique_ptr<FlowDocument>
+FlowDocumentReader::read(QIODevice &device, QString *error)
 {
   auto document = m_impl->readDocument(device);
   if (!document && error) *error = QObject::tr("Failed to load document");
   return document;
 }
 
-std::unique_ptr<FlowDocument> FlowDocumentReader::read(const QString &file_name,
-                                                       QString *error)
+std::unique_ptr<FlowDocument>
+FlowDocumentReader::read(const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

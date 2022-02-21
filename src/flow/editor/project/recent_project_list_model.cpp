@@ -8,9 +8,10 @@
 RecentProjectListModel::RecentProjectListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-  connect(std::addressof(PreferencesManager::getInstance()),
-          &PreferencesManager::recentProjectFilesChanged, this,
-          &RecentProjectListModel::recentProjectFilesChanged);
+  connect(
+    std::addressof(PreferencesManager::getInstance()),
+    &PreferencesManager::recentProjectFilesChanged, this,
+    &RecentProjectListModel::recentProjectFilesChanged);
 
   recentProjectFilesChanged();
 }

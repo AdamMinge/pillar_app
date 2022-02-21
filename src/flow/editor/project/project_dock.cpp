@@ -94,8 +94,9 @@ void ProjectDock::initUi()
 void ProjectDock::initConnections()
 {
   connect(m_view, &QTreeView::activated, this, &ProjectDock::openDocument);
-  connect(m_view, &QTreeView::customContextMenuRequested, this,
-          &ProjectDock::openContextMenu);
+  connect(
+    m_view, &QTreeView::customContextMenuRequested, this,
+    &ProjectDock::openContextMenu);
 }
 
 void ProjectDock::retranslateUi() { setWindowTitle(tr("Project")); }
@@ -125,9 +126,9 @@ void ProjectDock::removeFile(const QModelIndex &index)
                                      ? tr("Failed to delete the file!")
                                      : tr("Failed to delete the directory!");
 
-  auto ret =
-    QMessageBox::question(this, message_title, question_message,
-                          QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+  auto ret = QMessageBox::question(
+    this, message_title, question_message, QMessageBox::Yes | QMessageBox::No,
+    QMessageBox::No);
 
   if (ret == QMessageBox::Yes)
   {
@@ -141,17 +142,18 @@ void ProjectDock::renameFile(const QModelIndex &index)
   Q_ASSERT(index.isValid());
   const auto file_info =
     QFileInfo{index.data(QFileSystemModel::FilePathRole).toString()};
-  const auto new_name =
-    QInputDialog::getText(this, tr("Rename File"), tr("New Name:"),
-                          QLineEdit::Normal, file_info.fileName());
+  const auto new_name = QInputDialog::getText(
+    this, tr("Rename File"), tr("New Name:"), QLineEdit::Normal,
+    file_info.fileName());
 
   if (!new_name.isEmpty() && new_name != file_info.fileName())
   {
-    if (!QFile::rename(file_info.filePath(),
-                       QFileInfo{file_info.dir(), new_name}.filePath()))
+    if (!QFile::rename(
+          file_info.filePath(),
+          QFileInfo{file_info.dir(), new_name}.filePath()))
     {
-      QMessageBox::information(this, tr("Rename File"),
-                               tr("Failed to rename the file!"));
+      QMessageBox::information(
+        this, tr("Rename File"), tr("Failed to rename the file!"));
     }
   }
 }
@@ -173,8 +175,8 @@ void ProjectDock::newDirectory(const QModelIndex &index)
         tr("A directory with that name already exists!"));
     } else if (!dir.mkdir(new_name))
     {
-      QMessageBox::information(this, tr("Create Directory"),
-                               tr("Failed to create the directory!"));
+      QMessageBox::information(
+        this, tr("Create Directory"), tr("Failed to create the directory!"));
     }
   }
 }
@@ -222,19 +224,19 @@ void ProjectDock::openContextMenu(const QPoint &position)
 
     if (index != root_index)
     {
-      refactor_menu.addAction(tr("&Rename"),
-                              [this, index]() { renameFile(index); });
+      refactor_menu.addAction(
+        tr("&Rename"), [this, index]() { renameFile(index); });
       refactor_menu.addSeparator();
-      refactor_menu.addAction(tr("&Delete"),
-                              [this, index]() { removeFile(index); });
+      refactor_menu.addAction(
+        tr("&Delete"), [this, index]() { removeFile(index); });
     }
 
     open_in_menu.addAction(
       tr("&Files"), [this, directory_index]() { openFile(directory_index); });
 
     if (QFileInfo(file_path).isFile())
-      open_in_menu.addAction(tr("&System Editor"),
-                             [this, index]() { openFile(index); });
+      open_in_menu.addAction(
+        tr("&System Editor"), [this, index]() { openFile(index); });
   }
 
   if (!new_menu.isEmpty()) menu.addMenu(&new_menu);

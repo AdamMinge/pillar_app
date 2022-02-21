@@ -22,8 +22,8 @@ public:
   ~ProjectManager() override;
 
   void addProject(std::unique_ptr<api::project::IProject> project);
-  void insertProject(int index,
-                     std::unique_ptr<api::project::IProject> project);
+  void
+  insertProject(int index, std::unique_ptr<api::project::IProject> project);
 
   void removeProject(int index);
   void removeAllProjects();

@@ -136,12 +136,13 @@ void MainWindow::initUi()
 void MainWindow::initConnections()
 {
   connect(m_about_action, &QAction::triggered, this, &MainWindow::openAbout);
-  connect(m_settings_action, &QAction::triggered, this,
-          &MainWindow::openSettings);
+  connect(
+    m_settings_action, &QAction::triggered, this, &MainWindow::openSettings);
   connect(m_exit_action, &QAction::triggered, this, &MainWindow::close);
 
-  connect(&getProjectManager(), &ProjectManager::currentProjectChanged, this,
-          &MainWindow::currentProjectChanged);
+  connect(
+    &getProjectManager(), &ProjectManager::currentProjectChanged, this,
+    &MainWindow::currentProjectChanged);
 }
 
 void MainWindow::writeSettings()
@@ -189,8 +190,9 @@ void MainWindow::writePlugins()
   auto disabled_plugins = QStringList{};
   for (const auto plugin : getPluginManager().getPlugins())
   {
-    if (plugin->isDynamic() && !plugin->getFileName().isEmpty() &&
-        !plugin->isEnabled())
+    if (
+      plugin->isDynamic() && !plugin->getFileName().isEmpty() &&
+      !plugin->isEnabled())
       disabled_plugins << plugin->getFileName();
   }
 
@@ -202,7 +204,8 @@ void MainWindow::readPlugins()
   const auto disabled_plugins =
     m_preferences->application_disabled_plugins.get();
 
-  for (getPluginManager().loadPlugins(); auto plugin : getPluginManager().getPlugins())
+  for (getPluginManager().loadPlugins();
+       auto plugin : getPluginManager().getPlugins())
   {
     if (!disabled_plugins.contains(plugin->getFileName())) plugin->enable();
   }
@@ -250,10 +253,12 @@ void MainWindow::currentProjectChanged(api::project::IProject *project)
                                ? static_cast<QWidget *>(m_project_window)
                                : static_cast<QWidget *>(m_no_project_window);
 
-  disconnect(prev_current_widget, &QWidget::windowTitleChanged, this,
-             &MainWindow::updateWindowTitle);
-  connect(next_current_widget, &QWidget::windowTitleChanged, this,
-          &MainWindow::updateWindowTitle);
+  disconnect(
+    prev_current_widget, &QWidget::windowTitleChanged, this,
+    &MainWindow::updateWindowTitle);
+  connect(
+    next_current_widget, &QWidget::windowTitleChanged, this,
+    &MainWindow::updateWindowTitle);
 
   m_stacked_widget->setCurrentWidget(next_current_widget);
 

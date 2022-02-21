@@ -19,10 +19,10 @@ namespace api::document
     explicit IDocumentFormat(QObject *parent = nullptr);
     ~IDocumentFormat() override;
 
-    virtual std::unique_ptr<IDocument> load(const QString &file_name,
-                                            QString *error) = 0;
-    virtual bool save(const IDocument &document, const QString &file_name,
-                      QString *error) = 0;
+    virtual std::unique_ptr<IDocument>
+    load(const QString &file_name, QString *error) = 0;
+    virtual bool save(
+      const IDocument &document, const QString &file_name, QString *error) = 0;
   };
 
 }// namespace api::document

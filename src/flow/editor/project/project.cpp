@@ -53,15 +53,15 @@ api::project::IProjectFormat *Project::getWriterFormat() const
 
 void Project::setReaderFormat(api::project::IProjectFormat *format)
 {
-  Q_ASSERT(format &&
-           format->hasCapabilities(api::IFileFormat::Capability::Read));
+  Q_ASSERT(
+    format && format->hasCapabilities(api::IFileFormat::Capability::Read));
   m_read_format = format->getShortName();
 }
 
 void Project::setWriterFormat(api::project::IProjectFormat *format)
 {
-  Q_ASSERT(format &&
-           format->hasCapabilities(api::IFileFormat::Capability::Write));
+  Q_ASSERT(
+    format && format->hasCapabilities(api::IFileFormat::Capability::Write));
   m_write_format = format->getShortName();
 }
 
@@ -82,9 +82,9 @@ bool Project::save(const QString &file_name, QString *error)
   return true;
 }
 
-std::unique_ptr<api::project::IProject>
-Project::load(const QString &file_name, api::project::IProjectFormat *format,
-              QString *error)
+std::unique_ptr<api::project::IProject> Project::load(
+  const QString &file_name, api::project::IProjectFormat *format,
+  QString *error)
 {
   if (!format)
   {

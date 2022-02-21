@@ -18,17 +18,17 @@ namespace utils
     explicit FileSystemProxyModel(QObject *parent = nullptr);
     ~FileSystemProxyModel() override;
 
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row,
-                      int column, const QModelIndex &parent) override;
+    bool dropMimeData(
+      const QMimeData *data, Qt::DropAction action, int row, int column,
+      const QModelIndex &parent) override;
 
   protected:
-    [[nodiscard]] bool
-    filterAcceptsRow(int source_row,
-                     const QModelIndex &source_parent) const override;
+    [[nodiscard]] bool filterAcceptsRow(
+      int source_row, const QModelIndex &source_parent) const override;
 
   private:
-    [[nodiscard]] bool isSiblingOf(const QModelIndex &index,
-                                   const QModelIndex &parent) const;
+    [[nodiscard]] bool
+    isSiblingOf(const QModelIndex &index, const QModelIndex &parent) const;
   };
 
 }// namespace utils

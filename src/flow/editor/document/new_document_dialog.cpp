@@ -72,10 +72,12 @@ void NewDocumentDialog::documentTypeChanged(const QModelIndex &index)
   m_ui->m_stacked_widget->setCurrentWidget(next_widget);
   m_ui->m_create_button->setEnabled(next_widget->isValid());
 
-  disconnect(prev_widget, &api::document::INewDocumentWidget::isValidChanged,
-             m_ui->m_create_button, &QPushButton::setEnabled);
-  connect(next_widget, &api::document::INewDocumentWidget::isValidChanged,
-          m_ui->m_create_button, &QPushButton::setEnabled);
+  disconnect(
+    prev_widget, &api::document::INewDocumentWidget::isValidChanged,
+    m_ui->m_create_button, &QPushButton::setEnabled);
+  connect(
+    next_widget, &api::document::INewDocumentWidget::isValidChanged,
+    m_ui->m_create_button, &QPushButton::setEnabled);
 }
 
 void NewDocumentDialog::updateCreateButton()
@@ -113,14 +115,17 @@ void NewDocumentDialog::initUi()
 
 void NewDocumentDialog::initConnections()
 {
-  connect(m_ui->m_create_button, &QPushButton::pressed, this,
-          &NewDocumentDialog::accept);
-  connect(m_ui->m_document_type_list->selectionModel(),
-          &QItemSelectionModel::currentChanged, this,
-          &NewDocumentDialog::documentTypeChanged);
-  connect(m_ui->m_name_and_path_filler,
-          &utils::QtNameAndPathFiller::validStateChanged, this,
-          &NewDocumentDialog::updateCreateButton);
+  connect(
+    m_ui->m_create_button, &QPushButton::pressed, this,
+    &NewDocumentDialog::accept);
+  connect(
+    m_ui->m_document_type_list->selectionModel(),
+    &QItemSelectionModel::currentChanged, this,
+    &NewDocumentDialog::documentTypeChanged);
+  connect(
+    m_ui->m_name_and_path_filler,
+    &utils::QtNameAndPathFiller::validStateChanged, this,
+    &NewDocumentDialog::updateCreateButton);
 }
 
 void NewDocumentDialog::retranslateUi()

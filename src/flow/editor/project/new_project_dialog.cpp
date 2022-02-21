@@ -93,11 +93,13 @@ void NewProjectDialog::initUi()
 
 void NewProjectDialog::initConnections()
 {
-  connect(m_ui->m_create_button, &QPushButton::pressed, this,
-          &NewProjectDialog::accept);
-  connect(m_ui->m_name_and_path_filler,
-          &utils::QtNameAndPathFiller::validStateChanged, this,
-          &NewProjectDialog::updateCreateButton);
+  connect(
+    m_ui->m_create_button, &QPushButton::pressed, this,
+    &NewProjectDialog::accept);
+  connect(
+    m_ui->m_name_and_path_filler,
+    &utils::QtNameAndPathFiller::validStateChanged, this,
+    &NewProjectDialog::updateCreateButton);
 }
 
 void NewProjectDialog::retranslateUi()

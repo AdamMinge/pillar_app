@@ -13,9 +13,9 @@ DocumentTypeListDelegate::DocumentTypeListDelegate(QObject *parent)
 
 DocumentTypeListDelegate::~DocumentTypeListDelegate() = default;
 
-void DocumentTypeListDelegate::paint(QPainter *painter,
-                                     const QStyleOptionViewItem &option,
-                                     const QModelIndex &index) const
+void DocumentTypeListDelegate::paint(
+  QPainter *painter, const QStyleOptionViewItem &option,
+  const QModelIndex &index) const
 {
   QStyleOptionViewItem opt(option);
   initStyleOption(&opt, index);
@@ -23,8 +23,8 @@ void DocumentTypeListDelegate::paint(QPainter *painter,
   auto &palette = opt.palette;
   auto &rect = opt.rect;
   auto font = QFont(opt.font);
-  auto content_rect = rect.adjusted(m_margins.left(), m_margins.top(),
-                                    -m_margins.right(), -m_margins.bottom());
+  auto content_rect = rect.adjusted(
+    m_margins.left(), m_margins.top(), -m_margins.right(), -m_margins.bottom());
 
   auto is_last_index = index.model()->rowCount() - 1 == index.row();
   auto name =
@@ -36,12 +36,13 @@ void DocumentTypeListDelegate::paint(QPainter *painter,
   painter->setClipRect(rect);
   painter->setFont(opt.font);
 
-  painter->fillRect(rect, opt.state & QStyle::State_Selected
-                            ? palette.highlight().color()
-                            : palette.light().color());
+  painter->fillRect(
+    rect, opt.state & QStyle::State_Selected ? palette.highlight().color()
+                                             : palette.light().color());
 
-  painter->drawLine(is_last_index ? rect.left() : content_rect.left(),
-                    rect.bottom(), rect.right(), rect.bottom());
+  painter->drawLine(
+    is_last_index ? rect.left() : content_rect.left(), rect.bottom(),
+    rect.right(), rect.bottom());
 
   painter->drawPixmap(
     content_rect.left(), content_rect.top(),
@@ -64,14 +65,15 @@ void DocumentTypeListDelegate::paint(QPainter *painter,
   painter->restore();
 }
 
-QSize DocumentTypeListDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                         const QModelIndex &index) const
+QSize DocumentTypeListDelegate::sizeHint(
+  const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
   QStyleOptionViewItem opt(option);
   initStyleOption(&opt, index);
 
-  return QSize{opt.rect.width(),
-               m_icon_size.height() + m_margins.top() + m_margins.bottom()};
+  return QSize{
+    opt.rect.width(),
+    m_icon_size.height() + m_margins.top() + m_margins.bottom()};
 }
 
 void DocumentTypeListDelegate::setIconSize(const QSize &size)
@@ -94,8 +96,8 @@ const QMargins &DocumentTypeListDelegate::getMargins() const
   return m_margins;
 }
 
-void DocumentTypeListDelegate::setSpacing(int vertical_spacing,
-                                          int horizontal_spacing)
+void DocumentTypeListDelegate::setSpacing(
+  int vertical_spacing, int horizontal_spacing)
 {
   m_spacing.setWidth(vertical_spacing);
   m_spacing.setHeight(horizontal_spacing);

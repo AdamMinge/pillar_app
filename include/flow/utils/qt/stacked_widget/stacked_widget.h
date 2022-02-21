@@ -23,8 +23,8 @@ namespace utils
     [[nodiscard]] const QAbstractItemView *getView() const;
 
   private Q_SLOTS:
-    void selectionChanged(const QItemSelection &selected,
-                          const QItemSelection &deselected);
+    void selectionChanged(
+      const QItemSelection &selected, const QItemSelection &deselected);
     void modelChanged(QAbstractItemModel *model);
 
   private:

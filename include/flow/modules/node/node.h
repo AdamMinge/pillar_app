@@ -23,7 +23,7 @@ namespace node
 
     [[nodiscard]] const Pin &getPin(Pin::Type type, unsigned index) const;
     [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
-    
+
     [[nodiscard]] virtual QString getName() const = 0;
 
   protected:

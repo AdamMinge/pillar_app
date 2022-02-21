@@ -18,7 +18,7 @@ namespace node
     Q_OBJECT
 
   public:
-    explicit Connection(Pin& out, Pin& in);
+    explicit Connection(Pin &out, Pin &in);
     ~Connection() override;
 
     [[nodiscard]] const Pin &getPin(Pin::Type type) const;
@@ -31,11 +31,11 @@ namespace node
     void converterChanged(std::shared_ptr<TypeConverter> converter);
 
   private Q_SLOTS:
-    void transferData(const node::NodeData& data);
+    void transferData(const node::NodeData &data);
 
   private:
-    Pin& m_in;
-    Pin& m_out;
+    Pin &m_in;
+    Pin &m_out;
     std::shared_ptr<TypeConverter> m_converter;
   };
 

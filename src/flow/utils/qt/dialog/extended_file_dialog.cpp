@@ -20,17 +20,16 @@ namespace utils
     init();
   }
 
-  QtExtendedFileDialog::QtExtendedFileDialog(QWidget *parent,
-                                             Qt::WindowFlags flags)
+  QtExtendedFileDialog::QtExtendedFileDialog(
+    QWidget *parent, Qt::WindowFlags flags)
       : QFileDialog(parent, flags)
   {
     init();
   }
 
-  QtExtendedFileDialog::QtExtendedFileDialog(QWidget *parent,
-                                             const QString &caption,
-                                             const QString &directory,
-                                             const QString &filter)
+  QtExtendedFileDialog::QtExtendedFileDialog(
+    QWidget *parent, const QString &caption, const QString &directory,
+    const QString &filter)
       : QFileDialog(parent, caption, directory, filter)
   {
     init();
@@ -73,19 +72,24 @@ namespace utils
   {
     setOptions(QFileDialog::DontUseNativeDialog);
 
-    connect(this, SIGNAL(directoryEntered(QString)), this,
-            SLOT(checkHistory()));
-    connect(this, SIGNAL(directoryEntered(QString)), this,
-            SLOT(checkGoToParentAndBack()));
-    connect(findChild<QToolButton *>("backButton"), SIGNAL(clicked()), this,
-            SLOT(checkGoToParentAndBack()));
-    connect(findChild<QToolButton *>("forwardButton"), SIGNAL(clicked()), this,
-            SLOT(checkGoToParentAndBack()));
-    connect(findChild<QLineEdit *>("fileNameEdit"),
-            SIGNAL(textChanged(QString)), this, SLOT(checkLineEdit(QString)));
-    connect(findChild<QComboBox *>("lookInCombo"),
-            qOverload<int>(&QComboBox::currentIndexChanged), this,
-            &QtExtendedFileDialog::checkComboBox);
+    connect(
+      this, SIGNAL(directoryEntered(QString)), this, SLOT(checkHistory()));
+    connect(
+      this, SIGNAL(directoryEntered(QString)), this,
+      SLOT(checkGoToParentAndBack()));
+    connect(
+      findChild<QToolButton *>("backButton"), SIGNAL(clicked()), this,
+      SLOT(checkGoToParentAndBack()));
+    connect(
+      findChild<QToolButton *>("forwardButton"), SIGNAL(clicked()), this,
+      SLOT(checkGoToParentAndBack()));
+    connect(
+      findChild<QLineEdit *>("fileNameEdit"), SIGNAL(textChanged(QString)),
+      this, SLOT(checkLineEdit(QString)));
+    connect(
+      findChild<QComboBox *>("lookInCombo"),
+      qOverload<int>(&QComboBox::currentIndexChanged), this,
+      &QtExtendedFileDialog::checkComboBox);
 
     findChild<QLineEdit *>("fileNameEdit")->installEventFilter(this);
     findChild<QWidget *>("listView")->installEventFilter(this);
@@ -101,18 +105,18 @@ namespace utils
     if (event->type() != QEvent::KeyPress) return false;
 
     int key = dynamic_cast<QKeyEvent *>(event)->key();
-    if (object->objectName() == "listView" ||
-        object->objectName() == "treeView")
+    if (
+      object->objectName() == "listView" || object->objectName() == "treeView")
     {
-      return (Qt::Key_Backspace == key &&
-              !pathFits(directory().absolutePath()));
+      return (
+        Qt::Key_Backspace == key && !pathFits(directory().absolutePath()));
     } else
     {
       if (Qt::Key_Return != key && Qt::Key_Enter != key) return false;
 
       QString text = findChild<QLineEdit *>("fileNameEdit")->text();
-      QString path = QDir::cleanPath(directory().absolutePath() +
-                                     (text.startsWith("/") ? "" : "/") + text);
+      QString path = QDir::cleanPath(
+        directory().absolutePath() + (text.startsWith("/") ? "" : "/") + text);
       bool a = QDir(text).isAbsolute();
 
       return !((!a && pathFits(path)) || (a && pathFits(text)));
@@ -176,11 +180,12 @@ namespace utils
   {
     QAbstractButton *btn =
       findChild<QDialogButtonBox *>("buttonBox")->buttons().first();
-    QString path = QDir::cleanPath(directory().absolutePath() +
-                                   (text.startsWith("/") ? "" : "/") + text);
+    QString path = QDir::cleanPath(
+      directory().absolutePath() + (text.startsWith("/") ? "" : "/") + text);
     bool a = QDir(text).isAbsolute();
-    btn->setEnabled(btn->isEnabled() && ((!a && pathFits(path, true)) ||
-                                         (a && pathFits(text, true))));
+    btn->setEnabled(
+      btn->isEnabled() &&
+      ((!a && pathFits(path, true)) || (a && pathFits(text, true))));
   }
 
   void QtExtendedFileDialog::checkComboBox(int index)

@@ -62,8 +62,9 @@ namespace utils
 
   QRectF QtDpiInfo::dpiScaled(const QRectF &value)
   {
-    return QRectF(dpiScaled(value.x()), dpiScaled(value.y()),
-                  dpiScaled(value.width()), dpiScaled(value.height()));
+    return QRectF(
+      dpiScaled(value.x()), dpiScaled(value.y()), dpiScaled(value.width()),
+      dpiScaled(value.height()));
   }
 
 }// namespace utils

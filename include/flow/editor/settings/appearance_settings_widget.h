@@ -10,7 +10,7 @@ class AppearanceSettingsWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AppearanceSettingsWidget(QWidget* parent = nullptr);
+  explicit AppearanceSettingsWidget(QWidget *parent = nullptr);
   ~AppearanceSettingsWidget() override;
 
 protected:

@@ -12,8 +12,9 @@ namespace utils
     std::initializer_list<QtStackedWidgetTreeItem *> children)
       : m_parent(nullptr), m_name(std::move(name)), m_widget(widget)
   {
-    std::for_each(children.begin(), children.end(),
-                  [this](auto child) { addChild(child); });
+    std::for_each(children.begin(), children.end(), [this](auto child) {
+      addChild(child);
+    });
   }
 
   QtStackedWidgetTreeItem::~QtStackedWidgetTreeItem()
@@ -105,8 +106,8 @@ namespace utils
     return flags;
   }
 
-  QVariant QtStackedWidgetTreeModel::data(const QModelIndex &index,
-                                          int role) const
+  QVariant
+  QtStackedWidgetTreeModel::data(const QModelIndex &index, int role) const
   {
     if (index.row() < 0 || index.row() >= rowCount(QModelIndex{}))
       return QVariant{};
@@ -132,9 +133,8 @@ namespace utils
     }
   }
 
-  QVariant QtStackedWidgetTreeModel::headerData(int section,
-                                                Qt::Orientation orientation,
-                                                int role) const
+  QVariant QtStackedWidgetTreeModel::headerData(
+    int section, Qt::Orientation orientation, int role) const
   {
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
       return QVariant{};
@@ -148,8 +148,8 @@ namespace utils
     }
   }
 
-  QModelIndex QtStackedWidgetTreeModel::index(int row, int column,
-                                              const QModelIndex &parent) const
+  QModelIndex QtStackedWidgetTreeModel::index(
+    int row, int column, const QModelIndex &parent) const
   {
     if (!hasIndex(row, column, parent)) return QModelIndex{};
 

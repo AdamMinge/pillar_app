@@ -36,10 +36,11 @@ ProjectFormatPro::load(const QString &file_name, QString *error)
   return project_reader.read(file_name, error);
 }
 
-bool ProjectFormatPro::save(const api::project::IProject &project,
-                            const QString &file_name, QString *error)
+bool ProjectFormatPro::save(
+  const api::project::IProject &project, const QString &file_name,
+  QString *error)
 {
   ProjectWriter project_writer;
-  return project_writer.write(dynamic_cast<const Project &>(project), file_name,
-                              error);
+  return project_writer.write(
+    dynamic_cast<const Project &>(project), file_name, error);
 }

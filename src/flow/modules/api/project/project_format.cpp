@@ -20,8 +20,8 @@ namespace api::project
 
   IReadableProjectFormat::~IReadableProjectFormat() = default;
 
-  bool IReadableProjectFormat::save(const IProject &project,
-                                    const QString &file_name, QString *error)
+  bool IReadableProjectFormat::save(
+    const IProject &project, const QString &file_name, QString *error)
   {
     if (error) *error = tr("Project format is readable only");
 

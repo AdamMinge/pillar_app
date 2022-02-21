@@ -36,8 +36,8 @@ QList<QLocale> LanguageManager::getAvailableLanguages() const
   auto languages = QList<QLocale>{};
   auto filters = QStringList{m_translations_prefix + QLatin1String("*.qm")};
 
-  QDirIterator iterator(m_translations_dir, filters,
-                        QDir::Files | QDir::Readable);
+  QDirIterator iterator(
+    m_translations_dir, filters, QDir::Files | QDir::Readable);
   while (iterator.hasNext())
   {
     iterator.next();
@@ -73,10 +73,11 @@ bool LanguageManager::setLanguage(const QLocale &locale)
   m_qt_translator.reset(new QTranslator);
   m_app_translator.reset(new QTranslator);
 
-  if (!m_qt_translator->load(QLatin1String("qt_%1").arg(bcp47_name),
-                             m_translations_dir) ||
-      !m_app_translator->load(m_translations_prefix + bcp47_name,
-                              m_translations_dir))
+  if (
+    !m_qt_translator->load(
+      QLatin1String("qt_%1").arg(bcp47_name), m_translations_dir) ||
+    !m_app_translator->load(
+      m_translations_prefix + bcp47_name, m_translations_dir))
   {
     m_qt_translator.reset(nullptr);
     m_app_translator.reset(nullptr);

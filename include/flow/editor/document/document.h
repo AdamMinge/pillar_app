@@ -15,10 +15,9 @@ class Document : public api::document::IDocument
   Q_OBJECT
 
 public:
-  static std::unique_ptr<api::document::IDocument>
-  load(const QString &file_name,
-       api::document::IDocumentFormat *format = nullptr,
-       QString *error = nullptr);
+  static std::unique_ptr<api::document::IDocument> load(
+    const QString &file_name, api::document::IDocumentFormat *format = nullptr,
+    QString *error = nullptr);
 
 public:
   ~Document() override;

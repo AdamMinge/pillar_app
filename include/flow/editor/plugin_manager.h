@@ -21,7 +21,7 @@ public:
   ~PluginManager() override;
 
   void loadPlugins(QString plugins_path = {});
-  [[nodiscard]] std::list<Plugin*> getPlugins();
+  [[nodiscard]] std::list<Plugin *> getPlugins();
 
   void addObject(QObject *object);
   void removeObject(QObject *object);

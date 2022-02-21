@@ -471,12 +471,12 @@ namespace utils
     void setValue(QtProperty *property, const QSize &val);
     void setMinimum(QtProperty *property, const QSize &minVal);
     void setMaximum(QtProperty *property, const QSize &maxVal);
-    void setRange(QtProperty *property, const QSize &minVal,
-                  const QSize &maxVal);
+    void
+    setRange(QtProperty *property, const QSize &minVal, const QSize &maxVal);
   Q_SIGNALS:
     void valueChanged(QtProperty *property, const QSize &val);
-    void rangeChanged(QtProperty *property, const QSize &minVal,
-                      const QSize &maxVal);
+    void rangeChanged(
+      QtProperty *property, const QSize &minVal, const QSize &maxVal);
 
   protected:
     QString valueText(const QtProperty *property) const override;
@@ -512,13 +512,13 @@ namespace utils
     void setValue(QtProperty *property, const QSizeF &val);
     void setMinimum(QtProperty *property, const QSizeF &minVal);
     void setMaximum(QtProperty *property, const QSizeF &maxVal);
-    void setRange(QtProperty *property, const QSizeF &minVal,
-                  const QSizeF &maxVal);
+    void
+    setRange(QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
     void setDecimals(QtProperty *property, int prec);
   Q_SIGNALS:
     void valueChanged(QtProperty *property, const QSizeF &val);
-    void rangeChanged(QtProperty *property, const QSizeF &minVal,
-                      const QSizeF &maxVal);
+    void rangeChanged(
+      QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
     void decimalsChanged(QtProperty *property, int prec);
 
   protected:

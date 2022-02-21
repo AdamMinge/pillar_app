@@ -69,8 +69,8 @@ std::unique_ptr<Project> ProjectReader::read(QIODevice &device, QString *error)
   return project;
 }
 
-std::unique_ptr<Project> ProjectReader::read(const QString &file_name,
-                                             QString *error)
+std::unique_ptr<Project>
+ProjectReader::read(const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

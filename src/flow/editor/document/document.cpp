@@ -10,8 +10,8 @@
 Document::Document(Type type, QObject *parent)
     : IDocument(type, parent), m_undo_stack(new QUndoStack(this))
 {
-  connect(m_undo_stack, &QUndoStack::cleanChanged, this,
-          &Document::modifiedChanged);
+  connect(
+    m_undo_stack, &QUndoStack::cleanChanged, this, &Document::modifiedChanged);
 }
 
 Document::~Document() = default;
@@ -61,15 +61,15 @@ api::document::IDocumentFormat *Document::getWriterFormat() const
 
 void Document::setReaderFormat(api::document::IDocumentFormat *format)
 {
-  Q_ASSERT(format &&
-           format->hasCapabilities(api::IFileFormat::Capability::Read));
+  Q_ASSERT(
+    format && format->hasCapabilities(api::IFileFormat::Capability::Read));
   m_read_format = format->getShortName();
 }
 
 void Document::setWriterFormat(api::document::IDocumentFormat *format)
 {
-  Q_ASSERT(format &&
-           format->hasCapabilities(api::IFileFormat::Capability::Write));
+  Q_ASSERT(
+    format && format->hasCapabilities(api::IFileFormat::Capability::Write));
   m_write_format = format->getShortName();
 }
 
@@ -90,9 +90,9 @@ bool Document::save(const QString &file_name, QString *error)
   return true;
 }
 
-std::unique_ptr<api::document::IDocument>
-Document::load(const QString &file_name, api::document::IDocumentFormat *format,
-               QString *error)
+std::unique_ptr<api::document::IDocument> Document::load(
+  const QString &file_name, api::document::IDocumentFormat *format,
+  QString *error)
 {
   if (!format)
   {

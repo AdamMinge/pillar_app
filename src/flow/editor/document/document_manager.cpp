@@ -47,16 +47,18 @@ DocumentManager::DocumentManager()
 
   m_editor_stack->addWidget(m_no_document_widget);
 
-  connect(m_tab_bar, &QTabBar::currentChanged, this,
-          &DocumentManager::currentIndexChanged);
-  connect(m_tab_bar, &QTabBar::tabMoved, this,
-          &DocumentManager::documentTabMoved);
-  connect(m_tab_bar, &QTabBar::tabCloseRequested, this,
-          &DocumentManager::documentCloseRequested);
+  connect(
+    m_tab_bar, &QTabBar::currentChanged, this,
+    &DocumentManager::currentIndexChanged);
+  connect(
+    m_tab_bar, &QTabBar::tabMoved, this, &DocumentManager::documentTabMoved);
+  connect(
+    m_tab_bar, &QTabBar::tabCloseRequested, this,
+    &DocumentManager::documentCloseRequested);
 
-  connect(m_file_system_watcher.get(),
-          &utils::QtFileSystemWatcher::pathsChanged, this,
-          &DocumentManager::filesChanged);
+  connect(
+    m_file_system_watcher.get(), &utils::QtFileSystemWatcher::pathsChanged,
+    this, &DocumentManager::filesChanged);
 }
 
 DocumentManager::~DocumentManager() = default;
@@ -125,10 +127,12 @@ void DocumentManager::insertDocument(
   auto document_index = m_tab_bar->insertTab(index, tab_text);
   m_tab_bar->setTabToolTip(document_index, document_ptr->getFileName());
 
-  connect(document_ptr, &api::document::IDocument::fileNameChanged, this,
-          &DocumentManager::fileNameChanged);
-  connect(document_ptr, &api::document::IDocument::modifiedChanged, this,
-          [this, document_ptr]() { updateDocumentTab(document_ptr); });
+  connect(
+    document_ptr, &api::document::IDocument::fileNameChanged, this,
+    &DocumentManager::fileNameChanged);
+  connect(
+    document_ptr, &api::document::IDocument::modifiedChanged, this,
+    [this, document_ptr]() { updateDocumentTab(document_ptr); });
 
   switchToDocument(document_index);
 }
@@ -180,11 +184,11 @@ void DocumentManager::removeDocument(int index)
   if (!document_to_remove->getFileName().isEmpty())
     m_file_system_watcher->removePath(document_to_remove->getFileName());
 
-  auto removed_document_iter =
-    std::remove_if(m_documents.begin(), m_documents.end(),
-                   [&document_to_remove](auto &&document) {
-                     return document.get() == document_to_remove;
-                   });
+  auto removed_document_iter = std::remove_if(
+    m_documents.begin(), m_documents.end(),
+    [&document_to_remove](auto &&document) {
+      return document.get() == document_to_remove;
+    });
 
   m_undo_group->removeStack(document_to_remove->getUndoStack());
   m_tab_bar->removeTab(index);
@@ -213,10 +217,10 @@ api::document::IDocument *DocumentManager::getCurrentDocument() const
 
 int DocumentManager::findDocument(api::document::IDocument *document) const
 {
-  auto found = std::find_if(m_documents.begin(), m_documents.end(),
-                            [document](auto &current_document) {
-                              return current_document.get() == document;
-                            });
+  auto found = std::find_if(
+    m_documents.begin(), m_documents.end(), [document](auto &current_document) {
+      return current_document.get() == document;
+    });
 
   if (found == m_documents.end()) return -1;
 
@@ -225,11 +229,11 @@ int DocumentManager::findDocument(api::document::IDocument *document) const
 
 int DocumentManager::findDocument(const QString &file_name) const
 {
-  auto found =
-    std::find_if(m_documents.begin(), m_documents.end(),
-                 [&file_name](auto &current_document) {
-                   return current_document->getFileName() == file_name;
-                 });
+  auto found = std::find_if(
+    m_documents.begin(), m_documents.end(),
+    [&file_name](auto &current_document) {
+      return current_document->getFileName() == file_name;
+    });
 
   if (found == m_documents.end()) return -1;
 
@@ -243,10 +247,11 @@ void DocumentManager::switchToDocument(int index)
 
 void DocumentManager::switchToDocument(api::document::IDocument *document)
 {
-  auto found_iter = std::find_if(m_documents.begin(), m_documents.end(),
-                                 [&document](auto &&current_document) {
-                                   return current_document.get() == document;
-                                 });
+  auto found_iter = std::find_if(
+    m_documents.begin(), m_documents.end(),
+    [&document](auto &&current_document) {
+      return current_document.get() == document;
+    });
 
   Q_ASSERT(found_iter != m_documents.end());
   auto index = std::distance(m_documents.begin(), found_iter);
@@ -255,11 +260,11 @@ void DocumentManager::switchToDocument(api::document::IDocument *document)
 
 bool DocumentManager::switchToDocument(const QString &file_name)
 {
-  auto found_iter =
-    std::find_if(m_documents.begin(), m_documents.end(),
-                 [&file_name](auto &&current_document) {
-                   return current_document->getFileName() == file_name;
-                 });
+  auto found_iter = std::find_if(
+    m_documents.begin(), m_documents.end(),
+    [&file_name](auto &&current_document) {
+      return current_document->getFileName() == file_name;
+    });
 
   if (found_iter == m_documents.end()) return false;
 
@@ -358,11 +363,13 @@ void DocumentManager::currentIndexChanged()
 void DocumentManager::documentTabMoved(int from, int to)
 {
   if (from > to)
-    std::rotate(m_documents.rend() - from - 1, m_documents.rend() - from,
-                m_documents.rend() - to);
+    std::rotate(
+      m_documents.rend() - from - 1, m_documents.rend() - from,
+      m_documents.rend() - to);
   else
-    std::rotate(m_documents.begin() + from, m_documents.begin() + from + 1,
-                m_documents.begin() + to + 1);
+    std::rotate(
+      m_documents.begin() + from, m_documents.begin() + from + 1,
+      m_documents.begin() + to + 1);
 }
 
 void DocumentManager::filesChanged(const QStringList &file_names)
@@ -379,8 +386,8 @@ void DocumentManager::filesChanged(const QStringList &file_names)
   }
 }
 
-void DocumentManager::fileNameChanged(const QString &new_file_name,
-                                      const QString &old_file_name)
+void DocumentManager::fileNameChanged(
+  const QString &new_file_name, const QString &old_file_name)
 {
   if (!new_file_name.isEmpty()) m_file_system_watcher->addPath(new_file_name);
   if (!old_file_name.isEmpty())

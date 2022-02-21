@@ -12,13 +12,16 @@ namespace utils
     m_changed_paths_timer.setInterval(500);
     m_changed_paths_timer.setSingleShot(true);
 
-    connect(std::addressof(m_watcher), &QFileSystemWatcher::fileChanged, this,
-            &QtFileSystemWatcher::onFileChanged);
-    connect(std::addressof(m_watcher), &QFileSystemWatcher::directoryChanged,
-            this, &QtFileSystemWatcher::onDirectoryChanged);
+    connect(
+      std::addressof(m_watcher), &QFileSystemWatcher::fileChanged, this,
+      &QtFileSystemWatcher::onFileChanged);
+    connect(
+      std::addressof(m_watcher), &QFileSystemWatcher::directoryChanged, this,
+      &QtFileSystemWatcher::onDirectoryChanged);
 
-    connect(std::addressof(m_changed_paths_timer), &QTimer::timeout, this,
-            &QtFileSystemWatcher::pathsChangedTimeout);
+    connect(
+      std::addressof(m_changed_paths_timer), &QTimer::timeout, this,
+      &QtFileSystemWatcher::pathsChangedTimeout);
   }
 
   QtFileSystemWatcher::~QtFileSystemWatcher() = default;

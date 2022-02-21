@@ -16,7 +16,7 @@ namespace plugins::node::logic
     Q_PLUGIN_METADATA(IID "org.flow.NodesFactory" FILE "plugin.json")
 
   public:
-    explicit LogicNodesFactory(QObject* parent = nullptr);
+    explicit LogicNodesFactory(QObject *parent = nullptr);
     ~LogicNodesFactory() override;
   };
 

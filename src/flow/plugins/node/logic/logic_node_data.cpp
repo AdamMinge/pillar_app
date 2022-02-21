@@ -17,7 +17,7 @@ namespace plugins::node::logic
 
   void LogicNodeData::assign(const NodeData &data)
   {
-    auto& logic_node_data = dynamic_cast<const LogicNodeData &>(data);
+    auto &logic_node_data = dynamic_cast<const LogicNodeData &>(data);
     setValue(logic_node_data.getValue());
   }
 

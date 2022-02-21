@@ -52,8 +52,8 @@ void FlowDocumentWriter::write(const FlowDocument &document, QIODevice &device)
   m_impl->writeDocument(document, device);
 }
 
-bool FlowDocumentWriter::write(const FlowDocument &document,
-                               const QString &file_name, QString *error)
+bool FlowDocumentWriter::write(
+  const FlowDocument &document, const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

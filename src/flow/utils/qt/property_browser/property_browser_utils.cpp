@@ -101,9 +101,9 @@ namespace utils
       QCoreApplication::translate("QtCursorDatabase", "Size All"),
       QIcon(QLatin1String(
         ":/qt-project.org/qtpropertybrowser/images/cursor-sizeall.png")));
-    appendCursor(Qt::BlankCursor,
-                 QCoreApplication::translate("QtCursorDatabase", "Blank"),
-                 QIcon());
+    appendCursor(
+      Qt::BlankCursor, QCoreApplication::translate("QtCursorDatabase", "Blank"),
+      QIcon());
     appendCursor(
       Qt::SplitVCursor,
       QCoreApplication::translate("QtCursorDatabase", "Split Vertical"),
@@ -153,8 +153,8 @@ namespace utils
     m_cursorShapeToValue.clear();
   }
 
-  void QtCursorDatabase::appendCursor(Qt::CursorShape shape,
-                                      const QString &name, const QIcon &icon)
+  void QtCursorDatabase::appendCursor(
+    Qt::CursorShape shape, const QString &name, const QIcon &icon)
   {
     if (m_cursorShapeToValue.contains(shape)) return;
     const int value = m_cursorNames.count();
@@ -220,8 +220,9 @@ namespace utils
       QBrush opaqueBrush = b;
       color.setAlpha(255);
       opaqueBrush.setColor(color);
-      painter.fillRect(img.width() / 4, img.height() / 4, img.width() / 2,
-                       img.height() / 2, opaqueBrush);
+      painter.fillRect(
+        img.width() / 4, img.height() / 4, img.width() / 2, img.height() / 2,
+        opaqueBrush);
     }
     painter.end();
     return QPixmap::fromImage(img);
@@ -234,8 +235,8 @@ namespace utils
 
   QString QtPropertyBrowserUtils::colorValueText(const QColor &c)
   {
-    return QCoreApplication::translate("QtPropertyBrowserUtils",
-                                       "[%1, %2, %3] (%4)")
+    return QCoreApplication::translate(
+             "QtPropertyBrowserUtils", "[%1, %2, %3] (%4)")
       .arg(c.red())
       .arg(c.green())
       .arg(c.blue())

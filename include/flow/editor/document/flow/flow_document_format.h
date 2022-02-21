@@ -22,8 +22,9 @@ public:
   explicit ReadableFlowDocumentFormat(QObject *parent = nullptr);
   ~ReadableFlowDocumentFormat() override;
 
-  bool save(const api::document::IDocument &document, const QString &file_name,
-            QString *error) override;
+  bool save(
+    const api::document::IDocument &document, const QString &file_name,
+    QString *error) override;
   [[nodiscard]] Capabilities getCapabilities() const override;
 };
 
@@ -35,8 +36,8 @@ public:
   explicit WritableFlowDocumentFormat(QObject *parent = nullptr);
   ~WritableFlowDocumentFormat() override;
 
-  std::unique_ptr<api::document::IDocument> load(const QString &file_name,
-                                                 QString *error) override;
+  std::unique_ptr<api::document::IDocument>
+  load(const QString &file_name, QString *error) override;
   [[nodiscard]] Capabilities getCapabilities() const override;
 };
 

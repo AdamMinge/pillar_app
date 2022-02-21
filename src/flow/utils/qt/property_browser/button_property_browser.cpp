@@ -193,8 +193,8 @@ namespace utils
     m_recreateQueue.clear();
   }
 
-  void QtButtonPropertyBrowserPrivate::setExpanded(WidgetItem *item,
-                                                   bool expanded)
+  void
+  QtButtonPropertyBrowserPrivate::setExpanded(WidgetItem *item, bool expanded)
   {
     if (item->expanded == expanded) return;
 
@@ -241,9 +241,8 @@ namespace utils
     QTimer::singleShot(0, q_ptr, SLOT(slotUpdate()));
   }
 
-  void
-  QtButtonPropertyBrowserPrivate::propertyInserted(QtBrowserItem *index,
-                                                   QtBrowserItem *afterIndex)
+  void QtButtonPropertyBrowserPrivate::propertyInserted(
+    QtBrowserItem *index, QtBrowserItem *afterIndex)
   {
     WidgetItem *afterItem = m_indexToItem.value(afterIndex);
     WidgetItem *parentItem = m_indexToItem.value(index->parent());
@@ -264,8 +263,8 @@ namespace utils
     {
       row = gridRow(afterItem) + gridSpan(afterItem);
       if (parentItem)
-        parentItem->children.insert(parentItem->children.indexOf(afterItem) + 1,
-                                    newItem);
+        parentItem->children.insert(
+          parentItem->children.indexOf(afterItem) + 1, newItem);
       else
         m_children.insert(m_children.indexOf(afterItem) + 1, newItem);
     }
@@ -295,8 +294,9 @@ namespace utils
         parentItem->container = container;
         parentItem->button = createButton();
         m_buttonToItem[parentItem->button] = parentItem;
-        q_ptr->connect(parentItem->button, SIGNAL(toggled(bool)), q_ptr,
-                       SLOT(slotToggled(bool)));
+        q_ptr->connect(
+          parentItem->button, SIGNAL(toggled(bool)), q_ptr,
+          SLOT(slotToggled(bool)));
         parentItem->layout = new QGridLayout();
         container->setLayout(parentItem->layout);
         if (parentItem->label)
@@ -320,8 +320,9 @@ namespace utils
     newItem->widget = createEditor(index->property(), parentWidget);
     if (newItem->widget)
     {
-      QObject::connect(newItem->widget, SIGNAL(destroyed()), q_ptr,
-                       SLOT(slotEditorDestroyed()));
+      QObject::connect(
+        newItem->widget, SIGNAL(destroyed()), q_ptr,
+        SLOT(slotEditorDestroyed()));
       m_widgetToItem[newItem->widget] = newItem;
     } else if (index->property()->hasValue())
     {
@@ -412,8 +413,8 @@ namespace utils
     delete item;
   }
 
-  void QtButtonPropertyBrowserPrivate::insertRow(QGridLayout *layout,
-                                                 int row) const
+  void
+  QtButtonPropertyBrowserPrivate::insertRow(QGridLayout *layout, int row) const
   {
     QMap<QLayoutItem *, QRect> itemToPos;
     int idx = 0;
@@ -438,8 +439,8 @@ namespace utils
     }
   }
 
-  void QtButtonPropertyBrowserPrivate::removeRow(QGridLayout *layout,
-                                                 int row) const
+  void
+  QtButtonPropertyBrowserPrivate::removeRow(QGridLayout *layout, int row) const
   {
     QMap<QLayoutItem *, QRect> itemToPos;
     int idx = 0;
@@ -512,8 +513,8 @@ namespace utils
       item->widget->setFont(font);
       item->widget->setEnabled(property->isEnabled());
       const QString valueToolTip = property->valueToolTip();
-      item->widget->setToolTip(valueToolTip.isEmpty() ? property->valueText()
-                                                      : valueToolTip);
+      item->widget->setToolTip(
+        valueToolTip.isEmpty() ? property->valueText() : valueToolTip);
     }
   }
 
@@ -587,12 +588,10 @@ namespace utils
 */
   QtButtonPropertyBrowser::~QtButtonPropertyBrowser()
   {
-    const QMap<QtButtonPropertyBrowserPrivate::WidgetItem *,
-               QtBrowserItem *>::ConstIterator icend =
-      d_ptr->m_itemToIndex.constEnd();
-    for (QMap<QtButtonPropertyBrowserPrivate::WidgetItem *,
-              QtBrowserItem *>::ConstIterator it =
-           d_ptr->m_itemToIndex.constBegin();
+    const QMap<QtButtonPropertyBrowserPrivate::WidgetItem *, QtBrowserItem *>::
+      ConstIterator icend = d_ptr->m_itemToIndex.constEnd();
+    for (QMap<QtButtonPropertyBrowserPrivate::WidgetItem *, QtBrowserItem *>::
+           ConstIterator it = d_ptr->m_itemToIndex.constBegin();
          it != icend; ++it)
       delete it.key();
   }
@@ -600,8 +599,8 @@ namespace utils
   /*!
     \reimp
 */
-  void QtButtonPropertyBrowser::itemInserted(QtBrowserItem *item,
-                                             QtBrowserItem *afterItem)
+  void QtButtonPropertyBrowser::itemInserted(
+    QtBrowserItem *item, QtBrowserItem *afterItem)
   {
     d_ptr->propertyInserted(item, afterItem);
   }

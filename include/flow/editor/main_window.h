@@ -42,7 +42,7 @@ public:
 
   [[nodiscard]] LanguageManager &getLanguageManager() const;
   [[nodiscard]] ProjectManager &getProjectManager() const;
-  [[nodiscard]] PluginManager& getPluginManager() const;
+  [[nodiscard]] PluginManager &getPluginManager() const;
   [[nodiscard]] StyleManager &getStyleManager() const;
   [[nodiscard]] ActionManager &getActionManager() const;
 

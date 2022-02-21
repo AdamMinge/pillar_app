@@ -41,10 +41,11 @@ FlowDocumentFormatFlow::load(const QString &file_name, QString *error)
   return document_reader.read(file_name, error);
 }
 
-bool FlowDocumentFormatFlow::save(const api::document::IDocument &document,
-                                  const QString &file_name, QString *error)
+bool FlowDocumentFormatFlow::save(
+  const api::document::IDocument &document, const QString &file_name,
+  QString *error)
 {
   FlowDocumentWriter document_writer;
-  return document_writer.write(dynamic_cast<const FlowDocument &>(document),
-                               file_name, error);
+  return document_writer.write(
+    dynamic_cast<const FlowDocument &>(document), file_name, error);
 }

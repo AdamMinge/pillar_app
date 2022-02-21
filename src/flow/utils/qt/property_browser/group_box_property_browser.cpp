@@ -166,9 +166,8 @@ namespace utils
     QTimer::singleShot(0, q_ptr, SLOT(slotUpdate()));
   }
 
-  void
-  QtGroupBoxPropertyBrowserPrivate::propertyInserted(QtBrowserItem *index,
-                                                     QtBrowserItem *afterIndex)
+  void QtGroupBoxPropertyBrowserPrivate::propertyInserted(
+    QtBrowserItem *index, QtBrowserItem *afterIndex)
   {
     WidgetItem *afterItem = m_indexToItem.value(afterIndex);
     WidgetItem *parentItem = m_indexToItem.value(index->parent());
@@ -268,8 +267,9 @@ namespace utils
       newItem->widgetLabel = new QLabel(parentWidget);
     } else
     {
-      QObject::connect(newItem->widget, SIGNAL(destroyed()), q_ptr,
-                       SLOT(slotEditorDestroyed()));
+      QObject::connect(
+        newItem->widget, SIGNAL(destroyed()), q_ptr,
+        SLOT(slotEditorDestroyed()));
       m_widgetToItem[newItem->widget] = newItem;
     }
 
@@ -363,8 +363,8 @@ namespace utils
     delete item;
   }
 
-  void QtGroupBoxPropertyBrowserPrivate::insertRow(QGridLayout *layout,
-                                                   int row) const
+  void QtGroupBoxPropertyBrowserPrivate::insertRow(
+    QGridLayout *layout, int row) const
   {
     QMap<QLayoutItem *, QRect> itemToPos;
     int idx = 0;
@@ -391,8 +391,8 @@ namespace utils
     }
   }
 
-  void QtGroupBoxPropertyBrowserPrivate::removeRow(QGridLayout *layout,
-                                                   int row) const
+  void QtGroupBoxPropertyBrowserPrivate::removeRow(
+    QGridLayout *layout, int row) const
   {
     QMap<QLayoutItem *, QRect> itemToPos;
     int idx = 0;
@@ -472,8 +472,8 @@ namespace utils
       item->widget->setFont(font);
       item->widget->setEnabled(property->isEnabled());
       const QString valueToolTip = property->valueToolTip();
-      item->widget->setToolTip(valueToolTip.isEmpty() ? property->valueText()
-                                                      : valueToolTip);
+      item->widget->setToolTip(
+        valueToolTip.isEmpty() ? property->valueText() : valueToolTip);
     }
     //item->setIcon(1, property->valueIcon());
   }
@@ -532,12 +532,11 @@ namespace utils
 */
   QtGroupBoxPropertyBrowser::~QtGroupBoxPropertyBrowser()
   {
-    const QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *,
-               QtBrowserItem *>::ConstIterator icend =
-      d_ptr->m_itemToIndex.constEnd();
-    for (QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *,
-              QtBrowserItem *>::ConstIterator it =
-           d_ptr->m_itemToIndex.constBegin();
+    const QMap<
+      QtGroupBoxPropertyBrowserPrivate::WidgetItem *,
+      QtBrowserItem *>::ConstIterator icend = d_ptr->m_itemToIndex.constEnd();
+    for (QMap<QtGroupBoxPropertyBrowserPrivate::WidgetItem *, QtBrowserItem *>::
+           ConstIterator it = d_ptr->m_itemToIndex.constBegin();
          it != icend; ++it)
       delete it.key();
   }
@@ -545,8 +544,8 @@ namespace utils
   /*!
     \reimp
 */
-  void QtGroupBoxPropertyBrowser::itemInserted(QtBrowserItem *item,
-                                               QtBrowserItem *afterItem)
+  void QtGroupBoxPropertyBrowser::itemInserted(
+    QtBrowserItem *item, QtBrowserItem *afterItem)
   {
     d_ptr->propertyInserted(item, afterItem);
   }

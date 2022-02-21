@@ -4,7 +4,8 @@
 #include "flow/editor/settings/shortcuts_settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
-ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent) : QWidget(parent)
+ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent)
+    : QWidget(parent)
 {
   initUi();
   initConnections();

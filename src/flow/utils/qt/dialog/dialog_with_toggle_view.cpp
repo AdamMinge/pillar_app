@@ -13,10 +13,12 @@ namespace utils
   {
     m_toggle_view->setCheckable(true);
 
-    connect(m_toggle_view, &QAction::toggled, this,
-            &QtDialogWithToggleView::setVisible);
-    connect(this, &QtDialogWithToggleView::windowTitleChanged, this,
-            &QtDialogWithToggleView::titleChanged);
+    connect(
+      m_toggle_view, &QAction::toggled, this,
+      &QtDialogWithToggleView::setVisible);
+    connect(
+      this, &QtDialogWithToggleView::windowTitleChanged, this,
+      &QtDialogWithToggleView::titleChanged);
   }
   QtDialogWithToggleView::~QtDialogWithToggleView() = default;
 

@@ -4,7 +4,8 @@
 #include "flow/editor/settings/appearance_settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
-AppearanceSettingsWidget::AppearanceSettingsWidget(QWidget *parent) : QWidget(parent)
+AppearanceSettingsWidget::AppearanceSettingsWidget(QWidget *parent)
+    : QWidget(parent)
 {
   initUi();
   initConnections();

@@ -2,8 +2,8 @@
 #define FLOW_NODES_FACTORY_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
 #include <QHash>
+#include <QObject>
 /* ---------------------------------- Standard ------------------------------ */
 #include <unordered_map>
 /* ----------------------------------- Local -------------------------------- */
@@ -23,21 +23,21 @@ namespace node
     using Factory = std::function<std::unique_ptr<Node>()>;
 
   public:
-    explicit NodesFactory(QObject* parent = nullptr);
+    explicit NodesFactory(QObject *parent = nullptr);
     ~NodesFactory() override;
 
-    [[nodiscard]] std::unique_ptr<Node> createNode(const QString& id) const;
+    [[nodiscard]] std::unique_ptr<Node> createNode(const QString &id) const;
     [[nodiscard]] QStringList getAvailableNodes() const;
 
   protected:
-    void registerFactory(const QString& id, const Factory &factory);
-    void unregisterFactory(const QString& id);
+    void registerFactory(const QString &id, const Factory &factory);
+    void unregisterFactory(const QString &id);
 
   private:
     QHash<QString, Factory> m_factories;
   };
 
-} // namespace node
+}// namespace node
 
 Q_DECLARE_INTERFACE(node::NodesFactory, "org.flow.NodesFactory")
 

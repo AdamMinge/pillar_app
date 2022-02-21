@@ -26,9 +26,9 @@ namespace api::document
 
     [[nodiscard]] virtual QWidget *getWidget() const = 0;
 
-    virtual void
-    addEditor(api::document::IDocument::Type document_type,
-              std::unique_ptr<api::document::IDocumentEditor> editor) = 0;
+    virtual void addEditor(
+      api::document::IDocument::Type document_type,
+      std::unique_ptr<api::document::IDocumentEditor> editor) = 0;
     virtual void removeEditor(api::document::IDocument::Type document_type) = 0;
     virtual void removeAllEditors() = 0;
 
@@ -39,9 +39,8 @@ namespace api::document
 
     virtual void
     addDocument(std::unique_ptr<api::document::IDocument> document) = 0;
-    virtual void
-    insertDocument(int index,
-                   std::unique_ptr<api::document::IDocument> document) = 0;
+    virtual void insertDocument(
+      int index, std::unique_ptr<api::document::IDocument> document) = 0;
 
     virtual void removeDocument(int index) = 0;
     virtual void removeAllDocuments() = 0;

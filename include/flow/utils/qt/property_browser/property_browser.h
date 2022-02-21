@@ -115,8 +115,8 @@ namespace utils
     QtProperty *addProperty(const QString &name = QString());
   Q_SIGNALS:
 
-    void propertyInserted(QtProperty *property, QtProperty *parent,
-                          QtProperty *after);
+    void propertyInserted(
+      QtProperty *property, QtProperty *parent, QtProperty *after);
     void propertyChanged(QtProperty *property);
     void propertyRemoved(QtProperty *property, QtProperty *parent);
     void propertyDestroyed(QtProperty *property);
@@ -177,14 +177,16 @@ namespace utils
       if (m_managers.contains(manager)) return;
       m_managers.insert(manager);
       connectPropertyManager(manager);
-      connect(manager, SIGNAL(destroyed(QObject *)), this,
-              SLOT(managerDestroyed(QObject *)));
+      connect(
+        manager, SIGNAL(destroyed(QObject *)), this,
+        SLOT(managerDestroyed(QObject *)));
     }
     void removePropertyManager(PropertyManager *manager)
     {
       if (!m_managers.contains(manager)) return;
-      disconnect(manager, SIGNAL(destroyed(QObject *)), this,
-                 SLOT(managerDestroyed(QObject *)));
+      disconnect(
+        manager, SIGNAL(destroyed(QObject *)), this,
+        SLOT(managerDestroyed(QObject *)));
       disconnectPropertyManager(manager);
       m_managers.remove(manager);
     }
@@ -201,8 +203,8 @@ namespace utils
 
   protected:
     virtual void connectPropertyManager(PropertyManager *manager) = 0;
-    virtual QWidget *createEditor(PropertyManager *manager,
-                                  QtProperty *property, QWidget *parent) = 0;
+    virtual QWidget *createEditor(
+      PropertyManager *manager, QtProperty *property, QWidget *parent) = 0;
     virtual void disconnectPropertyManager(PropertyManager *manager) = 0;
     void managerDestroyed(QObject *manager) override
     {
@@ -246,8 +248,9 @@ namespace utils
     QtAbstractPropertyBrowser *browser() const;
 
   private:
-    explicit QtBrowserItem(QtAbstractPropertyBrowser *browser,
-                           QtProperty *property, QtBrowserItem *parent);
+    explicit QtBrowserItem(
+      QtAbstractPropertyBrowser *browser, QtProperty *property,
+      QtBrowserItem *parent);
     ~QtBrowserItem();
     QScopedPointer<QtBrowserItemPrivate> d_ptr;
     friend class QtAbstractPropertyBrowserPrivate;
@@ -269,8 +272,9 @@ namespace utils
     void clear();
 
     template<class PropertyManager>
-    void setFactoryForManager(PropertyManager *manager,
-                              QtAbstractEditorFactory<PropertyManager> *factory)
+    void setFactoryForManager(
+      PropertyManager *manager,
+      QtAbstractEditorFactory<PropertyManager> *factory)
     {
       QtAbstractPropertyManager *abstractManager = manager;
       QtAbstractEditorFactoryBase *abstractFactory = factory;
@@ -290,13 +294,13 @@ namespace utils
   public Q_SLOTS:
 
     QtBrowserItem *addProperty(QtProperty *property);
-    QtBrowserItem *insertProperty(QtProperty *property,
-                                  QtProperty *afterProperty);
+    QtBrowserItem *
+    insertProperty(QtProperty *property, QtProperty *afterProperty);
     void removeProperty(QtProperty *property);
 
   protected:
-    virtual void itemInserted(QtBrowserItem *item,
-                              QtBrowserItem *afterItem) = 0;
+    virtual void
+    itemInserted(QtBrowserItem *item, QtBrowserItem *afterItem) = 0;
     virtual void itemRemoved(QtBrowserItem *item) = 0;
     // can be tooltip, statustip, whatsthis, name, icon, text.
     virtual void itemChanged(QtBrowserItem *item) = 0;
@@ -304,17 +308,18 @@ namespace utils
     virtual QWidget *createEditor(QtProperty *property, QWidget *parent);
 
   private:
-    bool addFactory(QtAbstractPropertyManager *abstractManager,
-                    QtAbstractEditorFactoryBase *abstractFactory);
+    bool addFactory(
+      QtAbstractPropertyManager *abstractManager,
+      QtAbstractEditorFactoryBase *abstractFactory);
 
     QScopedPointer<QtAbstractPropertyBrowserPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtAbstractPropertyBrowser)
     Q_DISABLE_COPY_MOVE(QtAbstractPropertyBrowser)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyInserted(QtProperty *, QtProperty *,
-                                             QtProperty *))
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyRemoved(QtProperty *, QtProperty *))
+    Q_PRIVATE_SLOT(
+      d_func(),
+      void slotPropertyInserted(QtProperty *, QtProperty *, QtProperty *))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyRemoved(QtProperty *, QtProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDataChanged(QtProperty *))
   };

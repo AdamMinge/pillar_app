@@ -71,10 +71,10 @@ api::project::IProject *ProjectManager::getCurrentProject() const
 
 int ProjectManager::findProject(api::project::IProject *project) const
 {
-  auto found = std::find_if(m_projects.begin(), m_projects.end(),
-                            [project](auto &current_project) {
-                              return current_project.get() == project;
-                            });
+  auto found = std::find_if(
+    m_projects.begin(), m_projects.end(), [project](auto &current_project) {
+      return current_project.get() == project;
+    });
 
   if (found == m_projects.end()) return -1;
 

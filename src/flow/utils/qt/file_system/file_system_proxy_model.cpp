@@ -12,9 +12,9 @@ namespace utils
 
   FileSystemProxyModel::~FileSystemProxyModel() = default;
 
-  bool FileSystemProxyModel::dropMimeData(const QMimeData *data,
-                                          Qt::DropAction action, int row,
-                                          int column, const QModelIndex &parent)
+  bool FileSystemProxyModel::dropMimeData(
+    const QMimeData *data, Qt::DropAction action, int row, int column,
+    const QModelIndex &parent)
   {
     auto model = qobject_cast<QFileSystemModel *>(sourceModel());
     if (model)
@@ -26,18 +26,17 @@ namespace utils
       if (root_index == source_parent)
       {
         auto new_parent = mapFromSource(model->index(root_path));
-        return QSortFilterProxyModel::dropMimeData(data, action, row, column,
-                                                   new_parent);
+        return QSortFilterProxyModel::dropMimeData(
+          data, action, row, column, new_parent);
       }
     }
 
-    return QSortFilterProxyModel::dropMimeData(data, action, row, column,
-                                               parent);
+    return QSortFilterProxyModel::dropMimeData(
+      data, action, row, column, parent);
   }
 
-  bool
-  FileSystemProxyModel::filterAcceptsRow(int source_row,
-                                         const QModelIndex &source_parent) const
+  bool FileSystemProxyModel::filterAcceptsRow(
+    int source_row, const QModelIndex &source_parent) const
   {
     auto model = qobject_cast<QFileSystemModel *>(sourceModel());
     auto index = model->index(source_row, 0, source_parent);
@@ -49,8 +48,8 @@ namespace utils
            !isSiblingOf(index, rootIndex);
   }
 
-  bool FileSystemProxyModel::isSiblingOf(const QModelIndex &index,
-                                         const QModelIndex &parent) const
+  bool FileSystemProxyModel::isSiblingOf(
+    const QModelIndex &index, const QModelIndex &parent) const
   {
     if (!index.isValid() || !parent.isValid()) return false;
 

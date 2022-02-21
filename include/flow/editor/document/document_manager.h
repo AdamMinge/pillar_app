@@ -33,9 +33,9 @@ public:
 
   [[nodiscard]] QWidget *getWidget() const override;
 
-  void
-  addEditor(api::document::IDocument::Type document_type,
-            std::unique_ptr<api::document::IDocumentEditor> editor) override;
+  void addEditor(
+    api::document::IDocument::Type document_type,
+    std::unique_ptr<api::document::IDocumentEditor> editor) override;
   void removeEditor(api::document::IDocument::Type document_type) override;
   void removeAllEditors() override;
 
@@ -45,9 +45,8 @@ public:
   getCurrentEditor() const override;
 
   void addDocument(std::unique_ptr<api::document::IDocument> document) override;
-  void
-  insertDocument(int index,
-                 std::unique_ptr<api::document::IDocument> document) override;
+  void insertDocument(
+    int index, std::unique_ptr<api::document::IDocument> document) override;
 
   void removeDocument(int index) override;
   void removeAllDocuments() override;
@@ -85,16 +84,17 @@ private Q_SLOTS:
   void documentTabMoved(int from, int to);
 
   void filesChanged(const QStringList &file_names);
-  void fileNameChanged(const QString &new_file_name,
-                       const QString &old_file_name);
+  void
+  fileNameChanged(const QString &new_file_name, const QString &old_file_name);
   void updateDocumentTab(api::document::IDocument *document);
 
 private:
   static QScopedPointer<DocumentManager> m_instance;
 
   std::vector<std::unique_ptr<api::document::IDocument>> m_documents;
-  std::unordered_map<api::document::IDocument::Type,
-                     std::unique_ptr<api::document::IDocumentEditor>>
+  std::unordered_map<
+    api::document::IDocument::Type,
+    std::unique_ptr<api::document::IDocumentEditor>>
     m_editor_for_document_type;
 
   QPointer<QWidget> m_widget;

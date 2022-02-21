@@ -21,8 +21,9 @@ namespace node
     enum class Type;
 
   public:
-    explicit Pin(std::unique_ptr<node::NodeData> data, Policy policy,
-                 QString caption = {});
+    explicit Pin(
+      std::unique_ptr<node::NodeData> data, Policy policy,
+      QString caption = {});
     ~Pin() override;
 
     [[nodiscard]] const node::NodeData &getData() const;

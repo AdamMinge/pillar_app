@@ -151,15 +151,19 @@ void NoProjectWindow::initUi()
 
 void NoProjectWindow::initConnections()
 {
-  connect(m_ui->m_open_button, &QPushButton::pressed, this,
-          &NoProjectWindow::openProject);
-  connect(m_ui->m_new_project_button, &QPushButton::pressed, this,
-          &NoProjectWindow::createProject);
+  connect(
+    m_ui->m_open_button, &QPushButton::pressed, this,
+    &NoProjectWindow::openProject);
+  connect(
+    m_ui->m_new_project_button, &QPushButton::pressed, this,
+    &NoProjectWindow::createProject);
 
-  connect(m_ui->m_projects_list_view, &QListView::activated, this,
-          &NoProjectWindow::openRecentProject);
-  connect(m_ui->m_search_project_edit, &QLineEdit::textChanged, this,
-          &NoProjectWindow::searchRecentProject);
+  connect(
+    m_ui->m_projects_list_view, &QListView::activated, this,
+    &NoProjectWindow::openRecentProject);
+  connect(
+    m_ui->m_search_project_edit, &QLineEdit::textChanged, this,
+    &NoProjectWindow::searchRecentProject);
 }
 
 void NoProjectWindow::retranslateUi() { m_ui->retranslateUi(this); }

@@ -46,8 +46,8 @@ namespace utils
     if ((item.row() == -1 && item.column() == -1) || selected)
     {
       VIEW::clearSelection();
-      VIEW::selectionModel()->setCurrentIndex(QModelIndex(),
-                                              QItemSelectionModel::Select);
+      VIEW::selectionModel()->setCurrentIndex(
+        QModelIndex(), QItemSelectionModel::Select);
     }
 
     VIEW::mousePressEvent(event);

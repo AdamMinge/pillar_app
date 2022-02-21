@@ -33,7 +33,7 @@ namespace node
     auto &pins = getPins(type);
     auto insert_iter = pins.insert(pins.begin() + index, std::move(pin));
 
-    if(type == Pin::Type::In)
+    if (type == Pin::Type::In)
       connect((*insert_iter).get(), &Pin::dataChanged, this, &Node::compute);
   }
 

@@ -61,8 +61,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtIntPropertyManager *manager) override;
-    QWidget *createEditor(QtIntPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtIntPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtIntPropertyManager *manager) override;
 
   private:
@@ -88,8 +89,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtIntPropertyManager *manager) override;
-    QWidget *createEditor(QtIntPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtIntPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtIntPropertyManager *manager) override;
 
   private:
@@ -115,8 +117,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtIntPropertyManager *manager) override;
-    QWidget *createEditor(QtIntPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtIntPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtIntPropertyManager *manager) override;
 
   private:
@@ -142,8 +145,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtBoolPropertyManager *manager) override;
-    QWidget *createEditor(QtBoolPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtBoolPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtBoolPropertyManager *manager) override;
 
   private:
@@ -167,8 +171,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtDoublePropertyManager *manager) override;
-    QWidget *createEditor(QtDoublePropertyManager *manager,
-                          QtProperty *property, QWidget *parent) override;
+    QWidget *createEditor(
+      QtDoublePropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtDoublePropertyManager *manager) override;
 
   private:
@@ -176,8 +181,8 @@ namespace utils
     Q_DECLARE_PRIVATE(QtDoubleSpinBoxFactory)
     Q_DISABLE_COPY_MOVE(QtDoubleSpinBoxFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotRangeChanged(QtProperty *, double, double))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotRangeChanged(QtProperty *, double, double))
     Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, double))
     Q_PRIVATE_SLOT(d_func(), void slotDecimalsChanged(QtProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(double))
@@ -196,18 +201,20 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtStringPropertyManager *manager) override;
-    QWidget *createEditor(QtStringPropertyManager *manager,
-                          QtProperty *property, QWidget *parent) override;
+    QWidget *createEditor(
+      QtStringPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtStringPropertyManager *manager) override;
 
   private:
     QScopedPointer<QtLineEditFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtLineEditFactory)
     Q_DISABLE_COPY_MOVE(QtLineEditFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QString &))
-    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QtProperty *,
-                                                    const QRegularExpression &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QString &))
+    Q_PRIVATE_SLOT(
+      d_func(),
+      void slotRegExpChanged(QtProperty *, const QRegularExpression &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QString &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
   };
@@ -224,8 +231,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtDatePropertyManager *manager) override;
-    QWidget *createEditor(QtDatePropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtDatePropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtDatePropertyManager *manager) override;
 
   private:
@@ -250,8 +258,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtTimePropertyManager *manager) override;
-    QWidget *createEditor(QtTimePropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtTimePropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtTimePropertyManager *manager) override;
 
   private:
@@ -275,16 +284,17 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtDateTimePropertyManager *manager) override;
-    QWidget *createEditor(QtDateTimePropertyManager *manager,
-                          QtProperty *property, QWidget *parent) override;
+    QWidget *createEditor(
+      QtDateTimePropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtDateTimePropertyManager *manager) override;
 
   private:
     QScopedPointer<QtDateTimeEditFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtDateTimeEditFactory)
     Q_DISABLE_COPY_MOVE(QtDateTimeEditFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QDateTime &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QDateTime &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QDateTime &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
   };
@@ -301,8 +311,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtKeySequencePropertyManager *manager) override;
-    QWidget *createEditor(QtKeySequencePropertyManager *manager,
-                          QtProperty *property, QWidget *parent) override;
+    QWidget *createEditor(
+      QtKeySequencePropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void
     disconnectPropertyManager(QtKeySequencePropertyManager *manager) override;
 
@@ -310,8 +321,8 @@ namespace utils
     QScopedPointer<QtKeySequenceEditorFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtKeySequenceEditorFactory)
     Q_DISABLE_COPY_MOVE(QtKeySequenceEditorFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QKeySequence &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QKeySequence &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QKeySequence &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
   };
@@ -328,16 +339,17 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtCharPropertyManager *manager) override;
-    QWidget *createEditor(QtCharPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtCharPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtCharPropertyManager *manager) override;
 
   private:
     QScopedPointer<QtCharEditorFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtCharEditorFactory)
     Q_DISABLE_COPY_MOVE(QtCharEditorFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QChar &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QChar &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QChar &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
   };
@@ -354,8 +366,9 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtEnumPropertyManager *manager) override;
-    QWidget *createEditor(QtEnumPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtEnumPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtEnumPropertyManager *manager) override;
 
   private:
@@ -363,11 +376,11 @@ namespace utils
     Q_DECLARE_PRIVATE(QtEnumEditorFactory)
     Q_DISABLE_COPY_MOVE(QtEnumEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotEnumNamesChanged(QtProperty *, const QStringList &))
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotEnumIconsChanged(QtProperty *,
-                                             const QMap<int, QIcon> &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotEnumNamesChanged(QtProperty *, const QStringList &))
+    Q_PRIVATE_SLOT(
+      d_func(),
+      void slotEnumIconsChanged(QtProperty *, const QMap<int, QIcon> &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
   };
@@ -384,16 +397,17 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtCursorPropertyManager *manager) override;
-    QWidget *createEditor(QtCursorPropertyManager *manager,
-                          QtProperty *property, QWidget *parent) override;
+    QWidget *createEditor(
+      QtCursorPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtCursorPropertyManager *manager) override;
 
   private:
     QScopedPointer<QtCursorEditorFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtCursorEditorFactory)
     Q_DISABLE_COPY_MOVE(QtCursorEditorFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QCursor &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QCursor &))
     Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QtProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
   };
@@ -410,16 +424,17 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtColorPropertyManager *manager) override;
-    QWidget *createEditor(QtColorPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtColorPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtColorPropertyManager *manager) override;
 
   private:
     QScopedPointer<QtColorEditorFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtColorEditorFactory)
     Q_DISABLE_COPY_MOVE(QtColorEditorFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QColor &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QColor &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QColor &))
   };
@@ -436,16 +451,17 @@ namespace utils
 
   protected:
     void connectPropertyManager(QtFontPropertyManager *manager) override;
-    QWidget *createEditor(QtFontPropertyManager *manager, QtProperty *property,
-                          QWidget *parent) override;
+    QWidget *createEditor(
+      QtFontPropertyManager *manager, QtProperty *property,
+      QWidget *parent) override;
     void disconnectPropertyManager(QtFontPropertyManager *manager) override;
 
   private:
     QScopedPointer<QtFontEditorFactoryPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtFontEditorFactory)
     Q_DISABLE_COPY_MOVE(QtFontEditorFactory)
-    Q_PRIVATE_SLOT(d_func(),
-                   void slotPropertyChanged(QtProperty *, const QFont &))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotPropertyChanged(QtProperty *, const QFont &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QFont &))
   };

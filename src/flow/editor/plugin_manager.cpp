@@ -29,7 +29,7 @@ void PluginManager::loadPlugins(QString plugins_path)
   auto static_plugin_instances = QPluginLoader::staticInstances();
   for (auto instance : static_plugin_instances) { Plugin::create(instance); }
 
-  if(plugins_path.isEmpty())
+  if (plugins_path.isEmpty())
   {
     plugins_path = QCoreApplication::applicationDirPath();
     plugins_path += QStringLiteral("/plugins");
@@ -47,12 +47,12 @@ void PluginManager::loadPlugins(QString plugins_path)
   }
 }
 
-std::list<Plugin*> PluginManager::getPlugins()
+std::list<Plugin *> PluginManager::getPlugins()
 {
   auto plugins = std::list<Plugin *>{};
-  std::transform(m_plugins.begin(), m_plugins.end(),
-                 std::back_inserter(plugins),
-                 [](auto &plugin) { return &plugin; });
+  std::transform(
+    m_plugins.begin(), m_plugins.end(), std::back_inserter(plugins),
+    [](auto &plugin) { return &plugin; });
   return plugins;
 }
 

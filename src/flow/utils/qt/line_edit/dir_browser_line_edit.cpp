@@ -13,12 +13,13 @@ namespace utils
   QtDirBrowserLineEdit::QtDirBrowserLineEdit(QWidget *parent)
       : QLineEdit(parent)
   {
-    auto browser_action =
-      addAction(QIcon(":/shared/images/32x32/file_browser.png"),
-                QLineEdit::TrailingPosition);
+    auto browser_action = addAction(
+      QIcon(":/shared/images/32x32/file_browser.png"),
+      QLineEdit::TrailingPosition);
 
-    connect(browser_action, &QAction::triggered, this,
-            &QtDirBrowserLineEdit::browserPressed);
+    connect(
+      browser_action, &QAction::triggered, this,
+      &QtDirBrowserLineEdit::browserPressed);
   }
 
   QtDirBrowserLineEdit::~QtDirBrowserLineEdit() = default;

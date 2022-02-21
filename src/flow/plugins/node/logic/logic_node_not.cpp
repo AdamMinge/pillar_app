@@ -1,8 +1,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/node/logic/logic_node_not.h"
 #include "flow/plugins/node/logic/logic_node_data.h"
+#include "flow/plugins/node/logic/logic_node_not.h"
 /* -------------------------------------------------------------------------- */
 
 namespace plugins::node::logic

@@ -10,7 +10,7 @@ class PluginSettingsWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit PluginSettingsWidget(QWidget* parent = nullptr);
+  explicit PluginSettingsWidget(QWidget *parent = nullptr);
   ~PluginSettingsWidget() override;
 
 protected:

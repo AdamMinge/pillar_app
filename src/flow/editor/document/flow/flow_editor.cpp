@@ -27,8 +27,8 @@ FlowEditor::FlowEditor(QObject *parent)
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_undo_dock(new UndoDock(m_main_window)), m_preferences(new Preferences)
 {
-  m_main_window->setDockOptions(m_main_window->dockOptions() |
-                                QMainWindow::GroupedDragging);
+  m_main_window->setDockOptions(
+    m_main_window->dockOptions() | QMainWindow::GroupedDragging);
   m_main_window->setDockNestingEnabled(true);
 
   m_main_window->setCentralWidget(m_scene_stack);

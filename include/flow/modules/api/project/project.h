@@ -33,8 +33,8 @@ namespace api::project
     virtual bool save(const QString &file_name, QString *error) = 0;
 
   Q_SIGNALS:
-    void fileNameChanged(const QString &new_file_name,
-                         const QString &old_file_name);
+    void
+    fileNameChanged(const QString &new_file_name, const QString &old_file_name);
     void saved();
 
   protected:

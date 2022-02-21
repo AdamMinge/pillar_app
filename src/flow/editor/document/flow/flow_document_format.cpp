@@ -21,8 +21,9 @@ ReadableFlowDocumentFormat::ReadableFlowDocumentFormat(QObject *parent)
 
 ReadableFlowDocumentFormat::~ReadableFlowDocumentFormat() = default;
 
-bool ReadableFlowDocumentFormat::save(const api::document::IDocument &document,
-                                      const QString &file_name, QString *error)
+bool ReadableFlowDocumentFormat::save(
+  const api::document::IDocument &document, const QString &file_name,
+  QString *error)
 {
   if (error) *error = tr("Document format is readable only");
 

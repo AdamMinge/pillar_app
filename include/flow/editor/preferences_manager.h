@@ -26,8 +26,8 @@ public:
   template<typename TYPE>
   void setValue(const QString &key, const TYPE &value);
   template<typename TYPE>
-  [[nodiscard]] TYPE getValue(const QString &key,
-                              const TYPE &default_value = TYPE()) const;
+  [[nodiscard]] TYPE
+  getValue(const QString &key, const TYPE &default_value = TYPE()) const;
 
   [[nodiscard]] bool contains(const QString &key);
   void remove(const QString &key);
@@ -59,8 +59,8 @@ void PreferencesManager::setValue(const QString &key, const TYPE &value)
 }
 
 template<typename TYPE>
-TYPE PreferencesManager::getValue(const QString &key,
-                                  const TYPE &default_value) const
+TYPE PreferencesManager::getValue(
+  const QString &key, const TYPE &default_value) const
 {
   return m_settings.value(key, default_value).template value<TYPE>();
 }
@@ -98,8 +98,8 @@ Preference<TYPE> &Preference<TYPE>::operator=(const TYPE &value)
 template<typename TYPE>
 TYPE Preference<TYPE>::get() const
 {
-  return PreferencesManager::getInstance().getValue<TYPE>(m_key,
-                                                          m_default_value);
+  return PreferencesManager::getInstance().getValue<TYPE>(
+    m_key, m_default_value);
 }
 
 template<typename TYPE>
