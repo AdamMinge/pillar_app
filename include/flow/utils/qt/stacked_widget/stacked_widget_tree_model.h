@@ -74,6 +74,11 @@ namespace utils
     [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
     [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
+    [[nodiscard]] QModelIndex
+    getIndexByName(const QString &name, const QModelIndex &parent) const;
+    [[nodiscard]] QModelIndex
+    getIndexByWidget(const QWidget *widget, const QModelIndex &parent) const;
+
   private:
     QList<QtStackedWidgetTreeItem *> m_root_items;
   };

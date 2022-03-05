@@ -222,28 +222,12 @@ void MainWindow::retranslateUi()
 
 void MainWindow::openSettings()
 {
-  if (!m_settings_dialog)
-  {
-    m_settings_dialog = new SettingsDialog(this);
-    m_settings_dialog->setAttribute(Qt::WA_DeleteOnClose);
-  }
-
-  m_settings_dialog->show();
-  m_settings_dialog->activateWindow();
-  m_settings_dialog->raise();
+  SettingsDialog::open(QUrl{}, this);
 }
 
 void MainWindow::openAbout()
 {
-  if (!m_about_dialog)
-  {
-    m_about_dialog = new AboutDialog(this);
-    m_about_dialog->setAttribute(Qt::WA_DeleteOnClose);
-  }
-
-  m_about_dialog->show();
-  m_about_dialog->activateWindow();
-  m_about_dialog->raise();
+  AboutDialog::open(QUrl{}, this);
 }
 
 void MainWindow::currentProjectChanged(api::project::IProject *project)

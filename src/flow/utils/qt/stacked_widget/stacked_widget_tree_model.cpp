@@ -115,12 +115,6 @@ namespace utils
     auto item = static_cast<QtStackedWidgetTreeItem *>(index.internalPointer());
     switch (role)
     {
-      case Qt::FontRole: {
-        auto font = QFont();
-        font.setBold(!index.parent().isValid());
-        return font;
-      }
-
       case Qt::DisplayRole:
       case Role::NameRole:
         return item->getName();
@@ -200,6 +194,39 @@ namespace utils
   int QtStackedWidgetTreeModel::columnCount(const QModelIndex &parent) const
   {
     return 1;
+  }
+
+  QModelIndex QtStackedWidgetTreeModel::getIndexByName(
+    const QString &name, const QModelIndex &parent) const
+  {
+    for (auto row = 0; row < rowCount(parent); ++row)
+    {
+      const auto current_index = index(row, 0, parent);
+      const auto current_name = data(current_index, Role::NameRole);
+
+      if (current_name == name) return current_index;
+
+      if (auto index = getIndexByName(name, current_index); index.isValid())
+        return index;
+    }
+
+    return QModelIndex{};
+  }
+
+  QModelIndex QtStackedWidgetTreeModel::getIndexByWidget(
+    const QWidget *widget, const QModelIndex &parent) const
+  {
+    for (auto row = 0; row < rowCount(parent); ++row)
+    {
+      const auto current_index = index(row, 0, parent);
+      const auto current_widget = data(current_index, Role::WidgetRole);
+      if (current_widget == widget) return current_index;
+
+      if (auto index = getIndexByWidget(widget, current_index); index.isValid())
+        return index;
+    }
+
+    return QModelIndex{};
   }
 
 }// namespace utils

@@ -10,11 +10,13 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow/utils/qt/stacked_widget)
 
 set(sources
         ${source_root}/stacked_widget_tree_model.cpp
+        ${source_root}/stacked_widget_tree_delegate.cpp
         ${source_root}/stacked_widget.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/stacked_widget_tree_model.h
+        ${include_root}/stacked_widget_tree_delegate.h
         ${include_root}/stacked_widget.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #

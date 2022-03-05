@@ -1,8 +1,8 @@
 #ifndef FLOW_SETTINGS_DIALOG_H
 #define FLOW_SETTINGS_DIALOG_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QDialog>
+/* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/dialog/dialog_with_url_links.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,13 +10,15 @@ namespace Ui
   class SettingsDialog;
 }
 
-class SettingsDialog : public QDialog
+class SettingsDialog : public utils::QtDialogWithUrlLinks<SettingsDialog>
 {
   Q_OBJECT
 
 public:
   explicit SettingsDialog(QWidget *parent = nullptr);
   ~SettingsDialog() override;
+
+  void setUrl(const QUrl &url) override;
 
 protected:
   void changeEvent(QEvent *event) override;

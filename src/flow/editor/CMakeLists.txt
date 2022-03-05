@@ -26,6 +26,7 @@ set(sources
         ${source_root}/issue_dock.cpp
 
         ${source_root}/settings/settings_dialog.cpp
+        ${source_root}/settings/general_settings_widget.cpp
         ${source_root}/settings/plugin_settings_widget.cpp
         ${source_root}/settings/shortcuts_settings_widget.cpp
         ${source_root}/settings/appearance_settings_widget.cpp
@@ -80,6 +81,7 @@ set(includes
         ${include_root}/format_helper.h
 
         ${include_root}/settings/settings_dialog.h
+        ${include_root}/settings/general_settings_widget.h
         ${include_root}/settings/plugin_settings_widget.h
         ${include_root}/settings/shortcuts_settings_widget.h
         ${include_root}/settings/appearance_settings_widget.h

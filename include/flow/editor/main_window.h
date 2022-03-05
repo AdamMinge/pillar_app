@@ -26,9 +26,6 @@ class StyleManager;
 class ProjectWindow;
 class NoProjectWindow;
 
-class AboutDialog;
-class SettingsDialog;
-
 class MainWindow final : public QMainWindow
 {
   Q_OBJECT
@@ -81,9 +78,6 @@ private:
   QAction *m_about_action;
   QAction *m_settings_action;
   QAction *m_exit_action;
-
-  QPointer<AboutDialog> m_about_dialog;
-  QPointer<SettingsDialog> m_settings_dialog;
 };
 
 #endif//FLOW_MAIN_WINDOW_H

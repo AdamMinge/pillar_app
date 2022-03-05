@@ -1,8 +1,8 @@
 #ifndef FLOW_ABOUT_DIALOG_H
 #define FLOW_ABOUT_DIALOG_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QDialog>
+/* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/dialog/dialog_with_url_links.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +10,7 @@ namespace Ui
   class AboutDialog;
 }
 
-class AboutDialog : public QDialog
+class AboutDialog : public utils::QtDialogWithUrlLinks<AboutDialog>
 {
   Q_OBJECT
 
