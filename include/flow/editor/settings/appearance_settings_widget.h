@@ -5,6 +5,11 @@
 #include <QWidget>
 /* -------------------------------------------------------------------------- */
 
+namespace Ui
+{
+  class AppearanceSettingsWidget;
+}
+
 class AppearanceSettingsWidget : public QWidget
 {
   Q_OBJECT
@@ -21,6 +26,9 @@ private:
   void initConnections();
 
   void retranslateUi();
+
+private:
+  QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;
 };
 
 #endif//FLOW_APPEARANCE_SETTINGS_WIDGET_H

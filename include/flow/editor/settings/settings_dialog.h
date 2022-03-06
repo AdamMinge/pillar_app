@@ -18,6 +18,7 @@ public:
   explicit SettingsDialog(QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
+public Q_SLOTS:
   void setUrl(const QUrl &url) override;
 
 protected:

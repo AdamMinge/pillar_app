@@ -5,6 +5,11 @@
 #include <QWidget>
 /* -------------------------------------------------------------------------- */
 
+namespace Ui
+{
+  class ShortcutsSettingsWidget;
+}
+
 class ShortcutsSettingsWidget : public QWidget
 {
   Q_OBJECT
@@ -21,6 +26,9 @@ private:
   void initConnections();
 
   void retranslateUi();
+
+private:
+  QScopedPointer<Ui::ShortcutsSettingsWidget> m_ui;
 };
 
 #endif//FLOW_SHORTCUTS_SETTINGS_WIDGET_H

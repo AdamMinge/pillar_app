@@ -2,9 +2,12 @@
 #include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/general_settings_widget.h"
+/* ------------------------------------ Ui ---------------------------------- */
+#include "settings/ui_general_settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
-GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent) : QWidget(parent)
+GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)
+    : QWidget(parent), m_ui(new Ui::GeneralSettingsWidget())
 {
   initUi();
   initConnections();
@@ -28,8 +31,8 @@ void GeneralSettingsWidget::changeEvent(QEvent *event)
   }
 }
 
-void GeneralSettingsWidget::initUi() {}
+void GeneralSettingsWidget::initUi() { m_ui->setupUi(this); }
 
 void GeneralSettingsWidget::initConnections() {}
 
-void GeneralSettingsWidget::retranslateUi() {}
+void GeneralSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }

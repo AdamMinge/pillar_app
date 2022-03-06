@@ -2,10 +2,12 @@
 #include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_settings_widget.h"
+/* ------------------------------------ Ui ---------------------------------- */
+#include "settings/ui_shortcuts_settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
 ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), m_ui(new Ui::ShortcutsSettingsWidget())
 {
   initUi();
   initConnections();
@@ -29,8 +31,8 @@ void ShortcutsSettingsWidget::changeEvent(QEvent *event)
   }
 }
 
-void ShortcutsSettingsWidget::initUi() {}
+void ShortcutsSettingsWidget::initUi() { m_ui->setupUi(this); }
 
 void ShortcutsSettingsWidget::initConnections() {}
 
-void ShortcutsSettingsWidget::retranslateUi() {}
+void ShortcutsSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }

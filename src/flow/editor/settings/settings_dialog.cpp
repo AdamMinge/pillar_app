@@ -1,4 +1,5 @@
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QDesktopServices>
 #include <QSortFilterProxyModel>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/appearance_settings_widget.h"
@@ -10,7 +11,7 @@
 #include <flow/utils/qt/stacked_widget/stacked_widget_tree_delegate.h>
 #include <flow/utils/qt/stacked_widget/stacked_widget_tree_model.h>
 /* ------------------------------------ Ui ---------------------------------- */
-#include "ui_settings_dialog.h"
+#include "settings/ui_settings_dialog.h"
 /* -------------------------------------------------------------------------- */
 
 SettingsDialog::SettingsDialog(QWidget *parent)
@@ -43,7 +44,7 @@ void SettingsDialog::setUrl(const QUrl &url)
   {
     auto index = filter_model->mapFromSource(source_index);
     m_ui->m_setting_list_view->selectionModel()->select(
-      index, QItemSelectionModel::Select);
+      index, QItemSelectionModel::SelectCurrent);
   }
 }
 
@@ -78,6 +79,7 @@ void SettingsDialog::initUi()
   m_ui->m_setting_list_view->expandAll();
 
   m_ui->m_setting_widgets->setView(m_ui->m_setting_list_view);
+  m_ui->m_setting_label->setView(m_ui->m_setting_list_view);
 }
 
 void SettingsDialog::initConnections()
@@ -85,6 +87,8 @@ void SettingsDialog::initConnections()
   connect(
     m_ui->m_setting_search, &QLineEdit::textChanged, this,
     &SettingsDialog::filterSettings);
+
+  QDesktopServices::setUrlHandler("settings", this, "setUrl");
 }
 
 QAbstractItemModel *SettingsDialog::createStackedWidgetTreeModel()

@@ -5,6 +5,11 @@
 #include <QWidget>
 /* -------------------------------------------------------------------------- */
 
+namespace Ui
+{
+  class PluginSettingsWidget;
+}
+
 class PluginSettingsWidget : public QWidget
 {
   Q_OBJECT
@@ -21,6 +26,9 @@ private:
   void initConnections();
 
   void retranslateUi();
+
+private:
+  QScopedPointer<Ui::PluginSettingsWidget> m_ui;
 };
 
 #endif//FLOW_PLUGIN_SETTINGS_WIDGET_H

@@ -127,7 +127,12 @@ set(resources
 set(uis
         ${uis_root}/main_window.ui
         ${uis_root}/about_dialog.ui
-        ${uis_root}/settings_dialog.ui
+
+        ${uis_root}/settings/settings_dialog.ui
+        ${uis_root}/settings/appearance_settings_widget.ui
+        ${uis_root}/settings/general_settings_widget.ui
+        ${uis_root}/settings/plugin_settings_widget.ui
+        ${uis_root}/settings/shortcuts_settings_widget.ui
 
         ${uis_root}/project/no_project_window.ui
         ${uis_root}/project/project_window.ui
