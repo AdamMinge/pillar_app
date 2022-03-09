@@ -533,7 +533,12 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="119"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="83"/>
+        <source>Select configuration element in the tree to edit its settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="127"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>

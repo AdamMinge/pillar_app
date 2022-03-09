@@ -8,6 +8,7 @@ cmake_minimum_required(VERSION 3.11)
 set(source_root ${FLOW_SOURCE_DIR}/src/flow/utils/qt/stacked_widget)
 set(include_root ${FLOW_SOURCE_DIR}/include/flow/utils/qt/stacked_widget)
 set(uis_root ${FLOW_SOURCE_DIR}/uis/flow/utils/qt/stacked_widget)
+set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
         ${source_root}/stacked_widget_tree_model.cpp
@@ -24,6 +25,9 @@ set(includes
 
 set(uis
         ${uis_root}/stacked_widget_label.ui)
+
+set(resources
+        ${resources_root}/flow-utils-stacked-widget-images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -40,6 +44,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ------------------------------------ Create utils shared lib ------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
 flow_add_utils(stacked_widget
-        SOURCES ${sources} ${includes} ${uis}
+        SOURCES ${sources} ${includes} ${uis} ${resources}
         DEPENDS Qt6::Widgets)
 # -------------------------------------------------------------------------------------------------- #

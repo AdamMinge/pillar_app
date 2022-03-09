@@ -9,7 +9,7 @@ namespace utils
 {
 
   QtStackedWidget::QtStackedWidget(QWidget *parent)
-      : QStackedWidget(parent), m_view(nullptr)
+      : QStackedWidget(parent), m_view(nullptr), m_default_widget(nullptr)
   {}
 
   QtStackedWidget::~QtStackedWidget() = default;
@@ -40,8 +40,21 @@ namespace utils
         &QtStackedWidget::modelChanged);
     }
 
-    modelChanged(m_view->model());
+    modelChanged(m_view ? m_view->model() : nullptr);
     selectionChanged(QItemSelection{}, QItemSelection{});
+  }
+
+  void QtStackedWidget::setDefaultWidget(QWidget *widget)
+  {
+    m_default_widget = widget;
+
+    modelChanged(m_view ? m_view->model() : nullptr);
+    selectionChanged(QItemSelection{}, QItemSelection{});
+  }
+
+  const QWidget *QtStackedWidget::getDefaultWidget() const
+  {
+    return m_default_widget;
   }
 
   const QAbstractItemView *QtStackedWidget::getView() const { return m_view; }
@@ -49,15 +62,18 @@ namespace utils
   void QtStackedWidget::selectionChanged(
     const QItemSelection &selected, const QItemSelection &deselected)
   {
-    const auto indexes = selected.indexes();
-    if (!indexes.empty())
+    const auto selected_indexes = selected.indexes();
+    if (!selected_indexes.empty())
     {
-      const auto current_index = indexes.front();
+      const auto current_index = selected_indexes.front();
       auto current_widget =
         current_index.data(QtStackedWidgetTreeModel::Role::WidgetRole)
           .value<QWidget *>();
 
       if (current_widget) setCurrentWidget(current_widget);
+    } else if (!deselected.empty() && m_default_widget)
+    {
+      setCurrentWidget(m_default_widget);
     }
   }
 
@@ -70,6 +86,8 @@ namespace utils
       auto widgets = getStackedWidgets(model);
       for (auto widget : widgets) addWidget(widget);
     }
+
+    if (m_default_widget) addWidget(m_default_widget);
   }
 
   QList<QWidget *>

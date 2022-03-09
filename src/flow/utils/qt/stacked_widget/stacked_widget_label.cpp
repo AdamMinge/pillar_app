@@ -82,6 +82,9 @@ namespace utils
       }
 
       m_ui->m_label->setText(label_text);
+    } else if (!deselected.empty())
+    {
+      m_ui->m_label->clear();
     }
   }
 

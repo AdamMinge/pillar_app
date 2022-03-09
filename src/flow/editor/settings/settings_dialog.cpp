@@ -1,5 +1,6 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDesktopServices>
+#include <QLabel>
 #include <QSortFilterProxyModel>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/appearance_settings_widget.h"
@@ -78,7 +79,13 @@ void SettingsDialog::initUi()
     new utils::StackedWidgetTreeDelegate());
   m_ui->m_setting_list_view->expandAll();
 
+  auto default_widget = new QLabel(
+    tr("Select configuration element in the tree to edit its settings"), this);
+  default_widget->setAlignment(Qt::AlignmentFlag::AlignCenter);
+
   m_ui->m_setting_widgets->setView(m_ui->m_setting_list_view);
+  m_ui->m_setting_widgets->setDefaultWidget(default_widget);
+
   m_ui->m_setting_label->setView(m_ui->m_setting_list_view);
 }
 
@@ -105,6 +112,7 @@ QAbstractItemModel *SettingsDialog::createStackedWidgetTreeModel()
 
   auto filter_model = new QSortFilterProxyModel(this);
   filter_model->setRecursiveFilteringEnabled(true);
+  filter_model->setFilterCaseSensitivity(Qt::CaseSensitivity::CaseInsensitive);
 
   filter_model->setSourceModel(
     new utils::QtStackedWidgetTreeModel(settings_root, filter_model));

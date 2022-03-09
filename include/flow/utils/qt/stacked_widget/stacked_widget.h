@@ -22,6 +22,9 @@ namespace utils
     void setView(QAbstractItemView *view);
     [[nodiscard]] const QAbstractItemView *getView() const;
 
+    void setDefaultWidget(QWidget *widget);
+    [[nodiscard]] const QWidget *getDefaultWidget() const;
+
   private Q_SLOTS:
     void selectionChanged(
       const QItemSelection &selected, const QItemSelection &deselected);
@@ -33,6 +36,7 @@ namespace utils
 
   private:
     QAbstractItemView *m_view;
+    QWidget *m_default_widget;
   };
 
 }// namespace utils
