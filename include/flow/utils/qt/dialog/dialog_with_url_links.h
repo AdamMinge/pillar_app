@@ -26,7 +26,7 @@ namespace utils
   template<typename TYPE>
   void QtDialogWithUrlLinks<TYPE>::open(const QUrl &url, QWidget *parent)
   {
-    static TYPE *dialog = nullptr;
+    static QPointer<TYPE> dialog = nullptr;
 
     if (!dialog)
     {
