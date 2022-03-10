@@ -1,8 +1,8 @@
 #ifndef FLOW_GENERAL_SETTINGS_WIDGET_H
 #define FLOW_GENERAL_SETTINGS_WIDGET_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QWidget>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +10,7 @@ namespace Ui
   class GeneralSettingsWidget;
 }
 
-class GeneralSettingsWidget : public QWidget
+class GeneralSettingsWidget : public SettingsWidget
 {
   Q_OBJECT
 

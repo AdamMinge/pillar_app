@@ -1,8 +1,8 @@
 #ifndef FLOW_SHORTCUTS_SETTINGS_WIDGET_H
 #define FLOW_SHORTCUTS_SETTINGS_WIDGET_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QWidget>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +10,7 @@ namespace Ui
   class ShortcutsSettingsWidget;
 }
 
-class ShortcutsSettingsWidget : public QWidget
+class ShortcutsSettingsWidget : public SettingsWidget
 {
   Q_OBJECT
 

@@ -32,14 +32,16 @@ void PreferencesManager::save()
 
 void PreferencesManager::addRecentProjectFile(const QString &recent_file)
 {
-  if (!m_recent_project_files.contains(recent_file))
-    m_recent_project_files << recent_file;
+  if (m_recent_project_files.contains(recent_file)) return;
 
+  m_recent_project_files << recent_file;
   Q_EMIT recentProjectFilesChanged();
 }
 
 void PreferencesManager::clearRecentProjectFiles()
 {
+  if (m_recent_project_files.isEmpty()) return;
+
   m_recent_project_files.clear();
   Q_EMIT recentProjectFilesChanged();
 }

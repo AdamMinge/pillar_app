@@ -7,7 +7,7 @@
 /* -------------------------------------------------------------------------- */
 
 PluginSettingsWidget::PluginSettingsWidget(QWidget *parent)
-    : QWidget(parent), m_ui(new Ui::PluginSettingsWidget())
+    : SettingsWidget(parent), m_ui(new Ui::PluginSettingsWidget())
 {
   initUi();
   initConnections();

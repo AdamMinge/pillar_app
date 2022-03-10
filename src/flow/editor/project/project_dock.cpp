@@ -48,6 +48,7 @@ void ProjectDock::setProject(api::project::IProject *project)
 
   m_model->setRootPath(dir.path());
   m_view->setRootIndex(m_proxy->mapFromSource(m_model->index(upDir.path())));
+  m_view->expandAll();
 }
 
 api::project::IProject *ProjectDock::getProject() const

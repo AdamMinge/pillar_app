@@ -1,8 +1,8 @@
 #ifndef FLOW_APPEARANCE_SETTINGS_WIDGET_H
 #define FLOW_APPEARANCE_SETTINGS_WIDGET_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QWidget>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +10,7 @@ namespace Ui
   class AppearanceSettingsWidget;
 }
 
-class AppearanceSettingsWidget : public QWidget
+class AppearanceSettingsWidget : public SettingsWidget
 {
   Q_OBJECT
 

@@ -27,13 +27,17 @@ protected:
 private Q_SLOTS:
   void filterSettings(const QString &filter);
 
+  void ok();
+  void apply();
+  void cancel();
+
 private:
   void initUi();
   void initConnections();
 
-  [[nodiscard]] QAbstractItemModel *createStackedWidgetTreeModel();
-
   void retranslateUi();
+
+  [[nodiscard]] QAbstractItemModel *createStackedWidgetTreeModel();
 
 private:
   QScopedPointer<Ui::SettingsDialog> m_ui;

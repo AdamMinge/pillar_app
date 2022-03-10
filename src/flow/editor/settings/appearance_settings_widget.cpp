@@ -7,7 +7,7 @@
 /* -------------------------------------------------------------------------- */
 
 AppearanceSettingsWidget::AppearanceSettingsWidget(QWidget *parent)
-    : QWidget(parent), m_ui(new Ui::AppearanceSettingsWidget())
+    : SettingsWidget(parent), m_ui(new Ui::AppearanceSettingsWidget())
 {
   initUi();
   initConnections();

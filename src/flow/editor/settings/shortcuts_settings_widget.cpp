@@ -7,7 +7,7 @@
 /* -------------------------------------------------------------------------- */
 
 ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent)
-    : QWidget(parent), m_ui(new Ui::ShortcutsSettingsWidget())
+    : SettingsWidget(parent), m_ui(new Ui::ShortcutsSettingsWidget())
 {
   initUi();
   initConnections();

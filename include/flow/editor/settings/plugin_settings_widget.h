@@ -1,8 +1,8 @@
 #ifndef FLOW_PLUGIN_SETTINGS_WIDGET_H
 #define FLOW_PLUGIN_SETTINGS_WIDGET_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QWidget>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +10,7 @@ namespace Ui
   class PluginSettingsWidget;
 }
 
-class PluginSettingsWidget : public QWidget
+class PluginSettingsWidget : public SettingsWidget
 {
   Q_OBJECT
 

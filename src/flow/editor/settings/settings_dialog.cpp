@@ -1,19 +1,42 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDesktopServices>
 #include <QLabel>
+#include <QMessageBox>
 #include <QSortFilterProxyModel>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/appearance_settings_widget.h"
 #include "flow/editor/settings/general_settings_widget.h"
 #include "flow/editor/settings/plugin_settings_widget.h"
 #include "flow/editor/settings/settings_dialog.h"
+#include "flow/editor/settings/settings_widget_tree_model.h"
 #include "flow/editor/settings/shortcuts_settings_widget.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/stacked_widget/stacked_widget_tree_delegate.h>
-#include <flow/utils/qt/stacked_widget/stacked_widget_tree_model.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_settings_dialog.h"
 /* -------------------------------------------------------------------------- */
+
+namespace
+{
+
+  [[nodiscard]] SettingsWidgetTreeModel *
+  getSourceModel(QAbstractItemModel *model)
+  {
+    auto filter_model = qobject_cast<QSortFilterProxyModel *>(model);
+    auto settings_model =
+      filter_model
+        ? qobject_cast<SettingsWidgetTreeModel *>(filter_model->sourceModel())
+        : nullptr;
+
+    return settings_model;
+  }
+
+  [[nodiscard]] QSortFilterProxyModel *getFilterModel(QAbstractItemModel *model)
+  {
+    return qobject_cast<QSortFilterProxyModel *>(model);
+  }
+
+}// namespace
 
 SettingsDialog::SettingsDialog(QWidget *parent)
     : utils::QtDialogWithUrlLinks<SettingsDialog>(parent),
@@ -33,12 +56,12 @@ void SettingsDialog::setUrl(const QUrl &url)
 {
   if (url.scheme() != QLatin1String("settings")) return;
 
-  auto filter_model =
-    qobject_cast<QSortFilterProxyModel *>(m_ui->m_setting_list_view->model());
-  auto source_model = qobject_cast<utils::QtStackedWidgetTreeModel *>(
-    filter_model->sourceModel());
+  auto filter_model = getFilterModel(m_ui->m_setting_list_view->model());
+  Q_ASSERT(filter_model);
+  auto settings_model = getSourceModel(m_ui->m_setting_list_view->model());
+  Q_ASSERT(settings_model);
 
-  auto source_index = source_model->getIndexByName(
+  auto source_index = settings_model->getIndexByName(
     url.toString(QUrl::RemoveScheme), QModelIndex{});
 
   if (source_index.isValid())
@@ -65,9 +88,41 @@ void SettingsDialog::changeEvent(QEvent *event)
 
 void SettingsDialog::filterSettings(const QString &filter)
 {
-  auto filter_model =
-    qobject_cast<QSortFilterProxyModel *>(m_ui->m_setting_list_view->model());
+  auto filter_model = getFilterModel(m_ui->m_setting_list_view->model());
+  Q_ASSERT(filter_model);
+
   filter_model->setFilterWildcard(filter);
+}
+
+void SettingsDialog::ok()
+{
+  apply();
+  cancel();
+}
+
+void SettingsDialog::apply()
+{
+  auto settings_model = getSourceModel(m_ui->m_setting_list_view->model());
+  Q_ASSERT(settings_model);
+
+  settings_model->apply();
+}
+
+void SettingsDialog::cancel()
+{
+  auto settings_model = getSourceModel(m_ui->m_setting_list_view->model());
+  Q_ASSERT(settings_model);
+
+  if (!settings_model->applied())
+  {
+    auto ret = QMessageBox::question(
+      this, tr("Apply Settings"),
+      tr("Are you sure that you want to discard changes settings?"),
+      QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+
+    if (ret == QMessageBox::Yes) close();
+  } else
+    close();
 }
 
 void SettingsDialog::initUi()
@@ -76,7 +131,7 @@ void SettingsDialog::initUi()
 
   m_ui->m_setting_list_view->setModel(createStackedWidgetTreeModel());
   m_ui->m_setting_list_view->setItemDelegate(
-    new utils::StackedWidgetTreeDelegate());
+    new utils::StackedWidgetTreeDelegate(this));
   m_ui->m_setting_list_view->expandAll();
 
   auto default_widget = new QLabel(
@@ -87,15 +142,39 @@ void SettingsDialog::initUi()
   m_ui->m_setting_widgets->setDefaultWidget(default_widget);
 
   m_ui->m_setting_label->setView(m_ui->m_setting_list_view);
+
+  m_ui->m_apply_button->setEnabled(false);
 }
 
 void SettingsDialog::initConnections()
 {
+  auto settings_model = qobject_cast<SettingsWidgetTreeModel *>(
+    qobject_cast<QSortFilterProxyModel *>(m_ui->m_setting_list_view->model())
+      ->sourceModel());
+
   connect(
     m_ui->m_setting_search, &QLineEdit::textChanged, this,
     &SettingsDialog::filterSettings);
 
+  connect(
+    settings_model, &SettingsWidgetTreeModel::appliedChanged, this,
+    [this](auto applied) { m_ui->m_apply_button->setEnabled(!applied); });
+
+  connect(
+    m_ui->m_apply_button, &QPushButton::pressed, this, &SettingsDialog::apply);
+  connect(
+    m_ui->m_cancel_button, &QPushButton::pressed, this,
+    &SettingsDialog::cancel);
+  connect(m_ui->m_ok_button, &QPushButton::pressed, this, &SettingsDialog::ok);
+
   QDesktopServices::setUrlHandler("settings", this, "setUrl");
+}
+
+void SettingsDialog::retranslateUi()
+{
+  m_ui->retranslateUi(this);
+
+  setWindowTitle(tr("Settings"));
 }
 
 QAbstractItemModel *SettingsDialog::createStackedWidgetTreeModel()
@@ -115,14 +194,7 @@ QAbstractItemModel *SettingsDialog::createStackedWidgetTreeModel()
   filter_model->setFilterCaseSensitivity(Qt::CaseSensitivity::CaseInsensitive);
 
   filter_model->setSourceModel(
-    new utils::QtStackedWidgetTreeModel(settings_root, filter_model));
+    new SettingsWidgetTreeModel(settings_root, filter_model));
 
   return filter_model;
-}
-
-void SettingsDialog::retranslateUi()
-{
-  m_ui->retranslateUi(this);
-
-  setWindowTitle(tr("Settings"));
 }

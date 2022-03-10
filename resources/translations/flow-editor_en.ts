@@ -209,120 +209,120 @@
 <context>
     <name>ProjectDock</name>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="102"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="103"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="120"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="121"/>
         <source>Delete File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="120"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="121"/>
         <source>Delete Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="122"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="123"/>
         <source>Are you sure that you want to permanently delete this file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="123"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="124"/>
         <source>Are you sure that you want to permanently delete this directory and all its contents?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="126"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="127"/>
         <source>Failed to delete the file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="127"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="128"/>
         <source>Failed to delete the directory!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="146"/>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="156"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="147"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="157"/>
         <source>Rename File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="146"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="147"/>
         <source>New Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="156"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="157"/>
         <source>Failed to rename the file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="167"/>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="174"/>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="179"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="168"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="175"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="180"/>
         <source>Create Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="167"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="168"/>
         <source>Directory Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="175"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="176"/>
         <source>A directory with that name already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="179"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="180"/>
         <source>Failed to create the directory!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="208"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="209"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="209"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="210"/>
         <source>&amp;Refactor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="210"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="211"/>
         <source>&amp;Open In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="212"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="213"/>
         <source>&amp;Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="216"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="217"/>
         <source>&amp;Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="228"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="229"/>
         <source>&amp;Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="231"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="232"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="235"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="236"/>
         <source>&amp;Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_dock.cpp" line="239"/>
+        <location filename="../../src/flow/editor/project/project_dock.cpp" line="240"/>
         <source>&amp;System Editor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -533,12 +533,22 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="83"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="119"/>
+        <source>Apply Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="120"/>
+        <source>Are you sure that you want to discard changes settings?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="138"/>
         <source>Select configuration element in the tree to edit its settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="127"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="177"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
