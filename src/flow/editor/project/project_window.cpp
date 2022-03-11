@@ -69,8 +69,8 @@ struct ProjectWindow::Preferences {
 
 ProjectWindow::ProjectWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::ProjectWindow),
-      m_preferences(new Preferences), m_project_dock(new ProjectDock),
-      m_console_dock(new ConsoleDock), m_issue_dock(new IssueDock),
+      m_preferences(new Preferences), m_project_dock(new ProjectDock(this)),
+      m_console_dock(new ConsoleDock(this)), m_issue_dock(new IssueDock(this)),
       m_project_menu(new QMenu(tr("&Project"), this)),
       m_new_project_action(new QAction(tr("&New..."), this)),
       m_open_project_action(new QAction(tr("&Open..."), this)),

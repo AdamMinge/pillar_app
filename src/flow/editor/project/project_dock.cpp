@@ -46,9 +46,12 @@ void ProjectDock::setProject(api::project::IProject *project)
   auto upDir = dir;
   upDir.cdUp();
 
+  auto root_index = m_proxy->mapFromSource(m_model->index(dir.path()));
+  auto upper_root_index = m_proxy->mapFromSource(m_model->index(upDir.path()));
+
   m_model->setRootPath(dir.path());
-  m_view->setRootIndex(m_proxy->mapFromSource(m_model->index(upDir.path())));
-  m_view->expandAll();
+  m_view->setRootIndex(upper_root_index);
+  m_view->expand(root_index);
 }
 
 api::project::IProject *ProjectDock::getProject() const
