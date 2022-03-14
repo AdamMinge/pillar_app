@@ -27,6 +27,10 @@ private:
 
   void retranslateUi();
 
+private Q_SLOTS:
+  void languageChanged(const QString& language);
+  void styleChanged(const QString& style);
+
 private:
   QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;
 };

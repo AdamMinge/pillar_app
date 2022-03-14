@@ -1,7 +1,9 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/language_manager.h"
 #include "flow/editor/settings/appearance_settings_widget.h"
+#include "flow/editor/style_manager.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_appearance_settings_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -31,8 +33,48 @@ void AppearanceSettingsWidget::changeEvent(QEvent *event)
   }
 }
 
-void AppearanceSettingsWidget::initUi() { m_ui->setupUi(this); }
+void AppearanceSettingsWidget::initUi()
+{
+  m_ui->setupUi(this);
 
-void AppearanceSettingsWidget::initConnections() {}
+  auto &language_manager = LanguageManager::getInstance();
+  auto languages_str = QStringList{};
+  for (auto &language : language_manager.getAvailableLanguages())
+    languages_str << QLocale::languageToString(language.language());
+
+  m_ui->m_language_combobox->addItems(languages_str);
+  m_ui->m_language_combobox->setCurrentText(QLocale::languageToString(
+    language_manager.getCurrentLanguage().language()));
+
+  auto &style_manager = StyleManager::getInstance();
+  auto styles = style_manager.getAvailableStyles();
+
+  m_ui->m_theme_combobox->addItems(styles);
+  m_ui->m_theme_combobox->setCurrentIndex(m_ui->m_theme_combobox->findText(
+    style_manager.getCurrentStyle(), Qt::MatchFixedString));
+}
+
+void AppearanceSettingsWidget::initConnections()
+{
+  connect(
+    m_ui->m_language_combobox, &QComboBox::currentTextChanged, this,
+    &AppearanceSettingsWidget::languageChanged);
+
+  connect(
+    m_ui->m_theme_combobox, &QComboBox::currentTextChanged, this,
+    &AppearanceSettingsWidget::styleChanged);
+}
 
 void AppearanceSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
+
+void AppearanceSettingsWidget::languageChanged(const QString &language)
+{
+  auto &language_manager = LanguageManager::getInstance();
+  language_manager.setLanguage(QLocale(language));
+}
+
+void AppearanceSettingsWidget::styleChanged(const QString &style)
+{
+  auto &style_manager = StyleManager::getInstance();
+  style_manager.setStyle(style);
+}

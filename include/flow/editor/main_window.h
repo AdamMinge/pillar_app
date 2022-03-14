@@ -52,10 +52,14 @@ private:
   void initConnections();
 
   void writeSettings();
-  void readSettings();
-
   void writePlugins();
+  void writeLanguage();
+  void writeStyle();
+
+  void readSettings();
   void readPlugins();
+  void readLanguage();
+  void readStyle();
 
   void retranslateUi();
 

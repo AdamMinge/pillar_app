@@ -145,46 +145,6 @@ void MainWindow::initConnections()
     &MainWindow::currentProjectChanged);
 }
 
-void MainWindow::writeSettings()
-{
-  m_preferences->main_window_geometry = saveGeometry();
-  m_preferences->main_window_state = saveState();
-  m_preferences->application_language =
-    getLanguageManager().getCurrentLanguage();
-  m_preferences->application_style = getStyleManager().getCurrentStyle();
-
-  writePlugins();
-
-  m_no_project_window->writeSettings();
-  m_project_window->writeSettings();
-}
-
-void MainWindow::readSettings()
-{
-  auto window_geometry = m_preferences->main_window_geometry.get();
-  auto window_state = m_preferences->main_window_state.get();
-
-  if (!window_geometry.isNull()) restoreGeometry(window_geometry);
-  if (!window_state.isNull()) restoreState(window_state);
-
-  auto application_language = m_preferences->application_language.get();
-  auto application_style = m_preferences->application_style.get();
-
-  auto languages = getLanguageManager().getAvailableLanguages();
-  if (languages.contains(application_language))
-    getLanguageManager().setLanguage(application_language);
-  else if (languages.contains(QLocale::system()))
-    getLanguageManager().setLanguage(QLocale::system());
-
-  if (!application_style.isEmpty())
-    getStyleManager().setStyle(application_style);
-
-  readPlugins();
-
-  m_no_project_window->readSettings();
-  m_project_window->readSettings();
-}
-
 void MainWindow::writePlugins()
 {
   auto disabled_plugins = QStringList{};
@@ -199,6 +159,46 @@ void MainWindow::writePlugins()
   m_preferences->application_disabled_plugins = disabled_plugins;
 }
 
+void MainWindow::writeSettings()
+{
+  m_preferences->main_window_geometry = saveGeometry();
+  m_preferences->main_window_state = saveState();
+
+  writePlugins();
+  writeLanguage();
+  writeStyle();
+
+  m_no_project_window->writeSettings();
+  m_project_window->writeSettings();
+}
+
+void MainWindow::writeLanguage()
+{
+  m_preferences->application_language =
+    getLanguageManager().getCurrentLanguage();
+}
+
+void MainWindow::writeStyle()
+{
+  m_preferences->application_style = getStyleManager().getCurrentStyle();
+}
+
+void MainWindow::readSettings()
+{
+  auto window_geometry = m_preferences->main_window_geometry.get();
+  auto window_state = m_preferences->main_window_state.get();
+
+  if (!window_geometry.isNull()) restoreGeometry(window_geometry);
+  if (!window_state.isNull()) restoreState(window_state);
+
+  readPlugins();
+  readLanguage();
+  readStyle();
+
+  m_no_project_window->readSettings();
+  m_project_window->readSettings();
+}
+
 void MainWindow::readPlugins()
 {
   const auto disabled_plugins =
@@ -211,6 +211,24 @@ void MainWindow::readPlugins()
   }
 }
 
+void MainWindow::readLanguage()
+{
+  const auto application_language = m_preferences->application_language.get();
+
+  auto languages = getLanguageManager().getAvailableLanguages();
+  if (languages.contains(application_language))
+    getLanguageManager().setLanguage(application_language);
+  else if (languages.contains(QLocale::system()))
+    getLanguageManager().setLanguage(QLocale::system());
+}
+
+void MainWindow::readStyle()
+{
+  auto application_style = m_preferences->application_style.get();
+  if (!application_style.isEmpty())
+    getStyleManager().setStyle(application_style);
+}
+
 void MainWindow::retranslateUi()
 {
   m_ui->retranslateUi(this);
@@ -220,15 +238,9 @@ void MainWindow::retranslateUi()
   m_exit_action->setText(tr("&Exit"));
 }
 
-void MainWindow::openSettings()
-{
-  SettingsDialog::open(QUrl{}, this);
-}
+void MainWindow::openSettings() { SettingsDialog::open(QUrl{}, this); }
 
-void MainWindow::openAbout()
-{
-  AboutDialog::open(QUrl{}, this);
-}
+void MainWindow::openAbout() { AboutDialog::open(QUrl{}, this); }
 
 void MainWindow::currentProjectChanged(api::project::IProject *project)
 {
