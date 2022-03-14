@@ -60,11 +60,16 @@ void SettingsDialog::setUrl(const QUrl &url)
   auto index = SettingsWidgetTreeModel::getIndexByName(
     *model, url.toString(QUrl::RemoveScheme), QModelIndex{});
 
-  if (index.isValid())
+  if(!index.isValid())
   {
-    m_ui->m_setting_list_view->selectionModel()->select(
-      index, QItemSelectionModel::SelectCurrent);
+    m_ui->m_setting_search->setText(QLatin1String{});
+
+    index = SettingsWidgetTreeModel::getIndexByName(
+      *model, url.toString(QUrl::RemoveScheme), QModelIndex{});
   }
+
+  m_ui->m_setting_list_view->selectionModel()->select(
+    index, QItemSelectionModel::ClearAndSelect);
 }
 
 void SettingsDialog::changeEvent(QEvent *event)
@@ -127,7 +132,7 @@ void SettingsDialog::currentChanged(QWidget *widget)
   auto index = SettingsWidgetTreeModel::getIndexByWidget(
     *m_ui->m_setting_list_view->model(), widget, QModelIndex{});
   m_ui->m_setting_list_view->selectionModel()->select(
-    index, QItemSelectionModel::SelectCurrent);
+    index, QItemSelectionModel::ClearAndSelect);
 }
 
 void SettingsDialog::initUi()

@@ -47,7 +47,7 @@ namespace utils
     {
       VIEW::clearSelection();
       VIEW::selectionModel()->setCurrentIndex(
-        QModelIndex(), QItemSelectionModel::Select);
+        QModelIndex(), QItemSelectionModel::SelectCurrent);
     }
 
     VIEW::mousePressEvent(event);

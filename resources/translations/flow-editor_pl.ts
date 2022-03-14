@@ -533,22 +533,22 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="114"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="119"/>
         <source>Apply Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="115"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="120"/>
         <source>Are you sure that you want to discard changes settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="143"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="148"/>
         <source>Select configuration element in the tree to edit its settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="186"/>
+        <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="191"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>

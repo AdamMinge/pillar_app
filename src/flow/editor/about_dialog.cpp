@@ -37,7 +37,7 @@ void AboutDialog::retranslateUi()
   setWindowTitle(tr("About"));
 
   auto about_text =
-    QString(
+    QString{
       "<html>"
       "<head/>"
       "<body>"
@@ -51,7 +51,7 @@ void AboutDialog::retranslateUi()
       "style=\" font-size:12pt;\"><br/> %6</span></p>"
       "<p align=\"center\"><span style=\" color:#555753;\">%7</span><br/></p>"
       "</body>"
-      "</html>")
+      "</html>"}
       .arg(
         tr("Version %1").arg(FLOW_VERSION_STR),
         tr("This Project is open source and <br/> contributions are welcomed."),
