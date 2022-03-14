@@ -56,17 +56,12 @@ void SettingsDialog::setUrl(const QUrl &url)
 {
   if (url.scheme() != QLatin1String("settings")) return;
 
-  auto filter_model = getFilterModel(m_ui->m_setting_list_view->model());
-  Q_ASSERT(filter_model);
-  auto settings_model = getSourceModel(m_ui->m_setting_list_view->model());
-  Q_ASSERT(settings_model);
+  auto model = m_ui->m_setting_list_view->model();
+  auto index = SettingsWidgetTreeModel::getIndexByName(
+    *model, url.toString(QUrl::RemoveScheme), QModelIndex{});
 
-  auto source_index = settings_model->getIndexByName(
-    url.toString(QUrl::RemoveScheme), QModelIndex{});
-
-  if (source_index.isValid())
+  if (index.isValid())
   {
-    auto index = filter_model->mapFromSource(source_index);
     m_ui->m_setting_list_view->selectionModel()->select(
       index, QItemSelectionModel::SelectCurrent);
   }
@@ -125,6 +120,16 @@ void SettingsDialog::cancel()
     close();
 }
 
+void SettingsDialog::currentChanged(QWidget *widget)
+{
+  m_ui->m_setting_search->setText(QLatin1String{});
+
+  auto index = SettingsWidgetTreeModel::getIndexByWidget(
+    *m_ui->m_setting_list_view->model(), widget, QModelIndex{});
+  m_ui->m_setting_list_view->selectionModel()->select(
+    index, QItemSelectionModel::SelectCurrent);
+}
+
 void SettingsDialog::initUi()
 {
   m_ui->setupUi(this);
@@ -166,6 +171,10 @@ void SettingsDialog::initConnections()
     m_ui->m_cancel_button, &QPushButton::pressed, this,
     &SettingsDialog::cancel);
   connect(m_ui->m_ok_button, &QPushButton::pressed, this, &SettingsDialog::ok);
+
+  connect(
+    m_ui->m_setting_label, &utils::QtStackedWidgetLabel::currentChanged, this,
+    &SettingsDialog::currentChanged);
 
   QDesktopServices::setUrlHandler("settings", this, "setUrl");
 }

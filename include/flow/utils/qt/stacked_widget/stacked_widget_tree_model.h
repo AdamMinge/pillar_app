@@ -55,6 +55,14 @@ namespace utils
     };
 
   public:
+    [[nodiscard]] static QModelIndex getIndexByName(
+      const QAbstractItemModel &model, const QString &name,
+      const QModelIndex &parent);
+    [[nodiscard]] static QModelIndex getIndexByWidget(
+      const QAbstractItemModel &model, const QWidget *widget,
+      const QModelIndex &parent);
+
+  public:
     explicit QtStackedWidgetTreeModel(
       const QList<QtStackedWidgetTreeItem *> &root_items,
       QObject *parent = nullptr);

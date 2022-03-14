@@ -31,6 +31,8 @@ private Q_SLOTS:
   void apply();
   void cancel();
 
+  void currentChanged(QWidget *widget);
+
 private:
   void initUi();
   void initConnections();

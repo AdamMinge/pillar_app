@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemView>
+#include <QList>
 #include <QWidget>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/utils/qt/stacked_widget/export.h"
@@ -27,22 +28,37 @@ namespace utils
     void setView(QAbstractItemView *view);
     [[nodiscard]] const QAbstractItemView *getView() const;
 
+    void setHistorySize(qsizetype size);
+    [[nodiscard]] qsizetype getHistorySize() const;
+
+  Q_SIGNALS:
+    void currentChanged(QWidget *widget);
+
   protected:
     void changeEvent(QEvent *event) override;
 
   private Q_SLOTS:
     void selectionChanged(
       const QItemSelection &selected, const QItemSelection &deselected);
+    void modelChanged(QAbstractItemModel *model);
+
+    void moveHistory(qsizetype direction);
+    void appendToHistory(const QModelIndex &index);
 
   private:
     void initUi();
     void initConnections();
+
+    void updateActions();
 
     void retranslateUi();
 
   private:
     QScopedPointer<Ui::QtStackedWidgetLabel> m_ui;
     QAbstractItemView *m_view;
+    QList<QWidget *> m_history;
+    qsizetype m_history_position;
+    qsizetype m_history_size;
   };
 
 }// namespace utils

@@ -199,14 +199,29 @@ namespace utils
   QModelIndex QtStackedWidgetTreeModel::getIndexByName(
     const QString &name, const QModelIndex &parent) const
   {
-    for (auto row = 0; row < rowCount(parent); ++row)
+    return getIndexByName(*this, name, parent);
+  }
+
+  QModelIndex QtStackedWidgetTreeModel::getIndexByWidget(
+    const QWidget *widget, const QModelIndex &parent) const
+  {
+    return getIndexByWidget(*this, widget, parent);
+  }
+
+  QModelIndex QtStackedWidgetTreeModel::getIndexByName(
+    const QAbstractItemModel &model, const QString &name,
+    const QModelIndex &parent)
+  {
+    for (auto row = 0; row < model.rowCount(parent); ++row)
     {
-      const auto current_index = index(row, 0, parent);
-      const auto current_name = data(current_index, Role::NameRole);
+      const auto current_index = model.index(row, 0, parent);
+      const auto current_name =
+        model.data(current_index, Role::NameRole).toString();
 
       if (current_name == name) return current_index;
 
-      if (auto index = getIndexByName(name, current_index); index.isValid())
+      if (auto index = getIndexByName(model, name, current_index);
+          index.isValid())
         return index;
     }
 
@@ -214,15 +229,19 @@ namespace utils
   }
 
   QModelIndex QtStackedWidgetTreeModel::getIndexByWidget(
-    const QWidget *widget, const QModelIndex &parent) const
+    const QAbstractItemModel &model, const QWidget *widget,
+    const QModelIndex &parent)
   {
-    for (auto row = 0; row < rowCount(parent); ++row)
+    for (auto row = 0; row < model.rowCount(parent); ++row)
     {
-      const auto current_index = index(row, 0, parent);
-      const auto current_widget = data(current_index, Role::WidgetRole);
+      const auto current_index = model.index(row, 0, parent);
+      const auto current_widget =
+        model.data(current_index, Role::WidgetRole).value<QWidget *>();
+
       if (current_widget == widget) return current_index;
 
-      if (auto index = getIndexByWidget(widget, current_index); index.isValid())
+      if (auto index = getIndexByWidget(model, widget, current_index);
+          index.isValid())
         return index;
     }
 
