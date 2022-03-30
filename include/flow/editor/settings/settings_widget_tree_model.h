@@ -19,7 +19,7 @@ public:
     QObject *parent = nullptr);
   ~SettingsWidgetTreeModel() override;
 
-  void apply();
+  bool apply();
   [[nodiscard]] bool applied() const;
 
 Q_SIGNALS:
@@ -32,7 +32,7 @@ private:
   void connectOnAppliedChanged(const QModelIndex &parent);
 
 private:
-  std::set<SettingsWidget*> m_to_apply;
+  std::set<SettingsWidget *> m_to_apply;
 };
 
 #endif//FLOW_SETTINGS_WIDGET_TREE_MODEL_H

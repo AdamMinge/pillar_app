@@ -14,7 +14,12 @@ public:
   explicit PluginImpl() = default;
   virtual ~PluginImpl() = default;
 
+  [[nodiscard]] virtual QString getName() const = 0;
+  [[nodiscard]] virtual QString getDescription() const = 0;
+  [[nodiscard]] virtual QString getVersion() const = 0;
   [[nodiscard]] virtual QString getFileName() const = 0;
+  [[nodiscard]] virtual QIcon getIcon() const = 0;
+
   [[nodiscard]] virtual bool isStatic() const = 0;
   [[nodiscard]] bool isDynamic() const;
 
@@ -35,7 +40,12 @@ public:
     std::unique_ptr<QPluginLoader> loader, QString file_name);
   ~DynamicPluginImpl() override;
 
+  [[nodiscard]] QString getName() const override;
+  [[nodiscard]] QString getDescription() const override;
+  [[nodiscard]] QString getVersion() const override;
   [[nodiscard]] QString getFileName() const override;
+  [[nodiscard]] QIcon getIcon() const override;
+
   [[nodiscard]] bool isStatic() const override;
 
   bool enable() override;
@@ -46,6 +56,9 @@ public:
 private:
   std::unique_ptr<QPluginLoader> m_loader;
   QString m_file_name;
+  QString m_name;
+  QString m_description;
+  QString m_version;
   QObject *m_instance;
 };
 
@@ -53,11 +66,26 @@ DynamicPluginImpl::DynamicPluginImpl(
   std::unique_ptr<QPluginLoader> loader, QString file_name)
     : m_loader(std::move(loader)), m_file_name(std::move(file_name)),
       m_instance(nullptr)
-{}
+{
+  const auto metaData =
+    m_loader->metaData().value(QStringLiteral("MetaData")).toObject();
+
+  m_name = metaData.value(QStringLiteral("Name")).toString();
+  m_description = metaData.value(QStringLiteral("Description")).toString();
+  m_version = metaData.value(QStringLiteral("Version")).toString();
+}
 
 DynamicPluginImpl::~DynamicPluginImpl() = default;
 
+QString DynamicPluginImpl::getName() const { return m_name; }
+
+QString DynamicPluginImpl::getDescription() const { return m_description; }
+
+QString DynamicPluginImpl::getVersion() const { return m_version; }
+
 QString DynamicPluginImpl::getFileName() const { return m_file_name; }
+
+QIcon DynamicPluginImpl::getIcon() const { return QIcon{}; }
 
 bool DynamicPluginImpl::isStatic() const { return false; }
 
@@ -92,7 +120,12 @@ public:
   explicit StaticPluginImpl(QObject *instance);
   ~StaticPluginImpl() override;
 
+  [[nodiscard]] QString getName() const override;
+  [[nodiscard]] QString getDescription() const override;
+  [[nodiscard]] QString getVersion() const override;
   [[nodiscard]] QString getFileName() const override;
+  [[nodiscard]] QIcon getIcon() const override;
+
   [[nodiscard]] bool isStatic() const override;
 
   bool enable() override;
@@ -108,7 +141,15 @@ StaticPluginImpl::StaticPluginImpl(QObject *instance) : m_instance(instance) {}
 
 StaticPluginImpl::~StaticPluginImpl() = default;
 
+QString StaticPluginImpl::getName() const { return QLatin1String{}; }
+
+QString StaticPluginImpl::getDescription() const { return QLatin1String{}; }
+
+QString StaticPluginImpl::getVersion() const { return QLatin1String{}; }
+
 QString StaticPluginImpl::getFileName() const { return QLatin1String{}; }
+
+QIcon StaticPluginImpl::getIcon() const { return QIcon{}; }
 
 bool StaticPluginImpl::isStatic() const { return true; }
 
@@ -154,10 +195,27 @@ Plugin::~Plugin()
   if (isEnabled()) disable();
 }
 
+QString Plugin::getName() const
+{
+  return m_impl ? m_impl->getName() : QString{};
+}
+
+QString Plugin::getDescription() const
+{
+  return m_impl ? m_impl->getDescription() : QString{};
+}
+
+QString Plugin::getVersion() const
+{
+  return m_impl ? m_impl->getVersion() : QString{};
+}
+
 QString Plugin::getFileName() const
 {
   return m_impl ? m_impl->getFileName() : QString{};
 }
+
+QIcon Plugin::getIcon() const { return m_impl ? m_impl->getIcon() : QIcon{}; }
 
 bool Plugin::isStatic() const { return m_impl && m_impl->isStatic(); }
 

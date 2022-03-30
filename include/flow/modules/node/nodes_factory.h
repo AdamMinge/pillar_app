@@ -15,16 +15,14 @@ namespace node
 
   class Node;
 
-  class NODE_API NodesFactory : public QObject
+  class NODE_API NodesFactory
   {
-    Q_OBJECT
-
   private:
     using Factory = std::function<std::unique_ptr<Node>()>;
 
   public:
-    explicit NodesFactory(QObject *parent = nullptr);
-    ~NodesFactory() override;
+    explicit NodesFactory();
+    virtual ~NodesFactory();
 
     [[nodiscard]] std::unique_ptr<Node> createNode(const QString &id) const;
     [[nodiscard]] QStringList getAvailableNodes() const;

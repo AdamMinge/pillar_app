@@ -56,6 +56,20 @@ std::list<Plugin *> PluginManager::getPlugins()
   return plugins;
 }
 
+std::list<Plugin *> PluginManager::getStaticPlugins()
+{
+  auto plugins = getPlugins();
+  plugins.remove_if([](auto plugin) { return !plugin->isStatic(); });
+  return plugins;
+}
+
+std::list<Plugin *> PluginManager::getDynamicPlugins()
+{
+  auto plugins = getPlugins();
+  plugins.remove_if([](auto plugin) { return !plugin->isDynamic(); });
+  return plugins;
+}
+
 void PluginManager::addObject(QObject *object)
 {
   Q_ASSERT(object);

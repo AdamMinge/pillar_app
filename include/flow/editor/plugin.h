@@ -2,6 +2,7 @@
 #define FLOW_PLUGIN_H
 
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QIcon>
 #include <QString>
 /* --------------------------------- Standard ------------------------------- */
 #include <memory>
@@ -21,7 +22,12 @@ public:
   Plugin(Plugin &&other) noexcept;
   Plugin &operator=(Plugin &&other) noexcept;
 
+  [[nodiscard]] QString getName() const;
+  [[nodiscard]] QString getDescription() const;
+  [[nodiscard]] QString getVersion() const;
   [[nodiscard]] QString getFileName() const;
+  [[nodiscard]] QIcon getIcon() const;
+
   [[nodiscard]] bool isStatic() const;
   [[nodiscard]] bool isDynamic() const;
 

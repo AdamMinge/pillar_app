@@ -13,7 +13,7 @@ public:
   explicit SettingsWidget(QWidget *parent = nullptr);
   ~SettingsWidget() override;
 
-  virtual void apply();
+  virtual bool apply();
   [[nodiscard]] virtual bool applied() const;
 
 Q_SIGNALS:

@@ -85,7 +85,11 @@
        </layout>
       </item>
       <item>
-       <widget class="utils::QtUnselectableListView" name="m_projects_list_view"/>
+       <widget class="utils::QtMouseOverSelectableListView" name="m_projects_list_view">
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -94,9 +98,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>utils::QtUnselectableListView</class>
+   <class>utils::QtMouseOverSelectableListView</class>
    <extends>QListView</extends>
-   <header location="global">flow/utils/qt/view/unselectable_view.h</header>
+   <header location="global">flow/utils/qt/view/mouse_over_selectable_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

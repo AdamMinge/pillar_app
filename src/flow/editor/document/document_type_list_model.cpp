@@ -21,9 +21,11 @@ QVariant DocumentTypeListModel::data(const QModelIndex &index, int role) const
     case Role::DocumentTypeRole:
       return QVariant::fromValue(document_type);
 
+    case Qt::DisplayRole:
     case Role::DocumentTypeNameRole:
       return getDocumentNameForType(document_type);
 
+    case Qt::DecorationRole:
     case Role::DocumentTypeIconRole:
       return getDocumentIconForType(document_type);
   }

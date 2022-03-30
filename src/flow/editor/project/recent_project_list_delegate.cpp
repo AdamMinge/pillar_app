@@ -73,7 +73,7 @@ void RecentProjectListDelegate::paint(
   painter->setPen(palette.windowText().color());
   painter->drawText(text_rect, Qt::TextSingleLine, path);
 
-  auto path_rect = QFontMetrics(font).boundingRect(name).adjusted(0, 0, 1, 1);
+  auto path_rect = QFontMetrics(font).boundingRect(path).adjusted(0, 0, 1, 1);
   text_rect.moveBottom(text_rect.bottom() + path_rect.height());
 
   font.setPointSizeF(opt.font.pointSize() * 0.6);

@@ -25,12 +25,14 @@ QVariant RecentProjectListModel::data(const QModelIndex &index, int role) const
 
   switch (role)
   {
+    case Qt::DisplayRole:
     case Role::ProjectNameRole:
       return QFileInfo(m_projects.at(index.row())).baseName();
 
     case Role::ProjectPathRole:
       return m_projects.at(index.row());
 
+    case Qt::DecorationRole:
     case Role::ProjectIconRole:
       return getProjectIcon(index);
 

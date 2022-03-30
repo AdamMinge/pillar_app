@@ -8,6 +8,6 @@ SettingsWidget::SettingsWidget(QWidget *parent) : QWidget(parent) {}
 
 SettingsWidget::~SettingsWidget() = default;
 
-void SettingsWidget::apply() {}
+bool SettingsWidget::apply() { return true; }
 
 bool SettingsWidget::applied() const { return true; }

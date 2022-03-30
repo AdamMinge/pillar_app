@@ -39,5 +39,5 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_plugins(logic_node
         SOURCES ${sources} ${includes}
-        DEPENDS_PRIVATE Qt6::Widgets flow::api)
+        DEPENDS_PRIVATE Qt6::Widgets flow::node)
 # -------------------------------------------------------------------------------------------------- #

@@ -12,9 +12,21 @@ SettingsWidgetTreeModel::SettingsWidgetTreeModel(
 
 SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
 
-void SettingsWidgetTreeModel::apply()
+bool SettingsWidgetTreeModel::apply()
 {
-  for (auto settings_widget : m_to_apply) settings_widget->apply();
+  std::set<SettingsWidget *> applied_widget;
+
+  std::for_each(
+    m_to_apply.begin(), m_to_apply.end(),
+    [&applied_widget](auto settings_widget) {
+      if (settings_widget->apply()) applied_widget.insert(settings_widget);
+    });
+
+  std::for_each(
+    applied_widget.begin(), applied_widget.end(),
+    [this](auto settings_widget) { onAppliedChanged(settings_widget, true); });
+
+  return applied();
 }
 
 bool SettingsWidgetTreeModel::applied() const { return m_to_apply.empty(); }

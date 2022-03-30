@@ -106,12 +106,12 @@
 <context>
     <name>DocumentTypeListModel</name>
     <message>
-        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="45"/>
+        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="47"/>
         <source>Flow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="49"/>
+        <location filename="../../src/flow/editor/document/document_type_list_model.cpp" line="51"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>

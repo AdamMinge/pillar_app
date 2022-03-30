@@ -10,13 +10,14 @@
 namespace plugins::node::logic
 {
 
-  class LOGIC_NODE_API LogicNodesFactory : public ::node::NodesFactory
+  class LOGIC_NODE_API LogicNodesFactory : public QObject,
+                                           public ::node::NodesFactory
   {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.flow.NodesFactory" FILE "plugin.json")
 
   public:
-    explicit LogicNodesFactory(QObject *parent = nullptr);
+    explicit LogicNodesFactory();
     ~LogicNodesFactory() override;
   };
 

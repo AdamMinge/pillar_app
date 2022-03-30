@@ -22,6 +22,8 @@ public:
 
   void loadPlugins(QString plugins_path = {});
   [[nodiscard]] std::list<Plugin *> getPlugins();
+  [[nodiscard]] std::list<Plugin *> getStaticPlugins();
+  [[nodiscard]] std::list<Plugin *> getDynamicPlugins();
 
   void addObject(QObject *object);
   void removeObject(QObject *object);

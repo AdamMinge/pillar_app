@@ -1,16 +1,14 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/node/logic/logic_nodes_factory.h"
 #include "flow/plugins/node/logic/logic_node_and.h"
 #include "flow/plugins/node/logic/logic_node_not.h"
 #include "flow/plugins/node/logic/logic_node_or.h"
-#include "flow/plugins/node/logic/logic_nodes_factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace plugins::node::logic
 {
 
-  LogicNodesFactory::LogicNodesFactory(QObject *parent) : NodesFactory(parent)
+  LogicNodesFactory::LogicNodesFactory()
   {
     registerFactory(QLatin1String("LogicNodeNot"), []() {
       return std::make_unique<LogicNodeNot>();
