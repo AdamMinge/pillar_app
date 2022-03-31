@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.11)
 # -------------------------------------------------------------------------------------------------- #
 set(source_root ${FLOW_SOURCE_DIR}/src/flow/plugins/node/logic)
 set(include_root ${FLOW_SOURCE_DIR}/include/flow/plugins/node/logic)
+set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
         ${source_root}/logic_nodes_factory.cpp
@@ -24,6 +25,9 @@ set(includes
         ${include_root}/logic_node_not.h
         ${include_root}/logic_node_and.h
         ${include_root}/logic_node_or.h)
+
+set(resources
+        ${resources_root}/flow-plugins-logic-node-images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -38,6 +42,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ------------------------------------ Create utils shared lib ------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
 flow_add_plugins(logic_node
-        SOURCES ${sources} ${includes}
+        SOURCES ${sources} ${includes} ${resources}
         DEPENDS_PRIVATE Qt6::Widgets flow::node)
 # -------------------------------------------------------------------------------------------------- #

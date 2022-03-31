@@ -36,8 +36,7 @@ bool PluginImpl::isDynamic() const { return !isStatic(); }
 class DynamicPluginImpl : public PluginImpl
 {
 public:
-  explicit DynamicPluginImpl(
-    std::unique_ptr<QPluginLoader> loader, QString file_name);
+  explicit DynamicPluginImpl(std::unique_ptr<QPluginLoader> loader);
   ~DynamicPluginImpl() override;
 
   [[nodiscard]] QString getName() const override;
@@ -55,17 +54,15 @@ public:
 
 private:
   std::unique_ptr<QPluginLoader> m_loader;
-  QString m_file_name;
   QString m_name;
   QString m_description;
   QString m_version;
+  QIcon m_icon;
   QObject *m_instance;
 };
 
-DynamicPluginImpl::DynamicPluginImpl(
-  std::unique_ptr<QPluginLoader> loader, QString file_name)
-    : m_loader(std::move(loader)), m_file_name(std::move(file_name)),
-      m_instance(nullptr)
+DynamicPluginImpl::DynamicPluginImpl(std::unique_ptr<QPluginLoader> loader)
+    : m_loader(std::move(loader)), m_instance(nullptr)
 {
   const auto metaData =
     m_loader->metaData().value(QStringLiteral("MetaData")).toObject();
@@ -73,6 +70,18 @@ DynamicPluginImpl::DynamicPluginImpl(
   m_name = metaData.value(QStringLiteral("Name")).toString();
   m_description = metaData.value(QStringLiteral("Description")).toString();
   m_version = metaData.value(QStringLiteral("Version")).toString();
+
+  QLibrary lib(m_loader->fileName());
+  if (auto getPluginIcon =
+        reinterpret_cast<QIcon *(*) ()>(lib.resolve("getPluginIcon"));
+      getPluginIcon)
+  {
+    auto plugin_icon = std::unique_ptr<QIcon>(getPluginIcon());
+    m_icon = QIcon(*plugin_icon);
+  } else
+  {
+    m_icon = QIcon(":/editor/images/64x64/plugin.png");
+  }
 }
 
 DynamicPluginImpl::~DynamicPluginImpl() = default;
@@ -83,9 +92,9 @@ QString DynamicPluginImpl::getDescription() const { return m_description; }
 
 QString DynamicPluginImpl::getVersion() const { return m_version; }
 
-QString DynamicPluginImpl::getFileName() const { return m_file_name; }
+QString DynamicPluginImpl::getFileName() const { return m_loader->fileName(); }
 
-QIcon DynamicPluginImpl::getIcon() const { return QIcon{}; }
+QIcon DynamicPluginImpl::getIcon() const { return m_icon; }
 
 bool DynamicPluginImpl::isStatic() const { return false; }
 
@@ -177,8 +186,7 @@ bool StaticPluginImpl::isEnabled() const
 Plugin Plugin::create(const QString &plugin_file)
 {
   auto loader = std::make_unique<QPluginLoader>(plugin_file);
-  auto impl =
-    std::make_unique<DynamicPluginImpl>(std::move(loader), plugin_file);
+  auto impl = std::make_unique<DynamicPluginImpl>(std::move(loader));
   return Plugin(std::move(impl));
 }
 

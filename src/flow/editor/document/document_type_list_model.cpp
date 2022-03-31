@@ -58,10 +58,10 @@ QIcon DocumentTypeListModel::getDocumentIconForType(
   switch (type)
   {
     case api::document::IDocument::Type::Flow:
-      return QIcon(":/images/64x64/flow_document.png");
+      return QIcon(":/editor/images/64x64/flow_document.png");
 
     case api::document::IDocument::Type::Unknown:
     default:
-      return QIcon(":/images/64x64/unknown_document.png");
+      return QIcon(":/editor/images/64x64/unknown_document.png");
   }
 }

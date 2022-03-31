@@ -22,7 +22,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../../../resources/flow-tools-editor-images.qrc">:/images/256x256/about_logo.png</pixmap>
+        <pixmap resource="../../../../resources/flow-tools-editor-images.qrc">:/editor/images/256x256/about_logo.png</pixmap>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

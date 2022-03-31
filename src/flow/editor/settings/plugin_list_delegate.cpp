@@ -82,7 +82,8 @@ void PluginListDelegate::paint(
     m_margins.left(), m_margins.top(), -m_margins.right(), -m_margins.bottom());
 
   const auto is_last_index = index.model()->rowCount() - 1 == index.row();
-  const auto plugin_icon = QIcon{};
+  const auto plugin_icon =
+    index.data(PluginListModel::Role::PluginIcon).value<QIcon>();
   const auto plugin_name =
     index.data(PluginListModel::Role::PluginName).toString();
   const auto plugin_state =

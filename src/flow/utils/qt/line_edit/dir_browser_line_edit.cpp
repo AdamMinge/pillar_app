@@ -14,7 +14,7 @@ namespace utils
       : QLineEdit(parent)
   {
     auto browser_action = addAction(
-      QIcon(":/shared/images/32x32/file_browser.png"),
+      QIcon(":/utils/line_edit/images/32x32/file_browser.png"),
       QLineEdit::TrailingPosition);
 
     connect(

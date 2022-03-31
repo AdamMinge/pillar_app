@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/logic_node">
+        <file>images/64x64/project.png</file>
+    </qresource>
+</RCC>

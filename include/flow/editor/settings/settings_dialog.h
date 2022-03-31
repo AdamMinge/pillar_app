@@ -22,6 +22,7 @@ public Q_SLOTS:
   void setUrl(const QUrl &url) override;
 
 protected:
+  void closeEvent(QCloseEvent *event) override;
   void changeEvent(QEvent *event) override;
 
 private Q_SLOTS:

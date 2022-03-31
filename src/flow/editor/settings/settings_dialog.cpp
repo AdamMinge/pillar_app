@@ -1,4 +1,5 @@
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QCloseEvent>
 #include <QDesktopServices>
 #include <QLabel>
 #include <QMessageBox>
@@ -60,7 +61,7 @@ void SettingsDialog::setUrl(const QUrl &url)
   auto index = SettingsWidgetTreeModel::getIndexByName(
     *model, url.toString(QUrl::RemoveScheme), QModelIndex{});
 
-  if(!index.isValid())
+  if (!index.isValid())
   {
     m_ui->m_setting_search->setText(QLatin1String{});
 
@@ -70,6 +71,28 @@ void SettingsDialog::setUrl(const QUrl &url)
 
   m_ui->m_setting_list_view->selectionModel()->select(
     index, QItemSelectionModel::ClearAndSelect);
+}
+
+void SettingsDialog::closeEvent(QCloseEvent *event)
+{
+  auto settings_model = getSourceModel(m_ui->m_setting_list_view->model());
+  Q_ASSERT(settings_model);
+
+  if (!settings_model->applied())
+  {
+    auto ret = QMessageBox::question(
+      this, tr("Apply Settings"),
+      tr("Are you sure that you want to discard changes settings?"),
+      QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+
+    if (ret == QMessageBox::No)
+    {
+      event->ignore();
+      return;
+    }
+  }
+
+  event->accept();
 }
 
 void SettingsDialog::changeEvent(QEvent *event)
@@ -108,22 +131,7 @@ void SettingsDialog::apply()
   settings_model->apply();
 }
 
-void SettingsDialog::cancel()
-{
-  auto settings_model = getSourceModel(m_ui->m_setting_list_view->model());
-  Q_ASSERT(settings_model);
-
-  if (!settings_model->applied())
-  {
-    auto ret = QMessageBox::question(
-      this, tr("Apply Settings"),
-      tr("Are you sure that you want to discard changes settings?"),
-      QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
-
-    if (ret == QMessageBox::Yes) close();
-  } else
-    close();
-}
+void SettingsDialog::cancel() { close(); }
 
 void SettingsDialog::currentChanged(QWidget *widget)
 {
