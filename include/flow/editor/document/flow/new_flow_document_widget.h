@@ -1,8 +1,8 @@
 #ifndef FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
 #define FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/new_document_widget.h"
+/* ------------------------------------ Api --------------------------------- */
+#include <flow/modules/api/document/new_document_widget.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +10,7 @@ namespace Ui
   class NewFlowDocumentWidget;
 }
 
-class NewFlowDocumentWidget : public NewDocumentWidget
+class NewFlowDocumentWidget : public api::document::INewDocumentWidget
 {
   Q_OBJECT
 
@@ -21,7 +21,8 @@ public:
   explicit NewFlowDocumentWidget(QWidget *parent = nullptr);
   ~NewFlowDocumentWidget() override;
 
-  [[nodiscard]] std::unique_ptr<api::IDocument> createDocument() const override;
+  [[nodiscard]] std::unique_ptr<api::document::IDocument>
+  createDocument() const override;
   [[nodiscard]] bool isValid() const override;
 
 protected:

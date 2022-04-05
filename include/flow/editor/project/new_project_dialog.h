@@ -10,7 +10,7 @@ namespace Ui
   class NewProjectDialog;
 }
 
-namespace api
+namespace api::project
 {
   class IProject;
 }
@@ -26,10 +26,13 @@ public:
   explicit NewProjectDialog(QWidget *parent = nullptr);
   ~NewProjectDialog() override;
 
-  [[nodiscard]] std::unique_ptr<api::IProject> create();
+  [[nodiscard]] std::unique_ptr<api::project::IProject> create();
 
 protected:
   void changeEvent(QEvent *event) override;
+
+private Q_SLOTS:
+  void updateCreateButton();
 
 private:
   void initUi();
@@ -39,11 +42,6 @@ private:
 
   void writeSettings();
   void readSettings();
-
-private Q_SLOTS:
-  void projectNameChanged();
-  void projectPathChanged();
-  void updateCreateButton();
 
 private:
   static const QString template_error_message;

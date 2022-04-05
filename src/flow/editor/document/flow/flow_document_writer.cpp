@@ -20,7 +20,8 @@ private:
   void writeDocument(QXmlStreamWriter &writer, const FlowDocument &document);
 };
 
-void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(const FlowDocument &document, QIODevice &device)
+void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
+  const FlowDocument &document, QIODevice &device)
 {
   QXmlStreamWriter writer(&device);
 
@@ -29,7 +30,8 @@ void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(const FlowDocumen
   writer.writeEndDocument();
 }
 
-void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(QXmlStreamWriter &writer, const FlowDocument &document)
+void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
+  QXmlStreamWriter &writer, const FlowDocument &document)
 {
   writer.writeStartElement(QStringLiteral("flow"));
 
@@ -40,8 +42,7 @@ void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(QXmlStreamWriter 
 
 FlowDocumentWriter::FlowDocumentWriter()
     : m_impl(std::make_unique<FlowDocumentWriterImpl>())
-{
-}
+{}
 
 FlowDocumentWriter::~FlowDocumentWriter() = default;
 
@@ -51,7 +52,8 @@ void FlowDocumentWriter::write(const FlowDocument &document, QIODevice &device)
   m_impl->writeDocument(document, device);
 }
 
-bool FlowDocumentWriter::write(const FlowDocument &document, const QString &file_name, QString *error)
+bool FlowDocumentWriter::write(
+  const FlowDocument &document, const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

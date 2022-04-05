@@ -12,13 +12,14 @@
 #include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/new_project_dialog.h"
 #include "flow/editor/project/project.h"
+#include "flow/editor/project/project_dock.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
-#include "flow/editor/project_dock.h"
 /* ------------------------------------ Api --------------------------------- */
-#include <flow/api/document_format.h>
-#include <flow/api/project_format.h>
+#include <flow/modules/api/document/document_format.h>
+#include <flow/modules/api/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/action/action.h>
 #include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
 #include <flow/utils/qt/dpi/dpi_info.h>
@@ -33,6 +34,7 @@ void adjustMenuSize(QObject *object)
   if (auto menu = qobject_cast<QMenu *>(object); menu)
   {
     auto max_width = 0;
+    auto extra_width = utils::QtDpiInfo::dpiScaled(55);
     for (auto action : menu->actions())
     {
       const auto fontMetrics = QFontMetrics(action->font());
@@ -44,14 +46,17 @@ void adjustMenuSize(QObject *object)
         width += utils::QtDpiInfo::dpiScaled(5);
       }
 
-      if (max_width < width)
-        max_width = width;
+      if (!action->shortcut().isEmpty())
+        extra_width = utils::QtDpiInfo::dpiScaled(120);
+
+      if (max_width < width) max_width = width;
     }
 
-    menu->setFixedWidth(max_width + utils::QtDpiInfo::dpiScaled(45));
+    menu->setMinimumWidth(max_width + extra_width);
   } else
   {
-    for (auto child_menu : object->findChildren<QMenu *>(QString{}, Qt::FindDirectChildrenOnly))
+    for (auto child_menu :
+         object->findChildren<QMenu *>(QString{}, Qt::FindDirectChildrenOnly))
       adjustMenuSize(child_menu);
   }
 }
@@ -59,47 +64,58 @@ void adjustMenuSize(QObject *object)
 /* -------------------------------- Preferences ----------------------------- */
 
 struct ProjectWindow::Preferences {
-  Preference<QByteArray> project_window_geometry = Preference<QByteArray>("project_window/geometry");
-  Preference<QByteArray> project_window_state = Preference<QByteArray>("project_window/state");
+  Preference<QByteArray> project_window_geometry =
+    Preference<QByteArray>("project_window/geometry");
+  Preference<QByteArray> project_window_state =
+    Preference<QByteArray>("project_window/state");
 };
 
 /* ------------------------------- ProjectWindow ---------------------------- */
 
 ProjectWindow::ProjectWindow(QWidget *parent)
-    : QMainWindow(parent),
-      m_ui(new Ui::ProjectWindow),
-      m_preferences(new Preferences),
-      m_project_dock(new ProjectDock),
-      m_console_dock(new ConsoleDock),
-      m_issue_dock(new IssueDock),
-      m_project_menu(new QMenu(tr("&Project"), this)),
-      m_new_project_action(new QAction(tr("&New..."), this)),
-      m_open_project_action(new QAction(tr("&Open..."), this)),
-      m_open_recent_project_menu(new QMenu(tr("Open &Recent"), this)),
-      m_clear_recent_projects_action(new QAction(tr("Clear &Recent"), this)),
-      m_close_project_action(new QAction(tr("&Close Project"), this)),
-      m_document_menu(new QMenu(tr("&Document"), this)),
-      m_new_document_action(new QAction(tr("&New..."), this)),
-      m_open_document_action(new QAction(tr("&Open..."), this)),
-      m_close_document_action(new QAction(tr("&Close Document"), this)),
-      m_save_document_action(new QAction(tr("&Save"), this)),
-      m_save_document_as_action(new QAction(tr("Save &As"), this)),
-      m_save_all_documents_action(new QAction(tr("Save All"), this)),
-      m_edit_menu(new QMenu(tr("&Edit"), this)),
-      m_cut_action(new QAction(tr("&Cut"), this)),
-      m_copy_action(new QAction(tr("&Copy"), this)),
-      m_paste_action(new QAction(tr("&Paste"), this)),
-      m_delete_action(new QAction(tr("&Delete"), this)),
-      m_view_menu(new QMenu(tr("&View"), this)),
-      m_views_and_toolbars_menu(new QMenu(tr("Views and &Toolbars"), this)),
-      m_help_menu(new QMenu(tr("&Help"), this))
+    : QMainWindow(parent), m_ui(new Ui::ProjectWindow),
+      m_preferences(new Preferences), m_project_dock(new ProjectDock(this)),
+      m_console_dock(new ConsoleDock(this)), m_issue_dock(new IssueDock(this)),
+      m_project_menu(new QMenu(this)),
+      m_new_project_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_open_project_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_open_recent_project_menu(new QMenu(this)),
+      m_clear_recent_projects_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_close_project_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_document_menu(new QMenu(this)),
+      m_new_document_action(
+        utils::createActionWithShortcut(QKeySequence::New, this)),
+      m_open_document_action(
+        utils::createActionWithShortcut(QKeySequence::Open, this)),
+      m_close_document_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_save_document_action(
+        utils::createActionWithShortcut(QKeySequence::Save, this)),
+      m_save_document_as_action(
+        utils::createActionWithShortcut(QKeySequence::SaveAs, this)),
+      m_save_all_documents_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_edit_menu(new QMenu(this)),
+      m_cut_action(utils::createActionWithShortcut(QKeySequence::Cut, this)),
+      m_copy_action(utils::createActionWithShortcut(QKeySequence::Copy, this)),
+      m_paste_action(
+        utils::createActionWithShortcut(QKeySequence::Paste, this)),
+      m_delete_action(
+        utils::createActionWithShortcut(QKeySequence::Delete, this)),
+      m_view_menu(new QMenu(this)), m_views_and_toolbars_menu(new QMenu(this)),
+      m_help_menu(new QMenu(this))
 {
-  getActionManager().registerAction(m_new_document_action, "new_document");
-  getActionManager().registerAction(m_open_document_action, "open_document");
-
   auto undoGroup = getDocumentManager().getUndoGroup();
   m_undo_action = undoGroup->createUndoAction(this, tr("&Undo"));
+  m_undo_action->setShortcut(QKeySequence::Undo);
   m_redo_action = undoGroup->createRedoAction(this, tr("&Redo"));
+  m_redo_action->setShortcut(QKeySequence::Redo);
+
+  registerActions();
 
   initUi();
   initConnections();
@@ -157,17 +173,21 @@ PreferencesManager &ProjectWindow::getPreferencesManager()
   return PreferencesManager::getInstance();
 }
 
-void ProjectWindow::documentChanged(api::IDocument *document)
+void ProjectWindow::documentChanged(api::document::IDocument *document)
 {
   updateActions();
   updateWindowTitle();
   updateRecentProjectFiles();
 }
 
-bool ProjectWindow::confirmSave(api::IDocument *document)
+void ProjectWindow::projectChanged(api::project::IProject *project)
 {
-  if (!document || !document->isModified())
-    return true;
+  m_project_dock->setProject(project);
+}
+
+bool ProjectWindow::confirmSave(api::document::IDocument *document)
+{
+  if (!document || !document->isModified()) return true;
 
   getDocumentManager().switchToDocument(document);
 
@@ -201,7 +221,7 @@ void ProjectWindow::updateActions()
   auto document_editor = getDocumentManager().getCurrentEditor();
   auto current_document = getDocumentManager().getCurrentDocument();
 
-  DocumentEditor::StandardActions standard_actions;
+  api::document::IDocumentEditor::StandardActions standard_actions;
   if (document_editor)
     standard_actions = document_editor->getEnabledStandardActions();
 
@@ -210,18 +230,25 @@ void ProjectWindow::updateActions()
   m_save_document_as_action->setEnabled(current_document);
   m_save_all_documents_action->setEnabled(current_document);
 
-  m_cut_action->setEnabled(standard_actions & DocumentEditor::CutAction);
-  m_copy_action->setEnabled(standard_actions & DocumentEditor::CopyAction);
-  m_paste_action->setEnabled(standard_actions & DocumentEditor::PasteAction);
-  m_delete_action->setEnabled(standard_actions & DocumentEditor::DeleteAction);
+  m_cut_action->setEnabled(
+    standard_actions & api::document::IDocumentEditor::CutAction);
+  m_copy_action->setEnabled(
+    standard_actions & api::document::IDocumentEditor::CopyAction);
+  m_paste_action->setEnabled(
+    standard_actions & api::document::IDocumentEditor::PasteAction);
+  m_delete_action->setEnabled(
+    standard_actions & api::document::IDocumentEditor::DeleteAction);
 }
 
 void ProjectWindow::updateWindowTitle()
 {
   auto current_document = getDocumentManager().getCurrentDocument();
 
-  auto project_name = current_document ? QString("[*]%1").arg(current_document->getDisplayName()) : QString();
-  auto project_file_path = current_document ? current_document->getFileName() : QString();
+  auto project_name =
+    current_document ? QString("[*]%1").arg(current_document->getDisplayName())
+                     : QString();
+  auto project_file_path =
+    current_document ? current_document->getFileName() : QString();
 
   setWindowTitle(project_name);
   setWindowFilePath(project_file_path);
@@ -260,26 +287,26 @@ void ProjectWindow::updateRecentProjectFiles()
 
   for (auto &action : m_open_recent_project_menu->actions())
   {
-    if (action != m_clear_recent_projects_action)
-      action->deleteLater();
+    if (action != m_clear_recent_projects_action) action->deleteLater();
   }
 
   for (auto &recent_project_file : recent_project_files)
   {
     auto fileInfo = QFileInfo(recent_project_file);
-    if (!fileInfo.exists())
-      continue;
+    if (!fileInfo.exists()) continue;
 
-    auto open_recent_project_action = new QAction(m_open_recent_project_menu);
+    auto open_recent_project_action = utils::createActionWithShortcut(
+      QKeySequence{}, m_open_recent_project_menu);
     open_recent_project_action->setText(fileInfo.fileName());
     open_recent_project_action->setToolTip(fileInfo.filePath());
     open_recent_project_action->setVisible(true);
 
-    m_open_recent_project_menu->insertAction(m_clear_recent_projects_action, open_recent_project_action);
+    m_open_recent_project_menu->insertAction(
+      m_clear_recent_projects_action, open_recent_project_action);
 
-    connect(open_recent_project_action, &QAction::triggered, this, [this, recent_project_file]() {
-      openProject(recent_project_file);
-    });
+    connect(
+      open_recent_project_action, &QAction::triggered, this,
+      [this, recent_project_file]() { openProject(recent_project_file); });
   }
 
   m_open_recent_project_menu->insertSeparator(m_clear_recent_projects_action);
@@ -289,22 +316,27 @@ void ProjectWindow::updateRecentProjectFiles()
 
 void ProjectWindow::newProject()
 {
-  auto new_project_dialog = QScopedPointer<NewProjectDialog>(new NewProjectDialog(this));
+  auto new_project_dialog =
+    QScopedPointer<NewProjectDialog>(new NewProjectDialog(this));
   if (auto project = new_project_dialog->create(); project)
     switchProject(std::move(project));
 }
 
 void ProjectWindow::openProject()
 {
-  const auto recent_project_files = getPreferencesManager().getRecentProjectFiles();
-  const auto project_dir = recent_project_files.empty() ? QString{} : recent_project_files.last();
-  const auto filter = FormatHelper<api::IProjectFormat>{api::IFileFormat::Capability::Read}.getFilter();
+  const auto recent_project_files =
+    getPreferencesManager().getRecentProjectFiles();
+  const auto project_dir =
+    recent_project_files.empty() ? QString{} : recent_project_files.last();
+  const auto filter =
+    FormatHelper<api::project::IProjectFormat>{
+      api::IFileFormat::Capability::Read}
+      .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Project"), project_dir, filter);
 
-  if (!file_name.isEmpty())
-    openProject(file_name);
+  if (!file_name.isEmpty()) openProject(file_name);
 }
 
 bool ProjectWindow::openProject(const QString &file_name)
@@ -327,8 +359,7 @@ bool ProjectWindow::openProject(const QString &file_name)
 
 bool ProjectWindow::closeProject()
 {
-  if (!confirmAllSave())
-    return false;
+  if (!confirmAllSave()) return false;
 
   auto project = getProjectManager().getCurrentProject();
   auto project_index = getProjectManager().findProject(project);
@@ -340,7 +371,8 @@ bool ProjectWindow::closeProject()
 
 void ProjectWindow::newDocument()
 {
-  auto new_document_dialog = QScopedPointer<NewDocumentDialog>(new NewDocumentDialog(this));
+  auto new_document_dialog =
+    QScopedPointer<NewDocumentDialog>(new NewDocumentDialog(this));
   if (auto document = new_document_dialog->create(); document)
     getDocumentManager().addDocument(std::move(document));
 }
@@ -348,14 +380,17 @@ void ProjectWindow::newDocument()
 void ProjectWindow::openDocument()
 {
   const auto project = getProjectManager().getCurrentProject();
-  const auto project_dir = QFileInfo(project->getFileName()).absoluteDir().absolutePath();
-  const auto filter = FormatHelper<api::IDocumentFormat>{api::IFileFormat::Capability::Read}.getFilter();
+  const auto project_dir =
+    QFileInfo(project->getFileName()).absoluteDir().absolutePath();
+  const auto filter =
+    FormatHelper<api::document::IDocumentFormat>{
+      api::IFileFormat::Capability::Read}
+      .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Document"), project_dir, filter);
 
-  if (!file_name.isEmpty())
-    getDocumentManager().loadDocument(file_name);
+  if (!file_name.isEmpty()) getDocumentManager().loadDocument(file_name);
 }
 
 bool ProjectWindow::closeDocument(int index)
@@ -363,8 +398,7 @@ bool ProjectWindow::closeDocument(int index)
   auto document = getDocumentManager().getDocument(index);
   if (document)
   {
-    if (!confirmSave(document))
-      return false;
+    if (!confirmSave(document)) return false;
 
     getDocumentManager().removeDocument(index);
   }
@@ -375,23 +409,29 @@ bool ProjectWindow::closeDocument(int index)
 bool ProjectWindow::closeDocument()
 {
   auto current_document = getDocumentManager().getCurrentDocument();
-  auto current_document_index = getDocumentManager().findDocument(current_document);
+  auto current_document_index =
+    getDocumentManager().findDocument(current_document);
 
   return closeDocument(current_document_index);
 }
 
-bool ProjectWindow::saveDocument(api::IDocument *document)// NOLINT(readability-convert-member-functions-to-static)
+bool ProjectWindow::saveDocument(
+  api::document::IDocument
+    *document)// NOLINT(readability-convert-member-functions-to-static)
 {
   Q_ASSERT(document);
 
   getDocumentManager().switchToDocument(document);
 
-  if (!document->getFileName().isEmpty()) return getDocumentManager().saveDocument(document);
+  if (!document->getFileName().isEmpty())
+    return getDocumentManager().saveDocument(document);
   else
     return getDocumentManager().saveDocumentAs(document);
 }
 
-bool ProjectWindow::saveDocumentAs(api::IDocument *document)// NOLINT(readability-convert-member-functions-to-static)
+bool ProjectWindow::saveDocumentAs(
+  api::document::IDocument
+    *document)// NOLINT(readability-convert-member-functions-to-static)
 {
   Q_ASSERT(document);
   getDocumentManager().switchToDocument(document);
@@ -406,28 +446,32 @@ bool ProjectWindow::saveAllDocuments()
   return true;
 }
 
-void ProjectWindow::performCut()// NOLINT(readability-convert-member-functions-to-static)
+void ProjectWindow::
+  performCut()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::CutAction);
+    editor->performStandardAction(api::document::IDocumentEditor::CutAction);
 }
 
-void ProjectWindow::performCopy()// NOLINT(readability-convert-member-functions-to-static)
+void ProjectWindow::
+  performCopy()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::CopyAction);
+    editor->performStandardAction(api::document::IDocumentEditor::CopyAction);
 }
 
-void ProjectWindow::performPaste()// NOLINT(readability-convert-member-functions-to-static)
+void ProjectWindow::
+  performPaste()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::PasteAction);
+    editor->performStandardAction(api::document::IDocumentEditor::PasteAction);
 }
 
-void ProjectWindow::performDelete()// NOLINT(readability-convert-member-functions-to-static)
+void ProjectWindow::
+  performDelete()// NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = getDocumentManager().getCurrentEditor())
-    editor->performStandardAction(DocumentEditor::DeleteAction);
+    editor->performStandardAction(api::document::IDocumentEditor::DeleteAction);
 }
 
 void ProjectWindow::writeSettings()
@@ -449,6 +493,29 @@ void ProjectWindow::readSettings()
   getDocumentManager().restoreState();
 }
 
+void ProjectWindow::registerActions()
+{
+  getActionManager().registerAction(m_new_project_action, "new_project");
+  getActionManager().registerAction(m_open_project_action, "open_project");
+  getActionManager().registerAction(
+    m_clear_recent_projects_action, "clear_recent_projects");
+  getActionManager().registerAction(m_close_project_action, "close_project");
+  getActionManager().registerAction(m_new_document_action, "new_document");
+  getActionManager().registerAction(m_open_document_action, "open_document");
+  getActionManager().registerAction(m_close_document_action, "close_document");
+  getActionManager().registerAction(m_save_document_action, "save_document");
+  getActionManager().registerAction(
+    m_save_document_as_action, "save_document_as");
+  getActionManager().registerAction(
+    m_save_all_documents_action, "save_all_documents");
+  getActionManager().registerAction(m_undo_action, "undo");
+  getActionManager().registerAction(m_redo_action, "redo");
+  getActionManager().registerAction(m_cut_action, "cut");
+  getActionManager().registerAction(m_copy_action, "copy");
+  getActionManager().registerAction(m_paste_action, "paste");
+  getActionManager().registerAction(m_delete_action, "delete");
+}
+
 void ProjectWindow::initUi()
 {
   m_ui->setupUi(this);
@@ -459,7 +526,8 @@ void ProjectWindow::initUi()
   addDockWidget(Qt::BottomDockWidgetArea, m_issue_dock);
   tabifyDockWidget(m_console_dock, m_issue_dock);
 
-  getDocumentManager().addEditor(api::IDocument::Type::Flow, std::make_unique<FlowEditor>());
+  getDocumentManager().addEditor(
+    api::document::IDocument::Type::Flow, std::make_unique<FlowEditor>());
 
   m_ui->m_menu_bar->addMenu(m_project_menu);
   m_project_menu->addAction(m_new_project_action);
@@ -496,46 +564,81 @@ void ProjectWindow::initUi()
 
   m_ui->m_menu_bar->addMenu(m_help_menu);
   m_help_menu->addAction(getActionManager().findAction("about"));
+
+  m_help_menu->setShortcutEnabled(true);
 }
 
 void ProjectWindow::initConnections()
 {
   auto undoGroup = getDocumentManager().getUndoGroup();
 
-  connect(getDocumentManager().getEditor(api::IDocument::Type::Flow),
-          &DocumentEditor::enabledStandardActionsChanged, this, &ProjectWindow::updateActions);
+  connect(
+    getDocumentManager().getEditor(api::document::IDocument::Type::Flow),
+    &api::document::IDocumentEditor::enabledStandardActionsChanged, this,
+    &ProjectWindow::updateActions);
 
-  connect(undoGroup, &QUndoGroup::cleanChanged, this, &ProjectWindow::updateWindowTitle);
+  connect(
+    undoGroup, &QUndoGroup::cleanChanged, this,
+    &ProjectWindow::updateWindowTitle);
 
-  connect(m_new_project_action, &QAction::triggered, this, &ProjectWindow::newProject);
-  connect(m_open_project_action, &QAction::triggered, this, qOverload<>(&ProjectWindow::openProject));
+  connect(
+    m_new_project_action, &QAction::triggered, this,
+    &ProjectWindow::newProject);
+  connect(
+    m_open_project_action, &QAction::triggered, this,
+    qOverload<>(&ProjectWindow::openProject));
   connect(m_clear_recent_projects_action, &QAction::triggered, this, []() {
     getPreferencesManager().clearRecentProjectFiles();
   });
-  connect(m_close_project_action, &QAction::triggered, this, &ProjectWindow::closeProject);
+  connect(
+    m_close_project_action, &QAction::triggered, this,
+    &ProjectWindow::closeProject);
 
-  connect(m_new_document_action, &QAction::triggered, this, &ProjectWindow::newDocument);
-  connect(m_open_document_action, &QAction::triggered, this, qOverload<>(&ProjectWindow::openDocument));
-  connect(m_close_document_action, &QAction::triggered, this, qOverload<>(&ProjectWindow::closeDocument));
+  connect(
+    m_new_document_action, &QAction::triggered, this,
+    &ProjectWindow::newDocument);
+  connect(
+    m_open_document_action, &QAction::triggered, this,
+    qOverload<>(&ProjectWindow::openDocument));
+  connect(
+    m_close_document_action, &QAction::triggered, this,
+    qOverload<>(&ProjectWindow::closeDocument));
   connect(m_save_document_action, &QAction::triggered, this, [this]() {
     saveDocument(getDocumentManager().getCurrentDocument());
   });
   connect(m_save_document_as_action, &QAction::triggered, this, [this]() {
     saveDocumentAs(getDocumentManager().getCurrentDocument());
   });
-  connect(m_save_all_documents_action, &QAction::triggered, this, &ProjectWindow::saveAllDocuments);
+  connect(
+    m_save_all_documents_action, &QAction::triggered, this,
+    &ProjectWindow::saveAllDocuments);
 
   connect(m_cut_action, &QAction::triggered, this, &ProjectWindow::performCut);
-  connect(m_copy_action, &QAction::triggered, this, &ProjectWindow::performCopy);
-  connect(m_paste_action, &QAction::triggered, this, &ProjectWindow::performPaste);
-  connect(m_delete_action, &QAction::triggered, this, &ProjectWindow::performDelete);
+  connect(
+    m_copy_action, &QAction::triggered, this, &ProjectWindow::performCopy);
+  connect(
+    m_paste_action, &QAction::triggered, this, &ProjectWindow::performPaste);
+  connect(
+    m_delete_action, &QAction::triggered, this, &ProjectWindow::performDelete);
 
-  connect(m_views_and_toolbars_menu, &QMenu::aboutToShow, this, &ProjectWindow::updateViewsAndToolbarsMenu);
+  connect(
+    m_views_and_toolbars_menu, &QMenu::aboutToShow, this,
+    &ProjectWindow::updateViewsAndToolbarsMenu);
 
-  connect(&getDocumentManager(), &DocumentManager::currentDocumentChanged, this, &ProjectWindow::documentChanged);
-  connect(&getDocumentManager(), &DocumentManager::documentCloseRequested, this, qOverload<>(&ProjectWindow::closeDocument));
+  connect(
+    &getDocumentManager(), &DocumentManager::currentDocumentChanged, this,
+    &ProjectWindow::documentChanged);
+  connect(
+    &getDocumentManager(), &DocumentManager::documentCloseRequested, this,
+    qOverload<>(&ProjectWindow::closeDocument));
 
-  connect(&getPreferencesManager(), &PreferencesManager::recentProjectFilesChanged, this, &ProjectWindow::updateRecentProjectFiles);
+  connect(
+    &getProjectManager(), &ProjectManager::currentProjectChanged, this,
+    &ProjectWindow::projectChanged);
+
+  connect(
+    &getPreferencesManager(), &PreferencesManager::recentProjectFilesChanged,
+    this, &ProjectWindow::updateRecentProjectFiles);
 }
 
 void ProjectWindow::retranslateUi()
@@ -544,26 +647,42 @@ void ProjectWindow::retranslateUi()
 
   m_project_menu->setTitle(tr("&Project"));
   m_new_project_action->setText(tr("&New..."));
+  m_new_project_action->setWhatsThis(tr("New Project"));
   m_open_project_action->setText(tr("&Open..."));
+  m_open_project_action->setWhatsThis(tr("Open Project"));
   m_open_recent_project_menu->setTitle(tr("Open &Recent"));
   m_clear_recent_projects_action->setText(tr("Clear &Recent"));
+  m_clear_recent_projects_action->setWhatsThis(tr("Clear Recent Project"));
   m_close_project_action->setText(tr("&Close Project"));
+  m_close_project_action->setWhatsThis(tr("Close Project"));
 
   m_document_menu->setTitle(tr("&Document"));
   m_new_document_action->setText(tr("&New..."));
+  m_new_document_action->setWhatsThis(tr("New Document"));
   m_open_document_action->setText(tr("&Open..."));
+  m_open_document_action->setWhatsThis(tr("Open Document"));
   m_close_document_action->setText(tr("&Close Document"));
+  m_close_document_action->setWhatsThis(tr("Close Document"));
   m_save_document_action->setText(tr("&Save"));
+  m_save_document_action->setWhatsThis(tr("Save Document"));
   m_save_document_as_action->setText(tr("Save &As"));
+  m_save_document_as_action->setWhatsThis(tr("Save Document As"));
   m_save_all_documents_action->setText(tr("Save All"));
+  m_save_all_documents_action->setWhatsThis(tr("Save All Documents"));
 
   m_edit_menu->setTitle(tr("&Edit"));
   m_undo_action->setText(tr("&Undo"));
+  m_undo_action->setWhatsThis(tr("Undo"));
   m_redo_action->setText(tr("&Redo"));
+  m_redo_action->setWhatsThis(tr("Redo"));
   m_cut_action->setText(tr("&Cut"));
+  m_cut_action->setWhatsThis(tr("Cut"));
   m_copy_action->setText(tr("&Copy"));
+  m_copy_action->setWhatsThis(tr("Copy"));
   m_paste_action->setText(tr("&Paste"));
+  m_paste_action->setWhatsThis(tr("Paste"));
   m_delete_action->setText(tr("&Delete"));
+  m_delete_action->setWhatsThis(tr("Delete"));
 
   m_view_menu->setTitle(tr("&View"));
   m_views_and_toolbars_menu->setTitle(tr("Views and &Toolbars"));
@@ -573,11 +692,13 @@ void ProjectWindow::retranslateUi()
   adjustMenuSize(this);
 }
 
-bool ProjectWindow::switchProject(std::unique_ptr<api::IProject> project)
+bool ProjectWindow::switchProject(
+  std::unique_ptr<api::project::IProject> project)
 {
   auto ret = QMessageBox::warning(
     this, tr("Open Project"),
-    tr("There is currently open project. Do you want to close it and open new one now?"),
+    tr("There is currently open project. Do you "
+       "want to close it and open new one now?"),
     QMessageBox::Yes | QMessageBox::Cancel);
 
   if (ret == QMessageBox::Yes && closeProject())

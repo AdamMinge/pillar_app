@@ -17,14 +17,25 @@ set(sources
         ${source_root}/style_manager.cpp
         ${source_root}/action_manager.cpp
         ${source_root}/plugin_manager.cpp
+        ${source_root}/plugin.cpp
         ${source_root}/preferences_manager.cpp
         ${source_root}/logging_manager.cpp
         ${source_root}/issue.cpp
         ${source_root}/about_dialog.cpp
-        ${source_root}/settings_dialog.cpp
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
-        ${source_root}/project_dock.cpp
+
+        ${source_root}/settings/settings_dialog.cpp
+        ${source_root}/settings/settings_widget_tree_model.cpp
+        ${source_root}/settings/settings_widget.cpp
+        ${source_root}/settings/general_settings_widget.cpp
+        ${source_root}/settings/plugin_settings_widget.cpp
+        ${source_root}/settings/shortcuts_settings_widget.cpp
+        ${source_root}/settings/appearance_settings_widget.cpp
+        ${source_root}/settings/plugin_list_model.cpp
+        ${source_root}/settings/plugin_list_delegate.cpp
+        ${source_root}/settings/shortcuts_table_model.cpp
+        ${source_root}/settings/shortcuts_table_delegate.cpp
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_manager.cpp
@@ -32,6 +43,7 @@ set(sources
         ${source_root}/project/project_window.cpp
         ${source_root}/project/no_project_window.cpp
         ${source_root}/project/new_project_dialog.cpp
+        ${source_root}/project/project_dock.cpp
         ${source_root}/project/recent_project_list_model.cpp
         ${source_root}/project/recent_project_list_delegate.cpp
         ${source_root}/project/project_format_pro.cpp
@@ -39,10 +51,8 @@ set(sources
         ${source_root}/project/project_reader.cpp
 
         ${source_root}/document/document.cpp
-        ${source_root}/document/document_editor.cpp
         ${source_root}/document/document_manager.cpp
         ${source_root}/document/new_document_dialog.cpp
-        ${source_root}/document/new_document_widget.cpp
         ${source_root}/document/undo_dock.cpp
         ${source_root}/document/no_document_widget.cpp
         ${source_root}/document/document_type_list_model.cpp
@@ -53,6 +63,7 @@ set(sources
         ${source_root}/document/flow/flow_editor.cpp
         ${source_root}/document/flow/flow_scene.cpp
         ${source_root}/document/flow/flow_view.cpp
+        ${source_root}/document/flow/flow_document_format.cpp
         ${source_root}/document/flow/flow_document_format_flow.cpp
         ${source_root}/document/flow/flow_document_reader.cpp
         ${source_root}/document/flow/flow_document_writer.cpp
@@ -66,15 +77,26 @@ set(includes
         ${include_root}/style_manager.h
         ${include_root}/action_manager.h
         ${include_root}/plugin_manager.h
+        ${include_root}/plugin.h
         ${include_root}/preferences_manager.h
         ${include_root}/logging_manager.h
         ${include_root}/issue.h
         ${include_root}/about_dialog.h
-        ${include_root}/settings_dialog.h
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
-        ${include_root}/project_dock.h
         ${include_root}/format_helper.h
+
+        ${include_root}/settings/settings_dialog.h
+        ${include_root}/settings/settings_widget_tree_model.h
+        ${include_root}/settings/settings_widget.h
+        ${include_root}/settings/general_settings_widget.h
+        ${include_root}/settings/plugin_settings_widget.h
+        ${include_root}/settings/shortcuts_settings_widget.h
+        ${include_root}/settings/appearance_settings_widget.h
+        ${include_root}/settings/plugin_list_model.h
+        ${include_root}/settings/plugin_list_delegate.h
+        ${include_root}/settings/shortcuts_table_model.h
+        ${include_root}/settings/shortcuts_table_delegate.h
 
         ${include_root}/project/project.h
         ${include_root}/project/project_manager.h
@@ -82,6 +104,7 @@ set(includes
         ${include_root}/project/project_window.h
         ${include_root}/project/no_project_window.h
         ${include_root}/project/new_project_dialog.h
+        ${include_root}/project/project_dock.h
         ${include_root}/project/recent_project_list_model.h
         ${include_root}/project/recent_project_list_delegate.h
         ${include_root}/project/project_format_pro.h
@@ -89,10 +112,8 @@ set(includes
         ${include_root}/project/project_reader.h
 
         ${include_root}/document/document.h
-        ${include_root}/document/document_editor.h
         ${include_root}/document/document_manager.h
         ${include_root}/document/new_document_dialog.h
-        ${include_root}/document/new_document_widget.h
         ${include_root}/document/undo_dock.h
         ${include_root}/document/no_document_widget.h
         ${include_root}/document/document_type_list_model.h
@@ -103,6 +124,7 @@ set(includes
         ${include_root}/document/flow/flow_editor.h
         ${include_root}/document/flow/flow_scene.h
         ${include_root}/document/flow/flow_view.h
+        ${include_root}/document/flow/flow_document_format.h
         ${include_root}/document/flow/flow_document_format_flow.h
         ${include_root}/document/flow/flow_document_reader.h
         ${include_root}/document/flow/flow_document_writer.h
@@ -117,7 +139,12 @@ set(resources
 set(uis
         ${uis_root}/main_window.ui
         ${uis_root}/about_dialog.ui
-        ${uis_root}/settings_dialog.ui
+
+        ${uis_root}/settings/settings_dialog.ui
+        ${uis_root}/settings/appearance_settings_widget.ui
+        ${uis_root}/settings/general_settings_widget.ui
+        ${uis_root}/settings/plugin_settings_widget.ui
+        ${uis_root}/settings/shortcuts_settings_widget.ui
 
         ${uis_root}/project/no_project_window.ui
         ${uis_root}/project/project_window.ui
@@ -145,6 +172,8 @@ flow_add_application(editor
         DEPENDS
         Qt6::Widgets
         flow::api
+        flow::node
+        utils::action
         utils::pointer_cast
         utils::dialog
         utils::dpi
@@ -152,7 +181,9 @@ flow_add_application(editor
         utils::line_edit
         utils::property_browser
         utils::view
-        utils::archive)
+        utils::archive
+        utils::widget
+        utils::stacked_widget)
 
 flow_add_translations(editor
         QM_DIR ${resources_root}/translations/

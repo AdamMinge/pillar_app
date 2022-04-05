@@ -6,9 +6,8 @@
 /* -------------------------------------------------------------------------- */
 
 FlowDocumentFormatFlow::FlowDocumentFormatFlow(QObject *parent)
-    : IFlowDocumentFormat(parent)
-{
-}
+    : FlowDocumentFormat(parent)
+{}
 
 FlowDocumentFormatFlow::~FlowDocumentFormatFlow() = default;
 
@@ -24,8 +23,7 @@ QString FlowDocumentFormatFlow::getShortName() const
 
 bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const
 {
-  if (filename.endsWith(QLatin1String(".flow"), Qt::CaseSensitive))
-    return true;
+  if (filename.endsWith(QLatin1String(".flow"), Qt::CaseSensitive)) return true;
 
   if (filename.endsWith(QLatin1String(".xml"), Qt::CaseSensitive))
   {
@@ -36,14 +34,18 @@ bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const
   return false;
 }
 
-std::unique_ptr<api::IDocument> FlowDocumentFormatFlow::load(const QString &file_name, QString *error)
+std::unique_ptr<api::document::IDocument>
+FlowDocumentFormatFlow::load(const QString &file_name, QString *error)
 {
   FlowDocumentReader document_reader;
   return document_reader.read(file_name, error);
 }
 
-bool FlowDocumentFormatFlow::save(const api::IDocument &document, const QString &file_name, QString *error)
+bool FlowDocumentFormatFlow::save(
+  const api::document::IDocument &document, const QString &file_name,
+  QString *error)
 {
   FlowDocumentWriter document_writer;
-  return document_writer.write(dynamic_cast<const FlowDocument &>(document), file_name, error);
+  return document_writer.write(
+    dynamic_cast<const FlowDocument &>(document), file_name, error);
 }

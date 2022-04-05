@@ -14,7 +14,8 @@ public:
   using Callback = std::function<void()>;
 
 public:
-  explicit Issue(Severity severity, QString text, Callback callback = Callback{});
+  explicit Issue(
+    Severity severity, QString text, Callback callback = Callback{});
 
   void setCallback(Callback callback);
 

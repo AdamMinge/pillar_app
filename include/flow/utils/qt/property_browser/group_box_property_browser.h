@@ -49,7 +49,8 @@ namespace utils
 
   class QtGroupBoxPropertyBrowserPrivate;
 
-  class PROPERTY_BROWSER_API QtGroupBoxPropertyBrowser : public QtAbstractPropertyBrowser
+  class PROPERTY_BROWSER_API QtGroupBoxPropertyBrowser
+      : public QtAbstractPropertyBrowser
   {
     Q_OBJECT
   public:

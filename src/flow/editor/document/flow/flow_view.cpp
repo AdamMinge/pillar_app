@@ -3,17 +3,11 @@
 #include "flow/editor/document/flow/flow_scene.h"
 /* -------------------------------------------------------------------------- */
 
-FlowView::FlowView(QWidget *parent)
-    : QGraphicsView(parent)
-{
-}
+FlowView::FlowView(QWidget *parent) : QGraphicsView(parent) {}
 
 FlowView::~FlowView() = default;
 
-void FlowView::setScene(FlowScene *scene)
-{
-  QGraphicsView::setScene(scene);
-}
+void FlowView::setScene(FlowScene *scene) { QGraphicsView::setScene(scene); }
 
 FlowScene *FlowView::getScene() const
 {

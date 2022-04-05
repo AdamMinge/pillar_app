@@ -24,7 +24,8 @@ public:
   explicit RecentProjectListModel(QObject *parent = nullptr);
   ~RecentProjectListModel() override;
 
-  [[nodiscard]] QVariant data(const QModelIndex &index, int role) const override;
+  [[nodiscard]] QVariant
+  data(const QModelIndex &index, int role) const override;
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
 
 private:

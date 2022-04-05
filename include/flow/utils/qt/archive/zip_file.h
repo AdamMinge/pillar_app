@@ -19,14 +19,17 @@ namespace utils
     Q_OBJECT
 
   public:
-    static std::unique_ptr<QtZipFile> load(QString file_name, int compression_level = 6);
-    static std::unique_ptr<QtZipFile> create(QString file_name, int compression_level = 6);
+    static std::unique_ptr<QtZipFile>
+    load(QString file_name, int compression_level = 6);
+    static std::unique_ptr<QtZipFile>
+    create(QString file_name, int compression_level = 6);
 
   public:
     ~QtZipFile() override;
 
     bool append_entry(const QString &entry_name);
-    bool append_entry(const QString &entry_name, const QStringList &entry_names_to_merge);
+    bool append_entry(
+      const QString &entry_name, const QStringList &entry_names_to_merge);
     bool append_entry(const QString &entry_name, const QByteArray &byteArray);
 
     bool remove_entry(const QString &entry_name);
@@ -46,7 +49,8 @@ namespace utils
     explicit QtZipFile(QString file_name, int compression_level = 6);
 
   private:
-    bool execute(char mode, const std::function<bool(zip_t *zip)> &function) const;
+    bool
+    execute(char mode, const std::function<bool(zip_t *zip)> &function) const;
 
   private:
     QString m_file_name;

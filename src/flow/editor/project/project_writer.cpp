@@ -20,7 +20,8 @@ private:
   void writeProject(QXmlStreamWriter &writer, const Project &project);
 };
 
-void ProjectWriter::ProjectWriterImpl::writeProject(const Project &project, QIODevice &device)
+void ProjectWriter::ProjectWriterImpl::writeProject(
+  const Project &project, QIODevice &device)
 {
   QXmlStreamWriter writer(&device);
 
@@ -29,7 +30,8 @@ void ProjectWriter::ProjectWriterImpl::writeProject(const Project &project, QIOD
   writer.writeEndDocument();
 }
 
-void ProjectWriter::ProjectWriterImpl::writeProject(QXmlStreamWriter &writer, const Project &project)
+void ProjectWriter::ProjectWriterImpl::writeProject(
+  QXmlStreamWriter &writer, const Project &project)
 {
   writer.writeStartElement(QStringLiteral("project"));
 
@@ -38,10 +40,8 @@ void ProjectWriter::ProjectWriterImpl::writeProject(QXmlStreamWriter &writer, co
 
 /* ------------------------------- ProjectWriter ---------------------------- */
 
-ProjectWriter::ProjectWriter()
-    : m_impl(std::make_unique<ProjectWriterImpl>())
-{
-}
+ProjectWriter::ProjectWriter() : m_impl(std::make_unique<ProjectWriterImpl>())
+{}
 
 ProjectWriter::~ProjectWriter() = default;
 
@@ -50,7 +50,8 @@ void ProjectWriter::write(const Project &project, QIODevice &device)
   m_impl->writeProject(project, device);
 }
 
-bool ProjectWriter::write(const Project &project, const QString &file_name, QString *error)
+bool ProjectWriter::write(
+  const Project &project, const QString &file_name, QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

@@ -13,8 +13,12 @@ public:
   explicit DocumentTypeListDelegate(QObject *parent = nullptr);
   ~DocumentTypeListDelegate() override;
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-  [[nodiscard]] QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(
+    QPainter *painter, const QStyleOptionViewItem &option,
+    const QModelIndex &index) const override;
+  [[nodiscard]] QSize sizeHint(
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index) const override;
 
   void setIconSize(const QSize &size);
   [[nodiscard]] const QSize &getIconSize() const;

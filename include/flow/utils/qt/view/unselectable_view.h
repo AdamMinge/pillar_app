@@ -22,15 +22,14 @@ namespace utils
     explicit QtUnselectableView(QWidget *parent = nullptr);
     ~QtUnselectableView() override;
 
-  private:
+  protected:
     void mousePressEvent(QMouseEvent *event) override;
   };
 
   template<typename VIEW>
   requires std::derived_from<VIEW, QAbstractItemView>
   QtUnselectableView<VIEW>::QtUnselectableView(QWidget *parent) : VIEW(parent)
-  {
-  }
+  {}
 
   template<typename VIEW>
   requires std::derived_from<VIEW, QAbstractItemView>
@@ -41,12 +40,13 @@ namespace utils
   void QtUnselectableView<VIEW>::mousePressEvent(QMouseEvent *event)
   {
     auto item = VIEW::indexAt(event->pos());
-    auto selected = VIEW::selectionModel()->isSelected(VIEW::indexAt(event->pos()));
+    auto selected = VIEW::selectionModel()->isSelected(item);
 
     if ((item.row() == -1 && item.column() == -1) || selected)
     {
       VIEW::clearSelection();
-      VIEW::selectionModel()->setCurrentIndex(QModelIndex(), QItemSelectionModel::Select);
+      VIEW::selectionModel()->setCurrentIndex(
+        QModelIndex(), QItemSelectionModel::SelectCurrent);
     }
 
     VIEW::mousePressEvent(event);

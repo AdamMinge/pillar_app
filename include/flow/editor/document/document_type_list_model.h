@@ -6,7 +6,7 @@
 #include <QIcon>
 #include <QStringList>
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document.h"
+#include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
 class DocumentTypeListModel : public QAbstractListModel
@@ -25,12 +25,15 @@ public:
   explicit DocumentTypeListModel(QObject *parent = nullptr);
   ~DocumentTypeListModel() override;
 
-  [[nodiscard]] QVariant data(const QModelIndex &index, int role) const override;
+  [[nodiscard]] QVariant
+  data(const QModelIndex &index, int role) const override;
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
 
 private:
-  [[nodiscard]] static QString getDocumentNameForType(api::IDocument::Type type);
-  [[nodiscard]] static QIcon getDocumentIconForType(api::IDocument::Type type);
+  [[nodiscard]] static QString
+  getDocumentNameForType(api::document::IDocument::Type type);
+  [[nodiscard]] static QIcon
+  getDocumentIconForType(api::document::IDocument::Type type);
 };
 
 #endif//FLOW_DOCUMENT_TYPE_LIST_MODEL_H

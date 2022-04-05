@@ -7,15 +7,17 @@
 #include <QObject>
 #include <QUndoStack>
 /* ------------------------------------ Api --------------------------------- */
-#include "flow/api/document.h"
+#include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
-class Document : public api::IDocument
+class Document : public api::document::IDocument
 {
   Q_OBJECT
 
 public:
-  static std::unique_ptr<api::IDocument> load(const QString &file_name, api::IDocumentFormat *format = nullptr, QString *error = nullptr);
+  static std::unique_ptr<api::document::IDocument> load(
+    const QString &file_name, api::document::IDocumentFormat *format = nullptr,
+    QString *error = nullptr);
 
 public:
   ~Document() override;
@@ -29,11 +31,13 @@ public:
   [[nodiscard]] bool isModified() const override;
   [[nodiscard]] QUndoStack *getUndoStack() const override;
 
-  [[nodiscard]] api::IDocumentFormat *getReaderFormat() const override;
-  [[nodiscard]] api::IDocumentFormat *getWriterFormat() const override;
+  [[nodiscard]] api::document::IDocumentFormat *
+  getReaderFormat() const override;
+  [[nodiscard]] api::document::IDocumentFormat *
+  getWriterFormat() const override;
 
-  void setReaderFormat(api::IDocumentFormat *format) override;
-  void setWriterFormat(api::IDocumentFormat *format) override;
+  void setReaderFormat(api::document::IDocumentFormat *format) override;
+  void setWriterFormat(api::document::IDocumentFormat *format) override;
 
   bool save(const QString &file_name, QString *error) override;
 

@@ -12,21 +12,19 @@ namespace Ui
   class MainWindow;
 }
 
-namespace api
+namespace api::project
 {
   class IProject;
 }
 
 class LanguageManager;
 class ProjectManager;
+class PluginManager;
 class ActionManager;
 class StyleManager;
 
 class ProjectWindow;
 class NoProjectWindow;
-
-class AboutDialog;
-class SettingsDialog;
 
 class MainWindow final : public QMainWindow
 {
@@ -41,6 +39,7 @@ public:
 
   [[nodiscard]] LanguageManager &getLanguageManager() const;
   [[nodiscard]] ProjectManager &getProjectManager() const;
+  [[nodiscard]] PluginManager &getPluginManager() const;
   [[nodiscard]] StyleManager &getStyleManager() const;
   [[nodiscard]] ActionManager &getActionManager() const;
 
@@ -49,11 +48,20 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private:
+  void registerActions();
+
   void initUi();
   void initConnections();
 
   void writeSettings();
+  void writePlugins();
+  void writeLanguage();
+  void writeStyle();
+
   void readSettings();
+  void readPlugins();
+  void readLanguage();
+  void readStyle();
 
   void retranslateUi();
 
@@ -61,7 +69,7 @@ private Q_SLOTS:
   void openSettings();
   void openAbout();
 
-  void currentProjectChanged(api::IProject *project);
+  void currentProjectChanged(api::project::IProject *project);
 
   void updateWindowTitle();
 
@@ -76,9 +84,6 @@ private:
   QAction *m_about_action;
   QAction *m_settings_action;
   QAction *m_exit_action;
-
-  QPointer<AboutDialog> m_about_dialog;
-  QPointer<SettingsDialog> m_settings_dialog;
 };
 
 #endif//FLOW_MAIN_WINDOW_H

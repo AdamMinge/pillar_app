@@ -2,54 +2,46 @@
 #include "flow/editor/preferences_manager.h"
 /* -------------------------------------------------------------------------- */
 
-QScopedPointer<PreferencesManager> PreferencesManager::m_instance = QScopedPointer<PreferencesManager>(nullptr);
+QScopedPointer<PreferencesManager> PreferencesManager::m_instance =
+  QScopedPointer<PreferencesManager>(nullptr);
 
 PreferencesManager &PreferencesManager::getInstance()
 {
-  if (m_instance.isNull())
-    m_instance.reset(new PreferencesManager);
+  if (m_instance.isNull()) m_instance.reset(new PreferencesManager);
 
   return *m_instance;
 }
 
-void PreferencesManager::deleteInstance()
-{
-  m_instance.reset(nullptr);
-}
+void PreferencesManager::deleteInstance() { m_instance.reset(nullptr); }
 
-PreferencesManager::PreferencesManager()
-{
-  load();
-}
+PreferencesManager::PreferencesManager() { load(); }
 
-PreferencesManager::~PreferencesManager()
-{
-  save();
-}
+PreferencesManager::~PreferencesManager() { save(); }
 
 void PreferencesManager::load()
 {
-  m_recent_project_files = m_settings.value(
-                                       "document/recent_document_files", QStringList{})
-                             .toStringList();
+  m_recent_project_files =
+    m_settings.value("document/recent_document_files", QStringList{})
+      .toStringList();
 }
 
 void PreferencesManager::save()
 {
-  m_settings.setValue(
-    "document/recent_document_files", m_recent_project_files);
+  m_settings.setValue("document/recent_document_files", m_recent_project_files);
 }
 
 void PreferencesManager::addRecentProjectFile(const QString &recent_file)
 {
-  if (!m_recent_project_files.contains(recent_file))
-    m_recent_project_files << recent_file;
+  if (m_recent_project_files.contains(recent_file)) return;
 
+  m_recent_project_files << recent_file;
   Q_EMIT recentProjectFilesChanged();
 }
 
 void PreferencesManager::clearRecentProjectFiles()
 {
+  if (m_recent_project_files.isEmpty()) return;
+
   m_recent_project_files.clear();
   Q_EMIT recentProjectFilesChanged();
 }
@@ -64,15 +56,9 @@ bool PreferencesManager::contains(const QString &key)
   return m_settings.contains(key);
 }
 
-void PreferencesManager::remove(const QString &key)
-{
-  m_settings.remove(key);
-}
+void PreferencesManager::remove(const QString &key) { m_settings.remove(key); }
 
-void PreferencesManager::clear()
-{
-  m_settings.clear();
-}
+void PreferencesManager::clear() { m_settings.clear(); }
 
 QStringList PreferencesManager::getAllKeys() const
 {

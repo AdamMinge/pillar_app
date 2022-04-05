@@ -14,6 +14,7 @@ set(sources
 
 set(includes
         ${include_root}/export.h
+        ${include_root}/dialog_with_url_links.h
         ${include_root}/dialog_with_toggle_view.h
         ${include_root}/extended_file_dialog.h)
 # -------------------------------------------------------------------------------------------------- #

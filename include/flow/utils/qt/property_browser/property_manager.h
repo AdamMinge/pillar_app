@@ -53,7 +53,8 @@ class QRegularExpression;
 namespace utils
 {
 
-  class PROPERTY_BROWSER_API QtGroupPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtGroupPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -69,7 +70,8 @@ namespace utils
 
   class QtIntPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtIntPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtIntPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -105,7 +107,8 @@ namespace utils
 
   class QtBoolPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtBoolPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtBoolPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -133,7 +136,8 @@ namespace utils
 
   class QtDoublePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtDoublePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtDoublePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -172,7 +176,8 @@ namespace utils
 
   class QtStringPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtStringPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtStringPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -202,7 +207,8 @@ namespace utils
 
   class QtDatePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtDatePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtDatePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -235,7 +241,8 @@ namespace utils
 
   class QtTimePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtTimePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtTimePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -262,7 +269,8 @@ namespace utils
 
   class QtDateTimePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtDateTimePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtDateTimePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -289,7 +297,8 @@ namespace utils
 
   class QtKeySequencePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtKeySequencePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtKeySequencePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -316,7 +325,8 @@ namespace utils
 
   class QtCharPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtCharPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtCharPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -344,7 +354,8 @@ namespace utils
   class QtEnumPropertyManager;
   class QtLocalePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtLocalePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtLocalePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -375,7 +386,8 @@ namespace utils
 
   class QtPointPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtPointPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtPointPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -406,7 +418,8 @@ namespace utils
 
   class QtPointFPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtPointFPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtPointFPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -440,7 +453,8 @@ namespace utils
 
   class QtSizePropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtSizePropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtSizePropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -457,10 +471,12 @@ namespace utils
     void setValue(QtProperty *property, const QSize &val);
     void setMinimum(QtProperty *property, const QSize &minVal);
     void setMaximum(QtProperty *property, const QSize &maxVal);
-    void setRange(QtProperty *property, const QSize &minVal, const QSize &maxVal);
+    void
+    setRange(QtProperty *property, const QSize &minVal, const QSize &maxVal);
   Q_SIGNALS:
     void valueChanged(QtProperty *property, const QSize &val);
-    void rangeChanged(QtProperty *property, const QSize &minVal, const QSize &maxVal);
+    void rangeChanged(
+      QtProperty *property, const QSize &minVal, const QSize &maxVal);
 
   protected:
     QString valueText(const QtProperty *property) const override;
@@ -477,7 +493,8 @@ namespace utils
 
   class QtSizeFPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtSizeFPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtSizeFPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -495,11 +512,13 @@ namespace utils
     void setValue(QtProperty *property, const QSizeF &val);
     void setMinimum(QtProperty *property, const QSizeF &minVal);
     void setMaximum(QtProperty *property, const QSizeF &maxVal);
-    void setRange(QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
+    void
+    setRange(QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
     void setDecimals(QtProperty *property, int prec);
   Q_SIGNALS:
     void valueChanged(QtProperty *property, const QSizeF &val);
-    void rangeChanged(QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
+    void rangeChanged(
+      QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
     void decimalsChanged(QtProperty *property, int prec);
 
   protected:
@@ -517,7 +536,8 @@ namespace utils
 
   class QtRectPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtRectPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtRectPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -551,7 +571,8 @@ namespace utils
 
   class QtRectFPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtRectFPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtRectFPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -588,7 +609,8 @@ namespace utils
 
   class QtEnumPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtEnumPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtEnumPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -622,7 +644,8 @@ namespace utils
 
   class QtFlagPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtFlagPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtFlagPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -656,7 +679,8 @@ namespace utils
 
   class QtSizePolicyPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtSizePolicyPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtSizePolicyPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -689,7 +713,8 @@ namespace utils
 
   class QtFontPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtFontPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtFontPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -727,7 +752,8 @@ namespace utils
 
   class QtColorPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtColorPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtColorPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:
@@ -759,7 +785,8 @@ namespace utils
 
   class QtCursorPropertyManagerPrivate;
 
-  class PROPERTY_BROWSER_API QtCursorPropertyManager : public QtAbstractPropertyManager
+  class PROPERTY_BROWSER_API QtCursorPropertyManager
+      : public QtAbstractPropertyManager
   {
     Q_OBJECT
   public:

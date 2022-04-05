@@ -5,8 +5,7 @@
 /* -------------------------------------------------------------------------- */
 
 NoDocumentWidget::NoDocumentWidget(QWidget *parent)
-    : QWidget(parent),
-      m_ui(new Ui::NoDocumentWidget())
+    : QWidget(parent), m_ui(new Ui::NoDocumentWidget())
 {
   m_ui->setupUi(this);
 
@@ -29,7 +28,4 @@ void NoDocumentWidget::changeEvent(QEvent *event)
   }
 }
 
-void NoDocumentWidget::retranslateUi()
-{
-  m_ui->retranslateUi(this);
-}
+void NoDocumentWidget::retranslateUi() { m_ui->retranslateUi(this); }

@@ -1,0 +1,7 @@
+{
+  "Name": "Logic Nodes",
+  "Description": [
+    "Add factory for logic nodes as AND, NOT, OR."
+  ],
+  "Version": "1.0.0"
+}

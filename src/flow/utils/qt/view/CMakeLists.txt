@@ -12,7 +12,8 @@ set(sources)
 
 set(includes
         ${include_root}/export.h
-        ${include_root}/unselectable_view.h)
+        ${include_root}/unselectable_view.h
+        ${include_root}/mouse_over_selectable_view.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

@@ -10,12 +10,16 @@
 namespace utils
 {
 
-  QtDirBrowserLineEdit::QtDirBrowserLineEdit(QWidget *parent) : QLineEdit(parent)
+  QtDirBrowserLineEdit::QtDirBrowserLineEdit(QWidget *parent)
+      : QLineEdit(parent)
   {
     auto browser_action = addAction(
-      QIcon(":/shared/images/32x32/file_browser.png"), QLineEdit::TrailingPosition);
+      QIcon(":/utils/line_edit/images/32x32/file_browser.png"),
+      QLineEdit::TrailingPosition);
 
-    connect(browser_action, &QAction::triggered, this, &QtDirBrowserLineEdit::browserPressed);
+    connect(
+      browser_action, &QAction::triggered, this,
+      &QtDirBrowserLineEdit::browserPressed);
   }
 
   QtDirBrowserLineEdit::~QtDirBrowserLineEdit() = default;
@@ -37,18 +41,14 @@ namespace utils
     return m_browser_caption;
   }
 
-  QString QtDirBrowserLineEdit::getBrowserDir() const
-  {
-    return m_browser_dir;
-  }
+  QString QtDirBrowserLineEdit::getBrowserDir() const { return m_browser_dir; }
 
   void QtDirBrowserLineEdit::browserPressed()
   {
     const auto file_name = QtExtendedFileDialog::getExistingDirectory(
       this, m_browser_caption, m_browser_dir);
 
-    if (!file_name.isEmpty())
-      setText(file_name);
+    if (!file_name.isEmpty()) setText(file_name);
   }
 
 }// namespace utils

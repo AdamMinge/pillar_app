@@ -5,8 +5,8 @@
 #include <QHash>
 #include <QPointer>
 #include <QStackedWidget>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document_editor.h"
+/* ----------------------------------- Api ---------------------------------- */
+#include <flow/modules/api/document/document_editor.h>
 /* -------------------------------------------------------------------------- */
 
 class FlowDocument;
@@ -14,7 +14,7 @@ class FlowDocument;
 class UndoDock;
 class FlowView;
 
-class FlowEditor : public DocumentEditor
+class FlowEditor : public api::document::IDocumentEditor
 {
   Q_OBJECT
 
@@ -25,19 +25,20 @@ public:
   explicit FlowEditor(QObject *parent = nullptr);
   ~FlowEditor() override;
 
-  void setCurrentDocument(api::IDocument *document) override;
+  void setCurrentDocument(api::document::IDocument *document) override;
 
-  void addDocument(api::IDocument *document) override;
-  void removeDocument(api::IDocument *document) override;
+  void addDocument(api::document::IDocument *document) override;
+  void removeDocument(api::document::IDocument *document) override;
 
-  [[nodiscard]] api::IDocument *getCurrentDocument() const override;
+  [[nodiscard]] api::document::IDocument *getCurrentDocument() const override;
   [[nodiscard]] QWidget *getEditorWidget() const override;
 
   void saveState() override;
   void restoreState() override;
 
   [[nodiscard]] QList<QDockWidget *> getDockWidgets() const override;
-  [[nodiscard]] QList<utils::QtDialogWithToggleView *> getDialogWidgets() const override;
+  [[nodiscard]] QList<utils::QtDialogWithToggleView *>
+  getDialogWidgets() const override;
 
   void performStandardAction(StandardAction standard_action) override;
   [[nodiscard]] StandardActions getEnabledStandardActions() const override;

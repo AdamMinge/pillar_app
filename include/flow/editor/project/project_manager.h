@@ -21,26 +21,27 @@ public:
 public:
   ~ProjectManager() override;
 
-  void addProject(std::unique_ptr<api::IProject> project);
-  void insertProject(int index, std::unique_ptr<api::IProject> project);
+  void addProject(std::unique_ptr<api::project::IProject> project);
+  void
+  insertProject(int index, std::unique_ptr<api::project::IProject> project);
 
   void removeProject(int index);
   void removeAllProjects();
 
-  [[nodiscard]] api::IProject *getProject(int index) const;
-  [[nodiscard]] api::IProject *getCurrentProject() const;
+  [[nodiscard]] api::project::IProject *getProject(int index) const;
+  [[nodiscard]] api::project::IProject *getCurrentProject() const;
 
-  [[nodiscard]] int findProject(api::IProject *project) const;
+  [[nodiscard]] int findProject(api::project::IProject *project) const;
   [[nodiscard]] int findProject(const QString &file_name) const;
 
   void switchToProject(int index);
-  void switchToProject(api::IProject *project);
+  void switchToProject(api::project::IProject *project);
   bool switchToProject(const QString &file_name);
 
-  bool loadProject(const QString &file_name, QString* error = nullptr);
+  bool loadProject(const QString &file_name, QString *error = nullptr);
 
 Q_SIGNALS:
-  void currentProjectChanged(api::IProject *project);
+  void currentProjectChanged(api::project::IProject *project);
 
 protected:
   explicit ProjectManager();
@@ -48,8 +49,8 @@ protected:
 private:
   static QScopedPointer<ProjectManager> m_instance;
 
-  std::vector<std::unique_ptr<api::IProject>> m_projects;
-  api::IProject *m_current_project;
+  std::vector<std::unique_ptr<api::project::IProject>> m_projects;
+  api::project::IProject *m_current_project;
 };
 
 #endif//FLOW_PROJECT_MANAGER_H

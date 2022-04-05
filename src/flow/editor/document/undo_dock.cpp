@@ -6,8 +6,7 @@
 /* -------------------------------------------------------------------------- */
 
 UndoDock::UndoDock(QWidget *parent)
-    : QDockWidget(parent),
-      m_undo_view(new QUndoView(this))
+    : QDockWidget(parent), m_undo_view(new QUndoView(this))
 {
   setObjectName(QLatin1String("History"));
 
@@ -25,10 +24,7 @@ UndoDock::UndoDock(QWidget *parent)
 
 UndoDock::~UndoDock() = default;
 
-void UndoDock::setStack(QUndoStack *stack)
-{
-  m_undo_view->setStack(stack);
-}
+void UndoDock::setStack(QUndoStack *stack) { m_undo_view->setStack(stack); }
 
 void UndoDock::changeEvent(QEvent *event)
 {

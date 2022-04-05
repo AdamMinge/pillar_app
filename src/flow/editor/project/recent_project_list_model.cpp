@@ -8,8 +8,10 @@
 RecentProjectListModel::RecentProjectListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-  connect(std::addressof(PreferencesManager::getInstance()), &PreferencesManager::recentProjectFilesChanged,
-          this, &RecentProjectListModel::recentProjectFilesChanged);
+  connect(
+    std::addressof(PreferencesManager::getInstance()),
+    &PreferencesManager::recentProjectFilesChanged, this,
+    &RecentProjectListModel::recentProjectFilesChanged);
 
   recentProjectFilesChanged();
 }
@@ -18,17 +20,19 @@ RecentProjectListModel::~RecentProjectListModel() = default;
 
 QVariant RecentProjectListModel::data(const QModelIndex &index, int role) const
 {
-  if (index.row() < 0 || index.row() >= rowCount(QModelIndex{}))
+  if (index.row() < 0 || index.row() >= rowCount(index.parent()))
     return QVariant{};
 
   switch (role)
   {
+    case Qt::DisplayRole:
     case Role::ProjectNameRole:
       return QFileInfo(m_projects.at(index.row())).baseName();
 
     case Role::ProjectPathRole:
       return m_projects.at(index.row());
 
+    case Qt::DecorationRole:
     case Role::ProjectIconRole:
       return getProjectIcon(index);
 
@@ -54,5 +58,5 @@ void RecentProjectListModel::recentProjectFilesChanged()
 
 QIcon RecentProjectListModel::getProjectIcon(const QModelIndex &index) const
 {
-  return QIcon(":/images/64x64/project.png");
+  return QIcon(":/editor/images/64x64/project.png");
 }

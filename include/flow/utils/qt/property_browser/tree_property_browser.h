@@ -51,16 +51,22 @@ namespace utils
 
   class QtTreePropertyBrowserPrivate;
 
-  class PROPERTY_BROWSER_API QtTreePropertyBrowser : public QtAbstractPropertyBrowser
+  class PROPERTY_BROWSER_API QtTreePropertyBrowser
+      : public QtAbstractPropertyBrowser
   {
     Q_OBJECT
     Q_PROPERTY(int indentation READ indentation WRITE setIndentation)
-    Q_PROPERTY(bool rootIsDecorated READ rootIsDecorated WRITE setRootIsDecorated)
-    Q_PROPERTY(bool alternatingRowColors READ alternatingRowColors WRITE setAlternatingRowColors)
+    Q_PROPERTY(
+      bool rootIsDecorated READ rootIsDecorated WRITE setRootIsDecorated)
+    Q_PROPERTY(bool alternatingRowColors READ alternatingRowColors WRITE
+                 setAlternatingRowColors)
     Q_PROPERTY(bool headerVisible READ isHeaderVisible WRITE setHeaderVisible)
     Q_PROPERTY(ResizeMode resizeMode READ resizeMode WRITE setResizeMode)
-    Q_PROPERTY(int splitterPosition READ splitterPosition WRITE setSplitterPosition)
-    Q_PROPERTY(bool propertiesWithoutValueMarked READ propertiesWithoutValueMarked WRITE setPropertiesWithoutValueMarked)
+    Q_PROPERTY(
+      int splitterPosition READ splitterPosition WRITE setSplitterPosition)
+    Q_PROPERTY(
+      bool propertiesWithoutValueMarked READ propertiesWithoutValueMarked WRITE
+        setPropertiesWithoutValueMarked)
   public:
     enum ResizeMode
     {
@@ -124,8 +130,11 @@ namespace utils
 
     Q_PRIVATE_SLOT(d_func(), void slotCollapsed(const QModelIndex &))
     Q_PRIVATE_SLOT(d_func(), void slotExpanded(const QModelIndex &))
-    Q_PRIVATE_SLOT(d_func(), void slotCurrentBrowserItemChanged(QtBrowserItem *))
-    Q_PRIVATE_SLOT(d_func(), void slotCurrentTreeItemChanged(QTreeWidgetItem *, QTreeWidgetItem *))
+    Q_PRIVATE_SLOT(
+      d_func(), void slotCurrentBrowserItemChanged(QtBrowserItem *))
+    Q_PRIVATE_SLOT(
+      d_func(),
+      void slotCurrentTreeItemChanged(QTreeWidgetItem *, QTreeWidgetItem *))
   };
 
 }// namespace utils
