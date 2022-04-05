@@ -1,6 +1,5 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
-#include <QFileInfo>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/document_type_list_delegate.h"
 #include "flow/editor/document/document_type_list_model.h"

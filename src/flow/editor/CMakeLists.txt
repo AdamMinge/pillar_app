@@ -34,6 +34,8 @@ set(sources
         ${source_root}/settings/appearance_settings_widget.cpp
         ${source_root}/settings/plugin_list_model.cpp
         ${source_root}/settings/plugin_list_delegate.cpp
+        ${source_root}/settings/shortcuts_table_model.cpp
+        ${source_root}/settings/shortcuts_table_delegate.cpp
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_manager.cpp
@@ -93,6 +95,8 @@ set(includes
         ${include_root}/settings/appearance_settings_widget.h
         ${include_root}/settings/plugin_list_model.h
         ${include_root}/settings/plugin_list_delegate.h
+        ${include_root}/settings/shortcuts_table_model.h
+        ${include_root}/settings/shortcuts_table_delegate.h
 
         ${include_root}/project/project.h
         ${include_root}/project/project_manager.h
@@ -169,6 +173,7 @@ flow_add_application(editor
         Qt6::Widgets
         flow::api
         flow::node
+        utils::action
         utils::pointer_cast
         utils::dialog
         utils::dpi

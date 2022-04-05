@@ -19,6 +19,7 @@
 #include <flow/modules/api/document/document_format.h>
 #include <flow/modules/api/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/action/action.h>
 #include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
 #include <flow/utils/qt/dpi/dpi_info.h>
@@ -33,6 +34,7 @@ void adjustMenuSize(QObject *object)
   if (auto menu = qobject_cast<QMenu *>(object); menu)
   {
     auto max_width = 0;
+    auto extra_width = utils::QtDpiInfo::dpiScaled(55);
     for (auto action : menu->actions())
     {
       const auto fontMetrics = QFontMetrics(action->font());
@@ -44,10 +46,13 @@ void adjustMenuSize(QObject *object)
         width += utils::QtDpiInfo::dpiScaled(5);
       }
 
+      if (!action->shortcut().isEmpty())
+        extra_width = utils::QtDpiInfo::dpiScaled(120);
+
       if (max_width < width) max_width = width;
     }
 
-    menu->setFixedWidth(max_width + utils::QtDpiInfo::dpiScaled(45));
+    menu->setMinimumWidth(max_width + extra_width);
   } else
   {
     for (auto child_menu :
@@ -71,34 +76,46 @@ ProjectWindow::ProjectWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::ProjectWindow),
       m_preferences(new Preferences), m_project_dock(new ProjectDock(this)),
       m_console_dock(new ConsoleDock(this)), m_issue_dock(new IssueDock(this)),
-      m_project_menu(new QMenu(tr("&Project"), this)),
-      m_new_project_action(new QAction(tr("&New..."), this)),
-      m_open_project_action(new QAction(tr("&Open..."), this)),
-      m_open_recent_project_menu(new QMenu(tr("Open &Recent"), this)),
-      m_clear_recent_projects_action(new QAction(tr("Clear &Recent"), this)),
-      m_close_project_action(new QAction(tr("&Close Project"), this)),
-      m_document_menu(new QMenu(tr("&Document"), this)),
-      m_new_document_action(new QAction(tr("&New..."), this)),
-      m_open_document_action(new QAction(tr("&Open..."), this)),
-      m_close_document_action(new QAction(tr("&Close Document"), this)),
-      m_save_document_action(new QAction(tr("&Save"), this)),
-      m_save_document_as_action(new QAction(tr("Save &As"), this)),
-      m_save_all_documents_action(new QAction(tr("Save All"), this)),
-      m_edit_menu(new QMenu(tr("&Edit"), this)),
-      m_cut_action(new QAction(tr("&Cut"), this)),
-      m_copy_action(new QAction(tr("&Copy"), this)),
-      m_paste_action(new QAction(tr("&Paste"), this)),
-      m_delete_action(new QAction(tr("&Delete"), this)),
-      m_view_menu(new QMenu(tr("&View"), this)),
-      m_views_and_toolbars_menu(new QMenu(tr("Views and &Toolbars"), this)),
-      m_help_menu(new QMenu(tr("&Help"), this))
+      m_project_menu(new QMenu(this)),
+      m_new_project_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_open_project_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_open_recent_project_menu(new QMenu(this)),
+      m_clear_recent_projects_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_close_project_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_document_menu(new QMenu(this)),
+      m_new_document_action(
+        utils::createActionWithShortcut(QKeySequence::New, this)),
+      m_open_document_action(
+        utils::createActionWithShortcut(QKeySequence::Open, this)),
+      m_close_document_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_save_document_action(
+        utils::createActionWithShortcut(QKeySequence::Save, this)),
+      m_save_document_as_action(
+        utils::createActionWithShortcut(QKeySequence::SaveAs, this)),
+      m_save_all_documents_action(
+        utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_edit_menu(new QMenu(this)),
+      m_cut_action(utils::createActionWithShortcut(QKeySequence::Cut, this)),
+      m_copy_action(utils::createActionWithShortcut(QKeySequence::Copy, this)),
+      m_paste_action(
+        utils::createActionWithShortcut(QKeySequence::Paste, this)),
+      m_delete_action(
+        utils::createActionWithShortcut(QKeySequence::Delete, this)),
+      m_view_menu(new QMenu(this)), m_views_and_toolbars_menu(new QMenu(this)),
+      m_help_menu(new QMenu(this))
 {
-  getActionManager().registerAction(m_new_document_action, "new_document");
-  getActionManager().registerAction(m_open_document_action, "open_document");
-
   auto undoGroup = getDocumentManager().getUndoGroup();
   m_undo_action = undoGroup->createUndoAction(this, tr("&Undo"));
+  m_undo_action->setShortcut(QKeySequence::Undo);
   m_redo_action = undoGroup->createRedoAction(this, tr("&Redo"));
+  m_redo_action->setShortcut(QKeySequence::Redo);
+
+  registerActions();
 
   initUi();
   initConnections();
@@ -278,7 +295,8 @@ void ProjectWindow::updateRecentProjectFiles()
     auto fileInfo = QFileInfo(recent_project_file);
     if (!fileInfo.exists()) continue;
 
-    auto open_recent_project_action = new QAction(m_open_recent_project_menu);
+    auto open_recent_project_action = utils::createActionWithShortcut(
+      QKeySequence{}, m_open_recent_project_menu);
     open_recent_project_action->setText(fileInfo.fileName());
     open_recent_project_action->setToolTip(fileInfo.filePath());
     open_recent_project_action->setVisible(true);
@@ -475,6 +493,29 @@ void ProjectWindow::readSettings()
   getDocumentManager().restoreState();
 }
 
+void ProjectWindow::registerActions()
+{
+  getActionManager().registerAction(m_new_project_action, "new_project");
+  getActionManager().registerAction(m_open_project_action, "open_project");
+  getActionManager().registerAction(
+    m_clear_recent_projects_action, "clear_recent_projects");
+  getActionManager().registerAction(m_close_project_action, "close_project");
+  getActionManager().registerAction(m_new_document_action, "new_document");
+  getActionManager().registerAction(m_open_document_action, "open_document");
+  getActionManager().registerAction(m_close_document_action, "close_document");
+  getActionManager().registerAction(m_save_document_action, "save_document");
+  getActionManager().registerAction(
+    m_save_document_as_action, "save_document_as");
+  getActionManager().registerAction(
+    m_save_all_documents_action, "save_all_documents");
+  getActionManager().registerAction(m_undo_action, "undo");
+  getActionManager().registerAction(m_redo_action, "redo");
+  getActionManager().registerAction(m_cut_action, "cut");
+  getActionManager().registerAction(m_copy_action, "copy");
+  getActionManager().registerAction(m_paste_action, "paste");
+  getActionManager().registerAction(m_delete_action, "delete");
+}
+
 void ProjectWindow::initUi()
 {
   m_ui->setupUi(this);
@@ -523,6 +564,8 @@ void ProjectWindow::initUi()
 
   m_ui->m_menu_bar->addMenu(m_help_menu);
   m_help_menu->addAction(getActionManager().findAction("about"));
+
+  m_help_menu->setShortcutEnabled(true);
 }
 
 void ProjectWindow::initConnections()
@@ -604,26 +647,42 @@ void ProjectWindow::retranslateUi()
 
   m_project_menu->setTitle(tr("&Project"));
   m_new_project_action->setText(tr("&New..."));
+  m_new_project_action->setWhatsThis(tr("New Project"));
   m_open_project_action->setText(tr("&Open..."));
+  m_open_project_action->setWhatsThis(tr("Open Project"));
   m_open_recent_project_menu->setTitle(tr("Open &Recent"));
   m_clear_recent_projects_action->setText(tr("Clear &Recent"));
+  m_clear_recent_projects_action->setWhatsThis(tr("Clear Recent Project"));
   m_close_project_action->setText(tr("&Close Project"));
+  m_close_project_action->setWhatsThis(tr("Close Project"));
 
   m_document_menu->setTitle(tr("&Document"));
   m_new_document_action->setText(tr("&New..."));
+  m_new_document_action->setWhatsThis(tr("New Document"));
   m_open_document_action->setText(tr("&Open..."));
+  m_open_document_action->setWhatsThis(tr("Open Document"));
   m_close_document_action->setText(tr("&Close Document"));
+  m_close_document_action->setWhatsThis(tr("Close Document"));
   m_save_document_action->setText(tr("&Save"));
+  m_save_document_action->setWhatsThis(tr("Save Document"));
   m_save_document_as_action->setText(tr("Save &As"));
+  m_save_document_as_action->setWhatsThis(tr("Save Document As"));
   m_save_all_documents_action->setText(tr("Save All"));
+  m_save_all_documents_action->setWhatsThis(tr("Save All Documents"));
 
   m_edit_menu->setTitle(tr("&Edit"));
   m_undo_action->setText(tr("&Undo"));
+  m_undo_action->setWhatsThis(tr("Undo"));
   m_redo_action->setText(tr("&Redo"));
+  m_redo_action->setWhatsThis(tr("Redo"));
   m_cut_action->setText(tr("&Cut"));
+  m_cut_action->setWhatsThis(tr("Cut"));
   m_copy_action->setText(tr("&Copy"));
+  m_copy_action->setWhatsThis(tr("Copy"));
   m_paste_action->setText(tr("&Paste"));
+  m_paste_action->setWhatsThis(tr("Paste"));
   m_delete_action->setText(tr("&Delete"));
+  m_delete_action->setWhatsThis(tr("Delete"));
 
   m_view_menu->setTitle(tr("&View"));
   m_views_and_toolbars_menu->setTitle(tr("Views and &Toolbars"));

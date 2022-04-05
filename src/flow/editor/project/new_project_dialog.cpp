@@ -1,7 +1,6 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDir>
 #include <QEvent>
-#include <QFileInfo>
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/format_helper.h"

@@ -135,28 +135,40 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="43"/>
-        <location filename="../../src/flow/editor/main_window.cpp" line="236"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="244"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="44"/>
-        <location filename="../../src/flow/editor/main_window.cpp" line="237"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="245"/>
+        <source>About Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/main_window.cpp" line="246"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="45"/>
-        <location filename="../../src/flow/editor/main_window.cpp" line="238"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="247"/>
+        <source>Settings Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/main_window.cpp" line="248"/>
         <source>&amp;Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/main_window.cpp" line="249"/>
+        <source>Exit Application</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NewDocumentDialog</name>
     <message>
-        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="135"/>
+        <location filename="../../src/flow/editor/document/new_document_dialog.cpp" line="134"/>
         <source>New Document</source>
         <translation type="unfinished"></translation>
     </message>
@@ -164,17 +176,17 @@
 <context>
     <name>NewProjectDialog</name>
     <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="49"/>
+        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="48"/>
         <source>Wrong project format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="64"/>
+        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="63"/>
         <source>Error Project Creation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="109"/>
+        <location filename="../../src/flow/editor/project/new_project_dialog.cpp" line="108"/>
         <source>New Project</source>
         <translation type="unfinished"></translation>
     </message>
@@ -338,163 +350,214 @@
 <context>
     <name>ProjectWindow</name>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="74"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="605"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="648"/>
         <source>&amp;Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="75"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="81"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="606"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="613"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="649"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="660"/>
         <source>&amp;New...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="76"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="82"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="607"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="614"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="650"/>
+        <source>New Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="651"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="662"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="77"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="608"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="653"/>
         <source>Open &amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="78"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="609"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="654"/>
         <source>Clear &amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="79"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="610"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="655"/>
+        <source>Clear Recent Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="656"/>
         <source>&amp;Close Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="80"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="612"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="657"/>
+        <source>Close Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="659"/>
         <source>&amp;Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="83"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="615"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="661"/>
+        <source>New Document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="664"/>
         <source>&amp;Close Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="84"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="616"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="665"/>
+        <source>Close Document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="666"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="85"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="617"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="667"/>
+        <source>Save Document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="668"/>
         <source>Save &amp;As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="86"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="618"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="669"/>
+        <source>Save Document As</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="670"/>
         <source>Save All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="87"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="620"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="671"/>
+        <source>Save All Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="673"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="88"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="623"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="675"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="677"/>
+        <source>Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="678"/>
         <source>&amp;Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="89"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="624"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="679"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="680"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="90"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="625"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="681"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="682"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="91"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="626"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="683"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="684"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="92"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="628"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="685"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="687"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="93"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="629"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="688"/>
         <source>Views and &amp;Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="94"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="631"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="690"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="100"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="621"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="113"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="674"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="101"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="622"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="115"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="676"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="178"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="195"/>
         <source>Unsaved Changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="179"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="196"/>
         <source>There are unsaved changes. Do you want to save now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="319"/>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="640"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="337"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="652"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="699"/>
         <source>Open Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="332"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="350"/>
         <source>Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="373"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="391"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="663"/>
         <source>Open Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/project/project_window.cpp" line="641"/>
+        <location filename="../../src/flow/editor/project/project_window.cpp" line="700"/>
         <source>There is currently open project. Do you want to close it and open new one now?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -550,6 +613,37 @@
     <message>
         <location filename="../../src/flow/editor/settings/settings_dialog.cpp" line="199"/>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutsTableDelegate</name>
+    <message>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_delegate.cpp" line="53"/>
+        <source>Set to Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_delegate.cpp" line="65"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutsTableModel</name>
+    <message>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="98"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="100"/>
+        <source>Shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="102"/>
+        <source>Action Id</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

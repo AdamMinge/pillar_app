@@ -48,6 +48,8 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private:
+  void registerActions();
+
   void initUi();
   void initConnections();
 

@@ -15,8 +15,7 @@ ActionManager &ActionManager::getInstance()
 void ActionManager::deleteInstance() { m_instance.reset(nullptr); }
 
 ActionManager::ActionManager()
-    : m_applying_shortcut(false), m_applying_tooltip_with_shortcut(false),
-      m_resetting_shortcut(false)
+    : m_applying_shortcut(false), m_applying_tooltip_with_shortcut(false)
 {}
 
 ActionManager::~ActionManager() = default;
@@ -28,34 +27,20 @@ void ActionManager::registerAction(QAction *action, const QString &id)
     "duplicate action");
 
   m_actions.insert(id, action);
-  m_last_known_shortcuts.insert(id, action->shortcut());
+  m_default_shortcuts.insert(id, action->shortcut());
 
   connect(action, &QAction::changed, [this, id, action]() {
     if (m_applying_tooltip_with_shortcut) return;
 
-    if (
-      !m_applying_shortcut && m_default_shortcuts.contains(id) &&
-      m_last_known_shortcuts.value(id) != action->shortcut())
+    if (!m_applying_shortcut && m_custom_shortcuts.contains(id))
     {
-      m_default_shortcuts.insert(id, action->shortcut());
-
-      if (m_custom_shortcuts.contains(id))
-      {
-        applyShortcut(action, m_custom_shortcuts.value(id));
-        return;
-      }
+      applyShortcut(action, m_custom_shortcuts.value(id));
+      return;
     }
 
-    m_last_known_shortcuts.insert(id, action->shortcut());
     updateToolTipWithShortcut(action);
     Q_EMIT actionChanged(id);
   });
-
-  if (hasCustomShortcut(id))
-  {
-    m_default_shortcuts.insert(id, action->shortcut());
-    applyShortcut(action, m_custom_shortcuts.value(id));
-  }
 
   updateToolTipWithShortcut(action);
   Q_EMIT actionChanged(id);
@@ -70,7 +55,6 @@ void ActionManager::unregisterAction(QAction *action, const QString &id)
   m_actions.remove(id, action);
   action->disconnect(this);
   m_default_shortcuts.remove(id);
-  m_last_known_shortcuts.remove(id);
   Q_EMIT actionChanged(id);
 }
 
@@ -98,6 +82,21 @@ QMenu *ActionManager::findMenu(const QString &id) const
 {
   auto menu = m_menus.value(id, nullptr);
   return menu;
+}
+
+QString ActionManager::getActionId(QAction *action) const
+{
+  return m_actions.key(action);
+}
+
+QString ActionManager::getMenuId(QMenu *action) const
+{
+  return m_menus.key(action);
+}
+
+QKeySequence ActionManager::getDefaultShortcut(const QString &id) const
+{
+  return m_default_shortcuts.value(id);
 }
 
 QList<QString> ActionManager::getActions() const
@@ -135,13 +134,9 @@ void ActionManager::resetCustomShortcut(const QString &id)
   Q_ASSERT_X(
     !actions.isEmpty(), "ActionManager::resetCustomShortcut", "unknown id");
 
-  m_resetting_shortcut = true;
-
   auto defaultShortcut = m_default_shortcuts.take(id);
   for (auto action : actions) applyShortcut(action, defaultShortcut);
   m_custom_shortcuts.remove(id);
-
-  m_resetting_shortcut = false;
 }
 
 void ActionManager::resetAllCustomShortcuts()

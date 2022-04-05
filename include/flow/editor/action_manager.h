@@ -29,6 +29,11 @@ public:
   [[nodiscard]] QAction *findAction(const QString &id) const;
   [[nodiscard]] QMenu *findMenu(const QString &id) const;
 
+  [[nodiscard]] QString getActionId(QAction *action) const;
+  [[nodiscard]] QString getMenuId(QMenu *action) const;
+
+  [[nodiscard]] QKeySequence getDefaultShortcut(const QString &id) const;
+
   [[nodiscard]] QList<QString> getActions() const;
   [[nodiscard]] QList<QString> getMenus() const;
 
@@ -56,11 +61,9 @@ private:
 
   QHash<QString, QKeySequence> m_default_shortcuts;
   QHash<QString, QKeySequence> m_custom_shortcuts;
-  QHash<QString, QKeySequence> m_last_known_shortcuts;
 
   bool m_applying_shortcut;
   bool m_applying_tooltip_with_shortcut;
-  bool m_resetting_shortcut;
 };
 
 #endif//FLOW_ACTION_MANAGER_H

@@ -14,6 +14,8 @@
 #include "flow/editor/project/project_window.h"
 #include "flow/editor/settings/settings_dialog.h"
 #include "flow/editor/style_manager.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "ui_main_window.h"
 /* -------------------------------------------------------------------------- */
@@ -40,13 +42,12 @@ MainWindow::MainWindow(QWidget *parent)
       m_preferences(new Preferences),
       m_stacked_widget(new QStackedWidget(this)), m_project_window(nullptr),
       m_no_project_window(nullptr),
-      m_about_action(new QAction(tr("&About..."), this)),
-      m_settings_action(new QAction(tr("&Settings..."), this)),
-      m_exit_action(new QAction(tr("&Exit"), this))
+      m_about_action(utils::createActionWithShortcut(QKeySequence{}, this)),
+      m_settings_action(
+        utils::createActionWithShortcut(Qt::CTRL | Qt::ALT | Qt::Key_S, this)),
+      m_exit_action(utils::createActionWithShortcut(QKeySequence::Close, this))
 {
-  getActionManager().registerAction(m_about_action, "about");
-  getActionManager().registerAction(m_settings_action, "settings");
-  getActionManager().registerAction(m_exit_action, "exit");
+  registerActions();
 
   initUi();
   initConnections();
@@ -116,6 +117,13 @@ void MainWindow::changeEvent(QEvent *event)
     default:
       break;
   }
+}
+
+void MainWindow::registerActions()
+{
+  getActionManager().registerAction(m_about_action, "about");
+  getActionManager().registerAction(m_settings_action, "settings");
+  getActionManager().registerAction(m_exit_action, "exit");
 }
 
 void MainWindow::initUi()
@@ -234,8 +242,11 @@ void MainWindow::retranslateUi()
   m_ui->retranslateUi(this);
 
   m_about_action->setText(tr("&About..."));
+  m_about_action->setWhatsThis(tr("About Application"));
   m_settings_action->setText(tr("&Settings..."));
+  m_settings_action->setWhatsThis(tr("Settings Application"));
   m_exit_action->setText(tr("&Exit"));
+  m_exit_action->setWhatsThis(tr("Exit Application"));
 }
 
 void MainWindow::openSettings() { SettingsDialog::open(QUrl{}, this); }

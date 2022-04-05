@@ -55,9 +55,7 @@ void GeneralSettingsWidget::retranslateUi()
       "<ul style=\" list-style-type:none\">%2</ul>"
       "</body>"
       "</html>")
-      .arg(QString{
-        link_text.arg("settings:Appearance", "Appearance") +
-        link_text.arg("settings:Plugins", "Plugins")});
+      .arg(QString{link_text.arg("settings:Appearance", "Appearance")});
 
   m_ui->m_general_label->setText(label_text);
 }

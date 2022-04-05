@@ -16,7 +16,7 @@ namespace Ui
 namespace utils
 {
 
-  class QtNameAndPathFiller : public QWidget
+  class WIDGET_API QtNameAndPathFiller : public QWidget
   {
     Q_OBJECT
 

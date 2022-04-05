@@ -86,6 +86,8 @@ private Q_SLOTS:
   void performDelete();
 
 private:
+  void registerActions();
+
   void initUi();
   void initConnections();
 
