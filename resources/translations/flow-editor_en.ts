@@ -47,12 +47,12 @@
 <context>
     <name>ConsoleDock</name>
     <message>
-        <location filename="../../src/flow/editor/console_dock.cpp" line="31"/>
+        <location filename="../../src/flow/editor/console_dock.cpp" line="33"/>
         <source>Clear Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/console_dock.cpp" line="132"/>
+        <location filename="../../src/flow/editor/console_dock.cpp" line="152"/>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
@@ -60,7 +60,7 @@
 <context>
     <name>ConsoleOutputWidget</name>
     <message>
-        <location filename="../../src/flow/editor/console_dock.cpp" line="21"/>
+        <location filename="../../src/flow/editor/console_dock.cpp" line="23"/>
         <source>Clear Console</source>
         <translation type="unfinished"></translation>
     </message>
@@ -590,6 +590,19 @@
     <message>
         <location filename="../../src/flow/editor/document/flow/flow_document_format.cpp" line="28"/>
         <source>Document format is readable only</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptManager</name>
+    <message>
+        <location filename="../../src/flow/editor/script_manager.cpp" line="78"/>
+        <source>Stack traceback:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/script_manager.cpp" line="91"/>
+        <source>At line %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

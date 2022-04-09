@@ -24,6 +24,8 @@ set(sources
         ${source_root}/about_dialog.cpp
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
+        ${source_root}/script_manager.cpp
+        ${source_root}/script_module.cpp
 
         ${source_root}/settings/settings_dialog.cpp
         ${source_root}/settings/settings_widget_tree_model.cpp
@@ -85,6 +87,8 @@ set(includes
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
         ${include_root}/format_helper.h
+        ${include_root}/script_manager.h
+        ${include_root}/script_module.h
 
         ${include_root}/settings/settings_dialog.h
         ${include_root}/settings/settings_widget_tree_model.h
@@ -163,7 +167,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${uis_root})
 # -------------------------------------------------------------------------------------------------- #
 # ----------------------------------- Find external libraries -------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 # -------------------------------------------------------------------------------------------------- #
 # ------------------------------------ create engine editor ---------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
@@ -171,9 +175,11 @@ flow_add_application(editor
         SOURCES ${sources} ${includes} ${uis} ${resources}
         DEPENDS
         Qt6::Widgets
+        Qt6::Qml
         flow::api
         flow::node
         utils::action
+        utils::color
         utils::pointer_cast
         utils::dialog
         utils::dpi

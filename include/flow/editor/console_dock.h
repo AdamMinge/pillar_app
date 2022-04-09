@@ -37,9 +37,14 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private Q_SLOTS:
+  void onReport(const QString &str, const QColor &color = QColor{});
+
   void onInfoIssueReport(const Issue &issue);
   void onWarningIssueReport(const Issue &issue);
   void onErrorIssueReport(const Issue &issue);
+
+  void onScriptReport(const QString &str);
+  void onScriptResultReport(const QString &str);
 
   void executeScript();
 
