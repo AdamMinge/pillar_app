@@ -30,8 +30,7 @@ private:
   void reset();
   void init();
 
-  [[nodiscard]] bool
-  checkError(const QJSValue &value, const QString &program) const;
+  bool checkError(const QJSValue &value, const QString &program) const;
 
 private Q_SLOTS:
   void onScriptWarnings(const QList<QQmlError> &warnings);

@@ -596,12 +596,12 @@
 <context>
     <name>ScriptManager</name>
     <message>
-        <location filename="../../src/flow/editor/script_manager.cpp" line="78"/>
+        <location filename="../../src/flow/editor/script_manager.cpp" line="79"/>
         <source>Stack traceback:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/script_manager.cpp" line="91"/>
+        <location filename="../../src/flow/editor/script_manager.cpp" line="92"/>
         <source>At line %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
