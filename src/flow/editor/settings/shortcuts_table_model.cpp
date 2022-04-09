@@ -6,7 +6,7 @@
 ShortcutsTableModel::ShortcutsTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-  const auto actions = ActionManager::getInstance().getActions();
+  const auto actions = ActionManager::getInstance().getActionsId();
   for (const auto &action : actions)
   {
     auto found_action = ActionManager::getInstance().findAction(action);
@@ -21,8 +21,11 @@ ShortcutsTableModel::~ShortcutsTableModel() = default;
 
 bool ShortcutsTableModel::apply()
 {
-  std::for_each(m_actions.begin(), m_actions.end(), [](auto &plugin_pair) {
-    plugin_pair.first->setShortcut(plugin_pair.second);
+  std::for_each(m_actions.begin(), m_actions.end(), [](auto &action_pair) {
+    auto action_id =
+      ActionManager::getInstance().getActionId(action_pair.first);
+    ActionManager::getInstance().setCustomShortcut(
+      action_id, action_pair.second);
   });
 
   return applied();
@@ -30,8 +33,8 @@ bool ShortcutsTableModel::apply()
 
 bool ShortcutsTableModel::applied() const
 {
-  return std::all_of(m_actions.begin(), m_actions.end(), [](auto &plugin_pair) {
-    return plugin_pair.first->shortcut() == plugin_pair.second;
+  return std::all_of(m_actions.begin(), m_actions.end(), [](auto &action_pair) {
+    return action_pair.first->shortcut() == action_pair.second;
   });
 }
 

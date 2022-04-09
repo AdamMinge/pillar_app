@@ -76,6 +76,9 @@ public:
   [[nodiscard]] TYPE get() const;
   void set(const TYPE &value);
 
+  [[nodiscard]] bool contains();
+  [[nodiscard]] QString getKey() const;
+
   operator TYPE() const;// NOLINT(google-explicit-constructor)
 
 private:
@@ -109,9 +112,87 @@ void Preference<TYPE>::set(const TYPE &value)
 }
 
 template<typename TYPE>
+bool Preference<TYPE>::contains()
+{
+  return PreferencesManager::getInstance().contains(m_key);
+}
+
+template<typename TYPE>
+QString Preference<TYPE>::getKey() const
+{
+  return m_key;
+}
+
+template<typename TYPE>
 Preference<TYPE>::operator TYPE() const
 {
   return get();
+}
+
+template<typename TYPE>
+class PreferenceContainer
+{
+public:
+  explicit PreferenceContainer(QString key, TYPE default_value = TYPE());
+
+  PreferenceContainer &operator=(const TYPE &value);
+
+  [[nodiscard]] TYPE get(const QString &preference_key) const;
+  void set(const QString &preference_key, const TYPE &value);
+
+  [[nodiscard]] bool contains(const QString &preference_key);
+  [[nodiscard]] QString getKey() const;
+  [[nodiscard]] QString getPreferenceKey(const QString &preference_key) const;
+
+private:
+  QString m_key;
+  TYPE m_default_value;
+};
+
+template<typename TYPE>
+PreferenceContainer<TYPE>::PreferenceContainer(QString key, TYPE default_value)
+    : m_key(std::move(key)), m_default_value(default_value)
+{}
+
+template<typename TYPE>
+PreferenceContainer<TYPE> &
+PreferenceContainer<TYPE>::operator=(const TYPE &value)
+{
+  set(value);
+  return *this;
+}
+
+template<typename TYPE>
+TYPE PreferenceContainer<TYPE>::get(const QString &preference_key) const
+{
+  return Preference<TYPE>{getPreferenceKey(preference_key)}.get();
+}
+
+template<typename TYPE>
+void PreferenceContainer<TYPE>::set(
+  const QString &preference_key, const TYPE &value)
+{
+  return Preference<TYPE>{getPreferenceKey(preference_key)}.set(value);
+}
+
+template<typename TYPE>
+bool PreferenceContainer<TYPE>::contains(const QString &preference_key)
+{
+  return Preference<TYPE>{getPreferenceKey(preference_key)}.contains();
+}
+
+template<typename TYPE>
+QString PreferenceContainer<TYPE>::getKey() const
+{
+  return m_key;
+}
+
+template<typename TYPE>
+QString
+PreferenceContainer<TYPE>::getPreferenceKey(const QString &preference_key) const
+{
+  return QLatin1String("%1/%2").arg(m_key, preference_key);
+  ;
 }
 
 #endif//FLOW_PREFERENCES_MANAGER_H

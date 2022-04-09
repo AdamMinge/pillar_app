@@ -57,11 +57,13 @@ private:
   void writePlugins();
   void writeLanguage();
   void writeStyle();
+  void writeShortcuts();
 
   void readSettings();
   void readPlugins();
   void readLanguage();
   void readStyle();
+  void readShortcuts();
 
   void retranslateUi();
 

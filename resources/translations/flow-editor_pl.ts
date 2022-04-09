@@ -135,32 +135,32 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="244"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="271"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="245"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="272"/>
         <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="246"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="273"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="247"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="274"/>
         <source>Settings Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="248"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="275"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="249"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="276"/>
         <source>Exit Application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -632,17 +632,17 @@
 <context>
     <name>ShortcutsTableModel</name>
     <message>
-        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="98"/>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="101"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="100"/>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="103"/>
         <source>Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="102"/>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="105"/>
         <source>Action Id</source>
         <translation type="unfinished"></translation>
     </message>
