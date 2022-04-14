@@ -52,7 +52,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/console_dock.cpp" line="152"/>
+        <location filename="../../src/flow/editor/console_dock.cpp" line="160"/>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
@@ -125,10 +125,30 @@
     </message>
 </context>
 <context>
-    <name>IssueDock</name>
+    <name>IssueTableModel</name>
     <message>
-        <location filename="../../src/flow/editor/issue_dock.cpp" line="30"/>
-        <source>Issue</source>
+        <location filename="../../src/flow/editor/issue_table_model.cpp" line="77"/>
+        <source>Severity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/issue_table_model.cpp" line="80"/>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/issue_table_model.cpp" line="83"/>
+        <source>Occurrences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/issue_table_model.cpp" line="164"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/issue_table_model.cpp" line="167"/>
+        <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -596,12 +616,12 @@
 <context>
     <name>ScriptManager</name>
     <message>
-        <location filename="../../src/flow/editor/script_manager.cpp" line="79"/>
+        <location filename="../../src/flow/editor/script_manager.cpp" line="81"/>
         <source>Stack traceback:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/script_manager.cpp" line="92"/>
+        <location filename="../../src/flow/editor/script_manager.cpp" line="94"/>
         <source>At line %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -645,17 +665,17 @@
 <context>
     <name>ShortcutsTableModel</name>
     <message>
-        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="101"/>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="104"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="103"/>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="107"/>
         <source>Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="105"/>
+        <location filename="../../src/flow/editor/settings/shortcuts_table_model.cpp" line="110"/>
         <source>Action Id</source>
         <translation type="unfinished"></translation>
     </message>

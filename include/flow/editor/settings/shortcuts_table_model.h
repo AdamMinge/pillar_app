@@ -13,6 +13,14 @@ class ShortcutsTableModel : public QAbstractTableModel
   Q_OBJECT
 
 public:
+  enum Column
+  {
+    Action,
+    Shortcut,
+    ActionId
+  };
+
+public:
   explicit ShortcutsTableModel(QObject *parent = nullptr);
   ~ShortcutsTableModel() override;
 

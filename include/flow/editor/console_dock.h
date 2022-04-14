@@ -39,9 +39,9 @@ protected:
 private Q_SLOTS:
   void onReport(const QString &str, const QColor &color = QColor{});
 
-  void onInfoIssueReport(const Issue &issue);
-  void onWarningIssueReport(const Issue &issue);
-  void onErrorIssueReport(const Issue &issue);
+  void onInfoLog(const QString &message);
+  void onWarningLog(const QString &message);
+  void onErrorLog(const QString &message);
 
   void onScriptReport(const QString &str);
   void onScriptResultReport(const QString &str);
@@ -49,6 +49,9 @@ private Q_SLOTS:
   void executeScript();
 
 private:
+  void initUi();
+  void initConnections();
+
   void retranslateUi();
 
 private:

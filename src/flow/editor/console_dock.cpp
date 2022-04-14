@@ -34,56 +34,8 @@ ConsoleDock::ConsoleDock(QWidget *parent)
 {
   setObjectName(QLatin1String("Scene"));
 
-  m_plain_text_edit->setReadOnly(true);
-  auto palette = m_plain_text_edit->palette();
-  palette.setColor(QPalette::Base, Qt::black);
-  palette.setColor(QPalette::Text, Qt::lightGray);
-  m_plain_text_edit->setPalette(palette);
-
-  auto widget = new QWidget(this);
-  auto layout = new QVBoxLayout(widget);
-  auto bottomBar = new QHBoxLayout();
-
-  bottomBar->addWidget(m_line_edit_with_history);
-  bottomBar->addWidget(m_clear_button);
-  bottomBar->setSpacing(utils::QtDpiInfo::dpiScaled(2));
-
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
-  layout->addWidget(m_plain_text_edit);
-  layout->addLayout(bottomBar);
-
-  setWidget(widget);
-
-  auto prev_shortcut = new QShortcut(
-    Qt::Key_Up, m_line_edit_with_history, nullptr, nullptr, Qt::WidgetShortcut);
-  auto next_shortcut = new QShortcut(
-    Qt::Key_Down, m_line_edit_with_history, nullptr, nullptr,
-    Qt::WidgetShortcut);
-
-  connect(
-    m_line_edit_with_history, &QLineEdit::returnPressed, this,
-    &ConsoleDock::executeScript);
-  connect(
-    prev_shortcut, &QShortcut::activated, m_line_edit_with_history,
-    &utils::QtLineEditWithHistory::movePrev);
-  connect(
-    next_shortcut, &QShortcut::activated, m_line_edit_with_history,
-    &utils::QtLineEditWithHistory::moveNext);
-  connect(
-    m_clear_button, &QPushButton::pressed, m_plain_text_edit,
-    &QPlainTextEdit::clear);
-
-  auto &logging_manager = LoggingManager::getInstance();
-  connect(
-    &logging_manager, &LoggingManager::onInfoIssueReport, this,
-    &ConsoleDock::onInfoIssueReport);
-  connect(
-    &logging_manager, &LoggingManager::onWarningIssueReport, this,
-    &ConsoleDock::onWarningIssueReport);
-  connect(
-    &logging_manager, &LoggingManager::onErrorIssueReport, this,
-    &ConsoleDock::onErrorIssueReport);
+  initUi();
+  initConnections();
 
   retranslateUi();
 }
@@ -111,19 +63,16 @@ void ConsoleDock::onReport(const QString &str, const QColor &color)
     str.toHtmlEscaped() + QLatin1String("</pre>"));
 }
 
-void ConsoleDock::onInfoIssueReport(const Issue &issue)
+void ConsoleDock::onInfoLog(const QString &message) { onReport(message); }
+
+void ConsoleDock::onWarningLog(const QString &message)
 {
-  onReport(issue.getText());
+  onReport(message, QColor("orange"));
 }
 
-void ConsoleDock::onWarningIssueReport(const Issue &issue)
+void ConsoleDock::onErrorLog(const QString &message)
 {
-  onReport(issue.getText(), QColor("orange"));
-}
-
-void ConsoleDock::onErrorIssueReport(const Issue &issue)
-{
-  onReport(issue.getText(), QColor("red"));
+  onReport(message, QColor("red"));
 }
 
 void ConsoleDock::onScriptReport(const QString &str)
@@ -147,6 +96,65 @@ void ConsoleDock::executeScript()
     onScriptResultReport(result.toString());
 
   m_line_edit_with_history->appendToHistory(script);
+}
+
+void ConsoleDock::initUi()
+{
+  m_line_edit_with_history->setPlaceholderText("Execute script");
+
+  m_plain_text_edit->setReadOnly(true);
+  auto palette = m_plain_text_edit->palette();
+  palette.setColor(QPalette::Base, Qt::black);
+  palette.setColor(QPalette::Text, Qt::lightGray);
+  m_plain_text_edit->setPalette(palette);
+
+  auto widget = new QWidget(this);
+  auto layout = new QVBoxLayout(widget);
+  auto bottomBar = new QHBoxLayout();
+
+  bottomBar->addWidget(m_line_edit_with_history);
+  bottomBar->addWidget(m_clear_button);
+  bottomBar->setSpacing(utils::QtDpiInfo::dpiScaled(2));
+
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+  layout->addWidget(m_plain_text_edit);
+  layout->addLayout(bottomBar);
+
+  setWidget(widget);
+}
+
+void ConsoleDock::initConnections()
+{
+  auto prev_shortcut = new QShortcut(
+    Qt::Key_Up, m_line_edit_with_history, nullptr, nullptr, Qt::WidgetShortcut);
+  auto next_shortcut = new QShortcut(
+    Qt::Key_Down, m_line_edit_with_history, nullptr, nullptr,
+    Qt::WidgetShortcut);
+
+  connect(
+    m_line_edit_with_history, &QLineEdit::returnPressed, this,
+    &ConsoleDock::executeScript);
+  connect(
+    prev_shortcut, &QShortcut::activated, m_line_edit_with_history,
+    &utils::QtLineEditWithHistory::movePrev);
+  connect(
+    next_shortcut, &QShortcut::activated, m_line_edit_with_history,
+    &utils::QtLineEditWithHistory::moveNext);
+  connect(
+    m_clear_button, &QPushButton::pressed, m_plain_text_edit,
+    &QPlainTextEdit::clear);
+
+  auto &logging_manager = LoggingManager::getInstance();
+  connect(
+    &logging_manager, &LoggingManager::onInfoLog, this,
+    &ConsoleDock::onInfoLog);
+  connect(
+    &logging_manager, &LoggingManager::onWarningLog, this,
+    &ConsoleDock::onWarningLog);
+  connect(
+    &logging_manager, &LoggingManager::onErrorLog, this,
+    &ConsoleDock::onErrorLog);
 }
 
 void ConsoleDock::retranslateUi() { setWindowTitle(tr("Console")); }

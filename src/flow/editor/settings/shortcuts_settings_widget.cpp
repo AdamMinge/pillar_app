@@ -52,14 +52,15 @@ void ShortcutsSettingsWidget::initUi()
 
   m_search_proxy_model->setSourceModel(m_shortcuts_table_model.get());
   m_search_proxy_model->setFilterRole(Qt::DisplayRole);
-  m_search_proxy_model->setFilterKeyColumn(0);
-  m_search_proxy_model->sort(0);
+  m_search_proxy_model->setFilterKeyColumn(ShortcutsTableModel::Column::Action);
+  m_search_proxy_model->sort(ShortcutsTableModel::Column::Action);
 
   m_ui->m_shortcuts_table->setModel(m_search_proxy_model.get());
-  m_ui->m_shortcuts_table->hideColumn(2);
+  m_ui->m_shortcuts_table->hideColumn(ShortcutsTableModel::Column::ActionId);
   m_ui->m_shortcuts_table->setItemDelegateForColumn(
-    1, m_shortcuts_table_delegate.get());
-  m_ui->m_shortcuts_table->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+    ShortcutsTableModel::Column::Shortcut, m_shortcuts_table_delegate.get());
+  m_ui->m_shortcuts_table->horizontalHeader()->resizeSections(
+    QHeaderView::ResizeToContents);
 }
 
 void ShortcutsSettingsWidget::initConnections()

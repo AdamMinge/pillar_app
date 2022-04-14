@@ -18,20 +18,18 @@ LoggingManager::LoggingManager() = default;
 
 LoggingManager::~LoggingManager() = default;
 
-void LoggingManager::reportIssue(const Issue &issue)
+void LoggingManager::log(Severity severity, const QString &message)
 {
-  onIssueReport(issue);
-
-  switch (issue.getSeverity())
+  switch (severity)
   {
-    case Issue::Severity::Info:
-      Q_EMIT onInfoIssueReport(issue);
+    case LoggingManager::Severity::Info:
+      Q_EMIT onInfoLog(message);
       break;
-    case Issue::Severity::Warning:
-      Q_EMIT onWarningIssueReport(issue);
+    case LoggingManager::Severity::Warning:
+      Q_EMIT onWarningLog(message);
       break;
-    case Issue::Severity::Error:
-      Q_EMIT onErrorIssueReport(issue);
+    case LoggingManager::Severity::Error:
+      Q_EMIT onErrorLog(message);
       break;
   }
 }

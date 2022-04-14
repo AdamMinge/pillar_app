@@ -19,7 +19,10 @@ set(sources
         ${source_root}/plugin_manager.cpp
         ${source_root}/plugin.cpp
         ${source_root}/preferences_manager.cpp
+        ${source_root}/issue_table_model.cpp
+        ${source_root}/issue_table_filter_model.cpp
         ${source_root}/logging_manager.cpp
+        ${source_root}/issue_manager.cpp
         ${source_root}/issue.cpp
         ${source_root}/about_dialog.cpp
         ${source_root}/console_dock.cpp
@@ -82,6 +85,9 @@ set(includes
         ${include_root}/plugin.h
         ${include_root}/preferences_manager.h
         ${include_root}/logging_manager.h
+        ${include_root}/issue_table_model.h
+        ${include_root}/issue_table_filter_model.h
+        ${include_root}/issue_manager.h
         ${include_root}/issue.h
         ${include_root}/about_dialog.h
         ${include_root}/console_dock.h
@@ -168,6 +174,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${uis_root})
 # ----------------------------------- Find external libraries -------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
 find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
+find_package(Boost 1.78 REQUIRED)
 # -------------------------------------------------------------------------------------------------- #
 # ------------------------------------ create engine editor ---------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
@@ -190,6 +197,8 @@ flow_add_application(editor
         utils::archive
         utils::widget
         utils::stacked_widget)
+
+target_include_directories(editor PRIVATE ${Boost_INCLUDE_DIRS})
 
 flow_add_translations(editor
         QM_DIR ${resources_root}/translations/

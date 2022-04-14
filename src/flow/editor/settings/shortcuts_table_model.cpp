@@ -58,14 +58,17 @@ QVariant ShortcutsTableModel::data(const QModelIndex &index, int role) const
     auto action_pair = m_actions.at(index.row());
     switch (index.column())
     {
-      case 0:
+      case Column::Action:
         return action_pair.first->whatsThis();
-      case 1:
+
+      case Column::Shortcut:
         return action_pair.second;
-      case 2:
+
+      case Column::ActionId:
         return ActionManager::getInstance().getActionId(action_pair.first);
+
       default:
-        break;
+        return QVariant{};
     }
   }
 
@@ -77,7 +80,7 @@ bool ShortcutsTableModel::setData(
 {
   if (index.row() < 0 || index.row() >= rowCount(index.parent())) return false;
 
-  if (role == Qt::DisplayRole && index.column() == 1)
+  if (role == Qt::DisplayRole && index.column() == Column::Shortcut)
   {
     auto applied_before = applied();
     m_actions.at(index.row()).second = value.value<QKeySequence>();
@@ -97,14 +100,17 @@ QVariant ShortcutsTableModel::headerData(
   {
     switch (section)
     {
-      case 0:
+      case Column::Action:
         return tr("Action");
-      case 1:
+
+      case Column::Shortcut:
         return tr("Shortcut");
-      case 2:
+
+      case Column::ActionId:
         return tr("Action Id");
+
       default:
-        break;
+        return QVariant{};
     }
   }
   return QVariant{};
@@ -113,7 +119,7 @@ QVariant ShortcutsTableModel::headerData(
 Qt::ItemFlags ShortcutsTableModel::flags(const QModelIndex &index) const
 {
   auto flags = QAbstractTableModel::flags(index);
-  if (index.column() == 1) flags |= Qt::ItemIsEditable;
+  if (index.column() == Column::Shortcut) flags |= Qt::ItemIsEditable;
 
   return flags;
 }

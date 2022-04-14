@@ -29,7 +29,9 @@ QJSValue ScriptManager::evaluate(
   const QString &program, const QString &file_name, int line)
 {
   auto result = m_engine->evaluate(program, file_name, line);
-  checkError(result, program);
+  const auto errorMessage = getErrorMessage(result, program);
+  if (!errorMessage.isEmpty()) LOG_ERROR(errorMessage);
+
   return result;
 }
 
@@ -62,10 +64,10 @@ void ScriptManager::init()
   }
 }
 
-bool ScriptManager::checkError(
+QString ScriptManager::getErrorMessage(
   const QJSValue &value, const QString &program) const
 {
-  if (!value.isError()) return false;
+  if (!value.isError()) return QString{};
 
   auto errorString = value.toString();
   auto stack = value.property(QStringLiteral("stack")).toString();
@@ -94,11 +96,10 @@ bool ScriptManager::checkError(
                     .arg(errorString);
   }
 
-  ERROR(errorString);
-  return true;
+  return errorString;
 }
 
 void ScriptManager::onScriptWarnings(const QList<QQmlError> &warnings)
 {
-  for (const auto &warning : warnings) { ERROR(warning.toString()); }
+  for (const auto &warning : warnings) { LOG_ERROR(warning.toString()); }
 }
