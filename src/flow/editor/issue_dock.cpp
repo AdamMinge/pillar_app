@@ -4,8 +4,6 @@
 #include "flow/editor/issue_dock.h"
 #include "flow/editor/issue_table_filter_model.h"
 #include "flow/editor/issue_table_model.h"
-
-#include "flow/editor/issue_manager.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "ui_issue_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -19,18 +17,6 @@ IssueDock::IssueDock(QWidget *parent)
   initConnections();
 
   retranslateUi();
-
-  REPORT_ERROR("error 1");
-  REPORT_ERROR("error 1");
-  REPORT_ERROR("error 2");
-  REPORT_ERROR("error 3");
-  REPORT_ERROR("error 4");
-
-  REPORT_WARNING("warning 1");
-  REPORT_WARNING("warning 2");
-  REPORT_WARNING("warning 3");
-  REPORT_WARNING("warning 4");
-  REPORT_WARNING("warning 4");
 }
 
 IssueDock::~IssueDock() = default;
