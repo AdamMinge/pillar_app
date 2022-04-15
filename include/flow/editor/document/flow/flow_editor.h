@@ -11,6 +11,7 @@
 
 class FlowDocument;
 
+class FlowNodesDock;
 class UndoDock;
 class FlowView;
 
@@ -48,6 +49,7 @@ private:
   QPointer<QMainWindow> m_main_window;
 
   QStackedWidget *m_scene_stack;
+  FlowNodesDock *m_nodes_dock;
   UndoDock *m_undo_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;

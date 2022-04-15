@@ -4,9 +4,39 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
 #include <QScopedPointer>
-#include <QSettings>
 #include <QString>
 /* -------------------------------------------------------------------------- */
+
+class PreferencesSettings
+{
+public:
+  enum class Type
+  {
+    Session,
+    Temporary
+  };
+
+public:
+  [[nodiscard]] static std::unique_ptr<PreferencesSettings> create(Type type);
+
+public:
+  virtual ~PreferencesSettings() = default;
+
+  [[nodiscard]] virtual Type getType() const = 0;
+
+  virtual void setValue(const QString &key, const QVariant &value) = 0;
+  [[nodiscard]] virtual QVariant
+  value(const QString &key, const QVariant &defaultValue) const = 0;
+
+  virtual void remove(const QString &key) = 0;
+  [[nodiscard]] virtual bool contains(const QString &key) const = 0;
+  [[nodiscard]] virtual QStringList allKeys() const = 0;
+
+  virtual void clear() = 0;
+
+protected:
+  explicit PreferencesSettings() = default;
+};
 
 class PreferencesManager : public QObject
 {
@@ -18,6 +48,9 @@ public:
 
 public:
   ~PreferencesManager() override;
+
+  void setSettingsType(PreferencesSettings::Type type);
+  [[nodiscard]] PreferencesSettings::Type getSettingsType() const;
 
   void addRecentProjectFile(const QString &recent_file);
   void clearRecentProjectFiles();
@@ -47,22 +80,21 @@ protected:
 private:
   static QScopedPointer<PreferencesManager> m_instance;
 
-  QSettings m_settings;
-
+  std::unique_ptr<PreferencesSettings> m_settings;
   QStringList m_recent_project_files;
 };
 
 template<typename TYPE>
 void PreferencesManager::setValue(const QString &key, const TYPE &value)
 {
-  m_settings.setValue(key, value);
+  m_settings->setValue(key, value);
 }
 
 template<typename TYPE>
 TYPE PreferencesManager::getValue(
   const QString &key, const TYPE &default_value) const
 {
-  return m_settings.value(key, default_value).template value<TYPE>();
+  return m_settings->value(key, default_value).template value<TYPE>();
 }
 
 template<typename TYPE>

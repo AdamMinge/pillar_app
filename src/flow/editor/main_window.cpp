@@ -31,8 +31,8 @@ struct MainWindow::Preferences {
     Preference<QLocale>("application/language");
   Preference<QString> application_style =
     Preference<QString>("application/style");
-  Preference<QStringList> application_disabled_plugins =
-    Preference<QStringList>("application/disabled_plugins");
+  Preference<QStringList> application_enabled_plugins =
+    Preference<QStringList>("application/denabled_plugins");
   PreferenceContainer<QKeySequence> application_shortcuts =
     PreferenceContainer<QKeySequence>("application/shortcuts");
 };
@@ -157,16 +157,13 @@ void MainWindow::initConnections()
 
 void MainWindow::writePlugins()
 {
-  auto disabled_plugins = QStringList{};
-  for (const auto plugin : getPluginManager().getPlugins())
+  auto enabled_plugins = QStringList{};
+  for (const auto plugin : getPluginManager().getDynamicPlugins())
   {
-    if (
-      plugin->isDynamic() && !plugin->getFileName().isEmpty() &&
-      !plugin->isEnabled())
-      disabled_plugins << plugin->getFileName();
+    if (plugin->isEnabled()) enabled_plugins << plugin->getFileName();
   }
 
-  m_preferences->application_disabled_plugins = disabled_plugins;
+  m_preferences->application_enabled_plugins = enabled_plugins;
 }
 
 void MainWindow::writeSettings()
@@ -223,13 +220,12 @@ void MainWindow::readSettings()
 
 void MainWindow::readPlugins()
 {
-  const auto disabled_plugins =
-    m_preferences->application_disabled_plugins.get();
+  const auto enabled_plugins = m_preferences->application_enabled_plugins.get();
 
   for (getPluginManager().loadPlugins();
        auto plugin : getPluginManager().getPlugins())
   {
-    if (!disabled_plugins.contains(plugin->getFileName())) plugin->enable();
+    if (enabled_plugins.contains(plugin->getFileName())) plugin->enable();
   }
 }
 

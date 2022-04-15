@@ -524,7 +524,7 @@ void ProjectWindow::initUi()
   addDockWidget(Qt::LeftDockWidgetArea, m_project_dock);
   addDockWidget(Qt::BottomDockWidgetArea, m_console_dock);
   addDockWidget(Qt::BottomDockWidgetArea, m_issue_dock);
-  tabifyDockWidget(m_console_dock, m_issue_dock);
+  tabifyDockWidget(m_issue_dock, m_console_dock);
 
   getDocumentManager().addEditor(
     api::document::IDocument::Type::Flow, std::make_unique<FlowEditor>());

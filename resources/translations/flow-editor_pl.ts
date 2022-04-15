@@ -125,6 +125,14 @@
     </message>
 </context>
 <context>
+    <name>FlowNodesDock</name>
+    <message>
+        <location filename="../../src/flow/editor/document/flow/flow_nodes_dock.cpp" line="38"/>
+        <source>Nodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IssueTableModel</name>
     <message>
         <location filename="../../src/flow/editor/issue_table_model.cpp" line="77"/>
@@ -155,32 +163,32 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="271"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="267"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="272"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="268"/>
         <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="273"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="269"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="274"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="270"/>
         <source>Settings Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="275"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="271"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main_window.cpp" line="276"/>
+        <location filename="../../src/flow/editor/main_window.cpp" line="272"/>
         <source>Exit Application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -602,6 +610,11 @@
         <location filename="../../src/flow/editor/project/project_reader.cpp" line="67"/>
         <location filename="../../src/flow/editor/project/project_reader.cpp" line="83"/>
         <source>Failed to load project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/flow/editor/main.cpp" line="61"/>
+        <source>Execute application without loading/saving preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

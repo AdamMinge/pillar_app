@@ -4,6 +4,7 @@
 #include "flow/editor/console_dock.h"
 #include "flow/editor/document/flow/flow_document.h"
 #include "flow/editor/document/flow/flow_editor.h"
+#include "flow/editor/document/flow/flow_nodes_dock.h"
 #include "flow/editor/document/flow/flow_scene.h"
 #include "flow/editor/document/flow/flow_view.h"
 #include "flow/editor/document/undo_dock.h"
@@ -25,6 +26,7 @@ FlowEditor::FlowEditor(QObject *parent)
     : IDocumentEditor(parent), m_current_document(nullptr),
       m_main_window(new QMainWindow()),
       m_scene_stack(new QStackedWidget(m_main_window)),
+      m_nodes_dock(new FlowNodesDock(m_main_window)),
       m_undo_dock(new UndoDock(m_main_window)), m_preferences(new Preferences)
 {
   m_main_window->setDockOptions(
@@ -34,6 +36,7 @@ FlowEditor::FlowEditor(QObject *parent)
   m_main_window->setCentralWidget(m_scene_stack);
 
   m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
+  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
 }
 
 FlowEditor::~FlowEditor() = default;

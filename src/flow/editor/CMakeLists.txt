@@ -12,6 +12,7 @@ set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
         ${source_root}/main.cpp
+        ${source_root}/command_line_parser.cpp
         ${source_root}/main_window.cpp
         ${source_root}/language_manager.cpp
         ${source_root}/style_manager.cpp
@@ -72,11 +73,13 @@ set(sources
         ${source_root}/document/flow/flow_document_format_flow.cpp
         ${source_root}/document/flow/flow_document_reader.cpp
         ${source_root}/document/flow/flow_document_writer.cpp
+        ${source_root}/document/flow/flow_nodes_dock.cpp
 
         ${source_root}/commands/command.cpp
         ${source_root}/commands/group_command.cpp)
 
 set(includes
+        ${include_root}/command_line_parser.h
         ${include_root}/main_window.h
         ${include_root}/language_manager.h
         ${include_root}/style_manager.h
@@ -138,6 +141,7 @@ set(includes
         ${include_root}/document/flow/flow_document_format_flow.h
         ${include_root}/document/flow/flow_document_reader.h
         ${include_root}/document/flow/flow_document_writer.h
+        ${include_root}/document/flow/flow_nodes_dock.h
 
         ${include_root}/commands/command.h
         ${include_root}/commands/group_command.h)

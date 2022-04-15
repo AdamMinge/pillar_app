@@ -1,18 +1,19 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
-#include <QCommandLineParser>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
+#include "flow/editor/command_line_parser.h"
 #include "flow/editor/document/flow/flow_document_format_flow.h"
 #include "flow/editor/main_window.h"
 #include "flow/editor/plugin_manager.h"
+#include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/project_format_pro.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */
 
 static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER =
-  qInstallMessageHandler(nullptr);// NOLINT(cert-err58-cpp)
+  qInstallMessageHandler(nullptr);
 
 static void messagesToConsole(
   QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -41,26 +42,27 @@ static void messagesToConsole(
 
 /* ----------------------------- CommandLineParser -------------------------- */
 
-class CommandLineParser
+class FlowCommandLineParser : public CommandLineParser
 {
 public:
-  explicit CommandLineParser();
-  ~CommandLineParser() = default;
+  explicit FlowCommandLineParser();
+  ~FlowCommandLineParser() override;
 
-  void process(const QCoreApplication &app);
+  [[nodiscard]] bool isWithoutSettings() const { return m_without_settings; };
+
+private:
+  bool m_without_settings;
 };
 
-CommandLineParser::CommandLineParser() = default;
-
-void CommandLineParser::process(const QCoreApplication &app)
+FlowCommandLineParser::FlowCommandLineParser() : m_without_settings(false)
 {
-  QCommandLineParser parser;
-  parser.setApplicationDescription("Flow Editor");
-  parser.addHelpOption();
-  parser.addVersionOption();
-
-  parser.process(app);
+  registerOption(
+    {"without-preferences"},
+    QObject::tr("Execute application without loading/saving preferences"),
+    [this]() { m_without_settings = true; });
 }
+
+FlowCommandLineParser::~FlowCommandLineParser() = default;
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
@@ -71,6 +73,18 @@ static void registerDefaultPlugins(QApplication &app)
 
   PluginManager::getInstance().addObject(project_default_format);
   PluginManager::getInstance().addObject(flow_document_default_format);
+}
+
+/* -------------------------- RegisterDefaultPlugins ------------------------ */
+
+static void parseCommandLine(QApplication &app)
+{
+  FlowCommandLineParser parser;
+  parser.process(app);
+
+  if (parser.isWithoutSettings())
+    PreferencesManager::getInstance().setSettingsType(
+      PreferencesSettings::Type::Temporary);
 }
 
 /* ----------------------------------- main --------------------------------- */
@@ -85,9 +99,7 @@ int main(int argc, char **argv)
 
   qInstallMessageHandler(messagesToConsole);
 
-  CommandLineParser parser;
-  parser.process(app);
-
+  parseCommandLine(app);
   registerDefaultPlugins(app);
 
   MainWindow mainWindow;
