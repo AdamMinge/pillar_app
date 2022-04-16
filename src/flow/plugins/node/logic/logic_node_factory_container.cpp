@@ -7,29 +7,29 @@
 #include "flow/plugins/node/logic/logic_node_or.h"
 /* -------------------------------------------------------------------------- */
 
-namespace plugins::node::logic
+LogicNodeFactoryContainer::LogicNodeFactoryContainer()
 {
+  addFactory(std::make_unique<node::NodeFactory>(
+    []() { return std::make_unique<LogicNodeNot>(); }, QObject::tr("Not"),
+    QIcon(":/plugins/logic_node/images/32x32/logic_gate_not.png")));
 
-  LogicNodeFactoryContainer::LogicNodeFactoryContainer()
-  {
-    addFactory(std::make_unique<::node::NodeFactory>(
-      []() { return std::make_unique<LogicNodeNot>(); },
-      QObject::tr("Logic Not"), QIcon()));
+  addFactory(std::make_unique<node::NodeFactory>(
+    []() { return std::make_unique<LogicNodeOr>(); }, QObject::tr("Or"),
+    QIcon(":/plugins/logic_node/images/32x32/logic_gate_or.png")));
 
-    addFactory(std::make_unique<::node::NodeFactory>(
-      []() { return std::make_unique<LogicNodeOr>(); }, QObject::tr("Logic Or"),
-      QIcon()));
+  addFactory(std::make_unique<node::NodeFactory>(
+    []() { return std::make_unique<LogicNodeAnd>(); }, QObject::tr("And"),
+    QIcon(":/plugins/logic_node/images/32x32/logic_gate_and.png")));
+}
 
-    addFactory(std::make_unique<::node::NodeFactory>(
-      []() { return std::make_unique<LogicNodeAnd>(); },
-      QObject::tr("Logic And"), QIcon()));
-  }
+LogicNodeFactoryContainer::~LogicNodeFactoryContainer() = default;
 
-  LogicNodeFactoryContainer::~LogicNodeFactoryContainer() = default;
+QString LogicNodeFactoryContainer::getName() const
+{
+  return QObject::tr("Logic");
+}
 
-  QString LogicNodeFactoryContainer::getName() const
-  {
-    return QObject::tr("Logic Nodes");
-  }
-
-}// namespace plugins::node::logic
+QIcon LogicNodeFactoryContainer::getIcon() const
+{
+  return QIcon(":/plugins/logic_node/images/32x32/logic_nodes.png");
+}

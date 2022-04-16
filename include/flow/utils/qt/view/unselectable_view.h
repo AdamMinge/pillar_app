@@ -24,6 +24,7 @@ namespace utils
 
   protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
   };
 
   template<typename VIEW>
@@ -44,12 +45,19 @@ namespace utils
 
     if ((item.row() == -1 && item.column() == -1) || selected)
     {
-      VIEW::clearSelection();
       VIEW::selectionModel()->setCurrentIndex(
-        QModelIndex(), QItemSelectionModel::SelectCurrent);
+        QModelIndex(), QItemSelectionModel::ClearAndSelect);
     }
 
     VIEW::mousePressEvent(event);
+  }
+
+  template<typename VIEW>
+  requires std::derived_from<VIEW, QAbstractItemView>
+  void QtUnselectableView<VIEW>::focusOutEvent(QFocusEvent *event)
+  {
+    VIEW::selectionModel()->setCurrentIndex(
+      QModelIndex(), QItemSelectionModel::ClearAndSelect);
   }
 
   using QtUnselectableTreeView = QtUnselectableView<QTreeView>;

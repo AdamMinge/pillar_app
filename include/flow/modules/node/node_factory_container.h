@@ -15,17 +15,21 @@ namespace node
 
   class NodeFactory;
 
-  class NODE_API NodeFactoryContainer
+  class NODE_API NodeFactoryContainer : public QObject
   {
+    Q_OBJECT
+
   public:
     explicit NodeFactoryContainer();
-    virtual ~NodeFactoryContainer();
+    ~NodeFactoryContainer() override;
 
     void addFactory(std::unique_ptr<NodeFactory> node_factory);
-    void removeFactory(const NodeFactory& node_factory);
+    void removeFactory(const NodeFactory &node_factory);
 
-    [[nodiscard]] std::list<std::unique_ptr<NodeFactory>>::const_iterator begin() const;
-    [[nodiscard]] std::list<std::unique_ptr<NodeFactory>>::const_iterator end() const;
+    [[nodiscard]] std::list<std::unique_ptr<NodeFactory>>::const_iterator
+    begin() const;
+    [[nodiscard]] std::list<std::unique_ptr<NodeFactory>>::const_iterator
+    end() const;
 
     [[nodiscard]] std::list<std::unique_ptr<NodeFactory>>::iterator begin();
     [[nodiscard]] std::list<std::unique_ptr<NodeFactory>>::iterator end();
@@ -33,6 +37,7 @@ namespace node
     [[nodiscard]] size_t size() const;
 
     [[nodiscard]] virtual QString getName() const = 0;
+    [[nodiscard]] virtual QIcon getIcon() const = 0;
 
   private:
     std::list<std::unique_ptr<NodeFactory>> m_factories;

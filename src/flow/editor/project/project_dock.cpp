@@ -16,11 +16,13 @@
 #include <flow/modules/api/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
+#include <flow/utils/qt/view/unselectable_view.h>
 /* -------------------------------------------------------------------------- */
 
 ProjectDock::ProjectDock(QWidget *parent)
     : QDockWidget(parent), m_current_project(nullptr),
-      m_view(new QTreeView(this)), m_model(new QFileSystemModel(this)),
+      m_view(new utils::QtUnselectableTreeView(this)),
+      m_model(new QFileSystemModel(this)),
       m_proxy(new utils::FileSystemProxyModel(this)),
       m_icon_provider(new QFileIconProvider())
 {

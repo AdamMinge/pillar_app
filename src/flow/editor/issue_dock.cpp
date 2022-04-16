@@ -40,18 +40,18 @@ void IssueDock::initUi()
   m_ui->setupUi(this);
 
   m_issue_filter_model->setSourceModel(m_issue_model.get());
-  m_issue_filter_model->sort(IssueTableModel::Column::Severity);
+  m_issue_filter_model->sort(IssueTableModel::Column::SeverityColumn);
   m_issue_filter_model->setFilterKeyColumn(
-    IssueTableModel::Column::Description);
+    IssueTableModel::Column::DescriptionColumn);
 
   m_ui->m_issues_view->setModel(m_issue_filter_model.get());
   m_ui->m_issues_view->horizontalHeader()->setSectionResizeMode(
-    IssueTableModel::Column::Description, QHeaderView::Stretch);
+    IssueTableModel::Column::DescriptionColumn, QHeaderView::Stretch);
   m_ui->m_issues_view->horizontalHeader()->setSectionResizeMode(
-    IssueTableModel::Column::Severity,
+    IssueTableModel::Column::SeverityColumn,
     QHeaderView::ResizeMode::ResizeToContents);
   m_ui->m_issues_view->horizontalHeader()->setSectionResizeMode(
-    IssueTableModel::Column::Occurrences,
+    IssueTableModel::Column::OccurrencesColumn,
     QHeaderView::ResizeMode::ResizeToContents);
 }
 

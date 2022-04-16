@@ -35,20 +35,20 @@ QVariant IssueTableModel::data(const QModelIndex &index, int role) const
     const auto issue_occurrences = m_issues[index.row()].second;
     switch (index.column())
     {
-      case Column::Severity:
+      case Column::SeverityColumn:
         return getIssueSeverityName(index);
 
-      case Column::Description:
+      case Column::DescriptionColumn:
         return issue.getText();
 
-      case Column::Occurrences:
+      case Column::OccurrencesColumn:
         return issue_occurrences;
     }
   } else if (role == Qt::DecorationRole)
   {
     switch (index.column())
     {
-      case Column::Severity:
+      case Column::SeverityColumn:
         return getIssueIcon(index);
     }
   } else if (role == Role::IssueRole)
@@ -73,13 +73,13 @@ QVariant IssueTableModel::headerData(
   {
     switch (section)
     {
-      case Column::Severity:
+      case Column::SeverityColumn:
         return tr("Severity");
 
-      case Column::Description:
+      case Column::DescriptionColumn:
         return tr("Description");
 
-      case Column::Occurrences:
+      case Column::OccurrencesColumn:
         return tr("Occurrences");
 
       default:
@@ -110,8 +110,8 @@ void IssueTableModel::addIssue(const Issue &issue)
     auto changed_row =
       static_cast<int>(std::distance(m_issues.begin(), found_issue_iter));
     dataChanged(
-      index(changed_row, Column::Occurrences),
-      index(changed_row, Column::Occurrences));
+      index(changed_row, Column::OccurrencesColumn),
+      index(changed_row, Column::OccurrencesColumn));
   }
 }
 

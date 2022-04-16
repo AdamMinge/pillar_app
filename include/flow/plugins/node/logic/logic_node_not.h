@@ -6,21 +6,16 @@
 #include "flow/plugins/node/logic/logic_node.h"
 /* -------------------------------------------------------------------------- */
 
-namespace plugins::node::logic
+class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam
 {
+  Q_OBJECT
 
-  class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam
-  {
-    Q_OBJECT
+public:
+  explicit LogicNodeNot();
+  ~LogicNodeNot() override;
 
-  public:
-    explicit LogicNodeNot();
-    ~LogicNodeNot() override;
-
-  protected:
-    void compute() override;
-  };
-
-}// namespace plugins::node::logic
+protected:
+  void compute() override;
+};
 
 #endif//FLOW_LOGIC_NODE_NOT_H

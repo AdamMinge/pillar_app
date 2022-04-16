@@ -15,9 +15,9 @@ class ShortcutsTableModel : public QAbstractTableModel
 public:
   enum Column
   {
-    Action,
-    Shortcut,
-    ActionId
+    ActionColumn,
+    ShortcutColumn,
+    ActionIdColumn
   };
 
 public:

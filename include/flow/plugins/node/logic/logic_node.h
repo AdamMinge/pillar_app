@@ -7,27 +7,22 @@
 #include <flow/modules/node/node.h>
 /* -------------------------------------------------------------------------- */
 
-namespace plugins::node::logic
+class LOGIC_NODE_API LogicNodeWithOneParam : public ::node::Node
 {
+  Q_OBJECT
 
-  class LOGIC_NODE_API LogicNodeWithOneParam : public ::node::Node
-  {
-    Q_OBJECT
+public:
+  explicit LogicNodeWithOneParam();
+  ~LogicNodeWithOneParam() override;
+};
 
-  public:
-    explicit LogicNodeWithOneParam();
-    ~LogicNodeWithOneParam() override;
-  };
+class LOGIC_NODE_API LogicNodeWithTwoParams : public LogicNodeWithOneParam
+{
+  Q_OBJECT
 
-  class LOGIC_NODE_API LogicNodeWithTwoParams : public LogicNodeWithOneParam
-  {
-    Q_OBJECT
-
-  public:
-    explicit LogicNodeWithTwoParams();
-    ~LogicNodeWithTwoParams() override;
-  };
-
-}// namespace plugins::node::logic
+public:
+  explicit LogicNodeWithTwoParams();
+  ~LogicNodeWithTwoParams() override;
+};
 
 #endif//FLOW_LOGIC_NODE_H

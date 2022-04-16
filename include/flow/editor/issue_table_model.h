@@ -20,9 +20,9 @@ public:
 
   enum Column
   {
-    Severity,
-    Description,
-    Occurrences
+    SeverityColumn,
+    DescriptionColumn,
+    OccurrencesColumn
   };
 
 public:
