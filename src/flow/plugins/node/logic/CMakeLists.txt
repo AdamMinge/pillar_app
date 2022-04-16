@@ -11,7 +11,6 @@ set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
         ${source_root}/logic_node_factory_container.cpp
-        ${source_root}/logic_node_data.cpp
         ${source_root}/logic_node.cpp
         ${source_root}/logic_node_not.cpp
         ${source_root}/logic_node_and.cpp
@@ -20,7 +19,6 @@ set(sources
 set(includes
         ${include_root}/export.h
         ${include_root}/logic_node_factory_container.h
-        ${include_root}/logic_node_data.h
         ${include_root}/logic_node.h
         ${include_root}/logic_node_not.h
         ${include_root}/logic_node_and.h

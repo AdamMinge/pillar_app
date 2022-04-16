@@ -13,7 +13,8 @@ set(sources
         ${source_root}/node.cpp
         ${source_root}/connection.cpp
         ${source_root}/node_factory.cpp
-        ${source_root}/node_factory_container.cpp)
+        ${source_root}/node_factory_container.cpp
+        ${source_root}/logic_node_data.cpp)
 
 set(includes
         ${include_root}/export.h
@@ -24,7 +25,8 @@ set(includes
         ${include_root}/connection.h
         ${include_root}/type_converter.h
         ${include_root}/node_factory.h
-        ${include_root}/node_factory_container.h)
+        ${include_root}/node_factory_container.h
+        ${include_root}/logic_node_data.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
