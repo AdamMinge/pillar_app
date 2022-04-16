@@ -20,7 +20,7 @@ namespace node::converter
     Q_OBJECT
 
   public:
-    explicit ConverterFactoryContainer();
+    explicit ConverterFactoryContainer(QObject* parent = nullptr);
     ~ConverterFactoryContainer() override;
 
     void addFactory(std::unique_ptr<ConverterFactory> node_factory);

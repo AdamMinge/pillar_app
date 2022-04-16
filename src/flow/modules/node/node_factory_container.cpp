@@ -6,7 +6,8 @@
 namespace node
 {
 
-  NodeFactoryContainer::NodeFactoryContainer() = default;
+  NodeFactoryContainer::NodeFactoryContainer(QObject *parent) : QObject(parent)
+  {}
 
   NodeFactoryContainer::~NodeFactoryContainer() = default;
 

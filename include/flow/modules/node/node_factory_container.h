@@ -20,7 +20,7 @@ namespace node
     Q_OBJECT
 
   public:
-    explicit NodeFactoryContainer();
+    explicit NodeFactoryContainer(QObject *parent = nullptr);
     ~NodeFactoryContainer() override;
 
     void addFactory(std::unique_ptr<NodeFactory> node_factory);

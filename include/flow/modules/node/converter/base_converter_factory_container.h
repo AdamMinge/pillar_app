@@ -15,8 +15,11 @@ namespace node::converter
     Q_OBJECT
 
   public:
-    explicit BaseConverterFactoryContainer();
+    explicit BaseConverterFactoryContainer(QObject* parent = nullptr);
     ~BaseConverterFactoryContainer() override;
+
+    [[nodiscard]] QString getName() const override;
+    [[nodiscard]] QIcon getIcon() const override;
   };
 
 }// namespace node::converter

@@ -6,7 +6,9 @@
 namespace node::converter
 {
 
-  ConverterFactoryContainer::ConverterFactoryContainer() = default;
+  ConverterFactoryContainer::ConverterFactoryContainer(QObject *parent)
+      : QObject(parent)
+  {}
 
   ConverterFactoryContainer::~ConverterFactoryContainer() = default;
 

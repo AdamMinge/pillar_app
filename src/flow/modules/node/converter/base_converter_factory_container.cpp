@@ -27,7 +27,8 @@
 namespace node::converter
 {
 
-  BaseConverterFactoryContainer::BaseConverterFactoryContainer()
+  BaseConverterFactoryContainer::BaseConverterFactoryContainer(QObject *parent)
+      : ConverterFactoryContainer(parent)
   {
     ADD_FACTORY(
       BooleanToFloatingPointConverter, "Boolean -> Floating Point", "");
@@ -55,5 +56,12 @@ namespace node::converter
   }
 
   BaseConverterFactoryContainer::~BaseConverterFactoryContainer() = default;
+
+  QString BaseConverterFactoryContainer::getName() const
+  {
+    return QObject::tr("Base");
+  }
+
+  QIcon BaseConverterFactoryContainer::getIcon() const { return QIcon{}; }
 
 }// namespace node::converter

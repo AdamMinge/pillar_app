@@ -1,5 +1,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
+/* ----------------------------------- Node --------------------------------- */
+#include <flow/modules/node/converter/base_converter_factory_container.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/command_line_parser.h"
@@ -70,9 +72,12 @@ static void registerDefaultPlugins(QApplication &app)
 {
   auto project_default_format = new ProjectFormatPro(&app);
   auto flow_document_default_format = new FlowDocumentFormatFlow(&app);
+  auto base_converter_factory_container =
+    new node::converter::BaseConverterFactoryContainer(&app);
 
   PluginManager::getInstance().addObject(project_default_format);
   PluginManager::getInstance().addObject(flow_document_default_format);
+  PluginManager::getInstance().addObject(base_converter_factory_container);
 }
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
