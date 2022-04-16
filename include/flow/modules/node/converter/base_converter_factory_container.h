@@ -15,7 +15,7 @@ namespace node::converter
     Q_OBJECT
 
   public:
-    explicit BaseConverterFactoryContainer(QObject* parent = nullptr);
+    explicit BaseConverterFactoryContainer(QObject *parent = nullptr);
     ~BaseConverterFactoryContainer() override;
 
     [[nodiscard]] QString getName() const override;
