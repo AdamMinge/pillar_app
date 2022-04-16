@@ -15,6 +15,22 @@ set(sources
         ${source_root}/node_factory.cpp
         ${source_root}/node_factory_container.cpp
 
+        ${source_root}/converter/boolean_to_floating_point_converter.cpp
+        ${source_root}/converter/boolean_to_integer_converter.cpp
+        ${source_root}/converter/character_to_boolean_converter.cpp
+        ${source_root}/converter/character_to_integer_converter.cpp
+        ${source_root}/converter/character_to_string_converter.cpp
+        ${source_root}/converter/floating_point_to_boolean_converter.cpp
+        ${source_root}/converter/floating_point_to_integer_converter.cpp
+        ${source_root}/converter/floating_point_to_string_converter.cpp
+        ${source_root}/converter/integer_to_boolean_converter.cpp
+        ${source_root}/converter/integer_to_character_converter.cpp
+        ${source_root}/converter/integer_to_floating_point_converter.cpp
+        ${source_root}/converter/integer_to_string_converter.cpp
+        ${source_root}/converter/string_to_boolean_converter.cpp
+        ${source_root}/converter/string_to_floating_point_converter.cpp
+        ${source_root}/converter/string_to_integer_converter.cpp
+
         ${source_root}/data/boolean_node_data.cpp
         ${source_root}/data/integer_node_data.cpp
         ${source_root}/data/character_node_data.cpp
@@ -31,6 +47,21 @@ set(includes
         ${include_root}/node_factory_container.h
 
         ${include_root}/converter/type_converter.h
+        ${include_root}/converter/boolean_to_floating_point_converter.h
+        ${include_root}/converter/boolean_to_integer_converter.h
+        ${include_root}/converter/character_to_boolean_converter.h
+        ${include_root}/converter/character_to_integer_converter.h
+        ${include_root}/converter/character_to_string_converter.h
+        ${include_root}/converter/floating_point_to_boolean_converter.h
+        ${include_root}/converter/floating_point_to_integer_converter.h
+        ${include_root}/converter/floating_point_to_string_converter.h
+        ${include_root}/converter/integer_to_boolean_converter.h
+        ${include_root}/converter/integer_to_character_converter.h
+        ${include_root}/converter/integer_to_floating_point_converter.h
+        ${include_root}/converter/integer_to_string_converter.h
+        ${include_root}/converter/string_to_boolean_converter.h
+        ${include_root}/converter/string_to_floating_point_converter.h
+        ${include_root}/converter/string_to_integer_converter.h
 
         ${include_root}/data/node_data.h
         ${include_root}/data/boolean_node_data.h

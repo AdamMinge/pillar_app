@@ -2,8 +2,8 @@
 #define FLOW_NODE_DATA_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
 #include <QString>
+#include <QtPlugin>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
@@ -23,5 +23,7 @@ namespace node::data
   };
 
 }// namespace node::data
+
+Q_DECLARE_INTERFACE(node::data::NodeData, "org.flow.NodeData")
 
 #endif//FLOW_NODE_DATA_H
