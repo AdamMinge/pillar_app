@@ -15,6 +15,8 @@ set(sources
         ${source_root}/node_factory.cpp
         ${source_root}/node_factory_container.cpp
 
+        ${source_root}/converter/converter_factory.cpp
+        ${source_root}/converter/converter_factory_container.cpp
         ${source_root}/converter/boolean_to_floating_point_converter.cpp
         ${source_root}/converter/boolean_to_integer_converter.cpp
         ${source_root}/converter/character_to_boolean_converter.cpp
@@ -47,6 +49,8 @@ set(includes
         ${include_root}/node_factory_container.h
 
         ${include_root}/converter/type_converter.h
+        ${include_root}/converter/converter_factory.h
+        ${include_root}/converter/converter_factory_container.h
         ${include_root}/converter/boolean_to_floating_point_converter.h
         ${include_root}/converter/boolean_to_integer_converter.h
         ${include_root}/converter/character_to_boolean_converter.h

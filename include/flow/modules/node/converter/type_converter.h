@@ -15,20 +15,16 @@ namespace node::data
 namespace node::converter
 {
 
-  class NODE_API TypeConverter : public QObject
+  class NODE_API TypeConverter
   {
-    Q_OBJECT
-
   public:
     explicit TypeConverter() = default;
-    ~TypeConverter() override = default;
+    virtual ~TypeConverter() = default;
 
     [[nodiscard]] virtual std::unique_ptr<data::NodeData>
     convert(const data::NodeData &data) = 0;
   };
 
 }// namespace node::converter
-
-Q_DECLARE_INTERFACE(node::converter::TypeConverter, "org.flow.TypeConverter")
 
 #endif//FLOW_TYPE_CONVERTER_H
