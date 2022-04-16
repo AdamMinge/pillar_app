@@ -14,19 +14,30 @@ set(sources
         ${source_root}/connection.cpp
         ${source_root}/node_factory.cpp
         ${source_root}/node_factory_container.cpp
-        ${source_root}/logic_node_data.cpp)
+
+        ${source_root}/data/boolean_node_data.cpp
+        ${source_root}/data/integer_node_data.cpp
+        ${source_root}/data/character_node_data.cpp
+        ${source_root}/data/floating_point_node_data.cpp
+        ${source_root}/data/string_node_data.cpp)
 
 set(includes
         ${include_root}/export.h
 
         ${include_root}/pin.h
         ${include_root}/node.h
-        ${include_root}/node_data.h
         ${include_root}/connection.h
-        ${include_root}/type_converter.h
         ${include_root}/node_factory.h
         ${include_root}/node_factory_container.h
-        ${include_root}/logic_node_data.h)
+
+        ${include_root}/converter/type_converter.h
+
+        ${include_root}/data/node_data.h
+        ${include_root}/data/boolean_node_data.h
+        ${include_root}/data/integer_node_data.h
+        ${include_root}/data/character_node_data.h
+        ${include_root}/data/floating_point_node_data.h
+        ${include_root}/data/string_node_data.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

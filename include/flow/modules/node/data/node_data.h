@@ -8,7 +8,7 @@
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace node
+namespace node::data
 {
 
   class NODE_API NodeData : public QObject
@@ -22,6 +22,6 @@ namespace node
     virtual void assign(const NodeData &data) = 0;
   };
 
-}// namespace node
+}// namespace node::data
 
 #endif//FLOW_NODE_DATA_H

@@ -1,19 +1,19 @@
-#ifndef FLOW_LOGIC_NODE_DATA_H
-#define FLOW_LOGIC_NODE_DATA_H
+#ifndef FLOW_BOOLEAN_NODE_DATA_H
+#define FLOW_BOOLEAN_NODE_DATA_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
-#include <flow/modules/node/node_data.h>
+#include <flow/modules/node/data/node_data.h>
 /* -------------------------------------------------------------------------- */
 
-namespace node
+namespace node::data
 {
 
-  class NODE_API LogicNodeData : public ::node::NodeData
+  class NODE_API BooleanNodeData : public NodeData
   {
   public:
-    explicit LogicNodeData(bool value);
-    ~LogicNodeData() override;
+    explicit BooleanNodeData(bool value);
+    ~BooleanNodeData() override;
 
     void setValue(bool value);
     [[nodiscard]] bool getValue() const;
@@ -24,6 +24,6 @@ namespace node
     bool m_value;
   };
 
-}//namespace node
+}//namespace node::data
 
-#endif//FLOW_LOGIC_NODE_DATA_H
+#endif//FLOW_BOOLEAN_NODE_DATA_H

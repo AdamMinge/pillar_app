@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/connection.h"
-#include "flow/modules/node/node_data.h"
-#include "flow/modules/node/type_converter.h"
+#include "flow/modules/node/converter/type_converter.h"
+#include "flow/modules/node/data/node_data.h"
 /* -------------------------------------------------------------------------- */
 
 namespace node
@@ -25,7 +25,8 @@ namespace node
     return type == Pin::Type::In ? m_in : m_out;
   }
 
-  void Connection::setConverter(std::shared_ptr<TypeConverter> converter)
+  void
+  Connection::setConverter(std::shared_ptr<converter::TypeConverter> converter)
   {
     if (m_converter == converter) return;
 
@@ -33,12 +34,12 @@ namespace node
     Q_EMIT converterChanged(m_converter);
   }
 
-  std::shared_ptr<TypeConverter> Connection::getConverter() const
+  std::shared_ptr<converter::TypeConverter> Connection::getConverter() const
   {
     return m_converter;
   }
 
-  void Connection::transferData(const NodeData &data)
+  void Connection::transferData(const data::NodeData &data)
   {
     if (m_converter)
     {

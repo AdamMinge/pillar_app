@@ -5,10 +5,13 @@
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace node
+namespace node::data
 {
-
   class NodeData;
+}
+
+namespace node::converter
+{
 
   class NODE_API TypeConverter
   {
@@ -16,10 +19,10 @@ namespace node
     explicit TypeConverter() = default;
     ~TypeConverter() = default;
 
-    [[nodiscard]] virtual std::unique_ptr<NodeData>
-    convert(const NodeData &data) = 0;
+    [[nodiscard]] virtual std::unique_ptr<data::NodeData>
+    convert(const data::NodeData &data) = 0;
   };
 
-}// namespace node
+}// namespace node::converter
 
 #endif//FLOW_TYPE_CONVERTER_H

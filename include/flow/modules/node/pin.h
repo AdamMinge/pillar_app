@@ -10,7 +10,10 @@
 namespace node
 {
 
-  class NodeData;
+  namespace data
+  {
+    class NodeData;
+  }
 
   class NODE_API Pin : public QObject
   {
@@ -22,24 +25,24 @@ namespace node
 
   public:
     explicit Pin(
-      std::unique_ptr<node::NodeData> data, Policy policy,
+      std::unique_ptr<data::NodeData> data, Policy policy,
       QString caption = {});
     ~Pin() override;
 
-    [[nodiscard]] const node::NodeData &getData() const;
+    [[nodiscard]] const data::NodeData &getData() const;
 
   public Q_SLOTS:
     void setCaption(const QString &caption);
-    void setData(const node::NodeData &data);
-    void setPolicy(node::Pin::Policy policy);
+    void setData(const data::NodeData &data);
+    void setPolicy(Pin::Policy policy);
 
   Q_SIGNALS:
     void captionChanged(const QString &caption);
-    void dataChanged(const node::NodeData &data);
-    void policyChanged(node::Pin::Policy policy);
+    void dataChanged(const data::NodeData &data);
+    void policyChanged(Pin::Policy policy);
 
   private:
-    std::unique_ptr<node::NodeData> m_data;
+    std::unique_ptr<data::NodeData> m_data;
     Policy m_policy;
     QString m_caption;
   };
