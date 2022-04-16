@@ -73,6 +73,12 @@ QIcon FlowNodesTreeNodeFactoryContainerItem::getIcon() const
   return m_factory_container->getIcon();
 }
 
+node::NodeFactoryContainer *
+FlowNodesTreeNodeFactoryContainerItem::getNodeFactoryContainer() const
+{
+  return m_factory_container;
+}
+
 /* ----------------------- FlowNodesTreeNodeFactoryItem --------------------- */
 
 FlowNodesTreeNodeFactoryItem::FlowNodesTreeNodeFactoryItem(
@@ -88,6 +94,11 @@ QString FlowNodesTreeNodeFactoryItem::getName() const
 QIcon FlowNodesTreeNodeFactoryItem::getIcon() const
 {
   return m_factory->getIcon();
+}
+
+node::NodeFactory *FlowNodesTreeNodeFactoryItem::getNodeFactory() const
+{
+  return m_factory;
 }
 
 /* ---------------------------- FlowNodesTreeModel -------------------------- */
@@ -213,10 +224,11 @@ void FlowNodesTreeModel::enabledPlugin(QObject *object)
         new FlowNodesTreeNodeFactoryItem(factory.get()));
     }
 
-    m_root_items.append(factory_container_item.release());
+    auto index_to_insert = static_cast<int>(m_root_items.count());
 
-    beginResetModel();
-    endResetModel();
+    beginInsertRows(QModelIndex{}, index_to_insert, index_to_insert);
+    m_root_items.insert(index_to_insert, factory_container_item.release());
+    endInsertRows();
   }
 }
 
@@ -225,5 +237,19 @@ void FlowNodesTreeModel::disabledPlugin(QObject *object)
   if (
     auto factory_container = qobject_cast<node::NodeFactoryContainer *>(object))
   {
+    auto found_root = std::find_if(
+      m_root_items.begin(), m_root_items.end(), [factory_container](auto item) {
+        return item->getNodeFactoryContainer() == factory_container;
+      });
+
+    if (found_root != m_root_items.end())
+    {
+      auto index_to_remove =
+        static_cast<int>(std::distance(m_root_items.begin(), found_root));
+
+      beginRemoveRows(QModelIndex{}, index_to_remove, index_to_remove);
+      m_root_items.remove(index_to_remove);
+      endRemoveRows();
+    }
   }
 }

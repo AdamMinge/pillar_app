@@ -45,6 +45,7 @@ public:
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
+  [[nodiscard]] node::NodeFactoryContainer * getNodeFactoryContainer() const;
 
 private:
   node::NodeFactoryContainer *m_factory_container;
@@ -57,6 +58,7 @@ public:
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
+  [[nodiscard]] node::NodeFactory * getNodeFactory() const;
 
 private:
   node::NodeFactory *m_factory;
@@ -101,7 +103,7 @@ private Q_SLOTS:
   void disabledPlugin(QObject *object);
 
 private:
-  QList<FlowNodesTreeItem *> m_root_items;
+  QList<FlowNodesTreeNodeFactoryContainerItem *> m_root_items;
 };
 
 #endif//FLOW_FLOW_NODES_TREE_MODEL_H

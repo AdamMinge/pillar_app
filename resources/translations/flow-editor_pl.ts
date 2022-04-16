@@ -127,7 +127,7 @@
 <context>
     <name>FlowNodesTreeModel</name>
     <message>
-        <location filename="../../src/flow/editor/document/flow/flow_nodes_tree_model.cpp" line="143"/>
+        <location filename="../../src/flow/editor/document/flow/flow_nodes_tree_model.cpp" line="154"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
