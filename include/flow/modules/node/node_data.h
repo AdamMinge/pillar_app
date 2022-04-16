@@ -20,8 +20,6 @@ namespace node
     ~NodeData() override = default;
 
     virtual void assign(const NodeData &data) = 0;
-
-    [[nodiscard]] virtual QString getName() const = 0;
   };
 
 }// namespace node

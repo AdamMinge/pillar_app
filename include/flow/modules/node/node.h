@@ -24,8 +24,6 @@ namespace node
     [[nodiscard]] const Pin &getPin(Pin::Type type, unsigned index) const;
     [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
 
-    [[nodiscard]] virtual QString getName() const = 0;
-
   protected:
     void insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index);
     void removePin(Pin::Type type, int index);

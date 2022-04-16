@@ -10,15 +10,23 @@ namespace plugins::node::logic
 
   LogicNodesFactory::LogicNodesFactory()
   {
-    registerFactory(QLatin1String("LogicNodeNot"), []() {
-      return std::make_unique<LogicNodeNot>();
-    });
-    registerFactory(QLatin1String("LogicNodeOr"), []() {
-      return std::make_unique<LogicNodeOr>();
-    });
-    registerFactory(QLatin1String("LogicNodeAnd"), []() {
-      return std::make_unique<LogicNodeAnd>();
-    });
+    registerFactory(
+      QLatin1String("LogicNodeNot"),
+      Factory(
+        []() { return std::make_unique<LogicNodeNot>(); },
+        QObject::tr("Logic Not"), QIcon()));
+
+    registerFactory(
+      QLatin1String("LogicNodeOr"),
+      Factory(
+        []() { return std::make_unique<LogicNodeOr>(); },
+        QObject::tr("Logic Or"), QIcon()));
+
+    registerFactory(
+      QLatin1String("LogicNodeAnd"),
+      Factory(
+        []() { return std::make_unique<LogicNodeAnd>(); },
+        QObject::tr("Logic And"), QIcon()));
   }
 
   LogicNodesFactory::~LogicNodesFactory() = default;

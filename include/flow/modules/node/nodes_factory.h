@@ -3,9 +3,11 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
+#include <QIcon>
 #include <QObject>
 /* ---------------------------------- Standard ------------------------------ */
-#include <unordered_map>
+#include <functional>
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
@@ -17,8 +19,8 @@ namespace node
 
   class NODE_API NodesFactory
   {
-  private:
-    using Factory = std::function<std::unique_ptr<Node>()>;
+  public:
+    class Factory;
 
   public:
     explicit NodesFactory();
@@ -27,12 +29,33 @@ namespace node
     [[nodiscard]] std::unique_ptr<Node> createNode(const QString &id) const;
     [[nodiscard]] QStringList getAvailableNodes() const;
 
-  protected:
     void registerFactory(const QString &id, const Factory &factory);
     void unregisterFactory(const QString &id);
 
   private:
     QHash<QString, Factory> m_factories;
+  };
+
+  class NODE_API NodesFactory::Factory
+  {
+  public:
+    using Creator = std::function<std::unique_ptr<Node>()>;
+
+  public:
+    explicit Factory();
+    explicit Factory(Creator creator, QString name, QIcon icon);
+    ~Factory();
+
+    [[nodiscard]] const Creator &getCreator() const;
+    [[nodiscard]] const QString &getName() const;
+    [[nodiscard]] const QIcon &getIcon() const;
+
+    [[nodiscard]] std::unique_ptr<Node> operator()() const;
+
+  private:
+    Creator m_creator;
+    QString m_name;
+    QIcon m_icon;
   };
 
 }// namespace node

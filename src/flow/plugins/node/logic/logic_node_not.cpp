@@ -24,7 +24,4 @@ namespace plugins::node::logic
     out_pin.setData(out_data);
   }
 
-  QString LogicNodeNot::getName() const { return QObject::tr("Logic Not"); }
-
-
 }// namespace plugins::node::logic

@@ -17,8 +17,6 @@ namespace plugins::node::logic
     explicit LogicNodeOr();
     ~LogicNodeOr() override;
 
-    [[nodiscard]] QString getName() const override;
-
   protected:
     void compute() override;
   };

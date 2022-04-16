@@ -21,6 +21,4 @@ namespace plugins::node::logic
     setValue(logic_node_data.getValue());
   }
 
-  QString LogicNodeData::getName() const { return QObject::tr("Logic Data"); }
-
 }// namespace plugins::node::logic
