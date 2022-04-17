@@ -45,7 +45,7 @@ public:
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
-  [[nodiscard]] node::NodeFactoryContainer * getNodeFactoryContainer() const;
+  [[nodiscard]] node::NodeFactoryContainer *getNodeFactoryContainer() const;
 
 private:
   node::NodeFactoryContainer *m_factory_container;
@@ -58,7 +58,7 @@ public:
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
-  [[nodiscard]] node::NodeFactory * getNodeFactory() const;
+  [[nodiscard]] node::NodeFactory *getNodeFactory() const;
 
 private:
   node::NodeFactory *m_factory;
@@ -99,6 +99,7 @@ public:
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
 private Q_SLOTS:
+  void init();
   void enabledPlugin(QObject *object);
   void disabledPlugin(QObject *object);
 

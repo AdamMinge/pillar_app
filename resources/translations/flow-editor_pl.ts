@@ -117,6 +117,14 @@
     </message>
 </context>
 <context>
+    <name>FlowConvertersTreeModel</name>
+    <message>
+        <location filename="../../src/flow/editor/document/flow/flow_converters_tree_model.cpp" line="164"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FlowDocumentFormatFlow</name>
     <message>
         <location filename="../../src/flow/editor/document/flow/flow_document_format_flow.cpp" line="16"/>
@@ -127,7 +135,7 @@
 <context>
     <name>FlowNodesTreeModel</name>
     <message>
-        <location filename="../../src/flow/editor/document/flow/flow_nodes_tree_model.cpp" line="154"/>
+        <location filename="../../src/flow/editor/document/flow/flow_nodes_tree_model.cpp" line="156"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>

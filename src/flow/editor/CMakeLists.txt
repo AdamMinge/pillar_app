@@ -75,6 +75,8 @@ set(sources
         ${source_root}/document/flow/flow_document_writer.cpp
         ${source_root}/document/flow/flow_nodes_dock.cpp
         ${source_root}/document/flow/flow_nodes_tree_model.cpp
+        ${source_root}/document/flow/flow_converters_dock.cpp
+        ${source_root}/document/flow/flow_converters_tree_model.cpp
 
         ${source_root}/commands/command.cpp
         ${source_root}/commands/group_command.cpp)
@@ -144,6 +146,8 @@ set(includes
         ${include_root}/document/flow/flow_document_writer.h
         ${include_root}/document/flow/flow_nodes_dock.h
         ${include_root}/document/flow/flow_nodes_tree_model.h
+        ${include_root}/document/flow/flow_converters_dock.h
+        ${include_root}/document/flow/flow_converters_tree_model.h
 
         ${include_root}/commands/command.h
         ${include_root}/commands/group_command.h)
@@ -154,6 +158,7 @@ set(resources
 
 set(uis
         ${uis_root}/main_window.ui
+        ${uis_root}/issue_dock.ui
         ${uis_root}/about_dialog.ui
 
         ${uis_root}/settings/settings_dialog.ui
@@ -164,10 +169,14 @@ set(uis
 
         ${uis_root}/project/no_project_window.ui
         ${uis_root}/project/project_window.ui
+        ${uis_root}/project/new_project_dialog.ui
 
         ${uis_root}/document/new_document_dialog.ui
         ${uis_root}/document/new_flow_document_widget.ui
-        ${uis_root}/document/no_document_widget.ui)
+        ${uis_root}/document/no_document_widget.ui
+
+        ${uis_root}/document/flow/flow_converters_dock.ui
+        ${uis_root}/document/flow/flow_nodes_dock.ui)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

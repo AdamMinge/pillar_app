@@ -2,6 +2,7 @@
 #include <QMainWindow>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/console_dock.h"
+#include "flow/editor/document/flow/flow_converters_dock.h"
 #include "flow/editor/document/flow/flow_document.h"
 #include "flow/editor/document/flow/flow_editor.h"
 #include "flow/editor/document/flow/flow_nodes_dock.h"
@@ -27,16 +28,11 @@ FlowEditor::FlowEditor(QObject *parent)
       m_main_window(new QMainWindow()),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_nodes_dock(new FlowNodesDock(m_main_window)),
+      m_converters_dock(new FlowConvertersDock(m_main_window)),
       m_undo_dock(new UndoDock(m_main_window)), m_preferences(new Preferences)
 {
-  m_main_window->setDockOptions(
-    m_main_window->dockOptions() | QMainWindow::GroupedDragging);
-  m_main_window->setDockNestingEnabled(true);
-
-  m_main_window->setCentralWidget(m_scene_stack);
-
-  m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
+  initUi();
+  initConnections();
 }
 
 FlowEditor::~FlowEditor() = default;
@@ -125,3 +121,21 @@ FlowEditor::StandardActions FlowEditor::getEnabledStandardActions() const
   FlowEditor::StandardActions standard_actions;
   return standard_actions;
 }
+
+void FlowEditor::initUi()
+{
+  m_main_window->setDockOptions(
+    m_main_window->dockOptions() | QMainWindow::GroupedDragging);
+  m_main_window->setDockNestingEnabled(true);
+
+  m_main_window->setCentralWidget(m_scene_stack);
+
+  m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
+
+  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
+  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_converters_dock);
+  m_main_window->tabifyDockWidget(m_nodes_dock, m_converters_dock);
+  m_nodes_dock->raise();
+}
+
+void FlowEditor::initConnections() {}

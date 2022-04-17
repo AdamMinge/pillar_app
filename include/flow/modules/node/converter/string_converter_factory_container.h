@@ -13,6 +13,7 @@ namespace node::converter
       : public ConverterFactoryContainer
   {
     Q_OBJECT
+    Q_INTERFACES(node::converter::ConverterFactoryContainer);
 
   public:
     explicit StringConverterFactoryContainer(QObject *parent = nullptr);
