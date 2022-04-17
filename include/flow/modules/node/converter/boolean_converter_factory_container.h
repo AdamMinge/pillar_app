@@ -1,5 +1,5 @@
-#ifndef FLOW_BASE_CONVERTER_FACTORY_CONTAINER_H
-#define FLOW_BASE_CONVERTER_FACTORY_CONTAINER_H
+#ifndef FLOW_BOOLEAN_CONVERTER_FACTORY_CONTAINER_H
+#define FLOW_BOOLEAN_CONVERTER_FACTORY_CONTAINER_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/converter/converter_factory_container.h"
@@ -9,14 +9,14 @@
 namespace node::converter
 {
 
-  class NODE_API BaseConverterFactoryContainer
+  class NODE_API BooleanConverterFactoryContainer
       : public ConverterFactoryContainer
   {
     Q_OBJECT
 
   public:
-    explicit BaseConverterFactoryContainer(QObject *parent = nullptr);
-    ~BaseConverterFactoryContainer() override;
+    explicit BooleanConverterFactoryContainer(QObject *parent = nullptr);
+    ~BooleanConverterFactoryContainer() override;
 
     [[nodiscard]] QString getName() const override;
     [[nodiscard]] QIcon getIcon() const override;
@@ -24,4 +24,4 @@ namespace node::converter
 
 }// namespace node::converter
 
-#endif//FLOW_BASE_CONVERTER_FACTORY_CONTAINER_H
+#endif//FLOW_BOOLEAN_CONVERTER_FACTORY_CONTAINER_H

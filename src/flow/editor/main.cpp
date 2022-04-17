@@ -1,7 +1,11 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 /* ----------------------------------- Node --------------------------------- */
-#include <flow/modules/node/converter/base_converter_factory_container.h>
+#include <flow/modules/node/converter/boolean_converter_factory_container.h>
+#include <flow/modules/node/converter/character_converter_factory_container.h>
+#include <flow/modules/node/converter/floating_point_converter_factory_container.h>
+#include <flow/modules/node/converter/integer_converter_factory_container.h>
+#include <flow/modules/node/converter/string_converter_factory_container.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/command_line_parser.h"
@@ -70,14 +74,19 @@ FlowCommandLineParser::~FlowCommandLineParser() = default;
 
 static void registerDefaultPlugins(QApplication &app)
 {
-  auto project_default_format = new ProjectFormatPro(&app);
-  auto flow_document_default_format = new FlowDocumentFormatFlow(&app);
-  auto base_converter_factory_container =
-    new node::converter::BaseConverterFactoryContainer(&app);
+  PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
+  PluginManager::getInstance().addObject(new FlowDocumentFormatFlow(&app));
 
-  PluginManager::getInstance().addObject(project_default_format);
-  PluginManager::getInstance().addObject(flow_document_default_format);
-  PluginManager::getInstance().addObject(base_converter_factory_container);
+  PluginManager::getInstance().addObject(
+    new node::converter::BooleanConverterFactoryContainer(&app));
+  PluginManager::getInstance().addObject(
+    new node::converter::CharacterConverterFactoryContainer(&app));
+  PluginManager::getInstance().addObject(
+    new node::converter::FloatingPointConverterFactoryContainer(&app));
+  PluginManager::getInstance().addObject(
+    new node::converter::IntegerConverterFactoryContainer(&app));
+  PluginManager::getInstance().addObject(
+    new node::converter::StringConverterFactoryContainer(&app));
 }
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
