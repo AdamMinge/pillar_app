@@ -31,7 +31,7 @@ namespace node
     void converterChanged(std::shared_ptr<TypeConverter> converter);
 
   private Q_SLOTS:
-    void transferData(const node::NodeData &data);
+    void transferData(const NodeData &data);
 
   private:
     Pin &m_in;

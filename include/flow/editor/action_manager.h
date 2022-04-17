@@ -34,8 +34,8 @@ public:
 
   [[nodiscard]] QKeySequence getDefaultShortcut(const QString &id) const;
 
-  [[nodiscard]] QList<QString> getActions() const;
-  [[nodiscard]] QList<QString> getMenus() const;
+  [[nodiscard]] QList<QString> getActionsId() const;
+  [[nodiscard]] QList<QString> getMenusId() const;
 
   void setCustomShortcut(const QString &id, const QKeySequence &keySequence);
   [[nodiscard]] bool hasCustomShortcut(const QString &id) const;

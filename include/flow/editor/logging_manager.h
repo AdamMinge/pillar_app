@@ -3,13 +3,19 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/issue.h"
 /* -------------------------------------------------------------------------- */
 
 class LoggingManager : public QObject
 {
   Q_OBJECT
+
+public:
+  enum class Severity
+  {
+    Info,
+    Warning,
+    Error
+  };
 
 public:
   [[nodiscard]] static LoggingManager &getInstance();
@@ -18,14 +24,12 @@ public:
 public:
   ~LoggingManager() override;
 
-  void reportIssue(const Issue &issue);
+  void log(Severity severity, const QString &message);
 
 Q_SIGNALS:
-  void onIssueReport(const Issue &issue);
-
-  void onInfoIssueReport(const Issue &issue);
-  void onWarningIssueReport(const Issue &issue);
-  void onErrorIssueReport(const Issue &issue);
+  void onInfoLog(const QString &message);
+  void onWarningLog(const QString &message);
+  void onErrorLog(const QString &message);
 
 protected:
   explicit LoggingManager();
@@ -34,31 +38,19 @@ private:
   static QScopedPointer<LoggingManager> m_instance;
 };
 
-inline void REPORT(const Issue &issue)
+inline void LOG_INFO(const QString &message)
 {
-  LoggingManager::getInstance().reportIssue(issue);
+  LoggingManager::getInstance().log(LoggingManager::Severity::Info, message);
 }
 
-inline void REPORT(
-  Issue::Severity severity, QString text,
-  Issue::Callback callback = Issue::Callback{})
+inline void LOG_WARNING(const QString &message)
 {
-  REPORT(Issue(severity, std::move(text), std::move(callback)));
+  LoggingManager::getInstance().log(LoggingManager::Severity::Warning, message);
 }
 
-inline void INFO(QString text, Issue::Callback callback = Issue::Callback{})
+inline void LOG_ERROR(const QString &message)
 {
-  REPORT(Issue::Severity::Info, std::move(text), std::move(callback));
-}
-
-inline void WARNING(QString text, Issue::Callback callback = Issue::Callback{})
-{
-  REPORT(Issue::Severity::Warning, std::move(text), std::move(callback));
-}
-
-inline void ERROR(QString text, Issue::Callback callback = Issue::Callback{})
-{
-  REPORT(Issue::Severity::Error, std::move(text), std::move(callback));
+  LoggingManager::getInstance().log(LoggingManager::Severity::Error, message);
 }
 
 #endif//FLOW_LOGGING_MANAGER_H

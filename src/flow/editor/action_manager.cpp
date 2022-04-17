@@ -28,6 +28,7 @@ void ActionManager::registerAction(QAction *action, const QString &id)
 
   m_actions.insert(id, action);
   m_default_shortcuts.insert(id, action->shortcut());
+  m_custom_shortcuts.insert(id, action->shortcut());
 
   connect(action, &QAction::changed, [this, id, action]() {
     if (m_applying_tooltip_with_shortcut) return;
@@ -99,12 +100,12 @@ QKeySequence ActionManager::getDefaultShortcut(const QString &id) const
   return m_default_shortcuts.value(id);
 }
 
-QList<QString> ActionManager::getActions() const
+QList<QString> ActionManager::getActionsId() const
 {
   return m_actions.uniqueKeys();
 }
 
-QList<QString> ActionManager::getMenus() const { return m_menus.keys(); }
+QList<QString> ActionManager::getMenusId() const { return m_menus.keys(); }
 
 void ActionManager::setCustomShortcut(
   const QString &id, const QKeySequence &keySequence)

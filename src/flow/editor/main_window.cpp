@@ -31,8 +31,10 @@ struct MainWindow::Preferences {
     Preference<QLocale>("application/language");
   Preference<QString> application_style =
     Preference<QString>("application/style");
-  Preference<QStringList> application_disabled_plugins =
-    Preference<QStringList>("application/disabled_plugins");
+  Preference<QStringList> application_enabled_plugins =
+    Preference<QStringList>("application/denabled_plugins");
+  PreferenceContainer<QKeySequence> application_shortcuts =
+    PreferenceContainer<QKeySequence>("application/shortcuts");
 };
 
 /* -------------------------------- MainWindow ------------------------------ */
@@ -155,16 +157,13 @@ void MainWindow::initConnections()
 
 void MainWindow::writePlugins()
 {
-  auto disabled_plugins = QStringList{};
-  for (const auto plugin : getPluginManager().getPlugins())
+  auto enabled_plugins = QStringList{};
+  for (const auto plugin : getPluginManager().getDynamicPlugins())
   {
-    if (
-      plugin->isDynamic() && !plugin->getFileName().isEmpty() &&
-      !plugin->isEnabled())
-      disabled_plugins << plugin->getFileName();
+    if (plugin->isEnabled()) enabled_plugins << plugin->getFileName();
   }
 
-  m_preferences->application_disabled_plugins = disabled_plugins;
+  m_preferences->application_enabled_plugins = enabled_plugins;
 }
 
 void MainWindow::writeSettings()
@@ -175,6 +174,7 @@ void MainWindow::writeSettings()
   writePlugins();
   writeLanguage();
   writeStyle();
+  writeShortcuts();
 
   m_no_project_window->writeSettings();
   m_project_window->writeSettings();
@@ -191,6 +191,16 @@ void MainWindow::writeStyle()
   m_preferences->application_style = getStyleManager().getCurrentStyle();
 }
 
+void MainWindow::writeShortcuts()
+{
+  const auto actions_id = getActionManager().getActionsId();
+  for (const auto &action_id : actions_id)
+  {
+    auto action = getActionManager().findAction(action_id);
+    m_preferences->application_shortcuts.set(action_id, action->shortcut());
+  }
+}
+
 void MainWindow::readSettings()
 {
   auto window_geometry = m_preferences->main_window_geometry.get();
@@ -202,6 +212,7 @@ void MainWindow::readSettings()
   readPlugins();
   readLanguage();
   readStyle();
+  readShortcuts();
 
   m_no_project_window->readSettings();
   m_project_window->readSettings();
@@ -209,13 +220,12 @@ void MainWindow::readSettings()
 
 void MainWindow::readPlugins()
 {
-  const auto disabled_plugins =
-    m_preferences->application_disabled_plugins.get();
+  const auto enabled_plugins = m_preferences->application_enabled_plugins.get();
 
   for (getPluginManager().loadPlugins();
        auto plugin : getPluginManager().getPlugins())
   {
-    if (!disabled_plugins.contains(plugin->getFileName())) plugin->enable();
+    if (enabled_plugins.contains(plugin->getFileName())) plugin->enable();
   }
 }
 
@@ -235,6 +245,19 @@ void MainWindow::readStyle()
   auto application_style = m_preferences->application_style.get();
   if (!application_style.isEmpty())
     getStyleManager().setStyle(application_style);
+}
+
+void MainWindow::readShortcuts()
+{
+  const auto actions_id = getActionManager().getActionsId();
+  for (const auto &action_id : actions_id)
+  {
+    if (m_preferences->application_shortcuts.contains(action_id))
+    {
+      auto shortcut = m_preferences->application_shortcuts.get(action_id);
+      getActionManager().setCustomShortcut(action_id, shortcut);
+    }
+  }
 }
 
 void MainWindow::retranslateUi()

@@ -11,6 +11,8 @@
 
 class FlowDocument;
 
+class FlowNodesDock;
+class FlowConvertersDock;
 class UndoDock;
 class FlowView;
 
@@ -44,10 +46,16 @@ public:
   [[nodiscard]] StandardActions getEnabledStandardActions() const override;
 
 private:
+  void initUi();
+  void initConnections();
+
+private:
   FlowDocument *m_current_document;
   QPointer<QMainWindow> m_main_window;
 
   QStackedWidget *m_scene_stack;
+  FlowNodesDock *m_nodes_dock;
+  FlowConvertersDock *m_converters_dock;
   UndoDock *m_undo_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;

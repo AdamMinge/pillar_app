@@ -12,6 +12,7 @@ set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
         ${source_root}/main.cpp
+        ${source_root}/command_line_parser.cpp
         ${source_root}/main_window.cpp
         ${source_root}/language_manager.cpp
         ${source_root}/style_manager.cpp
@@ -19,11 +20,16 @@ set(sources
         ${source_root}/plugin_manager.cpp
         ${source_root}/plugin.cpp
         ${source_root}/preferences_manager.cpp
+        ${source_root}/issue_table_model.cpp
+        ${source_root}/issue_table_filter_model.cpp
         ${source_root}/logging_manager.cpp
+        ${source_root}/issue_manager.cpp
         ${source_root}/issue.cpp
         ${source_root}/about_dialog.cpp
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
+        ${source_root}/script_manager.cpp
+        ${source_root}/script_module.cpp
 
         ${source_root}/settings/settings_dialog.cpp
         ${source_root}/settings/settings_widget_tree_model.cpp
@@ -67,11 +73,16 @@ set(sources
         ${source_root}/document/flow/flow_document_format_flow.cpp
         ${source_root}/document/flow/flow_document_reader.cpp
         ${source_root}/document/flow/flow_document_writer.cpp
+        ${source_root}/document/flow/flow_nodes_dock.cpp
+        ${source_root}/document/flow/flow_nodes_tree_model.cpp
+        ${source_root}/document/flow/flow_converters_dock.cpp
+        ${source_root}/document/flow/flow_converters_tree_model.cpp
 
         ${source_root}/commands/command.cpp
         ${source_root}/commands/group_command.cpp)
 
 set(includes
+        ${include_root}/command_line_parser.h
         ${include_root}/main_window.h
         ${include_root}/language_manager.h
         ${include_root}/style_manager.h
@@ -80,11 +91,16 @@ set(includes
         ${include_root}/plugin.h
         ${include_root}/preferences_manager.h
         ${include_root}/logging_manager.h
+        ${include_root}/issue_table_model.h
+        ${include_root}/issue_table_filter_model.h
+        ${include_root}/issue_manager.h
         ${include_root}/issue.h
         ${include_root}/about_dialog.h
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
         ${include_root}/format_helper.h
+        ${include_root}/script_manager.h
+        ${include_root}/script_module.h
 
         ${include_root}/settings/settings_dialog.h
         ${include_root}/settings/settings_widget_tree_model.h
@@ -128,6 +144,10 @@ set(includes
         ${include_root}/document/flow/flow_document_format_flow.h
         ${include_root}/document/flow/flow_document_reader.h
         ${include_root}/document/flow/flow_document_writer.h
+        ${include_root}/document/flow/flow_nodes_dock.h
+        ${include_root}/document/flow/flow_nodes_tree_model.h
+        ${include_root}/document/flow/flow_converters_dock.h
+        ${include_root}/document/flow/flow_converters_tree_model.h
 
         ${include_root}/commands/command.h
         ${include_root}/commands/group_command.h)
@@ -138,6 +158,7 @@ set(resources
 
 set(uis
         ${uis_root}/main_window.ui
+        ${uis_root}/issue_dock.ui
         ${uis_root}/about_dialog.ui
 
         ${uis_root}/settings/settings_dialog.ui
@@ -148,10 +169,14 @@ set(uis
 
         ${uis_root}/project/no_project_window.ui
         ${uis_root}/project/project_window.ui
+        ${uis_root}/project/new_project_dialog.ui
 
         ${uis_root}/document/new_document_dialog.ui
         ${uis_root}/document/new_flow_document_widget.ui
-        ${uis_root}/document/no_document_widget.ui)
+        ${uis_root}/document/no_document_widget.ui
+
+        ${uis_root}/document/flow/flow_converters_dock.ui
+        ${uis_root}/document/flow/flow_nodes_dock.ui)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -163,7 +188,8 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${uis_root})
 # -------------------------------------------------------------------------------------------------- #
 # ----------------------------------- Find external libraries -------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
+find_package(Boost 1.78 REQUIRED)
 # -------------------------------------------------------------------------------------------------- #
 # ------------------------------------ create engine editor ---------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
@@ -171,9 +197,11 @@ flow_add_application(editor
         SOURCES ${sources} ${includes} ${uis} ${resources}
         DEPENDS
         Qt6::Widgets
+        Qt6::Qml
         flow::api
         flow::node
         utils::action
+        utils::color
         utils::pointer_cast
         utils::dialog
         utils::dpi
@@ -184,6 +212,8 @@ flow_add_application(editor
         utils::archive
         utils::widget
         utils::stacked_widget)
+
+target_include_directories(editor PRIVATE ${Boost_INCLUDE_DIRS})
 
 flow_add_translations(editor
         QM_DIR ${resources_root}/translations/

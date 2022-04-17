@@ -6,7 +6,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/console_dock.h"
 #include "flow/editor/logging_manager.h"
+#include "flow/editor/script_manager.h"
 /* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/color/color.h>
 #include <flow/utils/qt/dpi/dpi_info.h>
 #include <flow/utils/qt/line_edit/line_edit_with_history.h>
 /* -------------------------------------------------------------------------- */
@@ -32,6 +34,74 @@ ConsoleDock::ConsoleDock(QWidget *parent)
 {
   setObjectName(QLatin1String("Scene"));
 
+  initUi();
+  initConnections();
+
+  retranslateUi();
+}
+
+ConsoleDock::~ConsoleDock() = default;
+
+void ConsoleDock::changeEvent(QEvent *event)
+{
+  QDockWidget::changeEvent(event);
+
+  switch (event->type())
+  {
+    case QEvent::LanguageChange:
+      retranslateUi();
+      break;
+    default:
+      break;
+  }
+}
+
+void ConsoleDock::onReport(const QString &str, const QColor &color)
+{
+  m_plain_text_edit->appendHtml(
+    QLatin1String("<pre style='color:%1'>").arg(utils::getColorName(color)) +
+    str.toHtmlEscaped() + QLatin1String("</pre>"));
+}
+
+void ConsoleDock::onInfoLog(const QString &message) { onReport(message); }
+
+void ConsoleDock::onWarningLog(const QString &message)
+{
+  onReport(message, QColor("orange"));
+}
+
+void ConsoleDock::onErrorLog(const QString &message)
+{
+  onReport(message, QColor("red"));
+}
+
+void ConsoleDock::onScriptReport(const QString &str)
+{
+  onReport(str, QColor("lightgreen"));
+}
+
+void ConsoleDock::onScriptResultReport(const QString &str)
+{
+  onReport(str, QColor("gray"));
+}
+
+void ConsoleDock::executeScript()
+{
+  const auto script = m_line_edit_with_history->text();
+  if (script.isEmpty()) return;
+
+  onScriptReport(script);
+  const auto result = ScriptManager::getInstance().evaluate(script);
+  if (!result.isError() && !result.isUndefined())
+    onScriptResultReport(result.toString());
+
+  m_line_edit_with_history->appendToHistory(script);
+}
+
+void ConsoleDock::initUi()
+{
+  m_line_edit_with_history->setPlaceholderText("Execute script");
+
   m_plain_text_edit->setReadOnly(true);
   auto palette = m_plain_text_edit->palette();
   palette.setColor(QPalette::Base, Qt::black);
@@ -52,7 +122,10 @@ ConsoleDock::ConsoleDock(QWidget *parent)
   layout->addLayout(bottomBar);
 
   setWidget(widget);
+}
 
+void ConsoleDock::initConnections()
+{
   auto prev_shortcut = new QShortcut(
     Qt::Key_Up, m_line_edit_with_history, nullptr, nullptr, Qt::WidgetShortcut);
   auto next_shortcut = new QShortcut(
@@ -74,59 +147,14 @@ ConsoleDock::ConsoleDock(QWidget *parent)
 
   auto &logging_manager = LoggingManager::getInstance();
   connect(
-    &logging_manager, &LoggingManager::onInfoIssueReport, this,
-    &ConsoleDock::onInfoIssueReport);
+    &logging_manager, &LoggingManager::onInfoLog, this,
+    &ConsoleDock::onInfoLog);
   connect(
-    &logging_manager, &LoggingManager::onWarningIssueReport, this,
-    &ConsoleDock::onWarningIssueReport);
+    &logging_manager, &LoggingManager::onWarningLog, this,
+    &ConsoleDock::onWarningLog);
   connect(
-    &logging_manager, &LoggingManager::onErrorIssueReport, this,
-    &ConsoleDock::onErrorIssueReport);
-
-  retranslateUi();
-}
-
-ConsoleDock::~ConsoleDock() = default;
-
-void ConsoleDock::changeEvent(QEvent *event)
-{
-  QDockWidget::changeEvent(event);
-
-  switch (event->type())
-  {
-    case QEvent::LanguageChange:
-      retranslateUi();
-      break;
-    default:
-      break;
-  }
-}
-
-void ConsoleDock::onInfoIssueReport(const Issue &issue)
-{
-  m_plain_text_edit->appendHtml(
-    QLatin1String("<pre>") + issue.getText().toHtmlEscaped() +
-    QLatin1String("</pre>"));
-}
-
-void ConsoleDock::onWarningIssueReport(const Issue &issue)
-{
-  m_plain_text_edit->appendHtml(
-    QLatin1String("<pre style='color:orange'>") +
-    issue.getText().toHtmlEscaped() + QLatin1String("</pre>"));
-}
-
-void ConsoleDock::onErrorIssueReport(const Issue &issue)
-{
-  m_plain_text_edit->appendHtml(
-    QLatin1String("<pre style='color:red'>") + issue.getText().toHtmlEscaped() +
-    QLatin1String("</pre>"));
-}
-
-void ConsoleDock::executeScript()
-{
-  // TODO : implementation //
-  m_line_edit_with_history->appendToHistory(m_line_edit_with_history->text());
+    &logging_manager, &LoggingManager::onErrorLog, this,
+    &ConsoleDock::onErrorLog);
 }
 
 void ConsoleDock::retranslateUi() { setWindowTitle(tr("Console")); }

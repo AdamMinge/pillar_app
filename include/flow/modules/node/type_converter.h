@@ -1,6 +1,8 @@
 #ifndef FLOW_TYPE_CONVERTER_H
 #define FLOW_TYPE_CONVERTER_H
 
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QtPlugin>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
@@ -14,7 +16,7 @@ namespace node
   {
   public:
     explicit TypeConverter() = default;
-    ~TypeConverter() = default;
+    virtual ~TypeConverter() = default;
 
     [[nodiscard]] virtual std::unique_ptr<NodeData>
     convert(const NodeData &data) = 0;

@@ -2,8 +2,8 @@
 #define FLOW_NODE_DATA_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
 #include <QString>
+#include <QtPlugin>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
 /* -------------------------------------------------------------------------- */
@@ -20,10 +20,10 @@ namespace node
     ~NodeData() override = default;
 
     virtual void assign(const NodeData &data) = 0;
-
-    [[nodiscard]] virtual QString getName() const = 0;
   };
 
 }// namespace node
+
+Q_DECLARE_INTERFACE(node::NodeData, "org.flow.NodeData")
 
 #endif//FLOW_NODE_DATA_H
