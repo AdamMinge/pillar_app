@@ -1,0 +1,7 @@
+{
+  "Name": "Character Converter",
+  "Description": [
+    "Add factory for integer converters"
+  ],
+  "Version": "1.0.0"
+}

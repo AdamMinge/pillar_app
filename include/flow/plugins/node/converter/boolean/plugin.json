@@ -1,0 +1,7 @@
+{
+  "Name": "Boolean Converter",
+  "Description": [
+    "Add factory for boolean converters"
+  ],
+  "Version": "1.0.0"
+}

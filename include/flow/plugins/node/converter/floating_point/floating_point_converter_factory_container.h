@@ -11,6 +11,7 @@ class NODE_API FloatingPointConverterFactoryContainer
 {
   Q_OBJECT
   Q_INTERFACES(node::ConverterFactoryContainer);
+  Q_PLUGIN_METADATA(IID "org.flow.ConverterFactoryContainer" FILE "plugin.json")
 
 public:
   explicit FloatingPointConverterFactoryContainer(QObject *parent = nullptr);

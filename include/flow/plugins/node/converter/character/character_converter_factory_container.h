@@ -11,6 +11,7 @@ class NODE_API CharacterConverterFactoryContainer
 {
   Q_OBJECT
   Q_INTERFACES(node::ConverterFactoryContainer);
+  Q_PLUGIN_METADATA(IID "org.flow.ConverterFactoryContainer" FILE "plugin.json")
 
 public:
   explicit CharacterConverterFactoryContainer(QObject *parent = nullptr);

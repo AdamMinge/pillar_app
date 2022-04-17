@@ -11,6 +11,7 @@ class NODE_API StringConverterFactoryContainer
 {
   Q_OBJECT
   Q_INTERFACES(node::ConverterFactoryContainer);
+  Q_PLUGIN_METADATA(IID "org.flow.ConverterFactoryContainer" FILE "plugin.json")
 
 public:
   explicit StringConverterFactoryContainer(QObject *parent = nullptr);
