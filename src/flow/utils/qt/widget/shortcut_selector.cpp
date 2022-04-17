@@ -7,8 +7,7 @@
 namespace utils
 {
 
-  ShortcutSelector::ShortcutSelector(QWidget *parent)
-      : QLineEdit(parent)
+  ShortcutSelector::ShortcutSelector(QWidget *parent) : QLineEdit(parent)
   {
     setReadOnly(true);
     setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);

@@ -2,8 +2,8 @@
 #include "flow/editor/document/flow/flow_converters_tree_model.h"
 #include "flow/editor/plugin_manager.h"
 /* ----------------------------------- Node --------------------------------- */
-#include "flow/modules/node/converter/converter_factory.h"
-#include "flow/modules/node/converter/converter_factory_container.h"
+#include "flow/modules/node/converter_factory.h"
+#include "flow/modules/node/converter_factory_container.h"
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- FlowConvertersTreeItem --------------------------- */
@@ -63,7 +63,7 @@ int FlowConvertersTreeItem::findChild(FlowConvertersTreeItem *child) const
 
 FlowConvertersTreeNodeFactoryContainerItem::
   FlowConvertersTreeNodeFactoryContainerItem(
-    node::converter::ConverterFactoryContainer *factory_container)
+    node::ConverterFactoryContainer *factory_container)
     : m_factory_container(factory_container)
 {}
 
@@ -77,7 +77,7 @@ QIcon FlowConvertersTreeNodeFactoryContainerItem::getIcon() const
   return m_factory_container->getIcon();
 }
 
-node::converter::ConverterFactoryContainer *
+node::ConverterFactoryContainer *
 FlowConvertersTreeNodeFactoryContainerItem::getConverterFactoryContainer() const
 {
   return m_factory_container;
@@ -86,7 +86,7 @@ FlowConvertersTreeNodeFactoryContainerItem::getConverterFactoryContainer() const
 /* ----------------------- FlowConvertersTreeNodeFactoryItem --------------------- */
 
 FlowConvertersTreeNodeFactoryItem::FlowConvertersTreeNodeFactoryItem(
-  node::converter::ConverterFactory *factory)
+  node::ConverterFactory *factory)
     : m_factory(factory)
 {}
 
@@ -100,7 +100,7 @@ QIcon FlowConvertersTreeNodeFactoryItem::getIcon() const
   return m_factory->getIcon();
 }
 
-node::converter::ConverterFactory *
+node::ConverterFactory *
 FlowConvertersTreeNodeFactoryItem::getConverterFactory() const
 {
   return m_factory;
@@ -224,8 +224,7 @@ int FlowConvertersTreeModel::columnCount(const QModelIndex &parent) const
 void FlowConvertersTreeModel::init()
 {
   auto factory_containers =
-    PluginManager::getInstance()
-      .getObjects<node::converter::ConverterFactoryContainer>();
+    PluginManager::getInstance().getObjects<node::ConverterFactoryContainer>();
   for (auto factory_container : factory_containers)
     enabledPlugin(factory_container);
 }
@@ -234,7 +233,7 @@ void FlowConvertersTreeModel::enabledPlugin(QObject *object)
 {
   if (
     auto factory_container =
-      qobject_cast<node::converter::ConverterFactoryContainer *>(object))
+      qobject_cast<node::ConverterFactoryContainer *>(object))
   {
     auto factory_container_item =
       std::make_unique<FlowConvertersTreeNodeFactoryContainerItem>(
@@ -258,7 +257,7 @@ void FlowConvertersTreeModel::disabledPlugin(QObject *object)
 {
   if (
     auto factory_container =
-      qobject_cast<node::converter::ConverterFactoryContainer *>(object))
+      qobject_cast<node::ConverterFactoryContainer *>(object))
   {
     auto found_root = std::find_if(
       m_root_items.begin(), m_root_items.end(), [factory_container](auto item) {

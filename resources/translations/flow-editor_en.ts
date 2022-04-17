@@ -621,7 +621,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/flow/editor/main.cpp" line="67"/>
+        <location filename="../../src/flow/editor/main.cpp" line="61"/>
         <source>Execute application without loading/saving preferences</source>
         <translation type="unfinished"></translation>
     </message>

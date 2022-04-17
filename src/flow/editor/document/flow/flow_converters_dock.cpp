@@ -41,10 +41,8 @@ void FlowConvertersDock::initUi()
 {
   m_ui->setupUi(this);
 
-  m_converters_filter_model->setSourceModel(
-    m_converters_model.get());
-  m_ui->m_converters_view->setModel(
-    m_converters_filter_model.get());
+  m_converters_filter_model->setSourceModel(m_converters_model.get());
+  m_ui->m_converters_view->setModel(m_converters_filter_model.get());
 }
 
 void FlowConvertersDock::initConnections() {}

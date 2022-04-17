@@ -7,11 +7,11 @@
 #include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
-namespace node::converter
+namespace node
 {
   class ConverterFactory;
   class ConverterFactoryContainer;
-}// namespace node::converter
+}// namespace node
 
 class FlowConvertersTreeItem
 {
@@ -41,29 +41,28 @@ class FlowConvertersTreeNodeFactoryContainerItem : public FlowConvertersTreeItem
 {
 public:
   explicit FlowConvertersTreeNodeFactoryContainerItem(
-    node::converter::ConverterFactoryContainer *factory_container);
+    node::ConverterFactoryContainer *factory_container);
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
-  [[nodiscard]] node::converter::ConverterFactoryContainer *
+  [[nodiscard]] node::ConverterFactoryContainer *
   getConverterFactoryContainer() const;
 
 private:
-  node::converter::ConverterFactoryContainer *m_factory_container;
+  node::ConverterFactoryContainer *m_factory_container;
 };
 
 class FlowConvertersTreeNodeFactoryItem : public FlowConvertersTreeItem
 {
 public:
-  explicit FlowConvertersTreeNodeFactoryItem(
-    node::converter::ConverterFactory *factory);
+  explicit FlowConvertersTreeNodeFactoryItem(node::ConverterFactory *factory);
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
-  [[nodiscard]] node::converter::ConverterFactory *getConverterFactory() const;
+  [[nodiscard]] node::ConverterFactory *getConverterFactory() const;
 
 private:
-  node::converter::ConverterFactory *m_factory;
+  node::ConverterFactory *m_factory;
 };
 
 class FlowConvertersTreeModel : public QAbstractItemModel

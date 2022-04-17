@@ -1,18 +1,18 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/pin.h"
-#include "flow/modules/node/data/node_data.h"
+#include "flow/modules/node/node_data.h"
 /* -------------------------------------------------------------------------- */
 
 namespace node
 {
 
-  Pin::Pin(std::unique_ptr<data::NodeData> data, Policy policy, QString caption)
+  Pin::Pin(std::unique_ptr<NodeData> data, Policy policy, QString caption)
       : m_data(std::move(data)), m_policy(policy), m_caption(std::move(caption))
   {}
 
   Pin::~Pin() = default;
 
-  const data::NodeData &Pin::getData() const { return *m_data; }
+  const NodeData &Pin::getData() const { return *m_data; }
 
   void Pin::setCaption(const QString &caption)
   {
@@ -20,7 +20,7 @@ namespace node
     Q_EMIT captionChanged(m_caption);
   }
 
-  void Pin::setData(const data::NodeData &data)
+  void Pin::setData(const NodeData &data)
   {
     Q_ASSERT(
       m_data->staticMetaObject.className() ==

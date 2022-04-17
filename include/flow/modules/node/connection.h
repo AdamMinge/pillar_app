@@ -11,10 +11,7 @@
 namespace node
 {
 
-  namespace converter
-  {
-    class TypeConverter;
-  }
+  class TypeConverter;
 
   class NODE_API Connection : public QObject
   {
@@ -27,20 +24,19 @@ namespace node
     [[nodiscard]] const Pin &getPin(Pin::Type type) const;
     [[nodiscard]] Pin &getPin(Pin::Type type);
 
-    void setConverter(std::shared_ptr<converter::TypeConverter> converter);
-    [[nodiscard]] std::shared_ptr<converter::TypeConverter>
-    getConverter() const;
+    void setConverter(std::shared_ptr<TypeConverter> converter);
+    [[nodiscard]] std::shared_ptr<TypeConverter> getConverter() const;
 
   Q_SIGNALS:
-    void converterChanged(std::shared_ptr<converter::TypeConverter> converter);
+    void converterChanged(std::shared_ptr<TypeConverter> converter);
 
   private Q_SLOTS:
-    void transferData(const data::NodeData &data);
+    void transferData(const NodeData &data);
 
   private:
     Pin &m_in;
     Pin &m_out;
-    std::shared_ptr<converter::TypeConverter> m_converter;
+    std::shared_ptr<TypeConverter> m_converter;
   };
 
 }// namespace node

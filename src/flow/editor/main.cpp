@@ -1,11 +1,5 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
-/* ----------------------------------- Node --------------------------------- */
-#include <flow/modules/node/converter/boolean_converter_factory_container.h>
-#include <flow/modules/node/converter/character_converter_factory_container.h>
-#include <flow/modules/node/converter/floating_point_converter_factory_container.h>
-#include <flow/modules/node/converter/integer_converter_factory_container.h>
-#include <flow/modules/node/converter/string_converter_factory_container.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/command_line_parser.h"
@@ -76,17 +70,6 @@ static void registerDefaultPlugins(QApplication &app)
 {
   PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
   PluginManager::getInstance().addObject(new FlowDocumentFormatFlow(&app));
-
-  PluginManager::getInstance().addObject(
-    new node::converter::BooleanConverterFactoryContainer(&app));
-  PluginManager::getInstance().addObject(
-    new node::converter::CharacterConverterFactoryContainer(&app));
-  PluginManager::getInstance().addObject(
-    new node::converter::FloatingPointConverterFactoryContainer(&app));
-  PluginManager::getInstance().addObject(
-    new node::converter::IntegerConverterFactoryContainer(&app));
-  PluginManager::getInstance().addObject(
-    new node::converter::StringConverterFactoryContainer(&app));
 }
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */

@@ -14,35 +14,14 @@ set(sources
         ${source_root}/connection.cpp
         ${source_root}/node_factory.cpp
         ${source_root}/node_factory_container.cpp
+        ${source_root}/converter_factory.cpp
+        ${source_root}/converter_factory_container.cpp
 
-        ${source_root}/converter/converter_factory.cpp
-        ${source_root}/converter/converter_factory_container.cpp
-        ${source_root}/converter/boolean_converter_factory_container.cpp
-        ${source_root}/converter/character_converter_factory_container.cpp
-        ${source_root}/converter/floating_point_converter_factory_container.cpp
-        ${source_root}/converter/integer_converter_factory_container.cpp
-        ${source_root}/converter/string_converter_factory_container.cpp
-        ${source_root}/converter/boolean_to_floating_point_converter.cpp
-        ${source_root}/converter/boolean_to_integer_converter.cpp
-        ${source_root}/converter/character_to_boolean_converter.cpp
-        ${source_root}/converter/character_to_integer_converter.cpp
-        ${source_root}/converter/character_to_string_converter.cpp
-        ${source_root}/converter/floating_point_to_boolean_converter.cpp
-        ${source_root}/converter/floating_point_to_integer_converter.cpp
-        ${source_root}/converter/floating_point_to_string_converter.cpp
-        ${source_root}/converter/integer_to_boolean_converter.cpp
-        ${source_root}/converter/integer_to_character_converter.cpp
-        ${source_root}/converter/integer_to_floating_point_converter.cpp
-        ${source_root}/converter/integer_to_string_converter.cpp
-        ${source_root}/converter/string_to_boolean_converter.cpp
-        ${source_root}/converter/string_to_floating_point_converter.cpp
-        ${source_root}/converter/string_to_integer_converter.cpp
-
-        ${source_root}/data/boolean_node_data.cpp
-        ${source_root}/data/integer_node_data.cpp
-        ${source_root}/data/character_node_data.cpp
-        ${source_root}/data/floating_point_node_data.cpp
-        ${source_root}/data/string_node_data.cpp)
+        ${source_root}/base/boolean_node_data.cpp
+        ${source_root}/base/integer_node_data.cpp
+        ${source_root}/base/character_node_data.cpp
+        ${source_root}/base/floating_point_node_data.cpp
+        ${source_root}/base/string_node_data.cpp)
 
 set(includes
         ${include_root}/export.h
@@ -50,39 +29,18 @@ set(includes
         ${include_root}/pin.h
         ${include_root}/node.h
         ${include_root}/connection.h
+        ${include_root}/node_data.h
         ${include_root}/node_factory.h
         ${include_root}/node_factory_container.h
+        ${include_root}/type_converter.h
+        ${include_root}/converter_factory.h
+        ${include_root}/converter_factory_container.h
 
-        ${include_root}/converter/type_converter.h
-        ${include_root}/converter/converter_factory.h
-        ${include_root}/converter/converter_factory_container.h
-        ${include_root}/converter/boolean_converter_factory_container.h
-        ${include_root}/converter/character_converter_factory_container.h
-        ${include_root}/converter/floating_point_converter_factory_container.h
-        ${include_root}/converter/integer_converter_factory_container.h
-        ${include_root}/converter/string_converter_factory_container.h
-        ${include_root}/converter/boolean_to_floating_point_converter.h
-        ${include_root}/converter/boolean_to_integer_converter.h
-        ${include_root}/converter/character_to_boolean_converter.h
-        ${include_root}/converter/character_to_integer_converter.h
-        ${include_root}/converter/character_to_string_converter.h
-        ${include_root}/converter/floating_point_to_boolean_converter.h
-        ${include_root}/converter/floating_point_to_integer_converter.h
-        ${include_root}/converter/floating_point_to_string_converter.h
-        ${include_root}/converter/integer_to_boolean_converter.h
-        ${include_root}/converter/integer_to_character_converter.h
-        ${include_root}/converter/integer_to_floating_point_converter.h
-        ${include_root}/converter/integer_to_string_converter.h
-        ${include_root}/converter/string_to_boolean_converter.h
-        ${include_root}/converter/string_to_floating_point_converter.h
-        ${include_root}/converter/string_to_integer_converter.h
-
-        ${include_root}/data/node_data.h
-        ${include_root}/data/boolean_node_data.h
-        ${include_root}/data/integer_node_data.h
-        ${include_root}/data/character_node_data.h
-        ${include_root}/data/floating_point_node_data.h
-        ${include_root}/data/string_node_data.h)
+        ${include_root}/base/boolean_node_data.h
+        ${include_root}/base/integer_node_data.h
+        ${include_root}/base/character_node_data.h
+        ${include_root}/base/floating_point_node_data.h
+        ${include_root}/base/string_node_data.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
