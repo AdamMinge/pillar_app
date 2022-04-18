@@ -114,6 +114,9 @@ private Q_SLOTS:
   void disabledPlugin(QObject *object);
 
 private:
+  [[nodiscard]] QByteArray createMimeData(const QModelIndexList &indexes) const;
+
+private:
   QList<FlowNodesTreeNodeFactoryContainerItem *> m_root_items;
 };
 

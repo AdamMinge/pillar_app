@@ -11,14 +11,17 @@ CharacterConverterFactoryContainer::CharacterConverterFactoryContainer(
     : ConverterFactoryContainer(parent)
 {
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("CharacterToBoolean"),
     []() { return std::make_unique<CharacterToBooleanConverter>(); },
     QObject::tr("Character -> Boolean"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("CharacterToInteger"),
     []() { return std::make_unique<CharacterToIntegerConverter>(); },
     QObject::tr("Character -> Integer"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("CharacterToString"),
     []() { return std::make_unique<CharacterToStringConverter>(); },
     QObject::tr("Character -> String"), QIcon("")));
 }

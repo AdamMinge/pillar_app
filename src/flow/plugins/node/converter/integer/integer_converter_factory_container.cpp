@@ -12,18 +12,22 @@ IntegerConverterFactoryContainer::IntegerConverterFactoryContainer(
     : ConverterFactoryContainer(parent)
 {
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("IntegerToBoolean"),
     []() { return std::make_unique<IntegerToBooleanConverter>(); },
     QObject::tr("Integer -> Boolean"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("IntegerToCharacter"),
     []() { return std::make_unique<IntegerToCharacterConverter>(); },
     QObject::tr("Integer -> Character"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("IntegerToFloatingPoint"),
     []() { return std::make_unique<IntegerToFloatingPointConverter>(); },
     QObject::tr("Integer -> Floating Point"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("IntegerToString"),
     []() { return std::make_unique<IntegerToStringConverter>(); },
     QObject::tr("Integer -> String"), QIcon("")));
 }

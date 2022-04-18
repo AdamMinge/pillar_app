@@ -10,10 +10,12 @@ BooleanConverterFactoryContainer::BooleanConverterFactoryContainer(
     : ConverterFactoryContainer(parent)
 {
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("BooleanToFloatingPoint"),
     []() { return std::make_unique<BooleanToFloatingPointConverter>(); },
     QObject::tr("Boolean -> Floating Point"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("BooleanToInteger"),
     []() { return std::make_unique<BooleanToIntegerConverter>(); },
     QObject::tr("Boolean -> Integer"), QIcon("")));
 }

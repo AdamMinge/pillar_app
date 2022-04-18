@@ -10,14 +10,17 @@
 LogicNodeFactoryContainer::LogicNodeFactoryContainer()
 {
   addFactory(std::make_unique<node::NodeFactory>(
+    QLatin1String("LogicNot"),
     []() { return std::make_unique<LogicNodeNot>(); }, QObject::tr("Not"),
     QIcon(":/plugins/logic_node/images/32x32/logic_gate_not.png")));
 
   addFactory(std::make_unique<node::NodeFactory>(
-    []() { return std::make_unique<LogicNodeOr>(); }, QObject::tr("Or"),
+    QLatin1String("LogicOr"), []() { return std::make_unique<LogicNodeOr>(); },
+    QObject::tr("Or"),
     QIcon(":/plugins/logic_node/images/32x32/logic_gate_or.png")));
 
   addFactory(std::make_unique<node::NodeFactory>(
+    QLatin1String("LogicAnd"),
     []() { return std::make_unique<LogicNodeAnd>(); }, QObject::tr("And"),
     QIcon(":/plugins/logic_node/images/32x32/logic_gate_and.png")));
 }

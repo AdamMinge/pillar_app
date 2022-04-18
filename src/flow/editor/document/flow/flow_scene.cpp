@@ -39,7 +39,9 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event)
   if (mime_data->hasFormat(QLatin1String("flow/node")))
   {
     const auto data = mime_data->data(QLatin1String("flow/node"));
-    m_flow_document->getUndoStack()->push(new AddNodeCommand(this, data));
+    for (auto &node_id : data.split(';'))
+      m_flow_document->getUndoStack()->push(new AddNodeCommand(this, node_id));
+
   } else if (mime_data->hasFormat(QLatin1String("flow/converter")))
   {
     const auto data = mime_data->data(QLatin1String("flow/converter"));

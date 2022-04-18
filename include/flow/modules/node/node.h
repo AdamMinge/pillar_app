@@ -24,6 +24,8 @@ namespace node
     [[nodiscard]] const Pin &getPin(Pin::Type type, unsigned index) const;
     [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
 
+    [[nodiscard]] QRectF boundingRect() const override;
+
   protected:
     void paint(
       QPainter *painter, const QStyleOptionGraphicsItem *option,

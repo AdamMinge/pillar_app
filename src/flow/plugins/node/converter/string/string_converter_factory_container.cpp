@@ -11,14 +11,17 @@ StringConverterFactoryContainer::StringConverterFactoryContainer(
     : ConverterFactoryContainer(parent)
 {
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("StringToBoolean"),
     []() { return std::make_unique<StringToBooleanConverter>(); },
     QObject::tr("String -> Boolean"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("StringFloatingPoint"),
     []() { return std::make_unique<StringToFloatingPoint>(); },
     QObject::tr("String -> Floating Point"), QIcon("")));
 
   addFactory(std::make_unique<node::ConverterFactory>(
+    QLatin1String("StringToInteger"),
     []() { return std::make_unique<StringToIntegerConverter>(); },
     QObject::tr("String -> Integer"), QIcon("")));
 }

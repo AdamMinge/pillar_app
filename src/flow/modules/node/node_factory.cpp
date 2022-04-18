@@ -6,14 +6,17 @@
 namespace node
 {
 
-  NodeFactory::NodeFactory() : NodeFactory({}, {}, {}) {}
+  NodeFactory::NodeFactory() : NodeFactory({}, {}, {}, {}) {}
 
-  NodeFactory::NodeFactory(Creator creator, QString name, QIcon icon)
-      : m_creator(std::move(creator)), m_icon(std::move(icon)),
-        m_name(std::move(name))
+  NodeFactory::NodeFactory(
+    QString id, Creator creator, QString name, QIcon icon)
+      : m_id(std::move(id)), m_creator(std::move(creator)),
+        m_icon(std::move(icon)), m_name(std::move(name))
   {}
 
   NodeFactory::~NodeFactory() = default;
+
+  QString NodeFactory::getId() const { return m_id; }
 
   NodeFactory::Creator NodeFactory::getCreator() const { return m_creator; }
 

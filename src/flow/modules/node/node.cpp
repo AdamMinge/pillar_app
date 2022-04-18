@@ -32,6 +32,12 @@ namespace node
     return *pins[index];
   }
 
+  QRectF Node::boundingRect() const
+  {
+    return QRectF{};
+    //TODO Implementation
+  }
+
   void Node::paint(
     QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
   {

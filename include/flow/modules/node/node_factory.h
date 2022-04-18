@@ -22,9 +22,10 @@ namespace node
 
   public:
     explicit NodeFactory();
-    explicit NodeFactory(Creator creator, QString name, QIcon icon);
+    explicit NodeFactory(QString id, Creator creator, QString name, QIcon icon);
     ~NodeFactory();
 
+    [[nodiscard]] QString getId() const;
     [[nodiscard]] Creator getCreator() const;
     [[nodiscard]] QString getName() const;
     [[nodiscard]] QIcon getIcon() const;
@@ -32,6 +33,7 @@ namespace node
     [[nodiscard]] std::unique_ptr<Node> operator()() const;
 
   private:
+    QString m_id;
     Creator m_creator;
     QString m_name;
     QIcon m_icon;

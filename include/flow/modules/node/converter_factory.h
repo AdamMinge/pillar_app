@@ -22,9 +22,11 @@ namespace node
 
   public:
     explicit ConverterFactory();
-    explicit ConverterFactory(Creator creator, QString name, QIcon icon);
+    explicit ConverterFactory(
+      QString id, Creator creator, QString name, QIcon icon);
     ~ConverterFactory();
 
+    [[nodiscard]] QString getId() const;
     [[nodiscard]] Creator getCreator() const;
     [[nodiscard]] QString getName() const;
     [[nodiscard]] QIcon getIcon() const;
@@ -32,6 +34,7 @@ namespace node
     [[nodiscard]] std::unique_ptr<TypeConverter> operator()() const;
 
   private:
+    QString m_id;
     Creator m_creator;
     QString m_name;
     QIcon m_icon;

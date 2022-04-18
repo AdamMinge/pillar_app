@@ -6,14 +6,17 @@
 namespace node
 {
 
-  ConverterFactory::ConverterFactory() : ConverterFactory({}, {}, {}) {}
+  ConverterFactory::ConverterFactory() : ConverterFactory({}, {}, {}, {}) {}
 
-  ConverterFactory::ConverterFactory(Creator creator, QString name, QIcon icon)
-      : m_creator(std::move(creator)), m_icon(std::move(icon)),
-        m_name(std::move(name))
+  ConverterFactory::ConverterFactory(
+    QString id, Creator creator, QString name, QIcon icon)
+      : m_id(std::move(id)), m_creator(std::move(creator)),
+        m_icon(std::move(icon)), m_name(std::move(name))
   {}
 
   ConverterFactory::~ConverterFactory() = default;
+
+  QString ConverterFactory::getId() const { return m_id; }
 
   ConverterFactory::Creator ConverterFactory::getCreator() const
   {

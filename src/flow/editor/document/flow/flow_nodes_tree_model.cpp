@@ -1,4 +1,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMimeData>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/flow/flow_nodes_tree_model.h"
@@ -227,8 +230,7 @@ int FlowNodesTreeModel::columnCount(const QModelIndex &parent) const
 QMimeData *FlowNodesTreeModel::mimeData(const QModelIndexList &indexes) const
 {
   auto mime_data = new QMimeData;
-  mime_data->setData(QLatin1String("flow/node"), "");
-  // TODO Implementation
+  mime_data->setData(QLatin1String("flow/node"), createMimeData(indexes));
 
   return mime_data;
 }
@@ -289,4 +291,22 @@ void FlowNodesTreeModel::disabledPlugin(QObject *object)
       endRemoveRows();
     }
   }
+}
+
+QByteArray
+FlowNodesTreeModel::createMimeData(const QModelIndexList &indexes) const
+{
+  auto data = QByteArray{};
+  for (auto &index : indexes)
+  {
+    const auto item = static_cast<FlowNodesTreeItem *>(index.internalPointer());
+    const auto factory_item =
+      dynamic_cast<FlowNodesTreeNodeFactoryItem *>(item);
+    const auto factory_id =
+      factory_item->getNodeFactory()->getId().toLocal8Bit();
+
+    data.append(factory_id).append(';');
+  }
+
+  return data.left(data.count() - 1);
 }
