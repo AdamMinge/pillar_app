@@ -57,9 +57,12 @@ void FlowEditor::addDocument(api::document::IDocument *document)
   auto view = new FlowView(m_scene_stack);
   auto scene = new FlowScene(view);
 
+  scene->setSceneDocument(flow_document);
   view->setScene(scene);
+  view->setAcceptDrops(true);
 
   m_view_for_document.insert(flow_document, view);
+
   m_scene_stack->addWidget(view);
 }
 

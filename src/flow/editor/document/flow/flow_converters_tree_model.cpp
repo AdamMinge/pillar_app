@@ -1,3 +1,5 @@
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QMimeData>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/flow/flow_converters_tree_model.h"
 #include "flow/editor/plugin_manager.h"
@@ -77,6 +79,11 @@ QIcon FlowConvertersTreeNodeFactoryContainerItem::getIcon() const
   return m_factory_container->getIcon();
 }
 
+Qt::ItemFlags FlowConvertersTreeNodeFactoryContainerItem::flags() const
+{
+  return Qt::NoItemFlags;
+}
+
 node::ConverterFactoryContainer *
 FlowConvertersTreeNodeFactoryContainerItem::getConverterFactoryContainer() const
 {
@@ -98,6 +105,11 @@ QString FlowConvertersTreeNodeFactoryItem::getName() const
 QIcon FlowConvertersTreeNodeFactoryItem::getIcon() const
 {
   return m_factory->getIcon();
+}
+
+Qt::ItemFlags FlowConvertersTreeNodeFactoryItem::flags() const
+{
+  return Qt::ItemIsDragEnabled;
 }
 
 node::ConverterFactory *
@@ -128,7 +140,8 @@ FlowConvertersTreeModel::~FlowConvertersTreeModel()
 
 Qt::ItemFlags FlowConvertersTreeModel::flags(const QModelIndex &index) const
 {
-  return QAbstractItemModel::flags(index);
+  auto item = static_cast<FlowConvertersTreeItem *>(index.internalPointer());
+  return QAbstractItemModel::flags(index) | item->flags();
 }
 
 QVariant FlowConvertersTreeModel::data(const QModelIndex &index, int role) const
@@ -219,6 +232,21 @@ int FlowConvertersTreeModel::rowCount(const QModelIndex &parent) const
 int FlowConvertersTreeModel::columnCount(const QModelIndex &parent) const
 {
   return 1;
+}
+
+QMimeData *
+FlowConvertersTreeModel::mimeData(const QModelIndexList &indexes) const
+{
+  auto mime_data = new QMimeData;
+  mime_data->setData(QLatin1String("flow/converter"), "");
+  // TODO Implementation
+
+  return mime_data;
+}
+
+QStringList FlowConvertersTreeModel::mimeTypes() const
+{
+  return QStringList{} << QLatin1String("flow/converter");
 }
 
 void FlowConvertersTreeModel::init()

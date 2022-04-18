@@ -2,7 +2,7 @@
 #define FLOW_NODE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
+#include <QGraphicsObject>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/export.h"
 #include "flow/modules/node/pin.h"
@@ -11,7 +11,7 @@
 namespace node
 {
 
-  class NODE_API Node : public QObject
+  class NODE_API Node : public QGraphicsObject
   {
     Q_OBJECT
 
@@ -25,6 +25,10 @@ namespace node
     [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
 
   protected:
+    void paint(
+      QPainter *painter, const QStyleOptionGraphicsItem *option,
+      QWidget *widget) override;
+
     void insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index);
     void removePin(Pin::Type type, int index);
 

@@ -13,46 +13,46 @@
 /* --------------------------------- Identify the operating system ---------------------------------- */
 /* -------------------------------------------------------------------------------------------------- */
 #if defined(_WIN32)
-#define FLOW_OS_WINDOWS
+    #define FLOW_OS_WINDOWS
 #elif defined(__linux__)
-#define FLOW_OS_LINUX
+    #define FLOW_OS_LINUX
 #else
-#error This operating system is not supported by FLOW library
+    #error This operating system is not supported by FLOW library
 #endif
 /* -------------------------------------------------------------------------------------------------- */
 /* --------------------------------- Define a portable debug macro ---------------------------------- */
 /* -------------------------------------------------------------------------------------------------- */
 #if !defined(NDEBUG)
-#define FLOW_DEBUG
+    #define FLOW_DEBUG
 #endif
 /* -------------------------------------------------------------------------------------------------- */
 /* ------------------- Define helpers to create portable import / export macros --------------------- */
 /* -------------------------------------------------------------------------------------------------- */
 #if !defined(FLOW_STATIC)
-#if defined(FLOW_OS_WINDOWS)
-#define FLOW_API_EXPORT __declspec(dllexport)
-#define FLOW_API_IMPORT __declspec(dllimport)
+    #if defined(FLOW_OS_WINDOWS)
+        #define FLOW_API_EXPORT __declspec(dllexport)
+        #define FLOW_API_IMPORT __declspec(dllimport)
+    #else
+        #if __GNUC__ >= 4
+            #define FLOW_API_EXPORT __attribute__ ((__visibility__ ("default")))
+            #define FLOW_API_IMPORT __attribute__ ((__visibility__ ("default")))
+        #else
+            #define FLOW_API_EXPORT
+            #define FLOW_API_IMPORT
+        #endif
+    #endif
 #else
-#if __GNUC__ >= 4
-#define FLOW_API_EXPORT __attribute__((__visibility__("default")))
-#define FLOW_API_IMPORT __attribute__((__visibility__("default")))
-#else
-#define FLOW_API_EXPORT
-#define FLOW_API_IMPORT
-#endif
-#endif
-#else
-#define FLOW_API_EXPORT
-#define FLOW_API_IMPORT
+    #define FLOW_API_EXPORT
+    #define FLOW_API_IMPORT
 #endif
 /* -------------------------------------------------------------------------------------------------- */
 /* --------------------------- Define helpers to set items as depracted ----------------------------- */
 /* -------------------------------------------------------------------------------------------------- */
 #if !defined(FLOW_DEPRECATED_WARNINGS)
-#define FLOW_DEPRECATED [[deprecated]]
+    #define FLOW_DEPRECATED [[deprecated]]
 #else
-#define FLOW_DEPRECATED
+    #define FLOW_DEPRECATED
 #endif
 /* -------------------------------------------------------------------------------------------------- */
-#endif//FLOW_CONFIG_H
+#endif //FLOW_CONFIG_H
 /* -------------------------------------------------------------------------------------------------- */

@@ -11,6 +11,7 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow//modules/node)
 set(sources
         ${source_root}/pin.cpp
         ${source_root}/node.cpp
+        ${source_root}/node_painter.cpp
         ${source_root}/connection.cpp
         ${source_root}/node_factory.cpp
         ${source_root}/node_factory_container.cpp
@@ -28,6 +29,7 @@ set(includes
 
         ${include_root}/pin.h
         ${include_root}/node.h
+        ${include_root}/node_painter.h
         ${include_root}/connection.h
         ${include_root}/node_data.h
         ${include_root}/node_factory.h

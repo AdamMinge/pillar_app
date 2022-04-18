@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsScene>
+#include <QMimeData>
 /* -------------------------------------------------------------------------- */
 
 class FlowDocument;
@@ -17,6 +18,14 @@ public:
 
   void setSceneDocument(FlowDocument *flow_document);
   [[nodiscard]] FlowDocument *getSceneDocument() const;
+
+protected:
+  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+  void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+  void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+
+private:
+  bool isAcceptable(const QMimeData *mime_data) const;
 
 private:
   FlowDocument *m_flow_document;

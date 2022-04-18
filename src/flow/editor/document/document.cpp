@@ -85,6 +85,7 @@ bool Document::save(const QString &file_name, QString *error)
   if (!document_format->save(*this, file_name, error)) return false;
 
   setFileName(file_name);
+  m_undo_stack->setClean();
 
   Q_EMIT saved();
   return true;

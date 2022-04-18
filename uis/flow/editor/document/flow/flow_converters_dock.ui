@@ -37,6 +37,9 @@
         <pointsize>9</pointsize>
        </font>
       </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
       <attribute name="headerVisible">
        <bool>false</bool>
       </attribute>

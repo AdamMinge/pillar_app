@@ -1,3 +1,5 @@
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QMimeData>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/flow/flow_nodes_tree_model.h"
 #include "flow/editor/plugin_manager.h"
@@ -73,6 +75,11 @@ QIcon FlowNodesTreeNodeFactoryContainerItem::getIcon() const
   return m_factory_container->getIcon();
 }
 
+Qt::ItemFlags FlowNodesTreeNodeFactoryContainerItem::flags() const
+{
+  return Qt::NoItemFlags;
+}
+
 node::NodeFactoryContainer *
 FlowNodesTreeNodeFactoryContainerItem::getNodeFactoryContainer() const
 {
@@ -94,6 +101,11 @@ QString FlowNodesTreeNodeFactoryItem::getName() const
 QIcon FlowNodesTreeNodeFactoryItem::getIcon() const
 {
   return m_factory->getIcon();
+}
+
+Qt::ItemFlags FlowNodesTreeNodeFactoryItem::flags() const
+{
+  return Qt::ItemIsDragEnabled;
 }
 
 node::NodeFactory *FlowNodesTreeNodeFactoryItem::getNodeFactory() const
@@ -120,7 +132,8 @@ FlowNodesTreeModel::~FlowNodesTreeModel() { qDeleteAll(m_root_items); }
 
 Qt::ItemFlags FlowNodesTreeModel::flags(const QModelIndex &index) const
 {
-  return QAbstractItemModel::flags(index);
+  auto item = static_cast<FlowNodesTreeItem *>(index.internalPointer());
+  return QAbstractItemModel::flags(index) | item->flags();
 }
 
 QVariant FlowNodesTreeModel::data(const QModelIndex &index, int role) const
@@ -209,6 +222,20 @@ int FlowNodesTreeModel::rowCount(const QModelIndex &parent) const
 int FlowNodesTreeModel::columnCount(const QModelIndex &parent) const
 {
   return 1;
+}
+
+QMimeData *FlowNodesTreeModel::mimeData(const QModelIndexList &indexes) const
+{
+  auto mime_data = new QMimeData;
+  mime_data->setData(QLatin1String("flow/node"), "");
+  // TODO Implementation
+
+  return mime_data;
+}
+
+QStringList FlowNodesTreeModel::mimeTypes() const
+{
+  return QStringList{} << QLatin1String("flow/node");
 }
 
 void FlowNodesTreeModel::init()

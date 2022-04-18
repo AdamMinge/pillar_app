@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/editor">
+        <file>images/16x16/undo_clean.png</file>
+
         <file>images/32x32/error_issue.png</file>
         <file>images/32x32/warning_issue.png</file>
 

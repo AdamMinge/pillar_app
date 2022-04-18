@@ -1,5 +1,9 @@
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/modules/node/node.h"
+#include "flow/modules/node/node_painter.h"
 /* -------------------------------------------------------------------------- */
 
 namespace node
@@ -26,6 +30,13 @@ namespace node
     auto &pins = getPins(type);
     Q_ASSERT(pins.size() > index);
     return *pins[index];
+  }
+
+  void Node::paint(
+    QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+  {
+    painter->setClipRect(option->exposedRect);
+    NodePainter::paint(painter, this);
   }
 
   void Node::insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index)

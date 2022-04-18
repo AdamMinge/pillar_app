@@ -10,13 +10,12 @@ UndoDock::UndoDock(QWidget *parent)
 {
   setObjectName(QLatin1String("History"));
 
-  m_undo_view->setUniformItemSizes(true);
+  m_undo_view->setCleanIcon(QIcon(":/editor/images/16x16/undo_clean.png"));
 
   auto widget = new QWidget(this);
   auto layout = new QVBoxLayout(widget);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->addWidget(m_undo_view);
-  widget->setLayout(layout);
 
   setWidget(widget);
   retranslateUi();

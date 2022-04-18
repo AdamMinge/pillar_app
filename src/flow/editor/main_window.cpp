@@ -301,4 +301,5 @@ void MainWindow::updateWindowTitle()
 
   setWindowTitle(current_widget->windowTitle());
   setWindowFilePath(current_widget->windowFilePath());
+  setWindowModified(current_widget->isWindowModified());
 }

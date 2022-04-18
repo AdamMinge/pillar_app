@@ -2,8 +2,7 @@
 #include "flow/editor/commands/group_command.h"
 /* -------------------------------------------------------------------------- */
 
-GroupCommand::GroupCommand(Command *parent)
-    : Command(Type::GroupCommand, parent)
+GroupCommand::GroupCommand(Type type, Command *parent) : Command(type, parent)
 {}
 
 GroupCommand::~GroupCommand() { qDeleteAll(m_commands); }

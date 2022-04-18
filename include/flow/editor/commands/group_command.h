@@ -8,7 +8,7 @@
 class GroupCommand : public Command
 {
 public:
-  explicit GroupCommand(Command *parent = nullptr);
+  explicit GroupCommand(Type type, Command *parent = nullptr);
   ~GroupCommand() override;
 
   void undo() override;

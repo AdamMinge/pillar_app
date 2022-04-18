@@ -28,9 +28,8 @@ private:
 
 enum class Command::Type
 {
-  GroupCommand,
-  AddDocument,
-  RemoveDocument
+  AddNode,
+  RemoveNode
 };
 
 #endif//FLOW_COMMAND_H

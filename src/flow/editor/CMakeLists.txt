@@ -79,7 +79,8 @@ set(sources
         ${source_root}/document/flow/flow_converters_tree_model.cpp
 
         ${source_root}/commands/command.cpp
-        ${source_root}/commands/group_command.cpp)
+        ${source_root}/commands/group_command.cpp
+        ${source_root}/commands/add_remove_node.cpp)
 
 set(includes
         ${include_root}/command_line_parser.h
@@ -150,7 +151,8 @@ set(includes
         ${include_root}/document/flow/flow_converters_tree_model.h
 
         ${include_root}/commands/command.h
-        ${include_root}/commands/group_command.h)
+        ${include_root}/commands/group_command.h
+        ${include_root}/commands/add_remove_node.h)
 
 set(resources
         ${resources_root}/flow-editor-translations.qrc

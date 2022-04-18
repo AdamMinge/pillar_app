@@ -42,7 +42,7 @@ void ProjectManager::removeProject(int index)
   Q_ASSERT(project_to_remove);
 
   auto removed_project_iter = std::remove_if(
-    m_projects.begin(), m_projects.end(), [&project_to_remove](auto &&project) {
+    m_projects.begin(), m_projects.end(), [&project_to_remove](auto &project) {
       return project.get() == project_to_remove;
     });
 

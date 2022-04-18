@@ -32,6 +32,8 @@ public:
   [[nodiscard]] virtual QString getName() const = 0;
   [[nodiscard]] virtual QIcon getIcon() const = 0;
 
+  [[nodiscard]] virtual Qt::ItemFlags flags() const = 0;
+
 private:
   FlowNodesTreeItem *m_parent;
   QList<FlowNodesTreeItem *> m_children;
@@ -45,6 +47,8 @@ public:
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
+  [[nodiscard]] Qt::ItemFlags flags() const override;
+
   [[nodiscard]] node::NodeFactoryContainer *getNodeFactoryContainer() const;
 
 private:
@@ -58,6 +62,8 @@ public:
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
+  [[nodiscard]] Qt::ItemFlags flags() const override;
+
   [[nodiscard]] node::NodeFactory *getNodeFactory() const;
 
 private:
@@ -97,6 +103,10 @@ public:
 
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
+
+  [[nodiscard]] QMimeData *
+  mimeData(const QModelIndexList &indexes) const override;
+  [[nodiscard]] QStringList mimeTypes() const override;
 
 private Q_SLOTS:
   void init();

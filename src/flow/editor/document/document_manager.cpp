@@ -151,8 +151,8 @@ bool DocumentManager::reloadDocumentAt(int index)
     return false;
   }
 
+  removeDocument(index);
   insertDocument(index, std::move(new_document));
-  removeDocument(index + 1);
 
   return true;
 }
@@ -377,10 +377,11 @@ void DocumentManager::filesChanged(const QStringList &file_names)
   for (const auto &file_name : file_names)
   {
     const auto index = findDocument(file_name);
-
     if (index == -1) return;
 
     const auto &document = m_documents.at(index);
+    if (QFileInfo(file_name).lastModified() == document->getLastModified())
+      continue;
 
     if (!document->isModified()) reloadDocumentAt(index);
   }

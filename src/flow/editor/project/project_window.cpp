@@ -176,13 +176,13 @@ PreferencesManager &ProjectWindow::getPreferencesManager()
 void ProjectWindow::documentChanged(api::document::IDocument *document)
 {
   updateActions();
-  updateWindowTitle();
   updateRecentProjectFiles();
 }
 
 void ProjectWindow::projectChanged(api::project::IProject *project)
 {
   m_project_dock->setProject(project);
+  updateWindowTitle();
 }
 
 bool ProjectWindow::confirmSave(api::document::IDocument *document)
@@ -210,8 +210,8 @@ bool ProjectWindow::confirmSave(api::document::IDocument *document)
 
 bool ProjectWindow::confirmAllSave()
 {
-  for (const auto &project : getDocumentManager().getDocuments())
-    if (!confirmSave(project.get())) return false;
+  for (const auto &document : getDocumentManager().getDocuments())
+    if (!confirmSave(document.get())) return false;
 
   return true;
 }
@@ -242,16 +242,23 @@ void ProjectWindow::updateActions()
 
 void ProjectWindow::updateWindowTitle()
 {
-  auto current_document = getDocumentManager().getCurrentDocument();
+  auto current_project = getProjectManager().getCurrentProject();
 
-  auto project_name =
-    current_document ? QString("[*]%1").arg(current_document->getDisplayName())
-                     : QString();
-  auto project_file_path =
-    current_document ? current_document->getFileName() : QString();
+  const auto project_name =
+    current_project ? tr("[*]%1").arg(current_project->getDisplayName())
+                    : QString();
+  const auto project_file_path =
+    current_project ? current_project->getFileName() : QString();
+
+  auto project_is_modified = false;
+  for (const auto &document : getDocumentManager().getDocuments())
+    project_is_modified |= document->isModified();
 
   setWindowTitle(project_name);
   setWindowFilePath(project_file_path);
+  setWindowModified(project_is_modified);
+
+  Q_EMIT windowTitleChanged(project_name);
 }
 
 void ProjectWindow::updateViewsAndToolbarsMenu()
@@ -365,7 +372,9 @@ bool ProjectWindow::closeProject()
   auto project_index = getProjectManager().findProject(project);
   Q_ASSERT(project_index >= 0);
 
+  getDocumentManager().removeAllDocuments();
   getProjectManager().removeProject(project_index);
+
   return true;
 }
 
