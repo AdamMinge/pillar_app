@@ -1,8 +1,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_manager.h"
+#include "flow/libflow/project/project.h"
 /* -------------------------------------------------------------------------- */
 
 QScopedPointer<ProjectManager> ProjectManager::m_instance =

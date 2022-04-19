@@ -1,6 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/issue_table_model.h"
-#include "flow/editor/issue_manager.h"
+#include "flow/libflow/issue_manager.h"
 /* -------------------------------------------------------------------------- */
 
 IssueTableModel::IssueTableModel(QObject *parent) : QAbstractTableModel(parent)

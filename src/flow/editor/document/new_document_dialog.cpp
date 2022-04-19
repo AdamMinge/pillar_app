@@ -3,9 +3,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/document_type_list_delegate.h"
 #include "flow/editor/document/document_type_list_model.h"
-#include "flow/editor/document/flow/new_flow_document_widget.h"
 #include "flow/editor/document/new_document_dialog.h"
-#include "flow/editor/preferences_manager.h"
+#include "flow/libflow/preferences_manager.h"
+#include "flow/plugins/document/flow/new_flow_document_widget.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_document_dialog.h"
 /* -------------------------------------------------------------------------- */

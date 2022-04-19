@@ -5,8 +5,8 @@
 #include <QVBoxLayout>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/console_dock.h"
-#include "flow/editor/logging_manager.h"
-#include "flow/editor/script_manager.h"
+#include "flow/libflow/logging_manager.h"
+#include "flow/libflow/script_manager.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/color/color.h>
 #include <flow/utils/qt/dpi/dpi_info.h>

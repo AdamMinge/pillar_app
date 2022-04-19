@@ -3,17 +3,17 @@
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/about_dialog.h"
-#include "flow/editor/action_manager.h"
-#include "flow/editor/language_manager.h"
 #include "flow/editor/main_window.h"
-#include "flow/editor/plugin_manager.h"
-#include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/no_project_window.h"
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
 #include "flow/editor/settings/settings_dialog.h"
-#include "flow/editor/style_manager.h"
+#include "flow/libflow/action_manager.h"
+#include "flow/libflow/language_manager.h"
+#include "flow/libflow/plugin_manager.h"
+#include "flow/libflow/preferences_manager.h"
+#include "flow/libflow/project/project.h"
+#include "flow/libflow/style_manager.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */

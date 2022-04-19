@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/project_format_pro.h"
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_reader.h"
 #include "flow/editor/project/project_writer.h"
+#include "flow/libflow/project/project.h"
 /* -------------------------------------------------------------------------- */
 
 ProjectFormatPro::ProjectFormatPro(QObject *parent) : IProjectFormat(parent) {}

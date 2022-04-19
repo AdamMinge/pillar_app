@@ -3,11 +3,11 @@
 #include <QEvent>
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/format_helper.h"
-#include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/new_project_dialog.h"
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_format_pro.h"
+#include "flow/libflow/format_helper.h"
+#include "flow/libflow/preferences_manager.h"
+#include "flow/libflow/project/project.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_new_project_dialog.h"
 /* -------------------------------------------------------------------------- */

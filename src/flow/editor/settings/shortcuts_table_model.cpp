@@ -1,6 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_table_model.h"
-#include "flow/editor/action_manager.h"
+#include "flow/libflow/action_manager.h"
 /* -------------------------------------------------------------------------- */
 
 ShortcutsTableModel::ShortcutsTableModel(QObject *parent)

@@ -2,19 +2,19 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/action_manager.h"
 #include "flow/editor/console_dock.h"
 #include "flow/editor/document/document_manager.h"
-#include "flow/editor/document/flow/flow_editor.h"
 #include "flow/editor/document/new_document_dialog.h"
-#include "flow/editor/format_helper.h"
 #include "flow/editor/issue_dock.h"
-#include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/new_project_dialog.h"
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_dock.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
+#include "flow/libflow/action_manager.h"
+#include "flow/libflow/format_helper.h"
+#include "flow/libflow/preferences_manager.h"
+#include "flow/libflow/project/project.h"
+#include "flow/plugins/document/flow/flow_editor.h"
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/modules/api/document/document_format.h>
 #include <flow/modules/api/project/project_format.h>

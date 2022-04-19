@@ -5,7 +5,7 @@
 #include <QAbstractTableModel>
 #include <QIcon>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/issue.h"
+#include "flow/libflow/issue.h"
 /* -------------------------------------------------------------------------- */
 
 class IssueTableModel : public QAbstractTableModel

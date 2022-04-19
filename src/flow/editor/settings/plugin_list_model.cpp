@@ -1,6 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/plugin_list_model.h"
-#include "flow/editor/plugin_manager.h"
+#include "flow/libflow/plugin_manager.h"
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------------ PluginListModel --------------------------- */

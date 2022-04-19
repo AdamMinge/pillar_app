@@ -3,11 +3,11 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/command_line_parser.h"
-#include "flow/editor/document/flow/flow_document_format_flow.h"
 #include "flow/editor/main_window.h"
-#include "flow/editor/plugin_manager.h"
-#include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/project_format_pro.h"
+#include "flow/libflow/plugin_manager.h"
+#include "flow/libflow/preferences_manager.h"
+#include "flow/plugins/document/flow/flow_document_format_flow.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */

@@ -2,12 +2,12 @@
 #define FLOW_LOGIC_NODE_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "export.h"
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/node/node.h>
+#include "flow/plugins/node/node/logic/export.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/node.h>
 /* -------------------------------------------------------------------------- */
 
-class LOGIC_NODE_API LogicNodeWithOneParam : public ::node::Node
+class LOGIC_NODE_API LogicNodeWithOneParam : public flow::node::Node
 {
   Q_OBJECT
 

@@ -1,9 +1,9 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/language_manager.h"
 #include "flow/editor/settings/appearance_settings_widget.h"
-#include "flow/editor/style_manager.h"
+#include "flow/libflow/language_manager.h"
+#include "flow/libflow/style_manager.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_appearance_settings_widget.h"
 /* -------------------------------------------------------------------------- */

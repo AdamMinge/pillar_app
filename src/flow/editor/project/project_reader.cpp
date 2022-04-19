@@ -2,8 +2,8 @@
 #include <QFile>
 #include <QXmlStreamReader>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_reader.h"
+#include "flow/libflow/project/project.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/pointer_cast/unique_ptr_cast.h>
 /* -------------------------------------------------------------------------- */

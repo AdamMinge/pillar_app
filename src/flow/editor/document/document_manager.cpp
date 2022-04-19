@@ -2,10 +2,10 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document.h"
 #include "flow/editor/document/document_manager.h"
 #include "flow/editor/document/no_document_widget.h"
-#include "flow/editor/format_helper.h"
+#include "flow/libflow/document/document.h"
+#include "flow/libflow/format_helper.h"
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/modules/api/document/document_editor.h>
 #include <flow/modules/api/document/document_format.h>

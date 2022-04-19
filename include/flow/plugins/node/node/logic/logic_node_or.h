@@ -2,8 +2,8 @@
 #define FLOW_LOGIC_NODE_OR_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "export.h"
-#include "logic_node.h"
+#include "flow/plugins/node/node/logic/export.h"
+#include "flow/plugins/node/node/logic/logic_node.h"
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams
