@@ -42,7 +42,6 @@ set(sources
         ${source_root}/project/project_writer.cpp
         ${source_root}/project/project_reader.cpp
 
-        ${source_root}/document/document.cpp
         ${source_root}/document/document_manager.cpp
         ${source_root}/document/new_document_dialog.cpp
         ${source_root}/document/undo_dock.cpp
@@ -134,8 +133,7 @@ flow_add_application(editor
         DEPENDS
         Qt6::Widgets
         Qt6::Qml
-        flow::api
-        flow::node
+        flow::lib_flow
         utils::action
         utils::color
         utils::pointer_cast

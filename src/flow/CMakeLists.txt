@@ -16,5 +16,5 @@ configure_file(
 add_subdirectory(libflow)
 add_subdirectory(plugins)
 add_subdirectory(utils)
-#add_subdirectory(editor)
+add_subdirectory(editor)
 # -------------------------------------------------------------------------------------------------- #
