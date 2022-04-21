@@ -27,7 +27,7 @@ set(uis
         ${uis_root}/stacked_widget_label.ui)
 
 set(resources
-        ${resources_root}/flow-utils-stacked-widget-images.qrc)
+        ${resources_root}/utils_stacked_widget_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

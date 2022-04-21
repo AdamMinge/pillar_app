@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/utils/stacked_widget/">
+    <qresource prefix="/utils/qt/stacked_widget/">
         <file>images/16x16/left_arrow.png</file>
         <file>images/16x16/right_arrow.png</file>
     </qresource>

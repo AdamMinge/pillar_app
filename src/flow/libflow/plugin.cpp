@@ -3,6 +3,7 @@
 #include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/plugin.h"
+#include "flow/libflow/plugin_interface.h"
 #include "flow/libflow/plugin_manager.h"
 /* -------------------------------------------------------------------------- */
 
@@ -111,7 +112,12 @@ namespace flow
     m_instance = m_loader->instance();
     if (!m_instance) return false;
 
-    PluginManager::getInstance().addObject(m_instance);
+    if (auto plugin_interface = qobject_cast<PluginInterface *>(m_instance);
+        plugin_interface)
+      plugin_interface->init();
+    else
+      PluginManager::getInstance().addObject(m_instance);
+
     return true;
   }
 
@@ -171,7 +177,14 @@ namespace flow
 
   bool StaticPluginImpl::enable()
   {
-    if (!isEnabled()) PluginManager::getInstance().addObject(m_instance);
+    if (isEnabled()) return true;
+
+    if (auto plugin_interface = qobject_cast<PluginInterface *>(m_instance);
+        plugin_interface)
+      plugin_interface->init();
+    else
+      PluginManager::getInstance().addObject(m_instance);
+
     return true;
   }
 

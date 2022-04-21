@@ -13,14 +13,14 @@ set(sources
         ${source_root}/string_to_boolean_converter.cpp
         ${source_root}/string_to_floating_point_converter.cpp
         ${source_root}/string_to_integer_converter.cpp
-        ${source_root}/converter_plugin.cpp)
+        ${source_root}/converter_factory.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/string_to_boolean_converter.h
         ${include_root}/string_to_floating_point_converter.h
         ${include_root}/string_to_integer_converter.h
-        ${include_root}/converter_plugin.h)
+        ${include_root}/converter_factory.h)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

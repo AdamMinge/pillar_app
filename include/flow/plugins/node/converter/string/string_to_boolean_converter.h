@@ -1,5 +1,5 @@
-#ifndef FLOW_STRING_TO_BOOLEAN_CONVERTER_H
-#define FLOW_STRING_TO_BOOLEAN_CONVERTER_H
+#ifndef PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H
+#define PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/node/converter/string/export.h"
@@ -11,10 +11,10 @@ class STRING_CONVERTER_API StringToBooleanConverter : public flow::node::TypeCon
 {
 public:
   explicit StringToBooleanConverter() = default;
-  ~StringToBooleanConverter() = default;
+  ~StringToBooleanConverter() override = default;
 
   [[nodiscard]] std::unique_ptr<flow::node::NodeData>
   convert(const flow::node::NodeData &data) override;
 };
 
-#endif//FLOW_STRING_TO_BOOLEAN_CONVERTER_H
+#endif//PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H

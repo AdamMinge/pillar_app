@@ -38,6 +38,8 @@ set(sources
         ${source_root}/node/node.cpp
         ${source_root}/node/node_painter.cpp
         ${source_root}/node/pin.cpp
+        ${source_root}/node/node_factory.cpp
+        ${source_root}/node/converter_factory.cpp
 
         ${source_root}/node/base/boolean_node_data.cpp
         ${source_root}/node/base/character_node_data.cpp
@@ -80,6 +82,8 @@ set(includes
         ${include_root}/node/node_painter.h
         ${include_root}/node/pin.h
         ${include_root}/node/type_converter.h
+        ${include_root}/node/node_factory.h
+        ${include_root}/node/converter_factory.h
 
         ${include_root}/node/base/boolean_node_data.h
         ${include_root}/node/base/character_node_data.h

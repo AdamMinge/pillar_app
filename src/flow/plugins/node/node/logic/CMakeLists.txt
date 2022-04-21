@@ -14,7 +14,7 @@ set(sources
         ${source_root}/logic_node_not.cpp
         ${source_root}/logic_node_and.cpp
         ${source_root}/logic_node_or.cpp
-        ${source_root}/node_plugin.cpp)
+        ${source_root}/node_factory.cpp)
 
 set(includes
         ${include_root}/export.h
@@ -22,10 +22,10 @@ set(includes
         ${include_root}/logic_node_not.h
         ${include_root}/logic_node_and.h
         ${include_root}/logic_node_or.h
-        ${include_root}/node_plugin.h)
+        ${include_root}/node_factory.h)
 
 set(resources
-        ${resources_root}/flow-plugins-logic-node-images.qrc)
+        ${resources_root}/plugin_node_logic_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

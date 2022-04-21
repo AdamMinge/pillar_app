@@ -1,5 +1,5 @@
-#ifndef FLOW_LOGIC_NODE_NOT_H
-#define FLOW_LOGIC_NODE_NOT_H
+#ifndef PLUGIN_FLOW_LOGIC_NODE_NOT_H
+#define PLUGIN_FLOW_LOGIC_NODE_NOT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/node/node/logic/export.h"
@@ -18,4 +18,4 @@ protected:
   void compute() override;
 };
 
-#endif//FLOW_LOGIC_NODE_NOT_H
+#endif//PLUGIN_FLOW_LOGIC_NODE_NOT_H

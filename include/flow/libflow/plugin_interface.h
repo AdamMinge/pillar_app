@@ -19,6 +19,8 @@ namespace flow
     explicit PluginInterface();
     ~PluginInterface() override;
 
+    virtual void init();
+
   protected:
     void addObject(QObject *object);
     void removeObject(QObject *object);

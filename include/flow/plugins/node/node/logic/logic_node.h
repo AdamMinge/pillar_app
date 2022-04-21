@@ -1,5 +1,5 @@
-#ifndef FLOW_LOGIC_NODE_H
-#define FLOW_LOGIC_NODE_H
+#ifndef PLUGIN_FLOW_LOGIC_NODE_H
+#define PLUGIN_FLOW_LOGIC_NODE_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/node/node/logic/export.h"
@@ -25,4 +25,4 @@ public:
   ~LogicNodeWithTwoParams() override;
 };
 
-#endif//FLOW_LOGIC_NODE_H
+#endif//PLUGIN_FLOW_LOGIC_NODE_H

@@ -88,8 +88,8 @@ set(includes
         ${include_root}/document/document_type_list_delegate.h)
 
 set(resources
-        ${resources_root}/flow-editor-translations.qrc
-        ${resources_root}/flow-editor-images.qrc)
+        ${resources_root}/editor_translations.qrc
+        ${resources_root}/editor_images.qrc)
 
 set(uis
         ${uis_root}/main_window.ui

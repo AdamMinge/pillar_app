@@ -13,6 +13,8 @@ namespace flow
     for (auto object : m_added_objects) removeObject(object);
   }
 
+  void PluginInterface::init() {}
+
   void PluginInterface::addObject(QObject *object)
   {
     PluginManager::getInstance().addObject(object);
