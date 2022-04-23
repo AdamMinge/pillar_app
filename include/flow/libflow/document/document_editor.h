@@ -54,6 +54,8 @@ namespace flow::document
     virtual void performStandardAction(StandardAction standard_action) = 0;
     [[nodiscard]] virtual StandardActions getEnabledStandardActions() const = 0;
 
+    [[nodiscard]] virtual QString getDocumentId() const = 0;
+
   Q_SIGNALS:
     void enabledStandardActionsChanged();
   };

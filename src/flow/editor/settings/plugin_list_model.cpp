@@ -1,13 +1,14 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/plugin_list_model.h"
-#include "flow/libflow/plugin_manager.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------------ PluginListModel --------------------------- */
 
 PluginListModel::PluginListModel(QObject *parent) : QAbstractListModel(parent)
 {
-  const auto plugins = PluginManager::getInstance().getPlugins();
+  const auto plugins = flow::PluginManager::getInstance().getPlugins();
   for (auto &plugin : plugins)
     m_plugins.emplace_back(std::make_pair(plugin, plugin->isEnabled()));
 }
@@ -17,7 +18,7 @@ PluginListModel::~PluginListModel() = default;
 bool PluginListModel::apply()
 {
   std::for_each(m_plugins.begin(), m_plugins.end(), [](auto &plugin_pair) {
-    auto apply_fun = plugin_pair.second ? &Plugin::enable : &Plugin::disable;
+    auto apply_fun = plugin_pair.second ? &flow::Plugin::enable : &flow::Plugin::disable;
     (plugin_pair.first->*apply_fun)();
   });
 

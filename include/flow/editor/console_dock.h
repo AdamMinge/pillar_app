@@ -8,7 +8,6 @@
 #include <QPushButton>
 /* -------------------------------------------------------------------------- */
 
-class Issue;
 namespace utils
 {
   class QtLineEditWithHistory;

@@ -12,13 +12,16 @@ set(resources_root ${FLOW_SOURCE_DIR}/resources)
 set(sources
         ${source_root}/boolean_to_floating_point_converter.cpp
         ${source_root}/boolean_to_integer_converter.cpp
-        ${source_root}/converter_factory.cpp)
+        ${source_root}/type_converter_factory.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/boolean_to_floating_point_converter.h
         ${include_root}/boolean_to_integer_converter.h
-        ${include_root}/converter_factory.h)
+        ${include_root}/type_converter_factory.h)
+
+set(resources
+        ${resources_root}/plugin_boolean_converter_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

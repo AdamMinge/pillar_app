@@ -5,9 +5,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/new_project_dialog.h"
 #include "flow/editor/project/project_format_pro.h"
-#include "flow/libflow/format_helper.h"
-#include "flow/libflow/preferences_manager.h"
-#include "flow/libflow/project/project.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/format_helper.h>
+#include <flow/libflow/preferences_manager.h>
+#include <flow/libflow/project/project.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_new_project_dialog.h"
 /* -------------------------------------------------------------------------- */
@@ -15,8 +16,8 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NewProjectDialog::Preferences {
-  Preference<QByteArray> new_project_dialog_geometry =
-    Preference<QByteArray>("new_project_dialog/geometry");
+  flow::Preference<QByteArray> new_project_dialog_geometry =
+    flow::Preference<QByteArray>("new_project_dialog/geometry");
 };
 
 /* ----------------------------- NewProjectDialog -------------------------- */
@@ -34,13 +35,12 @@ NewProjectDialog::NewProjectDialog(QWidget *parent)
 
 NewProjectDialog::~NewProjectDialog() { writeSettings(); }
 
-std::unique_ptr<api::project::IProject> NewProjectDialog::create()
+std::unique_ptr<flow::project::Project> NewProjectDialog::create()
 {
   if (exec() != QDialog::Accepted) return nullptr;
 
-
   auto format_helper =
-    FormatHelper<ProjectFormatPro>{api::IFileFormat::Capability::Write};
+    flow::FormatHelper<ProjectFormatPro>{flow::FileFormat::Capability::Write};
   auto format = format_helper.getFormats().isEmpty()
                   ? nullptr
                   : format_helper.getFormats().front();
@@ -48,7 +48,7 @@ std::unique_ptr<api::project::IProject> NewProjectDialog::create()
   QString error = tr("Wrong project format");
   if (format)
   {
-    auto project = Project::create();
+    auto project = flow::project::Project::create();
     project->setWriterFormat(format);
     project->setWriterFormat(format);
 

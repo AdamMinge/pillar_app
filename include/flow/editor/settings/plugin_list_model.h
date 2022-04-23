@@ -7,7 +7,10 @@
 #include <utility>
 /* -------------------------------------------------------------------------- */
 
-class Plugin;
+namespace flow
+{
+  class Plugin;
+}
 
 class PluginListModel : public QAbstractListModel
 {
@@ -43,7 +46,7 @@ Q_SIGNALS:
   void appliedChanged(bool applied);
 
 protected:
-  std::vector<std::pair<Plugin *, bool>> m_plugins;
+  std::vector<std::pair<flow::Plugin *, bool>> m_plugins;
 };
 
 class StaticPluginListModel : public PluginListModel

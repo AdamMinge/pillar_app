@@ -43,11 +43,11 @@ namespace flow
       }
 
       updateToolTipWithShortcut(action);
-      Q_EMIT actionChanged(id);
+      Q_EMIT changedAction(id);
     });
 
     updateToolTipWithShortcut(action);
-    Q_EMIT actionChanged(id);
+    Q_EMIT registeredAction(id);
   }
 
   void ActionManager::unregisterAction(QAction *action, const QString &id)
@@ -59,7 +59,7 @@ namespace flow
     m_actions.remove(id, action);
     action->disconnect(this);
     m_default_shortcuts.remove(id);
-    Q_EMIT actionChanged(id);
+    Q_EMIT unregisteredAction(id);
   }
 
   void ActionManager::registerMenu(QMenu *menu, const QString &id)

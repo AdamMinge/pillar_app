@@ -1,5 +1,5 @@
-#ifndef FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
-#define FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
+#ifndef PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
+#define PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
 
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/modules/api/document/new_document_widget.h>
@@ -37,4 +37,4 @@ private:
   QScopedPointer<Preferences> m_preferences;
 };
 
-#endif//FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
+#endif//PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H

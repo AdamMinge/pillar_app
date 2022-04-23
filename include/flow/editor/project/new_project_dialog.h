@@ -10,9 +10,9 @@ namespace Ui
   class NewProjectDialog;
 }
 
-namespace api::project
+namespace flow::project
 {
-  class IProject;
+  class Project;
 }
 
 class NewProjectDialog : public QDialog
@@ -26,7 +26,7 @@ public:
   explicit NewProjectDialog(QWidget *parent = nullptr);
   ~NewProjectDialog() override;
 
-  [[nodiscard]] std::unique_ptr<api::project::IProject> create();
+  [[nodiscard]] std::unique_ptr<flow::project::Project> create();
 
 protected:
   void changeEvent(QEvent *event) override;

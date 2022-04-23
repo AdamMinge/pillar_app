@@ -4,8 +4,10 @@
 #include "flow/editor/document/document_type_list_delegate.h"
 #include "flow/editor/document/document_type_list_model.h"
 #include "flow/editor/document/new_document_dialog.h"
-#include "flow/libflow/preferences_manager.h"
-#include "flow/plugins/document/flow/new_flow_document_widget.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/preferences_manager.h>
+#include <flow/libflow/document/new_document_widget.h>
+#include <flow/libflow/document/document.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_document_dialog.h"
 /* -------------------------------------------------------------------------- */
@@ -13,8 +15,8 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NewDocumentDialog::Preferences {
-  Preference<QByteArray> new_document_dialog_geometry =
-    Preference<QByteArray>("new_document_dialog/geometry");
+  flow::Preference<QByteArray> new_document_dialog_geometry =
+    flow::Preference<QByteArray>("new_document_dialog/geometry");
 };
 
 /* ----------------------------- NewDocumentDialog -------------------------- */
@@ -34,11 +36,11 @@ NewDocumentDialog::NewDocumentDialog(QWidget *parent)
 
 NewDocumentDialog::~NewDocumentDialog() { writeSettings(); }
 
-std::unique_ptr<api::document::IDocument> NewDocumentDialog::create()
+std::unique_ptr<flow::document::Document> NewDocumentDialog::create()
 {
   if (exec() != QDialog::Accepted) return nullptr;
 
-  auto new_document_widget = dynamic_cast<api::document::INewDocumentWidget *>(
+  auto new_document_widget = dynamic_cast<flow::document::NewDocumentWidget *>(
     m_ui->m_stacked_widget->currentWidget());
   Q_ASSERT(new_document_widget);
 
@@ -61,21 +63,20 @@ void NewDocumentDialog::changeEvent(QEvent *event)
 
 void NewDocumentDialog::documentTypeChanged(const QModelIndex &index)
 {
-  auto document_type = index.data(DocumentTypeListModel::Role::DocumentTypeRole)
-                         .value<api::document::IDocument::Type>();
+  auto document_id = index.data(DocumentTypeListModel::Role::DocumentTypeIdRole).toString();
 
-  auto prev_widget = dynamic_cast<api::document::INewDocumentWidget *>(
+  auto prev_widget = dynamic_cast<flow::document::NewDocumentWidget *>(
     m_ui->m_stacked_widget->currentWidget());
-  auto next_widget = m_document_create_widgets[document_type];
+  auto next_widget = m_document_create_widgets[document_id];
 
   m_ui->m_stacked_widget->setCurrentWidget(next_widget);
   m_ui->m_create_button->setEnabled(next_widget->isValid());
 
   disconnect(
-    prev_widget, &api::document::INewDocumentWidget::isValidChanged,
+    prev_widget, &flow::document::NewDocumentWidget::isValidChanged,
     m_ui->m_create_button, &QPushButton::setEnabled);
   connect(
-    next_widget, &api::document::INewDocumentWidget::isValidChanged,
+    next_widget, &flow::document::NewDocumentWidget::isValidChanged,
     m_ui->m_create_button, &QPushButton::setEnabled);
 }
 
@@ -99,13 +100,15 @@ void NewDocumentDialog::initUi()
   m_document_types_delegate->setMargins(QMargins(10, 5, 10, 5));
   m_document_types_delegate->setSpacing(10, 15);
 
-  m_document_create_widgets[api::document::IDocument::Type::Flow] =
+  /*
+  m_document_create_widgets[flow::document::Document::Type::Flow] =
     new NewFlowDocumentWidget(this);
 
   m_ui->m_stacked_widget->addWidget(
-    m_document_create_widgets[api::document::IDocument::Type::Flow]);
+    m_document_create_widgets[flow::document::Document::Type::Flow]);
   m_ui->m_stacked_widget->setCurrentWidget(
-    m_document_create_widgets[api::document::IDocument::Type::Flow]);
+    m_document_create_widgets[flow::document::Document::Type::Flow]);
+  */
 
   m_ui->m_document_type_list->setCurrentIndex(m_document_types_model->index(0));
 

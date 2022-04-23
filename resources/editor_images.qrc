@@ -8,7 +8,6 @@
         <file>images/64x64/project.png</file>
         <file>images/64x64/flow_document.png</file>
         <file>images/64x64/unknown_document.png</file>
-        <file>images/64x64/plugin.png</file>
 
         <file>images/256x256/about_logo.png</file>
     </qresource>

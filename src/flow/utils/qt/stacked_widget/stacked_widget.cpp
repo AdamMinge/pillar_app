@@ -12,7 +12,7 @@ namespace utils
       : QStackedWidget(parent), m_view(nullptr), m_default_widget(nullptr)
   {}
 
-  QtStackedWidget::~QtStackedWidget() = default;
+  QtStackedWidget::~QtStackedWidget() { modelChanged(nullptr); }
 
   void QtStackedWidget::setView(QAbstractItemView *view)
   {

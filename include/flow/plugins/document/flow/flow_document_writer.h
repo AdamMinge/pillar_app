@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_DOCUMENT_WRITER_H
-#define FLOW_FLOW_DOCUMENT_WRITER_H
+#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_WRITER_H
+#define PLUGIN_FLOW_FLOW_DOCUMENT_WRITER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
@@ -26,4 +26,4 @@ private:
   std::unique_ptr<FlowDocumentWriterImpl> m_impl;
 };
 
-#endif//FLOW_FLOW_DOCUMENT_WRITER_H
+#endif//PLUGIN_FLOW_FLOW_DOCUMENT_WRITER_H

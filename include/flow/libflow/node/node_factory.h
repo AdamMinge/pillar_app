@@ -13,11 +13,13 @@ namespace flow::node
 
   class Node;
 
-  class LIB_FLOW_API NodeFactory
+  class LIB_FLOW_API NodeFactory : public QObject
   {
+    Q_OBJECT
+
   public:
     explicit NodeFactory(QString name, QIcon icon);
-    virtual ~NodeFactory();
+    ~NodeFactory() override;
 
     [[nodiscard]] virtual std::unique_ptr<Node> create() const = 0;
 

@@ -4,7 +4,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_table_delegate.h"
 #include "flow/editor/settings/shortcuts_table_model.h"
-#include "flow/libflow/action_manager.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/action_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/widget/shortcut_selector.h>
 /* -------------------------------------------------------------------------- */
@@ -57,7 +58,7 @@ bool ShortcutsTableDelegate::editorEvent(
         const auto action_id =
           model->data(action_id_index, Qt::DisplayRole).toString();
         const auto action_default_shortcut =
-          ActionManager::getInstance().getDefaultShortcut(action_id);
+          flow::ActionManager::getInstance().getDefaultShortcut(action_id);
 
         model->setData(
           action_shortcut_index, action_default_shortcut, Qt::DisplayRole);

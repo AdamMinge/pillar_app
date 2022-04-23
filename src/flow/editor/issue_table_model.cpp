@@ -1,24 +1,25 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/issue_table_model.h"
-#include "flow/libflow/issue_manager.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/issue_manager.h>
 /* -------------------------------------------------------------------------- */
 
 IssueTableModel::IssueTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
-  auto issue_manager = &IssueManager::getInstance();
+  auto issue_manager = &flow::IssueManager::getInstance();
 
   connect(
-    issue_manager, &IssueManager::onErrorReport, this,
+    issue_manager, &flow::IssueManager::onErrorReport, this,
     &IssueTableModel::addIssue);
   connect(
-    issue_manager, &IssueManager::onWarningReport, this,
+    issue_manager, &flow::IssueManager::onWarningReport, this,
     &IssueTableModel::addIssue);
 
   connect(
-    issue_manager, qOverload<const QVariant &>(&IssueManager::onClear), this,
+    issue_manager, qOverload<const QVariant &>(&flow::IssueManager::onClear), this,
     &IssueTableModel::removeIssues);
   connect(
-    issue_manager, qOverload<>(&IssueManager::onClear), this,
+    issue_manager, qOverload<>(&flow::IssueManager::onClear), this,
     &IssueTableModel::removeAllIssues);
 }
 
@@ -89,7 +90,7 @@ QVariant IssueTableModel::headerData(
   return QVariant{};
 }
 
-void IssueTableModel::addIssue(const Issue &issue)
+void IssueTableModel::addIssue(const flow::Issue &issue)
 {
   auto found_issue_iter =
     std::find_if(m_issues.begin(), m_issues.end(), [&issue](auto &issue_pair) {
@@ -144,10 +145,10 @@ QIcon IssueTableModel::getIssueIcon(const QModelIndex &index) const
 
   switch (issue.getSeverity())
   {
-    case Issue::Severity::Error:
+    case flow::Issue::Severity::Error:
       return QIcon(":/editor/images/32x32/error_issue.png");
 
-    case Issue::Severity::Warning:
+    case flow::Issue::Severity::Warning:
       return QIcon(":/editor/images/32x32/warning_issue.png");
   }
 
@@ -160,10 +161,10 @@ QString IssueTableModel::getIssueSeverityName(const QModelIndex &index) const
 
   switch (issue.getSeverity())
   {
-    case Issue::Severity::Error:
+    case flow::Issue::Severity::Error:
       return tr("Error");
 
-    case Issue::Severity::Warning:
+    case flow::Issue::Severity::Warning:
       return tr("Warning");
   }
 

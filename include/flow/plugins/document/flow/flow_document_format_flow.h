@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_FORMAT_FLOW_H
-#define FLOW_DOCUMENT_FORMAT_FLOW_H
+#ifndef PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
+#define PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
 
 /* ------------------------------------ Local ------------------------------- */
 #include "flow_document_format.h"
@@ -24,4 +24,4 @@ public:
     QString *error) override;
 };
 
-#endif//FLOW_DOCUMENT_FORMAT_FLOW_H
+#endif//PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H

@@ -11,6 +11,7 @@ namespace flow
 {
 
   template<typename FORMAT>
+  requires std::derived_from<FORMAT, FileFormat>
   class LIB_FLOW_API FormatHelper
   {
   public:
@@ -31,6 +32,7 @@ namespace flow
   };
 
   template<typename FORMAT>
+  requires std::derived_from<FORMAT, FileFormat>
   FormatHelper<FORMAT>::FormatHelper(FileFormat::Capabilities capabilities)
   {
     PluginManager::getInstance().forEach<FORMAT>(
@@ -46,19 +48,18 @@ namespace flow
   }
 
   template<typename FORMAT>
-  const QString &FormatHelper<FORMAT>::getFilter() const
-  {
-    return m_filter;
-  }
+  requires std::derived_from<FORMAT, FileFormat>
+  const QString &FormatHelper<FORMAT>::getFilter() const { return m_filter; }
 
   template<typename FORMAT>
+  requires std::derived_from<FORMAT, FileFormat>
   const QList<FORMAT *> &FormatHelper<FORMAT>::getFormats() const
   {
     return m_formats;
   }
 
   template<typename FORMAT>
-  FORMAT *
+  requires std::derived_from<FORMAT, FileFormat> FORMAT *
   FormatHelper<FORMAT>::findFormatByFileName(const QString &file_name) const
   {
     auto found_format = std::find_if(
@@ -69,7 +70,7 @@ namespace flow
   }
 
   template<typename FORMAT>
-  FORMAT *
+  requires std::derived_from<FORMAT, FileFormat> FORMAT *
   FormatHelper<FORMAT>::findFormatByShortName(const QString &short_name) const
   {
     auto found_format = std::find_if(
@@ -81,7 +82,7 @@ namespace flow
   }
 
   template<typename FORMAT>
-  FORMAT *
+  requires std::derived_from<FORMAT, FileFormat> FORMAT *
   FormatHelper<FORMAT>::findFormatByNameFilter(const QString &name_filter) const
   {
     auto found_format = std::find_if(

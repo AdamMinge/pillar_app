@@ -7,7 +7,10 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-class Project;
+namespace flow::project
+{
+  class Project;
+}
 
 class ProjectReader
 {
@@ -17,8 +20,9 @@ public:
   explicit ProjectReader();
   ~ProjectReader();
 
-  std::unique_ptr<Project> read(QIODevice &device, QString *error = nullptr);
-  std::unique_ptr<Project>
+  std::unique_ptr<flow::project::Project>
+  read(QIODevice &device, QString *error = nullptr);
+  std::unique_ptr<flow::project::Project>
   read(const QString &file_name, QString *error = nullptr);
 
   bool isValid(const QString &file_name);

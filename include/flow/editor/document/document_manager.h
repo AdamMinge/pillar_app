@@ -4,13 +4,12 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
 #include <QPointer>
+#include <QUndoGroup>
 #include <QScopedPointer>
 #include <QStackedLayout>
 #include <QTabBar>
 /* --------------------------------- Standard ------------------------------- */
 #include <unordered_map>
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/document/document_manager.h>
 /* -------------------------------------------------------------------------- */
 
 class NoDocumentWidget;
@@ -20,7 +19,13 @@ namespace utils
   class QtFileSystemWatcher;
 }
 
-class DocumentManager : public api::document::IDocumentManager
+namespace flow::document
+{
+  class Document;
+  class DocumentEditor;
+}
+
+class DocumentManager : public QObject
 {
   Q_OBJECT
 
@@ -31,50 +36,50 @@ public:
 public:
   ~DocumentManager() override;
 
-  [[nodiscard]] QWidget *getWidget() const override;
+  [[nodiscard]] QWidget *getWidget() const;
 
   void addEditor(
-    api::document::IDocument::Type document_type,
-    std::unique_ptr<api::document::IDocumentEditor> editor) override;
-  void removeEditor(api::document::IDocument::Type document_type) override;
-  void removeAllEditors() override;
+    QString document_id,
+    std::unique_ptr<flow::document::DocumentEditor> editor);
+  void removeEditor(const QString& document_id);
+  void removeAllEditors();
 
-  [[nodiscard]] api::document::IDocumentEditor *
-  getEditor(api::document::IDocument::Type document_type) const override;
-  [[nodiscard]] api::document::IDocumentEditor *
-  getCurrentEditor() const override;
+  [[nodiscard]] flow::document::DocumentEditor *
+  getEditor(const QString& document_id) const;
+  [[nodiscard]] flow::document::DocumentEditor *
+  getCurrentEditor() const;
 
-  void addDocument(std::unique_ptr<api::document::IDocument> document) override;
+  void addDocument(std::unique_ptr<flow::document::Document> document);
   void insertDocument(
-    int index, std::unique_ptr<api::document::IDocument> document) override;
+    int index, std::unique_ptr<flow::document::Document> document);
 
-  void removeDocument(int index) override;
-  void removeAllDocuments() override;
+  void removeDocument(int index);
+  void removeAllDocuments();
 
-  [[nodiscard]] api::document::IDocument *getDocument(int index) const override;
-  [[nodiscard]] api::document::IDocument *getCurrentDocument() const override;
+  [[nodiscard]] flow::document::Document *getDocument(int index) const;
+  [[nodiscard]] flow::document::Document *getCurrentDocument() const;
 
   [[nodiscard]] int
-  findDocument(api::document::IDocument *document) const override;
-  [[nodiscard]] int findDocument(const QString &file_name) const override;
+  findDocument(flow::document::Document *document) const;
+  [[nodiscard]] int findDocument(const QString &file_name) const;
 
-  void switchToDocument(int index) override;
-  void switchToDocument(api::document::IDocument *document) override;
-  bool switchToDocument(const QString &file_name) override;
+  void switchToDocument(int index);
+  void switchToDocument(flow::document::Document *document);
+  bool switchToDocument(const QString &file_name);
 
-  [[nodiscard]] QUndoGroup *getUndoGroup() const override;
+  [[nodiscard]] QUndoGroup *getUndoGroup() const;
 
-  void saveState() override;
-  void restoreState() override;
+  void saveState();
+  void restoreState();
 
-  bool saveDocument(api::document::IDocument *document) override;
-  bool saveDocumentAs(api::document::IDocument *document) override;
+  bool saveDocument(flow::document::Document *document);
+  bool saveDocumentAs(flow::document::Document *document);
 
-  bool reloadDocumentAt(int index) override;
-  bool loadDocument(const QString &file_name) override;
+  bool reloadDocumentAt(int index);
+  bool loadDocument(const QString &file_name);
 
-  [[nodiscard]] const std::vector<std::unique_ptr<api::document::IDocument>> &
-  getDocuments() const override;
+  [[nodiscard]] const std::vector<std::unique_ptr<flow::document::Document>> &
+  getDocuments() const;
 
 protected:
   explicit DocumentManager();
@@ -86,16 +91,20 @@ private Q_SLOTS:
   void filesChanged(const QStringList &file_names);
   void
   fileNameChanged(const QString &new_file_name, const QString &old_file_name);
-  void updateDocumentTab(api::document::IDocument *document);
+  void updateDocumentTab(flow::document::Document *document);
+
+Q_SIGNALS:
+  void currentDocumentChanged(flow::document::Document *document);
+  void documentCloseRequested(int index);
 
 private:
   static QScopedPointer<DocumentManager> m_instance;
 
-  std::vector<std::unique_ptr<api::document::IDocument>> m_documents;
+  std::vector<std::unique_ptr<flow::document::Document>> m_documents;
   std::unordered_map<
-    api::document::IDocument::Type,
-    std::unique_ptr<api::document::IDocumentEditor>>
-    m_editor_for_document_type;
+    QString,
+    std::unique_ptr<flow::document::DocumentEditor>>
+    m_editor_for_document_id;
 
   QPointer<QWidget> m_widget;
   NoDocumentWidget *m_no_document_widget;

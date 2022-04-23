@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_EDITOR_H
-#define FLOW_FLOW_EDITOR_H
+#ifndef PLUGIN_FLOW_FLOW_EDITOR_H
+#define PLUGIN_FLOW_FLOW_EDITOR_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
@@ -63,4 +63,4 @@ private:
   QScopedPointer<Preferences> m_preferences;
 };
 
-#endif//FLOW_FLOW_EDITOR_H
+#endif//PLUGIN_FLOW_FLOW_EDITOR_H

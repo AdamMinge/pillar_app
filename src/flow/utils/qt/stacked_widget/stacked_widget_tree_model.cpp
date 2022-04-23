@@ -8,9 +8,8 @@ namespace utils
   /* ------------------------- QtStackedWidgetTreeItem----------------------- */
 
   QtStackedWidgetTreeItem::QtStackedWidgetTreeItem(
-    QString name, QWidget *widget,
-    std::initializer_list<QtStackedWidgetTreeItem *> children)
-      : m_parent(nullptr), m_name(std::move(name)), m_widget(widget)
+    QWidget *widget, std::initializer_list<QtStackedWidgetTreeItem *> children)
+      : m_parent(nullptr), m_widget(widget)
   {
     std::for_each(children.begin(), children.end(), [this](auto child) {
       addChild(child);
@@ -70,30 +69,64 @@ namespace utils
     return static_cast<int>(m_children.indexOf(child));
   }
 
-  void QtStackedWidgetTreeItem::setName(QString name)
-  {
-    m_name = std::move(name);
-  }
-
   void QtStackedWidgetTreeItem::setWidget(QWidget *widget)
   {
     m_widget = widget;
   }
 
-  const QString &QtStackedWidgetTreeItem::getName() const { return m_name; }
-
   QWidget *QtStackedWidgetTreeItem::getWidget() const { return m_widget; }
 
   /* ------------------------- QtStackedWidgetTreeModel---------------------- */
 
-  QtStackedWidgetTreeModel::QtStackedWidgetTreeModel(
-    const QList<QtStackedWidgetTreeItem *> &root_items, QObject *parent)
-      : QAbstractItemModel(parent), m_root_items(root_items)
+  QtStackedWidgetTreeModel::QtStackedWidgetTreeModel(QObject *parent)
+      : QAbstractItemModel(parent)
   {}
 
   QtStackedWidgetTreeModel::~QtStackedWidgetTreeModel()
   {
     qDeleteAll(m_root_items);
+  }
+
+  void QtStackedWidgetTreeModel::append(
+    QtStackedWidgetTreeItem *item, const QModelIndex &parent)
+  {
+    if (parent.isValid())
+    {
+      auto parent_item =
+        static_cast<QtStackedWidgetTreeItem *>(parent.internalPointer());
+      Q_ASSERT(parent_item);
+
+      const auto row = parent_item->getChildCount();
+      beginInsertRows(parent, row, row);
+      parent_item->addChild(item);
+      endInsertRows();
+    } else
+    {
+      const auto row = static_cast<int>(m_root_items.count());
+      beginInsertRows(parent, row, row);
+      m_root_items.append(item);
+      endInsertRows();
+    }
+  }
+
+  void QtStackedWidgetTreeModel::remove(const QModelIndex &index)
+  {
+    auto item = static_cast<QtStackedWidgetTreeItem *>(index.internalPointer());
+    Q_ASSERT(item);
+
+    if (auto parent_item = item->getParent(); parent_item)
+    {
+      const auto row = parent_item->findChild(item);
+      beginRemoveRows(index.parent(), row, row);
+      parent_item->removeChild(item);
+      endRemoveRows();
+    } else
+    {
+      const auto row = static_cast<int>(m_root_items.indexOf(item));
+      beginRemoveRows(index.parent(), row, row);
+      m_root_items.removeOne(item);
+      endRemoveRows();
+    }
   }
 
   Qt::ItemFlags QtStackedWidgetTreeModel::flags(const QModelIndex &index) const
@@ -117,10 +150,13 @@ namespace utils
     {
       case Qt::DisplayRole:
       case Role::NameRole:
-        return item->getName();
+        return item->getWidget()->windowTitle();
 
       case Role::WidgetRole:
         return QVariant::fromValue(item->getWidget());
+
+      case Role::ObjectNameRole:
+        return item->getWidget()->objectName();
 
       default:
         return QVariant{};
@@ -196,51 +232,24 @@ namespace utils
     return 1;
   }
 
-  QModelIndex QtStackedWidgetTreeModel::getIndexByName(
-    const QString &name, const QModelIndex &parent) const
+  QModelIndex QtStackedWidgetTreeModel::getIndexBy(
+    Role role, const QVariant &value, const QModelIndex &parent) const
   {
-    return getIndexByName(*this, name, parent);
+    return getIndexBy(*this, role, value, parent);
   }
-
-  QModelIndex QtStackedWidgetTreeModel::getIndexByWidget(
-    const QWidget *widget, const QModelIndex &parent) const
-  {
-    return getIndexByWidget(*this, widget, parent);
-  }
-
-  QModelIndex QtStackedWidgetTreeModel::getIndexByName(
-    const QAbstractItemModel &model, const QString &name,
+  
+  QModelIndex QtStackedWidgetTreeModel::getIndexBy(
+    const QAbstractItemModel &model, Role role, const QVariant &value,
     const QModelIndex &parent)
   {
     for (auto row = 0; row < model.rowCount(parent); ++row)
     {
       const auto current_index = model.index(row, 0, parent);
-      const auto current_name =
-        model.data(current_index, Role::NameRole).toString();
+      const auto current_value = model.data(current_index, role);
 
-      if (current_name == name) return current_index;
+      if (value == current_value) return current_index;
 
-      if (auto index = getIndexByName(model, name, current_index);
-          index.isValid())
-        return index;
-    }
-
-    return QModelIndex{};
-  }
-
-  QModelIndex QtStackedWidgetTreeModel::getIndexByWidget(
-    const QAbstractItemModel &model, const QWidget *widget,
-    const QModelIndex &parent)
-  {
-    for (auto row = 0; row < model.rowCount(parent); ++row)
-    {
-      const auto current_index = model.index(row, 0, parent);
-      const auto current_widget =
-        model.data(current_index, Role::WidgetRole).value<QWidget *>();
-
-      if (current_widget == widget) return current_index;
-
-      if (auto index = getIndexByWidget(model, widget, current_index);
+      if (auto index = getIndexBy(model, role, value, current_index);
           index.isValid())
         return index;
     }

@@ -11,22 +11,17 @@ namespace Ui
   class ProjectWindow;
 }
 
-namespace api
+namespace flow
 {
   namespace project
   {
-    class IProject;
+    class Project;
   }
   namespace document
   {
-    class IDocument;
+    class Document;
   }
 }// namespace api
-
-class PreferencesManager;
-class DocumentManager;
-class ProjectManager;
-class ActionManager;
 
 class ProjectDock;
 class ConsoleDock;
@@ -50,16 +45,11 @@ protected:
   void closeEvent(QCloseEvent *event) override;
   void changeEvent(QEvent *event) override;
 
-  [[nodiscard]] static DocumentManager &getDocumentManager();
-  [[nodiscard]] static ProjectManager &getProjectManager();
-  [[nodiscard]] static ActionManager &getActionManager();
-  [[nodiscard]] static PreferencesManager &getPreferencesManager();
-
 private Q_SLOTS:
-  void documentChanged(api::document::IDocument *document);
-  void projectChanged(api::project::IProject *project);
+  void documentChanged(flow::document::Document *document);
+  void projectChanged(flow::project::Project *project);
 
-  bool confirmSave(api::document::IDocument *document);
+  bool confirmSave(flow::document::Document *document);
   bool confirmAllSave();
 
   void updateActions();
@@ -76,8 +66,8 @@ private Q_SLOTS:
   void openDocument();
   bool closeDocument(int index);
   bool closeDocument();
-  bool saveDocument(api::document::IDocument *document);
-  bool saveDocumentAs(api::document::IDocument *document);
+  bool saveDocument(flow::document::Document *document);
+  bool saveDocumentAs(flow::document::Document *document);
   bool saveAllDocuments();
 
   void performCut();
@@ -93,7 +83,7 @@ private:
 
   void retranslateUi();
 
-  bool switchProject(std::unique_ptr<api::project::IProject> project);
+  bool switchProject(std::unique_ptr<flow::project::Project> project);
 
 private:
   QScopedPointer<Ui::ProjectWindow> m_ui;

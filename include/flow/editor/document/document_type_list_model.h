@@ -5,8 +5,6 @@
 #include <QAbstractListModel>
 #include <QIcon>
 #include <QStringList>
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
 class DocumentTypeListModel : public QAbstractListModel
@@ -16,7 +14,7 @@ class DocumentTypeListModel : public QAbstractListModel
 public:
   enum Role
   {
-    DocumentTypeRole = Qt::UserRole + 1,
+    DocumentTypeIdRole = Qt::UserRole + 1,
     DocumentTypeNameRole,
     DocumentTypeIconRole,
   };
@@ -28,12 +26,6 @@ public:
   [[nodiscard]] QVariant
   data(const QModelIndex &index, int role) const override;
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
-
-private:
-  [[nodiscard]] static QString
-  getDocumentNameForType(api::document::IDocument::Type type);
-  [[nodiscard]] static QIcon
-  getDocumentIconForType(api::document::IDocument::Type type);
 };
 
 #endif//FLOW_DOCUMENT_TYPE_LIST_MODEL_H

@@ -2,6 +2,7 @@
 #include <QFileInfo>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/recent_project_list_model.h"
+/* ---------------------------------- LibFlow ------------------------------- */
 #include "flow/libflow/preferences_manager.h"
 /* -------------------------------------------------------------------------- */
 
@@ -9,8 +10,8 @@ RecentProjectListModel::RecentProjectListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
   connect(
-    std::addressof(PreferencesManager::getInstance()),
-    &PreferencesManager::recentProjectFilesChanged, this,
+    std::addressof(flow::PreferencesManager::getInstance()),
+    &flow::PreferencesManager::recentProjectFilesChanged, this,
     &RecentProjectListModel::recentProjectFilesChanged);
 
   recentProjectFilesChanged();
@@ -52,7 +53,7 @@ int RecentProjectListModel::rowCount(const QModelIndex &parent) const
 void RecentProjectListModel::recentProjectFilesChanged()
 {
   beginResetModel();
-  m_projects = PreferencesManager::getInstance().getRecentProjectFiles();
+  m_projects = flow::PreferencesManager::getInstance().getRecentProjectFiles();
   endResetModel();
 }
 

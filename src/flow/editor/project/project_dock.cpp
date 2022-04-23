@@ -12,8 +12,9 @@
 #include "flow/editor/document/document_manager.h"
 #include "flow/editor/document/new_document_dialog.h"
 #include "flow/editor/project/project_dock.h"
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/project/project.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/project/project.h>
+#include <flow/libflow/document/document.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
 #include <flow/utils/qt/view/unselectable_view.h>
@@ -36,7 +37,7 @@ ProjectDock::ProjectDock(QWidget *parent)
 
 ProjectDock::~ProjectDock() = default;
 
-void ProjectDock::setProject(api::project::IProject *project)
+void ProjectDock::setProject(flow::project::Project *project)
 {
   if (m_current_project == project) return;
 
@@ -56,7 +57,7 @@ void ProjectDock::setProject(api::project::IProject *project)
   m_view->expand(root_index);
 }
 
-api::project::IProject *ProjectDock::getProject() const
+flow::project::Project *ProjectDock::getProject() const
 {
   return m_current_project;
 }

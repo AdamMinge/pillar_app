@@ -49,7 +49,9 @@ namespace flow
     void resetAllCustomShortcuts();
 
   Q_SIGNALS:
-    void actionChanged(const QString &id);
+    void changedAction(const QString &id);
+    void registeredAction(const QString &id);
+    void unregisteredAction(const QString &id);
 
   private:
     void applyShortcut(QAction *action, const QKeySequence &shortcut);

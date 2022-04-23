@@ -23,6 +23,8 @@ namespace flow::document
     load(const QString &file_name, QString *error) = 0;
     virtual bool save(
       const Document &document, const QString &file_name, QString *error) = 0;
+
+    [[nodiscard]] virtual QString getDocumentId() const = 0;
   };
 
 }// namespace flow::document

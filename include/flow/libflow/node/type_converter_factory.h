@@ -1,5 +1,5 @@
-#ifndef FLOW_CONVERTER_FACTORY_H
-#define FLOW_CONVERTER_FACTORY_H
+#ifndef FLOW_TYPE_CONVERTER_FACTORY_H
+#define FLOW_TYPE_CONVERTER_FACTORY_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include <QIcon>
@@ -13,11 +13,11 @@ namespace flow::node
 
   class TypeConverter;
 
-  class LIB_FLOW_API ConverterFactory
+  class LIB_FLOW_API TypeConverterFactory
   {
   public:
-    explicit ConverterFactory(QString name, QIcon icon);
-    virtual ~ConverterFactory();
+    explicit TypeConverterFactory(QString name, QIcon icon);
+    virtual ~TypeConverterFactory();
 
     [[nodiscard]] virtual std::unique_ptr<TypeConverter> create() const = 0;
 
@@ -31,35 +31,36 @@ namespace flow::node
 
   template<typename TYPE>
   requires std::derived_from<TYPE, TypeConverter>
-  class LIB_FLOW_API BaseConverterFactory : public ConverterFactory
+  class LIB_FLOW_API BaseTypeConverterFactory : public TypeConverterFactory
   {
   public:
-    explicit BaseConverterFactory(QString name, QIcon icon);
+    explicit BaseTypeConverterFactory(QString name, QIcon icon);
 
     [[nodiscard]] std::unique_ptr<TypeConverter> create() const override;
   };
 
   template<typename TYPE>
   requires std::derived_from<TYPE, TypeConverter>
-  BaseConverterFactory<TYPE>::BaseConverterFactory(QString name, QIcon icon)
-      : ConverterFactory(name, icon)
+  BaseTypeConverterFactory<TYPE>::BaseTypeConverterFactory(
+    QString name, QIcon icon)
+      : TypeConverterFactory(name, icon)
   {}
 
   template<typename TYPE>
   requires std::derived_from<TYPE, TypeConverter> std::unique_ptr<TypeConverter>
-  BaseConverterFactory<TYPE>::create()
+  BaseTypeConverterFactory<TYPE>::create()
   const { return std::make_unique<TYPE>(); }
 
-  class LIB_FLOW_API ConverterFactories : public QObject
+  class LIB_FLOW_API TypeConverterFactories : public QObject
   {
     Q_OBJECT
 
   public:
-    explicit ConverterFactories(QString name, QIcon icon);
-    ~ConverterFactories() override;
+    explicit TypeConverterFactories(QString name, QIcon icon);
+    ~TypeConverterFactories() override;
 
-    void
-    registerFactory(QString node_id, std::unique_ptr<ConverterFactory> factory);
+    void registerFactory(
+      QString node_id, std::unique_ptr<TypeConverterFactory> factory);
     void unregisterFactory(const QString &node_id);
 
     [[nodiscard]] virtual std::unique_ptr<TypeConverter>
@@ -69,7 +70,7 @@ namespace flow::node
     [[nodiscard]] QIcon getIcon() const;
 
   private:
-    std::map<QString, std::unique_ptr<ConverterFactory>> m_factories;
+    std::map<QString, std::unique_ptr<TypeConverterFactory>> m_factories;
     QString m_name;
     QIcon m_icon;
   };
@@ -77,6 +78,6 @@ namespace flow::node
 }// namespace flow::node
 
 Q_DECLARE_INTERFACE(
-  flow::node::ConverterFactories, "org.flow.ConverterFactories")
+  flow::node::TypeConverterFactories, "org.flow.TypeConverterFactories")
 
-#endif//FLOW_CONVERTER_FACTORY_H
+#endif//FLOW_TYPE_CONVERTER_FACTORY_H

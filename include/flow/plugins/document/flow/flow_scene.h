@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_SCENE_H
-#define FLOW_FLOW_SCENE_H
+#ifndef PLUGIN_FLOW_FLOW_SCENE_H
+#define PLUGIN_FLOW_FLOW_SCENE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsScene>
@@ -31,4 +31,4 @@ private:
   FlowDocument *m_flow_document;
 };
 
-#endif//FLOW_FLOW_SCENE_H
+#endif//PLUGIN_FLOW_FLOW_SCENE_H

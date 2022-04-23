@@ -78,7 +78,7 @@ void IssueDock::issueActivate(const QModelIndex &index)
 {
   const auto issue =
     m_issue_filter_model->data(index, IssueTableModel::Role::IssueRole)
-      .value<Issue>();
+      .value<flow::Issue>();
   if (auto callback = issue.getCallback(); callback) callback();
 }
 

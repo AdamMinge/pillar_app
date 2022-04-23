@@ -39,11 +39,23 @@ public:
   headerData(int section, Qt::Orientation orientation, int role) const override;
   [[nodiscard]] Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+private:
+  void init();
+  void addedShortcut(const QString& action_id);
+  void removedShortcut(const QString& action_id);
+
 Q_SIGNALS:
   void appliedChanged(bool applied);
 
 private:
-  std::vector<std::pair<QAction *, QKeySequence>> m_actions;
+  struct ShortcutData {
+    QAction *action;
+    QString action_id;
+    QKeySequence key_sequence;
+  };
+
+private:
+  std::vector<ShortcutData> m_actions;
 };
 
 #endif//FLOW_SHORTCUTS_TABLE_MODEL_H

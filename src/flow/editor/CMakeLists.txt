@@ -22,7 +22,6 @@ set(sources
 
         ${source_root}/settings/settings_dialog.cpp
         ${source_root}/settings/settings_widget_tree_model.cpp
-        ${source_root}/settings/settings_widget.cpp
         ${source_root}/settings/general_settings_widget.cpp
         ${source_root}/settings/plugin_settings_widget.cpp
         ${source_root}/settings/shortcuts_settings_widget.cpp
@@ -32,6 +31,7 @@ set(sources
         ${source_root}/settings/shortcuts_table_model.cpp
         ${source_root}/settings/shortcuts_table_delegate.cpp
 
+        ${source_root}/project/project_manager.cpp
         ${source_root}/project/project_window.cpp
         ${source_root}/project/no_project_window.cpp
         ${source_root}/project/new_project_dialog.cpp
@@ -60,7 +60,6 @@ set(includes
 
         ${include_root}/settings/settings_dialog.h
         ${include_root}/settings/settings_widget_tree_model.h
-        ${include_root}/settings/settings_widget.h
         ${include_root}/settings/general_settings_widget.h
         ${include_root}/settings/plugin_settings_widget.h
         ${include_root}/settings/shortcuts_settings_widget.h
@@ -81,15 +80,12 @@ set(includes
         ${include_root}/project/project_writer.h
         ${include_root}/project/project_reader.h
 
+        ${include_root}/document/document_manager.h
         ${include_root}/document/new_document_dialog.h
         ${include_root}/document/undo_dock.h
         ${include_root}/document/no_document_widget.h
         ${include_root}/document/document_type_list_model.h
         ${include_root}/document/document_type_list_delegate.h)
-
-set(resources
-        ${resources_root}/editor_translations.qrc
-        ${resources_root}/editor_images.qrc)
 
 set(uis
         ${uis_root}/main_window.ui
@@ -107,11 +103,11 @@ set(uis
         ${uis_root}/project/new_project_dialog.ui
 
         ${uis_root}/document/new_document_dialog.ui
-        ${uis_root}/document/new_flow_document_widget.ui
-        ${uis_root}/document/no_document_widget.ui
+        ${uis_root}/document/no_document_widget.ui)
 
-        ${uis_root}/document/flow/flow_converters_dock.ui
-        ${uis_root}/document/flow/flow_nodes_dock.ui)
+set(resources
+        ${resources_root}/editor_translations.qrc
+        ${resources_root}/editor_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -150,10 +146,9 @@ flow_add_application(editor
 target_include_directories(editor PRIVATE ${Boost_INCLUDE_DIRS})
 
 flow_add_translations(editor
-        QM_DIR ${resources_root}/translations/
-        INCLUDES ${include_root}
-        SOURCES ${source_root}
+        QM_DIR ${resources_root}/translations
+        DIRS ${FLOW_SOURCE_DIR}
         TS_FILES
-        ${resources_root}/translations/flow-editor_pl.ts
-        ${resources_root}/translations/flow-editor_en.ts)
+        ${resources_root}/translations/editor_pl.ts
+        ${resources_root}/translations/editor_en.ts)
 # -------------------------------------------------------------------------------------------------- #

@@ -13,14 +13,17 @@ set(sources
         ${source_root}/character_to_boolean_converter.cpp
         ${source_root}/character_to_integer_converter.cpp
         ${source_root}/character_to_string_converter.cpp
-        ${source_root}/converter_factory.cpp)
+        ${source_root}/type_converter_factory.cpp)
 
 set(includes
         ${include_root}/export.h
         ${include_root}/character_to_boolean_converter.h
         ${include_root}/character_to_integer_converter.h
         ${include_root}/character_to_string_converter.h
-        ${include_root}/converter_factory.h)
+        ${include_root}/type_converter_factory.h)
+
+set(resources
+        ${resources_root}/plugin_character_converter_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_DOCUMENT_READER_H
-#define FLOW_FLOW_DOCUMENT_READER_H
+#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_READER_H
+#define PLUGIN_FLOW_FLOW_DOCUMENT_READER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
@@ -29,4 +29,4 @@ private:
   std::unique_ptr<FlowDocumentReaderImpl> m_impl;
 };
 
-#endif//FLOW_FLOW_DOCUMENT_READER_H
+#endif//PLUGIN_FLOW_FLOW_DOCUMENT_READER_H

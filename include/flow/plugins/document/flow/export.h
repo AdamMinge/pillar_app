@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_API_EXPORT_H
-#define FLOW_DOCUMENT_API_EXPORT_H
+#ifndef PLUGIN_FLOW_DOCUMENT_API_EXPORT_H
+#define PLUGIN_FLOW_DOCUMENT_API_EXPORT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
@@ -12,4 +12,4 @@
 #endif
 
 
-#endif//FLOW_DOCUMENT_API_EXPORT_H
+#endif//PLUGIN_FLOW_DOCUMENT_API_EXPORT_H

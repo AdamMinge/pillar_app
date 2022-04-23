@@ -14,7 +14,7 @@ set(sources
         ${source_root}/integer_to_character_converter.cpp
         ${source_root}/integer_to_floating_point_converter.cpp
         ${source_root}/integer_to_string_converter.cpp
-        ${source_root}/converter_factory.cpp)
+        ${source_root}/type_converter_factory.cpp)
 
 set(includes
         ${include_root}/export.h
@@ -22,7 +22,10 @@ set(includes
         ${include_root}/integer_to_character_converter.h
         ${include_root}/integer_to_floating_point_converter.h
         ${include_root}/integer_to_string_converter.h
-        ${include_root}/converter_factory.h)
+        ${include_root}/type_converter_factory.h)
+
+set(resources
+        ${resources_root}/plugin_integer_converter_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

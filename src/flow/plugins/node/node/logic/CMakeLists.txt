@@ -25,7 +25,7 @@ set(includes
         ${include_root}/node_factory.h)
 
 set(resources
-        ${resources_root}/plugin_node_logic_images.qrc)
+        ${resources_root}/plugin_logic_node_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

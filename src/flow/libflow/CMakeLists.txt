@@ -7,9 +7,10 @@ cmake_minimum_required(VERSION 3.11)
 # -------------------------------------------------------------------------------------------------- #
 set(source_root ${FLOW_SOURCE_DIR}/src/flow/libflow)
 set(include_root ${FLOW_SOURCE_DIR}/include/flow/libflow)
+set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
-        ${source_root}/ plugin.cpp
+        ${source_root}/plugin.cpp
         ${source_root}/logging_manager.cpp
         ${source_root}/script_manager.cpp
         ${source_root}/script_module.cpp
@@ -22,6 +23,9 @@ set(sources
         ${source_root}/language_manager.cpp
         ${source_root}/issue_manager.cpp
         ${source_root}/issue.cpp
+
+        ${source_root}/settings/settings_widget.cpp
+        ${source_root}/settings/settings_widget_factory.cpp
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_format.cpp
@@ -39,7 +43,7 @@ set(sources
         ${source_root}/node/node_painter.cpp
         ${source_root}/node/pin.cpp
         ${source_root}/node/node_factory.cpp
-        ${source_root}/node/converter_factory.cpp
+        ${source_root}/node/type_converter_factory.cpp
 
         ${source_root}/node/base/boolean_node_data.cpp
         ${source_root}/node/base/character_node_data.cpp
@@ -58,12 +62,16 @@ set(includes
         ${include_root}/language_manager.h
         ${include_root}/logging_manager.h
         ${include_root}/plugin.h
+        ${include_root}/plugin_listener.h
         ${include_root}/plugin_interface.h
         ${include_root}/plugin_manager.h
         ${include_root}/preferences_manager.h
         ${include_root}/script_manager.h
         ${include_root}/script_module.h
         ${include_root}/style_manager.h
+
+        ${include_root}/settings/settings_widget.h
+        ${include_root}/settings/settings_widget_factory.h
 
         ${include_root}/project/project.h
         ${include_root}/project/project_format.h
@@ -83,13 +91,16 @@ set(includes
         ${include_root}/node/pin.h
         ${include_root}/node/type_converter.h
         ${include_root}/node/node_factory.h
-        ${include_root}/node/converter_factory.h
+        ${include_root}/node/type_converter_factory.h
 
         ${include_root}/node/base/boolean_node_data.h
         ${include_root}/node/base/character_node_data.h
         ${include_root}/node/base/floating_point_node_data.h
         ${include_root}/node/base/integer_node_data.h
         ${include_root}/node/base/string_node_data.h)
+
+set(resources
+        ${resources_root}/libflow_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -104,6 +115,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 # ------------------------------------ Create utils shared lib ------------------------------------- #
 # -------------------------------------------------------------------------------------------------- #
 flow_add_module(lib_flow
-        SOURCES ${sources} ${includes}
+        SOURCES ${sources} ${includes} ${resources}
         DEPENDS_PRIVATE Qt6::Widgets Qt6::Qml)
 # -------------------------------------------------------------------------------------------------- #

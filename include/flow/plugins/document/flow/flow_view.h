@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_VIEW_H
-#define FLOW_FLOW_VIEW_H
+#ifndef PLUGIN_FLOW_FLOW_VIEW_H
+#define PLUGIN_FLOW_FLOW_VIEW_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsView>
@@ -38,4 +38,4 @@ private:
   const QColor m_grid_color;
 };
 
-#endif//FLOW_FLOW_VIEW_H
+#endif//PLUGIN_FLOW_FLOW_VIEW_H

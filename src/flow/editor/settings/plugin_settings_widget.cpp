@@ -8,6 +8,8 @@
 #include "settings/ui_plugin_settings_widget.h"
 /* -------------------------------------------------------------------------- */
 
+/* --------------------------- PluginSettingsWidget ------------------------- */
+
 PluginSettingsWidget::PluginSettingsWidget(QWidget *parent)
     : SettingsWidget(parent), m_ui(new Ui::PluginSettingsWidget()),
       m_plugin_list_model(new DynamicPluginListModel()),
@@ -74,4 +76,20 @@ void PluginSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 void PluginSettingsWidget::searchPlugin(const QString &search)
 {
   m_search_proxy_model->setFilterWildcard(search);
+}
+
+/* ------------------------ PluginSettingsWidgetFactory --------------------- */
+
+PluginSettingsWidgetFactory::PluginSettingsWidgetFactory(QObject *parent)
+    : flow::settings::SettingsWidgetFactory(parent)
+{
+
+}
+
+PluginSettingsWidgetFactory::~PluginSettingsWidgetFactory() = default;
+
+std::unique_ptr<flow::settings::SettingsWidget>
+PluginSettingsWidgetFactory::create() const
+{
+  return std::make_unique<PluginSettingsWidget>();
 }

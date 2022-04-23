@@ -6,11 +6,11 @@
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
-#include "flow/libflow/format_helper.h"
-#include "flow/libflow/preferences_manager.h"
-#include "flow/libflow/project/project.h"
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/project/project_format.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/format_helper.h>
+#include <flow/libflow/preferences_manager.h>
+#include <flow/libflow/project/project.h>
+#include <flow/libflow/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
@@ -20,10 +20,10 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NoProjectWindow::Preferences {
-  Preference<QByteArray> no_project_window_geometry =
-    Preference<QByteArray>("no_project_window/geometry");
-  Preference<QByteArray> no_project_window_state =
-    Preference<QByteArray>("no_project_window/state");
+  flow::Preference<QByteArray> no_project_window_geometry =
+    flow::Preference<QByteArray>("no_project_window/geometry");
+  flow::Preference<QByteArray> no_project_window_state =
+    flow::Preference<QByteArray>("no_project_window/state");
 };
 
 /* ------------------------------ NoProjectWindow --------------------------- */
@@ -72,25 +72,15 @@ void NoProjectWindow::changeEvent(QEvent *event)
   }
 }
 
-PreferencesManager &NoProjectWindow::getPreferencesManager()
-{
-  return PreferencesManager::getInstance();
-}
-
-ProjectManager &NoProjectWindow::getProjectManager()
-{
-  return ProjectManager::getInstance();
-}
-
 void NoProjectWindow::openProject()
 {
   const auto recent_project_files =
-    getPreferencesManager().getRecentProjectFiles();
+    flow::PreferencesManager::getInstance().getRecentProjectFiles();
   const auto project_dir =
     recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter =
-    FormatHelper<api::project::IProjectFormat>{
-      api::IFileFormat::Capability::Read}
+    flow::FormatHelper<flow::project::ProjectFormat>{
+      flow::FileFormat::Capability::Read}
       .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
@@ -99,13 +89,13 @@ void NoProjectWindow::openProject()
   if (file_name.isEmpty()) return;
 
   QString error;
-  if (!getProjectManager().loadProject(file_name, &error))
+  if (!ProjectManager::getInstance().loadProject(file_name, &error))
   {
     QMessageBox::critical(this, tr("Error Opening File"), error);
     return;
   }
 
-  getPreferencesManager().addRecentProjectFile(file_name);
+  flow::PreferencesManager::getInstance().addRecentProjectFile(file_name);
 }
 
 void NoProjectWindow::createProject()
@@ -116,8 +106,8 @@ void NoProjectWindow::createProject()
   {
     auto project_ptr = project.get();
 
-    getProjectManager().addProject(std::move(project));
-    getPreferencesManager().addRecentProjectFile(project_ptr->getFileName());
+    ProjectManager::getInstance().addProject(std::move(project));
+    flow::PreferencesManager::getInstance().addRecentProjectFile(project_ptr->getFileName());
   }
 }
 
@@ -125,7 +115,7 @@ void NoProjectWindow::openRecentProject(const QModelIndex &index)
 {
   auto project_path =
     index.data(RecentProjectListModel::Role::ProjectPathRole).toString();
-  getProjectManager().loadProject(project_path);
+  ProjectManager::getInstance().loadProject(project_path);
 }
 
 void NoProjectWindow::searchRecentProject(const QString &search)

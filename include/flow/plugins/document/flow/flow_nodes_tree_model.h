@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_NODES_TREE_MODEL_H
-#define FLOW_FLOW_NODES_TREE_MODEL_H
+#ifndef PLUGIN_FLOW_FLOW_NODES_TREE_MODEL_H
+#define PLUGIN_FLOW_FLOW_NODES_TREE_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
@@ -120,4 +120,4 @@ private:
   QList<FlowNodesTreeNodeFactoryContainerItem *> m_root_items;
 };
 
-#endif//FLOW_FLOW_NODES_TREE_MODEL_H
+#endif//PLUGIN_FLOW_FLOW_NODES_TREE_MODEL_H

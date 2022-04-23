@@ -4,8 +4,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractTableModel>
 #include <QIcon>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/libflow/issue.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/issue.h>
 /* -------------------------------------------------------------------------- */
 
 class IssueTableModel : public QAbstractTableModel
@@ -39,7 +39,7 @@ public:
   headerData(int section, Qt::Orientation orientation, int role) const override;
 
 public Q_SLOTS:
-  void addIssue(const Issue &issue);
+  void addIssue(const flow::Issue &issue);
 
   void removeIssues(const QVariant &context);
   void removeAllIssues();
@@ -49,7 +49,7 @@ private:
   [[nodiscard]] QString getIssueSeverityName(const QModelIndex &index) const;
 
 private:
-  std::vector<std::pair<Issue, unsigned>> m_issues;
+  std::vector<std::pair<flow::Issue, unsigned>> m_issues;
 };
 
 #endif//FLOW_ISSUE_TABLE_MODEL_H

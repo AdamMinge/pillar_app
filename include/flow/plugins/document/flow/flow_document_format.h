@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_DOCUMENT_FORMAT_H
-#define FLOW_FLOW_DOCUMENT_FORMAT_H
+#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
+#define PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
 
 /* ------------------------------------ Api --------------------------------- */
 #include <flow/modules/api/document/document_format.h>
@@ -41,4 +41,4 @@ public:
   [[nodiscard]] Capabilities getCapabilities() const override;
 };
 
-#endif//FLOW_FLOW_DOCUMENT_FORMAT_H
+#endif//PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
