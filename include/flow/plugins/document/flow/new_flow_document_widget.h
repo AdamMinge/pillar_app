@@ -1,8 +1,11 @@
 #ifndef PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
 #define PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
 
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/document/new_document_widget.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/document/new_document_widget.h>
+#include <flow/libflow/document/new_document_widget_factory.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +13,8 @@ namespace Ui
   class NewFlowDocumentWidget;
 }
 
-class NewFlowDocumentWidget : public api::document::INewDocumentWidget
+class FLOW_DOCUMENT_API NewFlowDocumentWidget
+    : public flow::document::NewDocumentWidget
 {
   Q_OBJECT
 
@@ -21,9 +25,11 @@ public:
   explicit NewFlowDocumentWidget(QWidget *parent = nullptr);
   ~NewFlowDocumentWidget() override;
 
-  [[nodiscard]] std::unique_ptr<api::document::IDocument>
-  createDocument() const override;
+  [[nodiscard]] std::unique_ptr<flow::document::Document>
+  createDocument() override;
   [[nodiscard]] bool isValid() const override;
+
+  [[nodiscard]] QString getDocumentId() const override;
 
 protected:
   void changeEvent(QEvent *event) override;
@@ -31,10 +37,28 @@ protected:
 private:
   void retranslateUi();
 
+private Q_SLOTS:
+  void updateIsValid();
+
 private:
   QScopedPointer<Ui::NewFlowDocumentWidget> m_ui;
 
   QScopedPointer<Preferences> m_preferences;
+  bool m_valid;
+};
+
+class FLOW_DOCUMENT_API NewFlowDocumentWidgetFactory
+    : public flow::document::NewDocumentWidgetFactory
+{
+  Q_OBJECT
+  Q_INTERFACES(flow::document::NewDocumentWidgetFactory)
+
+public:
+  explicit NewFlowDocumentWidgetFactory(QObject *parent = nullptr);
+  ~NewFlowDocumentWidgetFactory() override;
+
+  [[nodiscard]] std::unique_ptr<flow::document::NewDocumentWidget>
+  create() const override;
 };
 
 #endif//PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H

@@ -84,11 +84,10 @@ void AppearanceSettingsWidget::styleChanged(const QString &style)
 
 /* ---------------------- AppearanceSettingsWidgetFactory ------------------- */
 
-AppearanceSettingsWidgetFactory::AppearanceSettingsWidgetFactory(QObject *parent)
-  : flow::settings::SettingsWidgetFactory(parent)
-{
-
-}
+AppearanceSettingsWidgetFactory::AppearanceSettingsWidgetFactory(
+  QObject *parent)
+    : flow::settings::SettingsWidgetFactory(parent)
+{}
 
 AppearanceSettingsWidgetFactory::~AppearanceSettingsWidgetFactory() = default;
 

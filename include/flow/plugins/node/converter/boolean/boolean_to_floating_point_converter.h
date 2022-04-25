@@ -7,7 +7,8 @@
 #include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class BOOLEAN_CONVERTER_API BooleanToFloatingPointConverter : public flow::node::TypeConverter
+class BOOLEAN_CONVERTER_API BooleanToFloatingPointConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit BooleanToFloatingPointConverter() = default;

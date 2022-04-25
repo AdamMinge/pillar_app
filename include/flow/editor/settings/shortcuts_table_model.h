@@ -41,8 +41,8 @@ public:
 
 private:
   void init();
-  void addedShortcut(const QString& action_id);
-  void removedShortcut(const QString& action_id);
+  void addedShortcut(const QString &action_id);
+  void removedShortcut(const QString &action_id);
 
 Q_SIGNALS:
   void appliedChanged(bool applied);

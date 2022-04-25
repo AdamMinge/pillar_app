@@ -18,8 +18,12 @@ PluginListModel::~PluginListModel() = default;
 bool PluginListModel::apply()
 {
   std::for_each(m_plugins.begin(), m_plugins.end(), [](auto &plugin_pair) {
-    auto apply_fun = plugin_pair.second ? &flow::Plugin::enable : &flow::Plugin::disable;
-    (plugin_pair.first->*apply_fun)();
+    if (plugin_pair.first->isEnabled() != plugin_pair.second)
+    {
+      auto apply_fun =
+        plugin_pair.second ? &flow::Plugin::enable : &flow::Plugin::disable;
+      (plugin_pair.first->*apply_fun)();
+    }
   });
 
   return applied();

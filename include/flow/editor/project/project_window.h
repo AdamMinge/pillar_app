@@ -21,7 +21,7 @@ namespace flow
   {
     class Document;
   }
-}// namespace api
+}// namespace flow
 
 class ProjectDock;
 class ConsoleDock;

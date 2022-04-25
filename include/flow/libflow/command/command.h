@@ -13,13 +13,19 @@ namespace flow::command
   class LIB_FLOW_API Command : public QUndoCommand
   {
   public:
-    explicit Command(Command *parent = nullptr);
+    explicit Command(QString name, Command *parent = nullptr);
     ~Command() override;
 
     bool mergeWith(const QUndoCommand *other) override;
 
     [[nodiscard]] virtual bool canMergeWith(const Command &other) const;
     virtual void mergeWith(const Command &other);
+
+    [[nodiscard]] int id() const override;
+    [[nodiscard]] QString name() const;
+
+  private:
+    QString m_name;
   };
 
 }// namespace flow::command

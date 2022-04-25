@@ -18,7 +18,8 @@ public:
   void writeProject(const flow::project::Project &project, QIODevice &device);
 
 private:
-  void writeProject(QXmlStreamWriter &writer, const flow::project::Project &project);
+  void
+  writeProject(QXmlStreamWriter &writer, const flow::project::Project &project);
 };
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
@@ -46,13 +47,15 @@ ProjectWriter::ProjectWriter() : m_impl(std::make_unique<ProjectWriterImpl>())
 
 ProjectWriter::~ProjectWriter() = default;
 
-void ProjectWriter::write(const flow::project::Project &project, QIODevice &device)
+void ProjectWriter::write(
+  const flow::project::Project &project, QIODevice &device)
 {
   m_impl->writeProject(project, device);
 }
 
 bool ProjectWriter::write(
-  const flow::project::Project &project, const QString &file_name, QString *error)
+  const flow::project::Project &project, const QString &file_name,
+  QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

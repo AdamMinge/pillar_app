@@ -7,7 +7,6 @@
 
 namespace flow::document
 {
-  class NewDocumentWidget;
   class Document;
 }// namespace flow::document
 
@@ -16,8 +15,8 @@ namespace Ui
   class NewDocumentDialog;
 }
 
-class DocumentTypeListModel;
-class DocumentTypeListDelegate;
+class NewDocumentWidgetListModel;
+class NewDocumentWidgetListDelegate;
 
 class NewDocumentDialog : public QDialog
 {
@@ -36,8 +35,8 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private Q_SLOTS:
-  void documentTypeChanged(const QModelIndex &index);
-  void updateCreateButton();
+  void currentChanged();
+  void isValidChanged(bool valid);
 
 private:
   void initUi();
@@ -52,11 +51,8 @@ private:
   QScopedPointer<Ui::NewDocumentDialog> m_ui;
 
   QScopedPointer<Preferences> m_preferences;
-  QScopedPointer<DocumentTypeListModel> m_document_types_model;
-  QScopedPointer<DocumentTypeListDelegate> m_document_types_delegate;
-
-  std::map<QString, flow::document::NewDocumentWidget *>
-    m_document_create_widgets;
+  QScopedPointer<NewDocumentWidgetListModel> m_new_document_widget_model;
+  QScopedPointer<NewDocumentWidgetListDelegate> m_new_document_widget_delegate;
 };
 
 #endif//FLOW_NEW_DOCUMENT_DIALOG_H

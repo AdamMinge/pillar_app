@@ -39,6 +39,20 @@ namespace flow::node
     m_factories.erase(node_id);
   }
 
+  QStringList NodeFactories::getNodeIds() const
+  {
+    QStringList keys;
+    for (const auto &[key, _] : m_factories) keys << key;
+
+    return keys;
+  }
+
+  NodeFactory *NodeFactories::getFactory(const QString &node_id) const
+  {
+    if (!m_factories.contains(node_id)) return nullptr;
+    return m_factories.at(node_id).get();
+  }
+
   std::unique_ptr<Node> NodeFactories::create(const QString &node_id) const
   {
     if (!m_factories.contains(node_id)) return nullptr;

@@ -8,7 +8,7 @@
 SettingsWidgetTreeModel::SettingsWidgetTreeModel(QObject *parent)
     : utils::QtStackedWidgetTreeModel(parent)
 {
-  init();
+  loadObjects();
 }
 
 SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
@@ -40,7 +40,7 @@ void SettingsWidgetTreeModel::addedObject(
     parent_index = getIndexBy(Role::ObjectNameRole, parent_name, QModelIndex{});
 
   auto settings_widget = factory->create().release();
-  m_settings_widget_by_factory[factory].push_back(settings_widget);
+  m_settings_widget_by_factory[factory] = settings_widget;
 
   append(new utils::QtStackedWidgetTreeItem(settings_widget), parent_index);
 
@@ -54,18 +54,14 @@ void SettingsWidgetTreeModel::addedObject(
 void SettingsWidgetTreeModel::removedObject(
   flow::settings::SettingsWidgetFactory *factory)
 {
-  for (auto settings_widget : m_settings_widget_by_factory[factory])
+  if (m_settings_widget_by_factory.contains(factory))
   {
     auto index = getIndexBy(
-      Role::WidgetRole, QVariant::fromValue(settings_widget), QModelIndex{});
+      Role::WidgetRole,
+      QVariant::fromValue(m_settings_widget_by_factory[factory]),
+      QModelIndex{});
     remove(index);
   }
-}
-
-void SettingsWidgetTreeModel::init()
-{
-  auto settings_widgets = getObjects();
-  for (auto settings_widget : settings_widgets) addedObject(settings_widget);
 }
 
 void SettingsWidgetTreeModel::onAppliedChanged(

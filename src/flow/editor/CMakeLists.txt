@@ -44,10 +44,9 @@ set(sources
 
         ${source_root}/document/document_manager.cpp
         ${source_root}/document/new_document_dialog.cpp
-        ${source_root}/document/undo_dock.cpp
         ${source_root}/document/no_document_widget.cpp
-        ${source_root}/document/document_type_list_model.cpp
-        ${source_root}/document/document_type_list_delegate.cpp)
+        ${source_root}/document/new_document_widget_list_model.cpp
+        ${source_root}/document/new_document_widget_list_delegate.cpp)
 
 set(includes
         ${include_root}/command_line_parser.h
@@ -82,10 +81,9 @@ set(includes
 
         ${include_root}/document/document_manager.h
         ${include_root}/document/new_document_dialog.h
-        ${include_root}/document/undo_dock.h
         ${include_root}/document/no_document_widget.h
-        ${include_root}/document/document_type_list_model.h
-        ${include_root}/document/document_type_list_delegate.h)
+        ${include_root}/document/new_document_widget_list_model.h
+        ${include_root}/document/new_document_widget_list_delegate.h)
 
 set(uis
         ${uis_root}/main_window.ui

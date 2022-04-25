@@ -63,6 +63,9 @@ namespace flow::node
     void registerFactory(QString node_id, std::unique_ptr<NodeFactory> factory);
     void unregisterFactory(const QString &node_id);
 
+    [[nodiscard]] QStringList getNodeIds() const;
+    [[nodiscard]] NodeFactory *getFactory(const QString &node_id) const;
+
     [[nodiscard]] virtual std::unique_ptr<Node>
     create(const QString &node_id) const;
 

@@ -3,12 +3,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMimeData>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/node_factory.h>
+#include <flow/libflow/plugin_manager.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/libflow/plugin_manager.h"
 #include "flow/plugins/document/flow/flow_nodes_tree_model.h"
-/* ----------------------------------- Node --------------------------------- */
-#include "flow/modules/node/node_factory.h"
-#include "flow/modules/node/node_factory_container.h"
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- FlowNodesTreeItem --------------------------- */
@@ -61,57 +60,56 @@ int FlowNodesTreeItem::findChild(FlowNodesTreeItem *child) const
   return static_cast<int>(m_children.indexOf(child));
 }
 
-/* ------------------ FlowNodesTreeNodeFactoryContainerItem ----------------- */
+/* ------------------------ FlowNodesTreeFactoriesItem ---------------------- */
 
-FlowNodesTreeNodeFactoryContainerItem::FlowNodesTreeNodeFactoryContainerItem(
-  node::NodeFactoryContainer *factory_container)
-    : m_factory_container(factory_container)
-{}
-
-QString FlowNodesTreeNodeFactoryContainerItem::getName() const
+FlowNodesTreeFactoriesItem::FlowNodesTreeFactoriesItem(
+  flow::node::NodeFactories *factories)
+    : m_factories(factories)
 {
-  return m_factory_container->getName();
+  for (const auto &node_id : factories->getNodeIds())
+    addChild(new FlowNodesTreeFactoryItem(factories->getFactory(node_id)));
 }
 
-QIcon FlowNodesTreeNodeFactoryContainerItem::getIcon() const
+QString FlowNodesTreeFactoriesItem::getName() const
 {
-  return m_factory_container->getIcon();
+  return m_factories->getName();
 }
 
-Qt::ItemFlags FlowNodesTreeNodeFactoryContainerItem::flags() const
+QIcon FlowNodesTreeFactoriesItem::getIcon() const
+{
+  return m_factories->getIcon();
+}
+
+Qt::ItemFlags FlowNodesTreeFactoriesItem::flags() const
 {
   return Qt::NoItemFlags;
 }
 
-node::NodeFactoryContainer *
-FlowNodesTreeNodeFactoryContainerItem::getNodeFactoryContainer() const
+flow::node::NodeFactories *FlowNodesTreeFactoriesItem::getNodeFactories() const
 {
-  return m_factory_container;
+  return m_factories;
 }
 
-/* ----------------------- FlowNodesTreeNodeFactoryItem --------------------- */
+/* ------------------------- FlowNodesTreeFactoryItem ----------------------- */
 
-FlowNodesTreeNodeFactoryItem::FlowNodesTreeNodeFactoryItem(
-  node::NodeFactory *factory)
+FlowNodesTreeFactoryItem::FlowNodesTreeFactoryItem(
+  flow::node::NodeFactory *factory)
     : m_factory(factory)
 {}
 
-QString FlowNodesTreeNodeFactoryItem::getName() const
+QString FlowNodesTreeFactoryItem::getName() const
 {
   return m_factory->getName();
 }
 
-QIcon FlowNodesTreeNodeFactoryItem::getIcon() const
-{
-  return m_factory->getIcon();
-}
+QIcon FlowNodesTreeFactoryItem::getIcon() const { return m_factory->getIcon(); }
 
-Qt::ItemFlags FlowNodesTreeNodeFactoryItem::flags() const
+Qt::ItemFlags FlowNodesTreeFactoryItem::flags() const
 {
   return Qt::ItemIsDragEnabled;
 }
 
-node::NodeFactory *FlowNodesTreeNodeFactoryItem::getNodeFactory() const
+flow::node::NodeFactory *FlowNodesTreeFactoryItem::getNodeFactory() const
 {
   return m_factory;
 }
@@ -121,14 +119,7 @@ node::NodeFactory *FlowNodesTreeNodeFactoryItem::getNodeFactory() const
 FlowNodesTreeModel::FlowNodesTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-  connect(
-    &PluginManager::getInstance(), &PluginManager::objectAdded, this,
-    &FlowNodesTreeModel::enabledPlugin);
-  connect(
-    &PluginManager::getInstance(), &PluginManager::objectRemoved, this,
-    &FlowNodesTreeModel::disabledPlugin);
-
-  init();
+  loadObjects();
 }
 
 FlowNodesTreeModel::~FlowNodesTreeModel() { qDeleteAll(m_root_items); }
@@ -240,73 +231,35 @@ QStringList FlowNodesTreeModel::mimeTypes() const
   return QStringList{} << QLatin1String("flow/node");
 }
 
-void FlowNodesTreeModel::init()
+void FlowNodesTreeModel::addedObject(flow::node::NodeFactories *factories)
 {
-  auto factory_containers =
-    PluginManager::getInstance().getObjects<node::NodeFactoryContainer>();
-  for (auto factory_container : factory_containers)
-    enabledPlugin(factory_container);
+  auto factories_item = std::make_unique<FlowNodesTreeFactoriesItem>(factories);
+  auto index_to_insert = static_cast<int>(m_root_items.count());
+
+  beginInsertRows(QModelIndex{}, index_to_insert, index_to_insert);
+  m_root_items.insert(index_to_insert, factories_item.release());
+  endInsertRows();
 }
 
-void FlowNodesTreeModel::enabledPlugin(QObject *object)
+void FlowNodesTreeModel::removedObject(flow::node::NodeFactories *factories)
 {
-  if (
-    auto factory_container = qobject_cast<node::NodeFactoryContainer *>(object))
+  auto found_root = std::find_if(
+    m_root_items.begin(), m_root_items.end(),
+    [factories](auto item) { return item->getNodeFactories() == factories; });
+
+  if (found_root != m_root_items.end())
   {
-    auto factory_container_item =
-      std::make_unique<FlowNodesTreeNodeFactoryContainerItem>(
-        factory_container);
+    auto index_to_remove =
+      static_cast<int>(std::distance(m_root_items.begin(), found_root));
 
-    for (auto &factory : *factory_container)
-    {
-      factory_container_item->addChild(
-        new FlowNodesTreeNodeFactoryItem(factory.get()));
-    }
-
-    auto index_to_insert = static_cast<int>(m_root_items.count());
-
-    beginInsertRows(QModelIndex{}, index_to_insert, index_to_insert);
-    m_root_items.insert(index_to_insert, factory_container_item.release());
-    endInsertRows();
-  }
-}
-
-void FlowNodesTreeModel::disabledPlugin(QObject *object)
-{
-  if (
-    auto factory_container = qobject_cast<node::NodeFactoryContainer *>(object))
-  {
-    auto found_root = std::find_if(
-      m_root_items.begin(), m_root_items.end(), [factory_container](auto item) {
-        return item->getNodeFactoryContainer() == factory_container;
-      });
-
-    if (found_root != m_root_items.end())
-    {
-      auto index_to_remove =
-        static_cast<int>(std::distance(m_root_items.begin(), found_root));
-
-      beginRemoveRows(QModelIndex{}, index_to_remove, index_to_remove);
-      m_root_items.remove(index_to_remove);
-      endRemoveRows();
-    }
+    beginRemoveRows(QModelIndex{}, index_to_remove, index_to_remove);
+    m_root_items.remove(index_to_remove);
+    endRemoveRows();
   }
 }
 
 QByteArray
 FlowNodesTreeModel::createMimeData(const QModelIndexList &indexes) const
 {
-  auto data = QByteArray{};
-  for (auto &index : indexes)
-  {
-    const auto item = static_cast<FlowNodesTreeItem *>(index.internalPointer());
-    const auto factory_item =
-      dynamic_cast<FlowNodesTreeNodeFactoryItem *>(item);
-    const auto factory_id =
-      factory_item->getNodeFactory()->getId().toLocal8Bit();
-
-    data.append(factory_id).append(';');
-  }
-
-  return data.left(data.count() - 1);
+  return QByteArray{};
 }

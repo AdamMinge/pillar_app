@@ -2,8 +2,8 @@
 #include <QEvent>
 #include <QVBoxLayout>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_converters_dock.h"
-#include "flow/plugins/document/flow/flow_converters_tree_model.h"
+#include "flow/plugins/document/flow/flow_type_converters_dock.h"
+#include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/flow/ui_flow_converters_dock.h"
 /* -------------------------------------------------------------------------- */

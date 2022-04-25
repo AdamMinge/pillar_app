@@ -5,7 +5,9 @@
 namespace flow::command
 {
 
-  Command::Command(Command *parent) : QUndoCommand(parent) {}
+  Command::Command(QString name, Command *parent)
+      : QUndoCommand(parent), m_name(std::move(name))
+  {}
 
   Command::~Command() = default;
 
@@ -21,5 +23,12 @@ namespace flow::command
   bool Command::canMergeWith(const Command &other) const { return false; }
 
   void Command::mergeWith(const Command &other) { Q_UNUSED(other); }
+
+  int Command::id() const
+  {
+    return static_cast<int>(std::hash<QString>{}(m_name));
+  }
+
+  QString Command::name() const { return m_name; }
 
 }// namespace flow::command

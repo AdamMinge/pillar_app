@@ -5,20 +5,27 @@
 #include <QHash>
 #include <QPointer>
 #include <QStackedWidget>
-/* ----------------------------------- Api ---------------------------------- */
-#include <flow/modules/api/document/document_editor.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/document/document_editor.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
+
+namespace flow::document
+{
+  class UndoDock;
+}
 
 class FlowDocument;
 
 class FlowNodesDock;
 class FlowConvertersDock;
-class UndoDock;
 class FlowView;
 
-class FlowEditor : public api::document::IDocumentEditor
+class FLOW_DOCUMENT_API FlowEditor : public flow::document::DocumentEditor
 {
   Q_OBJECT
+  Q_INTERFACES(flow::document::DocumentEditor)
 
 private:
   struct Preferences;
@@ -27,12 +34,12 @@ public:
   explicit FlowEditor(QObject *parent = nullptr);
   ~FlowEditor() override;
 
-  void setCurrentDocument(api::document::IDocument *document) override;
+  void setCurrentDocument(flow::document::Document *document) override;
 
-  void addDocument(api::document::IDocument *document) override;
-  void removeDocument(api::document::IDocument *document) override;
+  void addDocument(flow::document::Document *document) override;
+  void removeDocument(flow::document::Document *document) override;
 
-  [[nodiscard]] api::document::IDocument *getCurrentDocument() const override;
+  [[nodiscard]] flow::document::Document *getCurrentDocument() const override;
   [[nodiscard]] QWidget *getEditorWidget() const override;
 
   void saveState() override;
@@ -45,6 +52,8 @@ public:
   void performStandardAction(StandardAction standard_action) override;
   [[nodiscard]] StandardActions getEnabledStandardActions() const override;
 
+  [[nodiscard]] QString getDocumentId() const override;
+
 private:
   void initUi();
   void initConnections();
@@ -56,7 +65,7 @@ private:
   QStackedWidget *m_scene_stack;
   FlowNodesDock *m_nodes_dock;
   FlowConvertersDock *m_converters_dock;
-  UndoDock *m_undo_dock;
+  flow::document::UndoDock *m_undo_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;
 

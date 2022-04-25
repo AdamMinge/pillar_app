@@ -86,6 +86,7 @@ namespace flow
     {
       m_icon = QIcon(":/editor/images/64x64/plugin.png");
     }
+    lib.unload();
   }
 
   DynamicPluginImpl::~DynamicPluginImpl() = default;
@@ -114,9 +115,12 @@ namespace flow
 
     if (auto plugin_interface = qobject_cast<PluginInterface *>(m_instance);
         plugin_interface)
+    {
       plugin_interface->init();
-    else
+    } else
+    {
       PluginManager::getInstance().addObject(m_instance);
+    }
 
     return true;
   }
@@ -125,10 +129,16 @@ namespace flow
   {
     if (!isEnabled()) return true;
 
-    PluginManager::getInstance().removeObject(m_instance);
+    if (auto plugin_interface = qobject_cast<PluginInterface *>(m_instance);
+        !plugin_interface)
+    {
+      PluginManager::getInstance().removeObject(m_instance);
+    }
 
-    m_instance = nullptr;
-    return m_loader->unload();
+    auto unloaded = m_loader->unload();
+    if (unloaded) m_instance = nullptr;
+
+    return unloaded;
   }
 
   bool DynamicPluginImpl::isEnabled() const { return m_instance != nullptr; }

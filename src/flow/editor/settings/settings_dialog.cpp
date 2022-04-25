@@ -22,7 +22,7 @@ SettingsDialog::SettingsDialog(QWidget *parent)
   initUi();
   initConnections();
 
-  SettingsDialog::setUrl(QUrl("settings:General"));
+  SettingsDialog::setUrl(QUrl("settings:GeneralSettingsWidget"));
 
   retranslateUi();
 }

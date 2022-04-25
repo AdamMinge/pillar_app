@@ -8,6 +8,7 @@
 class ProjectFormatPro : public flow::project::ProjectFormat
 {
   Q_OBJECT
+  Q_INTERFACES(flow::project::ProjectFormat)
 
 public:
   explicit ProjectFormatPro(QObject *parent = nullptr);

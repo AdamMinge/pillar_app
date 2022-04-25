@@ -1,5 +1,5 @@
-#ifndef FLOW_INTERFACE_PROJECT_FORMAT_H
-#define FLOW_INTERFACE_PROJECT_FORMAT_H
+#ifndef FLOW_PROJECT_FORMAT_H
+#define FLOW_PROJECT_FORMAT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
@@ -14,6 +14,7 @@ namespace flow::project
   class LIB_FLOW_API ProjectFormat : public FileFormat
   {
     Q_OBJECT
+    Q_INTERFACES(flow::FileFormat)
 
   public:
     explicit ProjectFormat(QObject *parent = nullptr);
@@ -25,9 +26,17 @@ namespace flow::project
     save(const Project &project, const QString &file_name, QString *error) = 0;
   };
 
+}// namespace flow::project
+
+Q_DECLARE_INTERFACE(flow::project::ProjectFormat, "org.flow.ProjectFormat")
+
+namespace flow::project
+{
+
   class ReadableProjectFormat : public ProjectFormat
   {
     Q_OBJECT
+    Q_INTERFACES(flow::project::ProjectFormat)
 
   public:
     explicit ReadableProjectFormat(QObject *parent = nullptr);
@@ -41,6 +50,7 @@ namespace flow::project
   class WritableProjectFormat : public ProjectFormat
   {
     Q_OBJECT
+    Q_INTERFACES(flow::project::ProjectFormat)
 
   public:
     explicit WritableProjectFormat(QObject *parent = nullptr);
@@ -53,4 +63,9 @@ namespace flow::project
 
 }// namespace flow::project
 
-#endif//FLOW_INTERFACE_PROJECT_FORMAT_H
+Q_DECLARE_INTERFACE(
+  flow::project::ReadableProjectFormat, "org.flow.ReadableProjectFormat")
+Q_DECLARE_INTERFACE(
+  flow::project::WritableProjectFormat, "org.flow.WritableProjectFormat")
+
+#endif//FLOW_PROJECT_FORMAT_H

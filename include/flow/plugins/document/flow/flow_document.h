@@ -1,16 +1,18 @@
 #ifndef FLOW_FLOW_DOCUMENT_H
 #define FLOW_FLOW_DOCUMENT_H
 
-/* ----------------------------------- Local -------------------------------- */
+/* ---------------------------------- LibFlow ------------------------------- */
 #include "flow/libflow/document/document.h"
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
-class FlowDocument : public Document
+class FLOW_DOCUMENT_API FlowDocument : public flow::document::Document
 {
   Q_OBJECT
 
 public:
-  static std::unique_ptr<api::document::IDocument> create();
+  static std::unique_ptr<flow::document::Document> create();
 
 public:
   ~FlowDocument() override;

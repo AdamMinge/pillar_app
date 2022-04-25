@@ -1,5 +1,5 @@
-#ifndef FLOW_INTERFACE_NEW_DOCUMENT_WIDGET_H
-#define FLOW_INTERFACE_NEW_DOCUMENT_WIDGET_H
+#ifndef FLOW_NEW_DOCUMENT_WIDGET_H
+#define FLOW_NEW_DOCUMENT_WIDGET_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QWidget>
@@ -20,8 +20,10 @@ namespace flow::document
     explicit NewDocumentWidget(QWidget *parent = nullptr);
     ~NewDocumentWidget() override;
 
-    [[nodiscard]] virtual std::unique_ptr<Document> createDocument() const = 0;
+    [[nodiscard]] virtual std::unique_ptr<Document> createDocument() = 0;
     [[nodiscard]] virtual bool isValid() const = 0;
+
+    [[nodiscard]] virtual QString getDocumentId() const = 0;
 
   Q_SIGNALS:
     void isValidChanged(bool valid);
@@ -29,4 +31,4 @@ namespace flow::document
 
 }// namespace flow::document
 
-#endif//FLOW_INTERFACE_NEW_DOCUMENT_WIDGET_H
+#endif//FLOW_NEW_DOCUMENT_WIDGET_H

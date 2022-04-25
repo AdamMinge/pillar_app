@@ -18,7 +18,7 @@ namespace flow::node
 
   public:
     explicit TypeConverter() = default;
-    virtual ~TypeConverter() = default;
+    ~TypeConverter() override = default;
 
     [[nodiscard]] virtual std::unique_ptr<NodeData>
     convert(const NodeData &data) = 0;

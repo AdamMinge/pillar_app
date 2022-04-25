@@ -1,35 +1,36 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
+/* ----------------------------------- LibFlow -------------------------------- */
+#include "flow/libflow/document/undo_dock.h"
+#include <flow/libflow/preferences_manager.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/console_dock.h"
-#include "flow/editor/document/undo_dock.h"
-#include "flow/libflow/preferences_manager.h"
-#include "flow/plugins/document/flow/flow_converters_dock.h"
 #include "flow/plugins/document/flow/flow_document.h"
 #include "flow/plugins/document/flow/flow_editor.h"
 #include "flow/plugins/document/flow/flow_nodes_dock.h"
 #include "flow/plugins/document/flow/flow_scene.h"
+#include "flow/plugins/document/flow/flow_type_converters_dock.h"
 #include "flow/plugins/document/flow/flow_view.h"
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------- Preferences ----------------------------- */
 
 struct FlowEditor::Preferences {
-  Preference<QSize> editor_size =
-    Preference<QSize>(QString("flow_editor/size"));
-  Preference<QByteArray> editor_state =
-    Preference<QByteArray>(QString("flow_editor/state"));
+  flow::Preference<QSize> editor_size =
+    flow::Preference<QSize>(QString("flow_editor/size"));
+  flow::Preference<QByteArray> editor_state =
+    flow::Preference<QByteArray>(QString("flow_editor/state"));
 };
 
 /* -------------------------------- SceneEditor ----------------------------- */
 
 FlowEditor::FlowEditor(QObject *parent)
-    : IDocumentEditor(parent), m_current_document(nullptr),
+    : flow::document::DocumentEditor(parent), m_current_document(nullptr),
       m_main_window(new QMainWindow()),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_nodes_dock(new FlowNodesDock(m_main_window)),
       m_converters_dock(new FlowConvertersDock(m_main_window)),
-      m_undo_dock(new UndoDock(m_main_window)), m_preferences(new Preferences)
+      m_undo_dock(new flow::document::UndoDock(m_main_window)),
+      m_preferences(new Preferences)
 {
   initUi();
   initConnections();
@@ -37,7 +38,7 @@ FlowEditor::FlowEditor(QObject *parent)
 
 FlowEditor::~FlowEditor() = default;
 
-void FlowEditor::setCurrentDocument(api::document::IDocument *document)
+void FlowEditor::setCurrentDocument(flow::document::Document *document)
 {
   if (m_current_document == document) return;
 
@@ -49,7 +50,7 @@ void FlowEditor::setCurrentDocument(api::document::IDocument *document)
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
 }
 
-void FlowEditor::addDocument(api::document::IDocument *document)
+void FlowEditor::addDocument(flow::document::Document *document)
 {
   auto flow_document = dynamic_cast<FlowDocument *>(document);
   Q_ASSERT(flow_document);
@@ -66,7 +67,7 @@ void FlowEditor::addDocument(api::document::IDocument *document)
   m_scene_stack->addWidget(view);
 }
 
-void FlowEditor::removeDocument(api::document::IDocument *document)
+void FlowEditor::removeDocument(flow::document::Document *document)
 {
   auto flow_document = dynamic_cast<FlowDocument *>(document);
   Q_ASSERT(flow_document);
@@ -80,7 +81,7 @@ void FlowEditor::removeDocument(api::document::IDocument *document)
   view->deleteLater();
 }
 
-api::document::IDocument *FlowEditor::getCurrentDocument() const
+flow::document::Document *FlowEditor::getCurrentDocument() const
 {
   return m_current_document;
 }
@@ -123,6 +124,11 @@ FlowEditor::StandardActions FlowEditor::getEnabledStandardActions() const
   // TODO : implementation //
   FlowEditor::StandardActions standard_actions;
   return standard_actions;
+}
+
+QString FlowEditor::getDocumentId() const
+{
+  return QLatin1String("FlowDocument");
 }
 
 void FlowEditor::initUi()

@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
+#include <QIcon>
 #include <QWidget>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/utils/qt/stacked_widget/export.h"
@@ -15,7 +16,7 @@ namespace utils
   {
   public:
     explicit QtStackedWidgetTreeItem(
-      QWidget *widget,
+      QWidget *widget, QIcon icon = QIcon{},
       std::initializer_list<QtStackedWidgetTreeItem *> children = {});
     ~QtStackedWidgetTreeItem();
 
@@ -32,10 +33,14 @@ namespace utils
     void setWidget(QWidget *widget);
     [[nodiscard]] QWidget *getWidget() const;
 
+    void setIcon(QIcon icon);
+    [[nodiscard]] QIcon getIcon() const;
+
   private:
     QList<QtStackedWidgetTreeItem *> m_children;
     QtStackedWidgetTreeItem *m_parent;
     QWidget *m_widget;
+    QIcon m_icon;
   };
 
   class STACKED_WIDGET_API QtStackedWidgetTreeModel : public QAbstractItemModel
@@ -47,7 +52,8 @@ namespace utils
     {
       NameRole = Qt::UserRole + 1,
       WidgetRole,
-      ObjectNameRole
+      ObjectNameRole,
+      IconRole
     };
 
   public:
@@ -76,8 +82,8 @@ namespace utils
     [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
     [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
-    [[nodiscard]] QModelIndex
-    getIndexBy(Role role, const QVariant &value, const QModelIndex &parent) const;
+    [[nodiscard]] QModelIndex getIndexBy(
+      Role role, const QVariant &value, const QModelIndex &parent) const;
 
   private:
     QList<QtStackedWidgetTreeItem *> m_root_items;

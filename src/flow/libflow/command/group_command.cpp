@@ -5,7 +5,9 @@
 namespace flow::command
 {
 
-  GroupCommand::GroupCommand(Command *parent) : Command(parent) {}
+  GroupCommand::GroupCommand(QString name, Command *parent)
+      : Command(std::move(name), parent)
+  {}
 
   GroupCommand::~GroupCommand() { qDeleteAll(m_commands); }
 

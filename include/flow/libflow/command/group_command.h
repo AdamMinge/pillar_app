@@ -12,7 +12,7 @@ namespace flow::command
   class LIB_FLOW_API GroupCommand : public Command
   {
   public:
-    explicit GroupCommand(Command *parent = nullptr);
+    explicit GroupCommand(QString name, Command *parent = nullptr);
     ~GroupCommand() override;
 
     void undo() override;

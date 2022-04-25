@@ -12,13 +12,13 @@
 #include "flow/editor/project/project_window.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
+#include <flow/libflow/document/document.h>
+#include <flow/libflow/document/document_editor.h>
+#include <flow/libflow/document/document_format.h>
 #include <flow/libflow/format_helper.h>
 #include <flow/libflow/preferences_manager.h>
 #include <flow/libflow/project/project.h>
 #include <flow/libflow/project/project_format.h>
-#include <flow/libflow/document/document.h>
-#include <flow/libflow/document/document_format.h>
-#include <flow/libflow/document/document_editor.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/action/action.h>
 #include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
@@ -271,7 +271,8 @@ void ProjectWindow::updateViewsAndToolbarsMenu()
 
 void ProjectWindow::updateRecentProjectFiles()
 {
-  auto recent_project_files = flow::PreferencesManager::getInstance().getRecentProjectFiles();
+  auto recent_project_files =
+    flow::PreferencesManager::getInstance().getRecentProjectFiles();
 
   for (auto &action : m_open_recent_project_menu->actions())
   {
@@ -380,7 +381,8 @@ void ProjectWindow::openDocument()
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
     this, tr("Open Document"), project_dir, filter);
 
-  if (!file_name.isEmpty()) DocumentManager::getInstance().loadDocument(file_name);
+  if (!file_name.isEmpty())
+    DocumentManager::getInstance().loadDocument(file_name);
 }
 
 bool ProjectWindow::closeDocument(int index)
@@ -485,7 +487,7 @@ void ProjectWindow::readSettings()
 
 void ProjectWindow::registerActions()
 {
-  auto& action_manager = flow::ActionManager::getInstance();
+  auto &action_manager = flow::ActionManager::getInstance();
 
   action_manager.registerAction(m_new_project_action, "new_project");
   action_manager.registerAction(m_open_project_action, "open_project");
@@ -496,8 +498,7 @@ void ProjectWindow::registerActions()
   action_manager.registerAction(m_open_document_action, "open_document");
   action_manager.registerAction(m_close_document_action, "close_document");
   action_manager.registerAction(m_save_document_action, "save_document");
-  action_manager.registerAction(
-    m_save_document_as_action, "save_document_as");
+  action_manager.registerAction(m_save_document_as_action, "save_document_as");
   action_manager.registerAction(
     m_save_all_documents_action, "save_all_documents");
   action_manager.registerAction(m_undo_action, "undo");
@@ -519,9 +520,6 @@ void ProjectWindow::initUi()
   tabifyDockWidget(m_console_dock, m_issue_dock);
   m_console_dock->raise();
 
-  //DocumentManager::getInstance().addEditor(
-    //flow::document::Document::Type::Flow, std::make_unique<FlowEditor>());
-
   m_ui->m_menu_bar->addMenu(m_project_menu);
   m_project_menu->addAction(m_new_project_action);
   m_project_menu->addAction(m_open_project_action);
@@ -530,9 +528,11 @@ void ProjectWindow::initUi()
   m_open_recent_project_menu->addAction(m_clear_recent_projects_action);
   m_project_menu->addAction(m_close_project_action);
   m_project_menu->addSeparator();
-  m_project_menu->addAction(flow::ActionManager::getInstance().findAction("settings"));
+  m_project_menu->addAction(
+    flow::ActionManager::getInstance().findAction("settings"));
   m_project_menu->addSeparator();
-  m_project_menu->addAction(flow::ActionManager::getInstance().findAction("exit"));
+  m_project_menu->addAction(
+    flow::ActionManager::getInstance().findAction("exit"));
 
   m_ui->m_menu_bar->addMenu(m_document_menu);
   m_document_menu->addAction(m_new_document_action);
@@ -556,7 +556,8 @@ void ProjectWindow::initUi()
   m_view_menu->addMenu(m_views_and_toolbars_menu);
 
   m_ui->m_menu_bar->addMenu(m_help_menu);
-  m_help_menu->addAction(flow::ActionManager::getInstance().findAction("about"));
+  m_help_menu->addAction(
+    flow::ActionManager::getInstance().findAction("about"));
 
   m_help_menu->setShortcutEnabled(true);
 }
@@ -564,11 +565,6 @@ void ProjectWindow::initUi()
 void ProjectWindow::initConnections()
 {
   auto undoGroup = DocumentManager::getInstance().getUndoGroup();
-
-  //connect(
-    //DocumentManager::getInstance().getEditor(flow::document::Document::Type::Flow),
-    //&flow::document::DocumentEditor::enabledStandardActionsChanged, this,
-    //&ProjectWindow::updateActions);
 
   connect(
     undoGroup, &QUndoGroup::cleanChanged, this,
@@ -619,19 +615,24 @@ void ProjectWindow::initConnections()
     &ProjectWindow::updateViewsAndToolbarsMenu);
 
   connect(
-    &DocumentManager::getInstance(), &DocumentManager::currentDocumentChanged, this,
-    &ProjectWindow::documentChanged);
+    &DocumentManager::getInstance(), &DocumentManager::currentDocumentChanged,
+    this, &ProjectWindow::documentChanged);
   connect(
-    &DocumentManager::getInstance(), &DocumentManager::documentCloseRequested, this,
-    qOverload<>(&ProjectWindow::closeDocument));
+    &DocumentManager::getInstance(), &DocumentManager::documentCloseRequested,
+    this, qOverload<>(&ProjectWindow::closeDocument));
+  connect(
+    &DocumentManager::getInstance(),
+    &DocumentManager::enabledStandardActionsChanged, this,
+    &ProjectWindow::updateActions);
 
   connect(
-    &ProjectManager::getInstance(), &ProjectManager::currentProjectChanged, this,
-    &ProjectWindow::projectChanged);
+    &ProjectManager::getInstance(), &ProjectManager::currentProjectChanged,
+    this, &ProjectWindow::projectChanged);
 
   connect(
-    &flow::PreferencesManager::getInstance(), &flow::PreferencesManager::recentProjectFilesChanged,
-    this, &ProjectWindow::updateRecentProjectFiles);
+    &flow::PreferencesManager::getInstance(),
+    &flow::PreferencesManager::recentProjectFilesChanged, this,
+    &ProjectWindow::updateRecentProjectFiles);
 }
 
 void ProjectWindow::retranslateUi()
@@ -700,7 +701,8 @@ bool ProjectWindow::switchProject(
 
     ProjectManager::getInstance().removeAllProjects();
     ProjectManager::getInstance().addProject(std::move(project));
-    flow::PreferencesManager::getInstance().addRecentProjectFile(project_ptr->getFileName());
+    flow::PreferencesManager::getInstance().addRecentProjectFile(
+      project_ptr->getFileName());
     return true;
   }
 

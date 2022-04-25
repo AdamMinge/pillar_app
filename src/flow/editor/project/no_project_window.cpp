@@ -107,7 +107,8 @@ void NoProjectWindow::createProject()
     auto project_ptr = project.get();
 
     ProjectManager::getInstance().addProject(std::move(project));
-    flow::PreferencesManager::getInstance().addRecentProjectFile(project_ptr->getFileName());
+    flow::PreferencesManager::getInstance().addRecentProjectFile(
+      project_ptr->getFileName());
   }
 }
 

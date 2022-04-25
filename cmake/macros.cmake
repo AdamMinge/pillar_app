@@ -234,6 +234,10 @@ macro(flow_add_utils target)
         target_precompile_headers(${target} PRIVATE ${THIS_PRECOMPILE_PRIVATE_HEADERS})
     endif()
 
+    foreach(target_depends ${THIS_DEPENDS})
+        install(TARGETS ${target_depends} EXPORT flowConfigExport)
+    endforeach()
+
     string(REPLACE "-" "_" NAME_UPPER "${target}")
     string(TOUPPER "${NAME_UPPER}" NAME_UPPER)
     set_target_properties(${target} PROPERTIES DEFINE_SYMBOL ${NAME_UPPER}_EXPORTS)
@@ -247,6 +251,11 @@ macro(flow_add_utils target)
 
     set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
     set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
+
+    install(TARGETS ${target} EXPORT flowConfigExport
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
     target_include_directories(${target}
             PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>

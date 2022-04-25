@@ -12,7 +12,8 @@ namespace flow::node
   class Node;
 }
 
-class LOGIC_NODE_API FloatingPointConverterFactories : public flow::node::TypeConverterFactories
+class LOGIC_NODE_API FloatingPointConverterFactories
+    : public flow::node::TypeConverterFactories
 {
   Q_OBJECT
   Q_INTERFACES(flow::node::TypeConverterFactories);

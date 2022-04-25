@@ -3,11 +3,13 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsView>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
 class FlowScene;
 
-class FlowView : public QGraphicsView
+class FLOW_DOCUMENT_API FlowView : public QGraphicsView
 {
   Q_OBJECT
 

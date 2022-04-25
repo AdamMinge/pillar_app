@@ -7,7 +7,8 @@
 #include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class INTEGER_CONVERTER_API IntegerToBooleanConverter : public flow::node::TypeConverter
+class INTEGER_CONVERTER_API IntegerToBooleanConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit IntegerToBooleanConverter() = default;

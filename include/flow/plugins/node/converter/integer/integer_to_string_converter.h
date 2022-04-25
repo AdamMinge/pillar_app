@@ -7,7 +7,8 @@
 #include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class INTEGER_CONVERTER_API IntegerToStringConverter : public flow::node::TypeConverter
+class INTEGER_CONVERTER_API IntegerToStringConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit IntegerToStringConverter() = default;

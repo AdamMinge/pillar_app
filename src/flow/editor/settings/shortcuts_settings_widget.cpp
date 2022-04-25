@@ -90,9 +90,7 @@ void ShortcutsSettingsWidget::searchAction(const QString &search)
 
 ShortcutsSettingsWidgetFactory::ShortcutsSettingsWidgetFactory(QObject *parent)
     : flow::settings::SettingsWidgetFactory(parent)
-{
-
-}
+{}
 
 ShortcutsSettingsWidgetFactory::~ShortcutsSettingsWidgetFactory() = default;
 

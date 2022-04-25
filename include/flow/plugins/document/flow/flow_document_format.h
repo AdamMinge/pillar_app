@@ -1,44 +1,23 @@
 #ifndef PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
 #define PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
 
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/document/document_format.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/document/document_format.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
-class FlowDocumentFormat : public api::document::IDocumentFormat
+class FLOW_DOCUMENT_API FlowDocumentFormat
+    : public flow::document::DocumentFormat
 {
   Q_OBJECT
+  Q_INTERFACES(flow::document::DocumentFormat)
 
 public:
   explicit FlowDocumentFormat(QObject *parent = nullptr);
   ~FlowDocumentFormat() override;
 };
 
-class ReadableFlowDocumentFormat : public FlowDocumentFormat
-{
-  Q_OBJECT
-
-public:
-  explicit ReadableFlowDocumentFormat(QObject *parent = nullptr);
-  ~ReadableFlowDocumentFormat() override;
-
-  bool save(
-    const api::document::IDocument &document, const QString &file_name,
-    QString *error) override;
-  [[nodiscard]] Capabilities getCapabilities() const override;
-};
-
-class WritableFlowDocumentFormat : public FlowDocumentFormat
-{
-  Q_OBJECT
-
-public:
-  explicit WritableFlowDocumentFormat(QObject *parent = nullptr);
-  ~WritableFlowDocumentFormat() override;
-
-  std::unique_ptr<api::document::IDocument>
-  load(const QString &file_name, QString *error) override;
-  [[nodiscard]] Capabilities getCapabilities() const override;
-};
+Q_DECLARE_INTERFACE(FlowDocumentFormat, "org.flow.FlowDocumentFormat")
 
 #endif//PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H

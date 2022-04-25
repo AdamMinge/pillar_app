@@ -2,18 +2,18 @@
 #include <QFileInfo>
 #include <QPainter>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document_type_list_delegate.h"
-#include "flow/editor/document/document_type_list_model.h"
+#include "flow/editor/document/new_document_widget_list_delegate.h"
+#include "flow/editor/document/new_document_widget_list_model.h"
 /* -------------------------------------------------------------------------- */
 
-DocumentTypeListDelegate::DocumentTypeListDelegate(QObject *parent)
+NewDocumentWidgetListDelegate::NewDocumentWidgetListDelegate(QObject *parent)
     : QStyledItemDelegate(parent), m_icon_size(64, 64), m_margins(0, 0, 0, 0),
       m_spacing(0, 0)
 {}
 
-DocumentTypeListDelegate::~DocumentTypeListDelegate() = default;
+NewDocumentWidgetListDelegate::~NewDocumentWidgetListDelegate() = default;
 
-void DocumentTypeListDelegate::paint(
+void NewDocumentWidgetListDelegate::paint(
   QPainter *painter, const QStyleOptionViewItem &option,
   const QModelIndex &index) const
 {
@@ -27,8 +27,7 @@ void DocumentTypeListDelegate::paint(
     m_margins.left(), m_margins.top(), -m_margins.right(), -m_margins.bottom());
 
   auto is_last_index = index.model()->rowCount() - 1 == index.row();
-  auto name =
-    index.data(DocumentTypeListModel::Role::DocumentTypeNameRole).toString();
+  auto name = index.data(NewDocumentWidgetListModel::Role::NameRole).toString();
 
   painter->save();
 
@@ -46,7 +45,7 @@ void DocumentTypeListDelegate::paint(
 
   painter->drawPixmap(
     content_rect.left(), content_rect.top(),
-    index.data(DocumentTypeListModel::Role::DocumentTypeIconRole)
+    index.data(NewDocumentWidgetListModel::Role::IconRole)
       .value<QIcon>()
       .pixmap(m_icon_size));
 
@@ -65,7 +64,7 @@ void DocumentTypeListDelegate::paint(
   painter->restore();
 }
 
-QSize DocumentTypeListDelegate::sizeHint(
+QSize NewDocumentWidgetListDelegate::sizeHint(
   const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
   QStyleOptionViewItem opt(option);
@@ -76,49 +75,49 @@ QSize DocumentTypeListDelegate::sizeHint(
     m_icon_size.height() + m_margins.top() + m_margins.bottom()};
 }
 
-void DocumentTypeListDelegate::setIconSize(const QSize &size)
+void NewDocumentWidgetListDelegate::setIconSize(const QSize &size)
 {
   m_icon_size = size;
 }
 
-const QSize &DocumentTypeListDelegate::getIconSize() const
+const QSize &NewDocumentWidgetListDelegate::getIconSize() const
 {
   return m_icon_size;
 }
 
-void DocumentTypeListDelegate::setMargins(const QMargins &margins)
+void NewDocumentWidgetListDelegate::setMargins(const QMargins &margins)
 {
   m_margins = margins;
 }
 
-const QMargins &DocumentTypeListDelegate::getMargins() const
+const QMargins &NewDocumentWidgetListDelegate::getMargins() const
 {
   return m_margins;
 }
 
-void DocumentTypeListDelegate::setSpacing(
+void NewDocumentWidgetListDelegate::setSpacing(
   int vertical_spacing, int horizontal_spacing)
 {
   m_spacing.setWidth(vertical_spacing);
   m_spacing.setHeight(horizontal_spacing);
 }
 
-void DocumentTypeListDelegate::setVerticalSpacing(int spacing)
+void NewDocumentWidgetListDelegate::setVerticalSpacing(int spacing)
 {
   m_spacing.setWidth(spacing);
 }
 
-void DocumentTypeListDelegate::setHorizontalSpacing(int spacing)
+void NewDocumentWidgetListDelegate::setHorizontalSpacing(int spacing)
 {
   m_spacing.setHeight(spacing);
 }
 
-int DocumentTypeListDelegate::getVerticalSpacing() const
+int NewDocumentWidgetListDelegate::getVerticalSpacing() const
 {
   return m_spacing.width();
 }
 
-int DocumentTypeListDelegate::getHorizontalSpacing() const
+int NewDocumentWidgetListDelegate::getHorizontalSpacing() const
 {
   return m_spacing.height();
 }

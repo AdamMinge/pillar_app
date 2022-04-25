@@ -45,7 +45,7 @@ std::unique_ptr<flow::project::Project> NewProjectDialog::create()
                   ? nullptr
                   : format_helper.getFormats().front();
 
-  QString error = tr("Wrong project format");
+  auto error = tr("Wrong project format");
   if (format)
   {
     auto project = flow::project::Project::create();

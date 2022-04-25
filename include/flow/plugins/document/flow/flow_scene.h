@@ -4,11 +4,13 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsScene>
 #include <QMimeData>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
 class FlowDocument;
 
-class FlowScene : public QGraphicsScene
+class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene
 {
   Q_OBJECT
 

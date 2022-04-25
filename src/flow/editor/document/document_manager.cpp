@@ -58,24 +58,36 @@ DocumentManager::DocumentManager()
   connect(
     m_file_system_watcher.get(), &utils::QtFileSystemWatcher::pathsChanged,
     this, &DocumentManager::filesChanged);
+
+  loadObjects();
 }
 
 DocumentManager::~DocumentManager() = default;
 
 QWidget *DocumentManager::getWidget() const { return m_widget.data(); }
 
-void DocumentManager::addEditor(
-  QString document_id,
-  std::unique_ptr<flow::document::DocumentEditor> editor)
+void DocumentManager::addEditor(flow::document::DocumentEditor *editor)
 {
-  Q_ASSERT(!m_editor_for_document_id.contains(document_id));
+  Q_ASSERT(!m_editor_for_document_id.contains(editor->getDocumentId()));
   m_editor_stack->addWidget(editor->getEditorWidget());
   m_editor_for_document_id.insert(
-    std::make_pair(std::move(document_id), std::move(editor)));
+    std::make_pair(editor->getDocumentId(), editor));
 }
 
-void DocumentManager::removeEditor(const QString& document_id)
+void DocumentManager::removeEditor(const QString &document_id)
 {
+  auto documents_to_remove = std::vector<flow::document::Document *>{};
+  std::transform(
+    m_documents.begin(), m_documents.end(),
+    std::back_inserter(documents_to_remove),
+    [](auto &ptr_document) { return ptr_document.get(); });
+
+  for (auto document_to_remove : documents_to_remove)
+  {
+    if (document_to_remove->getId() == document_id)
+      removeDocument(findDocument(document_to_remove));
+  }
+
   Q_ASSERT(m_editor_for_document_id.contains(document_id));
   m_editor_for_document_id.erase(document_id);
 }
@@ -87,10 +99,10 @@ void DocumentManager::removeAllEditors()
 }
 
 flow::document::DocumentEditor *
-DocumentManager::getEditor(const QString& document_id) const
+DocumentManager::getEditor(const QString &document_id) const
 {
   if (m_editor_for_document_id.contains(document_id))
-    return m_editor_for_document_id.at(document_id).get();
+    return m_editor_for_document_id.at(document_id);
 
   return nullptr;
 }
@@ -142,7 +154,8 @@ bool DocumentManager::reloadDocumentAt(int index)
   const auto &document = m_documents.at(index);
 
   QString error;
-  auto new_document = flow::document::Document::load(document->getFileName(), nullptr, &error);
+  auto new_document =
+    flow::document::Document::load(document->getFileName(), nullptr, &error);
   if (!new_document)
   {
     QMessageBox::critical(m_widget.get(), tr("Error Reloading File"), error);
@@ -341,6 +354,16 @@ DocumentManager::getDocuments() const
   return m_documents;
 }
 
+void DocumentManager::addedObject(flow::document::DocumentEditor *object)
+{
+  addEditor(object);
+}
+
+void DocumentManager::removedObject(flow::document::DocumentEditor *object)
+{
+  removeEditor(object->getDocumentId());
+}
+
 void DocumentManager::currentIndexChanged()
 {
   auto document = getCurrentDocument();
@@ -352,6 +375,13 @@ void DocumentManager::currentIndexChanged()
   {
     editor->setCurrentDocument(document);
     m_editor_stack->setCurrentWidget(editor->getEditorWidget());
+
+    disconnect(this, SIGNAL(enabledStandardActionsChanged()));
+
+    connect(
+      editor, &flow::document::DocumentEditor::enabledStandardActionsChanged,
+      this, &DocumentManager::enabledStandardActionsChanged);
+
   } else
   {
     m_editor_stack->setCurrentWidget(m_no_document_widget);

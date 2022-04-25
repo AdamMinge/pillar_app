@@ -1,5 +1,5 @@
-#ifndef FLOW_INTERFACE_DOCUMENT_EDITOR_H
-#define FLOW_INTERFACE_DOCUMENT_EDITOR_H
+#ifndef FLOW_DOCUMENT_EDITOR_H
+#define FLOW_DOCUMENT_EDITOR_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
@@ -15,6 +15,7 @@ namespace utils
 
 namespace flow::document
 {
+
   class Document;
 
   class LIB_FLOW_API DocumentEditor : public QObject
@@ -59,6 +60,9 @@ namespace flow::document
   Q_SIGNALS:
     void enabledStandardActionsChanged();
   };
+
 }// namespace flow::document
 
-#endif//FLOW_INTERFACE_DOCUMENT_EDITOR_H
+Q_DECLARE_INTERFACE(flow::document::DocumentEditor, "org.flow.DocumentEditor")
+
+#endif//FLOW_DOCUMENT_EDITOR_H

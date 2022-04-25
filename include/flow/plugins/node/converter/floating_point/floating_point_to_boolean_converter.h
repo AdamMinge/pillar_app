@@ -7,7 +7,8 @@
 #include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class FLOATING_POINT_CONVERTER_API FloatingPointToBooleanConverter : public flow::node::TypeConverter
+class FLOATING_POINT_CONVERTER_API FloatingPointToBooleanConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit FloatingPointToBooleanConverter() = default;

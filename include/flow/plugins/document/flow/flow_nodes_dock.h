@@ -4,6 +4,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
 #include <QSortFilterProxyModel>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -13,7 +15,7 @@ namespace Ui
 
 class FlowNodesTreeModel;
 
-class FlowNodesDock : public QDockWidget
+class FLOW_DOCUMENT_API FlowNodesDock : public QDockWidget
 {
   Q_OBJECT
 

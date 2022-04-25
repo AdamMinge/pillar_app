@@ -16,8 +16,8 @@ IssueTableModel::IssueTableModel(QObject *parent) : QAbstractTableModel(parent)
     &IssueTableModel::addIssue);
 
   connect(
-    issue_manager, qOverload<const QVariant &>(&flow::IssueManager::onClear), this,
-    &IssueTableModel::removeIssues);
+    issue_manager, qOverload<const QVariant &>(&flow::IssueManager::onClear),
+    this, &IssueTableModel::removeIssues);
   connect(
     issue_manager, qOverload<>(&flow::IssueManager::onClear), this,
     &IssueTableModel::removeAllIssues);

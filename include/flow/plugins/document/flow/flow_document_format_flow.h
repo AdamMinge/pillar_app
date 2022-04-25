@@ -1,13 +1,15 @@
 #ifndef PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
 #define PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
 
-/* ------------------------------------ Local ------------------------------- */
-#include "flow_document_format.h"
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
+#include "flow/plugins/document/flow/flow_document_format.h"
 /* -------------------------------------------------------------------------- */
 
-class FlowDocumentFormatFlow : public FlowDocumentFormat
+class FLOW_DOCUMENT_API FlowDocumentFormatFlow : public FlowDocumentFormat
 {
   Q_OBJECT
+  Q_INTERFACES(FlowDocumentFormat)
 
 public:
   explicit FlowDocumentFormatFlow(QObject *parent = nullptr);
@@ -17,10 +19,10 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<api::document::IDocument>
+  std::unique_ptr<flow::document::Document>
   load(const QString &file_name, QString *error) override;
   bool save(
-    const api::document::IDocument &document, const QString &file_name,
+    const flow::document::Document &document, const QString &file_name,
     QString *error) override;
 };
 

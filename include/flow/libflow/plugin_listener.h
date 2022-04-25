@@ -22,6 +22,8 @@ namespace flow
     virtual void addedObject(OBJECT *object);
     virtual void removedObject(OBJECT *object);
 
+    void loadObjects();
+
     [[nodiscard]] QList<OBJECT *> getObjects() const;
 
   private:
@@ -67,6 +69,13 @@ namespace flow
   template<typename OBJECT>
   void PluginListener<OBJECT>::removedObject(OBJECT *object)
   {}
+
+  template<typename OBJECT>
+  void PluginListener<OBJECT>::loadObjects()
+  {
+    auto objects = getObjects();
+    for (auto object : objects) addedObject(object);
+  }
 
 }// namespace flow
 

@@ -8,8 +8,9 @@ namespace utils
   /* ------------------------- QtStackedWidgetTreeItem----------------------- */
 
   QtStackedWidgetTreeItem::QtStackedWidgetTreeItem(
-    QWidget *widget, std::initializer_list<QtStackedWidgetTreeItem *> children)
-      : m_parent(nullptr), m_widget(widget)
+    QWidget *widget, QIcon icon,
+    std::initializer_list<QtStackedWidgetTreeItem *> children)
+      : m_parent(nullptr), m_icon(std::move(icon)), m_widget(widget)
   {
     std::for_each(children.begin(), children.end(), [this](auto child) {
       addChild(child);
@@ -75,6 +76,13 @@ namespace utils
   }
 
   QWidget *QtStackedWidgetTreeItem::getWidget() const { return m_widget; }
+
+  void QtStackedWidgetTreeItem::setIcon(QIcon icon)
+  {
+    m_icon = std::move(icon);
+  }
+
+  QIcon QtStackedWidgetTreeItem::getIcon() const { return m_icon; }
 
   /* ------------------------- QtStackedWidgetTreeModel---------------------- */
 
@@ -158,6 +166,10 @@ namespace utils
       case Role::ObjectNameRole:
         return item->getWidget()->objectName();
 
+      case Qt::DecorationRole:
+      case Role::IconRole:
+        return item->getIcon();
+
       default:
         return QVariant{};
     }
@@ -237,7 +249,7 @@ namespace utils
   {
     return getIndexBy(*this, role, value, parent);
   }
-  
+
   QModelIndex QtStackedWidgetTreeModel::getIndexBy(
     const QAbstractItemModel &model, Role role, const QVariant &value,
     const QModelIndex &parent)

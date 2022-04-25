@@ -1,13 +1,13 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document_type_list_delegate.h"
-#include "flow/editor/document/document_type_list_model.h"
 #include "flow/editor/document/new_document_dialog.h"
+#include "flow/editor/document/new_document_widget_list_delegate.h"
+#include "flow/editor/document/new_document_widget_list_model.h"
 /* ---------------------------------- LibFlow ------------------------------- */
-#include <flow/libflow/preferences_manager.h>
-#include <flow/libflow/document/new_document_widget.h>
 #include <flow/libflow/document/document.h>
+#include <flow/libflow/document/new_document_widget.h>
+#include <flow/libflow/preferences_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_document_dialog.h"
 /* -------------------------------------------------------------------------- */
@@ -24,11 +24,14 @@ struct NewDocumentDialog::Preferences {
 NewDocumentDialog::NewDocumentDialog(QWidget *parent)
     : QDialog(parent), m_ui(new Ui::NewDocumentDialog()),
       m_preferences(new Preferences),
-      m_document_types_model(new DocumentTypeListModel()),
-      m_document_types_delegate(new DocumentTypeListDelegate())
+      m_new_document_widget_model(new NewDocumentWidgetListModel()),
+      m_new_document_widget_delegate(new NewDocumentWidgetListDelegate())
 {
   initUi();
   initConnections();
+
+  m_ui->m_document_type_list->setCurrentIndex(
+    m_new_document_widget_model->index(0, 0, QModelIndex{}));
 
   readSettings();
   retranslateUi();
@@ -61,58 +64,45 @@ void NewDocumentDialog::changeEvent(QEvent *event)
   }
 }
 
-void NewDocumentDialog::documentTypeChanged(const QModelIndex &index)
+void NewDocumentDialog::currentChanged()
 {
-  auto document_id = index.data(DocumentTypeListModel::Role::DocumentTypeIdRole).toString();
+  auto current_new_document_widget =
+    qobject_cast<flow::document::NewDocumentWidget *>(
+      m_ui->m_stacked_widget->currentWidget());
 
-  auto prev_widget = dynamic_cast<flow::document::NewDocumentWidget *>(
-    m_ui->m_stacked_widget->currentWidget());
-  auto next_widget = m_document_create_widgets[document_id];
+  if (current_new_document_widget)
+  {
+    disconnect(this, SLOT(isValidChanged(bool)));
+    connect(
+      current_new_document_widget,
+      &flow::document::NewDocumentWidget::isValidChanged, this,
+      &NewDocumentDialog::isValidChanged);
 
-  m_ui->m_stacked_widget->setCurrentWidget(next_widget);
-  m_ui->m_create_button->setEnabled(next_widget->isValid());
-
-  disconnect(
-    prev_widget, &flow::document::NewDocumentWidget::isValidChanged,
-    m_ui->m_create_button, &QPushButton::setEnabled);
-  connect(
-    next_widget, &flow::document::NewDocumentWidget::isValidChanged,
-    m_ui->m_create_button, &QPushButton::setEnabled);
+    isValidChanged(current_new_document_widget->isValid());
+  } else
+  {
+    isValidChanged(false);
+  }
 }
 
-void NewDocumentDialog::updateCreateButton()
+void NewDocumentDialog::isValidChanged(bool valid)
 {
-  m_ui->m_create_button->setEnabled(m_ui->m_name_and_path_filler->isValid());
+  m_ui->m_create_button->setEnabled(valid);
 }
 
 void NewDocumentDialog::initUi()
 {
   m_ui->setupUi(this);
 
-  m_ui->m_name_and_path_filler->setPathValidations(
-    utils::QtNameAndPathFiller::PathValidation::NotEmpty |
-    utils::QtNameAndPathFiller::PathValidation::DirExists);
+  m_ui->m_document_type_list->setModel(m_new_document_widget_model.get());
+  m_ui->m_document_type_list->setItemDelegate(
+    m_new_document_widget_delegate.get());
 
-  m_ui->m_document_type_list->setModel(m_document_types_model.get());
-  m_ui->m_document_type_list->setItemDelegate(m_document_types_delegate.get());
+  m_new_document_widget_delegate->setIconSize(QSize(64, 64));
+  m_new_document_widget_delegate->setMargins(QMargins(10, 5, 10, 5));
+  m_new_document_widget_delegate->setSpacing(10, 15);
 
-  m_document_types_delegate->setIconSize(QSize(64, 64));
-  m_document_types_delegate->setMargins(QMargins(10, 5, 10, 5));
-  m_document_types_delegate->setSpacing(10, 15);
-
-  /*
-  m_document_create_widgets[flow::document::Document::Type::Flow] =
-    new NewFlowDocumentWidget(this);
-
-  m_ui->m_stacked_widget->addWidget(
-    m_document_create_widgets[flow::document::Document::Type::Flow]);
-  m_ui->m_stacked_widget->setCurrentWidget(
-    m_document_create_widgets[flow::document::Document::Type::Flow]);
-  */
-
-  m_ui->m_document_type_list->setCurrentIndex(m_document_types_model->index(0));
-
-  updateCreateButton();
+  m_ui->m_stacked_widget->setView(m_ui->m_document_type_list);
 }
 
 void NewDocumentDialog::initConnections()
@@ -121,13 +111,8 @@ void NewDocumentDialog::initConnections()
     m_ui->m_create_button, &QPushButton::pressed, this,
     &NewDocumentDialog::accept);
   connect(
-    m_ui->m_document_type_list->selectionModel(),
-    &QItemSelectionModel::currentChanged, this,
-    &NewDocumentDialog::documentTypeChanged);
-  connect(
-    m_ui->m_name_and_path_filler,
-    &utils::QtNameAndPathFiller::validStateChanged, this,
-    &NewDocumentDialog::updateCreateButton);
+    m_ui->m_stacked_widget, &utils::QtStackedWidget::currentChanged, this,
+    &NewDocumentDialog::currentChanged);
 }
 
 void NewDocumentDialog::retranslateUi()

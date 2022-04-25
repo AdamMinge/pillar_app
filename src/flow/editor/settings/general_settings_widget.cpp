@@ -67,9 +67,7 @@ void GeneralSettingsWidget::retranslateUi()
 
 GeneralSettingsWidgetFactory::GeneralSettingsWidgetFactory(QObject *parent)
     : flow::settings::SettingsWidgetFactory(parent)
-{
-
-}
+{}
 
 GeneralSettingsWidgetFactory::~GeneralSettingsWidgetFactory() = default;
 

@@ -1,9 +1,11 @@
-#ifndef FLOW_FLOW_CONVERTERS_DOCK_H
-#define FLOW_FLOW_CONVERTERS_DOCK_H
+#ifndef FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
+#define FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
 #include <QSortFilterProxyModel>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -13,7 +15,7 @@ namespace Ui
 
 class FlowConvertersTreeModel;
 
-class FlowConvertersDock : public QDockWidget
+class FLOW_DOCUMENT_API FlowConvertersDock : public QDockWidget
 {
   Q_OBJECT
 
@@ -37,4 +39,4 @@ private:
   QScopedPointer<QSortFilterProxyModel> m_converters_filter_model;
 };
 
-#endif//FLOW_FLOW_CONVERTERS_DOCK_H
+#endif//FLOW_FLOW_TYPE_CONVERTERS_DOCK_H

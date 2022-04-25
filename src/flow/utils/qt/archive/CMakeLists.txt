@@ -29,6 +29,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_utils(archive
         SOURCES ${sources} ${includes}
-        DEPENDS Qt6::Widgets
-        DEPENDS_PRIVATE zip::zip)
+        DEPENDS zip
+        DEPENDS_PRIVATE Qt6::Widgets)
 # -------------------------------------------------------------------------------------------------- #

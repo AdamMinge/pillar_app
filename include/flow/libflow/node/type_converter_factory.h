@@ -60,11 +60,15 @@ namespace flow::node
     ~TypeConverterFactories() override;
 
     void registerFactory(
-      QString node_id, std::unique_ptr<TypeConverterFactory> factory);
-    void unregisterFactory(const QString &node_id);
+      QString type_converter_id, std::unique_ptr<TypeConverterFactory> factory);
+    void unregisterFactory(const QString &type_converter_id);
+
+    [[nodiscard]] QStringList getTypeConverterIds() const;
+    [[nodiscard]] TypeConverterFactory *
+    getFactory(const QString &type_converter_id) const;
 
     [[nodiscard]] virtual std::unique_ptr<TypeConverter>
-    create(const QString &node_id) const;
+    create(const QString &type_converter_id) const;
 
     [[nodiscard]] QString getName() const;
     [[nodiscard]] QIcon getIcon() const;

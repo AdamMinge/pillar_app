@@ -34,6 +34,8 @@ set(sources
         ${source_root}/document/document_editor.cpp
         ${source_root}/document/document_format.cpp
         ${source_root}/document/new_document_widget.cpp
+        ${source_root}/document/new_document_widget_factory.cpp
+        ${source_root}/document/undo_dock.cpp
 
         ${source_root}/command/command.cpp
         ${source_root}/command/group_command.cpp
@@ -80,6 +82,8 @@ set(includes
         ${include_root}/document/document_editor.h
         ${include_root}/document/document_format.h
         ${include_root}/document/new_document_widget.h
+        ${include_root}/document/new_document_widget_factory.h
+        ${include_root}/document/undo_dock.h
 
         ${include_root}/command/command.h
         ${include_root}/command/group_command.h
@@ -116,5 +120,8 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_module(lib_flow
         SOURCES ${sources} ${includes} ${resources}
-        DEPENDS_PRIVATE Qt6::Widgets Qt6::Qml)
+        DEPENDS_PRIVATE
+        Qt6::Widgets
+        Qt6::Qml
+        utils::dialog)
 # -------------------------------------------------------------------------------------------------- #

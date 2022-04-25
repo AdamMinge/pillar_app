@@ -1,17 +1,17 @@
-#ifndef FLOW_DOCUMENT_TYPE_LIST_DELEGATE_H
-#define FLOW_DOCUMENT_TYPE_LIST_DELEGATE_H
+#ifndef FLOW_NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
+#define FLOW_NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QStyledItemDelegate>
 /* -------------------------------------------------------------------------- */
 
-class DocumentTypeListDelegate : public QStyledItemDelegate
+class NewDocumentWidgetListDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
 public:
-  explicit DocumentTypeListDelegate(QObject *parent = nullptr);
-  ~DocumentTypeListDelegate() override;
+  explicit NewDocumentWidgetListDelegate(QObject *parent = nullptr);
+  ~NewDocumentWidgetListDelegate() override;
 
   void paint(
     QPainter *painter, const QStyleOptionViewItem &option,
@@ -39,4 +39,4 @@ private:
   QSize m_spacing;
 };
 
-#endif//FLOW_DOCUMENT_TYPE_LIST_DELEGATE_H
+#endif//FLOW_NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H

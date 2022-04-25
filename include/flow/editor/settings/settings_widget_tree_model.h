@@ -36,8 +36,6 @@ protected:
   void addedObject(flow::settings::SettingsWidgetFactory *factory) override;
   void removedObject(flow::settings::SettingsWidgetFactory *factory) override;
 
-  void init();
-
 private Q_SLOTS:
   void onAppliedChanged(
     flow::settings::SettingsWidget *settings_widget, bool applied);
@@ -45,8 +43,7 @@ private Q_SLOTS:
 private:
   std::set<flow::settings::SettingsWidget *> m_to_apply;
   std::map<
-    flow::settings::SettingsWidgetFactory *,
-    std::list<flow::settings::SettingsWidget *>>
+    flow::settings::SettingsWidgetFactory *, flow::settings::SettingsWidget *>
     m_settings_widget_by_factory;
 };
 

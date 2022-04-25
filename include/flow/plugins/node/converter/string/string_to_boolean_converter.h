@@ -7,7 +7,8 @@
 #include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class STRING_CONVERTER_API StringToBooleanConverter : public flow::node::TypeConverter
+class STRING_CONVERTER_API StringToBooleanConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit StringToBooleanConverter() = default;

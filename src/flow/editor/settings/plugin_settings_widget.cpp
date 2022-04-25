@@ -82,9 +82,7 @@ void PluginSettingsWidget::searchPlugin(const QString &search)
 
 PluginSettingsWidgetFactory::PluginSettingsWidgetFactory(QObject *parent)
     : flow::settings::SettingsWidgetFactory(parent)
-{
-
-}
+{}
 
 PluginSettingsWidgetFactory::~PluginSettingsWidgetFactory() = default;
 

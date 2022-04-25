@@ -4,12 +4,14 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
 #include <QPointer>
-#include <QUndoGroup>
 #include <QScopedPointer>
 #include <QStackedLayout>
 #include <QTabBar>
+#include <QUndoGroup>
 /* --------------------------------- Standard ------------------------------- */
 #include <unordered_map>
+/* --------------------------------- LibFlow -------------------------------- */
+#include <flow/libflow/plugin_listener.h>
 /* -------------------------------------------------------------------------- */
 
 class NoDocumentWidget;
@@ -23,9 +25,11 @@ namespace flow::document
 {
   class Document;
   class DocumentEditor;
-}
+}// namespace flow::document
 
-class DocumentManager : public QObject
+class DocumentManager
+    : public QObject,
+      public flow::PluginListener<flow::document::DocumentEditor>
 {
   Q_OBJECT
 
@@ -38,20 +42,17 @@ public:
 
   [[nodiscard]] QWidget *getWidget() const;
 
-  void addEditor(
-    QString document_id,
-    std::unique_ptr<flow::document::DocumentEditor> editor);
-  void removeEditor(const QString& document_id);
+  void addEditor(flow::document::DocumentEditor *editor);
+  void removeEditor(const QString &document_id);
   void removeAllEditors();
 
   [[nodiscard]] flow::document::DocumentEditor *
-  getEditor(const QString& document_id) const;
-  [[nodiscard]] flow::document::DocumentEditor *
-  getCurrentEditor() const;
+  getEditor(const QString &document_id) const;
+  [[nodiscard]] flow::document::DocumentEditor *getCurrentEditor() const;
 
   void addDocument(std::unique_ptr<flow::document::Document> document);
-  void insertDocument(
-    int index, std::unique_ptr<flow::document::Document> document);
+  void
+  insertDocument(int index, std::unique_ptr<flow::document::Document> document);
 
   void removeDocument(int index);
   void removeAllDocuments();
@@ -59,8 +60,7 @@ public:
   [[nodiscard]] flow::document::Document *getDocument(int index) const;
   [[nodiscard]] flow::document::Document *getCurrentDocument() const;
 
-  [[nodiscard]] int
-  findDocument(flow::document::Document *document) const;
+  [[nodiscard]] int findDocument(flow::document::Document *document) const;
   [[nodiscard]] int findDocument(const QString &file_name) const;
 
   void switchToDocument(int index);
@@ -84,6 +84,9 @@ public:
 protected:
   explicit DocumentManager();
 
+  void addedObject(flow::document::DocumentEditor *object) override;
+  void removedObject(flow::document::DocumentEditor *object) override;
+
 private Q_SLOTS:
   void currentIndexChanged();
   void documentTabMoved(int from, int to);
@@ -96,14 +99,13 @@ private Q_SLOTS:
 Q_SIGNALS:
   void currentDocumentChanged(flow::document::Document *document);
   void documentCloseRequested(int index);
+  void enabledStandardActionsChanged();
 
 private:
   static QScopedPointer<DocumentManager> m_instance;
 
   std::vector<std::unique_ptr<flow::document::Document>> m_documents;
-  std::unordered_map<
-    QString,
-    std::unique_ptr<flow::document::DocumentEditor>>
+  std::unordered_map<QString, flow::document::DocumentEditor *>
     m_editor_for_document_id;
 
   QPointer<QWidget> m_widget;

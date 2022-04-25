@@ -5,11 +5,13 @@
 #include <QIODevice>
 /* --------------------------------- Standard ------------------------------- */
 #include <memory>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
 class FlowDocument;
 
-class FlowDocumentReader
+class FLOW_DOCUMENT_API FlowDocumentReader
 {
   class FlowDocumentReaderImpl;
 

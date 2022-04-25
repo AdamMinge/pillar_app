@@ -32,5 +32,5 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_utils(dialog
         SOURCES ${sources} ${includes}
-        DEPENDS Qt6::Widgets)
+        DEPENDS_PRIVATE Qt6::Widgets)
 # -------------------------------------------------------------------------------------------------- #

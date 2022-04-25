@@ -13,8 +13,8 @@
 #include "flow/editor/document/new_document_dialog.h"
 #include "flow/editor/project/project_dock.h"
 /* ---------------------------------- LibFlow ------------------------------- */
-#include <flow/libflow/project/project.h>
 #include <flow/libflow/document/document.h>
+#include <flow/libflow/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
 #include <flow/utils/qt/view/unselectable_view.h>

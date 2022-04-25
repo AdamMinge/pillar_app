@@ -6,7 +6,9 @@
 #include <flow/libflow/project/project.h>
 /* -------------------------------------------------------------------------- */
 
-ProjectFormatPro::ProjectFormatPro(QObject *parent) : flow::project::ProjectFormat(parent) {}
+ProjectFormatPro::ProjectFormatPro(QObject *parent)
+    : flow::project::ProjectFormat(parent)
+{}
 
 ProjectFormatPro::~ProjectFormatPro() = default;
 
