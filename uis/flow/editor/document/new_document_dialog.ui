@@ -110,7 +110,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="utils::QtStackedWidget" name="m_stacked_widget">
+         <widget class="utils::QtStackedWidget" name="m_new_document_widget_stack">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -131,7 +131,7 @@
     </widget>
    </item>
    <item row="0" column="0" rowspan="3">
-    <widget class="QListView" name="m_document_type_list">
+    <widget class="QListView" name="m_new_document_widget_list">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>

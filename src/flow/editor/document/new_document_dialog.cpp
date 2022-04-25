@@ -30,7 +30,7 @@ NewDocumentDialog::NewDocumentDialog(QWidget *parent)
   initUi();
   initConnections();
 
-  m_ui->m_document_type_list->setCurrentIndex(
+  m_ui->m_new_document_widget_list->setCurrentIndex(
     m_new_document_widget_model->index(0, 0, QModelIndex{}));
 
   readSettings();
@@ -44,7 +44,7 @@ std::unique_ptr<flow::document::Document> NewDocumentDialog::create()
   if (exec() != QDialog::Accepted) return nullptr;
 
   auto new_document_widget = dynamic_cast<flow::document::NewDocumentWidget *>(
-    m_ui->m_stacked_widget->currentWidget());
+    m_ui->m_new_document_widget_stack->currentWidget());
   Q_ASSERT(new_document_widget);
 
   return new_document_widget->createDocument();
@@ -68,7 +68,7 @@ void NewDocumentDialog::currentChanged()
 {
   auto current_new_document_widget =
     qobject_cast<flow::document::NewDocumentWidget *>(
-      m_ui->m_stacked_widget->currentWidget());
+      m_ui->m_new_document_widget_stack->currentWidget());
 
   if (current_new_document_widget)
   {
@@ -94,15 +94,15 @@ void NewDocumentDialog::initUi()
 {
   m_ui->setupUi(this);
 
-  m_ui->m_document_type_list->setModel(m_new_document_widget_model.get());
-  m_ui->m_document_type_list->setItemDelegate(
+  m_ui->m_new_document_widget_list->setModel(m_new_document_widget_model.get());
+  m_ui->m_new_document_widget_list->setItemDelegate(
     m_new_document_widget_delegate.get());
 
   m_new_document_widget_delegate->setIconSize(QSize(64, 64));
   m_new_document_widget_delegate->setMargins(QMargins(10, 5, 10, 5));
   m_new_document_widget_delegate->setSpacing(10, 15);
 
-  m_ui->m_stacked_widget->setView(m_ui->m_document_type_list);
+  m_ui->m_new_document_widget_stack->setView(m_ui->m_new_document_widget_list);
 }
 
 void NewDocumentDialog::initConnections()
@@ -111,8 +111,8 @@ void NewDocumentDialog::initConnections()
     m_ui->m_create_button, &QPushButton::pressed, this,
     &NewDocumentDialog::accept);
   connect(
-    m_ui->m_stacked_widget, &utils::QtStackedWidget::currentChanged, this,
-    &NewDocumentDialog::currentChanged);
+    m_ui->m_new_document_widget_stack, &utils::QtStackedWidget::currentChanged,
+    this, &NewDocumentDialog::currentChanged);
 }
 
 void NewDocumentDialog::retranslateUi()
