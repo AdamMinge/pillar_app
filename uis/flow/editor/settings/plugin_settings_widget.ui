@@ -51,7 +51,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked</set>
+      <set>QAbstractItemView::AllEditTriggers</set>
      </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
