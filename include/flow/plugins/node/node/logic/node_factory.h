@@ -1,10 +1,10 @@
 #ifndef PLUGIN_FLOW_NODE_FACTORY_H
 #define PLUGIN_FLOW_NODE_FACTORY_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/node/node/logic/export.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/node/node_factory.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/node/node/logic/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow::node

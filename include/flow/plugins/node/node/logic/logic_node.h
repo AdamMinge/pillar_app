@@ -1,10 +1,10 @@
 #ifndef PLUGIN_FLOW_LOGIC_NODE_H
 #define PLUGIN_FLOW_LOGIC_NODE_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/node/node/logic/export.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/node/node.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/node/node/logic/export.h"
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodeWithOneParam : public flow::node::Node

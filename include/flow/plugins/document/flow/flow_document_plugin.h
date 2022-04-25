@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_DOCUMENT_PLUGIN_H
-#define FLOW_FLOW_DOCUMENT_PLUGIN_H
+#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_PLUGIN_H
+#define PLUGIN_FLOW_FLOW_DOCUMENT_PLUGIN_H
 
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/plugin_interface.h>
@@ -20,4 +20,4 @@ public:
   void init() override;
 };
 
-#endif//FLOW_FLOW_DOCUMENT_PLUGIN_H
+#endif//PLUGIN_FLOW_FLOW_DOCUMENT_PLUGIN_H

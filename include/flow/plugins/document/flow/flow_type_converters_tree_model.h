@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_TYPE_CONVERTERS_TREE_MODEL_H
-#define FLOW_FLOW_TYPE_CONVERTERS_TREE_MODEL_H
+#ifndef PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_TREE_MODEL_H
+#define PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_TREE_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
@@ -128,4 +128,4 @@ private:
   QList<FlowTypeConvertersTreeFactoriesItem *> m_root_items;
 };
 
-#endif//FLOW_FLOW_TYPE_CONVERTERS_TREE_MODEL_H
+#endif//PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_TREE_MODEL_H

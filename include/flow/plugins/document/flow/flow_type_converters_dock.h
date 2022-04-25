@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
-#define FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
+#ifndef PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
+#define PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
@@ -39,4 +39,4 @@ private:
   QScopedPointer<QSortFilterProxyModel> m_converters_filter_model;
 };
 
-#endif//FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
+#endif//PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_DOCK_H

@@ -1,10 +1,10 @@
 #ifndef PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H
 #define PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/node/converter/string/export.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/node/type_converter.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/node/converter/string/export.h"
 /* -------------------------------------------------------------------------- */
 
 class STRING_CONVERTER_API StringToBooleanConverter

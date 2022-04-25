@@ -348,7 +348,7 @@ endfunction()
 # -------------------------------------------------------------------------------------------------- #
 macro(flow_add_translations target)
 
-    cmake_parse_arguments(THIS "" "QM_DIR" "TS_FILES;SOURCES;INCLUDES;DIRS" ${ARGN})
+    cmake_parse_arguments(THIS "" "QM_DIR" "TS_FILES;DIRS" ${ARGN})
     if (NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
         message(FATAL_ERROR "Extra unparsed arguments when calling flow_add_translations: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
@@ -365,7 +365,7 @@ macro(flow_add_translations target)
         set(TS_TARGET_NAME "update_ts_file_${I18N_NAME}")
 
         add_custom_target(${TS_TARGET_NAME}
-                COMMAND ${LUPDATE_PATH} -I -recursive ${THIS_INCLUDES} ${THIS_SOURCES} ${THIS_DIRS} -ts ${TS_FILE}
+                COMMAND ${LUPDATE_PATH} -I ${THIS_DIRS} -recursive -ts ${TS_FILE}
                 VERBATIM)
 
         add_dependencies(${target}_update_all_ts_files ${TS_TARGET_NAME})
