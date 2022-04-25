@@ -10,9 +10,12 @@ namespace utils
 
   QtStackedWidget::QtStackedWidget(QWidget *parent)
       : QStackedWidget(parent), m_view(nullptr), m_default_widget(nullptr)
-  {}
+  {
+    setView(nullptr);
+    setDefaultWidget(new QWidget(this));
+  }
 
-  QtStackedWidget::~QtStackedWidget() { modelChanged(nullptr); }
+  QtStackedWidget::~QtStackedWidget() = default;
 
   void QtStackedWidget::setView(QAbstractItemView *view)
   {
@@ -46,6 +49,8 @@ namespace utils
 
   void QtStackedWidget::setDefaultWidget(QWidget *widget)
   {
+    Q_ASSERT(widget);
+    if (m_default_widget) m_default_widget->deleteLater();
     m_default_widget = widget;
 
     modelChanged(m_view ? m_view->model() : nullptr);
@@ -71,7 +76,7 @@ namespace utils
           .value<QWidget *>();
 
       if (current_widget) setCurrentWidget(current_widget);
-    } else if (!deselected.empty() && m_default_widget)
+    } else if (!deselected.empty())
     {
       setCurrentWidget(m_default_widget);
     }
@@ -81,13 +86,12 @@ namespace utils
   {
     for (auto i = 0; i < count(); ++i) removeWidget(widget(i));
 
+    addWidget(m_default_widget);
     if (model)
     {
       auto widgets = getStackedWidgets(model);
       for (auto widget : widgets) addWidget(widget);
     }
-
-    if (m_default_widget) addWidget(m_default_widget);
   }
 
   QList<QWidget *>

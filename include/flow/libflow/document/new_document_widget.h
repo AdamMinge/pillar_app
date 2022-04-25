@@ -20,13 +20,18 @@ namespace flow::document
     explicit NewDocumentWidget(QWidget *parent = nullptr);
     ~NewDocumentWidget() override;
 
-    [[nodiscard]] virtual std::unique_ptr<Document> createDocument() = 0;
-    [[nodiscard]] virtual bool isValid() const = 0;
+    [[nodiscard]] bool isValid() const;
 
-    [[nodiscard]] virtual QString getDocumentId() const = 0;
+    [[nodiscard]] virtual std::unique_ptr<Document> createDocument() = 0;
 
   Q_SIGNALS:
     void isValidChanged(bool valid);
+
+  protected:
+    void setValid(bool valid);
+
+  private:
+    bool m_valid;
   };
 
 }// namespace flow::document

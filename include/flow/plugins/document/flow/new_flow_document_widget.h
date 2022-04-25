@@ -27,9 +27,6 @@ public:
 
   [[nodiscard]] std::unique_ptr<flow::document::Document>
   createDocument() override;
-  [[nodiscard]] bool isValid() const override;
-
-  [[nodiscard]] QString getDocumentId() const override;
 
 protected:
   void changeEvent(QEvent *event) override;
@@ -38,13 +35,11 @@ private:
   void retranslateUi();
 
 private Q_SLOTS:
-  void updateIsValid();
+  void validate();
 
 private:
   QScopedPointer<Ui::NewFlowDocumentWidget> m_ui;
-
   QScopedPointer<Preferences> m_preferences;
-  bool m_valid;
 };
 
 class FLOW_DOCUMENT_API NewFlowDocumentWidgetFactory

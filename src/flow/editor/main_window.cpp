@@ -241,7 +241,10 @@ void MainWindow::retranslateUi()
   m_exit_action->setWhatsThis(tr("Exit Application"));
 }
 
-void MainWindow::openSettings() { SettingsDialog::open(QUrl{}, this); }
+void MainWindow::openSettings()
+{
+  SettingsDialog::open(QUrl("settings:GeneralSettingsWidget"), this);
+}
 
 void MainWindow::openAbout() { AboutDialog::open(QUrl{}, this); }
 

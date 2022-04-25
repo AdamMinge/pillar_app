@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemView>
+#include <QPointer>
 #include <QStackedWidget>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/utils/qt/stacked_widget/export.h"
@@ -36,7 +37,7 @@ namespace utils
 
   private:
     QAbstractItemView *m_view;
-    QWidget *m_default_widget;
+    QPointer<QWidget> m_default_widget;
   };
 
 }// namespace utils

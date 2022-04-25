@@ -20,7 +20,7 @@ struct NewFlowDocumentWidget::Preferences {
 
 NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
     : flow::document::NewDocumentWidget(parent),
-      m_ui(new Ui::NewFlowDocumentWidget()), m_valid(false)
+      m_ui(new Ui::NewFlowDocumentWidget())
 {
   m_ui->setupUi(this);
 
@@ -31,7 +31,7 @@ NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
   connect(
     m_ui->m_name_and_path_filler,
     &utils::QtNameAndPathFiller::validStateChanged, this,
-    &NewFlowDocumentWidget::updateIsValid);
+    &NewFlowDocumentWidget::validate);
 
   retranslateUi();
 }
@@ -68,13 +68,6 @@ NewFlowDocumentWidget::createDocument()
   return nullptr;
 }
 
-QString NewFlowDocumentWidget::getDocumentId() const
-{
-  return QLatin1String("FlowDocument");
-}
-
-bool NewFlowDocumentWidget::isValid() const { return m_valid; }
-
 void NewFlowDocumentWidget::changeEvent(QEvent *event)
 {
   QWidget::changeEvent(event);
@@ -91,12 +84,10 @@ void NewFlowDocumentWidget::changeEvent(QEvent *event)
 
 void NewFlowDocumentWidget::retranslateUi() { m_ui->retranslateUi(this); }
 
-void NewFlowDocumentWidget::updateIsValid()
+void NewFlowDocumentWidget::validate()
 {
-  m_valid = true;
-  m_valid &= m_ui->m_name_and_path_filler->isValid();
-
-  Q_EMIT isValidChanged(m_valid);
+  auto valid = m_ui->m_name_and_path_filler->isValid();
+  setValid(valid);
 }
 
 /* ------------------------ NewFlowDocumentWidgetFactory -------------------- */

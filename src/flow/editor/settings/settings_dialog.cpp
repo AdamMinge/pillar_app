@@ -22,8 +22,6 @@ SettingsDialog::SettingsDialog(QWidget *parent)
   initUi();
   initConnections();
 
-  SettingsDialog::setUrl(QUrl("settings:GeneralSettingsWidget"));
-
   retranslateUi();
 }
 
@@ -38,14 +36,7 @@ void SettingsDialog::setUrl(const QUrl &url)
     *model, SettingsWidgetTreeModel::Role::ObjectNameRole,
     url.toString(QUrl::RemoveScheme), QModelIndex{});
 
-  if (!index.isValid())
-  {
-    m_ui->m_setting_search->setText(QLatin1String{});
-
-    index = SettingsWidgetTreeModel::getIndexBy(
-      *model, SettingsWidgetTreeModel::Role::ObjectNameRole,
-      url.toString(QUrl::RemoveScheme), QModelIndex{});
-  }
+  if (!index.isValid()) m_ui->m_setting_search->setText(QLatin1String{});
 
   m_ui->m_setting_list_view->selectionModel()->select(
     index, QItemSelectionModel::ClearAndSelect);

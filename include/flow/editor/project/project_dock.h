@@ -44,7 +44,6 @@ private Q_SLOTS:
   void openFile(const QModelIndex &index);
   void removeFile(const QModelIndex &index);
   void renameFile(const QModelIndex &index);
-  void newDocument(const QModelIndex &index);
   void newDirectory(const QModelIndex &index);
 
   void openContextMenu(const QPoint &position);
