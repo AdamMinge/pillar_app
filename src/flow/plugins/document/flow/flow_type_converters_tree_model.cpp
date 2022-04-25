@@ -1,10 +1,9 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/node/type_converter_factory.h>
-#include <flow/libflow/plugin_manager.h>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------ FlowTypeConvertersTreeItem ---------------------- */

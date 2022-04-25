@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QFileInfo>
-#include <QPainter>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QFileInfo>
+#include <QPainter>
 /* -------------------------------------------------------------------------- */
 
 RecentProjectListDelegate::RecentProjectListDelegate(QObject *parent)

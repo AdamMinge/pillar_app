@@ -1,13 +1,13 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QCloseEvent>
-#include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/about_dialog.h"
 #include "flow/editor/main_window.h"
+#include "flow/editor/about_dialog.h"
 #include "flow/editor/project/no_project_window.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
 #include "flow/editor/settings/settings_dialog.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QCloseEvent>
+#include <QMessageBox>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
 #include <flow/libflow/language_manager.h>

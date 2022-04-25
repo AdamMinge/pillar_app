@@ -1,12 +1,12 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/new_flow_document_widget.h"
+#include "flow/plugins/document/flow/flow_document.h"
+#include "flow/plugins/document/flow/flow_document_format.h"
 /* ------------------------------------- Qt --------------------------------- */
 #include <QMessageBox>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/format_helper.h>
 #include <flow/libflow/preferences_manager.h>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_document.h"
-#include "flow/plugins/document/flow/flow_document_format.h"
-#include "flow/plugins/document/flow/new_flow_document_widget.h"
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_flow_document_widget.h"
 /* -------------------------------------------------------------------------- */

@@ -1,8 +1,8 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/flow_view.h"
+#include "flow/plugins/document/flow/flow_scene.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QWheelEvent>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_scene.h"
-#include "flow/plugins/document/flow/flow_view.h"
 /* -------------------------------------------------------------------------- */
 
 FlowView::FlowView(QWidget *parent)

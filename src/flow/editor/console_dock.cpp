@@ -1,10 +1,10 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/console_dock.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QMenu>
 #include <QShortcut>
 #include <QVBoxLayout>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/console_dock.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/logging_manager.h>
 #include <flow/libflow/script_manager.h>

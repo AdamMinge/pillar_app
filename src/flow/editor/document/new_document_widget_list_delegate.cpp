@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QFileInfo>
-#include <QPainter>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/new_document_widget_list_delegate.h"
 #include "flow/editor/document/new_document_widget_list_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QFileInfo>
+#include <QPainter>
 /* -------------------------------------------------------------------------- */
 
 NewDocumentWidgetListDelegate::NewDocumentWidgetListDelegate(QObject *parent)

@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
-#include <QVBoxLayout>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_nodes_dock.h"
 #include "flow/plugins/document/flow/flow_nodes_tree_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
+#include <QVBoxLayout>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/flow/ui_flow_nodes_dock.h"
 /* -------------------------------------------------------------------------- */

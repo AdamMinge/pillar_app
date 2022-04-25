@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/new_document_dialog.h"
 #include "flow/editor/document/new_document_widget_list_delegate.h"
 #include "flow/editor/document/new_document_widget_list_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/document/document.h>
 #include <flow/libflow/document/new_document_widget.h>

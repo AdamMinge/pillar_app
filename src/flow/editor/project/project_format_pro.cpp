@@ -1,9 +1,9 @@
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/project/project.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/project_format_pro.h"
 #include "flow/editor/project/project_reader.h"
 #include "flow/editor/project/project_writer.h"
-/* ---------------------------------- LibFlow ------------------------------- */
-#include <flow/libflow/project/project.h>
 /* -------------------------------------------------------------------------- */
 
 ProjectFormatPro::ProjectFormatPro(QObject *parent)

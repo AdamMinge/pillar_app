@@ -1,11 +1,11 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/plugin_list_delegate.h"
+#include "flow/editor/settings/plugin_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QCheckBox>
 #include <QFileInfo>
 #include <QPainter>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/settings/plugin_list_delegate.h"
-#include "flow/editor/settings/plugin_list_model.h"
 /* -------------------------------------------------------------------------- */
 
 PluginListDelegate::PluginListDelegate(QObject *parent)

@@ -1,9 +1,9 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/libflow/language_manager.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QDirIterator>
 #include <QLibraryInfo>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/libflow/language_manager.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow

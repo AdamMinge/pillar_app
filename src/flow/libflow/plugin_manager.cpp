@@ -1,9 +1,9 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/libflow/plugin_manager.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCoreApplication>
 #include <QDirIterator>
 #include <QPluginLoader>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/libflow/plugin_manager.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow

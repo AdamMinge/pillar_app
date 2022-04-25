@@ -1,5 +1,3 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QApplication>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/command_line_parser.h"
@@ -9,10 +7,11 @@
 #include "flow/editor/settings/general_settings_widget.h"
 #include "flow/editor/settings/plugin_settings_widget.h"
 #include "flow/editor/settings/shortcuts_settings_widget.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QApplication>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/plugin_manager.h>
 #include <flow/libflow/preferences_manager.h>
-#include <flow/libflow/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */

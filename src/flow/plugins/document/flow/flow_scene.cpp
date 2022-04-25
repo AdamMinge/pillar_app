@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QGraphicsSceneDragDropEvent>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/flow_scene.h"
 #include "flow/plugins/document/flow/add_remove_node.h"
 #include "flow/plugins/document/flow/flow_document.h"
-#include "flow/plugins/document/flow/flow_scene.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QGraphicsSceneDragDropEvent>
 /* -------------------------------------------------------------------------- */
 
 FlowScene::FlowScene(QObject *parent)

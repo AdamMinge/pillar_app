@@ -1,15 +1,15 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QMainWindow>
-/* ----------------------------------- LibFlow -------------------------------- */
-#include "flow/libflow/document/undo_dock.h"
-#include <flow/libflow/preferences_manager.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_document.h"
 #include "flow/plugins/document/flow/flow_editor.h"
+#include "flow/plugins/document/flow/flow_document.h"
 #include "flow/plugins/document/flow/flow_nodes_dock.h"
 #include "flow/plugins/document/flow/flow_scene.h"
 #include "flow/plugins/document/flow/flow_type_converters_dock.h"
 #include "flow/plugins/document/flow/flow_view.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QMainWindow>
+/* ----------------------------------- LibFlow -------------------------------- */
+#include <flow/libflow/document/undo_dock.h>
+#include <flow/libflow/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------- Preferences ----------------------------- */

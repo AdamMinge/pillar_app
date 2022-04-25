@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_settings_widget.h"
 #include "flow/editor/settings/shortcuts_table_delegate.h"
 #include "flow/editor/settings/shortcuts_table_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_shortcuts_settings_widget.h"
 /* -------------------------------------------------------------------------- */

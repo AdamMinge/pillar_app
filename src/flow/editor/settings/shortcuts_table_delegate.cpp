@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QMenu>
-#include <QMouseEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_table_delegate.h"
 #include "flow/editor/settings/shortcuts_table_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QMenu>
+#include <QMouseEvent>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
 /* ----------------------------------- Utils -------------------------------- */

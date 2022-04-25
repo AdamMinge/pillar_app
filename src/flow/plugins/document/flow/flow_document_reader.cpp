@@ -1,9 +1,9 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/flow_document_reader.h"
+#include "flow/plugins/document/flow/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 #include <QXmlStreamReader>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_document.h"
-#include "flow/plugins/document/flow/flow_document_reader.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/pointer_cast/unique_ptr_cast.h>
 /* -------------------------------------------------------------------------- */

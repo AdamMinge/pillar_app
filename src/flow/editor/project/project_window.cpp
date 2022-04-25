@@ -1,7 +1,5 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QCloseEvent>
-#include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/project/project_window.h"
 #include "flow/editor/console_dock.h"
 #include "flow/editor/document/document_manager.h"
 #include "flow/editor/document/new_document_dialog.h"
@@ -9,7 +7,9 @@
 #include "flow/editor/project/new_project_dialog.h"
 #include "flow/editor/project/project_dock.h"
 #include "flow/editor/project/project_manager.h"
-#include "flow/editor/project/project_window.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QCloseEvent>
+#include <QMessageBox>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
 #include <flow/libflow/document/document.h>

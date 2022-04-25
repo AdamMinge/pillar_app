@@ -1,9 +1,9 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/libflow/project/project.h"
+#include "flow/libflow/format_helper.h"
+#include "flow/libflow/project/project_format.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/libflow/format_helper.h"
-#include "flow/libflow/project/project.h"
-#include "flow/libflow/project/project_format.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow::project

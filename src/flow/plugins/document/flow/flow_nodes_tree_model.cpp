@@ -1,3 +1,5 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/flow_nodes_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -5,9 +7,6 @@
 #include <QMimeData>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/node/node_factory.h>
-#include <flow/libflow/plugin_manager.h>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_nodes_tree_model.h"
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- FlowNodesTreeItem --------------------------- */

@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/plugin_settings_widget.h"
 #include "flow/editor/settings/plugin_list_delegate.h"
 #include "flow/editor/settings/plugin_list_model.h"
-#include "flow/editor/settings/plugin_settings_widget.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_plugin_settings_widget.h"
 /* -------------------------------------------------------------------------- */

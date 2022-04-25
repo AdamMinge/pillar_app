@@ -1,12 +1,12 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/settings/settings_dialog.h"
+#include "flow/editor/settings/settings_widget_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCloseEvent>
 #include <QDesktopServices>
 #include <QLabel>
 #include <QMessageBox>
 #include <QSortFilterProxyModel>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/settings/settings_dialog.h"
-#include "flow/editor/settings/settings_widget_tree_model.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/stacked_widget/stacked_widget_tree_delegate.h>
 /* ------------------------------------ Ui ---------------------------------- */

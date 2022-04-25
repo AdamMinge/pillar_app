@@ -1,10 +1,10 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QPluginLoader>
-#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/plugin.h"
 #include "flow/libflow/plugin_interface.h"
 #include "flow/libflow/plugin_manager.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QPluginLoader>
+#include <memory>
 /* -------------------------------------------------------------------------- */
 
 namespace flow

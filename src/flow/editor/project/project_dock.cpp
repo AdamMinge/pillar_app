@@ -1,3 +1,7 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/project/project_dock.h"
+#include "flow/editor/document/document_manager.h"
+#include "flow/editor/document/new_document_dialog.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDesktopServices>
 #include <QEvent>
@@ -8,10 +12,6 @@
 #include <QMessageBox>
 #include <QTreeView>
 #include <QUrl>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document_manager.h"
-#include "flow/editor/document/new_document_dialog.h"
-#include "flow/editor/project/project_dock.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/document/document.h>
 #include <flow/libflow/project/project.h>

@@ -1,9 +1,9 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/flow_document_writer.h"
+#include "flow/plugins/document/flow/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 #include <QXmlStreamWriter>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_document.h"
-#include "flow/plugins/document/flow/flow_document_writer.h"
 /* -------------------------------------------------------------------------- */
 
 /* --------------------------- FlowDocumentWriterImpl ----------------------- */

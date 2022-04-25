@@ -1,10 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QFileInfo>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/document/document.h"
-#include "flow/libflow/format_helper.h"
-/* ------------------------------------ Api --------------------------------- */
 #include "flow/libflow/document/document_format.h"
+#include "flow/libflow/format_helper.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QFileInfo>
 /* -------------------------------------------------------------------------- */
 
 namespace flow::document

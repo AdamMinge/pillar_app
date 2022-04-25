@@ -1,10 +1,10 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/project/new_project_dialog.h"
+#include "flow/editor/project/project_format_pro.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDir>
 #include <QEvent>
 #include <QMessageBox>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/new_project_dialog.h"
-#include "flow/editor/project/project_format_pro.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/format_helper.h>
 #include <flow/libflow/preferences_manager.h>

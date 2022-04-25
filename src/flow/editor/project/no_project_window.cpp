@@ -1,16 +1,16 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMessageBox>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/format_helper.h>
+#include <flow/libflow/preferences_manager.h>
+#include <flow/libflow/project/project.h>
+#include <flow/libflow/project/project_format.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/new_project_dialog.h"
 #include "flow/editor/project/no_project_window.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
-/* ---------------------------------- LibFlow ------------------------------- */
-#include <flow/libflow/format_helper.h>
-#include <flow/libflow/preferences_manager.h>
-#include <flow/libflow/project/project.h>
-#include <flow/libflow/project/project_format.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dialog/extended_file_dialog.h>
 /* ------------------------------------ Ui ---------------------------------- */

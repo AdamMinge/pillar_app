@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QFileInfo>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/recent_project_list_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QFileInfo>
 /* ---------------------------------- LibFlow ------------------------------- */
-#include "flow/libflow/preferences_manager.h"
+#include <flow/libflow/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 RecentProjectListModel::RecentProjectListModel(QObject *parent)

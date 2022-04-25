@@ -1,16 +1,17 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QCoreApplication>
-#include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/document/document_manager.h"
 #include "flow/editor/document/no_document_widget.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QCoreApplication>
+#include <QMessageBox>
+/* ----------------------------------- Utils -------------------------------- */
+#include <flow/utils/qt/dialog/extended_file_dialog.h>
+#include <flow/utils/qt/file_system/file_system_watcher.h>
+/* ---------------------------------- LibFlow ------------------------------- */
 #include "flow/libflow/document/document.h"
 #include "flow/libflow/document/document_editor.h"
 #include "flow/libflow/document/document_format.h"
 #include "flow/libflow/format_helper.h"
-/* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/dialog/extended_file_dialog.h>
-#include <flow/utils/qt/file_system/file_system_watcher.h>
 /* -------------------------------------------------------------------------- */
 
 QScopedPointer<DocumentManager> DocumentManager::m_instance =

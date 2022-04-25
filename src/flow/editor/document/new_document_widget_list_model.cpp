@@ -1,10 +1,10 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/document/new_document_widget_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/document/new_document_widget.h>
 #include <flow/libflow/document/new_document_widget_factory.h>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/new_document_widget_list_model.h"
 /* -------------------------------------------------------------------------- */
 
 NewDocumentWidgetListModel::NewDocumentWidgetListModel(QObject *parent)
