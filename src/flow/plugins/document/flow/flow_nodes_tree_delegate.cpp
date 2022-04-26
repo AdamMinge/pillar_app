@@ -29,6 +29,7 @@ void FlowNodesTreeDelegate::paint(
   const auto node_icon =
     index.data(FlowNodesTreeModel::Role::IconRole).value<QIcon>();
   const auto actual_icon_size = node_icon.isNull() ? QSize(0, 0) : m_icon_size;
+  const auto is_root_index = !index.parent().isValid();
 
   painter->save();
 
@@ -40,6 +41,9 @@ void FlowNodesTreeDelegate::paint(
     rect, opt.state & QStyle::State_Selected ? palette.highlight().color()
                                              : palette.light().color());
 
+  if (is_root_index)
+    painter->drawLine(rect.left(), rect.bottom(), rect.right(), rect.bottom());
+
   painter->drawPixmap(
     rect.left(), rect.top(), node_icon.pixmap(actual_icon_size));
 
@@ -50,7 +54,7 @@ void FlowNodesTreeDelegate::paint(
     actual_icon_size.width() + m_spacing,
     ((rect.height() / 2) - (node_name_rect.height() / 2)), 0, 0);
 
-  font.setBold(!index.parent().isValid());
+  font.setBold(is_root_index);
 
   painter->setFont(font);
   painter->setPen(palette.text().color());
