@@ -77,7 +77,7 @@ private:
   flow::node::TypeConverterFactory *m_factory;
 };
 
-class FLOW_DOCUMENT_API FlowConvertersTreeModel
+class FLOW_DOCUMENT_API FlowTypeConvertersTreeModel
     : public QAbstractItemModel,
       public flow::PluginListener<flow::node::TypeConverterFactories>
 {
@@ -96,8 +96,8 @@ public:
   };
 
 public:
-  explicit FlowConvertersTreeModel(QObject *parent = nullptr);
-  ~FlowConvertersTreeModel() override;
+  explicit FlowTypeConvertersTreeModel(QObject *parent = nullptr);
+  ~FlowTypeConvertersTreeModel() override;
 
   [[nodiscard]] Qt::ItemFlags flags(const QModelIndex &index) const override;
 

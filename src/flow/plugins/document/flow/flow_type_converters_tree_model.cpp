@@ -124,27 +124,28 @@ FlowTypeConvertersTreeFactoryItem::getTypeConverterFactory() const
   return m_factory;
 }
 
-/* ---------------------------- FlowConvertersTreeModel -------------------------- */
+/* ---------------------------- FlowTypeConvertersTreeModel -------------------------- */
 
-FlowConvertersTreeModel::FlowConvertersTreeModel(QObject *parent)
+FlowTypeConvertersTreeModel::FlowTypeConvertersTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
   loadObjects();
 }
 
-FlowConvertersTreeModel::~FlowConvertersTreeModel()
+FlowTypeConvertersTreeModel::~FlowTypeConvertersTreeModel()
 {
   qDeleteAll(m_root_items);
 }
 
-Qt::ItemFlags FlowConvertersTreeModel::flags(const QModelIndex &index) const
+Qt::ItemFlags FlowTypeConvertersTreeModel::flags(const QModelIndex &index) const
 {
   auto item =
     static_cast<FlowTypeConvertersTreeItem *>(index.internalPointer());
   return QAbstractItemModel::flags(index) | item->flags();
 }
 
-QVariant FlowConvertersTreeModel::data(const QModelIndex &index, int role) const
+QVariant
+FlowTypeConvertersTreeModel::data(const QModelIndex &index, int role) const
 {
   if (index.row() < 0 || index.row() >= rowCount(index.parent()))
     return QVariant{};
@@ -166,7 +167,7 @@ QVariant FlowConvertersTreeModel::data(const QModelIndex &index, int role) const
   }
 }
 
-QVariant FlowConvertersTreeModel::headerData(
+QVariant FlowTypeConvertersTreeModel::headerData(
   int section, Qt::Orientation orientation, int role) const
 {
   if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
@@ -181,7 +182,7 @@ QVariant FlowConvertersTreeModel::headerData(
   }
 }
 
-QModelIndex FlowConvertersTreeModel::index(
+QModelIndex FlowTypeConvertersTreeModel::index(
   int row, int column, const QModelIndex &parent) const
 {
   if (!hasIndex(row, column, parent)) return QModelIndex{};
@@ -198,7 +199,7 @@ QModelIndex FlowConvertersTreeModel::index(
   }
 }
 
-QModelIndex FlowConvertersTreeModel::parent(const QModelIndex &index) const
+QModelIndex FlowTypeConvertersTreeModel::parent(const QModelIndex &index) const
 {
   if (!index.isValid()) return QModelIndex{};
 
@@ -220,7 +221,7 @@ QModelIndex FlowConvertersTreeModel::parent(const QModelIndex &index) const
   }
 }
 
-int FlowConvertersTreeModel::rowCount(const QModelIndex &parent) const
+int FlowTypeConvertersTreeModel::rowCount(const QModelIndex &parent) const
 {
   if (parent.column() > 0) return 0;
 
@@ -230,13 +231,13 @@ int FlowConvertersTreeModel::rowCount(const QModelIndex &parent) const
       ->getChildCount();
 }
 
-int FlowConvertersTreeModel::columnCount(const QModelIndex &parent) const
+int FlowTypeConvertersTreeModel::columnCount(const QModelIndex &parent) const
 {
   return 1;
 }
 
 QMimeData *
-FlowConvertersTreeModel::mimeData(const QModelIndexList &indexes) const
+FlowTypeConvertersTreeModel::mimeData(const QModelIndexList &indexes) const
 {
   auto mime_data = new QMimeData;
   mime_data->setData(
@@ -245,12 +246,12 @@ FlowConvertersTreeModel::mimeData(const QModelIndexList &indexes) const
   return mime_data;
 }
 
-QStringList FlowConvertersTreeModel::mimeTypes() const
+QStringList FlowTypeConvertersTreeModel::mimeTypes() const
 {
   return QStringList{} << QLatin1String("flow/type_converter");
 }
 
-void FlowConvertersTreeModel::addedObject(
+void FlowTypeConvertersTreeModel::addedObject(
   flow::node::TypeConverterFactories *factories)
 {
   auto factories_item =
@@ -262,7 +263,7 @@ void FlowConvertersTreeModel::addedObject(
   endInsertRows();
 }
 
-void FlowConvertersTreeModel::removedObject(
+void FlowTypeConvertersTreeModel::removedObject(
   flow::node::TypeConverterFactories *factories)
 {
   auto found_root = std::find_if(
@@ -281,57 +282,8 @@ void FlowConvertersTreeModel::removedObject(
   }
 }
 
-QByteArray
-FlowConvertersTreeModel::createMimeData(const QModelIndexList &indexes) const
+QByteArray FlowTypeConvertersTreeModel::createMimeData(
+  const QModelIndexList &indexes) const
 {
   return QByteArray{};
 }
-
-/*
-void FlowConvertersTreeModel::enabledPlugin(QObject *object)
-{
-  if (
-    auto factory_container =
-      qobject_cast<node::ConverterFactoryContainer *>(object))
-  {
-    auto factory_container_item =
-      std::make_unique<FlowConvertersTreeNodeFactoryContainerItem>(
-        factory_container);
-
-    for (auto &factory : *factory_container)
-    {
-      factory_container_item->addChild(
-        new FlowConvertersTreeNodeFactoryItem(factory.get()));
-    }
-
-    auto index_to_insert = static_cast<int>(m_root_items.count());
-
-    beginInsertRows(QModelIndex{}, index_to_insert, index_to_insert);
-    m_root_items.insert(index_to_insert, factory_container_item.release());
-    endInsertRows();
-  }
-}
-
-void FlowConvertersTreeModel::disabledPlugin(QObject *object)
-{
-  if (
-    auto factory_container =
-      qobject_cast<node::ConverterFactoryContainer *>(object))
-  {
-    auto found_root = std::find_if(
-      m_root_items.begin(), m_root_items.end(), [factory_container](auto item) {
-        return item->getConverterFactoryContainer() == factory_container;
-      });
-
-    if (found_root != m_root_items.end())
-    {
-      auto index_to_remove =
-        static_cast<int>(std::distance(m_root_items.begin(), found_root));
-
-      beginRemoveRows(QModelIndex{}, index_to_remove, index_to_remove);
-      m_root_items.remove(index_to_remove);
-      endRemoveRows();
-    }
-  }
-}
-*/

@@ -1,5 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_nodes_dock.h"
+#include "flow/plugins/document/flow/flow_nodes_tree_delegate.h"
 #include "flow/plugins/document/flow/flow_nodes_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
@@ -11,7 +12,8 @@
 FlowNodesDock::FlowNodesDock(QWidget *parent)
     : QDockWidget(parent), m_ui(new Ui::FlowNodesDock()),
       m_nodes_model(new FlowNodesTreeModel),
-      m_nodes_filter_model(new QSortFilterProxyModel)
+      m_nodes_filter_model(new QSortFilterProxyModel),
+      m_nodes_delegate(new FlowNodesTreeDelegate)
 {
   setObjectName(QLatin1String("Nodes"));
 
@@ -42,7 +44,9 @@ void FlowNodesDock::initUi()
   m_ui->setupUi(this);
 
   m_nodes_filter_model->setSourceModel(m_nodes_model.get());
+
   m_ui->m_nodes_view->setModel(m_nodes_filter_model.get());
+  m_ui->m_nodes_view->setItemDelegate(m_nodes_delegate.get());
 }
 
 void FlowNodesDock::initConnections() {}

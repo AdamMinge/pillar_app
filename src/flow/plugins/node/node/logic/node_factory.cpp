@@ -7,7 +7,7 @@
 
 LogicNodeFactories::LogicNodeFactories()
     : flow::node::NodeFactories(
-        tr("Logic"), QIcon(":/plugins/node/logic/images/32x32/logic_nodes.png"))
+        tr("Logic"), QIcon())
 {
   registerFactory(
     QLatin1String("LogicNodeNot"),

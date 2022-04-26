@@ -14,6 +14,7 @@ namespace Ui
 }
 
 class FlowNodesTreeModel;
+class FlowNodesTreeDelegate;
 
 class FLOW_DOCUMENT_API FlowNodesDock : public QDockWidget
 {
@@ -37,6 +38,7 @@ private:
 
   QScopedPointer<FlowNodesTreeModel> m_nodes_model;
   QScopedPointer<QSortFilterProxyModel> m_nodes_filter_model;
+  QScopedPointer<FlowNodesTreeDelegate> m_nodes_delegate;
 };
 
 #endif//PLUGIN_FLOW_FLOW_NODES_DOCK_H

@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_type_converters_dock.h"
 #include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
+#include "flow/plugins/document/flow/flow_type_converters_tree_delegate.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QVBoxLayout>
@@ -10,8 +11,9 @@
 
 FlowConvertersDock::FlowConvertersDock(QWidget *parent)
     : QDockWidget(parent), m_ui(new Ui::FlowConvertersDock()),
-      m_converters_model(new FlowConvertersTreeModel),
-      m_converters_filter_model(new QSortFilterProxyModel)
+      m_type_converters_model(new FlowTypeConvertersTreeModel),
+      m_converters_filter_model(new QSortFilterProxyModel),
+      m_type_converters_delegate(new FlowTypeConvertersTreeDelegate)
 {
   setObjectName(QLatin1String("Converters"));
 
@@ -41,8 +43,10 @@ void FlowConvertersDock::initUi()
 {
   m_ui->setupUi(this);
 
-  m_converters_filter_model->setSourceModel(m_converters_model.get());
+  m_converters_filter_model->setSourceModel(m_type_converters_model.get());
+
   m_ui->m_converters_view->setModel(m_converters_filter_model.get());
+  m_ui->m_converters_view->setItemDelegate(m_type_converters_delegate.get());
 }
 
 void FlowConvertersDock::initConnections() {}

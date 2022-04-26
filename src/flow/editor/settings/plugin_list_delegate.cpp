@@ -9,8 +9,8 @@
 /* -------------------------------------------------------------------------- */
 
 PluginListDelegate::PluginListDelegate(QObject *parent)
-    : QStyledItemDelegate(parent), m_icon_size(64, 64), m_margins(0, 0, 0, 0),
-      m_spacing(0, 0)
+    : QStyledItemDelegate(parent), m_icon_size(64, 64), m_margins(10, 5, 10, 5),
+      m_spacing(10)
 {}
 
 PluginListDelegate::~PluginListDelegate() = default;
@@ -110,7 +110,7 @@ void PluginListDelegate::paint(
     QFontMetrics(font).boundingRect(plugin_name).adjusted(0, 0, 1, 1);
 
   auto text_rect = content_rect.adjusted(
-    m_icon_size.width() + m_spacing.width(),
+    m_icon_size.width() + m_spacing,
     ((content_rect.height() / 2) - (plugin_name_rect.height() / 2)), 0, 0);
 
   font.setPointSizeF(opt.font.pointSize() * 1.4);
@@ -143,39 +143,4 @@ QSize PluginListDelegate::sizeHint(
   return QSize{
     opt.rect.width(),
     m_icon_size.height() + m_margins.top() + m_margins.bottom()};
-}
-
-void PluginListDelegate::setIconSize(const QSize &size) { m_icon_size = size; }
-
-const QSize &PluginListDelegate::getIconSize() const { return m_icon_size; }
-
-void PluginListDelegate::setMargins(const QMargins &margins)
-{
-  m_margins = margins;
-}
-
-const QMargins &PluginListDelegate::getMargins() const { return m_margins; }
-
-void PluginListDelegate::setSpacing(
-  int vertical_spacing, int horizontal_spacing)
-{
-  m_spacing.setWidth(vertical_spacing);
-  m_spacing.setHeight(horizontal_spacing);
-}
-
-void PluginListDelegate::setVerticalSpacing(int spacing)
-{
-  m_spacing.setWidth(spacing);
-}
-
-void PluginListDelegate::setHorizontalSpacing(int spacing)
-{
-  m_spacing.setHeight(spacing);
-}
-
-int PluginListDelegate::getVerticalSpacing() const { return m_spacing.width(); }
-
-int PluginListDelegate::getHorizontalSpacing() const
-{
-  return m_spacing.height();
 }

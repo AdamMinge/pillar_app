@@ -42,21 +42,8 @@ namespace utils
   void QtMouseOverSelectableView<VIEW>::mouseMoveEvent(QMouseEvent *event)
   {
     auto item = VIEW::indexAt(event->pos());
-    auto selected = VIEW::selectionModel()->isSelected(item);
-
-    if (!item.isValid())
-    {
-      VIEW::clearSelection();
-      VIEW::selectionModel()->setCurrentIndex(
-        QModelIndex{}, QItemSelectionModel::SelectCurrent);
-
-    } else if (!selected)
-    {
-      VIEW::selectionModel()->setCurrentIndex(
-        QModelIndex{}, QItemSelectionModel::SelectCurrent);
-      VIEW::selectionModel()->setCurrentIndex(
-        item, QItemSelectionModel::SelectCurrent);
-    }
+    VIEW::setCurrentIndex(QModelIndex{});
+    VIEW::setCurrentIndex(item);
 
     VIEW::mouseMoveEvent(event);
   }
@@ -65,10 +52,7 @@ namespace utils
   requires std::derived_from<VIEW, QAbstractItemView>
   void QtMouseOverSelectableView<VIEW>::leaveEvent(QEvent *event)
   {
-    VIEW::clearSelection();
-    VIEW::selectionModel()->setCurrentIndex(
-      QModelIndex{}, QItemSelectionModel::SelectCurrent);
-
+    VIEW::setCurrentIndex(QModelIndex{});
     VIEW::leaveEvent(event);
   }
 

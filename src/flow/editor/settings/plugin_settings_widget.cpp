@@ -49,10 +49,6 @@ void PluginSettingsWidget::initUi()
 {
   m_ui->setupUi(this);
 
-  m_plugin_list_delegate->setIconSize(QSize(64, 64));
-  m_plugin_list_delegate->setMargins(QMargins(10, 5, 10, 5));
-  m_plugin_list_delegate->setSpacing(10, 15);
-
   m_search_proxy_model->setSourceModel(m_plugin_list_model.get());
   m_search_proxy_model->setFilterRole(PluginListModel::Role::PluginName);
 

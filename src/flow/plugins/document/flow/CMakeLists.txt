@@ -14,11 +14,13 @@ set(sources
         ${source_root}/flow_document_reader.cpp
         ${source_root}/flow_document_format_flow.cpp
         ${source_root}/flow_nodes_tree_model.cpp
+        ${source_root}/flow_nodes_tree_delegate.cpp
         ${source_root}/flow_view.cpp
         ${source_root}/flow_document_format.cpp
         ${source_root}/flow_editor.cpp
         ${source_root}/flow_type_converters_dock.cpp
         ${source_root}/flow_type_converters_tree_model.cpp
+        ${source_root}/flow_type_converters_tree_delegate.cpp
         ${source_root}/new_flow_document_widget.cpp
         ${source_root}/flow_nodes_dock.cpp
         ${source_root}/flow_document_writer.cpp
@@ -37,9 +39,11 @@ set(includes
         ${include_root}/flow_document_format.h
         ${include_root}/flow_type_converters_dock.h
         ${include_root}/flow_type_converters_tree_model.h
+        ${include_root}/flow_type_converters_tree_delegate.h
         ${include_root}/flow_editor.h
         ${include_root}/flow_document_reader.h
         ${include_root}/flow_nodes_tree_model.h
+        ${include_root}/flow_nodes_tree_delegate.h
         ${include_root}/flow_nodes_dock.h
         ${include_root}/new_flow_document_widget.h
         ${include_root}/add_remove_node.h

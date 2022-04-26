@@ -13,7 +13,8 @@ namespace Ui
   class FlowConvertersDock;
 }
 
-class FlowConvertersTreeModel;
+class FlowTypeConvertersTreeModel;
+class FlowTypeConvertersTreeDelegate;
 
 class FLOW_DOCUMENT_API FlowConvertersDock : public QDockWidget
 {
@@ -35,8 +36,9 @@ private:
 private:
   QScopedPointer<Ui::FlowConvertersDock> m_ui;
 
-  QScopedPointer<FlowConvertersTreeModel> m_converters_model;
+  QScopedPointer<FlowTypeConvertersTreeModel> m_type_converters_model;
   QScopedPointer<QSortFilterProxyModel> m_converters_filter_model;
+  QScopedPointer<FlowTypeConvertersTreeDelegate> m_type_converters_delegate;
 };
 
 #endif//PLUGIN_FLOW_FLOW_TYPE_CONVERTERS_DOCK_H
