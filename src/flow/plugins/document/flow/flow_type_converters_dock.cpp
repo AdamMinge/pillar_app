@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_type_converters_dock.h"
-#include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
 #include "flow/plugins/document/flow/flow_type_converters_tree_delegate.h"
+#include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QVBoxLayout>
