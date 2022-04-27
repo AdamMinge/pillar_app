@@ -245,7 +245,7 @@ void MainWindow::retranslateUi()
 
 void MainWindow::openSettings()
 {
-  SettingsDialog::exec(QUrl("settings:GeneralSettingsWidget"), this);
+  SettingsDialog::exec(QUrl("settings:GeneralSettingsWidget"));
 }
 
 void MainWindow::openAbout() { AboutDialog::show(QUrl{}, this); }

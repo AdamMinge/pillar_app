@@ -373,7 +373,7 @@ bool ProjectWindow::closeProject()
 void ProjectWindow::newDocument()
 {
   auto new_document_dialog =
-    QScopedPointer<NewDocumentDialog>(new NewDocumentDialog(this));
+    QScopedPointer<NewDocumentDialog>(new NewDocumentDialog);
   if (auto document = new_document_dialog->create(); document)
     flow::document::DocumentManager::getInstance().addDocument(
       std::move(document));
