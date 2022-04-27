@@ -11,8 +11,8 @@
 /* --------------------------------- Standard ------------------------------- */
 #include <unordered_map>
 /* ---------------------------------- Local --------------------------------- */
-#include "flow/libflow/plugin_listener.h"
 #include "flow/libflow/export.h"
+#include "flow/libflow/plugin_listener.h"
 /* -------------------------------------------------------------------------- */
 
 namespace utils
@@ -26,7 +26,8 @@ namespace flow::document
   class Document;
   class DocumentEditor;
 
-  class LIB_FLOW_API DocumentManager : public QObject, public PluginListener<DocumentEditor>
+  class LIB_FLOW_API DocumentManager : public QObject,
+                                       public PluginListener<DocumentEditor>
   {
     Q_OBJECT
 

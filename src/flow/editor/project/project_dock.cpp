@@ -14,8 +14,8 @@
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
 #include <flow/libflow/document/document.h>
-#include <flow/libflow/project/project.h>
 #include <flow/libflow/document/document_manager.h>
+#include <flow/libflow/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
 #include <flow/utils/qt/view/unselectable_view.h>

@@ -8,9 +8,7 @@ namespace flow::node
 
   /* ------------------------------- NodeFactory ---------------------------- */
 
-  NodeFactory::NodeFactory(QString name)
-      : m_name(std::move(name))
-  {}
+  NodeFactory::NodeFactory(QString name) : m_name(std::move(name)) {}
 
   NodeFactory::~NodeFactory() = default;
 
@@ -18,9 +16,7 @@ namespace flow::node
 
   /* ------------------------------ NodeFactories --------------------------- */
 
-  NodeFactories::NodeFactories(QString name)
-      : m_name(std::move(name))
-  {}
+  NodeFactories::NodeFactories(QString name) : m_name(std::move(name)) {}
 
   NodeFactories::~NodeFactories() = default;
 

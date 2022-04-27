@@ -29,8 +29,8 @@ namespace flow::project
     insertProject(static_cast<int>(m_projects.size()), std::move(project));
   }
 
-  void ProjectManager::insertProject(
-    int index, std::unique_ptr<Project> project)
+  void
+  ProjectManager::insertProject(int index, std::unique_ptr<Project> project)
   {
     Q_ASSERT(project);
     auto project_ptr = project.get();
@@ -45,7 +45,8 @@ namespace flow::project
     Q_ASSERT(project_to_remove);
 
     auto removed_project_iter = std::remove_if(
-      m_projects.begin(), m_projects.end(), [&project_to_remove](auto &project) {
+      m_projects.begin(), m_projects.end(),
+      [&project_to_remove](auto &project) {
         return project.get() == project_to_remove;
       });
 
@@ -87,7 +88,8 @@ namespace flow::project
   int ProjectManager::findProject(const QString &file_name) const
   {
     auto found = std::find_if(
-      m_projects.begin(), m_projects.end(), [&file_name](auto &current_project) {
+      m_projects.begin(), m_projects.end(),
+      [&file_name](auto &current_project) {
         return current_project->getFileName() == file_name;
       });
 
@@ -132,4 +134,4 @@ namespace flow::project
     return true;
   }
 
-}
+}// namespace flow::project

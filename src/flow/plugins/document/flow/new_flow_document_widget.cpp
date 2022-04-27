@@ -35,10 +35,10 @@ NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
   const auto path = QFileInfo(project->getFileName()).absoluteDir().path();
   m_ui->m_name_and_path_filler->setPath(path);
 
-    connect(
-      m_ui->m_name_and_path_filler,
-      &utils::QtNameAndPathFiller::validStateChanged, this,
-      &NewFlowDocumentWidget::validate);
+  connect(
+    m_ui->m_name_and_path_filler,
+    &utils::QtNameAndPathFiller::validStateChanged, this,
+    &NewFlowDocumentWidget::validate);
 
   retranslateUi();
 }

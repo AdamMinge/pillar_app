@@ -112,8 +112,7 @@ bool ShortcutsTableModel::setData(
     shortcut_data.key_sequence = new_key_sequence;
 
     validation({new_key_sequence, old_key_sequence});
-    if (new_key_sequence != old_key_sequence)
-      Q_EMIT dataChanged(index, index);
+    if (new_key_sequence != old_key_sequence) Q_EMIT dataChanged(index, index);
 
     return true;
   }

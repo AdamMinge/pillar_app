@@ -66,7 +66,7 @@ namespace flow::document
       const auto file_name =
         QDir(path).filePath(name + "." + format->getShortName());
 
-      if(QFileInfo::exists(file_name))
+      if (QFileInfo::exists(file_name))
       {
         QMessageBox::critical(this, tr("Error Document Creation"), error);
         return nullptr;

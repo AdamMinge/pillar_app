@@ -47,7 +47,7 @@ private:
   void addedShortcut(const QString &action_id);
   void removedShortcut(const QString &action_id);
 
-  void validation(const QSet<QKeySequence>& key_sequences);
+  void validation(const QSet<QKeySequence> &key_sequences);
 
 private:
   struct ShortcutData {

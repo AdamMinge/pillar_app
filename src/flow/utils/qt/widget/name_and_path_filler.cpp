@@ -104,8 +104,10 @@ namespace utils
     const auto name = m_ui->m_name_edit->text();
     const auto path = m_ui->m_path_edit->text();
 
-    auto name_is_empty = m_name_validations.testFlag(NameValidation::NotEmpty) && name.isEmpty();
-    auto name_is_not_unique = !QDir(path).entryList(QStringList{} << QString("%1.*").arg(name)).empty();
+    auto name_is_empty =
+      m_name_validations.testFlag(NameValidation::NotEmpty) && name.isEmpty();
+    auto name_is_not_unique =
+      !QDir(path).entryList(QStringList{} << QString("%1.*").arg(name)).empty();
 
     auto error_message = QString{};
     if (name_is_empty || name_is_not_unique)

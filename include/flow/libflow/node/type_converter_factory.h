@@ -39,8 +39,7 @@ namespace flow::node
 
   template<typename TYPE>
   requires std::derived_from<TYPE, TypeConverter>
-  BaseTypeConverterFactory<TYPE>::BaseTypeConverterFactory(
-    QString name)
+  BaseTypeConverterFactory<TYPE>::BaseTypeConverterFactory(QString name)
       : TypeConverterFactory(name)
   {}
 

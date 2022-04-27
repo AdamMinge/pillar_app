@@ -19,8 +19,7 @@ bool SettingsWidgetTreeModel::apply()
   std::set<flow::settings::SettingsWidget *> applied_widget;
 
   std::for_each(
-    to_apply.begin(), to_apply.end(),
-    [&applied_widget](auto settings_widget) {
+    to_apply.begin(), to_apply.end(), [&applied_widget](auto settings_widget) {
       if (settings_widget->apply()) applied_widget.insert(settings_widget);
     });
 

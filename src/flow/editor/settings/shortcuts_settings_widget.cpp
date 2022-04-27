@@ -99,7 +99,7 @@ void ShortcutsSettingsWidget::contextMenu(const QPoint &pos)
   const auto selected_rows =
     m_ui->m_shortcuts_table->selectionModel()->selectedRows();
 
-  if(!selected_rows.empty())
+  if (!selected_rows.empty())
   {
     auto menu = new QMenu;
     menu->addAction(tr("Set to Default"), [&selected_rows, this]() {

@@ -41,8 +41,7 @@ namespace flow::node
 
   template<typename TYPE>
   requires std::derived_from<TYPE, Node>
-  BaseNodeFactory<TYPE>::BaseNodeFactory(QString name)
-      : NodeFactory(name)
+  BaseNodeFactory<TYPE>::BaseNodeFactory(QString name) : NodeFactory(name)
   {}
 
   template<typename TYPE>
