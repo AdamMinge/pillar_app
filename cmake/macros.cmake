@@ -310,6 +310,11 @@ macro(flow_add_plugins target)
     set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
     set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
 
+    install(TARGETS ${target} EXPORT flowConfigExport
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
+            LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib)
+
     target_include_directories(${target}
             PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>
             INTERFACE $<INSTALL_INTERFACE:include>
