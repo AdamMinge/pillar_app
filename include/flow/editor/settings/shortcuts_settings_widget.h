@@ -3,8 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/settings/settings_widget.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/settings/settings_widget.h>
+#include <flow/libflow/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -15,7 +16,7 @@ namespace Ui
 class ShortcutsTableModel;
 class ShortcutsTableDelegate;
 
-class ShortcutsSettingsWidget : public SettingsWidget
+class ShortcutsSettingsWidget : public flow::settings::SettingsWidget
 {
   Q_OBJECT
 
@@ -44,6 +45,20 @@ private:
   QScopedPointer<ShortcutsTableModel> m_shortcuts_table_model;
   QScopedPointer<ShortcutsTableDelegate> m_shortcuts_table_delegate;
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
+};
+
+class ShortcutsSettingsWidgetFactory
+    : public flow::settings::SettingsWidgetFactory
+{
+  Q_OBJECT
+  Q_INTERFACES(flow::settings::SettingsWidgetFactory)
+
+public:
+  explicit ShortcutsSettingsWidgetFactory(QObject *parent = nullptr);
+  ~ShortcutsSettingsWidgetFactory() override;
+
+  [[nodiscard]] std::unique_ptr<flow::settings::SettingsWidget>
+  create() const override;
 };
 
 #endif//FLOW_SHORTCUTS_SETTINGS_WIDGET_H

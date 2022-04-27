@@ -51,8 +51,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../resources/flow-utils-stacked-widget-images.qrc">
-       <normaloff>:/utils/stacked_widget/images/16x16/left_arrow.png</normaloff>:/utils/stacked_widget/images/16x16/left_arrow.png</iconset>
+      <iconset resource="../../../../../resources/utils_stacked_widget_images.qrc">
+       <normaloff>:/utils/qt/stacked_widget/images/16x16/left_arrow.png</normaloff>:/utils/qt/stacked_widget/images/16x16/left_arrow.png</iconset>
      </property>
      <property name="popupMode">
       <enum>QToolButton::DelayedPopup</enum>
@@ -71,8 +71,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../resources/flow-utils-stacked-widget-images.qrc">
-       <normaloff>:/utils/stacked_widget/images/16x16/right_arrow.png</normaloff>:/utils/stacked_widget/images/16x16/right_arrow.png</iconset>
+      <iconset resource="../../../../../resources/utils_stacked_widget_images.qrc">
+       <normaloff>:/utils/qt/stacked_widget/images/16x16/right_arrow.png</normaloff>:/utils/qt/stacked_widget/images/16x16/right_arrow.png</iconset>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
@@ -82,7 +82,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../../resources/flow-utils-stacked-widget-images.qrc"/>
+  <include location="../../../../../resources/utils_stacked_widget_images.qrc"/>
  </resources>
  <connections/>
 </ui>

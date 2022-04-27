@@ -27,7 +27,7 @@ set(uis
         ${uis_root}/stacked_widget_label.ui)
 
 set(resources
-        ${resources_root}/flow-utils-stacked-widget-images.qrc)
+        ${resources_root}/utils_stacked_widget_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -45,5 +45,5 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_utils(stacked_widget
         SOURCES ${sources} ${includes} ${uis} ${resources}
-        DEPENDS Qt6::Widgets)
+        DEPENDS_PRIVATE Qt6::Widgets)
 # -------------------------------------------------------------------------------------------------- #

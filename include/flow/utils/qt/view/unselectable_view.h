@@ -40,13 +40,16 @@ namespace utils
   requires std::derived_from<VIEW, QAbstractItemView>
   void QtUnselectableView<VIEW>::mousePressEvent(QMouseEvent *event)
   {
-    auto item = VIEW::indexAt(event->pos());
-    auto selected = VIEW::selectionModel()->isSelected(item);
-
-    if ((item.row() == -1 && item.column() == -1) || selected)
+    if (event->buttons() != Qt::RightButton)
     {
-      VIEW::selectionModel()->setCurrentIndex(
-        QModelIndex(), QItemSelectionModel::ClearAndSelect);
+      auto item = VIEW::indexAt(event->pos());
+      auto selected = VIEW::selectionModel()->isSelected(item);
+
+      if ((item.row() == -1 && item.column() == -1) || selected)
+      {
+        VIEW::selectionModel()->setCurrentIndex(
+          QModelIndex(), QItemSelectionModel::ClearAndSelect);
+      }
     }
 
     VIEW::mousePressEvent(event);
@@ -56,8 +59,13 @@ namespace utils
   requires std::derived_from<VIEW, QAbstractItemView>
   void QtUnselectableView<VIEW>::focusOutEvent(QFocusEvent *event)
   {
-    VIEW::selectionModel()->setCurrentIndex(
-      QModelIndex(), QItemSelectionModel::ClearAndSelect);
+    if (event->reason() != Qt::PopupFocusReason)
+    {
+      VIEW::selectionModel()->setCurrentIndex(
+        QModelIndex(), QItemSelectionModel::ClearAndSelect);
+    }
+
+    VIEW::focusOutEvent(event);
   }
 
   using QtUnselectableTreeView = QtUnselectableView<QTreeView>;

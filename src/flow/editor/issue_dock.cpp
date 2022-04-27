@@ -1,9 +1,9 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/issue_dock.h"
 #include "flow/editor/issue_table_filter_model.h"
 #include "flow/editor/issue_table_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "ui_issue_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -78,7 +78,7 @@ void IssueDock::issueActivate(const QModelIndex &index)
 {
   const auto issue =
     m_issue_filter_model->data(index, IssueTableModel::Role::IssueRole)
-      .value<Issue>();
+      .value<flow::Issue>();
   if (auto callback = issue.getCallback(); callback) callback();
 }
 

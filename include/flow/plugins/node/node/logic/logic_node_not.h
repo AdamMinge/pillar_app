@@ -1,9 +1,9 @@
-#ifndef FLOW_LOGIC_NODE_NOT_H
-#define FLOW_LOGIC_NODE_NOT_H
+#ifndef PLUGIN_FLOW_LOGIC_NODE_NOT_H
+#define PLUGIN_FLOW_LOGIC_NODE_NOT_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "export.h"
-#include "logic_node.h"
+#include "flow/plugins/node/node/logic/export.h"
+#include "flow/plugins/node/node/logic/logic_node.h"
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam
@@ -18,4 +18,4 @@ protected:
   void compute() override;
 };
 
-#endif//FLOW_LOGIC_NODE_NOT_H
+#endif//PLUGIN_FLOW_LOGIC_NODE_NOT_H

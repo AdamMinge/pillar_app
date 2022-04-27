@@ -1,19 +1,20 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QCloseEvent>
-#include <QMessageBox>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/about_dialog.h"
-#include "flow/editor/action_manager.h"
-#include "flow/editor/language_manager.h"
 #include "flow/editor/main_window.h"
-#include "flow/editor/plugin_manager.h"
-#include "flow/editor/preferences_manager.h"
+#include "flow/editor/about_dialog.h"
 #include "flow/editor/project/no_project_window.h"
-#include "flow/editor/project/project.h"
 #include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
 #include "flow/editor/settings/settings_dialog.h"
-#include "flow/editor/style_manager.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QCloseEvent>
+#include <QMessageBox>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/action_manager.h>
+#include <flow/libflow/language_manager.h>
+#include <flow/libflow/plugin_manager.h>
+#include <flow/libflow/preferences_manager.h>
+#include <flow/libflow/project/project.h>
+#include <flow/libflow/style_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */
@@ -23,18 +24,18 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct MainWindow::Preferences {
-  Preference<QByteArray> main_window_geometry =
-    Preference<QByteArray>("main_window/geometry");
-  Preference<QByteArray> main_window_state =
-    Preference<QByteArray>("main_window/state");
-  Preference<QLocale> application_language =
-    Preference<QLocale>("application/language");
-  Preference<QString> application_style =
-    Preference<QString>("application/style");
-  Preference<QStringList> application_enabled_plugins =
-    Preference<QStringList>("application/denabled_plugins");
-  PreferenceContainer<QKeySequence> application_shortcuts =
-    PreferenceContainer<QKeySequence>("application/shortcuts");
+  flow::Preference<QByteArray> main_window_geometry =
+    flow::Preference<QByteArray>("main_window/geometry");
+  flow::Preference<QByteArray> main_window_state =
+    flow::Preference<QByteArray>("main_window/state");
+  flow::Preference<QLocale> application_language =
+    flow::Preference<QLocale>("application/language");
+  flow::Preference<QString> application_style =
+    flow::Preference<QString>("application/style");
+  flow::Preference<QStringList> application_enabled_plugins =
+    flow::Preference<QStringList>("application/denabled_plugins");
+  flow::PreferenceContainer<QKeySequence> application_shortcuts =
+    flow::PreferenceContainer<QKeySequence>("application/shortcuts");
 };
 
 /* -------------------------------- MainWindow ------------------------------ */
@@ -59,41 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() = default;
-
-LanguageManager &MainWindow::
-  getLanguageManager()// NOLINT(readability-convert-member-functions-to-static)
-  const
-{
-  return LanguageManager::getInstance();
-}
-
-ProjectManager &MainWindow::
-  getProjectManager()// NOLINT(readability-convert-member-functions-to-static)
-  const
-{
-  return ProjectManager::getInstance();
-}
-
-PluginManager &MainWindow::
-  getPluginManager()// NOLINT(readability-convert-member-functions-to-static)
-  const
-{
-  return PluginManager::getInstance();
-}
-
-StyleManager &MainWindow::
-  getStyleManager()// NOLINT(readability-convert-member-functions-to-static)
-  const
-{
-  return StyleManager::getInstance();
-}
-
-ActionManager &MainWindow::
-  getActionManager()// NOLINT(readability-convert-member-functions-to-static)
-  const
-{
-  return ActionManager::getInstance();
-}
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -123,9 +89,10 @@ void MainWindow::changeEvent(QEvent *event)
 
 void MainWindow::registerActions()
 {
-  getActionManager().registerAction(m_about_action, "about");
-  getActionManager().registerAction(m_settings_action, "settings");
-  getActionManager().registerAction(m_exit_action, "exit");
+  flow::ActionManager::getInstance().registerAction(m_about_action, "about");
+  flow::ActionManager::getInstance().registerAction(
+    m_settings_action, "settings");
+  flow::ActionManager::getInstance().registerAction(m_exit_action, "exit");
 }
 
 void MainWindow::initUi()
@@ -138,7 +105,7 @@ void MainWindow::initUi()
   m_stacked_widget->addWidget(m_project_window);
   m_stacked_widget->addWidget(m_no_project_window);
 
-  currentProjectChanged(getProjectManager().getCurrentProject());
+  currentProjectChanged(ProjectManager::getInstance().getCurrentProject());
 
   setCentralWidget(m_stacked_widget);
 }
@@ -151,14 +118,15 @@ void MainWindow::initConnections()
   connect(m_exit_action, &QAction::triggered, this, &MainWindow::close);
 
   connect(
-    &getProjectManager(), &ProjectManager::currentProjectChanged, this,
-    &MainWindow::currentProjectChanged);
+    &ProjectManager::getInstance(), &ProjectManager::currentProjectChanged,
+    this, &MainWindow::currentProjectChanged);
 }
 
 void MainWindow::writePlugins()
 {
   auto enabled_plugins = QStringList{};
-  for (const auto plugin : getPluginManager().getDynamicPlugins())
+  for (const auto plugin :
+       flow::PluginManager::getInstance().getDynamicPlugins())
   {
     if (plugin->isEnabled()) enabled_plugins << plugin->getFileName();
   }
@@ -183,20 +151,21 @@ void MainWindow::writeSettings()
 void MainWindow::writeLanguage()
 {
   m_preferences->application_language =
-    getLanguageManager().getCurrentLanguage();
+    flow::LanguageManager::getInstance().getCurrentLanguage();
 }
 
 void MainWindow::writeStyle()
 {
-  m_preferences->application_style = getStyleManager().getCurrentStyle();
+  m_preferences->application_style =
+    flow::StyleManager::getInstance().getCurrentStyle();
 }
 
 void MainWindow::writeShortcuts()
 {
-  const auto actions_id = getActionManager().getActionsId();
+  const auto actions_id = flow::ActionManager::getInstance().getActionsId();
   for (const auto &action_id : actions_id)
   {
-    auto action = getActionManager().findAction(action_id);
+    auto action = flow::ActionManager::getInstance().findAction(action_id);
     m_preferences->application_shortcuts.set(action_id, action->shortcut());
   }
 }
@@ -222,8 +191,8 @@ void MainWindow::readPlugins()
 {
   const auto enabled_plugins = m_preferences->application_enabled_plugins.get();
 
-  for (getPluginManager().loadPlugins();
-       auto plugin : getPluginManager().getPlugins())
+  for (flow::PluginManager::getInstance().loadPlugins();
+       auto plugin : flow::PluginManager::getInstance().getPlugins())
   {
     if (enabled_plugins.contains(plugin->getFileName())) plugin->enable();
   }
@@ -233,29 +202,29 @@ void MainWindow::readLanguage()
 {
   const auto application_language = m_preferences->application_language.get();
 
-  auto languages = getLanguageManager().getAvailableLanguages();
+  auto languages = flow::LanguageManager::getInstance().getAvailableLanguages();
   if (languages.contains(application_language))
-    getLanguageManager().setLanguage(application_language);
+    flow::LanguageManager::getInstance().setLanguage(application_language);
   else if (languages.contains(QLocale::system()))
-    getLanguageManager().setLanguage(QLocale::system());
+    flow::LanguageManager::getInstance().setLanguage(QLocale::system());
 }
 
 void MainWindow::readStyle()
 {
   auto application_style = m_preferences->application_style.get();
   if (!application_style.isEmpty())
-    getStyleManager().setStyle(application_style);
+    flow::StyleManager::getInstance().setStyle(application_style);
 }
 
 void MainWindow::readShortcuts()
 {
-  const auto actions_id = getActionManager().getActionsId();
+  const auto actions_id = flow::ActionManager::getInstance().getActionsId();
   for (const auto &action_id : actions_id)
   {
     if (m_preferences->application_shortcuts.contains(action_id))
     {
       auto shortcut = m_preferences->application_shortcuts.get(action_id);
-      getActionManager().setCustomShortcut(action_id, shortcut);
+      flow::ActionManager::getInstance().setCustomShortcut(action_id, shortcut);
     }
   }
 }
@@ -272,11 +241,14 @@ void MainWindow::retranslateUi()
   m_exit_action->setWhatsThis(tr("Exit Application"));
 }
 
-void MainWindow::openSettings() { SettingsDialog::open(QUrl{}, this); }
+void MainWindow::openSettings()
+{
+  SettingsDialog::open(QUrl("settings:GeneralSettingsWidget"), this);
+}
 
 void MainWindow::openAbout() { AboutDialog::open(QUrl{}, this); }
 
-void MainWindow::currentProjectChanged(api::project::IProject *project)
+void MainWindow::currentProjectChanged(flow::project::Project *project)
 {
   auto prev_current_widget = m_stacked_widget->currentWidget();
   auto next_current_widget = project
@@ -301,4 +273,5 @@ void MainWindow::updateWindowTitle()
 
   setWindowTitle(current_widget->windowTitle());
   setWindowFilePath(current_widget->windowFilePath());
+  setWindowModified(current_widget->isWindowModified());
 }

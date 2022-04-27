@@ -1,9 +1,10 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/project/project_reader.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 #include <QXmlStreamReader>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/project.h"
-#include "flow/editor/project/project_reader.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/pointer_cast/unique_ptr_cast.h>
 /* -------------------------------------------------------------------------- */
@@ -16,14 +17,14 @@ public:
   explicit ProjectReaderImpl() = default;
   ~ProjectReaderImpl() = default;
 
-  std::unique_ptr<Project> readProject(QIODevice &device);
+  std::unique_ptr<flow::project::Project> readProject(QIODevice &device);
   bool isValid(QIODevice &device);
 
 private:
-  std::unique_ptr<Project> readProject(QXmlStreamReader &writer);
+  std::unique_ptr<flow::project::Project> readProject(QXmlStreamReader &writer);
 };
 
-std::unique_ptr<Project>
+std::unique_ptr<flow::project::Project>
 ProjectReader::ProjectReaderImpl::readProject(QIODevice &device)
 {
   QXmlStreamReader reader;
@@ -36,10 +37,11 @@ ProjectReader::ProjectReaderImpl::readProject(QIODevice &device)
   return readProject(reader);
 }
 
-std::unique_ptr<Project>
+std::unique_ptr<flow::project::Project>
 ProjectReader::ProjectReaderImpl::readProject(QXmlStreamReader &writer)
 {
-  return utils::cast_unique_ptr<Project>(Project::create());
+  return utils::cast_unique_ptr<flow::project::Project>(
+    flow::project::Project::create());
 }
 
 bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device)
@@ -61,7 +63,8 @@ ProjectReader::ProjectReader() : m_impl(std::make_unique<ProjectReaderImpl>())
 
 ProjectReader::~ProjectReader() = default;
 
-std::unique_ptr<Project> ProjectReader::read(QIODevice &device, QString *error)
+std::unique_ptr<flow::project::Project>
+ProjectReader::read(QIODevice &device, QString *error)
 {
   auto project = m_impl->readProject(device);
   if (!project && error) *error = QObject::tr("Failed to load project");
@@ -69,7 +72,7 @@ std::unique_ptr<Project> ProjectReader::read(QIODevice &device, QString *error)
   return project;
 }
 
-std::unique_ptr<Project>
+std::unique_ptr<flow::project::Project>
 ProjectReader::read(const QString &file_name, QString *error)
 {
   QFile file(file_name);

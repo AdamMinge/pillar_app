@@ -11,7 +11,6 @@ namespace Ui
   class NoProjectWindow;
 }
 
-class PreferencesManager;
 class ProjectManager;
 
 class RecentProjectListModel;
@@ -33,9 +32,6 @@ public:
 
 protected:
   void changeEvent(QEvent *event) override;
-
-  [[nodiscard]] static PreferencesManager &getPreferencesManager();
-  [[nodiscard]] static ProjectManager &getProjectManager();
 
 private Q_SLOTS:
   void openProject();

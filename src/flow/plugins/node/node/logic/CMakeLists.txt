@@ -10,22 +10,22 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow/plugins/node/node/logic)
 set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
-        ${source_root}/logic_node_factory_container.cpp
         ${source_root}/logic_node.cpp
         ${source_root}/logic_node_not.cpp
         ${source_root}/logic_node_and.cpp
-        ${source_root}/logic_node_or.cpp)
+        ${source_root}/logic_node_or.cpp
+        ${source_root}/node_factory.cpp)
 
 set(includes
         ${include_root}/export.h
-        ${include_root}/logic_node_factory_container.h
         ${include_root}/logic_node.h
         ${include_root}/logic_node_not.h
         ${include_root}/logic_node_and.h
-        ${include_root}/logic_node_or.h)
+        ${include_root}/logic_node_or.h
+        ${include_root}/node_factory.h)
 
 set(resources
-        ${resources_root}/flow-plugins-logic-node-images.qrc)
+        ${resources_root}/plugin_logic_node_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -41,5 +41,5 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_plugins(logic_node
         SOURCES ${sources} ${includes} ${resources}
-        DEPENDS_PRIVATE Qt6::Widgets flow::node)
+        DEPENDS_PRIVATE Qt6::Widgets flow::lib_flow)
 # -------------------------------------------------------------------------------------------------- #

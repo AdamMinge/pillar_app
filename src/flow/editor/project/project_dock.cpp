@@ -1,3 +1,7 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/project/project_dock.h"
+#include "flow/editor/document/document_manager.h"
+#include "flow/editor/document/new_document_dialog.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDesktopServices>
 #include <QEvent>
@@ -8,12 +12,10 @@
 #include <QMessageBox>
 #include <QTreeView>
 #include <QUrl>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/document/document_manager.h"
-#include "flow/editor/document/new_document_dialog.h"
-#include "flow/editor/project/project_dock.h"
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/project/project.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/action_manager.h>
+#include <flow/libflow/document/document.h>
+#include <flow/libflow/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
 #include <flow/utils/qt/view/unselectable_view.h>
@@ -36,7 +38,7 @@ ProjectDock::ProjectDock(QWidget *parent)
 
 ProjectDock::~ProjectDock() = default;
 
-void ProjectDock::setProject(api::project::IProject *project)
+void ProjectDock::setProject(flow::project::Project *project)
 {
   if (m_current_project == project) return;
 
@@ -56,7 +58,7 @@ void ProjectDock::setProject(api::project::IProject *project)
   m_view->expand(root_index);
 }
 
-api::project::IProject *ProjectDock::getProject() const
+flow::project::Project *ProjectDock::getProject() const
 {
   return m_current_project;
 }
@@ -187,21 +189,9 @@ void ProjectDock::newDirectory(const QModelIndex &index)
   }
 }
 
-void ProjectDock::newDocument(const QModelIndex &index)
-{
-  Q_ASSERT(index.isValid());
-  const auto dir = QDir{index.data(QFileSystemModel::FilePathRole).toString()};
-
-  auto new_document_dialog =
-    QScopedPointer<NewDocumentDialog>(new NewDocumentDialog(this));
-
-  if (auto document = new_document_dialog->create(); document)
-    DocumentManager::getInstance().addDocument(std::move(document));
-}
-
 void ProjectDock::openContextMenu(const QPoint &position)
 {
-  const auto index = m_view->indexAt(position);
+  const auto index = m_view->currentIndex();
   const auto file_path = index.data(QFileSystemModel::FilePathRole).toString();
   const auto directory_index =
     QFileInfo(file_path).isFile() ? index.parent() : index;
@@ -215,8 +205,8 @@ void ProjectDock::openContextMenu(const QPoint &position)
   QMenu refactor_menu(tr("&Refactor"));
   QMenu open_in_menu(tr("&Open In"));
 
-  new_menu.addAction(tr("&Document"), [this, valid_directory_index]() {
-    newDocument(valid_directory_index);
+  new_menu.addAction(tr("&Document"), []() {
+    flow::ActionManager::getInstance().findAction("new_document")->trigger();
   });
   new_menu.addSeparator();
   new_menu.addAction(tr("&Directory"), [this, valid_directory_index]() {

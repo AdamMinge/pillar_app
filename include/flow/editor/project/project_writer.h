@@ -7,7 +7,10 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-class Project;
+namespace flow::project
+{
+  class Project;
+}
 
 class ProjectWriter
 {
@@ -17,9 +20,10 @@ public:
   explicit ProjectWriter();
   ~ProjectWriter();
 
-  void write(const Project &project, QIODevice &device);
+  void write(const flow::project::Project &project, QIODevice &device);
   bool write(
-    const Project &project, const QString &file_name, QString *error = nullptr);
+    const flow::project::Project &project, const QString &file_name,
+    QString *error = nullptr);
 
 private:
   std::unique_ptr<ProjectWriterImpl> m_impl;

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/plugins/node/logic">
+        <file>images/32x32/logic_nodes.png</file>
+        <file>images/32x32/logic_gate_and.png</file>
+        <file>images/32x32/logic_gate_not.png</file>
+        <file>images/32x32/logic_gate_or.png</file>
+    </qresource>
+</RCC>

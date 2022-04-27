@@ -5,9 +5,9 @@
 #include <QObject>
 /* -------------------------------------------------------------------------- */
 
-namespace api
+namespace flow::project
 {
-  class IProject;
+  class Project;
 }
 
 class ProjectManager : public QObject
@@ -21,27 +21,27 @@ public:
 public:
   ~ProjectManager() override;
 
-  void addProject(std::unique_ptr<api::project::IProject> project);
+  void addProject(std::unique_ptr<flow::project::Project> project);
   void
-  insertProject(int index, std::unique_ptr<api::project::IProject> project);
+  insertProject(int index, std::unique_ptr<flow::project::Project> project);
 
   void removeProject(int index);
   void removeAllProjects();
 
-  [[nodiscard]] api::project::IProject *getProject(int index) const;
-  [[nodiscard]] api::project::IProject *getCurrentProject() const;
+  [[nodiscard]] flow::project::Project *getProject(int index) const;
+  [[nodiscard]] flow::project::Project *getCurrentProject() const;
 
-  [[nodiscard]] int findProject(api::project::IProject *project) const;
+  [[nodiscard]] int findProject(flow::project::Project *project) const;
   [[nodiscard]] int findProject(const QString &file_name) const;
 
   void switchToProject(int index);
-  void switchToProject(api::project::IProject *project);
+  void switchToProject(flow::project::Project *project);
   bool switchToProject(const QString &file_name);
 
   bool loadProject(const QString &file_name, QString *error = nullptr);
 
 Q_SIGNALS:
-  void currentProjectChanged(api::project::IProject *project);
+  void currentProjectChanged(flow::project::Project *project);
 
 protected:
   explicit ProjectManager();
@@ -49,8 +49,8 @@ protected:
 private:
   static QScopedPointer<ProjectManager> m_instance;
 
-  std::vector<std::unique_ptr<api::project::IProject>> m_projects;
-  api::project::IProject *m_current_project;
+  std::vector<std::unique_ptr<flow::project::Project>> m_projects;
+  flow::project::Project *m_current_project;
 };
 
 #endif//FLOW_PROJECT_MANAGER_H

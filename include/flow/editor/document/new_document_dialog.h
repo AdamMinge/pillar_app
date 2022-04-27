@@ -3,22 +3,20 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDialog>
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/document/document.h>
 /* -------------------------------------------------------------------------- */
 
-namespace api::document
+namespace flow::document
 {
-  class INewDocumentWidget;
-}
+  class Document;
+}// namespace flow::document
 
 namespace Ui
 {
   class NewDocumentDialog;
 }
 
-class DocumentTypeListModel;
-class DocumentTypeListDelegate;
+class NewDocumentWidgetListModel;
+class NewDocumentWidgetListDelegate;
 
 class NewDocumentDialog : public QDialog
 {
@@ -31,14 +29,14 @@ public:
   explicit NewDocumentDialog(QWidget *parent = nullptr);
   ~NewDocumentDialog() override;
 
-  [[nodiscard]] std::unique_ptr<api::document::IDocument> create();
+  [[nodiscard]] std::unique_ptr<flow::document::Document> create();
 
 protected:
   void changeEvent(QEvent *event) override;
 
 private Q_SLOTS:
-  void documentTypeChanged(const QModelIndex &index);
-  void updateCreateButton();
+  void currentChanged();
+  void isValidChanged(bool valid);
 
 private:
   void initUi();
@@ -53,11 +51,8 @@ private:
   QScopedPointer<Ui::NewDocumentDialog> m_ui;
 
   QScopedPointer<Preferences> m_preferences;
-  QScopedPointer<DocumentTypeListModel> m_document_types_model;
-  QScopedPointer<DocumentTypeListDelegate> m_document_types_delegate;
-
-  std::map<api::document::IDocument::Type, api::document::INewDocumentWidget *>
-    m_document_create_widgets;
+  QScopedPointer<NewDocumentWidgetListModel> m_new_document_widget_model;
+  QScopedPointer<NewDocumentWidgetListDelegate> m_new_document_widget_delegate;
 };
 
 #endif//FLOW_NEW_DOCUMENT_DIALOG_H

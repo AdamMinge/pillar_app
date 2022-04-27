@@ -1,19 +1,21 @@
-#ifndef FLOW_STRING_TO_BOOLEAN_CONVERTER_H
-#define FLOW_STRING_TO_BOOLEAN_CONVERTER_H
+#ifndef PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H
+#define PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H
 
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/type_converter.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/modules/node/export.h"
-#include "flow/modules/node/type_converter.h"
+#include "flow/plugins/node/converter/string/export.h"
 /* -------------------------------------------------------------------------- */
 
-class NODE_API StringToBooleanConverter : public node::TypeConverter
+class STRING_CONVERTER_API StringToBooleanConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit StringToBooleanConverter() = default;
-  ~StringToBooleanConverter() = default;
+  ~StringToBooleanConverter() override = default;
 
-  [[nodiscard]] std::unique_ptr<node::NodeData>
-  convert(const node::NodeData &data) override;
+  [[nodiscard]] std::unique_ptr<flow::node::NodeData>
+  convert(const flow::node::NodeData &data) override;
 };
 
-#endif//FLOW_STRING_TO_BOOLEAN_CONVERTER_H
+#endif//PLUGIN_FLOW_STRING_TO_BOOLEAN_CONVERTER_H

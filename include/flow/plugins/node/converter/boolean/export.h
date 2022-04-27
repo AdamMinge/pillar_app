@@ -1,5 +1,5 @@
-#ifndef BOOLEAN_CONVERTER_API_EXPORT_H
-#define BOOLEAN_CONVERTER_API_EXPORT_H
+#ifndef PLUGIN_BOOLEAN_CONVERTER_API_EXPORT_H
+#define PLUGIN_BOOLEAN_CONVERTER_API_EXPORT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
@@ -12,4 +12,4 @@
 #endif
 
 
-#endif//BOOLEAN_CONVERTER_API_EXPORT_H
+#endif//PLUGIN_BOOLEAN_CONVERTER_API_EXPORT_H

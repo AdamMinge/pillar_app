@@ -1,12 +1,13 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/console_dock.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QMenu>
 #include <QShortcut>
 #include <QVBoxLayout>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/console_dock.h"
-#include "flow/editor/logging_manager.h"
-#include "flow/editor/script_manager.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/logging_manager.h>
+#include <flow/libflow/script_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/color/color.h>
 #include <flow/utils/qt/dpi/dpi_info.h>
@@ -91,7 +92,7 @@ void ConsoleDock::executeScript()
   if (script.isEmpty()) return;
 
   onScriptReport(script);
-  const auto result = ScriptManager::getInstance().evaluate(script);
+  const auto result = flow::ScriptManager::getInstance().evaluate(script);
   if (!result.isError() && !result.isUndefined())
     onScriptResultReport(result.toString());
 
@@ -145,15 +146,15 @@ void ConsoleDock::initConnections()
     m_clear_button, &QPushButton::pressed, m_plain_text_edit,
     &QPlainTextEdit::clear);
 
-  auto &logging_manager = LoggingManager::getInstance();
+  auto &logging_manager = flow::LoggingManager::getInstance();
   connect(
-    &logging_manager, &LoggingManager::onInfoLog, this,
+    &logging_manager, &flow::LoggingManager::onInfoLog, this,
     &ConsoleDock::onInfoLog);
   connect(
-    &logging_manager, &LoggingManager::onWarningLog, this,
+    &logging_manager, &flow::LoggingManager::onWarningLog, this,
     &ConsoleDock::onWarningLog);
   connect(
-    &logging_manager, &LoggingManager::onErrorLog, this,
+    &logging_manager, &flow::LoggingManager::onErrorLog, this,
     &ConsoleDock::onErrorLog);
 }
 

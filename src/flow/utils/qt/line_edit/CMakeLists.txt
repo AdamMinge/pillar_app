@@ -21,7 +21,7 @@ set(includes
         ${include_root}/dir_browser_line_edit.h)
 
 set(resources
-        ${resources_root}/flow-utils-line-edit-images.qrc)
+        ${resources_root}/utils_line_edit_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -37,5 +37,5 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # -------------------------------------------------------------------------------------------------- #
 flow_add_utils(line_edit
         SOURCES ${sources} ${includes} ${resources}
-        DEPENDS Qt6::Widgets utils::dialog)
+        DEPENDS_PRIVATE Qt6::Widgets utils::dialog)
 # -------------------------------------------------------------------------------------------------- #

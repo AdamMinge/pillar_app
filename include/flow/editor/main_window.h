@@ -12,16 +12,10 @@ namespace Ui
   class MainWindow;
 }
 
-namespace api::project
+namespace flow::project
 {
-  class IProject;
-}
-
-class LanguageManager;
-class ProjectManager;
-class PluginManager;
-class ActionManager;
-class StyleManager;
+  class Project;
+}// namespace flow::project
 
 class ProjectWindow;
 class NoProjectWindow;
@@ -36,12 +30,6 @@ private:
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow() override;
-
-  [[nodiscard]] LanguageManager &getLanguageManager() const;
-  [[nodiscard]] ProjectManager &getProjectManager() const;
-  [[nodiscard]] PluginManager &getPluginManager() const;
-  [[nodiscard]] StyleManager &getStyleManager() const;
-  [[nodiscard]] ActionManager &getActionManager() const;
 
 protected:
   void closeEvent(QCloseEvent *event) override;
@@ -71,7 +59,7 @@ private Q_SLOTS:
   void openSettings();
   void openAbout();
 
-  void currentProjectChanged(api::project::IProject *project);
+  void currentProjectChanged(flow::project::Project *project);
 
   void updateWindowTitle();
 

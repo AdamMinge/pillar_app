@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="/plugins/converter/integer">
+    </qresource>
+</RCC>

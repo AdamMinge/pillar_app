@@ -1,5 +1,5 @@
-#ifndef FLOATING_POINT_CONVERTER_API_EXPORT_H
-#define FLOATING_POINT_CONVERTER_API_EXPORT_H
+#ifndef PLUGIN_FLOATING_POINT_CONVERTER_API_EXPORT_H
+#define PLUGIN_FLOATING_POINT_CONVERTER_API_EXPORT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
@@ -12,4 +12,4 @@
 #endif
 
 
-#endif//FLOATING_POINT_CONVERTER_API_EXPORT_H
+#endif//PLUGIN_FLOATING_POINT_CONVERTER_API_EXPORT_H

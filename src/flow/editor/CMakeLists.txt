@@ -14,26 +14,14 @@ set(sources
         ${source_root}/main.cpp
         ${source_root}/command_line_parser.cpp
         ${source_root}/main_window.cpp
-        ${source_root}/language_manager.cpp
-        ${source_root}/style_manager.cpp
-        ${source_root}/action_manager.cpp
-        ${source_root}/plugin_manager.cpp
-        ${source_root}/plugin.cpp
-        ${source_root}/preferences_manager.cpp
-        ${source_root}/issue_table_model.cpp
-        ${source_root}/issue_table_filter_model.cpp
-        ${source_root}/logging_manager.cpp
-        ${source_root}/issue_manager.cpp
-        ${source_root}/issue.cpp
         ${source_root}/about_dialog.cpp
         ${source_root}/console_dock.cpp
         ${source_root}/issue_dock.cpp
-        ${source_root}/script_manager.cpp
-        ${source_root}/script_module.cpp
+        ${source_root}/issue_table_model.cpp
+        ${source_root}/issue_table_filter_model.cpp
 
         ${source_root}/settings/settings_dialog.cpp
         ${source_root}/settings/settings_widget_tree_model.cpp
-        ${source_root}/settings/settings_widget.cpp
         ${source_root}/settings/general_settings_widget.cpp
         ${source_root}/settings/plugin_settings_widget.cpp
         ${source_root}/settings/shortcuts_settings_widget.cpp
@@ -43,9 +31,7 @@ set(sources
         ${source_root}/settings/shortcuts_table_model.cpp
         ${source_root}/settings/shortcuts_table_delegate.cpp
 
-        ${source_root}/project/project.cpp
         ${source_root}/project/project_manager.cpp
-        ${source_root}/project/project_session.cpp
         ${source_root}/project/project_window.cpp
         ${source_root}/project/no_project_window.cpp
         ${source_root}/project/new_project_dialog.cpp
@@ -56,55 +42,23 @@ set(sources
         ${source_root}/project/project_writer.cpp
         ${source_root}/project/project_reader.cpp
 
-        ${source_root}/document/document.cpp
         ${source_root}/document/document_manager.cpp
         ${source_root}/document/new_document_dialog.cpp
-        ${source_root}/document/undo_dock.cpp
         ${source_root}/document/no_document_widget.cpp
-        ${source_root}/document/document_type_list_model.cpp
-        ${source_root}/document/document_type_list_delegate.cpp
-
-        ${source_root}/document/flow/new_flow_document_widget.cpp
-        ${source_root}/document/flow/flow_document.cpp
-        ${source_root}/document/flow/flow_editor.cpp
-        ${source_root}/document/flow/flow_scene.cpp
-        ${source_root}/document/flow/flow_view.cpp
-        ${source_root}/document/flow/flow_document_format.cpp
-        ${source_root}/document/flow/flow_document_format_flow.cpp
-        ${source_root}/document/flow/flow_document_reader.cpp
-        ${source_root}/document/flow/flow_document_writer.cpp
-        ${source_root}/document/flow/flow_nodes_dock.cpp
-        ${source_root}/document/flow/flow_nodes_tree_model.cpp
-        ${source_root}/document/flow/flow_converters_dock.cpp
-        ${source_root}/document/flow/flow_converters_tree_model.cpp
-
-        ${source_root}/commands/command.cpp
-        ${source_root}/commands/group_command.cpp)
+        ${source_root}/document/new_document_widget_list_model.cpp
+        ${source_root}/document/new_document_widget_list_delegate.cpp)
 
 set(includes
         ${include_root}/command_line_parser.h
         ${include_root}/main_window.h
-        ${include_root}/language_manager.h
-        ${include_root}/style_manager.h
-        ${include_root}/action_manager.h
-        ${include_root}/plugin_manager.h
-        ${include_root}/plugin.h
-        ${include_root}/preferences_manager.h
-        ${include_root}/logging_manager.h
-        ${include_root}/issue_table_model.h
-        ${include_root}/issue_table_filter_model.h
-        ${include_root}/issue_manager.h
-        ${include_root}/issue.h
         ${include_root}/about_dialog.h
         ${include_root}/console_dock.h
         ${include_root}/issue_dock.h
-        ${include_root}/format_helper.h
-        ${include_root}/script_manager.h
-        ${include_root}/script_module.h
+        ${include_root}/issue_table_model.h
+        ${include_root}/issue_table_filter_model.h
 
         ${include_root}/settings/settings_dialog.h
         ${include_root}/settings/settings_widget_tree_model.h
-        ${include_root}/settings/settings_widget.h
         ${include_root}/settings/general_settings_widget.h
         ${include_root}/settings/plugin_settings_widget.h
         ${include_root}/settings/shortcuts_settings_widget.h
@@ -114,9 +68,7 @@ set(includes
         ${include_root}/settings/shortcuts_table_model.h
         ${include_root}/settings/shortcuts_table_delegate.h
 
-        ${include_root}/project/project.h
         ${include_root}/project/project_manager.h
-        ${include_root}/project/project_session.h
         ${include_root}/project/project_window.h
         ${include_root}/project/no_project_window.h
         ${include_root}/project/new_project_dialog.h
@@ -127,34 +79,11 @@ set(includes
         ${include_root}/project/project_writer.h
         ${include_root}/project/project_reader.h
 
-        ${include_root}/document/document.h
         ${include_root}/document/document_manager.h
         ${include_root}/document/new_document_dialog.h
-        ${include_root}/document/undo_dock.h
         ${include_root}/document/no_document_widget.h
-        ${include_root}/document/document_type_list_model.h
-        ${include_root}/document/document_type_list_delegate.h
-
-        ${include_root}/document/flow/new_flow_document_widget.h
-        ${include_root}/document/flow/flow_document.h
-        ${include_root}/document/flow/flow_editor.h
-        ${include_root}/document/flow/flow_scene.h
-        ${include_root}/document/flow/flow_view.h
-        ${include_root}/document/flow/flow_document_format.h
-        ${include_root}/document/flow/flow_document_format_flow.h
-        ${include_root}/document/flow/flow_document_reader.h
-        ${include_root}/document/flow/flow_document_writer.h
-        ${include_root}/document/flow/flow_nodes_dock.h
-        ${include_root}/document/flow/flow_nodes_tree_model.h
-        ${include_root}/document/flow/flow_converters_dock.h
-        ${include_root}/document/flow/flow_converters_tree_model.h
-
-        ${include_root}/commands/command.h
-        ${include_root}/commands/group_command.h)
-
-set(resources
-        ${resources_root}/flow-editor-translations.qrc
-        ${resources_root}/flow-editor-images.qrc)
+        ${include_root}/document/new_document_widget_list_model.h
+        ${include_root}/document/new_document_widget_list_delegate.h)
 
 set(uis
         ${uis_root}/main_window.ui
@@ -172,11 +101,11 @@ set(uis
         ${uis_root}/project/new_project_dialog.ui
 
         ${uis_root}/document/new_document_dialog.ui
-        ${uis_root}/document/new_flow_document_widget.ui
-        ${uis_root}/document/no_document_widget.ui
+        ${uis_root}/document/no_document_widget.ui)
 
-        ${uis_root}/document/flow/flow_converters_dock.ui
-        ${uis_root}/document/flow/flow_nodes_dock.ui)
+set(resources
+        ${resources_root}/editor_translations.qrc
+        ${resources_root}/editor_images.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #
@@ -198,8 +127,7 @@ flow_add_application(editor
         DEPENDS
         Qt6::Widgets
         Qt6::Qml
-        flow::api
-        flow::node
+        flow::lib_flow
         utils::action
         utils::color
         utils::pointer_cast
@@ -216,10 +144,9 @@ flow_add_application(editor
 target_include_directories(editor PRIVATE ${Boost_INCLUDE_DIRS})
 
 flow_add_translations(editor
-        QM_DIR ${resources_root}/translations/
-        INCLUDES ${include_root}
-        SOURCES ${source_root}
+        QM_DIR ${resources_root}/translations
+        DIRS ${FLOW_SOURCE_DIR}
         TS_FILES
-        ${resources_root}/translations/flow-editor_pl.ts
-        ${resources_root}/translations/flow-editor_en.ts)
+        ${resources_root}/translations/editor_pl.ts
+        ${resources_root}/translations/editor_en.ts)
 # -------------------------------------------------------------------------------------------------- #

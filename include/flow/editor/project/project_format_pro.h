@@ -1,13 +1,14 @@
 #ifndef FLOW_PROJECT_FORMAT_PRO_H
 #define FLOW_PROJECT_FORMAT_PRO_H
 
-/* ------------------------------------ Api --------------------------------- */
-#include <flow/modules/api/project/project_format.h>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/project/project_format.h>
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormatPro : public api::project::IProjectFormat
+class ProjectFormatPro : public flow::project::ProjectFormat
 {
   Q_OBJECT
+  Q_INTERFACES(flow::project::ProjectFormat)
 
 public:
   explicit ProjectFormatPro(QObject *parent = nullptr);
@@ -17,10 +18,10 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<api::project::IProject>
+  std::unique_ptr<flow::project::Project>
   load(const QString &file_name, QString *error) override;
   bool save(
-    const api::project::IProject &project, const QString &file_name,
+    const flow::project::Project &project, const QString &file_name,
     QString *error) override;
 };
 

@@ -1,19 +1,21 @@
-#ifndef FLOW_FLOATING_POINT_TO_INTEGER_COVERTER_H
-#define FLOW_FLOATING_POINT_TO_INTEGER_COVERTER_H
+#ifndef PLUGIN_FLOW_FLOATING_POINT_TO_INTEGER_COVERTER_H
+#define PLUGIN_FLOW_FLOATING_POINT_TO_INTEGER_COVERTER_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/modules/node/export.h"
-#include "flow/modules/node/type_converter.h"
+#include "flow/plugins/node/converter/floating_point/export.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class NODE_API FloatingPointToIntegerConverter : public node::TypeConverter
+class FLOATING_POINT_CONVERTER_API FloatingPointToIntegerConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit FloatingPointToIntegerConverter() = default;
   ~FloatingPointToIntegerConverter() override = default;
 
-  [[nodiscard]] std::unique_ptr<node::NodeData>
-  convert(const node::NodeData &data) override;
+  [[nodiscard]] std::unique_ptr<flow::node::NodeData>
+  convert(const flow::node::NodeData &data) override;
 };
 
-#endif//FLOW_FLOATING_POINT_TO_INTEGER_COVERTER_H
+#endif//PLUGIN_FLOW_FLOATING_POINT_TO_INTEGER_COVERTER_H

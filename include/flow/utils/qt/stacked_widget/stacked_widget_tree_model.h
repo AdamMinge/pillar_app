@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
+#include <QIcon>
 #include <QWidget>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/utils/qt/stacked_widget/export.h"
@@ -15,7 +16,7 @@ namespace utils
   {
   public:
     explicit QtStackedWidgetTreeItem(
-      QString name, QWidget *widget,
+      QWidget *widget, QIcon icon = QIcon{},
       std::initializer_list<QtStackedWidgetTreeItem *> children = {});
     ~QtStackedWidgetTreeItem();
 
@@ -29,18 +30,17 @@ namespace utils
     [[nodiscard]] int getChildCount() const;
     [[nodiscard]] int findChild(QtStackedWidgetTreeItem *child) const;
 
-    void setName(QString name);
     void setWidget(QWidget *widget);
-
-    [[nodiscard]] const QString &getName() const;
     [[nodiscard]] QWidget *getWidget() const;
+
+    void setIcon(QIcon icon);
+    [[nodiscard]] QIcon getIcon() const;
 
   private:
     QList<QtStackedWidgetTreeItem *> m_children;
     QtStackedWidgetTreeItem *m_parent;
-
-    QString m_name;
     QWidget *m_widget;
+    QIcon m_icon;
   };
 
   class STACKED_WIDGET_API QtStackedWidgetTreeModel : public QAbstractItemModel
@@ -52,21 +52,21 @@ namespace utils
     {
       NameRole = Qt::UserRole + 1,
       WidgetRole,
+      ObjectNameRole,
+      IconRole
     };
 
   public:
-    [[nodiscard]] static QModelIndex getIndexByName(
-      const QAbstractItemModel &model, const QString &name,
-      const QModelIndex &parent);
-    [[nodiscard]] static QModelIndex getIndexByWidget(
-      const QAbstractItemModel &model, const QWidget *widget,
+    [[nodiscard]] static QModelIndex getIndexBy(
+      const QAbstractItemModel &model, Role role, const QVariant &value,
       const QModelIndex &parent);
 
   public:
-    explicit QtStackedWidgetTreeModel(
-      const QList<QtStackedWidgetTreeItem *> &root_items,
-      QObject *parent = nullptr);
+    explicit QtStackedWidgetTreeModel(QObject *parent = nullptr);
     ~QtStackedWidgetTreeModel() override;
+
+    void append(QtStackedWidgetTreeItem *item, const QModelIndex &parent);
+    void remove(const QModelIndex &index);
 
     [[nodiscard]] Qt::ItemFlags flags(const QModelIndex &index) const override;
 
@@ -82,10 +82,8 @@ namespace utils
     [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
     [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
-    [[nodiscard]] QModelIndex
-    getIndexByName(const QString &name, const QModelIndex &parent) const;
-    [[nodiscard]] QModelIndex
-    getIndexByWidget(const QWidget *widget, const QModelIndex &parent) const;
+    [[nodiscard]] QModelIndex getIndexBy(
+      Role role, const QVariant &value, const QModelIndex &parent) const;
 
   private:
     QList<QtStackedWidgetTreeItem *> m_root_items;

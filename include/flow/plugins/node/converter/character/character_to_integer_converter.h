@@ -1,19 +1,21 @@
-#ifndef FLOW_CHARACTER_TO_INTEGER_CONVERTER_H
-#define FLOW_CHARACTER_TO_INTEGER_CONVERTER_H
+#ifndef PLUGIN_FLOW_CHARACTER_TO_INTEGER_CONVERTER_H
+#define PLUGIN_FLOW_CHARACTER_TO_INTEGER_CONVERTER_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/modules/node/export.h"
-#include "flow/modules/node/type_converter.h"
+#include "flow/plugins/node/converter/character/export.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class NODE_API CharacterToIntegerConverter : public node::TypeConverter
+class CHARACTER_CONVERTER_API CharacterToIntegerConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit CharacterToIntegerConverter() = default;
   ~CharacterToIntegerConverter() override = default;
 
-  [[nodiscard]] std::unique_ptr<node::NodeData>
-  convert(const node::NodeData &data) override;
+  [[nodiscard]] std::unique_ptr<flow::node::NodeData>
+  convert(const flow::node::NodeData &data) override;
 };
 
-#endif//FLOW_CHARACTER_TO_INTEGER_CONVERTER_H
+#endif//PLUGIN_FLOW_CHARACTER_TO_INTEGER_CONVERTER_H

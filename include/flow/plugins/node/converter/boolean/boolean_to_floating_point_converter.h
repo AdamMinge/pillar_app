@@ -1,19 +1,21 @@
-#ifndef FLOW_BOOLEAN_TO_FLOATING_POINT_CONVERTER_H
-#define FLOW_BOOLEAN_TO_FLOATING_POINT_CONVERTER_H
+#ifndef PLUGIN_FLOW_BOOLEAN_TO_FLOATING_POINT_CONVERTER_H
+#define PLUGIN_FLOW_BOOLEAN_TO_FLOATING_POINT_CONVERTER_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/modules/node/export.h"
-#include "flow/modules/node/type_converter.h"
+#include "flow/plugins/node/converter/boolean/export.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/type_converter.h>
 /* -------------------------------------------------------------------------- */
 
-class NODE_API BooleanToFloatingPointConverter : public node::TypeConverter
+class BOOLEAN_CONVERTER_API BooleanToFloatingPointConverter
+    : public flow::node::TypeConverter
 {
 public:
   explicit BooleanToFloatingPointConverter() = default;
   ~BooleanToFloatingPointConverter() override = default;
 
-  [[nodiscard]] std::unique_ptr<node::NodeData>
-  convert(const node::NodeData &data) override;
+  [[nodiscard]] std::unique_ptr<flow::node::NodeData>
+  convert(const flow::node::NodeData &data) override;
 };
 
-#endif//FLOW_BOOLEAN_TO_FLOATING_POINT_CONVERTER_H
+#endif//PLUGIN_FLOW_BOOLEAN_TO_FLOATING_POINT_CONVERTER_H

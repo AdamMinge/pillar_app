@@ -1,8 +1,9 @@
 #ifndef FLOW_APPEARANCE_SETTINGS_WIDGET_H
 #define FLOW_APPEARANCE_SETTINGS_WIDGET_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/settings/settings_widget.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/settings/settings_widget.h>
+#include <flow/libflow/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui
@@ -10,7 +11,7 @@ namespace Ui
   class AppearanceSettingsWidget;
 }
 
-class AppearanceSettingsWidget : public SettingsWidget
+class AppearanceSettingsWidget : public flow::settings::SettingsWidget
 {
   Q_OBJECT
 
@@ -33,6 +34,21 @@ private Q_SLOTS:
 
 private:
   QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;
+};
+
+class AppearanceSettingsWidgetFactory
+    : public flow::settings::SettingsWidgetFactory
+{
+  Q_OBJECT
+  Q_INTERFACES(flow::settings::SettingsWidgetFactory)
+
+public:
+  explicit AppearanceSettingsWidgetFactory(QObject *parent = nullptr);
+  ~AppearanceSettingsWidgetFactory() override;
+
+  [[nodiscard]] std::unique_ptr<flow::settings::SettingsWidget>
+  create() const override;
+  [[nodiscard]] QString getParentObjectName() const override;
 };
 
 #endif//FLOW_APPEARANCE_SETTINGS_WIDGET_H

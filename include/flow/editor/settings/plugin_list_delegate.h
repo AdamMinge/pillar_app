@@ -31,23 +31,10 @@ public:
     const QStyleOptionViewItem &option,
     const QModelIndex &index) const override;
 
-  void setIconSize(const QSize &size);
-  [[nodiscard]] const QSize &getIconSize() const;
-
-  void setMargins(const QMargins &margins);
-  [[nodiscard]] const QMargins &getMargins() const;
-
-  void setSpacing(int vertical_spacing, int horizontal_spacing);
-  void setVerticalSpacing(int spacing);
-  void setHorizontalSpacing(int spacing);
-
-  [[nodiscard]] int getVerticalSpacing() const;
-  [[nodiscard]] int getHorizontalSpacing() const;
-
 private:
-  QSize m_icon_size;
-  QMargins m_margins;
-  QSize m_spacing;
+  const QSize m_icon_size;
+  const QMargins m_margins;
+  const int m_spacing;
 };
 
 #endif//FLOW_PLUGIN_LIST_DELEGATE_H

@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="/plugins/converter/floating_point">
+    </qresource>
+</RCC>

@@ -1,9 +1,10 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/editor/project/project_writer.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 #include <QXmlStreamWriter>
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/editor/project/project.h"
-#include "flow/editor/project/project_writer.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/project/project.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectWriterImpl -------------------------- */
@@ -14,14 +15,15 @@ public:
   explicit ProjectWriterImpl() = default;
   ~ProjectWriterImpl() = default;
 
-  void writeProject(const Project &project, QIODevice &device);
+  void writeProject(const flow::project::Project &project, QIODevice &device);
 
 private:
-  void writeProject(QXmlStreamWriter &writer, const Project &project);
+  void
+  writeProject(QXmlStreamWriter &writer, const flow::project::Project &project);
 };
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
-  const Project &project, QIODevice &device)
+  const flow::project::Project &project, QIODevice &device)
 {
   QXmlStreamWriter writer(&device);
 
@@ -31,7 +33,7 @@ void ProjectWriter::ProjectWriterImpl::writeProject(
 }
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
-  QXmlStreamWriter &writer, const Project &project)
+  QXmlStreamWriter &writer, const flow::project::Project &project)
 {
   writer.writeStartElement(QStringLiteral("project"));
 
@@ -45,13 +47,15 @@ ProjectWriter::ProjectWriter() : m_impl(std::make_unique<ProjectWriterImpl>())
 
 ProjectWriter::~ProjectWriter() = default;
 
-void ProjectWriter::write(const Project &project, QIODevice &device)
+void ProjectWriter::write(
+  const flow::project::Project &project, QIODevice &device)
 {
   m_impl->writeProject(project, device);
 }
 
 bool ProjectWriter::write(
-  const Project &project, const QString &file_name, QString *error)
+  const flow::project::Project &project, const QString &file_name,
+  QString *error)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

@@ -1,12 +1,14 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/general_settings_widget.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/dpi/dpi_info.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_general_settings_widget.h"
 /* -------------------------------------------------------------------------- */
+
+/* --------------------------- GeneralSettingsWidget ------------------------ */
 
 GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)
     : SettingsWidget(parent), m_ui(new Ui::GeneralSettingsWidget())
@@ -55,7 +57,22 @@ void GeneralSettingsWidget::retranslateUi()
       "<ul style=\" list-style-type:none\">%2</ul>"
       "</body>"
       "</html>")
-      .arg(QString{link_text.arg("settings:Appearance", "Appearance")});
+      .arg(QString{
+        link_text.arg("settings:AppearanceSettingsWidget", "Appearance")});
 
   m_ui->m_general_label->setText(label_text);
+}
+
+/* ------------------------ GeneralSettingsWidgetFactory -------------------- */
+
+GeneralSettingsWidgetFactory::GeneralSettingsWidgetFactory(QObject *parent)
+    : flow::settings::SettingsWidgetFactory(parent)
+{}
+
+GeneralSettingsWidgetFactory::~GeneralSettingsWidgetFactory() = default;
+
+std::unique_ptr<flow::settings::SettingsWidget>
+GeneralSettingsWidgetFactory::create() const
+{
+  return std::make_unique<GeneralSettingsWidget>();
 }

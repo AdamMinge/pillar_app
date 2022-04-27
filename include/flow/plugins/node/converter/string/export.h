@@ -1,5 +1,5 @@
-#ifndef STRING_CONVERTER_API_EXPORT_H
-#define STRING_CONVERTER_API_EXPORT_H
+#ifndef PLUGIN_STRING_CONVERTER_API_EXPORT_H
+#define PLUGIN_STRING_CONVERTER_API_EXPORT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
@@ -12,4 +12,4 @@
 #endif
 
 
-#endif//STRING_CONVERTER_API_EXPORT_H
+#endif//PLUGIN_STRING_CONVERTER_API_EXPORT_H

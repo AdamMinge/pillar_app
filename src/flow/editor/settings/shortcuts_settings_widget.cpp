@@ -1,12 +1,14 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QEvent>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_settings_widget.h"
 #include "flow/editor/settings/shortcuts_table_delegate.h"
 #include "flow/editor/settings/shortcuts_table_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QEvent>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_shortcuts_settings_widget.h"
 /* -------------------------------------------------------------------------- */
+
+/* -------------------------- ShortcutsSettingsWidget ----------------------- */
 
 ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent)
     : SettingsWidget(parent), m_ui(new Ui::ShortcutsSettingsWidget()),
@@ -82,4 +84,18 @@ void ShortcutsSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 void ShortcutsSettingsWidget::searchAction(const QString &search)
 {
   m_search_proxy_model->setFilterWildcard(search);
+}
+
+/* ---------------------- ShortcutsSettingsWidgetFactory -------------------- */
+
+ShortcutsSettingsWidgetFactory::ShortcutsSettingsWidgetFactory(QObject *parent)
+    : flow::settings::SettingsWidgetFactory(parent)
+{}
+
+ShortcutsSettingsWidgetFactory::~ShortcutsSettingsWidgetFactory() = default;
+
+std::unique_ptr<flow::settings::SettingsWidget>
+ShortcutsSettingsWidgetFactory::create() const
+{
+  return std::make_unique<ShortcutsSettingsWidget>();
 }

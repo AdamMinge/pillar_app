@@ -1,9 +1,9 @@
-#ifndef FLOW_LOGIC_NODE_OR_H
-#define FLOW_LOGIC_NODE_OR_H
+#ifndef PLUGIN_FLOW_LOGIC_NODE_OR_H
+#define PLUGIN_FLOW_LOGIC_NODE_OR_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "export.h"
-#include "logic_node.h"
+#include "flow/plugins/node/node/logic/export.h"
+#include "flow/plugins/node/node/logic/logic_node.h"
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams
@@ -18,4 +18,4 @@ protected:
   void compute() override;
 };
 
-#endif//FLOW_LOGIC_NODE_OR_H
+#endif//PLUGIN_FLOW_LOGIC_NODE_OR_H

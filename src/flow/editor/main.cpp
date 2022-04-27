@@ -1,13 +1,17 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QApplication>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/config.h"
 #include "flow/editor/command_line_parser.h"
-#include "flow/editor/document/flow/flow_document_format_flow.h"
 #include "flow/editor/main_window.h"
-#include "flow/editor/plugin_manager.h"
-#include "flow/editor/preferences_manager.h"
 #include "flow/editor/project/project_format_pro.h"
+#include "flow/editor/settings/appearance_settings_widget.h"
+#include "flow/editor/settings/general_settings_widget.h"
+#include "flow/editor/settings/plugin_settings_widget.h"
+#include "flow/editor/settings/shortcuts_settings_widget.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QApplication>
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/plugin_manager.h>
+#include <flow/libflow/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */
@@ -66,10 +70,27 @@ FlowCommandLineParser::~FlowCommandLineParser() = default;
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
+static void registerDefaultFormats(QApplication &app)
+{
+  flow::PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
+}
+
+static void registerDefaultSettings(QApplication &app)
+{
+  flow::PluginManager::getInstance().addObject(
+    new GeneralSettingsWidgetFactory(&app));
+  flow::PluginManager::getInstance().addObject(
+    new AppearanceSettingsWidgetFactory(&app));
+  flow::PluginManager::getInstance().addObject(
+    new ShortcutsSettingsWidgetFactory(&app));
+  flow::PluginManager::getInstance().addObject(
+    new PluginSettingsWidgetFactory(&app));
+}
+
 static void registerDefaultPlugins(QApplication &app)
 {
-  PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
-  PluginManager::getInstance().addObject(new FlowDocumentFormatFlow(&app));
+  registerDefaultFormats(app);
+  registerDefaultSettings(app);
 }
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
@@ -80,8 +101,8 @@ static void parseCommandLine(QApplication &app)
   parser.process(app);
 
   if (parser.isWithoutSettings())
-    PreferencesManager::getInstance().setSettingsType(
-      PreferencesSettings::Type::Temporary);
+    flow::PreferencesManager::getInstance().setSettingsType(
+      flow::PreferencesSettings::Type::Temporary);
 }
 
 /* ----------------------------------- main --------------------------------- */
