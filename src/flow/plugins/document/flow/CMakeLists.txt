@@ -27,6 +27,7 @@ set(sources
         ${source_root}/flow_document.cpp
         ${source_root}/flow_scene.cpp
         ${source_root}/add_remove_node.cpp
+        ${source_root}/flow_script_module.cpp
         ${source_root}/flow_document_plugin.cpp)
 
 set(includes
@@ -47,6 +48,7 @@ set(includes
         ${include_root}/flow_nodes_dock.h
         ${include_root}/new_flow_document_widget.h
         ${include_root}/add_remove_node.h
+        ${include_root}/flow_script_module.h
         ${include_root}/flow_document_plugin.h)
 
 set(resources

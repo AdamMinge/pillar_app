@@ -5,8 +5,6 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
-/* ---------------------------------- LibFlow ------------------------------- */
-#include <flow/libflow/action_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/widget/shortcut_selector.h>
 /* -------------------------------------------------------------------------- */

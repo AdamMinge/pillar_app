@@ -17,8 +17,12 @@ namespace flow
   public:
     explicit ScriptModule(QObject *parent = nullptr);
     ~ScriptModule() override;
+
+    Q_INVOKABLE [[nodiscard]] virtual QString getName() const = 0;
   };
 
 }// namespace flow
+
+Q_DECLARE_INTERFACE(flow::ScriptModule, "org.flow.ScriptModule")
 
 #endif//FLOW_SCRIPT_MODULE_H
