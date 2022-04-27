@@ -204,9 +204,9 @@ namespace flow::document
       });
 
     m_undo_group->removeStack(document_to_remove->getUndoStack());
-    m_tab_bar->removeTab(index);
-
     m_documents.erase(removed_document_iter, m_documents.end());
+
+    m_tab_bar->removeTab(index);
   }
 
   void DocumentManager::removeAllDocuments()

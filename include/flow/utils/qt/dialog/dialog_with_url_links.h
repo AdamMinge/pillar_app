@@ -14,7 +14,8 @@ namespace utils
   class DIALOG_API QtDialogWithUrlLinks : public QDialog
   {
   public:
-    static void open(const QUrl &url = QUrl{}, QWidget *parent = nullptr);
+    static void show(const QUrl &url = QUrl{}, QWidget *parent = nullptr);
+    static void exec(const QUrl &url = QUrl{}, QWidget *parent = nullptr);
 
     virtual void setUrl(const QUrl &url);
 
@@ -24,7 +25,7 @@ namespace utils
   };
 
   template<typename TYPE>
-  void QtDialogWithUrlLinks<TYPE>::open(const QUrl &url, QWidget *parent)
+  void QtDialogWithUrlLinks<TYPE>::show(const QUrl &url, QWidget *parent)
   {
     static QPointer<TYPE> dialog = nullptr;
 
@@ -38,6 +39,17 @@ namespace utils
     dialog->show();
     dialog->activateWindow();
     dialog->raise();
+  }
+
+  template<typename TYPE>
+  void QtDialogWithUrlLinks<TYPE>::exec(const QUrl &url, QWidget *parent)
+  {
+    static QPointer<TYPE> dialog = nullptr;
+
+    if (!dialog) { dialog = new TYPE(parent); }
+
+    dialog->setUrl(url);
+    dialog->QDialog::exec();
   }
 
   template<typename TYPE>

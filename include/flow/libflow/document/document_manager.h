@@ -90,10 +90,10 @@ namespace flow::document
     void filesChanged(const QStringList &file_names);
     void
     fileNameChanged(const QString &new_file_name, const QString &old_file_name);
-    void updateDocumentTab(Document *document);
+    void updateDocumentTab(flow::document::Document *document);
 
   Q_SIGNALS:
-    void currentDocumentChanged(Document *document);
+    void currentDocumentChanged(flow::document::Document *document);
     void documentCloseRequested(int index);
     void enabledStandardActionsChanged();
 

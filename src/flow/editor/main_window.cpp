@@ -245,10 +245,10 @@ void MainWindow::retranslateUi()
 
 void MainWindow::openSettings()
 {
-  SettingsDialog::open(QUrl("settings:GeneralSettingsWidget"), this);
+  SettingsDialog::exec(QUrl("settings:GeneralSettingsWidget"), this);
 }
 
-void MainWindow::openAbout() { AboutDialog::open(QUrl{}, this); }
+void MainWindow::openAbout() { AboutDialog::show(QUrl{}, this); }
 
 void MainWindow::currentProjectChanged(flow::project::Project *project)
 {
