@@ -42,9 +42,6 @@ void FlowTypeConvertersTreeDelegate::paint(
     rect, opt.state & QStyle::State_Selected ? palette.highlight().color()
                                              : palette.light().color());
 
-  if (is_root_index)
-    painter->drawLine(rect.left(), rect.bottom(), rect.right(), rect.bottom());
-
   painter->drawPixmap(
     rect.left(), rect.top(), type_converter_icon.pixmap(actual_icon_size));
 

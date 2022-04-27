@@ -1,5 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/settings/shortcuts_table_model.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QMultiMap>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
 /* -------------------------------------------------------------------------- */
@@ -23,10 +25,17 @@ ShortcutsTableModel::~ShortcutsTableModel() = default;
 
 bool ShortcutsTableModel::apply()
 {
-  std::for_each(m_actions.begin(), m_actions.end(), [](auto &shortcut_data) {
-    flow::ActionManager::getInstance().setCustomShortcut(
-      shortcut_data.action_id, shortcut_data.key_sequence);
-  });
+  for (auto i = 0; i < m_actions.size(); ++i)
+  {
+    const auto &shortcut_data = m_actions[i];
+    if (shortcut_data.action->shortcut() != shortcut_data.key_sequence)
+    {
+      flow::ActionManager::getInstance().setCustomShortcut(
+        shortcut_data.action_id, shortcut_data.key_sequence);
+
+      Q_EMIT dataChanged(index(i, 0), index(i, 1));
+    }
+  }
 
   return applied();
 }
@@ -39,6 +48,13 @@ bool ShortcutsTableModel::applied() const
     });
 }
 
+bool ShortcutsTableModel::isValid() const
+{
+  return std::all_of(
+    m_actions.begin(), m_actions.end(),
+    [](auto &shortcut_data) { return shortcut_data.valid; });
+}
+
 int ShortcutsTableModel::rowCount(const QModelIndex &parent) const
 {
   return static_cast<int>(m_actions.size());
@@ -46,7 +62,7 @@ int ShortcutsTableModel::rowCount(const QModelIndex &parent) const
 
 int ShortcutsTableModel::columnCount(const QModelIndex &parent) const
 {
-  return 3;
+  return 5;
 }
 
 QVariant ShortcutsTableModel::data(const QModelIndex &index, int role) const
@@ -68,6 +84,12 @@ QVariant ShortcutsTableModel::data(const QModelIndex &index, int role) const
       case Column::ActionIdColumn:
         return shortcut_data.action_id;
 
+      case Column::ValidColumn:
+        return shortcut_data.valid;
+
+      case Column::AppliedColumn:
+        return shortcut_data.action->shortcut() == shortcut_data.key_sequence;
+
       default:
         return QVariant{};
     }
@@ -83,11 +105,16 @@ bool ShortcutsTableModel::setData(
 
   if (role == Qt::DisplayRole && index.column() == Column::ShortcutColumn)
   {
-    auto applied_before = applied();
-    m_actions.at(index.row()).key_sequence = value.value<QKeySequence>();
-    auto applied_after = applied();
+    auto new_key_sequence = value.value<QKeySequence>();
+    auto old_key_sequence = m_actions.at(index.row()).key_sequence;
+    auto &shortcut_data = m_actions.at(index.row());
 
-    if (applied_before != applied_after) Q_EMIT appliedChanged(applied_after);
+    shortcut_data.key_sequence = new_key_sequence;
+
+    validation({new_key_sequence, old_key_sequence});
+    if (new_key_sequence != old_key_sequence)
+      Q_EMIT dataChanged(index, index);
+
     return true;
   }
 
@@ -110,6 +137,12 @@ QVariant ShortcutsTableModel::headerData(
       case Column::ActionIdColumn:
         return tr("Action Id");
 
+      case Column::ValidColumn:
+        return tr("Valid");
+
+      case Column::AppliedColumn:
+        return tr("Applied");
+
       default:
         return QVariant{};
     }
@@ -127,15 +160,8 @@ Qt::ItemFlags ShortcutsTableModel::flags(const QModelIndex &index) const
 
 void ShortcutsTableModel::init()
 {
-  const auto actions = flow::ActionManager::getInstance().getActionsId();
-  for (const auto &action : actions)
-  {
-    auto found_action = flow::ActionManager::getInstance().findAction(action);
-    Q_ASSERT(found_action);
-
-    m_actions.emplace_back(
-      ShortcutData{found_action, action, found_action->shortcut()});
-  }
+  const auto action_ids = flow::ActionManager::getInstance().getActionsId();
+  for (const auto &action_id : action_ids) addedShortcut(action_id);
 }
 
 void ShortcutsTableModel::addedShortcut(const QString &action_id)
@@ -147,12 +173,15 @@ void ShortcutsTableModel::addedShortcut(const QString &action_id)
 
   if (shortcut_data_iter == m_actions.end())
   {
-    auto row = m_actions.size();
+    auto row = static_cast<int>(m_actions.size());
     auto action = flow::ActionManager::getInstance().findAction(action_id);
+    auto key_sequence = action->shortcut();
 
     beginInsertRows(QModelIndex{}, row, row);
-    m_actions.push_back(ShortcutData{action, action_id, action->shortcut()});
+    m_actions.push_back(ShortcutData{action, action_id, key_sequence, true});
     endInsertRows();
+
+    validation({key_sequence});
   }
 }
 
@@ -165,10 +194,41 @@ void ShortcutsTableModel::removedShortcut(const QString &action_id)
 
   if (shortcut_data_iter != m_actions.end())
   {
-    auto row = std::distance(m_actions.begin(), shortcut_data_iter);
+    auto row =
+      static_cast<int>(std::distance(m_actions.begin(), shortcut_data_iter));
+    auto key_sequence = shortcut_data_iter->key_sequence;
 
     beginRemoveRows(QModelIndex{}, row, row);
     m_actions.erase(shortcut_data_iter);
     endRemoveRows();
+
+    validation({key_sequence});
+  }
+}
+
+void ShortcutsTableModel::validation(const QSet<QKeySequence> &key_sequences)
+{
+  auto duplicated_shortcuts = QMultiMap<QKeySequence, int>{};
+  for (auto i = 0; i < m_actions.size(); ++i)
+  {
+    if (!key_sequences.contains(m_actions[i].key_sequence)) continue;
+    duplicated_shortcuts.insert(m_actions[i].key_sequence, i);
+  }
+
+  for (const auto &current_key_sequence : duplicated_shortcuts.keys())
+  {
+    auto indexes = duplicated_shortcuts.values(current_key_sequence);
+    for (auto &i : indexes)
+    {
+      const auto empty = m_actions[i].key_sequence.isEmpty();
+      const auto changed =
+        (indexes.size() == 1 || empty) != (m_actions[i].valid);
+
+      if (changed)
+      {
+        m_actions[i].valid = !m_actions[i].valid;
+        Q_EMIT dataChanged(index(i, 0), index(i, 1));
+      }
+    }
   }
 }

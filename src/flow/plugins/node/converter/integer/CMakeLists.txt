@@ -24,8 +24,7 @@ set(includes
         ${include_root}/integer_to_string_converter.h
         ${include_root}/type_converter_factory.h)
 
-set(resources
-        ${resources_root}/plugin_integer_converter_images.qrc)
+set(resources)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

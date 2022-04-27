@@ -22,8 +22,7 @@ set(includes
         ${include_root}/floating_point_to_string_converter.h
         ${include_root}/type_converter_factory.h)
 
-set(resources
-        ${resources_root}/plugin_floating_point_converter_images.qrc)
+set(resources)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

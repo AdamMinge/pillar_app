@@ -82,7 +82,7 @@ QString FlowTypeConvertersTreeFactoriesItem::getName() const
 
 QIcon FlowTypeConvertersTreeFactoriesItem::getIcon() const
 {
-  return m_factories->getIcon();
+  return QIcon(":/plugins/document/flow/images/32x32/factories.png");
 }
 
 Qt::ItemFlags FlowTypeConvertersTreeFactoriesItem::flags() const
@@ -110,7 +110,8 @@ QString FlowTypeConvertersTreeFactoryItem::getName() const
 
 QIcon FlowTypeConvertersTreeFactoryItem::getIcon() const
 {
-  return m_factory->getIcon();
+  return QIcon(
+    ":/plugins/document/flow/images/32x32/type_converter_factory.png");
 }
 
 Qt::ItemFlags FlowTypeConvertersTreeFactoryItem::flags() const

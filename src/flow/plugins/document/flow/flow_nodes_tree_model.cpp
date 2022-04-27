@@ -76,7 +76,7 @@ QString FlowNodesTreeFactoriesItem::getName() const
 
 QIcon FlowNodesTreeFactoriesItem::getIcon() const
 {
-  return m_factories->getIcon();
+  return QIcon(":/plugins/document/flow/images/32x32/factories.png");
 }
 
 Qt::ItemFlags FlowNodesTreeFactoriesItem::flags() const
@@ -101,7 +101,10 @@ QString FlowNodesTreeFactoryItem::getName() const
   return m_factory->getName();
 }
 
-QIcon FlowNodesTreeFactoryItem::getIcon() const { return m_factory->getIcon(); }
+QIcon FlowNodesTreeFactoryItem::getIcon() const
+{
+  return QIcon(":/plugins/document/flow/images/32x32/node_factory.png");
+}
 
 Qt::ItemFlags FlowNodesTreeFactoryItem::flags() const
 {

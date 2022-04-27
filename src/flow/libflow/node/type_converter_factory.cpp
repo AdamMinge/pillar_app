@@ -8,20 +8,18 @@ namespace flow::node
 
   /* -------------------------- TypeConverterFactory ------------------------ */
 
-  TypeConverterFactory::TypeConverterFactory(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  TypeConverterFactory::TypeConverterFactory(QString name)
+      : m_name(std::move(name))
   {}
 
   TypeConverterFactory::~TypeConverterFactory() = default;
 
   QString TypeConverterFactory::getName() const { return m_name; }
 
-  QIcon TypeConverterFactory::getIcon() const { return m_icon; }
-
   /* -------------------------- TypeConverterFactories ---------------------- */
 
-  TypeConverterFactories::TypeConverterFactories(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  TypeConverterFactories::TypeConverterFactories(QString name)
+      : m_name(std::move(name))
   {}
 
   TypeConverterFactories::~TypeConverterFactories() = default;
@@ -64,7 +62,5 @@ namespace flow::node
   }
 
   QString TypeConverterFactories::getName() const { return m_name; }
-
-  QIcon TypeConverterFactories::getIcon() const { return m_icon; }
 
 }// namespace flow::node

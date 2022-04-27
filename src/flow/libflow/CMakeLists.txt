@@ -29,8 +29,10 @@ set(sources
 
         ${source_root}/project/project.cpp
         ${source_root}/project/project_format.cpp
+        ${source_root}/project/project_manager.cpp
 
         ${source_root}/document/document.cpp
+        ${source_root}/document/document_manager.cpp
         ${source_root}/document/document_editor.cpp
         ${source_root}/document/document_format.cpp
         ${source_root}/document/new_document_widget.cpp
@@ -77,8 +79,10 @@ set(includes
 
         ${include_root}/project/project.h
         ${include_root}/project/project_format.h
+        ${include_root}/project/project_manager.h
 
         ${include_root}/document/document.h
+        ${include_root}/document/document_manager.h
         ${include_root}/document/document_editor.h
         ${include_root}/document/document_format.h
         ${include_root}/document/new_document_widget.h
@@ -123,5 +127,6 @@ flow_add_module(lib_flow
         DEPENDS_PRIVATE
         Qt6::Widgets
         Qt6::Qml
-        utils::dialog)
+        utils::dialog
+        utils::file_system_watcher)
 # -------------------------------------------------------------------------------------------------- #

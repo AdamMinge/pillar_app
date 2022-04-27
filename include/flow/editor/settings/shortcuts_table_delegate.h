@@ -14,6 +14,10 @@ public:
   explicit ShortcutsTableDelegate(QObject *parent = nullptr);
   ~ShortcutsTableDelegate() override;
 
+  void paint(
+    QPainter *painter, const QStyleOptionViewItem &option,
+    const QModelIndex &index) const override;
+
   [[nodiscard]] QWidget *createEditor(
     QWidget *parent, const QStyleOptionViewItem &option,
     const QModelIndex &index) const override;
@@ -21,9 +25,6 @@ public:
   void setModelData(
     QWidget *editor, QAbstractItemModel *model,
     const QModelIndex &index) const override;
-  bool editorEvent(
-    QEvent *event, QAbstractItemModel *model,
-    const QStyleOptionViewItem &option, const QModelIndex &index) override;
 };
 
 #endif//FLOW_SHORTCUTS_TABLE_DELEGATE_H

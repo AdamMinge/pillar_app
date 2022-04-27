@@ -8,20 +8,18 @@ namespace flow::node
 
   /* ------------------------------- NodeFactory ---------------------------- */
 
-  NodeFactory::NodeFactory(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  NodeFactory::NodeFactory(QString name)
+      : m_name(std::move(name))
   {}
 
   NodeFactory::~NodeFactory() = default;
 
   QString NodeFactory::getName() const { return m_name; }
 
-  QIcon NodeFactory::getIcon() const { return m_icon; }
-
   /* ------------------------------ NodeFactories --------------------------- */
 
-  NodeFactories::NodeFactories(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  NodeFactories::NodeFactories(QString name)
+      : m_name(std::move(name))
   {}
 
   NodeFactories::~NodeFactories() = default;
@@ -60,7 +58,5 @@ namespace flow::node
   }
 
   QString NodeFactories::getName() const { return m_name; }
-
-  QIcon NodeFactories::getIcon() const { return m_icon; }
 
 }// namespace flow::node

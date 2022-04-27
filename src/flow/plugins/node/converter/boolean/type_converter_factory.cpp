@@ -5,19 +5,19 @@
 /* -------------------------------------------------------------------------- */
 
 BooleanConverterFactories::BooleanConverterFactories()
-    : flow::node::TypeConverterFactories(tr("Boolean"), QIcon(""))
+    : flow::node::TypeConverterFactories(tr("Boolean"))
 {
   registerFactory(
     QLatin1String("BooleanToFloatingPoint"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<BooleanToFloatingPointConverter>>(
-      tr("Boolean -> Floating Point"), QIcon("")));
+      tr("Floating Point")));
 
   registerFactory(
     QLatin1String("BooleanToInteger"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<BooleanToIntegerConverter>>(
-      tr("Boolean -> Integer"), QIcon("")));
+      tr("Integer")));
 }
 
 BooleanConverterFactories::~BooleanConverterFactories() = default;

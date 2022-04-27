@@ -2,7 +2,6 @@
 #include "flow/editor/main_window.h"
 #include "flow/editor/about_dialog.h"
 #include "flow/editor/project/no_project_window.h"
-#include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/project_window.h"
 #include "flow/editor/settings/settings_dialog.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -14,6 +13,7 @@
 #include <flow/libflow/plugin_manager.h>
 #include <flow/libflow/preferences_manager.h>
 #include <flow/libflow/project/project.h>
+#include <flow/libflow/project/project_manager.h>
 #include <flow/libflow/style_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/action/action.h>
@@ -105,7 +105,8 @@ void MainWindow::initUi()
   m_stacked_widget->addWidget(m_project_window);
   m_stacked_widget->addWidget(m_no_project_window);
 
-  currentProjectChanged(ProjectManager::getInstance().getCurrentProject());
+  currentProjectChanged(
+    flow::project::ProjectManager::getInstance().getCurrentProject());
 
   setCentralWidget(m_stacked_widget);
 }
@@ -118,8 +119,9 @@ void MainWindow::initConnections()
   connect(m_exit_action, &QAction::triggered, this, &MainWindow::close);
 
   connect(
-    &ProjectManager::getInstance(), &ProjectManager::currentProjectChanged,
-    this, &MainWindow::currentProjectChanged);
+    &flow::project::ProjectManager::getInstance(),
+    &flow::project::ProjectManager::currentProjectChanged, this,
+    &MainWindow::currentProjectChanged);
 }
 
 void MainWindow::writePlugins()

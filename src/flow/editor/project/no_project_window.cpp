@@ -5,10 +5,10 @@
 #include <flow/libflow/preferences_manager.h>
 #include <flow/libflow/project/project.h>
 #include <flow/libflow/project/project_format.h>
+#include <flow/libflow/project/project_manager.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/new_project_dialog.h"
 #include "flow/editor/project/no_project_window.h"
-#include "flow/editor/project/project_manager.h"
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
 /* ----------------------------------- Utils -------------------------------- */
@@ -89,7 +89,8 @@ void NoProjectWindow::openProject()
   if (file_name.isEmpty()) return;
 
   QString error;
-  if (!ProjectManager::getInstance().loadProject(file_name, &error))
+  if (!flow::project::ProjectManager::getInstance().loadProject(
+        file_name, &error))
   {
     QMessageBox::critical(this, tr("Error Opening File"), error);
     return;
@@ -106,7 +107,7 @@ void NoProjectWindow::createProject()
   {
     auto project_ptr = project.get();
 
-    ProjectManager::getInstance().addProject(std::move(project));
+    flow::project::ProjectManager::getInstance().addProject(std::move(project));
     flow::PreferencesManager::getInstance().addRecentProjectFile(
       project_ptr->getFileName());
   }
@@ -116,7 +117,7 @@ void NoProjectWindow::openRecentProject(const QModelIndex &index)
 {
   auto project_path =
     index.data(RecentProjectListModel::Role::ProjectPathRole).toString();
-  ProjectManager::getInstance().loadProject(project_path);
+  flow::project::ProjectManager::getInstance().loadProject(project_path);
 }
 
 void NoProjectWindow::searchRecentProject(const QString &search)

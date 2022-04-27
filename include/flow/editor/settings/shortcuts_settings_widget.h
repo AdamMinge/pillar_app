@@ -38,6 +38,10 @@ private:
 
 private Q_SLOTS:
   void searchAction(const QString &search);
+  void contextMenu(const QPoint& pos);
+
+  void setDefaultShortcuts(const QList<QModelIndex>& indexes);
+  void clearShortcuts(const QList<QModelIndex>& indexes);
 
 private:
   QScopedPointer<Ui::ShortcutsSettingsWidget> m_ui;

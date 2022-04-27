@@ -40,14 +40,17 @@ namespace utils
     void setBrowserDir(const QDir &dir);
     [[nodiscard]] QDir getBrowserDir() const;
 
+    void setName(const QString &name);
     [[nodiscard]] QString getName() const;
+
+    void setPath(const QString &path);
     [[nodiscard]] QString getPath() const;
 
     [[nodiscard]] bool isValid() const;
 
   Q_SIGNALS:
-    void nameChanged(const QString &name);
-    void pathChanged(const QString &name);
+    void nameChanged(const QString &name);// clazy:exclude=overloaded-signal
+    void pathChanged(const QString &name);// clazy:exclude=overloaded-signal
     bool validStateChanged(bool isValid);
 
   protected:
@@ -75,7 +78,8 @@ namespace utils
   enum class QtNameAndPathFiller::NameValidation
   {
     NotEmpty = 1 << 0,
-    All = NotEmpty
+    Unique = 1 << 1,
+    All = NotEmpty | Unique
   };
 
   enum class QtNameAndPathFiller::PathValidation

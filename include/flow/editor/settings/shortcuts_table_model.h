@@ -17,7 +17,9 @@ public:
   {
     ActionColumn,
     ShortcutColumn,
-    ActionIdColumn
+    ActionIdColumn,
+    ValidColumn,
+    AppliedColumn,
   };
 
 public:
@@ -26,6 +28,7 @@ public:
 
   bool apply();
   [[nodiscard]] bool applied() const;
+  [[nodiscard]] bool isValid() const;
 
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
@@ -44,14 +47,14 @@ private:
   void addedShortcut(const QString &action_id);
   void removedShortcut(const QString &action_id);
 
-Q_SIGNALS:
-  void appliedChanged(bool applied);
+  void validation(const QSet<QKeySequence>& key_sequences);
 
 private:
   struct ShortcutData {
     QAction *action;
     QString action_id;
     QKeySequence key_sequence;
+    bool valid;
   };
 
 private:

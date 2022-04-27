@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/plugins/document/flow">
+        <file>images/32x32/factories.png</file>
+        <file>images/32x32/node_factory.png</file>
+        <file>images/32x32/type_converter_factory.png</file>
+
         <file>images/64x64/flow_document.png</file>
     </qresource>
 </RCC>

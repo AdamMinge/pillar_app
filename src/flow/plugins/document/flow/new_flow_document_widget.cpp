@@ -7,6 +7,8 @@
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/format_helper.h>
 #include <flow/libflow/preferences_manager.h>
+#include <flow/libflow/project/project.h>
+#include <flow/libflow/project/project_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_flow_document_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -28,10 +30,15 @@ NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
     utils::QtNameAndPathFiller::PathValidation::NotEmpty |
     utils::QtNameAndPathFiller::PathValidation::DirExists);
 
-  connect(
-    m_ui->m_name_and_path_filler,
-    &utils::QtNameAndPathFiller::validStateChanged, this,
-    &NewFlowDocumentWidget::validate);
+  const auto project =
+    flow::project::ProjectManager::getInstance().getCurrentProject();
+  const auto path = QFileInfo(project->getFileName()).absoluteDir().path();
+  m_ui->m_name_and_path_filler->setPath(path);
+
+    connect(
+      m_ui->m_name_and_path_filler,
+      &utils::QtNameAndPathFiller::validStateChanged, this,
+      &NewFlowDocumentWidget::validate);
 
   retranslateUi();
 }
@@ -43,29 +50,11 @@ NewFlowDocumentWidget::createDocument()
 {
   if (!isValid()) return nullptr;
 
-  auto format_helper =
-    flow::FormatHelper<FlowDocumentFormat>{flow::FileFormat::Capability::Write};
-  auto format = format_helper.getFormats().isEmpty()
-                  ? nullptr
-                  : format_helper.getFormats().front();
+  const auto name = m_ui->m_name_and_path_filler->getName();
+  const auto path = m_ui->m_name_and_path_filler->getPath();
 
-  auto error = tr("Wrong document format");
-  if (format)
-  {
-    auto document = FlowDocument::create();
-    document->setWriterFormat(format);
-    document->setWriterFormat(format);
-
-    const auto name = m_ui->m_name_and_path_filler->getName();
-    const auto path = m_ui->m_name_and_path_filler->getPath();
-    const auto file_name =
-      QDir(path).filePath(name + "." + format->getShortName());
-
-    if (document->save(file_name, &error)) return document;
-  }
-
-  QMessageBox::critical(this, tr("Error Document Creation"), error);
-  return nullptr;
+  return flow::document::NewDocumentWidget::createDocument<
+    FlowDocument, FlowDocumentFormat>(name, path);
 }
 
 void NewFlowDocumentWidget::changeEvent(QEvent *event)
