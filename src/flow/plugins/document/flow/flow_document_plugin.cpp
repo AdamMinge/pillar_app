@@ -16,5 +16,4 @@ void FlowDocumentPlugin::init()
   addObject(new FlowScriptModule);
   addObject(new FlowDocumentFormatFlow);
   addObject(new NewFlowDocumentWidgetFactory);
-  addObject(new NewFlowDocumentWidgetFactory);
 }

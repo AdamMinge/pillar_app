@@ -24,9 +24,6 @@ public:
 
 protected:
   explicit FlowDocument(QObject *parent = nullptr);
-
-private:
-  QList<flow::node::Node*> m_nodes;
 };
 
 #endif//FLOW_FLOW_DOCUMENT_H
