@@ -7,6 +7,11 @@
 #include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
+namespace flow::node
+{
+  class Node;
+}
+
 class FLOW_DOCUMENT_API FlowDocument : public flow::document::Document
 {
   Q_OBJECT
@@ -19,6 +24,9 @@ public:
 
 protected:
   explicit FlowDocument(QObject *parent = nullptr);
+
+private:
+  QList<flow::node::Node*> m_nodes;
 };
 
 #endif//FLOW_FLOW_DOCUMENT_H

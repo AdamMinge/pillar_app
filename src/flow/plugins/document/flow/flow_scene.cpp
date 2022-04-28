@@ -44,7 +44,6 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
   } else if (mime_data->hasFormat(QLatin1String("flow/type_converter")))
   {
-    // const auto data = mime_data->data(QLatin1String("flow/type_converter"));
     // TODO Implementation
   }
 }

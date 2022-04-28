@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="Docker [Ubuntu] (43619900-2c33-41cf-97cb-fd32740d73ae)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../egnim" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
