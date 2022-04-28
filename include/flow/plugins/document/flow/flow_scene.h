@@ -8,6 +8,11 @@
 #include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
+namespace flow::node
+{
+  class Node;
+}
+
 class FlowDocument;
 
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene
@@ -25,6 +30,10 @@ protected:
   void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
   void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
   void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+
+private Q_SLOTS:
+  void addedNode(flow::node::Node *node);
+  void removedNode(flow::node::Node *node);
 
 private:
   bool isAcceptable(const QMimeData *mime_data) const;
