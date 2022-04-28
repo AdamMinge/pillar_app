@@ -10,28 +10,24 @@ IntegerConverterFactories::IntegerConverterFactories()
     : flow::node::TypeConverterFactories(tr("Integer"))
 {
   registerFactory(
-    QLatin1String("IntegerToCharacter"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<IntegerToCharacterConverter>>(
-      tr("Character")));
+      tr("Character"), QLatin1String("IntegerToCharacter")));
 
   registerFactory(
-    QLatin1String("IntegerToFloatingPoint"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<IntegerToFloatingPointConverter>>(
-      tr("Floating Point")));
+      tr("Floating Point"), QLatin1String("IntegerToFloatingPoint")));
 
   registerFactory(
-    QLatin1String("IntegerToString"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<IntegerToStringConverter>>(
-      tr("String")));
+      tr("String"), QLatin1String("IntegerToString")));
 
   registerFactory(
-    QLatin1String("IntegerToBoolean"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<IntegerToBooleanConverter>>(
-      tr("Boolean")));
+      tr("Boolean"), QLatin1String("IntegerToBoolean")));
 }
 
 IntegerConverterFactories::~IntegerConverterFactories() = default;

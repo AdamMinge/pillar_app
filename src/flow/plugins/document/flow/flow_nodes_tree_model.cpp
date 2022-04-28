@@ -263,5 +263,14 @@ void FlowNodesTreeModel::removedObject(flow::node::NodeFactories *factories)
 QByteArray
 FlowNodesTreeModel::createMimeData(const QModelIndexList &indexes) const
 {
-  return QByteArray{};
+  auto nodes = QStringList{};
+  for (auto index : indexes)
+  {
+    auto node_factory =
+      static_cast<FlowNodesTreeFactoryItem *>(index.internalPointer())
+        ->getNodeFactory();
+    nodes << node_factory->getNodeId();
+  }
+
+  return nodes.join(';').toLocal8Bit();
 }

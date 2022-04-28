@@ -9,22 +9,19 @@ CharacterConverterFactories::CharacterConverterFactories()
     : flow::node::TypeConverterFactories(tr("Character"))
 {
   registerFactory(
-    QLatin1String("CharacterToBoolean"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<CharacterToBooleanConverter>>(
-      tr("Boolean")));
+      tr("Boolean"), QLatin1String("CharacterToBoolean")));
 
   registerFactory(
-    QLatin1String("CharacterToInteger"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<CharacterToIntegerConverter>>(
-      tr("Integer")));
+      tr("Integer"), QLatin1String("CharacterToInteger")));
 
   registerFactory(
-    QLatin1String("CharacterToString"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<CharacterToStringConverter>>(
-      tr("String")));
+      tr("String"), QLatin1String("CharacterToString")));
 }
 
 CharacterConverterFactories::~CharacterConverterFactories() = default;

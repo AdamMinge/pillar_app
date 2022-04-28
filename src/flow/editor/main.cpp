@@ -53,9 +53,11 @@ public:
   ~FlowCommandLineParser() override;
 
   [[nodiscard]] bool isWithoutSettings() const { return m_without_settings; };
+  [[nodiscard]] QStringList getPluginsPaths() const { return m_plugins_paths; };
 
 private:
   bool m_without_settings;
+  QStringList m_plugins_paths;
 };
 
 FlowCommandLineParser::FlowCommandLineParser() : m_without_settings(false)
@@ -64,6 +66,11 @@ FlowCommandLineParser::FlowCommandLineParser() : m_without_settings(false)
     {"without-preferences"},
     QObject::tr("Execute application without loading/saving preferences"),
     [this]() { m_without_settings = true; });
+
+  registerOption<QString>(
+    {"plugins-paths"}, QObject::tr("Specified locations of plugins to load"),
+    [this](auto &plugin_path) { m_plugins_paths = plugin_path.split(';'); },
+    QLatin1String("paths"));
 }
 
 FlowCommandLineParser::~FlowCommandLineParser() = default;
@@ -103,6 +110,9 @@ static void parseCommandLine(QApplication &app)
   if (parser.isWithoutSettings())
     flow::PreferencesManager::getInstance().setSettingsType(
       flow::PreferencesSettings::Type::Temporary);
+
+  if (auto paths = parser.getPluginsPaths(); !paths.isEmpty())
+    flow::PluginManager::getInstance().setDefaultPluginsPaths(paths);
 }
 
 /* ----------------------------------- main --------------------------------- */

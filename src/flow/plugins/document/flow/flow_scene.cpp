@@ -42,9 +42,9 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     for (auto &node_id : data.split(';'))
       m_flow_document->getUndoStack()->push(new AddNodeCommand(this, node_id));
 
-  } else if (mime_data->hasFormat(QLatin1String("flow/converter")))
+  } else if (mime_data->hasFormat(QLatin1String("flow/type_converter")))
   {
-    const auto data = mime_data->data(QLatin1String("flow/converter"));
+    // const auto data = mime_data->data(QLatin1String("flow/type_converter"));
     // TODO Implementation
   }
 }
@@ -53,7 +53,7 @@ bool FlowScene::isAcceptable(const QMimeData *mime_data) const
 {
   if (
     mime_data->hasFormat(QLatin1String("flow/node")) ||
-    mime_data->hasFormat(QLatin1String("flow/converter")))
+    mime_data->hasFormat(QLatin1String("flow/type_converter")))
     return true;
 
   return false;

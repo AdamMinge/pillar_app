@@ -8,16 +8,14 @@ BooleanConverterFactories::BooleanConverterFactories()
     : flow::node::TypeConverterFactories(tr("Boolean"))
 {
   registerFactory(
-    QLatin1String("BooleanToFloatingPoint"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<BooleanToFloatingPointConverter>>(
-      tr("Floating Point")));
+      tr("Floating Point"), QLatin1String("BooleanToFloatingPoint")));
 
   registerFactory(
-    QLatin1String("BooleanToInteger"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<BooleanToIntegerConverter>>(
-      tr("Integer")));
+      tr("Integer"), QLatin1String("BooleanToInteger")));
 }
 
 BooleanConverterFactories::~BooleanConverterFactories() = default;

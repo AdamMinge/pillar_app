@@ -3,7 +3,24 @@
 #include "flow/plugins/document/flow/flow_scene.h"
 /* ----------------------------------- LibFlow ------------------------------ */
 #include <flow/libflow/node/node.h>
+#include <flow/libflow/node/node_factory.h>
+#include <flow/libflow/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
+
+namespace
+{
+  flow::node::NodeFactory *getNodeFactory(const QString &node_to_create_id)
+  {
+    auto node_factories_list = flow::PluginManager::getInstance()
+                                 .getObjects<flow::node::NodeFactories>();
+
+    for (auto node_factories : node_factories_list)
+      if (auto factory = node_factories->getFactory(node_to_create_id); factory)
+        return factory;
+
+    Q_ASSERT(false);
+  }
+};// namespace
 
 /* ---------------------------- AddRemoveNodeCommand ------------------------ */
 
@@ -11,15 +28,15 @@ AddRemoveNodeCommand::AddRemoveNodeCommand(
   QString name, FlowScene *scene, flow::node::Node *node_to_remove,
   flow::command::Command *parent)
     : flow::command::Command(std::move(name), parent), m_scene(scene),
-      m_node_to_remove(node_to_remove), m_node_to_create_id()
+      m_node_to_remove(node_to_remove), m_node_factory()
 {}
 
 AddRemoveNodeCommand::AddRemoveNodeCommand(
-  QString name, FlowScene *scene, QString node_to_create_id,
+  QString name, FlowScene *scene, const QString &node_to_create_id,
   flow::command::Command *parent)
     : flow::command::Command(std::move(name), parent), m_scene(scene),
       m_node_to_remove(nullptr),
-      m_node_to_create_id(std::move(node_to_create_id))
+      m_node_factory(getNodeFactory(node_to_create_id))
 {}
 
 AddRemoveNodeCommand::~AddRemoveNodeCommand() = default;
@@ -27,7 +44,8 @@ AddRemoveNodeCommand::~AddRemoveNodeCommand() = default;
 void AddRemoveNodeCommand::addNode()
 {
   Q_ASSERT(!m_node_to_remove);
-  //m_scene->addItem()
+  m_node_to_remove = m_node_factory->create().release();
+  m_scene->addItem(m_node_to_remove);
 }
 
 void AddRemoveNodeCommand::removeNode()
@@ -40,9 +58,9 @@ void AddRemoveNodeCommand::removeNode()
 /* ------------------------------ AddNodeCommand ---------------------------- */
 
 AddNodeCommand::AddNodeCommand(
-  FlowScene *scene, QString node_to_create_id, Command *parent)
+  FlowScene *scene, const QString &node_to_create_id, Command *parent)
     : AddRemoveNodeCommand(
-        QLatin1String("AddNode"), scene, std::move(node_to_create_id), parent)
+        QLatin1String("AddNode"), scene, node_to_create_id, parent)
 {
   setText(QObject::tr("Add Node"));
 }

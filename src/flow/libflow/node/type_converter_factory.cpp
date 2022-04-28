@@ -8,13 +8,20 @@ namespace flow::node
 
   /* -------------------------- TypeConverterFactory ------------------------ */
 
-  TypeConverterFactory::TypeConverterFactory(QString name)
-      : m_name(std::move(name))
+  TypeConverterFactory::TypeConverterFactory(
+    QString name, QString type_converter_id)
+      : m_name(std::move(name)),
+        m_type_converter_id(std::move(type_converter_id))
   {}
 
   TypeConverterFactory::~TypeConverterFactory() = default;
 
   QString TypeConverterFactory::getName() const { return m_name; }
+
+  QString TypeConverterFactory::getTypeConverterId() const
+  {
+    return m_type_converter_id;
+  }
 
   /* -------------------------- TypeConverterFactories ---------------------- */
 
@@ -25,11 +32,11 @@ namespace flow::node
   TypeConverterFactories::~TypeConverterFactories() = default;
 
   void TypeConverterFactories::registerFactory(
-    QString type_converter_id, std::unique_ptr<TypeConverterFactory> factory)
+    std::unique_ptr<TypeConverterFactory> factory)
   {
-    Q_ASSERT(!m_factories.contains(type_converter_id));
-    m_factories.insert(
-      std::make_pair(std::move(type_converter_id), std::move(factory)));
+    Q_ASSERT(!m_factories.contains(factory->getTypeConverterId()));
+    m_factories.insert(std::make_pair(
+      std::move(factory->getTypeConverterId()), std::move(factory)));
   }
 
   void

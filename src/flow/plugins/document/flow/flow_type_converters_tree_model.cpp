@@ -286,5 +286,14 @@ void FlowTypeConvertersTreeModel::removedObject(
 QByteArray FlowTypeConvertersTreeModel::createMimeData(
   const QModelIndexList &indexes) const
 {
-  return QByteArray{};
+  auto type_converters = QStringList{};
+  for (auto index : indexes)
+  {
+    auto type_converter_factory =
+      static_cast<FlowTypeConvertersTreeFactoryItem *>(index.internalPointer())
+        ->getTypeConverterFactory();
+    type_converters << type_converter_factory->getTypeConverterId();
+  }
+
+  return type_converters.join(';').toLocal8Bit();
 }

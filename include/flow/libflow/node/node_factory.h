@@ -18,15 +18,17 @@ namespace flow::node
     Q_OBJECT
 
   public:
-    explicit NodeFactory(QString name);
+    explicit NodeFactory(QString name, QString node_id);
     ~NodeFactory() override;
 
     [[nodiscard]] virtual std::unique_ptr<Node> create() const = 0;
 
     [[nodiscard]] QString getName() const;
+    [[nodiscard]] QString getNodeId() const;
 
   private:
     QString m_name;
+    QString m_node_id;
   };
 
   template<typename TYPE>
@@ -34,14 +36,15 @@ namespace flow::node
   class LIB_FLOW_API BaseNodeFactory : public NodeFactory
   {
   public:
-    explicit BaseNodeFactory(QString name);
+    explicit BaseNodeFactory(QString name, QString node_id);
 
     [[nodiscard]] std::unique_ptr<Node> create() const override;
   };
 
   template<typename TYPE>
   requires std::derived_from<TYPE, Node>
-  BaseNodeFactory<TYPE>::BaseNodeFactory(QString name) : NodeFactory(name)
+  BaseNodeFactory<TYPE>::BaseNodeFactory(QString name, QString node_id)
+      : NodeFactory(std::move(name), std::move(node_id))
   {}
 
   template<typename TYPE>
@@ -57,7 +60,7 @@ namespace flow::node
     explicit NodeFactories(QString name);
     ~NodeFactories() override;
 
-    void registerFactory(QString node_id, std::unique_ptr<NodeFactory> factory);
+    void registerFactory(std::unique_ptr<NodeFactory> factory);
     void unregisterFactory(const QString &node_id);
 
     [[nodiscard]] QStringList getNodeIds() const;

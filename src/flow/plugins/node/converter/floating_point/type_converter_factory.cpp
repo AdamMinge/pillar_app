@@ -9,22 +9,19 @@ FloatingPointConverterFactories::FloatingPointConverterFactories()
     : flow::node::TypeConverterFactories(tr("Floating Point"))
 {
   registerFactory(
-    QLatin1String("FloatingPointToInteger"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<FloatingPointToIntegerConverter>>(
-      tr("Integer")));
+      tr("Integer"), QLatin1String("FloatingPointToInteger")));
 
   registerFactory(
-    QLatin1String("FloatingPointToString"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<FloatingPointToStringConverter>>(
-      tr("String")));
+      tr("String"), QLatin1String("FloatingPointToString")));
 
   registerFactory(
-    QLatin1String("FloatingPointToBoolean"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<FloatingPointToBooleanConverter>>(
-      tr("Boolean")));
+      tr("Boolean"), QLatin1String("FloatingPointToBoolean")));
 }
 
 FloatingPointConverterFactories::~FloatingPointConverterFactories() = default;
