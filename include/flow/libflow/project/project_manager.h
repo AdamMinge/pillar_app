@@ -42,7 +42,7 @@ namespace flow::project
     bool loadProject(const QString &file_name, QString *error = nullptr);
 
   Q_SIGNALS:
-    void currentProjectChanged(Project *project);
+    void currentProjectChanged(flow::project::Project *project);
 
   protected:
     explicit ProjectManager();

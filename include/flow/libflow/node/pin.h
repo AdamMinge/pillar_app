@@ -29,12 +29,12 @@ namespace flow::node
 
   public Q_SLOTS:
     void setCaption(const QString &caption);
-    void setData(const NodeData &data);
+    void setData(const flow::node::NodeData &data);
     void setPolicy(Pin::Policy policy);
 
   Q_SIGNALS:
     void captionChanged(const QString &caption);
-    void dataChanged(const NodeData &data);
+    void dataChanged(const flow::node::NodeData &data);
     void policyChanged(Pin::Policy policy);
 
   private:

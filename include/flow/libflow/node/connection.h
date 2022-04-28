@@ -28,10 +28,10 @@ namespace flow::node
     [[nodiscard]] std::shared_ptr<TypeConverter> getConverter() const;
 
   Q_SIGNALS:
-    void converterChanged(std::shared_ptr<TypeConverter> converter);
+    void converterChanged(std::shared_ptr<flow::node::TypeConverter> converter);
 
   private Q_SLOTS:
-    void transferData(const NodeData &data);
+    void transferData(const flow::node::NodeData &data);
 
   private:
     Pin &m_in;
