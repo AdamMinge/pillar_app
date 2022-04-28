@@ -11,7 +11,7 @@ namespace flow::node
 {
   class Node;
   class NodeFactory;
-}
+}// namespace flow::node
 
 class FlowScene;
 
@@ -22,7 +22,7 @@ public:
     QString name, FlowScene *scene, flow::node::Node *node_to_remove,
     flow::command::Command *parent = nullptr);
   explicit AddRemoveNodeCommand(
-    QString name, FlowScene *scene, const QString& node_to_create_id,
+    QString name, FlowScene *scene, const QString &node_to_create_id,
     flow::command::Command *parent = nullptr);
   ~AddRemoveNodeCommand() override;
 
@@ -33,14 +33,14 @@ protected:
 private:
   FlowScene *m_scene;
   flow::node::Node *m_node_to_remove;
-  flow::node::NodeFactory* m_node_factory;
+  flow::node::NodeFactory *m_node_factory;
 };
 
 class AddNodeCommand : public AddRemoveNodeCommand
 {
 public:
   explicit AddNodeCommand(
-    FlowScene *scene, const QString& node_to_create_id,
+    FlowScene *scene, const QString &node_to_create_id,
     flow::command::Command *parent = nullptr);
   ~AddNodeCommand() override;
 

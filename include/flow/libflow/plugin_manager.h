@@ -26,7 +26,7 @@ namespace flow
     void setDefaultPluginsPaths(QStringList plugins_paths);
     [[nodiscard]] QStringList getDefaultPluginsPaths() const;
 
-    void loadPlugins(const QStringList& plugins_paths = {});
+    void loadPlugins(const QStringList &plugins_paths = {});
     [[nodiscard]] std::list<Plugin *> getPlugins();
     [[nodiscard]] std::list<Plugin *> getStaticPlugins();
     [[nodiscard]] std::list<Plugin *> getDynamicPlugins();
