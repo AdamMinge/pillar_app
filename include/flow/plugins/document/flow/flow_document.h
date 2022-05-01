@@ -28,14 +28,14 @@ public:
   void removeNode(flow::node::Node *node);
 
 Q_SIGNALS:
-  void addedNode(flow::node::Node *node);
-  void removedNode(flow::node::Node *node);
+  void nodeAdded(flow::node::Node *node);
+  void nodeRemoved(flow::node::Node *node);
 
 protected:
   explicit FlowDocument(QObject *parent = nullptr);
 
 private:
-  QList<QPointer<flow::node::Node>> m_nodes;
+  QList<flow::node::Node *> m_nodes;
 };
 
 #endif//FLOW_FLOW_DOCUMENT_H

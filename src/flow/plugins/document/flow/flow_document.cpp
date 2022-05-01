@@ -14,21 +14,17 @@ FlowDocument::FlowDocument(QObject *parent)
     : Document(QLatin1String("FlowDocument"), parent)
 {}
 
-FlowDocument::~FlowDocument()
-{
-  for (auto &node : m_nodes)
-    if (node) node->deleteLater();
-}
+FlowDocument::~FlowDocument() { qDeleteAll(m_nodes); }
 
 void FlowDocument::addNode(flow::node::Node *node)
 {
   m_nodes.append(QPointer<flow::node::Node>(node));
-  Q_EMIT addedNode(node);
+  Q_EMIT nodeAdded(node);
 }
 
 void FlowDocument::removeNode(flow::node::Node *node)
 {
   m_nodes.removeOne(node);
-  Q_EMIT removedNode(node);
+  Q_EMIT nodeRemoved(node);
   node->deleteLater();
 }

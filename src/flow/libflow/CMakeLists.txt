@@ -44,7 +44,6 @@ set(sources
 
         ${source_root}/node/connection.cpp
         ${source_root}/node/node.cpp
-        ${source_root}/node/node_painter.cpp
         ${source_root}/node/pin.cpp
         ${source_root}/node/node_factory.cpp
         ${source_root}/node/type_converter_factory.cpp
@@ -95,7 +94,6 @@ set(includes
         ${include_root}/node/connection.h
         ${include_root}/node/node.h
         ${include_root}/node/node_data.h
-        ${include_root}/node/node_painter.h
         ${include_root}/node/pin.h
         ${include_root}/node/type_converter.h
         ${include_root}/node/node_factory.h

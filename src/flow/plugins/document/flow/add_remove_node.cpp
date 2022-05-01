@@ -30,7 +30,7 @@ AddRemoveNodeCommand::AddRemoveNodeCommand(
   flow::command::Command *parent)
     : flow::command::Command(std::move(name), parent), m_document(document),
       m_node_to_remove(node_to_remove), m_node_factory(),
-      m_pos(m_node_to_remove->pos())
+      m_pos(m_node_to_remove->getPosition())
 {}
 
 AddRemoveNodeCommand::AddRemoveNodeCommand(
@@ -47,7 +47,7 @@ void AddRemoveNodeCommand::addNode()
 {
   Q_ASSERT(!m_node_to_remove);
   m_node_to_remove = m_node_factory->create().release();
-  m_node_to_remove->setPos(m_pos);
+  m_node_to_remove->setPosition(m_pos);
   m_document->addNode(m_node_to_remove);
 }
 

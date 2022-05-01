@@ -5,6 +5,7 @@
 #include <QHash>
 #include <QPointer>
 #include <QStackedWidget>
+#include <QToolBar>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/document/document_editor.h>
 /* ----------------------------------- Local -------------------------------- */
@@ -20,6 +21,7 @@ class FlowDocument;
 
 class FlowNodesDock;
 class FlowConvertersDock;
+class FlowAbstractTool;
 class FlowView;
 
 class FLOW_DOCUMENT_API FlowEditor : public flow::document::DocumentEditor
@@ -54,6 +56,9 @@ public:
 
   [[nodiscard]] QString getDocumentId() const override;
 
+private Q_SLOTS:
+  void toolSelected(FlowAbstractTool *tool);
+
 private:
   void initUi();
   void initConnections();
@@ -62,6 +67,7 @@ private:
   FlowDocument *m_current_document;
   QPointer<QMainWindow> m_main_window;
 
+  QToolBar *m_tool_bar;
   QStackedWidget *m_scene_stack;
   FlowNodesDock *m_nodes_dock;
   FlowConvertersDock *m_converters_dock;

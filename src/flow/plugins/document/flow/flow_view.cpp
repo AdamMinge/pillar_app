@@ -11,6 +11,7 @@ FlowView::FlowView(QWidget *parent)
 {
   setDragMode(QGraphicsView::ScrollHandDrag);
   setRenderHint(QPainter::Antialiasing);
+  setMouseTracking(true);
 
   setBackgroundBrush(m_background_color);
 
@@ -157,4 +158,10 @@ void FlowView::mouseMoveEvent(QMouseEvent *event)
       setSceneRect(sceneRect().translated(difference.x(), difference.y()));
     }
   }
+}
+
+void FlowView::showEvent(QShowEvent *event)
+{
+  scene()->setSceneRect(rect());
+  QGraphicsView::showEvent(event);
 }

@@ -31,6 +31,7 @@ protected:
   void keyReleaseEvent(QKeyEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
+  void showEvent(QShowEvent *event) override;
 
 private:
   QPointF m_mouse_click_pos;
