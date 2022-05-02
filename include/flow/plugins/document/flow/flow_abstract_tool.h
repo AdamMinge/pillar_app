@@ -45,8 +45,9 @@ public:
   virtual void activate(FlowScene *scene);
   virtual void deactivate(FlowScene *scene);
 
-  virtual void mousePressed(QGraphicsSceneMouseEvent *event) = 0;
-  virtual void mouseReleased(QGraphicsSceneMouseEvent *event) = 0;
+  virtual void mouseMoved(QGraphicsSceneMouseEvent *event);
+  virtual void mousePressed(QGraphicsSceneMouseEvent *event);
+  virtual void mouseReleased(QGraphicsSceneMouseEvent *event);
 
 Q_SIGNALS:
   void enabledChanged(bool enabled);

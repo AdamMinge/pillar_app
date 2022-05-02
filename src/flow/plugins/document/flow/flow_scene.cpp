@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_scene.h"
 #include "flow/plugins/document/flow/add_remove_node.h"
+#include "flow/plugins/document/flow/flow_abstract_tool.h"
 #include "flow/plugins/document/flow/flow_document.h"
 #include "flow/plugins/document/flow/flow_node_item.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -44,7 +45,16 @@ void FlowScene::setSceneDocument(FlowDocument *flow_document)
 
 FlowDocument *FlowScene::getSceneDocument() const { return m_flow_document; }
 
-void FlowScene::setTool(FlowAbstractTool *tool) { m_flow_tool = tool; }
+void FlowScene::setTool(FlowAbstractTool *tool)
+{
+  if (m_flow_tool == tool) return;
+
+  if (m_flow_tool) m_flow_tool->deactivate(this);
+
+  m_flow_tool = tool;
+
+  if (m_flow_tool) m_flow_tool->activate(this);
+}
 
 FlowAbstractTool *FlowScene::getTool() const { return m_flow_tool; }
 
@@ -73,6 +83,39 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event)
   } else if (mime_data->hasFormat(QLatin1String("flow/type_converter")))
   {
     // TODO Implementation
+  }
+}
+
+void FlowScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+  QGraphicsScene::mouseMoveEvent(mouseEvent);
+
+  if (m_flow_tool)
+  {
+    mouseEvent->accept();
+    m_flow_tool->mouseMoved(mouseEvent);
+  }
+}
+
+void FlowScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+  QGraphicsScene::mousePressEvent(mouseEvent);
+
+  if (m_flow_tool)
+  {
+    mouseEvent->accept();
+    m_flow_tool->mousePressed(mouseEvent);
+  }
+}
+
+void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+  QGraphicsScene::mouseReleaseEvent(mouseEvent);
+
+  if (m_flow_tool)
+  {
+    mouseEvent->accept();
+    m_flow_tool->mouseReleased(mouseEvent);
   }
 }
 

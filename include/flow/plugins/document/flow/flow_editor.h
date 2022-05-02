@@ -18,10 +18,10 @@ namespace flow::document
 }
 
 class FlowDocument;
-
 class FlowNodesDock;
 class FlowConvertersDock;
 class FlowAbstractTool;
+class FlowToolsBar;
 class FlowView;
 
 class FLOW_DOCUMENT_API FlowEditor : public flow::document::DocumentEditor
@@ -67,7 +67,7 @@ private:
   FlowDocument *m_current_document;
   QPointer<QMainWindow> m_main_window;
 
-  QToolBar *m_tool_bar;
+  FlowToolsBar *m_tools_bar;
   QStackedWidget *m_scene_stack;
   FlowNodesDock *m_nodes_dock;
   FlowConvertersDock *m_converters_dock;

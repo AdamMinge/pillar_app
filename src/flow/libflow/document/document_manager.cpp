@@ -188,23 +188,17 @@ namespace flow::document
 
   void DocumentManager::removeDocument(int index)
   {
-    auto document_to_remove = getDocument(index);
+    auto document_to_remove = std::move(m_documents[index]);
     Q_ASSERT(document_to_remove);
 
     if (auto editor = getEditor(document_to_remove->getId()); editor)
-      editor->removeDocument(document_to_remove);
+      editor->removeDocument(document_to_remove.get());
 
     if (!document_to_remove->getFileName().isEmpty())
       m_file_system_watcher->removePath(document_to_remove->getFileName());
 
-    auto removed_document_iter = std::remove_if(
-      m_documents.begin(), m_documents.end(),
-      [&document_to_remove](auto &&document) {
-        return document.get() == document_to_remove;
-      });
-
+    std::erase(m_documents, nullptr);
     m_undo_group->removeStack(document_to_remove->getUndoStack());
-    m_documents.erase(removed_document_iter, m_documents.end());
 
     m_tab_bar->removeTab(index);
   }

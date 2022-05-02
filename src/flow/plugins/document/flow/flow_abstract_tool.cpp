@@ -57,3 +57,9 @@ bool FlowAbstractTool::isEnabled() const { return m_enabled; }
 void FlowAbstractTool::activate(FlowScene *scene) {}
 
 void FlowAbstractTool::deactivate(FlowScene *scene) {}
+
+void FlowAbstractTool::mouseMoved(QGraphicsSceneMouseEvent *event) {}
+
+void FlowAbstractTool::mousePressed(QGraphicsSceneMouseEvent *event) {}
+
+void FlowAbstractTool::mouseReleased(QGraphicsSceneMouseEvent *event) {}

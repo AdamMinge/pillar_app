@@ -37,6 +37,10 @@ protected:
   void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
   void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 
+  void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+
 private Q_SLOTS:
   void nodeAdded(flow::node::Node *node);
   void nodeRemoved(flow::node::Node *node);

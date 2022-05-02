@@ -23,7 +23,6 @@ set(sources
         ${source_root}/flow_script_module.cpp
         ${source_root}/flow_selection_tool.cpp
         ${source_root}/flow_tools_bar.cpp
-        ${source_root}/flow_tools_manager.cpp
         ${source_root}/new_flow_document_widget.cpp
         ${source_root}/flow_scene.cpp
         ${source_root}/flow_nodes_dock.cpp
@@ -48,7 +47,6 @@ set(includes
         ${include_root}/flow_script_module.h
         ${include_root}/flow_selection_tool.h
         ${include_root}/flow_tools_bar.h
-        ${include_root}/flow_tools_manager.h
         ${include_root}/flow_node_painter.h
         ${include_root}/flow_document_plugin.h
         ${include_root}/flow_document.h
