@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_nodes_dock.h"
-#include "flow/plugins/document/flow/flow_nodes_tree_delegate.h"
-#include "flow/plugins/document/flow/flow_nodes_tree_model.h"
+#include "flow/plugins/document/flow/component/node/flow_nodes_dock.h"
+#include "flow/plugins/document/flow/component/node/flow_nodes_tree_delegate.h"
+#include "flow/plugins/document/flow/component/node/flow_nodes_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QVBoxLayout>

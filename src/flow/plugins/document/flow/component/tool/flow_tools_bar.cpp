@@ -1,6 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_tools_bar.h"
-#include "flow/plugins/document/flow/flow_selection_tool.h"
+#include "flow/plugins/document/flow/component/tool/flow_tools_bar.h"
+#include "flow/plugins/document/flow/component/tool/flow_selection_tool.h"
 /* -------------------------------------------------------------------------- */
 
 FlowToolsBar::FlowToolsBar(QWidget *parent)

@@ -4,7 +4,9 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAction>
 #include <QCursor>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QIcon>
 #include <QKeySequence>
 #include <QObject>
@@ -53,6 +55,10 @@ Q_SIGNALS:
   void enabledChanged(bool enabled);
   void visibleChanged(bool visible);
 
+protected:
+  [[nodiscard]] static QGraphicsView *findView(QGraphicsSceneEvent *event);
+  [[nodiscard]] static QGraphicsScene *findScene(QGraphicsSceneEvent *event);
+
 private:
   FlowDocument *m_document;
   QString m_name;
@@ -62,6 +68,15 @@ private:
 
   bool m_enabled;
   bool m_visible;
+};
+
+class FLOW_DOCUMENT_API FlowAbstractAction
+{
+public:
+  explicit FlowAbstractAction();
+  virtual ~FlowAbstractAction();
+
+  virtual void update(QGraphicsSceneMouseEvent *event) = 0;
 };
 
 #endif//FLOW_FLOW_ABSTRACT_TOOL_H

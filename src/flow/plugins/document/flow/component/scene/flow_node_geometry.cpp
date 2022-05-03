@@ -1,6 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_node_geometry.h"
-#include "flow/plugins/document/flow/flow_node_item.h"
+#include "flow/plugins/document/flow/component/scene/flow_node_geometry.h"
+#include "flow/plugins/document/flow/component/scene/flow_node_item.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include "flow/libflow/node/node.h"
 /* -------------------------------------------------------------------------- */

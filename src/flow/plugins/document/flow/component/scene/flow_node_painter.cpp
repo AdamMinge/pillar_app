@@ -1,6 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_node_painter.h"
-#include "flow/plugins/document/flow/flow_node_item.h"
+#include "flow/plugins/document/flow/component/scene/flow_node_painter.h"
+#include "flow/plugins/document/flow/component/scene/flow_node_item.h"
 /* -------------------------------------------------------------------------- */
 
 FlowNodePainter::FlowNodePainter(const FlowNodeItem &node_item)

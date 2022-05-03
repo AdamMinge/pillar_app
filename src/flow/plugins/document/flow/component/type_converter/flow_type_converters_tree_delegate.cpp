@@ -1,19 +1,19 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_nodes_tree_delegate.h"
-#include "flow/plugins/document/flow/flow_nodes_tree_model.h"
+#include "flow/plugins/document/flow/component/type_converter/flow_type_converters_tree_delegate.h"
+#include "flow/plugins/document/flow/component/type_converter/flow_type_converters_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QFileInfo>
 #include <QPainter>
 /* -------------------------------------------------------------------------- */
 
-FlowNodesTreeDelegate::FlowNodesTreeDelegate(QObject *parent)
+FlowTypeConvertersTreeDelegate::FlowTypeConvertersTreeDelegate(QObject *parent)
     : QStyledItemDelegate(parent), m_icon_size(16, 16), m_spacing(10)
 {}
 
-FlowNodesTreeDelegate::~FlowNodesTreeDelegate() = default;
+FlowTypeConvertersTreeDelegate::~FlowTypeConvertersTreeDelegate() = default;
 
-void FlowNodesTreeDelegate::paint(
+void FlowTypeConvertersTreeDelegate::paint(
   QPainter *painter, const QStyleOptionViewItem &option,
   const QModelIndex &index) const
 {
@@ -24,11 +24,12 @@ void FlowNodesTreeDelegate::paint(
   auto &rect = opt.rect;
   auto font = QFont(opt.font);
 
-  const auto node_name =
-    index.data(FlowNodesTreeModel::Role::NameRole).toString();
-  const auto node_icon =
-    index.data(FlowNodesTreeModel::Role::IconRole).value<QIcon>();
-  const auto actual_icon_size = node_icon.isNull() ? QSize(0, 0) : m_icon_size;
+  const auto type_converter_name =
+    index.data(FlowTypeConvertersTreeModel::Role::NameRole).toString();
+  const auto type_converter_icon =
+    index.data(FlowTypeConvertersTreeModel::Role::IconRole).value<QIcon>();
+  const auto actual_icon_size =
+    type_converter_icon.isNull() ? QSize(0, 0) : m_icon_size;
   const auto is_root_index = !index.parent().isValid();
 
   painter->save();
@@ -42,10 +43,10 @@ void FlowNodesTreeDelegate::paint(
                                              : palette.light().color());
 
   painter->drawPixmap(
-    rect.left(), rect.top(), node_icon.pixmap(actual_icon_size));
+    rect.left(), rect.top(), type_converter_icon.pixmap(actual_icon_size));
 
   auto node_name_rect =
-    QFontMetrics(font).boundingRect(node_name).adjusted(0, 0, 1, 1);
+    QFontMetrics(font).boundingRect(type_converter_name).adjusted(0, 0, 1, 1);
 
   auto text_rect = rect.adjusted(
     actual_icon_size.width() + m_spacing,
@@ -55,17 +56,16 @@ void FlowNodesTreeDelegate::paint(
 
   painter->setFont(font);
   painter->setPen(palette.text().color());
-  painter->drawText(text_rect, Qt::TextSingleLine, node_name);
+  painter->drawText(text_rect, Qt::TextSingleLine, type_converter_name);
 
   painter->restore();
 }
 
-QSize FlowNodesTreeDelegate::sizeHint(
+QSize FlowTypeConvertersTreeDelegate::sizeHint(
   const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
   QStyleOptionViewItem opt(option);
   initStyleOption(&opt, index);
-
 
   return QSize{
     opt.rect.width(),

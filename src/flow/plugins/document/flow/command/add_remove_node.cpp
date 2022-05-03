@@ -1,7 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/add_remove_node.h"
+#include "flow/plugins/document/flow/command/add_remove_node.h"
 #include "flow/plugins/document/flow/flow_document.h"
-#include "flow/plugins/document/flow/flow_scene.h"
 /* ----------------------------------- LibFlow ------------------------------ */
 #include <flow/libflow/node/node.h>
 #include <flow/libflow/node/node_factory.h>

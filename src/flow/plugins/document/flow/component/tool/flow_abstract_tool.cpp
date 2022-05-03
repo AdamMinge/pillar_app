@@ -1,6 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_abstract_tool.h"
+#include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
 /* -------------------------------------------------------------------------- */
+
+/* ------------------------------ FlowAbstractTool -------------------------- */
 
 FlowAbstractTool::FlowAbstractTool(
   QString name, QIcon icon, QCursor cursor, const QKeySequence &shortcut,
@@ -63,3 +65,22 @@ void FlowAbstractTool::mouseMoved(QGraphicsSceneMouseEvent *event) {}
 void FlowAbstractTool::mousePressed(QGraphicsSceneMouseEvent *event) {}
 
 void FlowAbstractTool::mouseReleased(QGraphicsSceneMouseEvent *event) {}
+
+QGraphicsView *FlowAbstractTool::findView(QGraphicsSceneEvent *event)
+{
+  if (auto view_port = event->widget())
+    return qobject_cast<QGraphicsView *>(view_port->parent());
+  return nullptr;
+}
+
+QGraphicsScene *FlowAbstractTool::findScene(QGraphicsSceneEvent *event)
+{
+  if (auto view = findView(event)) return view->scene();
+  return nullptr;
+}
+
+/* ----------------------------- FlowAbstractAction ------------------------- */
+
+FlowAbstractAction::FlowAbstractAction() = default;
+
+FlowAbstractAction::~FlowAbstractAction() = default;

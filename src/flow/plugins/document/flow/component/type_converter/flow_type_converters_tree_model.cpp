@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/flow_type_converters_tree_model.h"
+#include "flow/plugins/document/flow/component/type_converter/flow_type_converters_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
 /* ---------------------------------- LibFlow ------------------------------- */

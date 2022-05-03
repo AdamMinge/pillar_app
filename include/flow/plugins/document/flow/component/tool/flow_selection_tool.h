@@ -2,8 +2,8 @@
 #define FLOW_FLOW_SELECTION_TOOL_H
 
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
 #include "flow/plugins/document/flow/export.h"
-#include "flow/plugins/document/flow/flow_abstract_tool.h"
 /* -------------------------------------------------------------------------- */
 
 class FLOW_DOCUMENT_API FlowSelectionTool : public FlowAbstractTool
@@ -21,28 +21,9 @@ public:
   void mouseReleased(QGraphicsSceneMouseEvent *event) override;
 
 private:
-  enum class Action;
-
-private:
-  void startSelectingAction();
-  void updateSelectingAction();
-  void endSelectingAction();
-
-  void startMovingAction();
-  void updateMovingAction();
-  void endMovingAction();
-
-private:
-  Action m_action;
+  std::unique_ptr<FlowAbstractAction> m_action;
   Qt::MouseButtons m_mouse_button;
   QPointF m_mouse_click_pos;
-};
-
-enum class FlowSelectionTool::Action
-{
-  Selecting,
-  Moving,
-  NoAction
 };
 
 #endif//FLOW_FLOW_SELECTION_TOOL_H
