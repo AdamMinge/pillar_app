@@ -6,24 +6,16 @@
 /* -------------------------------------------------------------------------- */
 
 LogicNodeFactories::LogicNodeFactories()
-    : flow::node::NodeFactories(tr("Logic"), QIcon())
+    : flow::node::NodeFactories(tr("Logic"))
 {
-  registerFactory(
-    QLatin1String("LogicNodeNot"),
-    std::make_unique<flow::node::BaseNodeFactory<LogicNodeNot>>(
-      tr("Not"),
-      QIcon(":/plugins/node/logic/images/32x32/logic_gate_not.png")));
+  registerFactory(std::make_unique<flow::node::BaseNodeFactory<LogicNodeNot>>(
+    tr("Not"), QLatin1String("LogicNodeNot")));
 
-  registerFactory(
-    QLatin1String("LogicNodeAnd"),
-    std::make_unique<flow::node::BaseNodeFactory<LogicNodeAnd>>(
-      tr("And"),
-      QIcon(":/plugins/node/logic/images/32x32/logic_gate_and.png")));
+  registerFactory(std::make_unique<flow::node::BaseNodeFactory<LogicNodeAnd>>(
+    tr("And"), QLatin1String("LogicNodeAnd")));
 
-  registerFactory(
-    QLatin1String("LogicNodeOr"),
-    std::make_unique<flow::node::BaseNodeFactory<LogicNodeOr>>(
-      tr("Or"), QIcon(":/plugins/node/logic/images/32x32/logic_gate_or.png")));
+  registerFactory(std::make_unique<flow::node::BaseNodeFactory<LogicNodeOr>>(
+    tr("Or"), QLatin1String("LogicNodeOr")));
 }
 
 LogicNodeFactories::~LogicNodeFactories() = default;

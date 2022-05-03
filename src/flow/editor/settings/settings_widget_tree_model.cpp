@@ -15,11 +15,11 @@ SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
 
 bool SettingsWidgetTreeModel::apply()
 {
+  const auto to_apply = m_to_apply;
   std::set<flow::settings::SettingsWidget *> applied_widget;
 
   std::for_each(
-    m_to_apply.begin(), m_to_apply.end(),
-    [&applied_widget](auto settings_widget) {
+    to_apply.begin(), to_apply.end(), [&applied_widget](auto settings_widget) {
       if (settings_widget->apply()) applied_widget.insert(settings_widget);
     });
 

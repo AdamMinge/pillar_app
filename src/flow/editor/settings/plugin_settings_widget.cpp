@@ -4,6 +4,9 @@
 #include "flow/editor/settings/plugin_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
+/* --------------------------------- LibFlow -------------------------------- */
+#include <flow/libflow/document/document.h>
+#include <flow/libflow/document/document_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_plugin_settings_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -54,6 +57,8 @@ void PluginSettingsWidget::initUi()
 
   m_ui->m_plugin_list_view->setModel(m_search_proxy_model.get());
   m_ui->m_plugin_list_view->setItemDelegate(m_plugin_list_delegate.get());
+
+  checkAvailability();
 }
 
 void PluginSettingsWidget::initConnections()
@@ -65,6 +70,11 @@ void PluginSettingsWidget::initConnections()
   connect(
     m_plugin_list_model.get(), &PluginListModel::appliedChanged, this,
     &PluginSettingsWidget::appliedChanged);
+
+  connect(
+    &flow::document::DocumentManager::getInstance(),
+    &flow::document::DocumentManager::currentDocumentChanged, this,
+    &PluginSettingsWidget::checkAvailability);
 }
 
 void PluginSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
@@ -72,6 +82,12 @@ void PluginSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 void PluginSettingsWidget::searchPlugin(const QString &search)
 {
   m_search_proxy_model->setFilterWildcard(search);
+}
+
+void PluginSettingsWidget::checkAvailability()
+{
+  m_ui->m_plugin_list_view->setEnabled(
+    flow::document::DocumentManager::getInstance().getDocuments().empty());
 }
 
 /* ------------------------ PluginSettingsWidgetFactory --------------------- */

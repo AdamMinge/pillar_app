@@ -5,10 +5,11 @@
 #include <QObject>
 #include <QScopedPointer>
 /* ------------------------------------ Qml --------------------------------- */
-#include <QtQml/QJSEngine>
+#include <QtQml/QQmlEngine>
 #include <QtQml/QQmlError>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
+#include "flow/libflow/plugin_listener.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow
@@ -16,7 +17,8 @@ namespace flow
 
   class ScriptModule;
 
-  class LIB_FLOW_API ScriptManager : public QObject
+  class LIB_FLOW_API ScriptManager : public QObject,
+                                     public PluginListener<ScriptModule>
   {
     Q_OBJECT
 
@@ -40,13 +42,16 @@ namespace flow
     [[nodiscard]] QString
     getErrorMessage(const QJSValue &value, const QString &program) const;
 
+    void addedObject(ScriptModule *script_module) override;
+    void removedObject(ScriptModule *script_module) override;
+
   private Q_SLOTS:
     void onScriptWarnings(const QList<QQmlError> &warnings);
 
   private:
     static QScopedPointer<ScriptManager> m_instance;
 
-    std::unique_ptr<QJSEngine> m_engine;
+    std::unique_ptr<QQmlEngine> m_engine;
     std::unique_ptr<ScriptModule> m_script_module;
   };
 

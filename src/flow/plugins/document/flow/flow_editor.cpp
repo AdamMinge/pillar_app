@@ -1,13 +1,15 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_editor.h"
+#include "flow/plugins/document/flow/component/node/flow_nodes_dock.h"
+#include "flow/plugins/document/flow/component/scene/flow_scene.h"
+#include "flow/plugins/document/flow/component/scene/flow_view.h"
+#include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
+#include "flow/plugins/document/flow/component/tool/flow_tools_bar.h"
+#include "flow/plugins/document/flow/component/type_converter/flow_type_converters_dock.h"
 #include "flow/plugins/document/flow/flow_document.h"
-#include "flow/plugins/document/flow/flow_nodes_dock.h"
-#include "flow/plugins/document/flow/flow_scene.h"
-#include "flow/plugins/document/flow/flow_type_converters_dock.h"
-#include "flow/plugins/document/flow/flow_view.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
-/* ----------------------------------- LibFlow -------------------------------- */
+/* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/document/undo_dock.h>
 #include <flow/libflow/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
@@ -26,6 +28,7 @@ struct FlowEditor::Preferences {
 FlowEditor::FlowEditor(QObject *parent)
     : flow::document::DocumentEditor(parent), m_current_document(nullptr),
       m_main_window(new QMainWindow()),
+      m_tools_bar(new FlowToolsBar(m_main_window)),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_nodes_dock(new FlowNodesDock(m_main_window)),
       m_converters_dock(new FlowConvertersDock(m_main_window)),
@@ -48,6 +51,13 @@ void FlowEditor::setCurrentDocument(flow::document::Document *document)
   m_current_document = flow_document;
 
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
+
+  if (auto flow_view = m_view_for_document[flow_document]; flow_view)
+  {
+    m_scene_stack->setCurrentWidget(flow_view);
+    auto scene = flow_view->getScene();
+    scene->setTool(m_tools_bar->getSelectedTool());
+  }
 }
 
 void FlowEditor::addDocument(flow::document::Document *document)
@@ -100,7 +110,6 @@ void FlowEditor::restoreState()
   auto editor_state = static_cast<QByteArray>(m_preferences->editor_state);
 
   if (!editor_size.isNull()) m_main_window->resize(editor_size);
-
   if (!editor_state.isNull()) m_main_window->restoreState(editor_state);
 }
 
@@ -131,20 +140,32 @@ QString FlowEditor::getDocumentId() const
   return QLatin1String("FlowDocument");
 }
 
+void FlowEditor::toolSelected(FlowAbstractTool *tool)
+{
+  auto flow_view = m_view_for_document[m_current_document];
+  auto flow_scene = flow_view->getScene();
+
+  flow_scene->setTool(tool);
+}
+
 void FlowEditor::initUi()
 {
   m_main_window->setDockOptions(
     m_main_window->dockOptions() | QMainWindow::GroupedDragging);
   m_main_window->setDockNestingEnabled(true);
-
   m_main_window->setCentralWidget(m_scene_stack);
 
   m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
-
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_converters_dock);
   m_main_window->tabifyDockWidget(m_nodes_dock, m_converters_dock);
   m_nodes_dock->raise();
+
+  m_main_window->addToolBar(m_tools_bar);
 }
 
-void FlowEditor::initConnections() {}
+void FlowEditor::initConnections()
+{
+  connect(
+    m_tools_bar, &FlowToolsBar::toolSelected, this, &FlowEditor::toolSelected);
+}

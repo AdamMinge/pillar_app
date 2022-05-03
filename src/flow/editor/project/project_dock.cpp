@@ -1,6 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/editor/project/project_dock.h"
-#include "flow/editor/document/document_manager.h"
 #include "flow/editor/document/new_document_dialog.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDesktopServices>
@@ -15,6 +14,7 @@
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/action_manager.h>
 #include <flow/libflow/document/document.h>
+#include <flow/libflow/document/document_manager.h>
 #include <flow/libflow/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <flow/utils/qt/file_system/file_system_proxy_model.h>
@@ -251,5 +251,5 @@ void ProjectDock::openDocument(const QModelIndex &index)
   auto file_info = QFileInfo(file_path);
 
   if (file_info.isFile())
-    DocumentManager::getInstance().loadDocument(file_path);
+    flow::document::DocumentManager::getInstance().loadDocument(file_path);
 }

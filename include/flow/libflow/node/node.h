@@ -2,7 +2,8 @@
 #define FLOW_NODE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QGraphicsObject>
+#include <QObject>
+#include <QPointF>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 #include "flow/libflow/node/pin.h"
@@ -11,7 +12,7 @@
 namespace flow::node
 {
 
-  class LIB_FLOW_API Node : public QGraphicsObject
+  class LIB_FLOW_API Node : public QObject
   {
     Q_OBJECT
 
@@ -24,15 +25,11 @@ namespace flow::node
     [[nodiscard]] const Pin &getPin(Pin::Type type, unsigned index) const;
     [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
 
-    [[nodiscard]] QRectF boundingRect() const override;
-
-  protected:
-    void paint(
-      QPainter *painter, const QStyleOptionGraphicsItem *option,
-      QWidget *widget) override;
-
     void insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index);
     void removePin(Pin::Type type, int index);
+
+    void setPosition(const QPointF &position);
+    [[nodiscard]] QPointF getPosition() const;
 
   protected Q_SLOTS:
     virtual void compute() = 0;
@@ -45,6 +42,7 @@ namespace flow::node
   private:
     std::vector<std::unique_ptr<Pin>> m_out_pins;
     std::vector<std::unique_ptr<Pin>> m_in_pins;
+    QPointF m_position;
   };
 
 }// namespace flow::node

@@ -31,7 +31,6 @@ set(sources
         ${source_root}/settings/shortcuts_table_model.cpp
         ${source_root}/settings/shortcuts_table_delegate.cpp
 
-        ${source_root}/project/project_manager.cpp
         ${source_root}/project/project_window.cpp
         ${source_root}/project/no_project_window.cpp
         ${source_root}/project/new_project_dialog.cpp
@@ -42,7 +41,6 @@ set(sources
         ${source_root}/project/project_writer.cpp
         ${source_root}/project/project_reader.cpp
 
-        ${source_root}/document/document_manager.cpp
         ${source_root}/document/new_document_dialog.cpp
         ${source_root}/document/no_document_widget.cpp
         ${source_root}/document/new_document_widget_list_model.cpp
@@ -68,7 +66,6 @@ set(includes
         ${include_root}/settings/shortcuts_table_model.h
         ${include_root}/settings/shortcuts_table_delegate.h
 
-        ${include_root}/project/project_manager.h
         ${include_root}/project/project_window.h
         ${include_root}/project/no_project_window.h
         ${include_root}/project/new_project_dialog.h
@@ -79,7 +76,6 @@ set(includes
         ${include_root}/project/project_writer.h
         ${include_root}/project/project_reader.h
 
-        ${include_root}/document/document_manager.h
         ${include_root}/document/new_document_dialog.h
         ${include_root}/document/no_document_widget.h
         ${include_root}/document/new_document_widget_list_model.h

@@ -8,30 +8,35 @@ namespace flow::node
 
   /* -------------------------- TypeConverterFactory ------------------------ */
 
-  TypeConverterFactory::TypeConverterFactory(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  TypeConverterFactory::TypeConverterFactory(
+    QString name, QString type_converter_id)
+      : m_name(std::move(name)),
+        m_type_converter_id(std::move(type_converter_id))
   {}
 
   TypeConverterFactory::~TypeConverterFactory() = default;
 
   QString TypeConverterFactory::getName() const { return m_name; }
 
-  QIcon TypeConverterFactory::getIcon() const { return m_icon; }
+  QString TypeConverterFactory::getTypeConverterId() const
+  {
+    return m_type_converter_id;
+  }
 
   /* -------------------------- TypeConverterFactories ---------------------- */
 
-  TypeConverterFactories::TypeConverterFactories(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  TypeConverterFactories::TypeConverterFactories(QString name)
+      : m_name(std::move(name))
   {}
 
   TypeConverterFactories::~TypeConverterFactories() = default;
 
   void TypeConverterFactories::registerFactory(
-    QString type_converter_id, std::unique_ptr<TypeConverterFactory> factory)
+    std::unique_ptr<TypeConverterFactory> factory)
   {
-    Q_ASSERT(!m_factories.contains(type_converter_id));
-    m_factories.insert(
-      std::make_pair(std::move(type_converter_id), std::move(factory)));
+    Q_ASSERT(!m_factories.contains(factory->getTypeConverterId()));
+    m_factories.insert(std::make_pair(
+      std::move(factory->getTypeConverterId()), std::move(factory)));
   }
 
   void
@@ -64,7 +69,5 @@ namespace flow::node
   }
 
   QString TypeConverterFactories::getName() const { return m_name; }
-
-  QIcon TypeConverterFactories::getIcon() const { return m_icon; }
 
 }// namespace flow::node

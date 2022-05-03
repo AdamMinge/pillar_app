@@ -20,8 +20,7 @@ set(includes
         ${include_root}/boolean_to_integer_converter.h
         ${include_root}/type_converter_factory.h)
 
-set(resources
-        ${resources_root}/plugin_boolean_converter_images.qrc)
+set(resources)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

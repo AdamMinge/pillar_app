@@ -28,8 +28,8 @@ namespace flow
     void clear();
 
   Q_SIGNALS:
-    void onWarningReport(const Issue &issue);
-    void onErrorReport(const Issue &issue);
+    void onWarningReport(const flow::Issue &issue);
+    void onErrorReport(const flow::Issue &issue);
 
     void onClear(const QVariant &context);
     void onClear();

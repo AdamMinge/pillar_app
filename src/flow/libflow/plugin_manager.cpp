@@ -21,32 +21,44 @@ namespace flow
 
   void PluginManager::deleteInstance() { m_instance.reset(nullptr); }
 
+  PluginManager::PluginManager()
+  {
+    m_default_plugins_paths
+      << QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
+  }
+
   PluginManager::~PluginManager() = default;
 
-  PluginManager::PluginManager() = default;
+  void PluginManager::setDefaultPluginsPaths(QStringList plugins_paths)
+  {
+    m_default_plugins_paths = std::move(plugins_paths);
+  }
 
-  void PluginManager::loadPlugins(QString plugins_path)
+  QStringList PluginManager::getDefaultPluginsPaths() const
+  {
+    return m_default_plugins_paths;
+  }
+
+  void PluginManager::loadPlugins(const QStringList &plugins_paths)
   {
     m_plugins.clear();
 
     auto static_plugin_instances = QPluginLoader::staticInstances();
     for (auto instance : static_plugin_instances) { Plugin::create(instance); }
 
-    if (plugins_path.isEmpty())
+    const auto &paths =
+      plugins_paths.isEmpty() ? m_default_plugins_paths : plugins_paths;
+    for (const auto &path : paths)
     {
-      plugins_path = QCoreApplication::applicationDirPath();
-      plugins_path += QStringLiteral("/plugins");
-    }
+      auto plugin_iterator = QDirIterator(path, QDir::Files | QDir::Readable);
+      while (plugin_iterator.hasNext())
+      {
+        const auto plugin_file = plugin_iterator.next();
+        if (!QLibrary::isLibrary(plugin_file)) continue;
 
-    auto plugin_iterator =
-      QDirIterator(plugins_path, QDir::Files | QDir::Readable);
-    while (plugin_iterator.hasNext())
-    {
-      const auto plugin_file = plugin_iterator.next();
-      if (!QLibrary::isLibrary(plugin_file)) continue;
-
-      auto plugin = Plugin::create(plugin_file);
-      m_plugins.push_back(std::move(plugin));
+        auto plugin = Plugin::create(plugin_file);
+        m_plugins.push_back(std::move(plugin));
+      }
     }
   }
 

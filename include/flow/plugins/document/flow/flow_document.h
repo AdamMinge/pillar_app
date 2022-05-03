@@ -1,11 +1,18 @@
 #ifndef FLOW_FLOW_DOCUMENT_H
 #define FLOW_FLOW_DOCUMENT_H
 
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QPointer>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include "flow/libflow/document/document.h"
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
+
+namespace flow::node
+{
+  class Node;
+}
 
 class FLOW_DOCUMENT_API FlowDocument : public flow::document::Document
 {
@@ -17,8 +24,18 @@ public:
 public:
   ~FlowDocument() override;
 
+  void addNode(flow::node::Node *node);
+  void removeNode(flow::node::Node *node);
+
+Q_SIGNALS:
+  void nodeAdded(flow::node::Node *node);
+  void nodeRemoved(flow::node::Node *node);
+
 protected:
   explicit FlowDocument(QObject *parent = nullptr);
+
+private:
+  QList<flow::node::Node *> m_nodes;
 };
 
 #endif//FLOW_FLOW_DOCUMENT_H

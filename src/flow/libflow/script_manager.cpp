@@ -24,6 +24,7 @@ namespace flow
   ScriptManager::ScriptManager() : m_engine(nullptr), m_script_module(nullptr)
   {
     init();
+    loadObjects();
   }
 
   ScriptManager::~ScriptManager() = default;
@@ -50,20 +51,12 @@ namespace flow
   {
     if (!m_engine)
     {
-      auto engine = std::make_unique<QQmlEngine>();
-      auto script_module = std::make_unique<ScriptModule>();
+      m_engine = std::make_unique<QQmlEngine>();
 
-      engine->setOutputWarningsToStandardError(false);
+      m_engine->setOutputWarningsToStandardError(false);
       connect(
-        engine.get(), &QQmlEngine::warnings, this,
+        m_engine.get(), &QQmlEngine::warnings, this,
         &ScriptManager::onScriptWarnings);
-
-      auto global_object = engine->globalObject();
-      global_object.setProperty(
-        QStringLiteral("Flow"), engine->newQObject(script_module.get()));
-
-      m_engine = std::move(engine);
-      m_script_module = std::move(script_module);
     }
   }
 
@@ -100,6 +93,19 @@ namespace flow
     }
 
     return errorString;
+  }
+
+  void ScriptManager::addedObject(ScriptModule *script_module)
+  {
+    auto global_object = m_engine->globalObject();
+    global_object.setProperty(
+      script_module->getName(), m_engine->newQObject(script_module));
+  }
+
+  void ScriptManager::removedObject(ScriptModule *script_module)
+  {
+    auto global_object = m_engine->globalObject();
+    global_object.deleteProperty(script_module->getName());
   }
 
   void ScriptManager::onScriptWarnings(const QList<QQmlError> &warnings)

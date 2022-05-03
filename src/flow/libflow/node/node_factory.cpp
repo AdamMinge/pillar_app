@@ -8,29 +8,27 @@ namespace flow::node
 
   /* ------------------------------- NodeFactory ---------------------------- */
 
-  NodeFactory::NodeFactory(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
+  NodeFactory::NodeFactory(QString name, QString node_id)
+      : m_name(std::move(name)), m_node_id(std::move(node_id))
   {}
 
   NodeFactory::~NodeFactory() = default;
 
   QString NodeFactory::getName() const { return m_name; }
 
-  QIcon NodeFactory::getIcon() const { return m_icon; }
+  QString NodeFactory::getNodeId() const { return m_node_id; }
 
   /* ------------------------------ NodeFactories --------------------------- */
 
-  NodeFactories::NodeFactories(QString name, QIcon icon)
-      : m_name(std::move(name)), m_icon(std::move(icon))
-  {}
+  NodeFactories::NodeFactories(QString name) : m_name(std::move(name)) {}
 
   NodeFactories::~NodeFactories() = default;
 
-  void NodeFactories::registerFactory(
-    QString node_id, std::unique_ptr<NodeFactory> factory)
+  void NodeFactories::registerFactory(std::unique_ptr<NodeFactory> factory)
   {
-    Q_ASSERT(!m_factories.contains(node_id));
-    m_factories.insert(std::make_pair(std::move(node_id), std::move(factory)));
+    Q_ASSERT(!m_factories.contains(factory->getNodeId()));
+    m_factories.insert(
+      std::make_pair(std::move(factory->getNodeId()), std::move(factory)));
   }
 
   void NodeFactories::unregisterFactory(const QString &node_id)
@@ -60,7 +58,5 @@ namespace flow::node
   }
 
   QString NodeFactories::getName() const { return m_name; }
-
-  QIcon NodeFactories::getIcon() const { return m_icon; }
 
 }// namespace flow::node

@@ -58,9 +58,19 @@ namespace utils
     return QDir{m_ui->m_path_edit->text()};
   }
 
+  void QtNameAndPathFiller::setName(const QString &name)
+  {
+    m_ui->m_name_edit->setText(name);
+  }
+
   QString QtNameAndPathFiller::getName() const
   {
     return m_ui->m_name_edit->text();
+  }
+
+  void QtNameAndPathFiller::setPath(const QString &path)
+  {
+    m_ui->m_path_edit->setText(path);
   }
 
   QString QtNameAndPathFiller::getPath() const
@@ -92,9 +102,15 @@ namespace utils
   void QtNameAndPathFiller::nameChanged()
   {
     const auto name = m_ui->m_name_edit->text();
+    const auto path = m_ui->m_path_edit->text();
+
+    auto name_is_empty =
+      m_name_validations.testFlag(NameValidation::NotEmpty) && name.isEmpty();
+    auto name_is_not_unique =
+      !QDir(path).entryList(QStringList{} << QString("%1.*").arg(name)).empty();
 
     auto error_message = QString{};
-    if (m_name_validations.testFlag(NameValidation::NotEmpty) && name.isEmpty())
+    if (name_is_empty || name_is_not_unique)
       error_message = getNameErrorMessage();
 
     m_ui->m_name_error_message->setText(error_message);
@@ -147,16 +163,27 @@ namespace utils
     connect(
       m_ui->m_name_edit, &QLineEdit::textChanged, this,
       qOverload<>(&QtNameAndPathFiller::nameChanged));
+
     connect(
       m_ui->m_path_edit, &QLineEdit::textChanged, this,
       qOverload<>(&QtNameAndPathFiller::pathChanged));
+    connect(
+      m_ui->m_path_edit, &QLineEdit::textChanged, this,
+      qOverload<>(&QtNameAndPathFiller::nameChanged));
   }
 
   void QtNameAndPathFiller::retranslateUi() { m_ui->retranslateUi(this); }
 
   QString QtNameAndPathFiller::getNameErrorMessage() const
   {
-    return m_name_validations ? tr("Please enter some name") : QString{};
+    auto error_message = QString{};
+
+    if (m_name_validations.testFlag(NameValidation::NotEmpty))
+      error_message = tr("Please choose some name");
+    if (m_name_validations.testFlag(NameValidation::Unique))
+      error_message = tr("Please enter unique name");
+
+    return error_message;
   }
 
   QString QtNameAndPathFiller::getPathErrorMessage() const

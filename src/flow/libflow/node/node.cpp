@@ -1,9 +1,5 @@
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QPainter>
-#include <QStyleOptionGraphicsItem>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/node/node.h"
-#include "flow/libflow/node/node_painter.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow::node
@@ -32,19 +28,6 @@ namespace flow::node
     return *pins[index];
   }
 
-  QRectF Node::boundingRect() const
-  {
-    return QRectF{};
-    //TODO Implementation
-  }
-
-  void Node::paint(
-    QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-  {
-    painter->setClipRect(option->exposedRect);
-    NodePainter::paint(painter, this);
-  }
-
   void Node::insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index)
   {
     auto &pins = getPins(type);
@@ -59,6 +42,10 @@ namespace flow::node
     auto &pins = getPins(type);
     pins.erase(pins.begin() + index);
   }
+
+  void Node::setPosition(const QPointF &position) { m_position = position; }
+
+  QPointF Node::getPosition() const { return m_position; }
 
   std::vector<std::unique_ptr<Pin>> &Node::getPins(Pin::Type type)
   {

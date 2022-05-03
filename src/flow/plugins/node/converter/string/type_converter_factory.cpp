@@ -6,25 +6,21 @@
 /* -------------------------------------------------------------------------- */
 
 StringConverterFactories::StringConverterFactories()
-    : flow::node::TypeConverterFactories(tr("String"), QIcon(""))
+    : flow::node::TypeConverterFactories(tr("String"))
 {
   registerFactory(
-    QLatin1String("StringToBoolean"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<StringToBooleanConverter>>(
-      tr("String -> Boolean"), QIcon("")));
+      tr("Boolean"), QLatin1String("StringToBoolean")));
+
+  registerFactory(std::make_unique<
+                  flow::node::BaseTypeConverterFactory<StringToFloatingPoint>>(
+    tr("Floating Point"), QLatin1String("StringToFloatingPoint")));
 
   registerFactory(
-    QLatin1String("StringToFloatingPoint"),
-    std::make_unique<
-      flow::node::BaseTypeConverterFactory<StringToFloatingPoint>>(
-      tr("String -> Floating Point"), QIcon("")));
-
-  registerFactory(
-    QLatin1String("StringToInteger"),
     std::make_unique<
       flow::node::BaseTypeConverterFactory<StringToIntegerConverter>>(
-      tr("String -> Integer"), QIcon("")));
+      tr("Integer"), QLatin1String("StringToInteger")));
 }
 
 StringConverterFactories::~StringConverterFactories() = default;

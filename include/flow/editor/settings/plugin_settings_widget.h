@@ -38,6 +38,7 @@ private:
 
 private Q_SLOTS:
   void searchPlugin(const QString &search);
+  void checkAvailability();
 
 private:
   QScopedPointer<Ui::PluginSettingsWidget> m_ui;
