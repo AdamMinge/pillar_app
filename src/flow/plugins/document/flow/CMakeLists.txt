@@ -29,6 +29,7 @@ set(sources
 
         ${source_root}/component/scene/flow_node_geometry.cpp
         ${source_root}/component/scene/flow_node_item.cpp
+        ${source_root}/component/scene/flow_item.cpp
         ${source_root}/component/scene/flow_node_painter.cpp
         ${source_root}/component/scene/flow_scene.cpp
         ${source_root}/component/scene/flow_view.cpp
@@ -62,6 +63,7 @@ set(includes
 
         ${include_root}/component/scene/flow_node_geometry.h
         ${include_root}/component/scene/flow_node_item.h
+        ${include_root}/component/scene/flow_item.h
         ${include_root}/component/scene/flow_node_painter.h
         ${include_root}/component/scene/flow_scene.h
         ${include_root}/component/scene/flow_view.h

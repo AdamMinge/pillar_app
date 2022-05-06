@@ -21,12 +21,12 @@ void FlowNodePainter::paint(
 void FlowNodePainter::paintNodeRect(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-  auto hovered = option->state & QStyle::State_MouseOver;
-  auto selected = option->state & QStyle::State_Selected;
+  auto hovered = m_node_item.isHovered();
+  auto selected = m_node_item.isSelected();
   auto rect = m_node_item.boundingRect();
 
   auto color = selected ? QColor(255, 165, 0) : QColor(255, 255, 255);
-  auto pen_width = hovered ? 1.5 : 1.0;
+  auto pen_width = hovered ? 2.0 : 1.0;
 
   QLinearGradient gradient(rect.bottomLeft(), rect.topRight());
 

@@ -16,6 +16,7 @@
 
 class FlowDocument;
 class FlowScene;
+class FlowView;
 
 class FLOW_DOCUMENT_API FlowAbstractTool : public QObject
 {
@@ -68,15 +69,6 @@ private:
 
   bool m_enabled;
   bool m_visible;
-};
-
-class FLOW_DOCUMENT_API FlowAbstractAction
-{
-public:
-  explicit FlowAbstractAction();
-  virtual ~FlowAbstractAction();
-
-  virtual void update(QGraphicsSceneMouseEvent *event) = 0;
 };
 
 #endif//FLOW_FLOW_ABSTRACT_TOOL_H

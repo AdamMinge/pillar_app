@@ -1,11 +1,8 @@
 #ifndef PLUGIN_FLOW_FLOW_NODE_ITEM_H
 #define PLUGIN_FLOW_FLOW_NODE_ITEM_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QGraphicsObject>
-/* ---------------------------------- LibFlow ------------------------------- */
-#include "flow/libflow/export.h"
 /* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/document/flow/component/scene/flow_item.h"
 #include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -17,7 +14,7 @@ namespace flow::node
   class Node;
 }
 
-class LIB_FLOW_API FlowNodeItem : public QGraphicsObject
+class FLOW_DOCUMENT_API FlowNodeItem : public FlowItem
 {
   Q_OBJECT
 

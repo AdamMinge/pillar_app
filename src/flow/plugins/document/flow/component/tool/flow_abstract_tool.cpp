@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
+#include "flow/plugins/document/flow/component/scene/flow_scene.h"
+#include "flow/plugins/document/flow/component/scene/flow_view.h"
 /* -------------------------------------------------------------------------- */
-
-/* ------------------------------ FlowAbstractTool -------------------------- */
 
 FlowAbstractTool::FlowAbstractTool(
   QString name, QIcon icon, QCursor cursor, const QKeySequence &shortcut,
@@ -78,9 +78,3 @@ QGraphicsScene *FlowAbstractTool::findScene(QGraphicsSceneEvent *event)
   if (auto view = findView(event)) return view->scene();
   return nullptr;
 }
-
-/* ----------------------------- FlowAbstractAction ------------------------- */
-
-FlowAbstractAction::FlowAbstractAction() = default;
-
-FlowAbstractAction::~FlowAbstractAction() = default;
