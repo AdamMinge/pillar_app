@@ -20,24 +20,29 @@ public:
   void activate(FlowScene *scene) override;
   void deactivate(FlowScene *scene) override;
 
+  void keyPressEvent(QKeyEvent *event) override;
+  void keyReleaseEvent(QKeyEvent *event) override;
+
   void mouseMoved(QGraphicsSceneMouseEvent *event) override;
   void mousePressed(QGraphicsSceneMouseEvent *event) override;
   void mouseReleased(QGraphicsSceneMouseEvent *event) override;
 
 protected:
-  void updateHover(QGraphicsSceneMouseEvent *event);
+  void updateHover(const QPointF &mouse_pos);
 
-  void startSceneMoving(QGraphicsSceneMouseEvent *event);
-  void startItemMoving(QGraphicsSceneMouseEvent *event);
-  void startItemSelection(QGraphicsSceneMouseEvent *event);
+  void startSceneMoving();
+  void startItemMoving();
+  void startItemSelection();
 
-  void updateSceneMoving(QGraphicsSceneMouseEvent *event);
-  void updateItemMoving(QGraphicsSceneMouseEvent *event);
-  void updateItemSelection(QGraphicsSceneMouseEvent *event);
+  void updateSceneMoving(const QPointF &mouse_pos);
+  void updateItemMoving(const QPointF &mouse_pos);
+  void updateItemSelection(const QPointF &mouse_pos);
 
-  void endSceneMoving(QGraphicsSceneMouseEvent *event);
-  void endItemMoving(QGraphicsSceneMouseEvent *event);
-  void endItemSelection(QGraphicsSceneMouseEvent *event);
+  void endSceneMoving();
+  void endItemMoving();
+  void endItemSelection();
+
+  void refreshCursor();
 
 private:
   enum class Action;
@@ -45,8 +50,10 @@ private:
 private:
   Action m_action;
 
+  FlowScene *m_scene;
   QPointF m_mouse_clicked_pos;
   Qt::MouseButton m_mouse_clicked_button;
+  Qt::KeyboardModifiers m_modifiers;
   QGraphicsItem *m_clicked_item;
 
   std::unique_ptr<SelectionRectangle> m_selection_rect;

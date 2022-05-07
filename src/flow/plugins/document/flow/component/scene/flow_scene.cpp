@@ -59,7 +59,7 @@ void FlowScene::setTool(FlowAbstractTool *tool)
 
 FlowAbstractTool *FlowScene::getTool() const { return m_flow_tool; }
 
-QList<FlowItem *> FlowScene::hoveredItem() { return m_hovered_items; }
+QList<FlowItem *> FlowScene::hoveredItems() { return m_hovered_items; }
 
 QPainterPath FlowScene::hoveredArea() const { return m_hovered_area; }
 
@@ -129,6 +129,18 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event)
   {
     // TODO Implementation
   }
+}
+
+void FlowScene::keyPressEvent(QKeyEvent *event)
+{
+  QGraphicsScene::keyPressEvent(event);
+  if (m_flow_tool) m_flow_tool->keyPressEvent(event);
+}
+
+void FlowScene::keyReleaseEvent(QKeyEvent *event)
+{
+  QGraphicsScene::keyReleaseEvent(event);
+  if (m_flow_tool) m_flow_tool->keyReleaseEvent(event);
 }
 
 void FlowScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)

@@ -58,6 +58,7 @@ public:
 
 private Q_SLOTS:
   void toolSelected(FlowAbstractTool *tool);
+  void cursorChanged(const QCursor &cursor);
 
 private:
   void initUi();

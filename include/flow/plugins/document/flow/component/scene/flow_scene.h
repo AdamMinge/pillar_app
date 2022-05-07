@@ -34,7 +34,7 @@ public:
   void setTool(FlowAbstractTool *tool);
   [[nodiscard]] FlowAbstractTool *getTool() const;
 
-  [[nodiscard]] QList<FlowItem *> hoveredItem();
+  [[nodiscard]] QList<FlowItem *> hoveredItems();
   [[nodiscard]] QPainterPath hoveredArea() const;
   void setHoveredArea(
     const QPainterPath &path,
@@ -45,6 +45,9 @@ protected:
   void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
   void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
   void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+
+  void keyPressEvent(QKeyEvent *event) override;
+  void keyReleaseEvent(QKeyEvent *event) override;
 
   void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
   void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;

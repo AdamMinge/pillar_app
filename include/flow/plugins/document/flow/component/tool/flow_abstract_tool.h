@@ -24,7 +24,7 @@ class FLOW_DOCUMENT_API FlowAbstractTool : public QObject
 
 public:
   explicit FlowAbstractTool(
-    QString name, QIcon icon, QCursor cursor, const QKeySequence &shortcut,
+    QString name, QIcon icon, const QKeySequence &shortcut,
     QObject *parent = nullptr);
   ~FlowAbstractTool() override;
 
@@ -48,6 +48,9 @@ public:
   virtual void activate(FlowScene *scene);
   virtual void deactivate(FlowScene *scene);
 
+  virtual void keyPressEvent(QKeyEvent *event);
+  virtual void keyReleaseEvent(QKeyEvent *event);
+
   virtual void mouseMoved(QGraphicsSceneMouseEvent *event);
   virtual void mousePressed(QGraphicsSceneMouseEvent *event);
   virtual void mouseReleased(QGraphicsSceneMouseEvent *event);
@@ -55,10 +58,7 @@ public:
 Q_SIGNALS:
   void enabledChanged(bool enabled);
   void visibleChanged(bool visible);
-
-protected:
-  [[nodiscard]] static QGraphicsView *findView(QGraphicsSceneEvent *event);
-  [[nodiscard]] static QGraphicsScene *findScene(QGraphicsSceneEvent *event);
+  void cursorChanged(const QCursor &cursor);
 
 private:
   FlowDocument *m_document;
