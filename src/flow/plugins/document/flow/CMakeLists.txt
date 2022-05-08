@@ -22,6 +22,7 @@ set(sources
         ${source_root}/new_flow_document_widget.cpp
 
         ${source_root}/command/add_remove_node.cpp
+        ${source_root}/command/move_object.cpp
 
         ${source_root}/component/node/flow_nodes_dock.cpp
         ${source_root}/component/node/flow_nodes_tree_delegate.cpp
@@ -56,6 +57,7 @@ set(includes
         ${include_root}/new_flow_document_widget.h
 
         ${include_root}/command/add_remove_node.h
+        ${include_root}/command/move_object.h
 
         ${include_root}/component/node/flow_nodes_dock.h
         ${include_root}/component/node/flow_nodes_tree_delegate.h

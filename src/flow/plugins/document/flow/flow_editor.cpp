@@ -52,6 +52,7 @@ void FlowEditor::setCurrentDocument(flow::document::Document *document)
 
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
 
+  m_tools_bar->setDocument(m_current_document);
   if (auto flow_view = m_view_for_document[flow_document]; flow_view)
   {
     m_scene_stack->setCurrentWidget(flow_view);

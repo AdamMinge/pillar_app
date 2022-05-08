@@ -6,8 +6,8 @@
 #include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
-class FlowItem;
 class SelectionRectangle;
+class FlowItem;
 
 class FLOW_DOCUMENT_API FlowSelectionTool : public FlowAbstractTool
 {
@@ -54,10 +54,10 @@ private:
   QPointF m_mouse_clicked_pos;
   Qt::MouseButton m_mouse_clicked_button;
   Qt::KeyboardModifiers m_modifiers;
-  QGraphicsItem *m_clicked_item;
+  FlowItem *m_clicked_item;
 
   std::unique_ptr<SelectionRectangle> m_selection_rect;
-  QList<std::pair<QGraphicsItem *, QPointF>> m_moving_items;
+  QList<std::pair<FlowItem *, QPointF>> m_moving_items;
 };
 
 enum class FlowSelectionTool::Action

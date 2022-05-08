@@ -172,7 +172,7 @@ void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void FlowScene::nodeAdded(flow::node::Node *node)
 {
-  auto node_item = std::make_unique<FlowNodeItem>(*node);
+  auto node_item = std::make_unique<FlowNodeItem>(node);
   m_node_items.insert(node, node_item.get());
   addItem(node_item.release());
 }

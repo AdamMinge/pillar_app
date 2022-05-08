@@ -7,18 +7,26 @@
 #include "flow/plugins/document/flow/export.h"
 /* -------------------------------------------------------------------------- */
 
+namespace flow
+{
+  class Object;
+}
+
 class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject
 {
   Q_OBJECT
 
 public:
-  explicit FlowItem(QGraphicsItem *parent = nullptr);
+  explicit FlowItem(flow::Object *object, QGraphicsItem *parent = nullptr);
   ~FlowItem() override;
+
+  [[nodiscard]] flow::Object *getObject() const;
 
   void setHovered(bool hovered);
   [[nodiscard]] bool isHovered() const;
 
 private:
+  flow::Object *m_object;
   bool m_hovered;
 };
 

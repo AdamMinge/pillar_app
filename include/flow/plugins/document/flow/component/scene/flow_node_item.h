@@ -19,10 +19,10 @@ class FLOW_DOCUMENT_API FlowNodeItem : public FlowItem
   Q_OBJECT
 
 public:
-  explicit FlowNodeItem(const flow::node::Node &node);
+  explicit FlowNodeItem(flow::node::Node *node);
   ~FlowNodeItem() override;
 
-  [[nodiscard]] const flow::node::Node &getNode() const;
+  [[nodiscard]] flow::node::Node *getNode() const;
   [[nodiscard]] QRectF boundingRect() const override;
 
 protected:
@@ -31,7 +31,6 @@ protected:
     QWidget *widget) override;
 
 private:
-  const flow::node::Node &m_node;
   std::unique_ptr<FlowNodePainter> m_node_painter;
   std::unique_ptr<FlowNodeGeometry> m_node_geometry;
 };

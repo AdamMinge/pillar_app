@@ -18,7 +18,7 @@ FlowDocument::~FlowDocument() { qDeleteAll(m_nodes); }
 
 void FlowDocument::addNode(flow::node::Node *node)
 {
-  m_nodes.append(QPointer<flow::node::Node>(node));
+  m_nodes.append(node);
   Q_EMIT nodeAdded(node);
 }
 

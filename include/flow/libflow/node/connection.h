@@ -1,11 +1,10 @@
 #ifndef FLOW_CONNECTION_H
 #define FLOW_CONNECTION_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 #include "flow/libflow/node/pin.h"
+#include "flow/libflow/object.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow::node
@@ -13,7 +12,7 @@ namespace flow::node
 
   class TypeConverter;
 
-  class LIB_FLOW_API Connection : public QObject
+  class LIB_FLOW_API Connection : public Object
   {
     Q_OBJECT
 

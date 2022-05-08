@@ -1,9 +1,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/component/tool/flow_selection_tool.h"
+#include "flow/plugins/document/flow/command/move_object.h"
 #include "flow/plugins/document/flow/component/scene/flow_item.h"
 #include "flow/plugins/document/flow/component/scene/flow_scene.h"
-#include "flow/plugins/document/flow/component/scene/flow_view.h"
 #include "flow/plugins/document/flow/component/tool/selection_rectangle.h"
+#include "flow/plugins/document/flow/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QKeyEvent>
@@ -102,7 +103,11 @@ void FlowSelectionTool::mousePressed(QGraphicsSceneMouseEvent *event)
       m_mouse_clicked_pos = event->scenePos();
 
       if (m_scene)
-        m_clicked_item = m_scene->itemAt(m_mouse_clicked_pos, QTransform{});
+      {
+        auto item = m_scene->itemAt(m_mouse_clicked_pos, QTransform{});
+        if (auto flow_item = dynamic_cast<FlowItem *>(item); flow_item)
+          m_clicked_item = flow_item;
+      }
 
       break;
     }
@@ -181,7 +186,10 @@ void FlowSelectionTool::startItemMoving()
     }
 
     for (auto item : m_scene->selectedItems())
-      m_moving_items.append(std::make_pair(item, item->pos()));
+    {
+      if (auto flow_item = dynamic_cast<FlowItem *>(item); flow_item)
+        m_moving_items.append(std::make_pair(flow_item, flow_item->pos()));
+    }
   }
 }
 
@@ -232,7 +240,19 @@ void FlowSelectionTool::updateItemSelection(const QPointF &mouse_pos)
 
 void FlowSelectionTool::endSceneMoving() {}
 
-void FlowSelectionTool::endItemMoving() { m_moving_items.clear(); }
+void FlowSelectionTool::endItemMoving()
+{
+  auto &[first_item, first_item_old_pos] = m_moving_items.front();
+  auto objects = QList<flow::Object *>{};
+  auto move = first_item->pos() - first_item_old_pos;
+
+  for (auto &[moving_item, _] : m_moving_items)
+    objects.append(moving_item->getObject());
+
+  getDocument()->getUndoStack()->push(new MoveObject(objects, move));
+
+  m_moving_items.clear();
+}
 
 void FlowSelectionTool::endItemSelection()
 {

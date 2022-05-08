@@ -43,10 +43,6 @@ namespace flow::node
     pins.erase(pins.begin() + index);
   }
 
-  void Node::setPosition(const QPointF &position) { m_position = position; }
-
-  QPointF Node::getPosition() const { return m_position; }
-
   std::vector<std::unique_ptr<Pin>> &Node::getPins(Pin::Type type)
   {
     return type == Pin::Type::Out ? m_out_pins : m_in_pins;

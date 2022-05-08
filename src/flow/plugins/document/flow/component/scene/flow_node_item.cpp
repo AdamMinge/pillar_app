@@ -10,16 +10,19 @@
 /* -------------------------------------------------------------------------- */
 
 
-FlowNodeItem::FlowNodeItem(const flow::node::Node &node)
-    : m_node(node), m_node_painter(std::make_unique<FlowNodePainter>(*this)),
+FlowNodeItem::FlowNodeItem(flow::node::Node *node)
+    : FlowItem(node), m_node_painter(std::make_unique<FlowNodePainter>(*this)),
       m_node_geometry(std::make_unique<FlowNodeGeometry>(*this))
 {
-  setPos(m_node.getPosition());
+  setPos(getNode()->getPosition());
 }
 
 FlowNodeItem::~FlowNodeItem() = default;
 
-const flow::node::Node &FlowNodeItem::getNode() const { return m_node; }
+flow::node::Node *FlowNodeItem::getNode() const
+{
+  return dynamic_cast<flow::node::Node *>(getObject());
+}
 
 QRectF FlowNodeItem::boundingRect() const
 {
