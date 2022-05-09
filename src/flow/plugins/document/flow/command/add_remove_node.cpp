@@ -28,33 +28,36 @@ AddRemoveNodeCommand::AddRemoveNodeCommand(
   QString name, FlowDocument *document, flow::node::Node *node_to_remove,
   flow::command::Command *parent)
     : flow::command::Command(std::move(name), parent), m_document(document),
-      m_node_to_remove(node_to_remove), m_node_factory(),
-      m_pos(m_node_to_remove->getPosition())
+      m_node_to_remove(node_to_remove), m_node_to_add(nullptr)
 {}
 
 AddRemoveNodeCommand::AddRemoveNodeCommand(
   QString name, FlowDocument *document, const QString &node_to_create_id,
   const QPointF &pos, flow::command::Command *parent)
     : flow::command::Command(std::move(name), parent), m_document(document),
-      m_node_to_remove(nullptr),
-      m_node_factory(getNodeFactory(node_to_create_id)), m_pos(pos)
-{}
+      m_node_to_remove(nullptr)
+{
+  m_node_to_add = getNodeFactory(node_to_create_id)->create().release();
+  m_node_to_add->setPosition(pos);
+}
 
-AddRemoveNodeCommand::~AddRemoveNodeCommand() = default;
+AddRemoveNodeCommand::~AddRemoveNodeCommand()
+{
+  delete m_node_to_add;
+}
 
 void AddRemoveNodeCommand::addNode()
 {
-  Q_ASSERT(!m_node_to_remove);
-  m_node_to_remove = m_node_factory->create().release();
-  m_node_to_remove->setPosition(m_pos);
-  m_document->addNode(m_node_to_remove);
+  Q_ASSERT(m_node_to_add);
+  m_document->addNode(m_node_to_add);
+  std::swap(m_node_to_add, m_node_to_remove);
 }
 
 void AddRemoveNodeCommand::removeNode()
 {
   Q_ASSERT(m_node_to_remove);
   m_document->removeNode(m_node_to_remove);
-  m_node_to_remove = nullptr;
+  std::swap(m_node_to_add, m_node_to_remove);
 }
 
 /* ------------------------------ AddNodeCommand ---------------------------- */

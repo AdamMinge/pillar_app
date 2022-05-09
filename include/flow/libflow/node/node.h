@@ -12,8 +12,6 @@ namespace flow::node
 
   class LIB_FLOW_API Node : public Object
   {
-    Q_OBJECT
-
   public:
     explicit Node();
     ~Node() override;
@@ -26,7 +24,7 @@ namespace flow::node
     void insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index);
     void removePin(Pin::Type type, int index);
 
-  protected Q_SLOTS:
+  protected:
     virtual void compute() = 0;
 
   private:

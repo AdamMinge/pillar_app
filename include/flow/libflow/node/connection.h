@@ -14,8 +14,6 @@ namespace flow::node
 
   class LIB_FLOW_API Connection : public Object
   {
-    Q_OBJECT
-
   public:
     explicit Connection(Pin &out, Pin &in);
     ~Connection() override;
@@ -26,10 +24,7 @@ namespace flow::node
     void setConverter(std::shared_ptr<TypeConverter> converter);
     [[nodiscard]] std::shared_ptr<TypeConverter> getConverter() const;
 
-  Q_SIGNALS:
-    void converterChanged(std::shared_ptr<flow::node::TypeConverter> converter);
-
-  private Q_SLOTS:
+  private:
     void transferData(const flow::node::NodeData &data);
 
   private:

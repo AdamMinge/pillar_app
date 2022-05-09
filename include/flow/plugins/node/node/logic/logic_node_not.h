@@ -8,8 +8,6 @@
 
 class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam
 {
-  Q_OBJECT
-
 public:
   explicit LogicNodeNot();
   ~LogicNodeNot() override;

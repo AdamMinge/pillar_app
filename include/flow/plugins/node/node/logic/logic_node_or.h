@@ -8,8 +8,6 @@
 
 class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams
 {
-  Q_OBJECT
-
 public:
   explicit LogicNodeOr();
   ~LogicNodeOr() override;

@@ -26,5 +26,4 @@ void FlowDocument::removeNode(flow::node::Node *node)
 {
   m_nodes.removeOne(node);
   Q_EMIT nodeRemoved(node);
-  node->deleteLater();
 }

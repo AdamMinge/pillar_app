@@ -34,7 +34,7 @@ namespace flow::node
     auto insert_iter = pins.insert(pins.begin() + index, std::move(pin));
 
     if (type == Pin::Type::In)
-      connect((*insert_iter).get(), &Pin::dataChanged, this, &Node::compute);
+      (*insert_iter)->addListener([this](auto &&data) { this->compute(); });
   }
 
   void Node::removePin(Pin::Type type, int index)

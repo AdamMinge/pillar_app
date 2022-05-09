@@ -35,8 +35,7 @@ protected:
 private:
   FlowDocument *m_document;
   flow::node::Node *m_node_to_remove;
-  flow::node::NodeFactory *m_node_factory;
-  QPointF m_pos;
+  flow::node::Node *m_node_to_add;
 };
 
 class AddNodeCommand : public AddRemoveNodeCommand

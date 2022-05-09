@@ -9,8 +9,6 @@
 
 class LOGIC_NODE_API LogicNodeWithOneParam : public flow::node::Node
 {
-  Q_OBJECT
-
 public:
   explicit LogicNodeWithOneParam();
   ~LogicNodeWithOneParam() override;
@@ -18,8 +16,6 @@ public:
 
 class LOGIC_NODE_API LogicNodeWithTwoParams : public LogicNodeWithOneParam
 {
-  Q_OBJECT
-
 public:
   explicit LogicNodeWithTwoParams();
   ~LogicNodeWithTwoParams() override;

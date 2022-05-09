@@ -1,6 +1,8 @@
 #ifndef FLOW_STRING_NODE_DATA_H
 #define FLOW_STRING_NODE_DATA_H
 
+/* ------------------------------------- Qt --------------------------------- */
+#include <QString>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 #include "flow/libflow/node/node_data.h"

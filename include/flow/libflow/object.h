@@ -4,6 +4,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
 #include <QPointF>
+#include <QVariantMap>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
@@ -11,22 +12,21 @@
 namespace flow
 {
 
-  class LIB_FLOW_API Object : public QObject
+  class LIB_FLOW_API Object
   {
-    Q_OBJECT
-
   public:
     explicit Object();
-    ~Object() override;
+    virtual ~Object();
 
     void setPosition(const QPointF &position);
     [[nodiscard]] QPointF getPosition() const;
 
-  Q_SIGNALS:
-    void positionChanged(const QPointF &position);
+    void setProperties(const QVariantMap& properties);
+    const QVariantMap& getProperties() const;
 
   private:
     QPointF m_position;
+    QVariantMap m_properties;
   };
 
 }// namespace flow

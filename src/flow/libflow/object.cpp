@@ -4,17 +4,20 @@
 
 namespace flow
 {
+
   Object::Object() = default;
 
   Object::~Object() = default;
 
-  void Object::setPosition(const QPointF &position)
-  {
-    if (m_position == position) return;
-
-    m_position = position;
-    Q_EMIT positionChanged(position);
-  }
+  void Object::setPosition(const QPointF &position) { m_position = position; }
 
   QPointF Object::getPosition() const { return m_position; }
+
+  void Object::setProperties(const QVariantMap &properties)
+  {
+    m_properties = properties;
+  }
+
+  const QVariantMap &Object::getProperties() const { return m_properties; }
+
 }// namespace flow

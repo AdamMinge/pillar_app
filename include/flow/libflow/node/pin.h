@@ -2,7 +2,11 @@
 #define FLOW_PIN_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
+#include <QString>
+/* --------------------------------- Standard ------------------------------- */
+#include <functional>
+#include <memory>
+#include <list>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
@@ -12,30 +16,31 @@ namespace flow::node
 
   class NodeData;
 
-  class LIB_FLOW_API Pin : public QObject
+  class LIB_FLOW_API Pin
   {
-    Q_OBJECT
-
   public:
     enum class Type;
+    using Listener = std::function<void(const NodeData &)>;
 
   public:
     explicit Pin(std::unique_ptr<NodeData> data, QString caption = {});
-    ~Pin() override;
+    ~Pin();
 
     [[nodiscard]] const NodeData &getData() const;
     [[nodiscard]] QString getCaption() const;
 
-  public Q_SLOTS:
+    void setData(const NodeData &data);
     void setCaption(const QString &caption);
-    void setData(const flow::node::NodeData &data);
 
-  Q_SIGNALS:
-    void captionChanged(const QString &caption);
-    void dataChanged(const flow::node::NodeData &data);
+    void addListener(Listener &&listener);
+    void clearListeners();
+
+  private:
+    void dataChanged(const NodeData &data);
 
   private:
     std::unique_ptr<NodeData> m_data;
+    std::list<Listener> m_listeners;
     QString m_caption;
   };
 

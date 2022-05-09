@@ -10,10 +10,6 @@ FlowItem::FlowItem(flow::Object *object, QGraphicsItem *parent)
   setAcceptedMouseButtons(Qt::MouseButton{});
   setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemIsSelectable);
-
-  connect(m_object, &flow::Object::positionChanged, [this](auto &pos) {
-    setPos(pos);
-  });
 }
 
 FlowItem::~FlowItem() = default;
