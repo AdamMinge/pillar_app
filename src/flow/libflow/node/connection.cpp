@@ -10,7 +10,7 @@ namespace flow::node
   Connection::Connection(Pin &out, Pin &in)
       : m_in(in), m_out(out), m_converter(nullptr)
   {
-    out.addListener([this](auto&& data){
+    out.addListener([this](auto &&data) {
       this->transferData(std::forward<decltype(data)>(data));
     });
   }

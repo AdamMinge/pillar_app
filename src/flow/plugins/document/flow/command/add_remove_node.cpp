@@ -41,10 +41,7 @@ AddRemoveNodeCommand::AddRemoveNodeCommand(
   m_node_to_add->setPosition(pos);
 }
 
-AddRemoveNodeCommand::~AddRemoveNodeCommand()
-{
-  delete m_node_to_add;
-}
+AddRemoveNodeCommand::~AddRemoveNodeCommand() { delete m_node_to_add; }
 
 void AddRemoveNodeCommand::addNode()
 {

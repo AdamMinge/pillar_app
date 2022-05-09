@@ -21,8 +21,8 @@ namespace flow
     void setPosition(const QPointF &position);
     [[nodiscard]] QPointF getPosition() const;
 
-    void setProperties(const QVariantMap& properties);
-    const QVariantMap& getProperties() const;
+    void setProperties(const QVariantMap &properties);
+    const QVariantMap &getProperties() const;
 
   private:
     QPointF m_position;
