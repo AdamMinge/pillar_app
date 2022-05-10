@@ -249,7 +249,8 @@ void FlowSelectionTool::endItemMoving()
   for (auto &[moving_item, _] : m_moving_items)
     objects.append(moving_item->getObject());
 
-  getDocument()->getUndoStack()->push(new MoveObject(objects, move));
+  getDocument()->getUndoStack()->push(
+    new MoveObject(getDocument(), objects, move));
 
   m_moving_items.clear();
 }

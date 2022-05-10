@@ -10,8 +10,9 @@
 /* -------------------------------------------------------------------------- */
 
 
-FlowNodeItem::FlowNodeItem(flow::node::Node *node)
-    : FlowItem(node), m_node_painter(std::make_unique<FlowNodePainter>(*this)),
+FlowNodeItem::FlowNodeItem(FlowDocument *document, flow::node::Node *node)
+    : FlowItem(document, node),
+      m_node_painter(std::make_unique<FlowNodePainter>(*this)),
       m_node_geometry(std::make_unique<FlowNodeGeometry>(*this))
 {
   setPos(getNode()->getPosition());

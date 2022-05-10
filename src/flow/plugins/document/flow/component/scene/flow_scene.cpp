@@ -4,6 +4,7 @@
 #include "flow/plugins/document/flow/component/scene/flow_item.h"
 #include "flow/plugins/document/flow/component/scene/flow_node_item.h"
 #include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
+#include "flow/plugins/document/flow/event/objects_event.h"
 #include "flow/plugins/document/flow/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsSceneDragDropEvent>
@@ -26,10 +27,13 @@ void FlowScene::setSceneDocument(FlowDocument *flow_document)
   if (m_flow_document)
   {
     disconnect(
-      m_flow_document, &FlowDocument::nodeAdded, this, &FlowScene::nodeAdded);
+      m_flow_document,
+      qOverload<const ObjectsAddedEvent &>(&FlowDocument::event), this,
+      qOverload<const ObjectsAddedEvent &>(&FlowScene::onEvent));
     disconnect(
-      m_flow_document, &FlowDocument::nodeRemoved, this,
-      &FlowScene::nodeRemoved);
+      m_flow_document,
+      qOverload<const ObjectsRemovedEvent &>(&FlowDocument::event), this,
+      qOverload<const ObjectsRemovedEvent &>(&FlowScene::onEvent));
   }
 
   m_flow_document = flow_document;
@@ -37,10 +41,13 @@ void FlowScene::setSceneDocument(FlowDocument *flow_document)
   if (m_flow_document)
   {
     connect(
-      m_flow_document, &FlowDocument::nodeAdded, this, &FlowScene::nodeAdded);
+      m_flow_document,
+      qOverload<const ObjectsAddedEvent &>(&FlowDocument::event), this,
+      qOverload<const ObjectsAddedEvent &>(&FlowScene::onEvent));
     connect(
-      m_flow_document, &FlowDocument::nodeRemoved, this,
-      &FlowScene::nodeRemoved);
+      m_flow_document,
+      qOverload<const ObjectsRemovedEvent &>(&FlowDocument::event), this,
+      qOverload<const ObjectsRemovedEvent &>(&FlowScene::onEvent));
   }
 }
 
@@ -170,18 +177,35 @@ void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
   }
 }
 
-void FlowScene::nodeAdded(flow::node::Node *node)
+void FlowScene::onEvent(const ObjectsAddedEvent &event)
 {
-  auto node_item = std::make_unique<FlowNodeItem>(node);
-  m_node_items.insert(node, node_item.get());
-  addItem(node_item.release());
+  for (auto object : event.getObjects())
+  {
+    if (event.getObjectsType() == ObjectsAddedEvent::ObjectsType::Node)
+    {
+      auto node = dynamic_cast<flow::node::Node *>(object);
+      Q_ASSERT(node && !m_node_items.contains(node));
+
+      auto node_item = std::make_unique<FlowNodeItem>(m_flow_document, node);
+      m_node_items.insert(node, node_item.get());
+      addItem(node_item.release());
+    }
+  }
 }
 
-void FlowScene::nodeRemoved(flow::node::Node *node)
+void FlowScene::onEvent(const ObjectsRemovedEvent &event)
 {
-  Q_ASSERT(m_node_items.contains(node));
-  removeItem(m_node_items[node]);
-  m_node_items.remove(node);
+  for (auto object : event.getObjects())
+  {
+    if (event.getObjectsType() == ObjectsAddedEvent::ObjectsType::Node)
+    {
+      auto node = dynamic_cast<flow::node::Node *>(object);
+      Q_ASSERT(node && m_node_items.contains(node));
+
+      removeItem(m_node_items[node]);
+      m_node_items.remove(node);
+    }
+  }
 }
 
 bool FlowScene::isAcceptable(const QMimeData *mime_data) const

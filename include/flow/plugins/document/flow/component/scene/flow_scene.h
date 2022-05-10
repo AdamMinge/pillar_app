@@ -20,6 +20,9 @@ class FlowNodeItem;
 class FlowDocument;
 class FlowAbstractTool;
 
+class ObjectsAddedEvent;
+class ObjectsRemovedEvent;
+
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene
 {
   Q_OBJECT
@@ -54,8 +57,8 @@ protected:
   void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
 private Q_SLOTS:
-  void nodeAdded(flow::node::Node *node);
-  void nodeRemoved(flow::node::Node *node);
+  void onEvent(const ObjectsAddedEvent &event);
+  void onEvent(const ObjectsRemovedEvent &event);
 
 private:
   bool isAcceptable(const QMimeData *mime_data) const;

@@ -19,7 +19,7 @@ class FLOW_DOCUMENT_API FlowNodeItem : public FlowItem
   Q_OBJECT
 
 public:
-  explicit FlowNodeItem(flow::node::Node *node);
+  explicit FlowNodeItem(FlowDocument *document, flow::node::Node *node);
   ~FlowNodeItem() override;
 
   [[nodiscard]] flow::node::Node *getNode() const;

@@ -15,11 +15,13 @@ namespace flow
   class Object;
 }
 
+class FlowDocument;
+
 class FLOW_DOCUMENT_API MoveObject : public flow::command::Command
 {
 public:
   explicit MoveObject(
-    QList<flow::Object *> objects, const QPointF &move,
+    FlowDocument *document, QList<flow::Object *> objects, const QPointF &move,
     flow::command::Command *parent = nullptr);
   ~MoveObject() override;
 
@@ -27,6 +29,10 @@ public:
   void undo() override;
 
 private:
+  void execute(const QPointF &move);
+
+private:
+  FlowDocument *m_document;
   QList<flow::Object *> m_objects;
   QPointF m_move;
 };

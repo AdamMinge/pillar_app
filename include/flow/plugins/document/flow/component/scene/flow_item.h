@@ -12,20 +12,30 @@ namespace flow
   class Object;
 }
 
+class FlowDocument;
+class ObjectsChangedPropertiesEvent;
+
 class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject
 {
   Q_OBJECT
 
 public:
-  explicit FlowItem(flow::Object *object, QGraphicsItem *parent = nullptr);
+  explicit FlowItem(
+    FlowDocument *document, flow::Object *object,
+    QGraphicsItem *parent = nullptr);
   ~FlowItem() override;
 
   [[nodiscard]] flow::Object *getObject() const;
+  [[nodiscard]] FlowDocument *getDocument() const;
 
   void setHovered(bool hovered);
   [[nodiscard]] bool isHovered() const;
 
+private Q_SLOTS:
+  void onEvent(const ObjectsChangedPropertiesEvent &event);
+
 private:
+  FlowDocument *m_document;
   flow::Object *m_object;
   bool m_hovered;
 };
