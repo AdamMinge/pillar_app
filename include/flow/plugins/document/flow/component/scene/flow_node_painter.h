@@ -20,9 +20,9 @@ public:
 
 private:
   void paintNodeRect(QPainter *painter, const QStyleOptionGraphicsItem *option);
-  void paintNodePins(QPainter *painter, const QStyleOptionGraphicsItem *option);
   void
   paintNodeLabel(QPainter *painter, const QStyleOptionGraphicsItem *option);
+  void paintNodePins(QPainter *painter, const QStyleOptionGraphicsItem *option);
   void
   paintNodePinLabels(QPainter *painter, const QStyleOptionGraphicsItem *option);
 

@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/component/tool/selection_rectangle.h"
+#include "flow/plugins/document/flow/component/scene/selection_rectangle.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QPainter>

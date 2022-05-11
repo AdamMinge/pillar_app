@@ -1,6 +1,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/component/scene/flow_node_painter.h"
+#include "flow/plugins/document/flow/component/scene/flow_node_geometry.h"
 #include "flow/plugins/document/flow/component/scene/flow_node_item.h"
+#include "flow/plugins/document/flow/component/scene/flow_style_manager.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/node.h>
 /* -------------------------------------------------------------------------- */
 
 FlowNodePainter::FlowNodePainter(const FlowNodeItem &node_item)
@@ -13,42 +17,71 @@ void FlowNodePainter::paint(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
   paintNodeRect(painter, option);
-  paintNodePins(painter, option);
   paintNodeLabel(painter, option);
+  paintNodePins(painter, option);
   paintNodePinLabels(painter, option);
 }
 
 void FlowNodePainter::paintNodeRect(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-  auto hovered = m_node_item.isHovered();
-  auto selected = m_node_item.isSelected();
-  auto rect = m_node_item.boundingRect();
-
-  auto color = selected ? QColor(255, 165, 0) : QColor(255, 255, 255);
-  auto pen_width = hovered ? 2.0 : 1.0;
+  const auto rect = m_node_item.boundingRect();
+  const auto &style =
+    FlowStyleManager::getInstance().getNodeStyles(m_node_item);
 
   QLinearGradient gradient(rect.bottomLeft(), rect.topRight());
-
-  gradient.setColorAt(0.0, QColor(160, 160, 164));
-  gradient.setColorAt(0.03, QColor(80, 80, 80));
-  gradient.setColorAt(0.97, QColor(64, 64, 64));
-  gradient.setColorAt(1.0, QColor(58, 58, 58));
+  gradient.setColorAt(style.gradient_scale[0], style.gradient[0]);
+  gradient.setColorAt(style.gradient_scale[0], style.gradient[1]);
+  gradient.setColorAt(style.gradient_scale[0], style.gradient[2]);
+  gradient.setColorAt(style.gradient_scale[0], style.gradient[3]);
 
   painter->save();
   painter->setBrush(gradient);
-  painter->setPen(QPen(color, pen_width));
-  painter->drawRoundedRect(rect, 3.0, 3.0);
+  painter->setPen(QPen(style.border_color, style.border_size));
+  painter->drawRoundedRect(rect, style.border_radius, style.border_radius);
+  painter->restore();
+}
+
+void FlowNodePainter::paintNodeLabel(
+  QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+  const auto node = m_node_item.getNode();
+  const auto geometry = m_node_item.getGeometry();
+  const auto &style =
+    FlowStyleManager::getInstance().getNodeStyles(m_node_item);
+
+  const auto label = node->getName();
+  const auto label_pos = geometry->getLabelPosition();
+
+  painter->save();
+  painter->setFont(style.font);
+  painter->drawText(label_pos, label);
   painter->restore();
 }
 
 void FlowNodePainter::paintNodePins(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
-{}
+{
+  const auto node = m_node_item.getNode();
+  const auto geometry = m_node_item.getGeometry();
+  const auto &style =
+    FlowStyleManager::getInstance().getNodeStyles(m_node_item);
 
-void FlowNodePainter::paintNodeLabel(
-  QPainter *painter, const QStyleOptionGraphicsItem *option)
-{}
+  for (auto type : {flow::node::Pin::Type::In, flow::node::Pin::Type::Out})
+  {
+    for (auto index = 0; index < node->getPinsCounts(type); ++index)
+    {
+      const auto pin_pos = geometry->getPinPosition(type, index);
+
+      painter->save();
+      painter->setBrush(style.pin.color);
+      painter->setPen(style.pin.border_color);
+      painter->drawEllipse(
+        pin_pos, style.pin.size.width(), style.pin.size.height());
+      painter->restore();
+    }
+  }
+}
 
 void FlowNodePainter::paintNodePinLabels(
   QPainter *painter, const QStyleOptionGraphicsItem *option)

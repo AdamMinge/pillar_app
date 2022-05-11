@@ -4,7 +4,7 @@
 #include <flow/libflow/node/base/boolean_node_data.h>
 /* -------------------------------------------------------------------------- */
 
-LogicNodeNot::LogicNodeNot() = default;
+LogicNodeNot::LogicNodeNot() { setName(QObject::tr("NOT")); }
 
 LogicNodeNot::~LogicNodeNot() = default;
 

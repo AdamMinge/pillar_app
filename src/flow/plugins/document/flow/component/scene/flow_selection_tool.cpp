@@ -1,9 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/component/tool/flow_selection_tool.h"
+#include "flow/plugins/document/flow/component/scene/flow_selection_tool.h"
 #include "flow/plugins/document/flow/command/move_object.h"
 #include "flow/plugins/document/flow/component/scene/flow_item.h"
 #include "flow/plugins/document/flow/component/scene/flow_scene.h"
-#include "flow/plugins/document/flow/component/tool/selection_rectangle.h"
+#include "flow/plugins/document/flow/component/scene/selection_rectangle.h"
 #include "flow/plugins/document/flow/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>

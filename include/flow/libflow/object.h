@@ -18,13 +18,17 @@ namespace flow
     explicit Object();
     virtual ~Object();
 
+    void setName(const QString &name);
+    [[nodiscard]] QString getName() const;
+
     void setPosition(const QPointF &position);
     [[nodiscard]] QPointF getPosition() const;
 
     void setProperties(const QVariantMap &properties);
-    const QVariantMap &getProperties() const;
+    [[nodiscard]] const QVariantMap &getProperties() const;
 
   private:
+    QString m_name;
     QPointF m_position;
     QVariantMap m_properties;
   };

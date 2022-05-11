@@ -4,7 +4,7 @@
 #include <flow/libflow/node/base/boolean_node_data.h>
 /* -------------------------------------------------------------------------- */
 
-LogicNodeOr::LogicNodeOr() = default;
+LogicNodeOr::LogicNodeOr() { setName(QObject::tr("OR")); }
 
 LogicNodeOr::~LogicNodeOr() = default;
 

@@ -31,16 +31,16 @@ set(sources
         ${source_root}/component/node/flow_nodes_tree_model.cpp
 
         ${source_root}/component/scene/flow_node_geometry.cpp
+        ${source_root}/component/scene/flow_node_painter.cpp
+        ${source_root}/component/scene/flow_style_manager.cpp
         ${source_root}/component/scene/flow_node_item.cpp
         ${source_root}/component/scene/flow_item.cpp
-        ${source_root}/component/scene/flow_node_painter.cpp
         ${source_root}/component/scene/flow_scene.cpp
         ${source_root}/component/scene/flow_view.cpp
-
-        ${source_root}/component/tool/flow_abstract_tool.cpp
-        ${source_root}/component/tool/selection_rectangle.cpp
-        ${source_root}/component/tool/flow_selection_tool.cpp
-        ${source_root}/component/tool/flow_tools_bar.cpp
+        ${source_root}/component/scene/flow_abstract_tool.cpp
+        ${source_root}/component/scene/selection_rectangle.cpp
+        ${source_root}/component/scene/flow_selection_tool.cpp
+        ${source_root}/component/scene/flow_tools_bar.cpp
 
         ${source_root}/component/type_converter/flow_type_converters_dock.cpp
         ${source_root}/component/type_converter/flow_type_converters_tree_delegate.cpp
@@ -68,16 +68,16 @@ set(includes
         ${include_root}/component/node/flow_nodes_tree_model.h
 
         ${include_root}/component/scene/flow_node_geometry.h
+        ${include_root}/component/scene/flow_node_painter.h
+        ${include_root}/component/scene/flow_style_manager.h
         ${include_root}/component/scene/flow_node_item.h
         ${include_root}/component/scene/flow_item.h
-        ${include_root}/component/scene/flow_node_painter.h
         ${include_root}/component/scene/flow_scene.h
         ${include_root}/component/scene/flow_view.h
-
-        ${include_root}/component/tool/flow_abstract_tool.h
-        ${include_root}/component/tool/flow_selection_tool.h
-        ${include_root}/component/tool/flow_tools_bar.h
-        ${include_root}/component/tool/selection_rectangle.h
+        ${include_root}/component/scene/flow_abstract_tool.h
+        ${include_root}/component/scene/flow_selection_tool.h
+        ${include_root}/component/scene/flow_tools_bar.h
+        ${include_root}/component/scene/selection_rectangle.h
 
         ${include_root}/component/type_converter/flow_type_converters_dock.h
         ${include_root}/component/type_converter/flow_type_converters_tree_delegate.h
