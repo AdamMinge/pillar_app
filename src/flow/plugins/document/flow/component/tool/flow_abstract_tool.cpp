@@ -8,7 +8,7 @@ FlowAbstractTool::FlowAbstractTool(
   QString name, QIcon icon, const QKeySequence &shortcut, QObject *parent)
     : QObject(parent), m_document(nullptr), m_name(std::move(name)),
       m_icon(std::move(icon)), m_cursor(Qt::ArrowCursor), m_shortcut(shortcut),
-      m_enabled(true), m_visible(true)
+      m_enabled(true), m_visible(true), m_scene(nullptr)
 {}
 
 FlowAbstractTool::~FlowAbstractTool() = default;
@@ -61,9 +61,11 @@ bool FlowAbstractTool::isVisible() const { return m_visible; }
 
 bool FlowAbstractTool::isEnabled() const { return m_enabled; }
 
-void FlowAbstractTool::activate(FlowScene *scene) {}
+void FlowAbstractTool::activate(FlowScene *scene) { m_scene = scene; }
 
-void FlowAbstractTool::deactivate(FlowScene *scene) {}
+void FlowAbstractTool::deactivate() { m_scene = nullptr; }
+
+FlowScene *FlowAbstractTool::getScene() const { return m_scene; }
 
 void FlowAbstractTool::keyPressEvent(QKeyEvent *event) {}
 

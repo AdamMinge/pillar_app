@@ -18,7 +18,7 @@ public:
   ~FlowSelectionTool() override;
 
   void activate(FlowScene *scene) override;
-  void deactivate(FlowScene *scene) override;
+  void deactivate() override;
 
   void keyPressEvent(QKeyEvent *event) override;
   void keyReleaseEvent(QKeyEvent *event) override;
@@ -50,7 +50,6 @@ private:
 private:
   Action m_action;
 
-  FlowScene *m_scene;
   QPointF m_mouse_clicked_pos;
   Qt::MouseButton m_mouse_clicked_button;
   Qt::KeyboardModifiers m_modifiers;

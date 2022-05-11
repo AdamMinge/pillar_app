@@ -55,9 +55,7 @@ FlowDocument *FlowScene::getSceneDocument() const { return m_flow_document; }
 
 void FlowScene::setTool(FlowAbstractTool *tool)
 {
-  if (m_flow_tool == tool) return;
-
-  if (m_flow_tool) m_flow_tool->deactivate(this);
+  if (m_flow_tool) m_flow_tool->deactivate();
 
   m_flow_tool = tool;
 

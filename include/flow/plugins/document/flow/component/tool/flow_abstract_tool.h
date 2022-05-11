@@ -46,7 +46,9 @@ public:
   [[nodiscard]] bool isEnabled() const;
 
   virtual void activate(FlowScene *scene);
-  virtual void deactivate(FlowScene *scene);
+  virtual void deactivate();
+
+  [[nodiscard]] FlowScene *getScene() const;
 
   virtual void keyPressEvent(QKeyEvent *event);
   virtual void keyReleaseEvent(QKeyEvent *event);
@@ -69,6 +71,8 @@ private:
 
   bool m_enabled;
   bool m_visible;
+
+  FlowScene *m_scene;
 };
 
 #endif//FLOW_FLOW_ABSTRACT_TOOL_H

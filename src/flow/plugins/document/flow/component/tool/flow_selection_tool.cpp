@@ -17,14 +17,17 @@ FlowSelectionTool::FlowSelectionTool(QObject *parent)
         QKeySequence(Qt::Key_S), parent),
       m_action(Action::NoAction), m_mouse_clicked_button(Qt::MouseButton{}),
       m_selection_rect(std::make_unique<SelectionRectangle>()),
-      m_clicked_item(nullptr), m_scene(nullptr)
+      m_clicked_item(nullptr)
 {}
 
 FlowSelectionTool::~FlowSelectionTool() = default;
 
-void FlowSelectionTool::activate(FlowScene *scene) { m_scene = scene; }
+void FlowSelectionTool::activate(FlowScene *scene)
+{
+  FlowAbstractTool::activate(scene);
+}
 
-void FlowSelectionTool::deactivate(FlowScene *scene) { m_scene = nullptr; }
+void FlowSelectionTool::deactivate() { FlowAbstractTool::deactivate(); }
 
 void FlowSelectionTool::keyPressEvent(QKeyEvent *event)
 {
@@ -51,7 +54,7 @@ void FlowSelectionTool::mouseMoved(QGraphicsSceneMouseEvent *event)
     if (drag_distance >= QApplication::startDragDistance() / 2.0)
     {
       const auto any_item_selected =
-        m_scene != nullptr && !m_scene->selectedItems().empty();
+        getScene() != nullptr && !getScene()->selectedItems().empty();
 
       if (
         m_clicked_item ||
@@ -102,9 +105,9 @@ void FlowSelectionTool::mousePressed(QGraphicsSceneMouseEvent *event)
       m_mouse_clicked_button = Qt::LeftButton;
       m_mouse_clicked_pos = event->scenePos();
 
-      if (m_scene)
+      if (getScene())
       {
-        auto item = m_scene->itemAt(m_mouse_clicked_pos, QTransform{});
+        auto item = getScene()->itemAt(m_mouse_clicked_pos, QTransform{});
         if (auto flow_item = dynamic_cast<FlowItem *>(item); flow_item)
           m_clicked_item = flow_item;
       }
@@ -143,12 +146,12 @@ void FlowSelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event)
           m_clicked_item->setSelected(!m_clicked_item->isSelected());
         } else
         {
-          m_scene->clearSelection();
+          getScene()->clearSelection();
           m_clicked_item->setSelected(true);
         }
       } else if (!(m_modifiers & (Qt::AltModifier | Qt::ControlModifier)))
       {
-        m_scene->clearSelection();
+        getScene()->clearSelection();
       }
       break;
     }
@@ -164,11 +167,11 @@ void FlowSelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event)
 
 void FlowSelectionTool::updateHover(const QPointF &mouse_pos)
 {
-  if (m_scene)
+  if (getScene())
   {
     auto path = QPainterPath{};
     path.addEllipse(mouse_pos, 1, 1);
-    m_scene->setHoveredArea(path);
+    getScene()->setHoveredArea(path);
   }
 }
 
@@ -177,15 +180,15 @@ void FlowSelectionTool::startSceneMoving() { m_action = Action::SceneMoving; }
 void FlowSelectionTool::startItemMoving()
 {
   m_action = Action::ItemMoving;
-  if (m_scene)
+  if (getScene())
   {
     if (m_clicked_item && !(m_modifiers & Qt::AltModifier))
     {
-      m_scene->clearSelection();
+      getScene()->clearSelection();
       m_clicked_item->setSelected(true);
     }
 
-    for (auto item : m_scene->selectedItems())
+    for (auto item : getScene()->selectedItems())
     {
       if (auto flow_item = dynamic_cast<FlowItem *>(item); flow_item)
         m_moving_items.append(std::make_pair(flow_item, flow_item->pos()));
@@ -196,17 +199,17 @@ void FlowSelectionTool::startItemMoving()
 void FlowSelectionTool::startItemSelection()
 {
   m_action = Action::ItemSelection;
-  if (m_scene) m_scene->addItem(m_selection_rect.get());
+  if (getScene()) getScene()->addItem(m_selection_rect.get());
 }
 
 void FlowSelectionTool::updateSceneMoving(const QPointF &mouse_pos)
 {
-  if (m_scene)
+  if (getScene())
   {
     QPointF difference = m_mouse_clicked_pos - mouse_pos;
 
-    m_scene->setSceneRect(
-      m_scene->sceneRect().translated(difference.x(), difference.y()));
+    getScene()->setSceneRect(
+      getScene()->sceneRect().translated(difference.x(), difference.y()));
   }
 }
 
@@ -220,18 +223,18 @@ void FlowSelectionTool::updateItemMoving(const QPointF &mouse_pos)
 
 void FlowSelectionTool::updateItemSelection(const QPointF &mouse_pos)
 {
-  if (m_scene)
+  if (getScene())
   {
     m_selection_rect->setRect(
       QRectF(m_mouse_clicked_pos, mouse_pos).normalized());
 
     auto prev_selected_items = QList<QGraphicsItem *>{};
     if (m_modifiers & Qt::ControlModifier)
-      prev_selected_items = m_scene->selectedItems();
+      prev_selected_items = getScene()->selectedItems();
 
     QPainterPath path;
     path.addRect(m_selection_rect->boundingRect());
-    m_scene->setSelectionArea(path);
+    getScene()->setSelectionArea(path);
 
     for (auto prev_selected_item : prev_selected_items)
       prev_selected_item->setSelected(true);
@@ -257,7 +260,7 @@ void FlowSelectionTool::endItemMoving()
 
 void FlowSelectionTool::endItemSelection()
 {
-  if (m_scene) m_scene->removeItem(m_selection_rect.get());
+  if (getScene()) getScene()->removeItem(m_selection_rect.get());
 }
 
 void FlowSelectionTool::refreshCursor()
@@ -268,9 +271,9 @@ void FlowSelectionTool::refreshCursor()
   {
     case Action::NoAction: {
       const auto any_item_selected =
-        m_scene != nullptr && !m_scene->selectedItems().empty();
+        getScene() != nullptr && !getScene()->selectedItems().empty();
       const auto any_item_hovered =
-        m_scene != nullptr && !m_scene->hoveredItems().empty();
+        getScene() != nullptr && !getScene()->hoveredItems().empty();
 
       if (
         any_item_hovered ||
