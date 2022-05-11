@@ -1,5 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_document.h"
+#include "flow/plugins/document/flow/event/objects_event.h"
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/node/node.h>
 /* -------------------------------------------------------------------------- */
@@ -18,13 +19,12 @@ FlowDocument::~FlowDocument() { qDeleteAll(m_nodes); }
 
 void FlowDocument::addNode(flow::node::Node *node)
 {
-  m_nodes.append(QPointer<flow::node::Node>(node));
-  Q_EMIT nodeAdded(node);
+  m_nodes.append(node);
+  Q_EMIT event(ObjectsAddedEvent(node, ObjectsAddedEvent::ObjectsType::Node));
 }
 
 void FlowDocument::removeNode(flow::node::Node *node)
 {
   m_nodes.removeOne(node);
-  Q_EMIT nodeRemoved(node);
-  node->deleteLater();
+  Q_EMIT event(ObjectsRemovedEvent(node, ObjectsAddedEvent::ObjectsType::Node));
 }

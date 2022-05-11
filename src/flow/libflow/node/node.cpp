@@ -34,7 +34,7 @@ namespace flow::node
     auto insert_iter = pins.insert(pins.begin() + index, std::move(pin));
 
     if (type == Pin::Type::In)
-      connect((*insert_iter).get(), &Pin::dataChanged, this, &Node::compute);
+      (*insert_iter)->addListener([this](auto &&data) { this->compute(); });
   }
 
   void Node::removePin(Pin::Type type, int index)
@@ -42,10 +42,6 @@ namespace flow::node
     auto &pins = getPins(type);
     pins.erase(pins.begin() + index);
   }
-
-  void Node::setPosition(const QPointF &position) { m_position = position; }
-
-  QPointF Node::getPosition() const { return m_position; }
 
   std::vector<std::unique_ptr<Pin>> &Node::getPins(Pin::Type type)
   {

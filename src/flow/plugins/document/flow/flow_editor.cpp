@@ -52,11 +52,11 @@ void FlowEditor::setCurrentDocument(flow::document::Document *document)
 
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
 
+  m_tools_bar->setDocument(m_current_document);
   if (auto flow_view = m_view_for_document[flow_document]; flow_view)
   {
     m_scene_stack->setCurrentWidget(flow_view);
-    auto scene = flow_view->getScene();
-    scene->setTool(m_tools_bar->getSelectedTool());
+    toolSelected(m_tools_bar->getSelectedTool());
   }
 }
 
@@ -144,8 +144,29 @@ void FlowEditor::toolSelected(FlowAbstractTool *tool)
 {
   auto flow_view = m_view_for_document[m_current_document];
   auto flow_scene = flow_view->getScene();
+  auto prev_tool = flow_scene->getTool();
+
+  if (prev_tool)
+  {
+    disconnect(
+      prev_tool, &FlowAbstractTool::cursorChanged, this,
+      &FlowEditor::cursorChanged);
+  }
 
   flow_scene->setTool(tool);
+  flow_view->viewport()->setCursor(tool ? tool->getCursor() : Qt::ArrowCursor);
+
+  if (tool)
+  {
+    connect(
+      tool, &FlowAbstractTool::cursorChanged, this, &FlowEditor::cursorChanged);
+  }
+}
+
+void FlowEditor::cursorChanged(const QCursor &cursor)
+{
+  auto flow_view = m_view_for_document[m_current_document];
+  flow_view->viewport()->setCursor(cursor);
 }
 
 void FlowEditor::initUi()

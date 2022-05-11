@@ -1,6 +1,8 @@
 #ifndef FLOW_CHARACTER_NODE_DATA_H
 #define FLOW_CHARACTER_NODE_DATA_H
 
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QChar>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 #include "flow/libflow/node/node_data.h"

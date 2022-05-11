@@ -1,21 +1,17 @@
 #ifndef FLOW_NODE_H
 #define FLOW_NODE_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
-#include <QPointF>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/export.h"
 #include "flow/libflow/node/pin.h"
+#include "flow/libflow/object.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow::node
 {
 
-  class LIB_FLOW_API Node : public QObject
+  class LIB_FLOW_API Node : public Object
   {
-    Q_OBJECT
-
   public:
     explicit Node();
     ~Node() override;
@@ -28,10 +24,7 @@ namespace flow::node
     void insertPin(Pin::Type type, std::unique_ptr<Pin> pin, int index);
     void removePin(Pin::Type type, int index);
 
-    void setPosition(const QPointF &position);
-    [[nodiscard]] QPointF getPosition() const;
-
-  protected Q_SLOTS:
+  protected:
     virtual void compute() = 0;
 
   private:
@@ -42,7 +35,6 @@ namespace flow::node
   private:
     std::vector<std::unique_ptr<Pin>> m_out_pins;
     std::vector<std::unique_ptr<Pin>> m_in_pins;
-    QPointF m_position;
   };
 
 }// namespace flow::node

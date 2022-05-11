@@ -10,6 +10,7 @@ set(include_root ${FLOW_SOURCE_DIR}/include/flow/libflow)
 set(resources_root ${FLOW_SOURCE_DIR}/resources)
 
 set(sources
+        ${source_root}/object.cpp
         ${source_root}/plugin.cpp
         ${source_root}/logging_manager.cpp
         ${source_root}/script_manager.cpp
@@ -56,6 +57,7 @@ set(sources
 
 set(includes
         ${include_root}/export.h
+        ${include_root}/object.h
         ${include_root}/action_manager.h
         ${include_root}/export.h
         ${include_root}/file_format.h

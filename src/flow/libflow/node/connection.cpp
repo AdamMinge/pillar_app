@@ -10,7 +10,9 @@ namespace flow::node
   Connection::Connection(Pin &out, Pin &in)
       : m_in(in), m_out(out), m_converter(nullptr)
   {
-    connect(&m_out, &Pin::dataChanged, this, &Connection::transferData);
+    out.addListener([this](auto &&data) {
+      this->transferData(std::forward<decltype(data)>(data));
+    });
   }
 
   Connection::~Connection() = default;
@@ -27,10 +29,7 @@ namespace flow::node
 
   void Connection::setConverter(std::shared_ptr<TypeConverter> converter)
   {
-    if (m_converter == converter) return;
-
     m_converter = std::move(converter);
-    Q_EMIT converterChanged(m_converter);
   }
 
   std::shared_ptr<TypeConverter> Connection::getConverter() const
