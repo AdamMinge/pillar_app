@@ -1,7 +1,11 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/component/scene/flow_style_manager.h"
-#include "flow/plugins/document/flow/component/scene/flow_node_item.h"
+#include "flow/plugins/document/flow/component/scene/flow_style_reader.h"
+#include "flow/plugins/document/flow/component/scene/flow_style_writer.h"
 /* -------------------------------------------------------------------------- */
+
+#include <QGuiApplication>
+
 
 QScopedPointer<FlowStyleManager> FlowStyleManager::m_instance =
   QScopedPointer<FlowStyleManager>(nullptr);
@@ -15,58 +19,53 @@ FlowStyleManager &FlowStyleManager::getInstance()
 
 void FlowStyleManager::deleteInstance() { m_instance.reset(nullptr); }
 
-FlowStyleManager::FlowStyleManager()
-{
-  resetNodeStyles(Type::Normal);
-  resetNodeStyles(Type::Selected);
-  resetNodeStyles(Type::Hovered);
-  resetNodeStyles(Type::Selected | Type::Hovered);
-}
+FlowStyleManager::FlowStyleManager() { resetStyle(); }
 
 FlowStyleManager::~FlowStyleManager() = default;
 
-void FlowStyleManager::setNodeStyles(Types types, NodeStyles &&styles)
+void FlowStyleManager::setStyle(const FlowStyle &style) { *m_style = style; }
+
+void FlowStyleManager::resetStyle()
 {
-  m_node_styles[types] = std::move(styles);
+  loadStyle(":/plugins/document/flow/styles/flow/default.json");
 }
 
-void FlowStyleManager::resetNodeStyles(Types types)
+bool FlowStyleManager::loadStyle(const QString &file_name)
 {
-  auto style = NodeStyles{
-    .font = QFont(),
-    .margins = QMarginsF(4, 8, 4, 4),
-    .gradient =
-      {QColor(160, 160, 164), QColor(80, 80, 80), QColor(64, 64, 64),
-       QColor(58, 58, 58)},
-    .gradient_scale = {0.0, 0.3, 0.97, 1.0},
-    .border_color = QColor(255, 255, 255),
-    .border_radius = 3.0,
-    .border_size = 1.0,
+  auto reader = FlowStyleReader{};
+  auto loaded_style = reader.read(file_name);
+  if (!loaded_style) return false;
 
-    .pin = NodeStyles::PinStyles{
-      .font = QFont(),
-      .size = QSizeF(2, 2),
-      .margins = QMarginsF(8, 8, 8, 8),
-      .color = QColor(169, 169, 169),
-      .border_color = QColor(255, 255, 255)}};
-
-  if (types.testFlag(Type::Selected)) style.border_color = QColor(255, 165, 0);
-  if (types.testFlag(Type::Hovered)) style.border_size = 2.0;
-
-  m_node_styles[types] = std::move(style);
+  m_style = std::move(loaded_style);
+  return true;
 }
 
-const NodeStyles &FlowStyleManager::getNodeStyles(Types types)
+bool FlowStyleManager::saveStyle(const QString &file_name)
 {
-  return m_node_styles.contains(types) ? m_node_styles[types]
-                                       : m_node_styles[Type::Normal];
+  auto reader = FlowStyleWriter{};
+  return reader.write(*m_style, file_name);
 }
 
-const NodeStyles &FlowStyleManager::getNodeStyles(const FlowNodeItem &node_item)
-{
-  auto style_type = FlowStyleManager::Types{FlowStyleManager::Type::Normal};
-  if (node_item.isHovered()) style_type |= FlowStyleManager::Type::Hovered;
-  if (node_item.isSelected()) style_type |= FlowStyleManager::Type::Selected;
+const FlowStyle &FlowStyleManager::getStyle() const { return *m_style; }
 
-  return getNodeStyles(style_type);
+const NodeStyle &getNodeStyle(const FlowNodeItem &item)
+{
+  auto state = NodeStyle::States{NodeStyle::State::Normal};
+  if (item.isSelected()) state |= NodeStyle::State::Selected;
+  if (item.isHovered()) state |= NodeStyle::State::Hovered;
+
+  const auto &node_style =
+    FlowStyleManager::getInstance().getStyle().getNodeStyle(state);
+  return node_style;
+}
+
+const PinStyle &getPinStyle(const FlowNodeItem &item)
+{
+  auto state = PinStyle::States{PinStyle::State::Normal};
+  if (item.isSelected()) state |= PinStyle::State::Selected;
+  if (item.isHovered()) state |= PinStyle::State::Hovered;
+
+  const auto &pin_style =
+    FlowStyleManager::getInstance().getStyle().getPinStyle(state);
+  return pin_style;
 }

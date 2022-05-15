@@ -33,6 +33,9 @@ set(sources
         ${source_root}/component/scene/flow_node_geometry.cpp
         ${source_root}/component/scene/flow_node_painter.cpp
         ${source_root}/component/scene/flow_style_manager.cpp
+        ${source_root}/component/scene/flow_style_writer.cpp
+        ${source_root}/component/scene/flow_style_reader.cpp
+        ${source_root}/component/scene/flow_style.cpp
         ${source_root}/component/scene/flow_node_item.cpp
         ${source_root}/component/scene/flow_item.cpp
         ${source_root}/component/scene/flow_scene.cpp
@@ -70,6 +73,9 @@ set(includes
         ${include_root}/component/scene/flow_node_geometry.h
         ${include_root}/component/scene/flow_node_painter.h
         ${include_root}/component/scene/flow_style_manager.h
+        ${include_root}/component/scene/flow_style_writer.h
+        ${include_root}/component/scene/flow_style_reader.h
+        ${include_root}/component/scene/flow_style.h
         ${include_root}/component/scene/flow_node_item.h
         ${include_root}/component/scene/flow_item.h
         ${include_root}/component/scene/flow_scene.h
@@ -84,7 +90,7 @@ set(includes
         ${include_root}/component/type_converter/flow_type_converters_tree_model.h)
 
 set(resources
-        ${resources_root}/plugin_document_flow_images.qrc)
+        ${resources_root}/plugin_document_flow.qrc)
 
 set(uis
         ${uis_root}/new_flow_document_widget.ui

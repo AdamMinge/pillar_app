@@ -20,7 +20,7 @@ public:
   bool isValid(QIODevice &device);
 
 private:
-  std::unique_ptr<FlowDocument> readDocument(QXmlStreamReader &writer);
+  std::unique_ptr<FlowDocument> readDocument(QXmlStreamReader &reader);
 };
 
 std::unique_ptr<FlowDocument>
@@ -37,7 +37,7 @@ FlowDocumentReader::FlowDocumentReaderImpl::readDocument(QIODevice &device)
 
 std::unique_ptr<FlowDocument>
 FlowDocumentReader::FlowDocumentReaderImpl::readDocument(
-  QXmlStreamReader &writer)
+  QXmlStreamReader &reader)
 {
   return utils::cast_unique_ptr<FlowDocument>(FlowDocument::create());
 }

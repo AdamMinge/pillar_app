@@ -42,8 +42,9 @@ namespace flow::document
     explicit ReadableDocumentFormat(QObject *parent = nullptr);
     ~ReadableDocumentFormat() override;
 
-    bool save(const Document &project, const QString &file_name, QString *error)
-      override;
+    bool save(
+      const Document &document, const QString &file_name,
+      QString *error) override;
     [[nodiscard]] Capabilities getCapabilities() const override;
   };
 

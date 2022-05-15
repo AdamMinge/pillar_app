@@ -27,6 +27,8 @@ public:
   [[nodiscard]] QPointF getLabelPosition() const;
   [[nodiscard]] QPointF
   getPinPosition(flow::node::Pin::Type type, int index) const;
+  [[nodiscard]] QPointF
+  getPinLabelPosition(flow::node::Pin::Type type, int index) const;
   [[nodiscard]] QPointF getWidgetPosition() const;
 
 private:
