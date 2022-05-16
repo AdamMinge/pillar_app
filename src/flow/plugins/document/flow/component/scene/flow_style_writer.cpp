@@ -21,8 +21,10 @@ public:
 private:
   void writeStyle(QJsonDocument &document, const FlowStyle &style);
 
-  [[nodiscard]] QJsonObject writeNodeStyle(const NodeStyle &style);
-  [[nodiscard]] QJsonObject writePinStyle(const PinStyle &style);
+  [[nodiscard]] QJsonObject
+  writeNodeStyle(const NodeStyle &style, NodeStyle::State state);
+  [[nodiscard]] QJsonObject
+  writePinStyle(const PinStyle &style, PinStyle::State state);
 
   [[nodiscard]] static QString convert(NodeStyle::State state);
   [[nodiscard]] static QString convert(PinStyle::State state);
@@ -51,7 +53,7 @@ void FlowStyleWriter::FlowStyleWriterImpl::writeStyle(
        {NodeStyle::State::Normal, NodeStyle::State::Selected,
         NodeStyle::State::Hovered})
   {
-    nodes[convert(state)] = writeNodeStyle(style.getNodeStyle(state));
+    nodes[convert(state)] = writeNodeStyle(style.getNodeStyle(), state);
   }
   main[QLatin1String("nodes")] = nodes;
 
@@ -60,54 +62,54 @@ void FlowStyleWriter::FlowStyleWriterImpl::writeStyle(
        {PinStyle::State::Normal, PinStyle::State::Selected,
         PinStyle::State::Hovered})
   {
-    pins[convert(state)] = writePinStyle(style.getPinStyle(state));
+    pins[convert(state)] = writePinStyle(style.getPinStyle(), state);
   }
   main[QLatin1String("pins")] = pins;
 
   document.setObject(main);
 }
 
-QJsonObject
-FlowStyleWriter::FlowStyleWriterImpl::writeNodeStyle(const NodeStyle &style)
+QJsonObject FlowStyleWriter::FlowStyleWriterImpl::writeNodeStyle(
+  const NodeStyle &style, NodeStyle::State state)
 {
   auto object = QJsonObject{};
-  if (style.getFont().has_value())
-    object[QLatin1String("font")] = style.findFont().toString();
-  if (style.getFontColor().has_value())
-    object[QLatin1String("font_color")] = style.findFontColor().name();
-  if (style.getMargins().has_value())
-    object[QLatin1String("margins")] = convert(style.findMargins());
-  if (style.getGradient().has_value())
-    object[QLatin1String("gradient")] = convert(style.findGradient());
-  if (style.getGradientScale().has_value())
+  if (style.isFontOverridden(state))
+    object[QLatin1String("font")] = style.getFont(state).toString();
+  if (style.isFontColorOverridden(state))
+    object[QLatin1String("font_color")] = style.getFontColor(state).name();
+  if (style.isMarginsOverridden(state))
+    object[QLatin1String("margins")] = convert(style.getMargins(state));
+  if (style.isGradientOverridden(state))
+    object[QLatin1String("gradient")] = convert(style.getGradient(state));
+  if (style.isGradientScaleOverridden(state))
     object[QLatin1String("gradient_scale")] =
-      convert(style.findGradientScale());
-  if (style.getBorderColor().has_value())
-    object[QLatin1String("border_color")] = style.findBorderColor().name();
-  if (style.getBorderRadius().has_value())
-    object[QLatin1String("border_radius")] = style.findBorderRadius();
-  if (style.getBorderSize().has_value())
-    object[QLatin1String("border_size")] = style.findBorderSize();
+      convert(style.getGradientScale(state));
+  if (style.isBorderColorOverridden(state))
+    object[QLatin1String("border_color")] = style.getBorderColor(state).name();
+  if (style.isBorderRadiusOverridden(state))
+    object[QLatin1String("border_radius")] = style.getBorderRadius(state);
+  if (style.isBorderSizeOverridden(state))
+    object[QLatin1String("border_size")] = style.getBorderSize(state);
 
   return object;
 }
 
-QJsonObject
-FlowStyleWriter::FlowStyleWriterImpl::writePinStyle(const PinStyle &style)
+QJsonObject FlowStyleWriter::FlowStyleWriterImpl::writePinStyle(
+  const PinStyle &style, PinStyle::State state)
 {
   auto object = QJsonObject{};
-  if (style.getFont().has_value())
-    object[QLatin1String("font")] = style.findFont().toString();
-  if (style.getFontColor().has_value())
-    object[QLatin1String("font_color")] = style.findFontColor().name();
-  if (style.getSize().has_value())
-    object[QLatin1String("size")] = convert(style.findSize());
-  if (style.getMargins().has_value())
-    object[QLatin1String("margins")] = convert(style.findMargins());
-  if (style.getColor().has_value())
-    object[QLatin1String("color")] = style.findColor().name();
-  if (style.getBorderColor().has_value())
-    object[QLatin1String("border_color")] = style.findBorderColor().name();
+  if (style.isFontOverridden(state))
+    object[QLatin1String("font")] = style.getFont(state).toString();
+  if (style.isFontColorOverridden(state))
+    object[QLatin1String("font_color")] = style.getFontColor(state).name();
+  if (style.isSizeOverridden(state))
+    object[QLatin1String("size")] = convert(style.getSize(state));
+  if (style.isMarginsOverridden(state))
+    object[QLatin1String("margins")] = convert(style.getMargins(state));
+  if (style.isColorOverridden(state))
+    object[QLatin1String("color")] = style.getColor(state).name();
+  if (style.isBorderColorOverridden(state))
+    object[QLatin1String("border_color")] = style.getBorderColor(state).name();
 
   return object;
 }

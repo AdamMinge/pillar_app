@@ -41,7 +41,7 @@ private:
   std::unique_ptr<FlowStyle> m_style;
 };
 
-const NodeStyle &getNodeStyle(const FlowNodeItem &item);
-const PinStyle &getPinStyle(const FlowNodeItem &item);
+const FlowStyle::NodeStyleViewer &getNodeStyle(const FlowNodeItem &item);
+const FlowStyle::PinStyleViewer &getPinStyle(const FlowNodeItem &item);
 
 #endif//FLOW_FLOW_STYLE_MANAGER_H

@@ -21,8 +21,10 @@ public:
 private:
   std::unique_ptr<FlowStyle> readStyle(const QJsonDocument &document);
 
-  [[nodiscard]] NodeStyle readNodeStyle(const QJsonObject &object);
-  [[nodiscard]] PinStyle readPinStyle(const QJsonObject &object);
+  void readNodeStyle(
+    NodeStyle &style, NodeStyle::State state, const QJsonObject &object);
+  void readPinStyle(
+    PinStyle &style, PinStyle::State state, const QJsonObject &object);
 
   [[nodiscard]] static QString convert(NodeStyle::State state);
   [[nodiscard]] static QString convert(PinStyle::State state);
@@ -57,58 +59,54 @@ FlowStyleReader::FlowStyleReaderImpl::readStyle(const QJsonDocument &document)
   const auto nodes = main[QLatin1String("nodes")].toObject();
   const auto pins = main[QLatin1String("pins")].toObject();
 
+  auto node_style = NodeStyle{};
   for (auto state :
        {NodeStyle::State::Normal, NodeStyle::State::Selected,
         NodeStyle::State::Hovered})
   {
     const auto state_name = convert(state);
     if (!nodes.contains(state_name)) return nullptr;
-
-    flow_style->setNodeStyle(
-      readNodeStyle(nodes[state_name].toObject()), state);
+    readNodeStyle(node_style, state, nodes[state_name].toObject());
   }
+  flow_style->setNodeStyle(node_style);
 
+  auto pin_style = PinStyle{};
   for (auto state :
        {PinStyle::State::Normal, PinStyle::State::Selected,
         PinStyle::State::Hovered})
   {
     const auto state_name = convert(state);
     if (!pins.contains(state_name)) return nullptr;
-
-    flow_style->setPinStyle(readPinStyle(pins[state_name].toObject()), state);
+    readPinStyle(pin_style, state, pins[state_name].toObject());
   }
+  flow_style->setPinStyle(pin_style);
 
   return flow_style;
 }
 
-NodeStyle
-FlowStyleReader::FlowStyleReaderImpl::readNodeStyle(const QJsonObject &object)
+void FlowStyleReader::FlowStyleReaderImpl::readNodeStyle(
+  NodeStyle &style, NodeStyle::State state, const QJsonObject &object)
 {
-  NodeStyle style;
-  style.setFont(toFont(object[QLatin1String("font")]));
-  style.setFontColor(toColor(object[QLatin1String("font_color")]));
-  style.setMargins(toMargins(object[QLatin1String("margins")]));
-  style.setGradient(toColors(object[QLatin1String("gradient")]));
-  style.setGradientScale(toScales(object[QLatin1String("gradient_scale")]));
-  style.setBorderColor(toColor(object[QLatin1String("border_color")]));
-  style.setBorderRadius(toFloat(object[QLatin1String("border_radius")]));
-  style.setBorderSize(toFloat(object[QLatin1String("border_size")]));
-
-  return style;
+  style.setFont(toFont(object[QLatin1String("font")]), state);
+  style.setFontColor(toColor(object[QLatin1String("font_color")]), state);
+  style.setMargins(toMargins(object[QLatin1String("margins")]), state);
+  style.setGradient(toColors(object[QLatin1String("gradient")]), state);
+  style.setGradientScale(
+    toScales(object[QLatin1String("gradient_scale")]), state);
+  style.setBorderColor(toColor(object[QLatin1String("border_color")]), state);
+  style.setBorderRadius(toFloat(object[QLatin1String("border_radius")]), state);
+  style.setBorderSize(toFloat(object[QLatin1String("border_size")]), state);
 }
 
-PinStyle
-FlowStyleReader::FlowStyleReaderImpl::readPinStyle(const QJsonObject &object)
+void FlowStyleReader::FlowStyleReaderImpl::readPinStyle(
+  PinStyle &style, PinStyle::State state, const QJsonObject &object)
 {
-  PinStyle style;
-  style.setFont(toFont(object[QLatin1String("font")]));
-  style.setFontColor(toColor(object[QLatin1String("font_color")]));
-  style.setSize(toSize(object[QLatin1String("size")]));
-  style.setMargins(toMargins(object[QLatin1String("margins")]));
-  style.setColor(toColor(object[QLatin1String("color")]));
-  style.setBorderColor(toColor(object[QLatin1String("border_color")]));
-
-  return style;
+  style.setFont(toFont(object[QLatin1String("font")]), state);
+  style.setFontColor(toColor(object[QLatin1String("font_color")]), state);
+  style.setSize(toSize(object[QLatin1String("size")]), state);
+  style.setMargins(toMargins(object[QLatin1String("margins")]), state);
+  style.setColor(toColor(object[QLatin1String("color")]), state);
+  style.setBorderColor(toColor(object[QLatin1String("border_color")]), state);
 }
 
 QString FlowStyleReader::FlowStyleReaderImpl::convert(NodeStyle::State state)

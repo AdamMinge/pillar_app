@@ -30,20 +30,20 @@ void FlowNodePainter::paintNodeRect(
 
   QLinearGradient linear_gradient(rect.bottomLeft(), rect.topRight());
   linear_gradient.setColorAt(
-    node_style.findGradientScale()[0], node_style.findGradient()[0]);
+    node_style.getGradientScale()[0], node_style.getGradient()[0]);
   linear_gradient.setColorAt(
-    node_style.findGradientScale()[0], node_style.findGradient()[1]);
+    node_style.getGradientScale()[0], node_style.getGradient()[1]);
   linear_gradient.setColorAt(
-    node_style.findGradientScale()[0], node_style.findGradient()[2]);
+    node_style.getGradientScale()[0], node_style.getGradient()[2]);
   linear_gradient.setColorAt(
-    node_style.findGradientScale()[0], node_style.findGradient()[3]);
+    node_style.getGradientScale()[0], node_style.getGradient()[3]);
 
   painter->save();
   painter->setBrush(linear_gradient);
   painter->setPen(
-    QPen(node_style.findBorderColor(), node_style.findBorderSize()));
+    QPen(node_style.getBorderColor(), node_style.getBorderSize()));
   painter->drawRoundedRect(
-    rect, node_style.findBorderRadius(), node_style.findBorderRadius());
+    rect, node_style.getBorderRadius(), node_style.getBorderRadius());
   painter->restore();
 }
 
@@ -58,8 +58,8 @@ void FlowNodePainter::paintNodeLabel(
   const auto label_pos = geometry->getLabelPosition();
 
   painter->save();
-  painter->setFont(node_style.findFont());
-  painter->setPen(node_style.findFontColor());
+  painter->setFont(node_style.getFont());
+  painter->setPen(node_style.getFontColor());
   painter->drawText(label_pos, label);
   painter->restore();
 }
@@ -78,10 +78,10 @@ void FlowNodePainter::paintNodePins(
       const auto pin_pos = geometry->getPinPosition(type, index);
 
       painter->save();
-      painter->setBrush(pin_style.findColor());
-      painter->setPen(pin_style.findBorderColor());
+      painter->setBrush(pin_style.getColor());
+      painter->setPen(pin_style.getBorderColor());
       painter->drawEllipse(
-        pin_pos, pin_style.findSize().width(), pin_style.findSize().height());
+        pin_pos, pin_style.getSize().width(), pin_style.getSize().height());
       painter->restore();
     }
   }
@@ -102,8 +102,8 @@ void FlowNodePainter::paintNodePinLabels(
       const auto pin_label = node->getPin(type, index).getCaption();
 
       painter->save();
-      painter->setFont(pin_style.findFont());
-      painter->setPen(pin_style.findFontColor());
+      painter->setFont(pin_style.getFont());
+      painter->setPen(pin_style.getFontColor());
       painter->drawText(pin_label_pos, pin_label);
       painter->restore();
     }

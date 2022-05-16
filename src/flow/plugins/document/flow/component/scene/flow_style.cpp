@@ -4,277 +4,346 @@
 
 /* --------------------------------- PinStyle ------------------------------- */
 
-PinStyle::PinStyle(const QList<const PinStyle *> &parents) : m_parents(parents)
-{}
+PinStyle::PinStyle() = default;
 
 PinStyle::~PinStyle() = default;
 
-void PinStyle::setFont(const std::optional<QFont> &font) { m_data.font = font; }
-
-void PinStyle::setFontColor(const std::optional<QColor> &color)
+void PinStyle::setFont(const std::optional<QFont> &font, State state)
 {
-  m_data.font_color = color;
+  m_state_data[state].font = font;
 }
 
-void PinStyle::setSize(const std::optional<QSizeF> &size)
+void PinStyle::setFontColor(const std::optional<QColor> &color, State state)
 {
-  m_data.size = size;
+  m_state_data[state].font_color = color;
 }
 
-void PinStyle::setMargins(const std::optional<QMarginsF> &margins)
+void PinStyle::setSize(const std::optional<QSizeF> &size, State state)
 {
-  m_data.margins = margins;
+  m_state_data[state].size = size;
 }
 
-void PinStyle::setColor(const std::optional<QColor> &color)
+void PinStyle::setMargins(const std::optional<QMarginsF> &margins, State state)
 {
-  m_data.color = color;
+  m_state_data[state].margins = margins;
 }
 
-void PinStyle::setBorderColor(const std::optional<QColor> &color)
+void PinStyle::setColor(const std::optional<QColor> &color, State state)
 {
-  m_data.border_color = color;
+  m_state_data[state].color = color;
 }
 
-const std::optional<QFont> &PinStyle::getFont() const { return m_data.font; }
-
-const std::optional<QColor> &PinStyle::getFontColor() const
+void PinStyle::setBorderColor(const std::optional<QColor> &color, State state)
 {
-  return m_data.font_color;
+  m_state_data[state].border_color = color;
 }
 
-const std::optional<QSizeF> &PinStyle::getSize() const { return m_data.size; }
-
-const std::optional<QMarginsF> &PinStyle::getMargins() const
+const QFont &PinStyle::getFont(States states) const
 {
-  return m_data.margins;
+  return getProperty(&Data::font, states);
 }
 
-const std::optional<QColor> &PinStyle::getColor() const { return m_data.color; }
-
-const std::optional<QColor> &PinStyle::getBorderColor() const
+const QColor &PinStyle::getFontColor(States states) const
 {
-  return m_data.border_color;
+  return getProperty(&Data::font_color, states);
 }
 
-const QFont &PinStyle::findFont() const { return getProperty(&Data::font); }
-
-const QColor &PinStyle::findFontColor() const
+const QSizeF &PinStyle::getSize(States states) const
 {
-  return getProperty(&Data::font_color);
+  return getProperty(&Data::size, states);
 }
 
-const QSizeF &PinStyle::findSize() const { return getProperty(&Data::size); }
-
-const QMarginsF &PinStyle::findMargins() const
+const QMarginsF &PinStyle::getMargins(States states) const
 {
-  return getProperty(&Data::margins);
+  return getProperty(&Data::margins, states);
 }
 
-const QColor &PinStyle::findColor() const { return getProperty(&Data::color); }
-
-const QColor &PinStyle::findBorderColor() const
+const QColor &PinStyle::getColor(States states) const
 {
-  return getProperty(&Data::border_color);
+  return getProperty(&Data::color, states);
 }
 
-void PinStyle::copy(const PinStyle &style) { m_data = style.m_data; }
+const QColor &PinStyle::getBorderColor(States states) const
+{
+  return getProperty(&Data::border_color, states);
+}
+
+bool PinStyle::isFontOverridden(State state) const
+{
+  return m_state_data.at(state).font.has_value();
+}
+
+bool PinStyle::isFontColorOverridden(State state) const
+{
+  return m_state_data.at(state).font_color.has_value();
+}
+
+bool PinStyle::isSizeOverridden(State state) const
+{
+  return m_state_data.at(state).size.has_value();
+}
+
+bool PinStyle::isMarginsOverridden(State state) const
+{
+  return m_state_data.at(state).margins.has_value();
+}
+
+bool PinStyle::isColorOverridden(State state) const
+{
+  return m_state_data.at(state).color.has_value();
+}
+
+bool PinStyle::isBorderColorOverridden(State state) const
+{
+  return m_state_data.at(state).border_color.has_value();
+}
 
 /* --------------------------------- NodeStyle ------------------------------ */
 
-NodeStyle::NodeStyle(const QList<const NodeStyle *> &parents)
-    : m_parents(parents)
-{}
+NodeStyle::NodeStyle() = default;
 
 NodeStyle::~NodeStyle() = default;
 
-void NodeStyle::setFont(const std::optional<QFont> &font)
+void NodeStyle::setFont(const std::optional<QFont> &font, State state)
 {
-  m_data.font = font;
+  m_state_data[state].font = font;
 }
 
-void NodeStyle::setFontColor(const std::optional<QColor> &color)
+void NodeStyle::setFontColor(const std::optional<QColor> &color, State state)
 {
-  m_data.font_color = color;
+  m_state_data[state].font_color = color;
 }
 
-void NodeStyle::setMargins(const std::optional<QMarginsF> &margins)
+void NodeStyle::setMargins(const std::optional<QMarginsF> &margins, State state)
 {
-  m_data.margins = margins;
+  m_state_data[state].margins = margins;
 }
 
 void NodeStyle::setGradient(
-  const std::optional<std::array<QColor, 4>> &gradient)
+  const std::optional<std::array<QColor, 4>> &gradient, State state)
 {
-  m_data.gradient = gradient;
+  m_state_data[state].gradient = gradient;
 }
 
 void NodeStyle::setGradientScale(
-  const std::optional<std::array<float, 4>> &gradient_scale)
+  const std::optional<std::array<float, 4>> &gradient_scale, State state)
 {
-  m_data.gradient_scale = gradient_scale;
+  m_state_data[state].gradient_scale = gradient_scale;
 }
 
-void NodeStyle::setBorderColor(const std::optional<QColor> &color)
+void NodeStyle::setBorderColor(const std::optional<QColor> &color, State state)
 {
-  m_data.border_color = color;
+  m_state_data[state].border_color = color;
 }
 
-void NodeStyle::setBorderRadius(std::optional<float> radius)
+void NodeStyle::setBorderRadius(std::optional<float> radius, State state)
 {
-  m_data.border_radius = radius;
+  m_state_data[state].border_radius = radius;
 }
 
-void NodeStyle::setBorderSize(std::optional<float> size)
+void NodeStyle::setBorderSize(std::optional<float> size, State state)
 {
-  m_data.border_size = size;
+  m_state_data[state].border_size = size;
 }
 
-const std::optional<QFont> &NodeStyle::getFont() const { return m_data.font; }
-
-const std::optional<QColor> &NodeStyle::getFontColor() const
+const QFont &NodeStyle::getFont(States states) const
 {
-  return m_data.font_color;
+  return getProperty(&Data::font, states);
 }
 
-const std::optional<QMarginsF> &NodeStyle::getMargins() const
+const QColor &NodeStyle::getFontColor(States states) const
 {
-  return m_data.margins;
+  return getProperty(&Data::font_color, states);
 }
 
-const std::optional<std::array<QColor, 4>> &NodeStyle::getGradient() const
+const QMarginsF &NodeStyle::getMargins(States states) const
 {
-  return m_data.gradient;
+  return getProperty(&Data::margins, states);
 }
 
-const std::optional<std::array<float, 4>> &NodeStyle::getGradientScale() const
+const std::array<QColor, 4> &NodeStyle::getGradient(States states) const
 {
-  return m_data.gradient_scale;
+  return getProperty(&Data::gradient, states);
 }
 
-const std::optional<QColor> &NodeStyle::getBorderColor() const
+const std::array<float, 4> &NodeStyle::getGradientScale(States states) const
 {
-  return m_data.border_color;
+  return getProperty(&Data::gradient_scale, states);
 }
 
-std::optional<float> NodeStyle::getBorderRadius() const
+const QColor &NodeStyle::getBorderColor(States states) const
 {
-  return m_data.border_radius;
+  return getProperty(&Data::border_color, states);
 }
 
-std::optional<float> NodeStyle::getBorderSize() const
+float NodeStyle::getBorderRadius(States states) const
 {
-  return m_data.border_size;
+  return getProperty(&Data::border_radius, states);
 }
 
-const QFont &NodeStyle::findFont() const { return getProperty(&Data::font); }
-
-const QColor &NodeStyle::findFontColor() const
+float NodeStyle::getBorderSize(States states) const
 {
-  return getProperty(&Data::font_color);
+  return getProperty(&Data::border_size, states);
 }
 
-const QMarginsF &NodeStyle::findMargins() const
+bool NodeStyle::isFontOverridden(State state) const
 {
-  return getProperty(&Data::margins);
+  return m_state_data.at(state).font.has_value();
 }
 
-const std::array<QColor, 4> &NodeStyle::findGradient() const
+bool NodeStyle::isFontColorOverridden(State state) const
 {
-  return getProperty(&Data::gradient);
+  return m_state_data.at(state).font_color.has_value();
 }
 
-const std::array<float, 4> &NodeStyle::findGradientScale() const
+bool NodeStyle::isMarginsOverridden(State state) const
 {
-  return getProperty(&Data::gradient_scale);
+  return m_state_data.at(state).margins.has_value();
 }
 
-const QColor &NodeStyle::findBorderColor() const
+bool NodeStyle::isGradientOverridden(State state) const
 {
-  return getProperty(&Data::border_color);
+  return m_state_data.at(state).gradient.has_value();
 }
 
-float NodeStyle::findBorderRadius() const
+bool NodeStyle::isGradientScaleOverridden(State state) const
 {
-  return getProperty(&Data::border_radius);
+  return m_state_data.at(state).gradient_scale.has_value();
 }
 
-float NodeStyle::findBorderSize() const
+bool NodeStyle::isBorderColorOverridden(State state) const
 {
-  return getProperty(&Data::border_size);
+  return m_state_data.at(state).border_color.has_value();
 }
 
-void NodeStyle::copy(const NodeStyle &style) { m_data = style.m_data; }
+bool NodeStyle::isBorderRadiusOverridden(State state) const
+{
+  return m_state_data.at(state).border_radius.has_value();
+}
+
+bool NodeStyle::isBorderSizeOverridden(State state) const
+{
+  return m_state_data.at(state).border_size.has_value();
+}
 
 /* --------------------------------- FlowStyle ------------------------------ */
 
-FlowStyle::FlowStyle()
-{
-  m_node_styles[NodeStyle::State::Normal] = NodeStyle{};
-  m_node_styles[NodeStyle::State::Selected] =
-    NodeStyle({&m_node_styles[NodeStyle::State::Normal]});
-  m_node_styles[NodeStyle::State::Hovered] =
-    NodeStyle({&m_node_styles[NodeStyle::State::Normal]});
-
-  m_pin_styles[PinStyle::State::Normal] = PinStyle{};
-  m_pin_styles[PinStyle::State::Selected] =
-    PinStyle({&m_pin_styles[PinStyle::State::Normal]});
-  m_pin_styles[PinStyle::State::Hovered] =
-    PinStyle({&m_pin_styles[PinStyle::State::Normal]});
-}
+FlowStyle::FlowStyle() = default;
 
 FlowStyle::~FlowStyle() = default;
 
-void FlowStyle::setNodeStyle(const NodeStyle &style, NodeStyle::State state)
+void FlowStyle::setNodeStyle(const NodeStyle &style) { m_node_style = style; }
+
+const NodeStyle &FlowStyle::getNodeStyle() const { return m_node_style; }
+
+const FlowStyle::NodeStyleViewer &
+FlowStyle::getNodeStyleViewer(NodeStyle::States states) const
 {
-  getOrCreateNodeStyle(state).copy(style);
+  if (!m_node_style_viewers.contains(states))
+    m_node_style_viewers.insert(
+      std::make_pair(states, NodeStyleViewer(m_node_style, states)));
+
+  return m_node_style_viewers.at(states);
 }
 
-const NodeStyle &FlowStyle::getNodeStyle(NodeStyle::States states) const
+void FlowStyle::setPinStyle(const PinStyle &style) { m_pin_style = style; }
+
+const PinStyle &FlowStyle::getPinStyle() const { return m_pin_style; }
+
+const FlowStyle::PinStyleViewer &
+FlowStyle::getPinStyleViewer(PinStyle::States states) const
 {
-  return const_cast<FlowStyle *>(this)->getOrCreateNodeStyle(states);
+  if (!m_pin_styles_viewers.contains(states))
+    m_pin_styles_viewers.insert(
+      std::make_pair(states, PinStyleViewer(m_pin_style, states)));
+
+  return m_pin_styles_viewers.at(states);
 }
 
-void FlowStyle::setPinStyle(const PinStyle &style, PinStyle::State state)
+/* ------------------------------- PinStateStyle ---------------------------- */
+
+FlowStyle::PinStyleViewer::PinStyleViewer(
+  const PinStyle &style, PinStyle::States states)
+    : m_style(style), m_states(states)
+{}
+
+FlowStyle::PinStyleViewer::~PinStyleViewer() = default;
+
+const QFont &FlowStyle::PinStyleViewer::getFont() const
 {
-  getOrCreatePinStyle(state).copy(style);
+  return m_style.getFont(m_states);
 }
 
-const PinStyle &FlowStyle::getPinStyle(PinStyle::States states) const
+const QColor &FlowStyle::PinStyleViewer::getFontColor() const
 {
-  return const_cast<FlowStyle *>(this)->getOrCreatePinStyle(states);
+  return m_style.getFontColor(m_states);
 }
 
-NodeStyle &FlowStyle::getOrCreateNodeStyle(NodeStyle::States states)
+const QSizeF &FlowStyle::PinStyleViewer::getSize() const
 {
-  if (m_node_styles.contains(states)) return m_node_styles.at(states);
-
-  auto parent_styles =
-    QList<const NodeStyle *>{&m_node_styles.at(NodeStyle::State::Normal)};
-  for (auto state : {NodeStyle::State::Selected, NodeStyle::State::Hovered})
-  {
-    if (!states.testFlag(state)) continue;
-    auto &parent_style = m_node_styles.at(state);
-    parent_styles.prepend(&parent_style);
-  }
-
-  m_node_styles[states] = NodeStyle(parent_styles);
-  return m_node_styles.at(states);
+  return m_style.getSize(m_states);
 }
 
-PinStyle &FlowStyle::getOrCreatePinStyle(PinStyle::States states)
+const QMarginsF &FlowStyle::PinStyleViewer::getMargins() const
 {
-  if (m_pin_styles.contains(states)) return m_pin_styles.at(states);
+  return m_style.getMargins(m_states);
+}
 
-  auto parent_styles =
-    QList<const PinStyle *>{&m_pin_styles.at(PinStyle::State::Normal)};
-  for (auto state : {PinStyle::State::Selected, PinStyle::State::Hovered})
-  {
-    if (!states.testFlag(state)) continue;
-    auto &parent_style = m_pin_styles.at(state);
-    parent_styles.prepend(&parent_style);
-  }
+const QColor &FlowStyle::PinStyleViewer::getColor() const
+{
+  return m_style.getColor(m_states);
+}
 
-  m_pin_styles[states] = PinStyle(parent_styles);
-  return m_pin_styles.at(states);
+const QColor &FlowStyle::PinStyleViewer::getBorderColor() const
+{
+  return m_style.getBorderColor(m_states);
+}
+
+/* ------------------------------- NodeStateStyle --------------------------- */
+
+FlowStyle::NodeStyleViewer::NodeStyleViewer(
+  const NodeStyle &style, NodeStyle::States states)
+    : m_style(style), m_states(states)
+{}
+
+FlowStyle::NodeStyleViewer::~NodeStyleViewer() = default;
+
+const QFont &FlowStyle::NodeStyleViewer::getFont() const
+{
+  return m_style.getFont(m_states);
+}
+
+const QColor &FlowStyle::NodeStyleViewer::getFontColor() const
+{
+  return m_style.getFontColor(m_states);
+}
+
+const QMarginsF &FlowStyle::NodeStyleViewer::getMargins() const
+{
+  return m_style.getMargins(m_states);
+}
+
+const std::array<QColor, 4> &FlowStyle::NodeStyleViewer::getGradient() const
+{
+  return m_style.getGradient(m_states);
+}
+
+const std::array<float, 4> &FlowStyle::NodeStyleViewer::getGradientScale() const
+{
+  return m_style.getGradientScale(m_states);
+}
+
+const QColor &FlowStyle::NodeStyleViewer::getBorderColor() const
+{
+  return m_style.getBorderColor(m_states);
+}
+
+float FlowStyle::NodeStyleViewer::getBorderRadius() const
+{
+  return m_style.getBorderRadius(m_states);
+}
+
+float FlowStyle::NodeStyleViewer::getBorderSize() const
+{
+  return m_style.getBorderSize(m_states);
 }

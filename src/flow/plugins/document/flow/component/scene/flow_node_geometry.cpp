@@ -24,10 +24,10 @@ void FlowNodeGeometry::recalculate()
 
   m_size.setWidth(
     std::max(pins_size.width() + widget_size.width(), label_size.width()) +
-    node_style.findMargins().left() + node_style.findMargins().right());
+    node_style.getMargins().left() + node_style.getMargins().right());
   m_size.setHeight(
     label_size.height() + std::max(pins_size.height(), widget_size.height()) +
-    node_style.findMargins().top() + node_style.findMargins().bottom());
+    node_style.getMargins().top() + node_style.getMargins().bottom());
 
   m_label_position = calculateLabelPosition();
   m_pin_positions = calculatePinPositions();
@@ -51,11 +51,11 @@ QPointF FlowNodeGeometry::getPinLabelPosition(
   flow::node::Pin::Type type, int index) const
 {
   const auto &pin_style = getPinStyle(m_node_item);
-  const auto font_metrics = QFontMetricsF(pin_style.findFont());
+  const auto font_metrics = QFontMetricsF(pin_style.getFont());
   const auto label = m_node_item.getNode()->getPin(type, index).getCaption();
 
   auto pin_pos = getPinPosition(type, index);
-  pin_pos.ry() -= pin_style.findSize().height() + font_metrics.height() / 3.0;
+  pin_pos.ry() -= pin_style.getSize().height() + font_metrics.height() / 3.0;
   pin_pos.rx() -= font_metrics.horizontalAdvance(label) / 2.0;
 
   return pin_pos;
@@ -69,7 +69,7 @@ QPointF FlowNodeGeometry::getWidgetPosition() const
 QSizeF FlowNodeGeometry::calculateLabelSize() const
 {
   const auto &node_style = getNodeStyle(m_node_item);
-  const auto font_metrics = QFontMetricsF(node_style.findFont());
+  const auto font_metrics = QFontMetricsF(node_style.getFont());
   const auto label = m_node_item.getNode()->getName();
   const auto label_size =
     QSizeF{font_metrics.horizontalAdvance(label), font_metrics.height()};
@@ -82,7 +82,7 @@ QSizeF FlowNodeGeometry::calculateWidgetSize() const { return QSizeF{}; }
 QSizeF FlowNodeGeometry::calculatePinsSize() const
 {
   const auto &pin_style = getPinStyle(m_node_item);
-  const auto font_metrics = QFontMetricsF(pin_style.findFont());
+  const auto font_metrics = QFontMetricsF(pin_style.getFont());
 
   auto max_pins = std::max(
     m_node_item.getNode()->getPinsCounts(flow::node::Pin::Type::In),
@@ -90,8 +90,8 @@ QSizeF FlowNodeGeometry::calculatePinsSize() const
 
   auto width = calculatePinsWidth(flow::node::Pin::Type::In) +
                calculatePinsWidth(flow::node::Pin::Type::Out);
-  auto height = (pin_style.findSize().height() + pin_style.findMargins().top() +
-                 pin_style.findMargins().left() + font_metrics.height()) *
+  auto height = (pin_style.getSize().height() + pin_style.getMargins().top() +
+                 pin_style.getMargins().left() + font_metrics.height()) *
                 max_pins;
 
   return {width, height};
@@ -100,9 +100,9 @@ QSizeF FlowNodeGeometry::calculatePinsSize() const
 float FlowNodeGeometry::calculatePinsWidth(flow::node::Pin::Type type) const
 {
   const auto &pin_style = getPinStyle(m_node_item);
-  const auto font_metrics = QFontMetricsF(pin_style.findFont());
+  const auto font_metrics = QFontMetricsF(pin_style.getFont());
 
-  auto width = pin_style.findMargins().left() + pin_style.findMargins().right();
+  auto width = pin_style.getMargins().left() + pin_style.getMargins().right();
   for (auto i = 0; i < m_node_item.getNode()->getPinsCounts(type); ++i)
   {
     const auto name = m_node_item.getNode()->getPin(type, i).getCaption();
@@ -116,14 +116,14 @@ QPointF FlowNodeGeometry::calculateLabelPosition() const
 {
   const auto &node_style = getNodeStyle(m_node_item);
   const auto rect = getBoundingRect();
-  const auto font_metrics = QFontMetricsF(node_style.findFont());
+  const auto font_metrics = QFontMetricsF(node_style.getFont());
   const auto label = m_node_item.getNode()->getName();
   const auto label_size =
     QSizeF{font_metrics.horizontalAdvance(label), font_metrics.height()};
 
   return QPointF{
     rect.center().x() - label_size.width() / 2,
-    rect.top() + label_size.height() / 2 + node_style.findMargins().top()};
+    rect.top() + label_size.height() / 2 + node_style.getMargins().top()};
 }
 
 FlowNodeGeometry::PinToPos FlowNodeGeometry::calculatePinPositions() const
@@ -140,14 +140,14 @@ FlowNodeGeometry::PinToPos FlowNodeGeometry::calculatePinPositions() const
   {
     auto pins_count = node->getPinsCounts(type);
     auto height_step =
-      (rect.height() - (label_size.height() + node_style.findMargins().top())) /
+      (rect.height() - (label_size.height() + node_style.getMargins().top())) /
       (pins_count + 1);
 
     for (auto index = 0; index < node->getPinsCounts(type); ++index)
     {
       const auto x = type == flow::node::Pin::Type::In
-                       ? rect.left() + pin_style.findMargins().left()
-                       : rect.right() - pin_style.findMargins().right();
+                       ? rect.left() + pin_style.getMargins().left()
+                       : rect.right() - pin_style.getMargins().right();
       const auto y =
         label_pos.y() + label_size.height() / 2 + (height_step * (index + 1));
 
