@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
+#include "flow/plugins/document/flow/component/scene/flow_abstract_tool.h"
 #include "flow/plugins/document/flow/component/scene/flow_scene.h"
 #include "flow/plugins/document/flow/component/scene/flow_view.h"
 /* -------------------------------------------------------------------------- */

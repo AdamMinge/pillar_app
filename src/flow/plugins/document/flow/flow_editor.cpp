@@ -1,10 +1,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/flow_editor.h"
 #include "flow/plugins/document/flow/component/node/flow_nodes_dock.h"
+#include "flow/plugins/document/flow/component/scene/flow_abstract_tool.h"
 #include "flow/plugins/document/flow/component/scene/flow_scene.h"
+#include "flow/plugins/document/flow/component/scene/flow_tools_bar.h"
 #include "flow/plugins/document/flow/component/scene/flow_view.h"
-#include "flow/plugins/document/flow/component/tool/flow_abstract_tool.h"
-#include "flow/plugins/document/flow/component/tool/flow_tools_bar.h"
 #include "flow/plugins/document/flow/component/type_converter/flow_type_converters_dock.h"
 #include "flow/plugins/document/flow/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */

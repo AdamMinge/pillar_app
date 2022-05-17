@@ -1,6 +1,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/plugins/document/flow/component/scene/flow_node_painter.h"
+#include "flow/plugins/document/flow/component/scene/flow_node_geometry.h"
 #include "flow/plugins/document/flow/component/scene/flow_node_item.h"
+#include "flow/plugins/document/flow/component/scene/flow_style_manager.h"
+/* ---------------------------------- LibFlow ------------------------------- */
+#include <flow/libflow/node/node.h>
 /* -------------------------------------------------------------------------- */
 
 FlowNodePainter::FlowNodePainter(const FlowNodeItem &node_item)
@@ -13,43 +17,95 @@ void FlowNodePainter::paint(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
   paintNodeRect(painter, option);
-  paintNodePins(painter, option);
   paintNodeLabel(painter, option);
+  paintNodePins(painter, option);
   paintNodePinLabels(painter, option);
 }
 
 void FlowNodePainter::paintNodeRect(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-  auto hovered = m_node_item.isHovered();
-  auto selected = m_node_item.isSelected();
-  auto rect = m_node_item.boundingRect();
+  const auto &node_style = getNodeStyle(m_node_item);
+  const auto rect = m_node_item.boundingRect();
 
-  auto color = selected ? QColor(255, 165, 0) : QColor(255, 255, 255);
-  auto pen_width = hovered ? 2.0 : 1.0;
-
-  QLinearGradient gradient(rect.bottomLeft(), rect.topRight());
-
-  gradient.setColorAt(0.0, QColor(160, 160, 164));
-  gradient.setColorAt(0.03, QColor(80, 80, 80));
-  gradient.setColorAt(0.97, QColor(64, 64, 64));
-  gradient.setColorAt(1.0, QColor(58, 58, 58));
+  QLinearGradient linear_gradient(rect.bottomLeft(), rect.topRight());
+  linear_gradient.setColorAt(
+    node_style.getGradientScale()[0], node_style.getGradient()[0]);
+  linear_gradient.setColorAt(
+    node_style.getGradientScale()[0], node_style.getGradient()[1]);
+  linear_gradient.setColorAt(
+    node_style.getGradientScale()[0], node_style.getGradient()[2]);
+  linear_gradient.setColorAt(
+    node_style.getGradientScale()[0], node_style.getGradient()[3]);
 
   painter->save();
-  painter->setBrush(gradient);
-  painter->setPen(QPen(color, pen_width));
-  painter->drawRoundedRect(rect, 3.0, 3.0);
+  painter->setBrush(linear_gradient);
+  painter->setPen(
+    QPen(node_style.getBorderColor(), node_style.getBorderSize()));
+  painter->drawRoundedRect(
+    rect, node_style.getBorderRadius(), node_style.getBorderRadius());
+  painter->restore();
+}
+
+void FlowNodePainter::paintNodeLabel(
+  QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+  const auto &node_style = getNodeStyle(m_node_item);
+  const auto node = m_node_item.getNode();
+  const auto geometry = m_node_item.getGeometry();
+
+  const auto label = node->getName();
+  const auto label_pos = geometry->getLabelPosition();
+
+  painter->save();
+  painter->setFont(node_style.getFont());
+  painter->setPen(node_style.getFontColor());
+  painter->drawText(label_pos, label);
   painter->restore();
 }
 
 void FlowNodePainter::paintNodePins(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
-{}
+{
+  const auto &pin_style = getPinStyle(m_node_item);
+  const auto node = m_node_item.getNode();
+  const auto geometry = m_node_item.getGeometry();
 
-void FlowNodePainter::paintNodeLabel(
-  QPainter *painter, const QStyleOptionGraphicsItem *option)
-{}
+  for (auto type : {flow::node::Pin::Type::In, flow::node::Pin::Type::Out})
+  {
+    for (auto index = 0; index < node->getPinsCounts(type); ++index)
+    {
+      const auto pin_pos = geometry->getPinPosition(type, index);
+
+      painter->save();
+      painter->setBrush(pin_style.getColor());
+      painter->setPen(pin_style.getBorderColor());
+      painter->drawEllipse(
+        pin_pos, pin_style.getSize().width(), pin_style.getSize().height());
+      painter->restore();
+    }
+  }
+}
 
 void FlowNodePainter::paintNodePinLabels(
   QPainter *painter, const QStyleOptionGraphicsItem *option)
-{}
+{
+  const auto &pin_style = getPinStyle(m_node_item);
+  const auto node = m_node_item.getNode();
+  const auto geometry = m_node_item.getGeometry();
+
+  for (auto type : {flow::node::Pin::Type::In, flow::node::Pin::Type::Out})
+  {
+    for (auto index = 0; index < node->getPinsCounts(type); ++index)
+    {
+      const auto pin_label_pos = geometry->getPinLabelPosition(type, index);
+      const auto pin_label = node->getPin(type, index).getCaption();
+
+      painter->save();
+      painter->setFont(pin_style.getFont());
+      painter->setPen(pin_style.getFontColor());
+      painter->drawText(pin_label_pos, pin_label);
+      painter->restore();
+    }
+  }
+}

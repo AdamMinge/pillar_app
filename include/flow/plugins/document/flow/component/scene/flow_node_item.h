@@ -25,6 +25,9 @@ public:
   [[nodiscard]] flow::node::Node *getNode() const;
   [[nodiscard]] QRectF boundingRect() const override;
 
+  [[nodiscard]] const FlowNodePainter *getPainter() const;
+  [[nodiscard]] const FlowNodeGeometry *getGeometry() const;
+
 protected:
   void paint(
     QPainter *painter, const QStyleOptionGraphicsItem *option,

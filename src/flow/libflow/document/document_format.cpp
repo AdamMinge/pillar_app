@@ -21,7 +21,7 @@ namespace flow::document
   ReadableDocumentFormat::~ReadableDocumentFormat() = default;
 
   bool ReadableDocumentFormat::save(
-    const Document &project, const QString &file_name, QString *error)
+    const Document &document, const QString &file_name, QString *error)
   {
     if (error) *error = tr("Document format is readable only");
 

@@ -100,8 +100,7 @@ set(uis
         ${uis_root}/document/no_document_widget.ui)
 
 set(resources
-        ${resources_root}/editor_translations.qrc
-        ${resources_root}/editor_images.qrc)
+        ${resources_root}/editor.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

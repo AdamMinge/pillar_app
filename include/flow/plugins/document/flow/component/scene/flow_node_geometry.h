@@ -2,6 +2,7 @@
 #define PLUGIN_FLOW_FLOW_NODE_GEOMETRY_H
 
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QMap>
 #include <QPainter>
 /* ---------------------------------- LibFlow ------------------------------- */
 #include "flow/libflow/node/pin.h"
@@ -10,9 +11,12 @@
 /* -------------------------------------------------------------------------- */
 
 class FlowNodeItem;
+struct NodeStyles;
 
 class FLOW_DOCUMENT_API FlowNodeGeometry
 {
+  using PinToPos = QMap<std::pair<flow::node::Pin::Type, int>, QPointF>;
+
 public:
   explicit FlowNodeGeometry(const FlowNodeItem &node_item);
   virtual ~FlowNodeGeometry();
@@ -20,21 +24,29 @@ public:
   void recalculate();
 
   [[nodiscard]] QRectF getBoundingRect() const;
+  [[nodiscard]] QPointF getLabelPosition() const;
   [[nodiscard]] QPointF
   getPinPosition(flow::node::Pin::Type type, int index) const;
+  [[nodiscard]] QPointF
+  getPinLabelPosition(flow::node::Pin::Type type, int index) const;
   [[nodiscard]] QPointF getWidgetPosition() const;
 
 private:
-  [[nodiscard]] QSizeF getLabelSize() const;
-  [[nodiscard]] QSizeF getWidgetSize() const;
-  [[nodiscard]] QSizeF getPinsSize() const;
+  [[nodiscard]] QSizeF calculateLabelSize() const;
+  [[nodiscard]] QSizeF calculateWidgetSize() const;
+  [[nodiscard]] QSizeF calculatePinsSize() const;
+  [[nodiscard]] float calculatePinsWidth(flow::node::Pin::Type type) const;
 
-  [[nodiscard]] float getPinsWidth(flow::node::Pin::Type type) const;
+  [[nodiscard]] QPointF calculateLabelPosition() const;
+  [[nodiscard]] PinToPos calculatePinPositions() const;
+  [[nodiscard]] QPointF calculateWidgetPosition() const;
 
 private:
   const FlowNodeItem &m_node_item;
   QSizeF m_size;
-  QSizeF m_spacing;
+  QPointF m_label_position;
+  PinToPos m_pin_positions;
+  QPointF m_widget_position;
 };
 
 #endif//PLUGIN_FLOW_FLOW_NODE_GEOMETRY_H

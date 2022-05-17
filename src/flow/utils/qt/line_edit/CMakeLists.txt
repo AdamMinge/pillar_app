@@ -21,7 +21,7 @@ set(includes
         ${include_root}/dir_browser_line_edit.h)
 
 set(resources
-        ${resources_root}/utils_line_edit_images.qrc)
+        ${resources_root}/utils_line_edit.qrc)
 # -------------------------------------------------------------------------------------------------- #
 # ---------------------------------- Qt libraries configuration ------------------------------------ #
 # -------------------------------------------------------------------------------------------------- #

@@ -30,6 +30,16 @@ QRectF FlowNodeItem::boundingRect() const
   return m_node_geometry->getBoundingRect();
 }
 
+const FlowNodePainter *FlowNodeItem::getPainter() const
+{
+  return m_node_painter.get();
+}
+
+const FlowNodeGeometry *FlowNodeItem::getGeometry() const
+{
+  return m_node_geometry.get();
+}
+
 void FlowNodeItem::paint(
   QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

@@ -4,7 +4,7 @@
 #include <flow/libflow/node/base/boolean_node_data.h>
 /* -------------------------------------------------------------------------- */
 
-LogicNodeAnd::LogicNodeAnd() = default;
+LogicNodeAnd::LogicNodeAnd() { setName(QObject::tr("AND")); }
 
 LogicNodeAnd::~LogicNodeAnd() = default;
 
