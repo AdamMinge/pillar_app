@@ -7,28 +7,25 @@
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::command
-{
+namespace flow {
 
-  class LIB_FLOW_API Command : public QUndoCommand
-  {
-  public:
-    explicit Command(QString name, Command *parent = nullptr);
-    ~Command() override;
+class LIB_FLOW_API Command : public QUndoCommand {
+ public:
+  explicit Command(QString name, Command *parent = nullptr);
+  ~Command() override;
 
-    bool mergeWith(const QUndoCommand *other) override;
+  bool mergeWith(const QUndoCommand *other) override;
 
-    [[nodiscard]] virtual bool canMergeWith(const Command &other) const;
-    virtual void mergeWith(const Command &other);
+  [[nodiscard]] virtual bool canMergeWith(const Command &other) const;
+  virtual void mergeWith(const Command &other);
 
-    [[nodiscard]] int id() const override;
-    [[nodiscard]] QString name() const;
+  [[nodiscard]] int id() const override;
+  [[nodiscard]] QString name() const;
 
-  private:
-    QString m_name;
-  };
+ private:
+  QString m_name;
+};
 
-}// namespace flow::command
+}  // namespace flow
 
-
-#endif//FLOW_COMMAND_H
+#endif  // FLOW_COMMAND_H

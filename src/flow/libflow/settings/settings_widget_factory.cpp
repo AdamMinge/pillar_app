@@ -2,16 +2,15 @@
 #include "flow/libflow/settings/settings_widget_factory.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::settings
-{
-  SettingsWidgetFactory::SettingsWidgetFactory(QObject *parent)
-      : QObject(parent)
-  {}
+namespace flow {
 
-  SettingsWidgetFactory::~SettingsWidgetFactory() = default;
+SettingsWidgetFactory::SettingsWidgetFactory(QObject *parent)
+    : QObject(parent) {}
 
-  QString SettingsWidgetFactory::getParentObjectName() const
-  {
-    return QLatin1String{};
-  }
-}// namespace flow::settings
+SettingsWidgetFactory::~SettingsWidgetFactory() = default;
+
+QString SettingsWidgetFactory::getParentObjectName() const {
+  return QLatin1String{};
+}
+
+}  // namespace flow

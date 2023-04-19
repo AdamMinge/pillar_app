@@ -7,26 +7,23 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-namespace flow::project
-{
-  class Project;
+namespace flow {
+class Project;
 }
 
-class ProjectWriter
-{
+class ProjectWriter {
   class ProjectWriterImpl;
 
-public:
+ public:
   explicit ProjectWriter();
   ~ProjectWriter();
 
-  void write(const flow::project::Project &project, QIODevice &device);
-  bool write(
-    const flow::project::Project &project, const QString &file_name,
-    QString *error = nullptr);
+  void write(const flow::Project &project, QIODevice &device);
+  bool write(const flow::Project &project, const QString &file_name,
+             QString *error = nullptr);
 
-private:
+ private:
   std::unique_ptr<ProjectWriterImpl> m_impl;
 };
 
-#endif//FLOW_PROJECT_WRITER_H
+#endif  // FLOW_PROJECT_WRITER_H

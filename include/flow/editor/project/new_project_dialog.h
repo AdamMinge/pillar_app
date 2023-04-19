@@ -5,36 +5,33 @@
 #include <QDialog>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class NewProjectDialog;
+namespace Ui {
+class NewProjectDialog;
 }
 
-namespace flow::project
-{
-  class Project;
+namespace flow {
+class Project;
 }
 
-class NewProjectDialog : public QDialog
-{
+class NewProjectDialog : public QDialog {
   Q_OBJECT
 
-private:
+ private:
   struct Preferences;
 
-public:
+ public:
   explicit NewProjectDialog(QWidget *parent = nullptr);
   ~NewProjectDialog() override;
 
-  [[nodiscard]] std::unique_ptr<flow::project::Project> create();
+  [[nodiscard]] std::unique_ptr<flow::Project> create();
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void updateCreateButton();
 
-private:
+ private:
   void initUi();
   void initConnections();
 
@@ -43,12 +40,12 @@ private:
   void writeSettings();
   void readSettings();
 
-private:
+ private:
   static const QString template_error_message;
 
-private:
+ private:
   QScopedPointer<Ui::NewProjectDialog> m_ui;
   QScopedPointer<Preferences> m_preferences;
 };
 
-#endif//FLOW_NEW_PROJECT_DIALOG_H
+#endif  // FLOW_NEW_PROJECT_DIALOG_H

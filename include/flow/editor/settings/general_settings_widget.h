@@ -6,44 +6,39 @@
 #include <flow/libflow/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class GeneralSettingsWidget;
+namespace Ui {
+class GeneralSettingsWidget;
 }
 
-class GeneralSettingsWidget : public flow::settings::SettingsWidget
-{
+class GeneralSettingsWidget : public flow::SettingsWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit GeneralSettingsWidget(QWidget *parent = nullptr);
   ~GeneralSettingsWidget() override;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private:
+ private:
   QScopedPointer<Ui::GeneralSettingsWidget> m_ui;
 };
 
-class GeneralSettingsWidgetFactory
-    : public flow::settings::SettingsWidgetFactory
-{
+class GeneralSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::settings::SettingsWidgetFactory)
+  Q_INTERFACES(flow::SettingsWidgetFactory)
 
-public:
+ public:
   explicit GeneralSettingsWidgetFactory(QObject *parent = nullptr);
   ~GeneralSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::settings::SettingsWidget>
-  create() const override;
+  [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
 };
 
-#endif//FLOW_GENERAL_SETTINGS_WIDGET_H
+#endif  // FLOW_GENERAL_SETTINGS_WIDGET_H

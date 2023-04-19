@@ -7,54 +7,51 @@
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::project
-{
+namespace flow {
 
-  class Project;
+class Project;
 
-  class LIB_FLOW_API ProjectManager : public QObject
-  {
-    Q_OBJECT
+class LIB_FLOW_API ProjectManager : public QObject {
+  Q_OBJECT
 
-  public:
-    static ProjectManager &getInstance();
-    static void deleteInstance();
+ public:
+  static ProjectManager &getInstance();
+  static void deleteInstance();
 
-  public:
-    ~ProjectManager() override;
+ public:
+  ~ProjectManager() override;
 
-    void addProject(std::unique_ptr<Project> project);
-    void insertProject(int index, std::unique_ptr<Project> project);
+  void addProject(std::unique_ptr<Project> project);
+  void insertProject(int index, std::unique_ptr<Project> project);
 
-    void removeProject(int index);
-    void removeAllProjects();
+  void removeProject(int index);
+  void removeAllProjects();
 
-    [[nodiscard]] Project *getProject(int index) const;
-    [[nodiscard]] Project *getCurrentProject() const;
+  [[nodiscard]] Project *getProject(int index) const;
+  [[nodiscard]] Project *getCurrentProject() const;
 
-    [[nodiscard]] int findProject(Project *project) const;
-    [[nodiscard]] int findProject(const QString &file_name) const;
+  [[nodiscard]] int findProject(Project *project) const;
+  [[nodiscard]] int findProject(const QString &file_name) const;
 
-    void switchToProject(int index);
-    void switchToProject(Project *project);
-    bool switchToProject(const QString &file_name);
+  void switchToProject(int index);
+  void switchToProject(Project *project);
+  bool switchToProject(const QString &file_name);
 
-    bool loadProject(const QString &file_name, QString *error = nullptr);
+  bool loadProject(const QString &file_name, QString *error = nullptr);
 
-  Q_SIGNALS:
-    void currentProjectChanged(flow::project::Project *project);
+ Q_SIGNALS:
+  void currentProjectChanged(flow::Project *project);
 
-  protected:
-    explicit ProjectManager();
+ protected:
+  explicit ProjectManager();
 
-  private:
-    static QScopedPointer<ProjectManager> m_instance;
+ private:
+  static QScopedPointer<ProjectManager> m_instance;
 
-    std::vector<std::unique_ptr<Project>> m_projects;
-    Project *m_current_project;
-  };
+  std::vector<std::unique_ptr<Project>> m_projects;
+  Project *m_current_project;
+};
 
+}  // namespace flow
 
-}// namespace flow::project
-
-#endif//FLOW_PROJECT_MANAGER_H
+#endif  // FLOW_PROJECT_MANAGER_H

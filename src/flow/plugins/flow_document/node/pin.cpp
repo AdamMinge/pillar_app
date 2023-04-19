@@ -1,0 +1,32 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "flow/plugins/flow_document/node/pin.h"
+
+#include "flow/plugins/flow_document/node/node_data.h"
+/* -------------------------------------------------------------------------- */
+
+namespace plugin::flow_document {
+
+Pin::Pin(std::unique_ptr<NodeData> data, QString caption)
+    : m_data(std::move(data)), m_caption(std::move(caption)) {}
+
+Pin::~Pin() = default;
+
+const NodeData &Pin::getData() const { return *m_data; }
+
+QString Pin::getCaption() const { return m_caption; }
+
+void Pin::setData(const NodeData &data) { m_data->assign(data); }
+
+void Pin::setCaption(const QString &caption) { m_caption = caption; }
+
+void Pin::addListener(Listener &&listener) {
+  m_listeners.push_back(std::move(listener));
+}
+
+void Pin::clearListeners() { m_listeners.clear(); }
+
+void Pin::dataChanged(const NodeData &data) {
+  for (auto &listener : m_listeners) listener(data);
+}
+
+}  // namespace plugin::flow_document

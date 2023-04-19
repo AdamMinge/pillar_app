@@ -7,50 +7,41 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class ProjectWindow;
+namespace Ui {
+class ProjectWindow;
 }
 
-namespace flow
-{
-  namespace project
-  {
-    class Project;
-  }
-  namespace document
-  {
-    class Document;
-  }
-}// namespace flow
+namespace flow {
+class Project;
+class Document;
+}  // namespace flow
 
 class ProjectDock;
 class ConsoleDock;
 class IssueDock;
 
-class ProjectWindow : public QMainWindow
-{
+class ProjectWindow : public QMainWindow {
   Q_OBJECT
 
-private:
+ private:
   struct Preferences;
 
-public:
+ public:
   explicit ProjectWindow(QWidget *parent = nullptr);
   ~ProjectWindow() override;
 
   void writeSettings();
   void readSettings();
 
-protected:
+ protected:
   void closeEvent(QCloseEvent *event) override;
   void changeEvent(QEvent *event) override;
 
-private Q_SLOTS:
-  void documentChanged(flow::document::Document *document);
-  void projectChanged(flow::project::Project *project);
+ private Q_SLOTS:
+  void documentChanged(flow::Document *document);
+  void projectChanged(flow::Project *project);
 
-  bool confirmSave(flow::document::Document *document);
+  bool confirmSave(flow::Document *document);
   bool confirmAllSave();
 
   void updateActions();
@@ -67,8 +58,8 @@ private Q_SLOTS:
   void openDocument();
   bool closeDocument(int index);
   bool closeDocument();
-  bool saveDocument(flow::document::Document *document);
-  bool saveDocumentAs(flow::document::Document *document);
+  bool saveDocument(flow::Document *document);
+  bool saveDocumentAs(flow::Document *document);
   bool saveAllDocuments();
 
   void performCut();
@@ -76,7 +67,7 @@ private Q_SLOTS:
   void performPaste();
   void performDelete();
 
-private:
+ private:
   void registerActions();
 
   void initUi();
@@ -84,9 +75,9 @@ private:
 
   void retranslateUi();
 
-  bool switchProject(std::unique_ptr<flow::project::Project> project);
+  bool switchProject(std::unique_ptr<flow::Project> project);
 
-private:
+ private:
   QScopedPointer<Ui::ProjectWindow> m_ui;
   QScopedPointer<Preferences> m_preferences;
 
@@ -123,4 +114,4 @@ private:
   QMenu *m_help_menu;
 };
 
-#endif//FLOW_PROJECT_WINDOW_H
+#endif  // FLOW_PROJECT_WINDOW_H

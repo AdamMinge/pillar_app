@@ -2,11 +2,10 @@
 #include "flow/libflow/document/document_editor.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::document
-{
+namespace flow {
 
-  DocumentEditor::DocumentEditor(QObject *parent) : QObject(parent) {}
+DocumentEditor::DocumentEditor(QObject *parent) : QObject(parent) {}
 
-  DocumentEditor::~DocumentEditor() = default;
+DocumentEditor::~DocumentEditor() = default;
 
-}// namespace flow::document
+}  // namespace flow

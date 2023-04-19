@@ -11,32 +11,27 @@
 #include <flow/utils/qt/stacked_widget/stacked_widget_tree_model.h>
 /* -------------------------------------------------------------------------- */
 
-namespace flow::document
-{
-  class NewDocumentWidgetFactory;
-  class NewDocumentWidget;
-}// namespace flow::document
+namespace flow {
+class NewDocumentWidgetFactory;
+class NewDocumentWidget;
+}  // namespace flow
 
 class NewDocumentWidgetListModel
     : public utils::QtStackedWidgetTreeModel,
-      public flow::PluginListener<flow::document::NewDocumentWidgetFactory>
-{
+      public flow::PluginListener<flow::NewDocumentWidgetFactory> {
   Q_OBJECT
 
-public:
+ public:
   explicit NewDocumentWidgetListModel(QObject *parent = nullptr);
   ~NewDocumentWidgetListModel() override;
 
-protected:
-  void addedObject(flow::document::NewDocumentWidgetFactory *factory) override;
-  void
-  removedObject(flow::document::NewDocumentWidgetFactory *factory) override;
+ protected:
+  void addedObject(flow::NewDocumentWidgetFactory *factory) override;
+  void removedObject(flow::NewDocumentWidgetFactory *factory) override;
 
-private:
-  std::map<
-    flow::document::NewDocumentWidgetFactory *,
-    flow::document::NewDocumentWidget *>
-    m_new_document_widget_by_factory;
+ private:
+  std::map<flow::NewDocumentWidgetFactory *, flow::NewDocumentWidget *>
+      m_new_document_widget_by_factory;
 };
 
-#endif//FLOW_NEW_DOCUMENT_WIDGET_LIST_MODEL_H
+#endif  // FLOW_NEW_DOCUMENT_WIDGET_LIST_MODEL_H

@@ -8,26 +8,24 @@
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::settings
-{
+namespace flow {
 
-  class SettingsWidget;
+class SettingsWidget;
 
-  class LIB_FLOW_API SettingsWidgetFactory : public QObject
-  {
-    Q_OBJECT
+class LIB_FLOW_API SettingsWidgetFactory : public QObject {
+  Q_OBJECT
 
-  public:
-    explicit SettingsWidgetFactory(QObject *parent = nullptr);
-    ~SettingsWidgetFactory() override;
+ public:
+  explicit SettingsWidgetFactory(QObject *parent = nullptr);
+  ~SettingsWidgetFactory() override;
 
-    [[nodiscard]] virtual std::unique_ptr<SettingsWidget> create() const = 0;
-    [[nodiscard]] virtual QString getParentObjectName() const;
-  };
+  [[nodiscard]] virtual std::unique_ptr<SettingsWidget> create() const = 0;
+  [[nodiscard]] virtual QString getParentObjectName() const;
+};
 
-}// namespace flow::settings
+}  // namespace flow
 
-Q_DECLARE_INTERFACE(
-  flow::settings::SettingsWidgetFactory, "org.flow.SettingsWidgetFactory")
+Q_DECLARE_INTERFACE(flow::SettingsWidgetFactory,
+                    "org.flow.SettingsWidgetFactory")
 
-#endif//FLOW_SETTINGS_WIDGET_FACTORY_H
+#endif  // FLOW_SETTINGS_WIDGET_FACTORY_H

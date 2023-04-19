@@ -5,12 +5,11 @@
 #include <flow/libflow/project/project_format.h>
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormatPro : public flow::project::ProjectFormat
-{
+class ProjectFormatPro : public flow::ProjectFormat {
   Q_OBJECT
-  Q_INTERFACES(flow::project::ProjectFormat)
+  Q_INTERFACES(flow::ProjectFormat)
 
-public:
+ public:
   explicit ProjectFormatPro(QObject *parent = nullptr);
   ~ProjectFormatPro() override;
 
@@ -18,11 +17,10 @@ public:
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<flow::project::Project>
-  load(const QString &file_name, QString *error) override;
-  bool save(
-    const flow::project::Project &project, const QString &file_name,
-    QString *error) override;
+  std::unique_ptr<flow::Project> load(const QString &file_name,
+                                      QString *error) override;
+  bool save(const flow::Project &project, const QString &file_name,
+            QString *error) override;
 };
 
-#endif//FLOW_PROJECT_FORMAT_PRO_H
+#endif  // FLOW_PROJECT_FORMAT_PRO_H

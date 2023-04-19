@@ -12,8 +12,7 @@
 /* ------------------------- AppearanceSettingsWidget ----------------------- */
 
 AppearanceSettingsWidget::AppearanceSettingsWidget(QWidget *parent)
-    : SettingsWidget(parent), m_ui(new Ui::AppearanceSettingsWidget())
-{
+    : SettingsWidget(parent), m_ui(new Ui::AppearanceSettingsWidget()) {
   initUi();
   initConnections();
 
@@ -22,12 +21,10 @@ AppearanceSettingsWidget::AppearanceSettingsWidget(QWidget *parent)
 
 AppearanceSettingsWidget::~AppearanceSettingsWidget() = default;
 
-void AppearanceSettingsWidget::changeEvent(QEvent *event)
-{
+void AppearanceSettingsWidget::changeEvent(QEvent *event) {
   QWidget::changeEvent(event);
 
-  switch (event->type())
-  {
+  switch (event->type()) {
     case QEvent::LanguageChange:
       retranslateUi();
       break;
@@ -36,8 +33,7 @@ void AppearanceSettingsWidget::changeEvent(QEvent *event)
   }
 }
 
-void AppearanceSettingsWidget::initUi()
-{
+void AppearanceSettingsWidget::initUi() {
   m_ui->setupUi(this);
 
   auto &language_manager = flow::LanguageManager::getInstance();
@@ -47,37 +43,32 @@ void AppearanceSettingsWidget::initUi()
 
   m_ui->m_language_combobox->addItems(languages_str);
   m_ui->m_language_combobox->setCurrentText(QLocale::languageToString(
-    language_manager.getCurrentLanguage().language()));
+      language_manager.getCurrentLanguage().language()));
 
   auto &style_manager = flow::StyleManager::getInstance();
   auto styles = style_manager.getAvailableStyles();
 
   m_ui->m_theme_combobox->addItems(styles);
   m_ui->m_theme_combobox->setCurrentIndex(m_ui->m_theme_combobox->findText(
-    style_manager.getCurrentStyle(), Qt::MatchFixedString));
+      style_manager.getCurrentStyle(), Qt::MatchFixedString));
 }
 
-void AppearanceSettingsWidget::initConnections()
-{
-  connect(
-    m_ui->m_language_combobox, &QComboBox::currentTextChanged, this,
-    &AppearanceSettingsWidget::languageChanged);
+void AppearanceSettingsWidget::initConnections() {
+  connect(m_ui->m_language_combobox, &QComboBox::currentTextChanged, this,
+          &AppearanceSettingsWidget::languageChanged);
 
-  connect(
-    m_ui->m_theme_combobox, &QComboBox::currentTextChanged, this,
-    &AppearanceSettingsWidget::styleChanged);
+  connect(m_ui->m_theme_combobox, &QComboBox::currentTextChanged, this,
+          &AppearanceSettingsWidget::styleChanged);
 }
 
 void AppearanceSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 
-void AppearanceSettingsWidget::languageChanged(const QString &language)
-{
+void AppearanceSettingsWidget::languageChanged(const QString &language) {
   auto &language_manager = flow::LanguageManager::getInstance();
   language_manager.setLanguage(QLocale(language));
 }
 
-void AppearanceSettingsWidget::styleChanged(const QString &style)
-{
+void AppearanceSettingsWidget::styleChanged(const QString &style) {
   auto &style_manager = flow::StyleManager::getInstance();
   style_manager.setStyle(style);
 }
@@ -85,19 +76,16 @@ void AppearanceSettingsWidget::styleChanged(const QString &style)
 /* ---------------------- AppearanceSettingsWidgetFactory ------------------- */
 
 AppearanceSettingsWidgetFactory::AppearanceSettingsWidgetFactory(
-  QObject *parent)
-    : flow::settings::SettingsWidgetFactory(parent)
-{}
+    QObject *parent)
+    : flow::SettingsWidgetFactory(parent) {}
 
 AppearanceSettingsWidgetFactory::~AppearanceSettingsWidgetFactory() = default;
 
-std::unique_ptr<flow::settings::SettingsWidget>
-AppearanceSettingsWidgetFactory::create() const
-{
+std::unique_ptr<flow::SettingsWidget> AppearanceSettingsWidgetFactory::create()
+    const {
   return std::make_unique<AppearanceSettingsWidget>();
 }
 
-QString AppearanceSettingsWidgetFactory::getParentObjectName() const
-{
+QString AppearanceSettingsWidgetFactory::getParentObjectName() const {
   return QLatin1String("GeneralSettingsWidget");
 }

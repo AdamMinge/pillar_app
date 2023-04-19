@@ -11,8 +11,7 @@
 /* --------------------------- GeneralSettingsWidget ------------------------ */
 
 GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)
-    : SettingsWidget(parent), m_ui(new Ui::GeneralSettingsWidget())
-{
+    : SettingsWidget(parent), m_ui(new Ui::GeneralSettingsWidget()) {
   initUi();
   initConnections();
 
@@ -21,12 +20,10 @@ GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)
 
 GeneralSettingsWidget::~GeneralSettingsWidget() = default;
 
-void GeneralSettingsWidget::changeEvent(QEvent *event)
-{
+void GeneralSettingsWidget::changeEvent(QEvent *event) {
   QWidget::changeEvent(event);
 
-  switch (event->type())
-  {
+  switch (event->type()) {
     case QEvent::LanguageChange:
       retranslateUi();
       break;
@@ -39,26 +36,26 @@ void GeneralSettingsWidget::initUi() { m_ui->setupUi(this); }
 
 void GeneralSettingsWidget::initConnections() {}
 
-void GeneralSettingsWidget::retranslateUi()
-{
+void GeneralSettingsWidget::retranslateUi() {
   m_ui->retranslateUi(this);
 
-  const auto link_text =
-    QString{"<li style=\" margin-bottom:5px \"><a href=\"%2\"><span "
-            "style=\" text-decoration: none; "
-            "color:#0000ff;\">%3</span></a></li>"};
+  const auto link_text = QString{
+      "<li style=\" margin-bottom:5px \"><a href=\"%2\"><span "
+      "style=\" text-decoration: none; "
+      "color:#0000ff;\">%3</span></a></li>"};
 
   auto label_text =
-    QString(
-      "<html>"
-      "<head/>"
-      "<body>"
-      "Customize appearance and behavior: change themes and change language."
-      "<ul style=\" list-style-type:none\">%2</ul>"
-      "</body>"
-      "</html>")
-      .arg(QString{
-        link_text.arg("settings:AppearanceSettingsWidget", "Appearance")});
+      QString(
+          "<html>"
+          "<head/>"
+          "<body>"
+          "Customize appearance and behavior: change themes and change "
+          "language."
+          "<ul style=\" list-style-type:none\">%2</ul>"
+          "</body>"
+          "</html>")
+          .arg(QString{link_text.arg("settings:AppearanceSettingsWidget",
+                                     "Appearance")});
 
   m_ui->m_general_label->setText(label_text);
 }
@@ -66,13 +63,11 @@ void GeneralSettingsWidget::retranslateUi()
 /* ------------------------ GeneralSettingsWidgetFactory -------------------- */
 
 GeneralSettingsWidgetFactory::GeneralSettingsWidgetFactory(QObject *parent)
-    : flow::settings::SettingsWidgetFactory(parent)
-{}
+    : flow::SettingsWidgetFactory(parent) {}
 
 GeneralSettingsWidgetFactory::~GeneralSettingsWidgetFactory() = default;
 
-std::unique_ptr<flow::settings::SettingsWidget>
-GeneralSettingsWidgetFactory::create() const
-{
+std::unique_ptr<flow::SettingsWidget> GeneralSettingsWidgetFactory::create()
+    const {
   return std::make_unique<GeneralSettingsWidget>();
 }

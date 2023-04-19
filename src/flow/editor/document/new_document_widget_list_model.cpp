@@ -8,33 +8,29 @@
 /* -------------------------------------------------------------------------- */
 
 NewDocumentWidgetListModel::NewDocumentWidgetListModel(QObject *parent)
-    : QtStackedWidgetTreeModel(parent)
-{
+    : QtStackedWidgetTreeModel(parent) {
   loadObjects();
 }
 
 NewDocumentWidgetListModel::~NewDocumentWidgetListModel() = default;
 
 void NewDocumentWidgetListModel::addedObject(
-  flow::document::NewDocumentWidgetFactory *factory)
-{
+    flow::NewDocumentWidgetFactory *factory) {
   auto settings_widget = factory->create().release();
   m_new_document_widget_by_factory[factory] = settings_widget;
 
   append(
-    new utils::QtStackedWidgetTreeItem(settings_widget, factory->getIcon()),
-    QModelIndex{});
+      new utils::QtStackedWidgetTreeItem(settings_widget, factory->getIcon()),
+      QModelIndex{});
 }
 
 void NewDocumentWidgetListModel::removedObject(
-  flow::document::NewDocumentWidgetFactory *factory)
-{
-  if (m_new_document_widget_by_factory.contains(factory))
-  {
+    flow::NewDocumentWidgetFactory *factory) {
+  if (m_new_document_widget_by_factory.contains(factory)) {
     auto index = getIndexBy(
-      Role::WidgetRole,
-      QVariant::fromValue(m_new_document_widget_by_factory[factory]),
-      QModelIndex{});
+        Role::WidgetRole,
+        QVariant::fromValue(m_new_document_widget_by_factory[factory]),
+        QModelIndex{});
     remove(index);
   }
 }

@@ -1,59 +1,53 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/document/document_format.h"
+
 #include "flow/libflow/document/document.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::document
-{
+namespace flow {
 
-  /* ----------------------------- DocumentFormat --------------------------- */
+/* ----------------------------- DocumentFormat --------------------------- */
 
-  DocumentFormat::DocumentFormat(QObject *parent) : FileFormat(parent) {}
+DocumentFormat::DocumentFormat(QObject *parent) : FileFormat(parent) {}
 
-  DocumentFormat::~DocumentFormat() = default;
+DocumentFormat::~DocumentFormat() = default;
 
-  /* -------------------------- ReadableDocumentFormat ---------------------- */
+/* -------------------------- ReadableDocumentFormat ---------------------- */
 
-  ReadableDocumentFormat::ReadableDocumentFormat(QObject *parent)
-      : DocumentFormat(parent)
-  {}
+ReadableDocumentFormat::ReadableDocumentFormat(QObject *parent)
+    : DocumentFormat(parent) {}
 
-  ReadableDocumentFormat::~ReadableDocumentFormat() = default;
+ReadableDocumentFormat::~ReadableDocumentFormat() = default;
 
-  bool ReadableDocumentFormat::save(
-    const Document &document, const QString &file_name, QString *error)
-  {
-    if (error) *error = tr("Document format is readable only");
+bool ReadableDocumentFormat::save(const Document &document,
+                                  const QString &file_name, QString *error) {
+  if (error) *error = tr("Document format is readable only");
 
-    return false;
-  }
+  return false;
+}
 
-  ReadableDocumentFormat::Capabilities
-  ReadableDocumentFormat::getCapabilities() const
-  {
-    return Capability::Read;
-  }
+ReadableDocumentFormat::Capabilities ReadableDocumentFormat::getCapabilities()
+    const {
+  return Capability::Read;
+}
 
-  /* -------------------------- WritableDocumentFormat ---------------------- */
+/* -------------------------- WritableDocumentFormat ---------------------- */
 
-  WritableDocumentFormat::WritableDocumentFormat(QObject *parent)
-      : DocumentFormat(parent)
-  {}
+WritableDocumentFormat::WritableDocumentFormat(QObject *parent)
+    : DocumentFormat(parent) {}
 
-  WritableDocumentFormat::~WritableDocumentFormat() = default;
+WritableDocumentFormat::~WritableDocumentFormat() = default;
 
-  std::unique_ptr<Document>
-  WritableDocumentFormat::load(const QString &file_name, QString *error)
-  {
-    if (error) *error = tr("Document format is writable only");
+std::unique_ptr<Document> WritableDocumentFormat::load(const QString &file_name,
+                                                       QString *error) {
+  if (error) *error = tr("Document format is writable only");
 
-    return nullptr;
-  }
+  return nullptr;
+}
 
-  WritableDocumentFormat::Capabilities
-  WritableDocumentFormat::getCapabilities() const
-  {
-    return Capability::Write;
-  }
+WritableDocumentFormat::Capabilities WritableDocumentFormat::getCapabilities()
+    const {
+  return Capability::Write;
+}
 
-}// namespace flow::document
+}  // namespace flow

@@ -1,0 +1,24 @@
+# ----------------------------------------------------------------------- # #
+# -------------------------------------- Set CMake version ----------------------------------------- #
+# ----------------------------------------------------------------------- # #
+cmake_minimum_required(VERSION 3.11)
+# ----------------------------------------------------------------------- # #
+# -------------------------------------- Fetch dependencies ---------------------------------------- #
+# ----------------------------------------------------------------------- # #
+project(qt NONE)
+
+set(prefix_dir @FLOW_BUILD_DEPS_DIR@/qt)
+set(install_dir ${prefix_dir}/src/qt-install)
+
+include(ExternalProject)
+ExternalProject_Add(
+    qt
+    URL                         https://download.qt.io/official_releases/qt/6.3/6.3.1/single/qt-everywhere-src-6.3.1.tar.xz
+    URL_MD5                     957a304773b281a4584f4c0254773456
+    PREFIX                      ${prefix_dir}
+    BUILD_IN_SOURCE             TRUE
+    DOWNLOAD_EXTRACT_TIMESTAMP  TRUE
+    CONFIGURE_COMMAND           ./configure -no-feature-accessibility -confirm-license -opensource -nomake examples -nomake tests -prefix ${install_dir}
+    BUILD_COMMAND               $(MAKE)
+    INSTALL_COMMAND             $(MAKE) install
+    TEST_COMMAND                "")

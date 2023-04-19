@@ -1,59 +1,53 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/libflow/project/project_format.h"
+
 #include "flow/libflow/project/project.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow::project
-{
+namespace flow {
 
-  /* ------------------------------- ProjectFormat ---------------------------- */
+/* ------------------------------- ProjectFormat ---------------------------- */
 
-  ProjectFormat::ProjectFormat(QObject *parent) : FileFormat(parent) {}
+ProjectFormat::ProjectFormat(QObject *parent) : FileFormat(parent) {}
 
-  ProjectFormat::~ProjectFormat() = default;
+ProjectFormat::~ProjectFormat() = default;
 
-  /* --------------------------- ReadableProjectFormat ------------------------ */
+/* --------------------------- ReadableProjectFormat ------------------------ */
 
-  ReadableProjectFormat::ReadableProjectFormat(QObject *parent)
-      : ProjectFormat(parent)
-  {}
+ReadableProjectFormat::ReadableProjectFormat(QObject *parent)
+    : ProjectFormat(parent) {}
 
-  ReadableProjectFormat::~ReadableProjectFormat() = default;
+ReadableProjectFormat::~ReadableProjectFormat() = default;
 
-  bool ReadableProjectFormat::save(
-    const Project &project, const QString &file_name, QString *error)
-  {
-    if (error) *error = tr("Project format is readable only");
+bool ReadableProjectFormat::save(const Project &project,
+                                 const QString &file_name, QString *error) {
+  if (error) *error = tr("Project format is readable only");
 
-    return false;
-  }
+  return false;
+}
 
-  ReadableProjectFormat::Capabilities
-  ReadableProjectFormat::getCapabilities() const
-  {
-    return Capability::Read;
-  }
+ReadableProjectFormat::Capabilities ReadableProjectFormat::getCapabilities()
+    const {
+  return Capability::Read;
+}
 
-  /* --------------------------- WritableProjectFormat ------------------------ */
+/* --------------------------- WritableProjectFormat ------------------------ */
 
-  WritableProjectFormat::WritableProjectFormat(QObject *parent)
-      : ProjectFormat(parent)
-  {}
+WritableProjectFormat::WritableProjectFormat(QObject *parent)
+    : ProjectFormat(parent) {}
 
-  WritableProjectFormat::~WritableProjectFormat() = default;
+WritableProjectFormat::~WritableProjectFormat() = default;
 
-  std::unique_ptr<Project>
-  WritableProjectFormat::load(const QString &file_name, QString *error)
-  {
-    if (error) *error = tr("Project format is writable only");
+std::unique_ptr<Project> WritableProjectFormat::load(const QString &file_name,
+                                                     QString *error) {
+  if (error) *error = tr("Project format is writable only");
 
-    return nullptr;
-  }
+  return nullptr;
+}
 
-  WritableProjectFormat::Capabilities
-  WritableProjectFormat::getCapabilities() const
-  {
-    return Capability::Write;
-  }
+WritableProjectFormat::Capabilities WritableProjectFormat::getCapabilities()
+    const {
+  return Capability::Write;
+}
 
-}// namespace flow::project
+}  // namespace flow

@@ -21,20 +21,20 @@
 
 struct NoProjectWindow::Preferences {
   flow::Preference<QByteArray> no_project_window_geometry =
-    flow::Preference<QByteArray>("no_project_window/geometry");
+      flow::Preference<QByteArray>("no_project_window/geometry");
   flow::Preference<QByteArray> no_project_window_state =
-    flow::Preference<QByteArray>("no_project_window/state");
+      flow::Preference<QByteArray>("no_project_window/state");
 };
 
 /* ------------------------------ NoProjectWindow --------------------------- */
 
 NoProjectWindow::NoProjectWindow(QWidget *parent)
-    : QMainWindow(parent), m_ui(new Ui::NoProjectWindow),
+    : QMainWindow(parent),
+      m_ui(new Ui::NoProjectWindow),
       m_preferences(new Preferences),
       m_recent_projects_model(new RecentProjectListModel),
       m_recent_projects_delegate(new RecentProjectListDelegate),
-      m_search_proxy_model(new QSortFilterProxyModel)
-{
+      m_search_proxy_model(new QSortFilterProxyModel) {
   initUi();
   initConnections();
 
@@ -43,14 +43,12 @@ NoProjectWindow::NoProjectWindow(QWidget *parent)
 
 NoProjectWindow::~NoProjectWindow() = default;
 
-void NoProjectWindow::writeSettings()
-{
+void NoProjectWindow::writeSettings() {
   m_preferences->no_project_window_geometry = saveGeometry();
   m_preferences->no_project_window_state = saveState();
 }
 
-void NoProjectWindow::readSettings()
-{
+void NoProjectWindow::readSettings() {
   auto window_geometry = m_preferences->no_project_window_geometry.get();
   auto window_state = m_preferences->no_project_window_state.get();
 
@@ -58,12 +56,10 @@ void NoProjectWindow::readSettings()
   if (!window_state.isNull()) restoreState(window_state);
 }
 
-void NoProjectWindow::changeEvent(QEvent *event)
-{
+void NoProjectWindow::changeEvent(QEvent *event) {
   QWidget::changeEvent(event);
 
-  switch (event->type())
-  {
+  switch (event->type()) {
     case QEvent::LanguageChange:
       retranslateUi();
       break;
@@ -72,26 +68,23 @@ void NoProjectWindow::changeEvent(QEvent *event)
   }
 }
 
-void NoProjectWindow::openProject()
-{
+void NoProjectWindow::openProject() {
   const auto recent_project_files =
-    flow::PreferencesManager::getInstance().getRecentProjectFiles();
+      flow::PreferencesManager::getInstance().getRecentProjectFiles();
   const auto project_dir =
-    recent_project_files.empty() ? QString{} : recent_project_files.last();
+      recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter =
-    flow::FormatHelper<flow::project::ProjectFormat>{
-      flow::FileFormat::Capability::Read}
-      .getFilter();
+      flow::FormatHelper<flow::ProjectFormat>{
+          flow::FileFormat::Capability::Read}
+          .getFilter();
 
   const auto file_name = utils::QtExtendedFileDialog::getOpenFileName(
-    this, tr("Open Project"), project_dir, filter);
+      this, tr("Open Project"), project_dir, filter);
 
   if (file_name.isEmpty()) return;
 
   QString error;
-  if (!flow::project::ProjectManager::getInstance().loadProject(
-        file_name, &error))
-  {
+  if (!flow::ProjectManager::getInstance().loadProject(file_name, &error)) {
     QMessageBox::critical(this, tr("Error Opening File"), error);
     return;
   }
@@ -99,34 +92,29 @@ void NoProjectWindow::openProject()
   flow::PreferencesManager::getInstance().addRecentProjectFile(file_name);
 }
 
-void NoProjectWindow::createProject()
-{
+void NoProjectWindow::createProject() {
   auto new_project_dialog =
-    QScopedPointer<NewProjectDialog>(new NewProjectDialog(this));
-  if (auto project = new_project_dialog->create(); project)
-  {
+      QScopedPointer<NewProjectDialog>(new NewProjectDialog(this));
+  if (auto project = new_project_dialog->create(); project) {
     auto project_ptr = project.get();
 
-    flow::project::ProjectManager::getInstance().addProject(std::move(project));
+    flow::ProjectManager::getInstance().addProject(std::move(project));
     flow::PreferencesManager::getInstance().addRecentProjectFile(
-      project_ptr->getFileName());
+        project_ptr->getFileName());
   }
 }
 
-void NoProjectWindow::openRecentProject(const QModelIndex &index)
-{
+void NoProjectWindow::openRecentProject(const QModelIndex &index) {
   auto project_path =
-    index.data(RecentProjectListModel::Role::ProjectPathRole).toString();
-  flow::project::ProjectManager::getInstance().loadProject(project_path);
+      index.data(RecentProjectListModel::Role::ProjectPathRole).toString();
+  flow::ProjectManager::getInstance().loadProject(project_path);
 }
 
-void NoProjectWindow::searchRecentProject(const QString &search)
-{
+void NoProjectWindow::searchRecentProject(const QString &search) {
   m_search_proxy_model->setFilterWildcard(search);
 }
 
-void NoProjectWindow::initUi()
-{
+void NoProjectWindow::initUi() {
   m_ui->setupUi(this);
 
   m_search_proxy_model->setSourceModel(m_recent_projects_model.get());
@@ -138,24 +126,19 @@ void NoProjectWindow::initUi()
   m_recent_projects_delegate->setSpacing(10, 15);
 
   m_search_proxy_model->setFilterRole(
-    RecentProjectListModel::Role::ProjectNameRole);
+      RecentProjectListModel::Role::ProjectNameRole);
 }
 
-void NoProjectWindow::initConnections()
-{
-  connect(
-    m_ui->m_open_button, &QPushButton::pressed, this,
-    &NoProjectWindow::openProject);
-  connect(
-    m_ui->m_new_project_button, &QPushButton::pressed, this,
-    &NoProjectWindow::createProject);
+void NoProjectWindow::initConnections() {
+  connect(m_ui->m_open_button, &QPushButton::pressed, this,
+          &NoProjectWindow::openProject);
+  connect(m_ui->m_new_project_button, &QPushButton::pressed, this,
+          &NoProjectWindow::createProject);
 
-  connect(
-    m_ui->m_projects_list_view, &QListView::activated, this,
-    &NoProjectWindow::openRecentProject);
-  connect(
-    m_ui->m_search_project_edit, &QLineEdit::textChanged, this,
-    &NoProjectWindow::searchRecentProject);
+  connect(m_ui->m_projects_list_view, &QListView::activated, this,
+          &NoProjectWindow::openRecentProject);
+  connect(m_ui->m_search_project_edit, &QLineEdit::textChanged, this,
+          &NoProjectWindow::searchRecentProject);
 }
 
 void NoProjectWindow::retranslateUi() { m_ui->retranslateUi(this); }

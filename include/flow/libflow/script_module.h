@@ -7,22 +7,20 @@
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow
-{
+namespace flow {
 
-  class LIB_FLOW_API ScriptModule : public QObject
-  {
-    Q_OBJECT
+class LIB_FLOW_API ScriptModule : public QObject {
+  Q_OBJECT
 
-  public:
-    explicit ScriptModule(QObject *parent = nullptr);
-    ~ScriptModule() override;
+ public:
+  explicit ScriptModule(QObject *parent = nullptr);
+  ~ScriptModule() override;
 
-    Q_INVOKABLE [[nodiscard]] virtual QString getName() const = 0;
-  };
+  Q_INVOKABLE [[nodiscard]] virtual QString getName() const = 0;
+};
 
-}// namespace flow
+}  // namespace flow
 
 Q_DECLARE_INTERFACE(flow::ScriptModule, "org.flow.ScriptModule")
 
-#endif//FLOW_SCRIPT_MODULE_H
+#endif  // FLOW_SCRIPT_MODULE_H

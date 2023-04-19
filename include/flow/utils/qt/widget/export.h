@@ -1,15 +1,14 @@
 #ifndef FLOW_WIDGET_EXPORT_H
 #define FLOW_WIDGET_EXPORT_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/config.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QtCore/QtGlobal>
 /* -------------------------------------------------------------------------- */
 
 #if defined(WIDGET_EXPORTS)
-#define WIDGET_API FLOW_API_EXPORT
+#define WIDGET_API Q_DECL_EXPORT
 #else
-#define WIDGET_API FLOW_API_IMPORT
+#define WIDGET_API Q_DECL_IMPORT
 #endif
 
-
-#endif//FLOW_WIDGET_EXPORT_H
+#endif  // FLOW_WIDGET_EXPORT_H

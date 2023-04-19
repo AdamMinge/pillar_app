@@ -8,42 +8,40 @@
 #include <flow/libflow/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class ShortcutsSettingsWidget;
+namespace Ui {
+class ShortcutsSettingsWidget;
 }
 
 class ShortcutsTableModel;
 class ShortcutsTableDelegate;
 
-class ShortcutsSettingsWidget : public flow::settings::SettingsWidget
-{
+class ShortcutsSettingsWidget : public flow::SettingsWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit ShortcutsSettingsWidget(QWidget *parent = nullptr);
   ~ShortcutsSettingsWidget() override;
 
   bool apply() override;
   [[nodiscard]] bool applied() const override;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void searchAction(const QString &search);
   void contextMenu(const QPoint &pos);
 
   void setDefaultShortcuts(const QList<QModelIndex> &indexes);
   void clearShortcuts(const QList<QModelIndex> &indexes);
 
-private:
+ private:
   QScopedPointer<Ui::ShortcutsSettingsWidget> m_ui;
 
   QScopedPointer<ShortcutsTableModel> m_shortcuts_table_model;
@@ -51,18 +49,15 @@ private:
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
-class ShortcutsSettingsWidgetFactory
-    : public flow::settings::SettingsWidgetFactory
-{
+class ShortcutsSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::settings::SettingsWidgetFactory)
+  Q_INTERFACES(flow::SettingsWidgetFactory)
 
-public:
+ public:
   explicit ShortcutsSettingsWidgetFactory(QObject *parent = nullptr);
   ~ShortcutsSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::settings::SettingsWidget>
-  create() const override;
+  [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
 };
 
-#endif//FLOW_SHORTCUTS_SETTINGS_WIDGET_H
+#endif  // FLOW_SHORTCUTS_SETTINGS_WIDGET_H

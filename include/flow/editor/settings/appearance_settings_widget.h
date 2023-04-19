@@ -6,49 +6,44 @@
 #include <flow/libflow/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class AppearanceSettingsWidget;
+namespace Ui {
+class AppearanceSettingsWidget;
 }
 
-class AppearanceSettingsWidget : public flow::settings::SettingsWidget
-{
+class AppearanceSettingsWidget : public flow::SettingsWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit AppearanceSettingsWidget(QWidget *parent = nullptr);
   ~AppearanceSettingsWidget() override;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void languageChanged(const QString &language);
   void styleChanged(const QString &style);
 
-private:
+ private:
   QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;
 };
 
-class AppearanceSettingsWidgetFactory
-    : public flow::settings::SettingsWidgetFactory
-{
+class AppearanceSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::settings::SettingsWidgetFactory)
+  Q_INTERFACES(flow::SettingsWidgetFactory)
 
-public:
+ public:
   explicit AppearanceSettingsWidgetFactory(QObject *parent = nullptr);
   ~AppearanceSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::settings::SettingsWidget>
-  create() const override;
+  [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
   [[nodiscard]] QString getParentObjectName() const override;
 };
 
-#endif//FLOW_APPEARANCE_SETTINGS_WIDGET_H
+#endif  // FLOW_APPEARANCE_SETTINGS_WIDGET_H

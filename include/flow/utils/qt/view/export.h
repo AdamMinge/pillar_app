@@ -1,15 +1,14 @@
 #ifndef FLOW_VIEW_EXPORT_H
 #define FLOW_VIEW_EXPORT_H
 
-/* ----------------------------------- Local -------------------------------- */
-#include "flow/config.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QtCore/QtGlobal>
 /* -------------------------------------------------------------------------- */
 
 #if defined(VIEW_EXPORTS)
-#define VIEW_API FLOW_API_EXPORT
+#define VIEW_API Q_DECL_EXPORT
 #else
-#define VIEW_API FLOW_API_IMPORT
+#define VIEW_API Q_DECL_IMPORT
 #endif
 
-
-#endif//FLOW_VIEW_EXPORT_H
+#endif  // FLOW_VIEW_EXPORT_H

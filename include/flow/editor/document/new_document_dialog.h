@@ -5,40 +5,37 @@
 #include <QDialog>
 /* -------------------------------------------------------------------------- */
 
-namespace flow::document
-{
-  class Document;
-}// namespace flow::document
+namespace flow {
+class Document;
+}  // namespace flow
 
-namespace Ui
-{
-  class NewDocumentDialog;
+namespace Ui {
+class NewDocumentDialog;
 }
 
 class NewDocumentWidgetListModel;
 class NewDocumentWidgetListDelegate;
 
-class NewDocumentDialog : public QDialog
-{
+class NewDocumentDialog : public QDialog {
   Q_OBJECT
 
-private:
+ private:
   struct Preferences;
 
-public:
+ public:
   explicit NewDocumentDialog(QWidget *parent = nullptr);
   ~NewDocumentDialog() override;
 
-  [[nodiscard]] std::unique_ptr<flow::document::Document> create();
+  [[nodiscard]] std::unique_ptr<flow::Document> create();
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void currentChanged();
   void isValidChanged(bool valid);
 
-private:
+ private:
   void initUi();
   void initConnections();
 
@@ -47,7 +44,7 @@ private:
   void writeSettings();
   void readSettings();
 
-private:
+ private:
   QScopedPointer<Ui::NewDocumentDialog> m_ui;
 
   QScopedPointer<Preferences> m_preferences;
@@ -55,4 +52,4 @@ private:
   QScopedPointer<NewDocumentWidgetListDelegate> m_new_document_widget_delegate;
 };
 
-#endif//FLOW_NEW_DOCUMENT_DIALOG_H
+#endif  // FLOW_NEW_DOCUMENT_DIALOG_H

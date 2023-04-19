@@ -10,37 +10,34 @@ class QAbstractFileIconProvider;
 class QFileSystemModel;
 class QTreeView;
 
-namespace flow::project
-{
-  class Project;
+namespace flow {
+class Project;
 }
 
-namespace utils
-{
-  class FileSystemProxyModel;
+namespace utils {
+class FileSystemProxyModel;
 }
 
-class ProjectDock : public QDockWidget
-{
+class ProjectDock : public QDockWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit ProjectDock(QWidget *parent = nullptr);
   ~ProjectDock() override;
 
-  void setProject(flow::project::Project *project);
-  [[nodiscard]] flow::project::Project *getProject() const;
+  void setProject(flow::Project *project);
+  [[nodiscard]] flow::Project *getProject() const;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void openFile(const QModelIndex &index);
   void removeFile(const QModelIndex &index);
   void renameFile(const QModelIndex &index);
@@ -49,8 +46,8 @@ private Q_SLOTS:
   void openContextMenu(const QPoint &position);
   void openDocument(const QModelIndex &index);
 
-private:
-  flow::project::Project *m_current_project;
+ private:
+  flow::Project *m_current_project;
 
   QTreeView *m_view;
   QFileSystemModel *m_model;
@@ -59,4 +56,4 @@ private:
   QScopedPointer<QAbstractFileIconProvider> m_icon_provider;
 };
 
-#endif//FLOW_PROJECT_DOCK_H
+#endif  // FLOW_PROJECT_DOCK_H

@@ -4,15 +4,14 @@
 #include <QEvent>
 /* -------------------------------------------------------------------------- */
 
-namespace flow::settings
-{
+namespace flow {
 
-  SettingsWidget::SettingsWidget(QWidget *parent) : QWidget(parent) {}
+SettingsWidget::SettingsWidget(QWidget *parent) : QWidget(parent) {}
 
-  SettingsWidget::~SettingsWidget() = default;
+SettingsWidget::~SettingsWidget() = default;
 
-  bool SettingsWidget::apply() { return true; }
+bool SettingsWidget::apply() { return true; }
 
-  bool SettingsWidget::applied() const { return true; }
+bool SettingsWidget::applied() const { return true; }
 
-}// namespace flow::settings
+}  // namespace flow

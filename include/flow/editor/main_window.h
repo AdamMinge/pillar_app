@@ -7,35 +7,32 @@
 #include <QStackedWidget>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 
-namespace flow::project
-{
-  class Project;
-}// namespace flow::project
+namespace flow {
+class Project;
+}  // namespace flow
 
 class ProjectWindow;
 class NoProjectWindow;
 
-class MainWindow final : public QMainWindow
-{
+class MainWindow final : public QMainWindow {
   Q_OBJECT
 
-private:
+ private:
   struct Preferences;
 
-public:
+ public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow() override;
 
-protected:
+ protected:
   void closeEvent(QCloseEvent *event) override;
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void registerActions();
 
   void initUi();
@@ -55,15 +52,15 @@ private:
 
   void retranslateUi();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void openSettings();
   void openAbout();
 
-  void currentProjectChanged(flow::project::Project *project);
+  void currentProjectChanged(flow::Project *project);
 
   void updateWindowTitle();
 
-private:
+ private:
   QScopedPointer<Ui::MainWindow> m_ui;
   QScopedPointer<Preferences> m_preferences;
 
@@ -76,4 +73,4 @@ private:
   QAction *m_exit_action;
 };
 
-#endif//FLOW_MAIN_WINDOW_H
+#endif  // FLOW_MAIN_WINDOW_H
