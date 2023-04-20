@@ -62,12 +62,6 @@ macro(flow_add_module target)
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
-  target_include_directories(
-    ${target}
-    PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>
-    INTERFACE $<INSTALL_INTERFACE:include>
-    PRIVATE ${PROJECT_SOURCE_DIR}/src)
-
   if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(${target} PUBLIC "FLOW_STATIC")
   endif()
@@ -200,9 +194,6 @@ macro(flow_add_test target)
     RESOURCES_DIR
     ${THIS_RESOURCES_DIR})
 
-  target_include_directories(${target}
-                             PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/tests>)
-
 endmacro()
 # ----------------------------------------------------------------------- #
 # ------------ Define a macro that helps add engine example ------------- #
@@ -229,9 +220,6 @@ macro(flow_add_example target)
     RESOURCES_DIR
     ${THIS_RESOURCES_DIR})
 
-  target_include_directories(
-    ${target} PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/examples>)
-
 endmacro()
 # ----------------------------------------------------------------------- #
 # ----------------- Define a macro that helps add tool ------------------ #
@@ -257,11 +245,6 @@ macro(flow_add_application target)
     ${THIS_DEPENDS_PRIVATE}
     RESOURCES_DIR
     ${THIS_RESOURCES_DIR})
-
-  target_include_directories(
-    ${target}
-    PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>
-    PRIVATE $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/src>)
 
   target_compile_definitions(${target} PUBLIC QT_NO_KEYWORDS)
 
@@ -330,12 +313,6 @@ macro(flow_add_utils target)
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
-  target_include_directories(
-    ${target}
-    PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>
-    INTERFACE $<INSTALL_INTERFACE:include>
-    PRIVATE ${PROJECT_SOURCE_DIR}/src)
-
   if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(${target} PUBLIC "FLOW_STATIC")
   endif()
@@ -400,12 +377,6 @@ macro(flow_add_plugins target)
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib)
-
-  target_include_directories(
-    ${target}
-    PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include>
-    INTERFACE $<INSTALL_INTERFACE:include>
-    PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
   if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(${target} PUBLIC "FLOW_STATIC")

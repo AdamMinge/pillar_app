@@ -1,0 +1,18 @@
+#ifndef PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_NOT_H
+#define PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_NOT_H
+
+/* ----------------------------------- Local -------------------------------- */
+#include "export.h"
+#include "logic_node.h"
+/* -------------------------------------------------------------------------- */
+
+class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam {
+ public:
+  explicit LogicNodeNot();
+  ~LogicNodeNot() override;
+
+ protected:
+  void compute() override;
+};
+
+#endif  // PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_NOT_H

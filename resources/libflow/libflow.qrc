@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/libflow">
-        <file>images/64x64/plugin.png</file>
-    </qresource>
-</RCC>

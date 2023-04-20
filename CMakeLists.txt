@@ -15,7 +15,7 @@ include(${FLOW_SOURCE_DIR}/cmake/macros.cmake)
 # ---------------------------- Add subdirectories ----------------------- #
 # ----------------------------------------------------------------------- #
 add_subdirectory(deps)
-add_subdirectory(src/flow)
+add_subdirectory(src)
 
 if(FLOW_BUILD_TEST)
   add_subdirectory(tests)
