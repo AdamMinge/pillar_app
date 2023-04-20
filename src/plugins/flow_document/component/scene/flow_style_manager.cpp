@@ -25,7 +25,7 @@ FlowStyleManager::~FlowStyleManager() = default;
 void FlowStyleManager::setStyle(const FlowStyle &style) { *m_style = style; }
 
 void FlowStyleManager::resetStyle() {
-  loadStyle(":/plugins/flow_document/styles/flow/default.json");
+  loadStyle(":/plugins/flow_document/styles/default.json");
 }
 
 bool FlowStyleManager::loadStyle(const QString &file_name) {
