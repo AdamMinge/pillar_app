@@ -38,8 +38,7 @@ void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
   writer.writeEndElement();
 }
 
-/* ------------------------------- FlowDocumentWriter
- * ---------------------------- */
+/* ----------------------------- FlowDocumentWriter ------------------------- */
 
 FlowDocumentWriter::FlowDocumentWriter()
     : m_impl(std::make_unique<FlowDocumentWriterImpl>()) {}

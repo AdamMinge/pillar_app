@@ -53,8 +53,7 @@ bool FlowDocumentReader::FlowDocumentReaderImpl::isValid(QIODevice &device) {
   return true;
 }
 
-/* ------------------------------- FlowDocumentReader
- * ---------------------------- */
+/* ----------------------------- FlowDocumentReader ------------------------- */
 
 FlowDocumentReader::FlowDocumentReader()
     : m_impl(std::make_unique<FlowDocumentReaderImpl>()) {}
