@@ -8,34 +8,31 @@
 #include <QPushButton>
 /* -------------------------------------------------------------------------- */
 
-namespace utils
-{
-  class QtLineEditWithHistory;
+namespace utils {
+class QtLineEditWithHistory;
 }
 
-class ConsoleOutputWidget : public QPlainTextEdit
-{
+class ConsoleOutputWidget : public QPlainTextEdit {
   Q_OBJECT
 
-public:
+ public:
   using QPlainTextEdit::QPlainTextEdit;
 
-protected:
+ protected:
   void contextMenuEvent(QContextMenuEvent *event) override;
 };
 
-class ConsoleDock final : public QDockWidget
-{
+class ConsoleDock final : public QDockWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit ConsoleDock(QWidget *parent = nullptr);
   ~ConsoleDock() override;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void onReport(const QString &str, const QColor &color = QColor{});
 
   void onInfoLog(const QString &message);
@@ -47,16 +44,16 @@ private Q_SLOTS:
 
   void executeScript();
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private:
+ private:
   QPlainTextEdit *m_plain_text_edit;
   utils::QtLineEditWithHistory *m_line_edit_with_history;
   QPushButton *m_clear_button;
 };
 
-#endif//CONSOLE_DOCK_H
+#endif  // CONSOLE_DOCK_H

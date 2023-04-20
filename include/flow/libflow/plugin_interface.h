@@ -8,29 +8,27 @@
 #include "flow/libflow/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow
-{
+namespace flow {
 
-  class LIB_FLOW_API PluginInterface : public QObject
-  {
-    Q_OBJECT
+class LIB_FLOW_API PluginInterface : public QObject {
+  Q_OBJECT
 
-  public:
-    explicit PluginInterface();
-    ~PluginInterface() override;
+ public:
+  explicit PluginInterface();
+  ~PluginInterface() override;
 
-    virtual void init();
+  virtual void init();
 
-  protected:
-    void addObject(QObject *object);
-    void removeObject(QObject *object);
+ protected:
+  void addObject(QObject *object);
+  void removeObject(QObject *object);
 
-  private:
-    QList<QObject *> m_added_objects;
-  };
+ private:
+  QList<QObject *> m_added_objects;
+};
 
-}// namespace flow
+}  // namespace flow
 
 Q_DECLARE_INTERFACE(flow::PluginInterface, "org.flow.PluginInterface")
 
-#endif//FLOW_PLUGIN_INTERFACE_H
+#endif  // FLOW_PLUGIN_INTERFACE_H

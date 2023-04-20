@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/editor">
-        <file>images/64x64/plugin.png</file>
-    </qresource>
-</RCC>

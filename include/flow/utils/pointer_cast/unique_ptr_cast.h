@@ -1,5 +1,5 @@
-#ifndef FLOW_UNIQUE_PTR_CAST_H
-#define FLOW_UNIQUE_PTR_CAST_H
+#ifndef UTILS_POINTER_CAST_UNIQUE_PTR_CAST_H
+#define UTILS_POINTER_CAST_UNIQUE_PTR_CAST_H
 
 /* ---------------------------------- Standard ------------------------------ */
 #include <memory>
@@ -7,16 +7,14 @@
 #include "flow/utils/pointer_cast/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace utils
-{
+namespace utils {
 
-  template<typename TO, typename FROM>
-  std::unique_ptr<TO>
-    POINTER_CAST_API cast_unique_ptr(std::unique_ptr<FROM> &&from)
-  {
-    return std::unique_ptr<TO>(dynamic_cast<TO *>(from.release()));
-  }
+template <typename TO, typename FROM>
+std::unique_ptr<TO> POINTER_CAST_API
+cast_unique_ptr(std::unique_ptr<FROM> &&from) {
+  return std::unique_ptr<TO>(dynamic_cast<TO *>(from.release()));
+}
 
-}// namespace utils
+}  // namespace utils
 
-#endif//FLOW_UNIQUE_PTR_CAST_H
+#endif  // UTILS_POINTER_CAST_UNIQUE_PTR_CAST_H

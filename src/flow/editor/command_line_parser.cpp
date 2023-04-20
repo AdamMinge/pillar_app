@@ -4,11 +4,9 @@
 
 /* ----------------------------------- Option ------------------------------- */
 
-CommandLineParser::Option::Option(
-  const QCommandLineOption &cmd_option,
-  std::function<void(const QString &)> callback)
-    : cmd_option(cmd_option), callback(std::move(callback))
-{}
+CommandLineParser::Option::Option(const QCommandLineOption &cmd_option,
+                                  std::function<void(const QString &)> callback)
+    : cmd_option(cmd_option), callback(std::move(callback)) {}
 
 /* ----------------------------- CommandLineParser -------------------------- */
 
@@ -16,8 +14,7 @@ CommandLineParser::CommandLineParser() = default;
 
 CommandLineParser::~CommandLineParser() = default;
 
-void CommandLineParser::process(const QCoreApplication &app)
-{
+void CommandLineParser::process(const QCoreApplication &app) {
   QCommandLineParser parser;
   parser.setApplicationDescription("Flow Editor");
   parser.addHelpOption();
@@ -27,10 +24,8 @@ void CommandLineParser::process(const QCoreApplication &app)
 
   parser.process(app);
 
-  for (auto &option : m_options)
-  {
-    if (parser.isSet(option.cmd_option))
-    {
+  for (auto &option : m_options) {
+    if (parser.isSet(option.cmd_option)) {
       auto value = QString{};
       if (!option.cmd_option.valueName().isEmpty())
         value = parser.value(option.cmd_option);
@@ -40,11 +35,9 @@ void CommandLineParser::process(const QCoreApplication &app)
   }
 }
 
-
-void CommandLineParser::registerOption(
-  const QStringList &names, const QString &description,
-  const std::function<void()> &callback)
-{
+void CommandLineParser::registerOption(const QStringList &names,
+                                       const QString &description,
+                                       const std::function<void()> &callback) {
   registerOptionImpl(names, description, [callback](const QString &value) {
     Q_UNUSED(value);
     callback();
@@ -52,10 +45,9 @@ void CommandLineParser::registerOption(
 }
 
 void CommandLineParser::registerOptionImpl(
-  const QStringList &names, const QString &description,
-  const std::function<void(const QString &)> &callback,
-  const QString &valueName)
-{
+    const QStringList &names, const QString &description,
+    const std::function<void(const QString &)> &callback,
+    const QString &valueName) {
   Q_ASSERT(!names.isEmpty());
   Q_ASSERT(!description.isEmpty());
 

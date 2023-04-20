@@ -146,7 +146,7 @@
   <customwidget>
    <class>utils::QtStackedWidget</class>
    <extends>QStackedWidget</extends>
-   <header location="global">flow/utils/qt/stacked_widget/stacked_widget.h</header>
+   <header location="global">flow/utils/stacked_widget/stacked_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

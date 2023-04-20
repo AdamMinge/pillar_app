@@ -183,13 +183,13 @@
   <customwidget>
    <class>utils::QtStackedWidgetLabel</class>
    <extends>QWidget</extends>
-   <header location="global">flow/utils/qt/stacked_widget/stacked_widget_label.h</header>
+   <header location="global">flow/utils/stacked_widget/stacked_widget_label.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>utils::QtStackedWidget</class>
    <extends>QStackedWidget</extends>
-   <header>flow/utils/qt/stacked_widget/stacked_widget.h</header>
+   <header>flow/utils/stacked_widget/stacked_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -9,74 +9,67 @@
 #include <list>
 /* -------------------------------------------------------------------------- */
 
-class CommandLineParser
-{
-private:
+class CommandLineParser {
+ private:
   struct Option {
-    explicit Option(
-      const QCommandLineOption &cmd_option,
-      std::function<void(const QString &)> callback = {});
+    explicit Option(const QCommandLineOption &cmd_option,
+                    std::function<void(const QString &)> callback = {});
 
     QCommandLineOption cmd_option;
     std::function<void(const QString &)> callback;
   };
 
-public:
+ public:
   explicit CommandLineParser();
   virtual ~CommandLineParser();
 
   void process(const QCoreApplication &app);
 
-protected:
-  void registerOption(
-    const QStringList &names, const QString &description,
-    const std::function<void()> &callback);
+ protected:
+  void registerOption(const QStringList &names, const QString &description,
+                      const std::function<void()> &callback);
 
-  template<typename TYPE>
-  void registerOption(
-    const QStringList &names, const QString &description,
-    const std::function<void(const TYPE &)> &callback,
-    const QString &valueName);
+  template <typename TYPE>
+  void registerOption(const QStringList &names, const QString &description,
+                      const std::function<void(const TYPE &)> &callback,
+                      const QString &valueName);
 
-  template<typename TYPE>
+  template <typename TYPE>
   [[nodiscard]] TYPE convertValue(const QString &value);
 
-private:
-  void registerOptionImpl(
-    const QStringList &names, const QString &description,
-    const std::function<void(const QString &)> &callback,
-    const QString &valueName = QString{});
+ private:
+  void registerOptionImpl(const QStringList &names, const QString &description,
+                          const std::function<void(const QString &)> &callback,
+                          const QString &valueName = QString{});
 
-private:
+ private:
   std::list<Option> m_options;
 };
 
-template<typename TYPE>
+template <typename TYPE>
 void CommandLineParser::registerOption(
-  const QStringList &names, const QString &description,
-  const std::function<void(const TYPE &)> &callback, const QString &valueName)
-{
+    const QStringList &names, const QString &description,
+    const std::function<void(const TYPE &)> &callback,
+    const QString &valueName) {
   registerOptionImpl(
-    names, description,
-    [callback, this](const QString &value) {
-      callback(convertValue<TYPE>(value));
-    },
-    valueName);
+      names, description,
+      [callback, this](const QString &value) {
+        callback(convertValue<TYPE>(value));
+      },
+      valueName);
 }
 
 /* -------------------------- Convert specializations  ---------------------- */
 
-template<typename TYPE>
-TYPE CommandLineParser::convertValue(const QString &value)
-{
+template <typename TYPE>
+TYPE CommandLineParser::convertValue(const QString &value) {
   return static_cast<TYPE>(value);
 }
 
-#define CONVERTER_VALUE_SPEC(TYPE, METHOD)                                     \
-  template<>                                                                   \
-  inline TYPE CommandLineParser::convertValue<TYPE>(const QString &value)      \
-  {                                                                            \
-    return (METHOD);                                                           \
+#define CONVERTER_VALUE_SPEC(TYPE, METHOD)                                  \
+  template <>                                                               \
+  inline TYPE CommandLineParser::convertValue<TYPE>(const QString &value) { \
+    return (METHOD);                                                        \
   }
 
 CONVERTER_VALUE_SPEC(QString, value)
@@ -92,4 +85,4 @@ CONVERTER_VALUE_SPEC(float, value.toFloat())
 CONVERTER_VALUE_SPEC(double, value.toDouble())
 #undef CONVERTER_VALUE_SPEC
 
-#endif//FLOW_COMMAND_LINE_PARSER_H
+#endif  // FLOW_COMMAND_LINE_PARSER_H

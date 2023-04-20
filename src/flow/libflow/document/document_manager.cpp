@@ -9,8 +9,8 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/dialog/extended_file_dialog.h>
-#include <flow/utils/qt/file_system/file_system_watcher.h>
+#include <flow/utils/dialog/extended_file_dialog.h>
+#include <flow/utils/file_system/file_system_watcher.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow {

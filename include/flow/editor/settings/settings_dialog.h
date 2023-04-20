@@ -4,37 +4,34 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/dialog/dialog_with_url_links.h>
+#include <flow/utils/dialog/dialog_with_url_links.h>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class SettingsDialog;
+namespace Ui {
+class SettingsDialog;
 }
 
-namespace utils
-{
-  class QtStackedLayout;
+namespace utils {
+class QtStackedLayout;
 }
 
 class SettingsWidgetTreeModel;
 
-class SettingsDialog : public utils::QtDialogWithUrlLinks<SettingsDialog>
-{
+class SettingsDialog : public utils::QtDialogWithUrlLinks<SettingsDialog> {
   Q_OBJECT
 
-public:
+ public:
   explicit SettingsDialog(QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
-public Q_SLOTS:
+ public Q_SLOTS:
   void setUrl(const QUrl &url) override;
 
-protected:
+ protected:
   void closeEvent(QCloseEvent *event) override;
   void changeEvent(QEvent *event) override;
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void filterSettings(const QString &filter);
 
   void ok();
@@ -43,17 +40,17 @@ private Q_SLOTS:
 
   void currentChanged(QWidget *widget);
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private:
+ private:
   QScopedPointer<Ui::SettingsDialog> m_ui;
 
   QScopedPointer<SettingsWidgetTreeModel> m_settings_widget_model;
   QScopedPointer<QSortFilterProxyModel> m_settings_widget_filter_model;
 };
 
-#endif//FLOW_SETTINGS_DIALOG_H
+#endif  // FLOW_SETTINGS_DIALOG_H

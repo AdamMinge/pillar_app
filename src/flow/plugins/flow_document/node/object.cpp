@@ -2,7 +2,7 @@
 #include "flow/plugins/flow_document/node/object.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace plugin::flow_document {
 
 Object::Object() = default;
 
@@ -22,4 +22,4 @@ void Object::setProperties(const QVariantMap &properties) {
 
 const QVariantMap &Object::getProperties() const { return m_properties; }
 
-}  // namespace flow
+}  // namespace plugin::flow_document

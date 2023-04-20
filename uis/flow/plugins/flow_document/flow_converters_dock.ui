@@ -52,7 +52,7 @@
   <customwidget>
    <class>utils::QtUnselectableTreeView</class>
    <extends>QTreeView</extends>
-   <header location="global">flow/utils/qt/view/unselectable_view.h</header>
+   <header location="global">flow/utils/view/unselectable_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

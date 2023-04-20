@@ -17,7 +17,7 @@
 #include <flow/libflow/project/project_manager.h>
 #include <flow/libflow/style_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/action/action.h>
+#include <flow/utils/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "ui_main_window.h"
 /* -------------------------------------------------------------------------- */

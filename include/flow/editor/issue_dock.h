@@ -6,40 +6,38 @@
 #include <QSortFilterProxyModel>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class IssueDock;
+namespace Ui {
+class IssueDock;
 }
 
 class IssueTableModel;
 class IssueTableFilterModel;
 
-class IssueDock : public QDockWidget
-{
+class IssueDock : public QDockWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit IssueDock(QWidget *parent = nullptr);
   ~IssueDock() override;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void issueActivate(const QModelIndex &index);
   void searchIssue(const QString &search);
 
-private:
+ private:
   QScopedPointer<Ui::IssueDock> m_ui;
 
   QScopedPointer<IssueTableModel> m_issue_model;
   QScopedPointer<IssueTableFilterModel> m_issue_filter_model;
 };
 
-#endif//FLOW_ISSUE_DOCK_H
+#endif  // FLOW_ISSUE_DOCK_H

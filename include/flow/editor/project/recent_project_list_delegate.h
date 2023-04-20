@@ -5,20 +5,17 @@
 #include <QStyledItemDelegate>
 /* -------------------------------------------------------------------------- */
 
-class RecentProjectListDelegate : public QStyledItemDelegate
-{
+class RecentProjectListDelegate : public QStyledItemDelegate {
   Q_OBJECT
 
-public:
+ public:
   explicit RecentProjectListDelegate(QObject *parent = nullptr);
   ~RecentProjectListDelegate() override;
 
-  void paint(
-    QPainter *painter, const QStyleOptionViewItem &option,
-    const QModelIndex &index) const override;
-  [[nodiscard]] QSize sizeHint(
-    const QStyleOptionViewItem &option,
-    const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option,
+             const QModelIndex &index) const override;
+  [[nodiscard]] QSize sizeHint(const QStyleOptionViewItem &option,
+                               const QModelIndex &index) const override;
 
   void setIconSize(const QSize &size);
   [[nodiscard]] const QSize &getIconSize() const;
@@ -33,10 +30,10 @@ public:
   [[nodiscard]] int getVerticalSpacing() const;
   [[nodiscard]] int getHorizontalSpacing() const;
 
-private:
+ private:
   QSize m_icon_size;
   QMargins m_margins;
   QSize m_spacing;
 };
 
-#endif//FLOW_RECENT_PROJECT_LIST_DELEGATE_H
+#endif  // FLOW_RECENT_PROJECT_LIST_DELEGATE_H

@@ -12,49 +12,46 @@
 #include "flow/libflow/plugin_listener.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow
-{
+namespace flow {
 
-  class ScriptModule;
+class ScriptModule;
 
-  class LIB_FLOW_API ScriptManager : public QObject,
-                                     public PluginListener<ScriptModule>
-  {
-    Q_OBJECT
+class LIB_FLOW_API ScriptManager : public QObject,
+                                   public PluginListener<ScriptModule> {
+  Q_OBJECT
 
-  public:
-    [[nodiscard]] static ScriptManager &getInstance();
-    static void deleteInstance();
+ public:
+  [[nodiscard]] static ScriptManager &getInstance();
+  static void deleteInstance();
 
-  public:
-    ~ScriptManager() override;
+ public:
+  ~ScriptManager() override;
 
-    QJSValue evaluate(
-      const QString &program, const QString &file_name = QString(),
-      int line = 1);
+  QJSValue evaluate(const QString &program,
+                    const QString &file_name = QString(), int line = 1);
 
-  private:
-    explicit ScriptManager();
+ private:
+  explicit ScriptManager();
 
-    void reset();
-    void init();
+  void reset();
+  void init();
 
-    [[nodiscard]] QString
-    getErrorMessage(const QJSValue &value, const QString &program) const;
+  [[nodiscard]] QString getErrorMessage(const QJSValue &value,
+                                        const QString &program) const;
 
-    void addedObject(ScriptModule *script_module) override;
-    void removedObject(ScriptModule *script_module) override;
+  void addedObject(ScriptModule *script_module) override;
+  void removedObject(ScriptModule *script_module) override;
 
-  private Q_SLOTS:
-    void onScriptWarnings(const QList<QQmlError> &warnings);
+ private Q_SLOTS:
+  void onScriptWarnings(const QList<QQmlError> &warnings);
 
-  private:
-    static QScopedPointer<ScriptManager> m_instance;
+ private:
+  static QScopedPointer<ScriptManager> m_instance;
 
-    std::unique_ptr<QQmlEngine> m_engine;
-    std::unique_ptr<ScriptModule> m_script_module;
-  };
+  std::unique_ptr<QQmlEngine> m_engine;
+  std::unique_ptr<ScriptModule> m_script_module;
+};
 
-}// namespace flow
+}  // namespace flow
 
-#endif//FLOW_SCRIPT_MANAGER_H
+#endif  // FLOW_SCRIPT_MANAGER_H

@@ -113,7 +113,7 @@
   <customwidget>
    <class>utils::QtNameAndPathFiller</class>
    <extends>QWidget</extends>
-   <header location="global">flow/utils/qt/widget/name_and_path_filler.h</header>
+   <header location="global">flow/utils/widget/name_and_path_filler.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -19,8 +19,8 @@
 #include <flow/libflow/document/document_manager.h>
 #include <flow/libflow/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/file_system/file_system_proxy_model.h>
-#include <flow/utils/qt/view/unselectable_view.h>
+#include <flow/utils/file_system/file_system_proxy_model.h>
+#include <flow/utils/view/unselectable_view.h>
 /* -------------------------------------------------------------------------- */
 
 ProjectDock::ProjectDock(QWidget *parent)
@@ -51,10 +51,11 @@ void ProjectDock::setProject(flow::Project *project) {
   auto upDir = dir;
   upDir.cdUp();
 
+  m_model->setRootPath(dir.path());
+
   auto root_index = m_proxy->mapFromSource(m_model->index(dir.path()));
   auto upper_root_index = m_proxy->mapFromSource(m_model->index(upDir.path()));
 
-  m_model->setRootPath(dir.path());
   m_view->setRootIndex(upper_root_index);
   m_view->expand(root_index);
 }

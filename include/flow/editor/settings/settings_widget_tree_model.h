@@ -7,7 +7,7 @@
 /* ---------------------------------- LibFlow ------------------------------- */
 #include <flow/libflow/plugin_listener.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/stacked_widget/stacked_widget_tree_model.h>
+#include <flow/utils/stacked_widget/stacked_widget_tree_model.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow {

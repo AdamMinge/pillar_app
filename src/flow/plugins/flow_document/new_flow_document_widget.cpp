@@ -77,7 +77,7 @@ void NewFlowDocumentWidget::validate() {
 
 NewFlowDocumentWidgetFactory::NewFlowDocumentWidgetFactory(QObject *parent)
     : flow::NewDocumentWidgetFactory(
-          QIcon(":/plugins/document/flow/images/64x64/flow_document.png"),
+          QIcon(":/plugins/flow_document/images/64x64/flow_document.png"),
           parent) {}
 
 NewFlowDocumentWidgetFactory::~NewFlowDocumentWidgetFactory() = default;

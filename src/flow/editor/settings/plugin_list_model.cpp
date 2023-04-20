@@ -6,8 +6,7 @@
 
 /* ------------------------------ PluginListModel --------------------------- */
 
-PluginListModel::PluginListModel(QObject *parent) : QAbstractListModel(parent)
-{
+PluginListModel::PluginListModel(QObject *parent) : QAbstractListModel(parent) {
   const auto plugins = flow::PluginManager::getInstance().getPlugins();
   for (auto &plugin : plugins)
     m_plugins.emplace_back(std::make_pair(plugin, plugin->isEnabled()));
@@ -15,13 +14,11 @@ PluginListModel::PluginListModel(QObject *parent) : QAbstractListModel(parent)
 
 PluginListModel::~PluginListModel() = default;
 
-bool PluginListModel::apply()
-{
+bool PluginListModel::apply() {
   std::for_each(m_plugins.begin(), m_plugins.end(), [](auto &plugin_pair) {
-    if (plugin_pair.first->isEnabled() != plugin_pair.second)
-    {
+    if (plugin_pair.first->isEnabled() != plugin_pair.second) {
       auto apply_fun =
-        plugin_pair.second ? &flow::Plugin::enable : &flow::Plugin::disable;
+          plugin_pair.second ? &flow::Plugin::enable : &flow::Plugin::disable;
       (plugin_pair.first->*apply_fun)();
     }
   });
@@ -29,20 +26,17 @@ bool PluginListModel::apply()
   return applied();
 }
 
-bool PluginListModel::applied() const
-{
+bool PluginListModel::applied() const {
   return std::all_of(m_plugins.begin(), m_plugins.end(), [](auto &plugin_pair) {
     return plugin_pair.first->isEnabled() == plugin_pair.second;
   });
 }
 
-bool PluginListModel::setData(
-  const QModelIndex &index, const QVariant &value, int role)
-{
+bool PluginListModel::setData(const QModelIndex &index, const QVariant &value,
+                              int role) {
   if (index.row() < 0 || index.row() >= rowCount(index.parent())) return false;
 
-  if (role == Role::PluginStateRole)
-  {
+  if (role == Role::PluginStateRole) {
     auto applied_before = applied();
     m_plugins.at(index.row()).second = value.toBool();
     auto applied_after = applied();
@@ -54,13 +48,11 @@ bool PluginListModel::setData(
   return false;
 }
 
-QVariant PluginListModel::data(const QModelIndex &index, int role) const
-{
+QVariant PluginListModel::data(const QModelIndex &index, int role) const {
   if (index.row() < 0 || index.row() >= rowCount(index.parent()))
     return QVariant{};
 
-  switch (auto plugin_pair = m_plugins.at(index.row()); role)
-  {
+  switch (auto plugin_pair = m_plugins.at(index.row()); role) {
     case Qt::DisplayRole:
     case Role::PluginName:
       return plugin_pair.first->getName();
@@ -86,29 +78,26 @@ QVariant PluginListModel::data(const QModelIndex &index, int role) const
   }
 }
 
-Qt::ItemFlags PluginListModel::flags(const QModelIndex &index) const
-{
+Qt::ItemFlags PluginListModel::flags(const QModelIndex &index) const {
   auto flags = QAbstractListModel::flags(index);
   flags |= Qt::ItemIsEditable;
 
   return flags;
 }
 
-int PluginListModel::rowCount(const QModelIndex &parent) const
-{
+int PluginListModel::rowCount(const QModelIndex &parent) const {
   return static_cast<int>(m_plugins.size());
 }
 
 /* --------------------------- StaticPluginListModel ------------------------ */
 
 StaticPluginListModel::StaticPluginListModel(QObject *parent)
-    : PluginListModel(parent)
-{
-  m_plugins.erase(
-    std::remove_if(
-      m_plugins.begin(), m_plugins.end(),
-      [](auto &plugin_pair) { return !plugin_pair.first->isStatic(); }),
-    m_plugins.end());
+    : PluginListModel(parent) {
+  m_plugins.erase(std::remove_if(m_plugins.begin(), m_plugins.end(),
+                                 [](auto &plugin_pair) {
+                                   return !plugin_pair.first->isStatic();
+                                 }),
+                  m_plugins.end());
 }
 
 StaticPluginListModel::~StaticPluginListModel() = default;
@@ -116,13 +105,12 @@ StaticPluginListModel::~StaticPluginListModel() = default;
 /* --------------------------- DynamicPluginListModel ----------------------- */
 
 DynamicPluginListModel::DynamicPluginListModel(QObject *parent)
-    : PluginListModel(parent)
-{
-  m_plugins.erase(
-    std::remove_if(
-      m_plugins.begin(), m_plugins.end(),
-      [](auto &plugin_pair) { return !plugin_pair.first->isDynamic(); }),
-    m_plugins.end());
+    : PluginListModel(parent) {
+  m_plugins.erase(std::remove_if(m_plugins.begin(), m_plugins.end(),
+                                 [](auto &plugin_pair) {
+                                   return !plugin_pair.first->isDynamic();
+                                 }),
+                  m_plugins.end());
 }
 
 DynamicPluginListModel::~DynamicPluginListModel() = default;

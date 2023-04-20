@@ -5,8 +5,7 @@
 /* -------------------------------------------------------------------------- */
 
 NoDocumentWidget::NoDocumentWidget(QWidget *parent)
-    : QWidget(parent), m_ui(new Ui::NoDocumentWidget())
-{
+    : QWidget(parent), m_ui(new Ui::NoDocumentWidget()) {
   m_ui->setupUi(this);
 
   retranslateUi();
@@ -14,12 +13,10 @@ NoDocumentWidget::NoDocumentWidget(QWidget *parent)
 
 NoDocumentWidget::~NoDocumentWidget() = default;
 
-void NoDocumentWidget::changeEvent(QEvent *event)
-{
+void NoDocumentWidget::changeEvent(QEvent *event) {
   QWidget::changeEvent(event);
 
-  switch (event->type())
-  {
+  switch (event->type()) {
     case QEvent::LanguageChange:
       retranslateUi();
       break;

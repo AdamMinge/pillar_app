@@ -21,10 +21,10 @@
 #include <flow/libflow/project/project_format.h>
 #include <flow/libflow/project/project_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/action/action.h>
-#include <flow/utils/qt/dialog/dialog_with_toggle_view.h>
-#include <flow/utils/qt/dialog/extended_file_dialog.h>
-#include <flow/utils/qt/dpi/dpi_info.h>
+#include <flow/utils/action/action.h>
+#include <flow/utils/dialog/dialog_with_toggle_view.h>
+#include <flow/utils/dialog/extended_file_dialog.h>
+#include <flow/utils/dpi/dpi.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_project_window.h"
 /* -------------------------------------------------------------------------- */
@@ -34,18 +34,17 @@
 void adjustMenuSize(QObject *object) {
   if (auto menu = qobject_cast<QMenu *>(object); menu) {
     auto max_width = 0;
-    auto extra_width = utils::QtDpiInfo::dpiScaled(55);
+    auto extra_width = utils::dpiScaled(55);
     for (auto action : menu->actions()) {
       const auto fontMetrics = QFontMetrics(action->font());
       auto width = fontMetrics.horizontalAdvance(action->text());
 
       if (auto child_menu = action->menu(); child_menu) {
         adjustMenuSize(child_menu);
-        width += utils::QtDpiInfo::dpiScaled(5);
+        width += utils::dpiScaled(5);
       }
 
-      if (!action->shortcut().isEmpty())
-        extra_width = utils::QtDpiInfo::dpiScaled(120);
+      if (!action->shortcut().isEmpty()) extra_width = utils::dpiScaled(120);
 
       if (max_width < width) max_width = width;
     }

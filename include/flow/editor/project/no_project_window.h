@@ -6,9 +6,8 @@
 #include <QSortFilterProxyModel>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class NoProjectWindow;
+namespace Ui {
+class NoProjectWindow;
 }
 
 class ProjectManager;
@@ -16,37 +15,36 @@ class ProjectManager;
 class RecentProjectListModel;
 class RecentProjectListDelegate;
 
-class NoProjectWindow : public QMainWindow
-{
+class NoProjectWindow : public QMainWindow {
   Q_OBJECT
 
-private:
+ private:
   struct Preferences;
 
-public:
+ public:
   explicit NoProjectWindow(QWidget *parent = nullptr);
   ~NoProjectWindow() override;
 
   void writeSettings();
   void readSettings();
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void openProject();
   void createProject();
 
   void openRecentProject(const QModelIndex &index);
   void searchRecentProject(const QString &search);
 
-private:
+ private:
   void initUi();
   void initConnections();
 
   void retranslateUi();
 
-private:
+ private:
   QScopedPointer<Ui::NoProjectWindow> m_ui;
   QScopedPointer<Preferences> m_preferences;
 
@@ -55,4 +53,4 @@ private:
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
-#endif//FLOW_NO_PROJECT_WINDOW_H
+#endif  // FLOW_NO_PROJECT_WINDOW_H

@@ -66,6 +66,14 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "qxmlstreamwriter": "cpp",
-        "qmimedata": "cpp"
-    }
+        "qmimedata": "cpp",
+        "qaction": "cpp",
+        "qtglobal": "cpp",
+        "qdialog": "cpp",
+        "qfilesystemwatcher": "cpp",
+        "qstringlist": "cpp",
+        "qvariant": "cpp",
+        "qabstractitemview": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

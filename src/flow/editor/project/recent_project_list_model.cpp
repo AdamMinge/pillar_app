@@ -7,25 +7,22 @@
 /* -------------------------------------------------------------------------- */
 
 RecentProjectListModel::RecentProjectListModel(QObject *parent)
-    : QAbstractListModel(parent)
-{
-  connect(
-    std::addressof(flow::PreferencesManager::getInstance()),
-    &flow::PreferencesManager::recentProjectFilesChanged, this,
-    &RecentProjectListModel::recentProjectFilesChanged);
+    : QAbstractListModel(parent) {
+  connect(std::addressof(flow::PreferencesManager::getInstance()),
+          &flow::PreferencesManager::recentProjectFilesChanged, this,
+          &RecentProjectListModel::recentProjectFilesChanged);
 
   recentProjectFilesChanged();
 }
 
 RecentProjectListModel::~RecentProjectListModel() = default;
 
-QVariant RecentProjectListModel::data(const QModelIndex &index, int role) const
-{
+QVariant RecentProjectListModel::data(const QModelIndex &index,
+                                      int role) const {
   if (index.row() < 0 || index.row() >= rowCount(index.parent()))
     return QVariant{};
 
-  switch (role)
-  {
+  switch (role) {
     case Qt::DisplayRole:
     case Role::ProjectNameRole:
       return QFileInfo(m_projects.at(index.row())).baseName();
@@ -45,19 +42,16 @@ QVariant RecentProjectListModel::data(const QModelIndex &index, int role) const
   }
 }
 
-int RecentProjectListModel::rowCount(const QModelIndex &parent) const
-{
+int RecentProjectListModel::rowCount(const QModelIndex &parent) const {
   return static_cast<int>(m_projects.size());
 }
 
-void RecentProjectListModel::recentProjectFilesChanged()
-{
+void RecentProjectListModel::recentProjectFilesChanged() {
   beginResetModel();
   m_projects = flow::PreferencesManager::getInstance().getRecentProjectFiles();
   endResetModel();
 }
 
-QIcon RecentProjectListModel::getProjectIcon(const QModelIndex &index) const
-{
+QIcon RecentProjectListModel::getProjectIcon(const QModelIndex &index) const {
   return QIcon(":/editor/images/64x64/project.png");
 }

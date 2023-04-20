@@ -1,16 +1,14 @@
-# ----------------------------------------------------------------------- # #
-# -------------------------------------- Set CMake Version
-# ----------------------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ---------------------------- Set CMake Version ------------------------ #
+# ----------------------------------------------------------------------- #
 cmake_minimum_required(VERSION 3.11)
-# ----------------------------------------------------------------------- # #
-# -------------------------------------- Set files variable
-# ---------------------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ---------------------------- Set files variable ----------------------- #
+# ----------------------------------------------------------------------- #
 set(source_root ${FLOW_SOURCE_DIR}/src/flow/plugins/flow_document/)
 set(include_root ${FLOW_SOURCE_DIR}/include/flow/plugins/flow_document)
 set(uis_root ${FLOW_SOURCE_DIR}/uis/flow/plugins/flow_document)
-set(resources_root ${FLOW_SOURCE_DIR}/resources)
+set(resources_root ${FLOW_SOURCE_DIR}/resources/plugins/flow_document)
 
 set(sources
     ${source_root}/flow_document.cpp
@@ -25,6 +23,7 @@ set(sources
     ${source_root}/event/objects_event.cpp
     ${source_root}/command/add_remove_node.cpp
     ${source_root}/command/move_object.cpp
+    ${source_root}/node/object.cpp
     ${source_root}/node/connection.cpp
     ${source_root}/node/node.cpp
     ${source_root}/node/pin.cpp
@@ -70,6 +69,7 @@ set(includes
     ${include_root}/event/objects_event.h
     ${include_root}/command/add_remove_node.h
     ${include_root}/command/move_object.h
+    ${include_root}/node/object.h
     ${include_root}/node/connection.h
     ${include_root}/node/node.h
     ${include_root}/node/node_data.h
@@ -103,28 +103,25 @@ set(includes
     ${include_root}/component/type_converter/flow_type_converters_tree_delegate.h
     ${include_root}/component/type_converter/flow_type_converters_tree_model.h)
 
-set(resources ${resources_root}/plugin_document_flow.qrc)
+set(resources ${resources_root}/flow_document.qrc)
 
 set(uis ${uis_root}/new_flow_document_widget.ui
         ${uis_root}/flow_converters_dock.ui ${uis_root}/flow_nodes_dock.ui)
-# ----------------------------------------------------------------------- # #
-# ---------------------------------- Qt libraries configuration
-# ------------------------------------ #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ------------------------- Qt libraries configuration ------------------ #
+# ----------------------------------------------------------------------- #
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${uis_root})
-# ----------------------------------------------------------------------- # #
-# ----------------------------------- Find external libraries
-# -------------------------------------- #
-# ----------------------------------------------------------------------- # #
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-# ----------------------------------------------------------------------- # #
-# ------------------------------------ Create utils shared lib
-# ------------------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# -------------------------- Find external libraries -------------------- #
+# ----------------------------------------------------------------------- #
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+# ----------------------------------------------------------------------- #
+# -------------------------- Create plugin shared lib ------------------- #
+# ----------------------------------------------------------------------- #
 flow_add_plugins(
   flow_document
   SOURCES
@@ -132,11 +129,22 @@ flow_add_plugins(
   ${includes}
   ${resources}
   DEPENDS_PRIVATE
+  Qt6::Core
   Qt6::Widgets
   flow::libflow)
-# ----------------------------------------------------------------------- # #
-# ------------------------------------ Add extensions
-# ------------------------------------- #
-# ----------------------------------------------------------------------- # #
+
+flow_add_translations(
+  flow_document
+  QM_DIR
+  ${resources_root}/translations
+  DIRS
+  ${include_root}
+  ${source_root}
+  TS_FILES
+  ${resources_root}/translations/flow_document_pl.ts
+  ${resources_root}/translations/flow_document_en.ts)
+# ----------------------------------------------------------------------- #
+# ------------------------------- Add extensions ------------------------ #
+# ----------------------------------------------------------------------- #
 # add_subdirectory(extensions)
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #

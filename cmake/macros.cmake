@@ -1,7 +1,6 @@
-# ----------------------------------------------------------------------- # #
-# ------------------------ Define a macro that helps add engine module
-# ----------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ------------- Define a macro that helps add engine module ------------- #
+# ----------------------------------------------------------------------- #
 macro(flow_add_module target)
 
   cmake_parse_arguments(
@@ -74,10 +73,9 @@ macro(flow_add_module target)
   endif()
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# --------------------------- Define a macro that helps export engine
-# ------------------------------ #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# --------------- Define a macro that helps export engine --------------- #
+# ----------------------------------------------------------------------- #
 function(flow_export_modules)
 
   if(BUILD_SHARED_LIBS)
@@ -129,10 +127,9 @@ function(flow_export_modules)
     PATTERN "*.h")
 
 endfunction()
-# ----------------------------------------------------------------------- # #
-# --------------------------- Define a macro that helps add application
-# ---------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# -------------- Define a macro that helps add application -------------- #
+# ----------------------------------------------------------------------- #
 macro(_flow_add_executable target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
@@ -174,10 +171,9 @@ macro(_flow_add_executable target)
   set_target_properties(${target} PROPERTIES CXX_STANDARD 20)
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# --------------------------- Define a macro that helps add engine test
-# ---------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# -------------- Define a macro that helps add engine test -------------- #
+# ----------------------------------------------------------------------- #
 macro(flow_add_test target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
@@ -208,10 +204,9 @@ macro(flow_add_test target)
                              PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/tests>)
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# ------------------------- Define a macro that helps add engine example
-# --------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ------------ Define a macro that helps add engine example ------------- #
+# ----------------------------------------------------------------------- #
 macro(flow_add_example target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
@@ -238,10 +233,9 @@ macro(flow_add_example target)
     ${target} PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/examples>)
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# ------------------------------ Define a macro that helps add tool
-# -------------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ----------------- Define a macro that helps add tool ------------------ #
+# ----------------------------------------------------------------------- #
 macro(flow_add_application target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
@@ -272,10 +266,9 @@ macro(flow_add_application target)
   target_compile_definitions(${target} PUBLIC QT_NO_KEYWORDS)
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# ---------------------------- Define a macro that helps add utils lib
-# ----------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# --------------- Define a macro that helps add utils lib --------------- #
+# ----------------------------------------------------------------------- #
 macro(flow_add_utils target)
 
   cmake_parse_arguments(
@@ -348,10 +341,9 @@ macro(flow_add_utils target)
   endif()
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# ---------------------------- Define a macro that helps add plugins
-# ------------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ---------------- Define a macro that helps add plugins ---------------- #
+# ----------------------------------------------------------------------- #
 macro(flow_add_plugins target)
 
   cmake_parse_arguments(
@@ -420,10 +412,9 @@ macro(flow_add_plugins target)
   endif()
 
 endmacro()
-# ----------------------------------------------------------------------- # #
-# ------------------------- Define a macro that generate documentation
-# ----------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ------------- Define a macro that generate documentation -------------- #
+# ----------------------------------------------------------------------- #
 function(flow_generate_documentation)
   find_package(Doxygen REQUIRED)
   set(DOXYGEN_IN ${FLOW_SOURCE_DIR}/docs/Doxyfile.in)
@@ -438,18 +429,16 @@ function(flow_generate_documentation)
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM)
 endfunction()
-# ----------------------------------------------------------------------- # #
-# -------------------------- Define a macro that install documentation
-# ----------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# -------------- Define a macro that install documentation -------------- #
+# ----------------------------------------------------------------------- #
 function(flow_install_documentation)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc_doxygen/
           DESTINATION ${CMAKE_INSTALL_PREFIX}/docs)
 endfunction()
-# ----------------------------------------------------------------------- # #
-# ----------------------- Define a macro that helps defining translations
-# -------------------------- #
-# ----------------------------------------------------------------------- # #
+# ----------------------------------------------------------------------- #
+# ----------- Define a macro that helps defining translations ----------- #
+# ----------------------------------------------------------------------- #
 macro(flow_add_translations target)
 
   cmake_parse_arguments(THIS "" "QM_DIR" "TS_FILES;DIRS" ${ARGN})

@@ -16,7 +16,7 @@ namespace plugin::flow_document {
 FlowSelectionTool::FlowSelectionTool(QObject *parent)
     : FlowAbstractTool(
           tr("Selection Tool"),
-          QIcon(":/plugins/document/flow/images/32x32/selection_tool.png"),
+          QIcon(":/plugins/flow_document/images/32x32/selection_tool.png"),
           QKeySequence(Qt::Key_S), parent),
       m_action(Action::NoAction),
       m_mouse_clicked_button(Qt::MouseButton{}),

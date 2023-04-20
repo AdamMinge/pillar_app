@@ -9,15 +9,14 @@
 #include <flow/libflow/logging_manager.h>
 #include <flow/libflow/script_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/color/color.h>
-#include <flow/utils/qt/dpi/dpi_info.h>
-#include <flow/utils/qt/line_edit/line_edit_with_history.h>
+#include <flow/utils/color/color.h>
+#include <flow/utils/dpi/dpi.h>
+#include <flow/utils/line_edit/line_edit_with_history.h>
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- ConsoleOutputWidget ------------------------- */
 
-void ConsoleOutputWidget::contextMenuEvent(QContextMenuEvent *event)
-{
+void ConsoleOutputWidget::contextMenuEvent(QContextMenuEvent *event) {
   std::unique_ptr<QMenu> menu{createStandardContextMenu(event->pos())};
 
   menu->addSeparator();
@@ -29,10 +28,10 @@ void ConsoleOutputWidget::contextMenuEvent(QContextMenuEvent *event)
 /* -------------------------------- ConsoleDock ----------------------------- */
 
 ConsoleDock::ConsoleDock(QWidget *parent)
-    : QDockWidget(parent), m_plain_text_edit(new ConsoleOutputWidget()),
+    : QDockWidget(parent),
+      m_plain_text_edit(new ConsoleOutputWidget()),
       m_line_edit_with_history(new utils::QtLineEditWithHistory()),
-      m_clear_button(new QPushButton(tr("Clear Console")))
-{
+      m_clear_button(new QPushButton(tr("Clear Console"))) {
   setObjectName(QLatin1String("Scene"));
 
   initUi();
@@ -43,12 +42,10 @@ ConsoleDock::ConsoleDock(QWidget *parent)
 
 ConsoleDock::~ConsoleDock() = default;
 
-void ConsoleDock::changeEvent(QEvent *event)
-{
+void ConsoleDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);
 
-  switch (event->type())
-  {
+  switch (event->type()) {
     case QEvent::LanguageChange:
       retranslateUi();
       break;
@@ -57,37 +54,31 @@ void ConsoleDock::changeEvent(QEvent *event)
   }
 }
 
-void ConsoleDock::onReport(const QString &str, const QColor &color)
-{
+void ConsoleDock::onReport(const QString &str, const QColor &color) {
   m_plain_text_edit->appendHtml(
-    QLatin1String("<pre style='color:%1'>").arg(utils::getColorName(color)) +
-    str.toHtmlEscaped() + QLatin1String("</pre>"));
+      QLatin1String("<pre style='color:%1'>").arg(utils::getColorName(color)) +
+      str.toHtmlEscaped() + QLatin1String("</pre>"));
 }
 
 void ConsoleDock::onInfoLog(const QString &message) { onReport(message); }
 
-void ConsoleDock::onWarningLog(const QString &message)
-{
+void ConsoleDock::onWarningLog(const QString &message) {
   onReport(message, QColor("orange"));
 }
 
-void ConsoleDock::onErrorLog(const QString &message)
-{
+void ConsoleDock::onErrorLog(const QString &message) {
   onReport(message, QColor("red"));
 }
 
-void ConsoleDock::onScriptReport(const QString &str)
-{
+void ConsoleDock::onScriptReport(const QString &str) {
   onReport(str, QColor("lightgreen"));
 }
 
-void ConsoleDock::onScriptResultReport(const QString &str)
-{
+void ConsoleDock::onScriptResultReport(const QString &str) {
   onReport(str, QColor("gray"));
 }
 
-void ConsoleDock::executeScript()
-{
+void ConsoleDock::executeScript() {
   const auto script = m_line_edit_with_history->text();
   if (script.isEmpty()) return;
 
@@ -99,8 +90,7 @@ void ConsoleDock::executeScript()
   m_line_edit_with_history->appendToHistory(script);
 }
 
-void ConsoleDock::initUi()
-{
+void ConsoleDock::initUi() {
   m_line_edit_with_history->setPlaceholderText("Execute script");
 
   m_plain_text_edit->setReadOnly(true);
@@ -115,7 +105,7 @@ void ConsoleDock::initUi()
 
   bottomBar->addWidget(m_line_edit_with_history);
   bottomBar->addWidget(m_clear_button);
-  bottomBar->setSpacing(utils::QtDpiInfo::dpiScaled(2));
+  bottomBar->setSpacing(utils::dpiScaled(2));
 
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
@@ -125,37 +115,28 @@ void ConsoleDock::initUi()
   setWidget(widget);
 }
 
-void ConsoleDock::initConnections()
-{
-  auto prev_shortcut = new QShortcut(
-    Qt::Key_Up, m_line_edit_with_history, nullptr, nullptr, Qt::WidgetShortcut);
-  auto next_shortcut = new QShortcut(
-    Qt::Key_Down, m_line_edit_with_history, nullptr, nullptr,
-    Qt::WidgetShortcut);
+void ConsoleDock::initConnections() {
+  auto prev_shortcut = new QShortcut(Qt::Key_Up, m_line_edit_with_history,
+                                     nullptr, nullptr, Qt::WidgetShortcut);
+  auto next_shortcut = new QShortcut(Qt::Key_Down, m_line_edit_with_history,
+                                     nullptr, nullptr, Qt::WidgetShortcut);
 
-  connect(
-    m_line_edit_with_history, &QLineEdit::returnPressed, this,
-    &ConsoleDock::executeScript);
-  connect(
-    prev_shortcut, &QShortcut::activated, m_line_edit_with_history,
-    &utils::QtLineEditWithHistory::movePrev);
-  connect(
-    next_shortcut, &QShortcut::activated, m_line_edit_with_history,
-    &utils::QtLineEditWithHistory::moveNext);
-  connect(
-    m_clear_button, &QPushButton::pressed, m_plain_text_edit,
-    &QPlainTextEdit::clear);
+  connect(m_line_edit_with_history, &QLineEdit::returnPressed, this,
+          &ConsoleDock::executeScript);
+  connect(prev_shortcut, &QShortcut::activated, m_line_edit_with_history,
+          &utils::QtLineEditWithHistory::movePrev);
+  connect(next_shortcut, &QShortcut::activated, m_line_edit_with_history,
+          &utils::QtLineEditWithHistory::moveNext);
+  connect(m_clear_button, &QPushButton::pressed, m_plain_text_edit,
+          &QPlainTextEdit::clear);
 
   auto &logging_manager = flow::LoggingManager::getInstance();
-  connect(
-    &logging_manager, &flow::LoggingManager::onInfoLog, this,
-    &ConsoleDock::onInfoLog);
-  connect(
-    &logging_manager, &flow::LoggingManager::onWarningLog, this,
-    &ConsoleDock::onWarningLog);
-  connect(
-    &logging_manager, &flow::LoggingManager::onErrorLog, this,
-    &ConsoleDock::onErrorLog);
+  connect(&logging_manager, &flow::LoggingManager::onInfoLog, this,
+          &ConsoleDock::onInfoLog);
+  connect(&logging_manager, &flow::LoggingManager::onWarningLog, this,
+          &ConsoleDock::onWarningLog);
+  connect(&logging_manager, &flow::LoggingManager::onErrorLog, this,
+          &ConsoleDock::onErrorLog);
 }
 
 void ConsoleDock::retranslateUi() { setWindowTitle(tr("Console")); }

@@ -6,27 +6,25 @@
 #include <QWidget>
 /* -------------------------------------------------------------------------- */
 
-namespace Ui
-{
-  class NoDocumentWidget;
+namespace Ui {
+class NoDocumentWidget;
 }
 
-class NoDocumentWidget : public QWidget
-{
+class NoDocumentWidget : public QWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit NoDocumentWidget(QWidget *parent = nullptr);
   ~NoDocumentWidget() override;
 
-protected:
+ protected:
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void retranslateUi();
 
-private:
+ private:
   QScopedPointer<Ui::NoDocumentWidget> m_ui;
 };
 
-#endif//FLOW_NO_DOCUMENT_WIDGET_H
+#endif  // FLOW_NO_DOCUMENT_WIDGET_H

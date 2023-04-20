@@ -103,7 +103,7 @@
   <customwidget>
    <class>utils::QtMouseOverSelectableListView</class>
    <extends>QListView</extends>
-   <header location="global">flow/utils/qt/view/mouse_over_selectable_view.h</header>
+   <header location="global">flow/utils/view/mouse_over_selectable_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

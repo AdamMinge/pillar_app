@@ -12,7 +12,7 @@
 #include "flow/editor/project/recent_project_list_delegate.h"
 #include "flow/editor/project/recent_project_list_model.h"
 /* ----------------------------------- Utils -------------------------------- */
-#include <flow/utils/qt/dialog/extended_file_dialog.h>
+#include <flow/utils/dialog/extended_file_dialog.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_no_project_window.h"
 /* -------------------------------------------------------------------------- */

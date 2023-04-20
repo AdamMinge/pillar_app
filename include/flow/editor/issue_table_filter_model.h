@@ -5,28 +5,27 @@
 #include <QSortFilterProxyModel>
 /* -------------------------------------------------------------------------- */
 
-class IssueTableFilterModel : public QSortFilterProxyModel
-{
+class IssueTableFilterModel : public QSortFilterProxyModel {
   Q_OBJECT
 
-public:
+ public:
   explicit IssueTableFilterModel(QObject *parent = nullptr);
   ~IssueTableFilterModel() override;
 
   [[nodiscard]] bool areWarningsVisible() const;
   [[nodiscard]] bool areErrorsVisible() const;
 
-public Q_SLOTS:
+ public Q_SLOTS:
   void setWarningsVisible(bool visible = true);
   void setErrorsVisible(bool visible = true);
 
-protected:
+ protected:
   [[nodiscard]] bool filterAcceptsRow(
-    int sourceRow, const QModelIndex &sourceParent) const override;
+      int sourceRow, const QModelIndex &sourceParent) const override;
 
-private:
+ private:
   bool m_warnings_visible;
   bool m_errors_visible;
 };
 
-#endif//FLOW_ISSUE_TABLE_FILTER_MODEL_H
+#endif  // FLOW_ISSUE_TABLE_FILTER_MODEL_H
