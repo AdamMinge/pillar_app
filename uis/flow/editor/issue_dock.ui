@@ -69,7 +69,7 @@
          <string>Errors</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../resources/flow-editor-images.qrc">
+         <iconset resource="../../../resources/editor/editor.qrc">
           <normaloff>:/editor/images/32x32/error_issue.png</normaloff>:/editor/images/32x32/error_issue.png</iconset>
         </property>
         <property name="checkable">
@@ -89,7 +89,7 @@
          <string>Warnings</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../resources/flow-editor-images.qrc">
+         <iconset resource="../../../resources/editor/editor.qrc">
           <normaloff>:/editor/images/32x32/warning_issue.png</normaloff>:/editor/images/32x32/warning_issue.png</iconset>
         </property>
         <property name="checkable">
@@ -132,7 +132,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../../../resources/flow-editor-images.qrc"/>
+  <include location="../../../resources/editor/editor.qrc"/>
  </resources>
  <connections/>
 </ui>

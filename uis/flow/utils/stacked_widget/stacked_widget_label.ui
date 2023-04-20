@@ -51,7 +51,7 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../resources/utils/stacked_widget_images.qrc">
+      <iconset resource="../../../../resources/utils/stacked_widget/stacked_widget.qrc">
        <normaloff>:/utils/stacked_widget/images/16x16/left_arrow.png</normaloff>:/utils/stacked_widget/images/16x16/left_arrow.png</iconset>
      </property>
      <property name="popupMode">
@@ -71,7 +71,7 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../resources/utils/stacked_widget_images.qrc">
+      <iconset resource="../../../../resources/utils/stacked_widget/stacked_widget.qrc">
        <normaloff>:/utils/stacked_widget/images/16x16/right_arrow.png</normaloff>:/utils/stacked_widget/images/16x16/right_arrow.png</iconset>
      </property>
      <property name="autoRaise">
@@ -82,7 +82,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../../resources/utils/stacked_widget_images.qrc"/>
+  <include location="../../../../resources/utils/stacked_widget/stacked_widget.qrc"/>
  </resources>
  <connections/>
 </ui>
