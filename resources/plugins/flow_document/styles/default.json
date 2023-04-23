@@ -1,12 +1,12 @@
 {
   "nodes": {
     "hovered": {
-      "border_size": 2
+      "border_size": 3
     },
     "normal": {
       "border_color": "#ffffff",
       "border_radius": 3,
-      "border_size": 1,
+      "border_size": 2,
       "font": "Sans Serif,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
       "font_color": "#ffffff",
       "gradient": "#a0a0a4;#505050;#404040;#3a3a3a",
@@ -18,8 +18,7 @@
     }
   },
   "pins": {
-    "hovered": {
-    },
+    "hovered": {},
     "normal": {
       "border_color": "#ffffff",
       "color": "#a9a9a9",
@@ -28,7 +27,6 @@
       "margins": "8;4;8;4",
       "size": "2;2"
     },
-    "selected": {
-    }
+    "selected": {}
   }
 }

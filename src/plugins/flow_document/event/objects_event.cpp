@@ -4,28 +4,23 @@
 
 namespace flow_document {
 
-/* ----------------------------- ObjectChangedEvent ------------------------- */
-
-ObjectsChangedEvent::ObjectsChangedEvent(Object *object, Type type)
-    : ObjectsChangedEvent(QList<Object *>{object}, type) {}
+/* ----------------------------- ObjectsChangedEvent -------------------------
+ */
 
 ObjectsChangedEvent::ObjectsChangedEvent(const QList<Object *> &objects,
                                          Type type)
-    : m_objects(objects), m_type(type) {}
+    : ChangeEvent(type), m_objects(objects) {}
 
 ObjectsChangedEvent::~ObjectsChangedEvent() = default;
 
 QList<Object *> ObjectsChangedEvent::getObjects() const { return m_objects; }
 
-ObjectsChangedEvent::Type ObjectsChangedEvent::getType() const {
-  return m_type;
-}
-
 bool ObjectsChangedEvent::contains(Object *object) const {
   return m_objects.contains(object);
 }
 
-/* ----------------------- ObjectsChangedPropertiesEvent -------------------- */
+/* ----------------------- ObjectsChangedPropertiesEvent ---------------------
+ */
 
 ObjectsChangedPropertiesEvent::ObjectsChangedPropertiesEvent(
     Object *object, Properties properties)
@@ -33,7 +28,7 @@ ObjectsChangedPropertiesEvent::ObjectsChangedPropertiesEvent(
 
 ObjectsChangedPropertiesEvent::ObjectsChangedPropertiesEvent(
     const QList<Object *> &objects, Properties properties)
-    : ObjectsChangedEvent(objects, Type::ChangedProperties),
+    : ObjectsChangedEvent(objects, Type::ObjectsChangedProperties),
       m_properties(properties) {}
 
 ObjectsChangedPropertiesEvent::~ObjectsChangedPropertiesEvent() = default;
@@ -43,12 +38,8 @@ ObjectsChangedPropertiesEvent::getProperties() const {
   return m_properties;
 }
 
-/* -------------------------- ObjectsAddedRemovedEvent ---------------------- */
-
-ObjectsAddedRemovedEvent::ObjectsAddedRemovedEvent(Object *object,
-                                                   ObjectsType objects_type,
-                                                   Type type)
-    : ObjectsAddedRemovedEvent(QList<Object *>{object}, objects_type, type) {}
+/* --------------------------- ObjectsAddedRemovedEvent ------------------------
+ */
 
 ObjectsAddedRemovedEvent::ObjectsAddedRemovedEvent(
     const QList<Object *> &objects, ObjectsType objects_type, Type type)
@@ -61,27 +52,28 @@ ObjectsAddedRemovedEvent::ObjectsType ObjectsAddedRemovedEvent::getObjectsType()
   return m_objects_type;
 }
 
-/* ------------------------------ ObjectsAddedEvent ------------------------- */
+/* ------------------------------- ObjectsAddedEvent --------------------------
+ */
 
 ObjectsAddedEvent::ObjectsAddedEvent(Object *object, ObjectsType objects_type)
-    : ObjectsAddedRemovedEvent(object, objects_type, Type::Added) {}
+    : ObjectsAddedRemovedEvent({object}, objects_type, Type::ObjectsAdded) {}
 
 ObjectsAddedEvent::ObjectsAddedEvent(const QList<Object *> &objects,
                                      ObjectsType objects_type)
-    : ObjectsAddedRemovedEvent(objects, objects_type, Type::Added) {}
+    : ObjectsAddedRemovedEvent(objects, objects_type, Type::ObjectsAdded) {}
 
 ObjectsAddedEvent::~ObjectsAddedEvent() = default;
 
-/* ------------------------------ ObjectsRemovedEvent -------------------------
+/* ------------------------------ ObjectsRemovedEvent ------------------------
  */
 
 ObjectsRemovedEvent::ObjectsRemovedEvent(Object *object,
                                          ObjectsType objects_type)
-    : ObjectsAddedRemovedEvent(object, objects_type, Type::Removed) {}
+    : ObjectsAddedRemovedEvent({object}, objects_type, Type::ObjectsRemoved) {}
 
 ObjectsRemovedEvent::ObjectsRemovedEvent(const QList<Object *> &objects,
                                          ObjectsType objects_type)
-    : ObjectsAddedRemovedEvent(objects, objects_type, Type::Removed) {}
+    : ObjectsAddedRemovedEvent(objects, objects_type, Type::ObjectsRemoved) {}
 
 ObjectsRemovedEvent::~ObjectsRemovedEvent() = default;
 

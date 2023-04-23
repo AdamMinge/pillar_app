@@ -31,15 +31,12 @@ class FLOW_DOCUMENT_API FlowSelectionTool : public FlowAbstractTool {
  protected:
   void updateHover(const QPointF &mouse_pos);
 
-  void startSceneMoving();
   void startItemMoving();
   void startItemSelection();
 
-  void updateSceneMoving(const QPointF &mouse_pos);
   void updateItemMoving(const QPointF &mouse_pos);
   void updateItemSelection(const QPointF &mouse_pos);
 
-  void endSceneMoving();
   void endItemMoving();
   void endItemSelection();
 
@@ -60,12 +57,7 @@ class FLOW_DOCUMENT_API FlowSelectionTool : public FlowAbstractTool {
   QList<std::pair<FlowItem *, QPointF>> m_moving_items;
 };
 
-enum class FlowSelectionTool::Action {
-  NoAction,
-  SceneMoving,
-  ItemMoving,
-  ItemSelection
-};
+enum class FlowSelectionTool::Action { NoAction, ItemMoving, ItemSelection };
 
 }  // namespace flow_document
 

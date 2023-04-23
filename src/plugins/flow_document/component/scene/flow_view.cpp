@@ -3,6 +3,7 @@
 
 #include "flow_document/component/scene/flow_scene.h"
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QScrollBar>
 #include <QWheelEvent>
 /* -------------------------------------------------------------------------- */
 
@@ -12,7 +13,8 @@ FlowView::FlowView(QWidget *parent)
     : QGraphicsView(parent),
       m_background_color(53, 53, 53),
       m_small_grid_color(60, 60, 60),
-      m_grid_color(25, 25, 25) {
+      m_grid_color(25, 25, 25),
+      m_scene_max_size(32767) {
   setRenderHint(QPainter::Antialiasing);
   setMouseTracking(true);
 
@@ -25,6 +27,11 @@ FlowView::FlowView(QWidget *parent)
 
   setCacheMode(QGraphicsView::CacheBackground);
   setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
+  setScaleRange(0.3, 2);
+
+  setSceneRect(-m_scene_max_size, -m_scene_max_size, (m_scene_max_size * 2),
+               (m_scene_max_size * 2));
 }
 
 FlowView::~FlowView() = default;
@@ -38,13 +45,24 @@ FlowScene *FlowView::getScene() const {
   return flow_scene;
 }
 
+void FlowView::setScaleRange(double minimum, double maximum) {
+  if (maximum < minimum) std::swap(minimum, maximum);
+  minimum = std::max(0.0, minimum);
+  maximum = std::max(0.0, maximum);
+
+  m_scale_range = {minimum, maximum};
+  setupScale(transform().m11());
+}
+
+FlowView::ScaleRange FlowView::getScaleRange() const { return m_scale_range; }
+
 void FlowView::drawBackground(QPainter *painter, const QRectF &rect) {
   QGraphicsView::drawBackground(painter, rect);
 
   auto drawGrid = [&painter, this](auto grid_step) {
-    QRect window_rect = this->rect();
-    QPointF tl = mapToScene(window_rect.topLeft());
-    QPointF br = mapToScene(window_rect.bottomRight());
+    auto window_rect = this->rect();
+    auto tl = mapToScene(window_rect.topLeft());
+    auto br = mapToScene(window_rect.bottomRight());
 
     auto left = std::floor(tl.x() / grid_step - 0.5);
     auto right = std::floor(br.x() / grid_step + 1.0);
@@ -76,21 +94,81 @@ void FlowView::drawBackground(QPainter *painter, const QRectF &rect) {
   drawGrid(150);
 }
 
-void FlowView::scaleUp() {
-  double const step = 1.2;
-  double const factor = std::pow(step, 1.0);
+void FlowView::mousePressEvent(QMouseEvent *event) {
+  QGraphicsView::mousePressEvent(event);
+  if (event->button() == Qt::RightButton) {
+    m_mouse_clicked_pos = mapToScene(event->pos());
+  }
+}
 
-  QTransform t = transform();
-  if (t.m11() > 2.0) return;
+void FlowView::mouseMoveEvent(QMouseEvent *event) {
+  QGraphicsView::mouseMoveEvent(event);
+  if (scene()->mouseGrabberItem() == nullptr &&
+      event->buttons() == Qt::RightButton) {
+    auto diff = m_mouse_clicked_pos - mapToScene(event->pos());
+    diff *= transform().m11();
+
+    horizontalScrollBar()->setValue(horizontalScrollBar()->value() + diff.x());
+    verticalScrollBar()->setValue(verticalScrollBar()->value() + diff.y());
+  }
+}
+
+void FlowView::scaleUp() {
+  const auto step = 1.2;
+  const auto factor = std::pow(step, 1.0);
+
+  if (m_scale_range.maximum > 0) {
+    auto t = transform();
+    t.scale(factor, factor);
+    if (t.m11() >= m_scale_range.maximum) {
+      setupScale(t.m11());
+      return;
+    }
+  }
 
   scale(factor, factor);
 }
 
 void FlowView::scaleDown() {
-  double const step = 1.2;
-  double const factor = std::pow(step, -1.0);
+  const auto step = 1.2;
+  const auto factor = std::pow(step, -1.0);
+
+  if (m_scale_range.minimum > 0) {
+    auto t = transform();
+    t.scale(factor, factor);
+    if (t.m11() <= m_scale_range.minimum) {
+      setupScale(t.m11());
+      return;
+    }
+  }
 
   scale(factor, factor);
+}
+
+void FlowView::setupScale(double scale) {
+  scale =
+      std::max(m_scale_range.minimum, std::min(m_scale_range.maximum, scale));
+
+  if (scale <= 0) return;
+  if (scale == transform().m11()) return;
+
+  QTransform matrix;
+  matrix.scale(scale, scale);
+  setTransform(matrix, false);
+}
+
+void FlowView::centerScene() {
+  if (auto scene = getScene(); scene) {
+    scene->setSceneRect(QRectF());
+
+    QRectF scene_rect = scene->sceneRect();
+    if (scene_rect.width() > rect().width() ||
+        scene_rect.height() > rect().height()) {
+      fitInView(scene_rect, Qt::KeepAspectRatio);
+    }
+
+    centerOn(scene_rect.center());
+  }
 }
 
 void FlowView::wheelEvent(QWheelEvent *event) {
@@ -108,8 +186,8 @@ void FlowView::wheelEvent(QWheelEvent *event) {
 }
 
 void FlowView::showEvent(QShowEvent *event) {
-  scene()->setSceneRect(rect());
   QGraphicsView::showEvent(event);
+  centerScene();
 }
 
 }  // namespace flow_document

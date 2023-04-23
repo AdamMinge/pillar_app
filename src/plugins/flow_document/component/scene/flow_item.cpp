@@ -18,11 +18,8 @@ FlowItem::FlowItem(FlowDocument *document, Object *object,
   setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemIsSelectable);
 
-  connect(
-      document,
-      qOverload<const ObjectsChangedPropertiesEvent &>(&FlowDocument::event),
-      this,
-      qOverload<const ObjectsChangedPropertiesEvent &>(&FlowItem::onEvent));
+  connect(document, qOverload<const ChangeEvent &>(&FlowDocument::event), this,
+          qOverload<const ChangeEvent &>(&FlowItem::onEvent));
 }
 
 FlowItem::~FlowItem() = default;
@@ -40,11 +37,20 @@ void FlowItem::setHovered(bool hovered) {
 
 bool FlowItem::isHovered() const { return m_hovered; }
 
-void FlowItem::onEvent(const ObjectsChangedPropertiesEvent &event) {
-  if (event.contains(getObject()) &&
-      event.getProperties().testFlag(
-          ObjectsChangedPropertiesEvent::Property::PositionProperty)) {
-    setPos(getObject()->getPosition());
+void FlowItem::onEvent(const ChangeEvent &event) {
+  switch (event.getType()) {
+    case ChangeEvent::Type::ObjectsChangedProperties: {
+      const auto &change_properties_event =
+          static_cast<const ObjectsChangedPropertiesEvent &>(event);
+
+      if (change_properties_event.contains(getObject()) &&
+          change_properties_event.getProperties().testFlag(
+              ObjectsChangedPropertiesEvent::Property::PositionProperty)) {
+        setPos(getObject()->getPosition());
+      }
+
+      break;
+    }
   }
 }
 

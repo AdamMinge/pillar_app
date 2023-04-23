@@ -5,6 +5,7 @@
 #include <QFlag>
 #include <QList>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow_document/event/change_event.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -12,23 +13,16 @@ namespace flow_document {
 
 class Object;
 
-class FLOW_DOCUMENT_API ObjectsChangedEvent {
+class FLOW_DOCUMENT_API ObjectsChangedEvent : public ChangeEvent {
  public:
-  enum class Type { Added, Removed, ChangedProperties };
-
- public:
-  explicit ObjectsChangedEvent(Object *object, Type type);
   explicit ObjectsChangedEvent(const QList<Object *> &objects, Type type);
   virtual ~ObjectsChangedEvent();
 
   [[nodiscard]] QList<Object *> getObjects() const;
-  [[nodiscard]] Type getType() const;
-
   [[nodiscard]] bool contains(Object *object) const;
 
  private:
   QList<Object *> m_objects;
-  Type m_type;
 };
 
 class FLOW_DOCUMENT_API ObjectsChangedPropertiesEvent
@@ -46,7 +40,6 @@ class FLOW_DOCUMENT_API ObjectsChangedPropertiesEvent
   [[nodiscard]] Properties getProperties() const;
 
  private:
-  QList<Object *> m_objects;
   Properties m_properties;
 };
 
@@ -62,13 +55,10 @@ class FLOW_DOCUMENT_API ObjectsAddedRemovedEvent : public ObjectsChangedEvent {
   [[nodiscard]] ObjectsType getObjectsType() const;
 
  protected:
-  explicit ObjectsAddedRemovedEvent(Object *object, ObjectsType objects_type,
-                                    Type type);
   explicit ObjectsAddedRemovedEvent(const QList<Object *> &objects,
                                     ObjectsType objects_type, Type type);
 
  private:
-  QList<Object *> m_objects;
   ObjectsType m_objects_type;
 };
 

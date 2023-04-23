@@ -15,18 +15,31 @@ class FLOW_DOCUMENT_API FlowView : public QGraphicsView {
   Q_OBJECT
 
  public:
+  struct ScaleRange {
+    double minimum = 0;
+    double maximum = 0;
+  };
+
+ public:
   explicit FlowView(QWidget *parent = nullptr);
   ~FlowView() override;
 
   void setScene(FlowScene *scene);
   [[nodiscard]] FlowScene *getScene() const;
 
+  void setScaleRange(double minimum, double maximum);
+  [[nodiscard]] ScaleRange getScaleRange() const;
+
  public Q_SLOTS:
   void scaleUp();
   void scaleDown();
+  void setupScale(double scale);
+  void centerScene();
 
  protected:
   void drawBackground(QPainter *painter, const QRectF &rect) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
   void showEvent(QShowEvent *event) override;
 
@@ -34,6 +47,10 @@ class FLOW_DOCUMENT_API FlowView : public QGraphicsView {
   const QColor m_background_color;
   const QColor m_small_grid_color;
   const QColor m_grid_color;
+  const int m_scene_max_size;
+
+  ScaleRange m_scale_range;
+  QPointF m_mouse_clicked_pos;
 };
 
 }  // namespace flow_document

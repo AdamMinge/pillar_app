@@ -26,23 +26,16 @@ void FlowScene::setSceneDocument(FlowDocument *flow_document) {
 
   if (m_flow_document) {
     disconnect(m_flow_document,
-               qOverload<const ObjectsAddedEvent &>(&FlowDocument::event), this,
-               qOverload<const ObjectsAddedEvent &>(&FlowScene::onEvent));
-    disconnect(m_flow_document,
-               qOverload<const ObjectsRemovedEvent &>(&FlowDocument::event),
-               this,
-               qOverload<const ObjectsRemovedEvent &>(&FlowScene::onEvent));
+               qOverload<const ChangeEvent &>(&FlowDocument::event), this,
+               qOverload<const ChangeEvent &>(&FlowScene::onEvent));
   }
 
   m_flow_document = flow_document;
 
   if (m_flow_document) {
     connect(m_flow_document,
-            qOverload<const ObjectsAddedEvent &>(&FlowDocument::event), this,
-            qOverload<const ObjectsAddedEvent &>(&FlowScene::onEvent));
-    connect(m_flow_document,
-            qOverload<const ObjectsRemovedEvent &>(&FlowDocument::event), this,
-            qOverload<const ObjectsRemovedEvent &>(&FlowScene::onEvent));
+            qOverload<const ChangeEvent &>(&FlowDocument::event), this,
+            qOverload<const ChangeEvent &>(&FlowScene::onEvent));
   }
 }
 
@@ -150,7 +143,25 @@ void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
   }
 }
 
-void FlowScene::onEvent(const ObjectsAddedEvent &event) {
+void FlowScene::onEvent(const ChangeEvent &event) {
+  switch (event.getType()) {
+    case ChangeEvent::Type::ObjectsAdded: {
+      const auto &object_added_event =
+          static_cast<const ObjectsAddedEvent &>(event);
+      onObjectsAddedEvent(object_added_event);
+      break;
+    }
+
+    case ChangeEvent::Type::ObjectsRemoved: {
+      const auto &object_removed_event =
+          static_cast<const ObjectsRemovedEvent &>(event);
+      onObjectsRemovedEvent(object_removed_event);
+      break;
+    }
+  }
+}
+
+void FlowScene::onObjectsAddedEvent(const ObjectsAddedEvent &event) {
   for (auto object : event.getObjects()) {
     if (event.getObjectsType() == ObjectsAddedEvent::ObjectsType::Node) {
       auto node = dynamic_cast<Node *>(object);
@@ -163,7 +174,7 @@ void FlowScene::onEvent(const ObjectsAddedEvent &event) {
   }
 }
 
-void FlowScene::onEvent(const ObjectsRemovedEvent &event) {
+void FlowScene::onObjectsRemovedEvent(const ObjectsRemovedEvent &event) {
   for (auto object : event.getObjects()) {
     if (event.getObjectsType() == ObjectsAddedEvent::ObjectsType::Node) {
       auto node = dynamic_cast<Node *>(object);

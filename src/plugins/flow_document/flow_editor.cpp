@@ -110,7 +110,7 @@ void FlowEditor::restoreState() {
 }
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
-  return QList<QDockWidget *>{m_undo_dock};
+  return QList<QDockWidget *>{m_undo_dock, m_nodes_dock, m_converters_dock};
 }
 
 QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const {

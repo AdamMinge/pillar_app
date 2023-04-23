@@ -20,6 +20,7 @@ set(sources
     ${source_root}/flow_editor.cpp
     ${source_root}/flow_script_module.cpp
     ${source_root}/new_flow_document_widget.cpp
+    ${source_root}/event/change_event.cpp
     ${source_root}/event/objects_event.cpp
     ${source_root}/command/add_remove_node.cpp
     ${source_root}/command/move_object.cpp
@@ -66,6 +67,7 @@ set(includes
     ${include_root}/flow_editor.h
     ${include_root}/flow_script_module.h
     ${include_root}/new_flow_document_widget.h
+    ${include_root}/event/change_event.h
     ${include_root}/event/objects_event.h
     ${include_root}/command/add_remove_node.h
     ${include_root}/command/move_object.h

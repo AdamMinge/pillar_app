@@ -60,8 +60,6 @@ void FlowSelectionTool::mouseMoved(QGraphicsSceneMouseEvent *event) {
         startItemMoving();
       } else if (m_modifiers & Qt::ShiftModifier) {
         startItemSelection();
-      } else {
-        startSceneMoving();
       }
     }
   }
@@ -69,10 +67,6 @@ void FlowSelectionTool::mouseMoved(QGraphicsSceneMouseEvent *event) {
   switch (m_action) {
     case Action::ItemMoving:
       updateItemMoving(mouse_pos);
-      break;
-
-    case Action::SceneMoving:
-      updateSceneMoving(mouse_pos);
       break;
 
     case Action::ItemSelection:
@@ -118,10 +112,6 @@ void FlowSelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
       endItemMoving();
       break;
 
-    case Action::SceneMoving:
-      endSceneMoving();
-      break;
-
     case Action::ItemSelection:
       endItemSelection();
       break;
@@ -157,8 +147,6 @@ void FlowSelectionTool::updateHover(const QPointF &mouse_pos) {
   }
 }
 
-void FlowSelectionTool::startSceneMoving() { m_action = Action::SceneMoving; }
-
 void FlowSelectionTool::startItemMoving() {
   m_action = Action::ItemMoving;
   if (getScene()) {
@@ -177,15 +165,6 @@ void FlowSelectionTool::startItemMoving() {
 void FlowSelectionTool::startItemSelection() {
   m_action = Action::ItemSelection;
   if (getScene()) getScene()->addItem(m_selection_rect.get());
-}
-
-void FlowSelectionTool::updateSceneMoving(const QPointF &mouse_pos) {
-  if (getScene()) {
-    QPointF difference = m_mouse_clicked_pos - mouse_pos;
-
-    getScene()->setSceneRect(
-        getScene()->sceneRect().translated(difference.x(), difference.y()));
-  }
 }
 
 void FlowSelectionTool::updateItemMoving(const QPointF &mouse_pos) {
@@ -212,8 +191,6 @@ void FlowSelectionTool::updateItemSelection(const QPointF &mouse_pos) {
       prev_selected_item->setSelected(true);
   }
 }
-
-void FlowSelectionTool::endSceneMoving() {}
 
 void FlowSelectionTool::endItemMoving() {
   auto &[first_item, first_item_old_pos] = m_moving_items.front();
@@ -253,7 +230,6 @@ void FlowSelectionTool::refreshCursor() {
     }
 
     case Action::ItemMoving:
-    case Action::SceneMoving:
       cursor_shape = Qt::SizeAllCursor;
       break;
 

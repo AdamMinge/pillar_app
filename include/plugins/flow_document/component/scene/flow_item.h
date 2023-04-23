@@ -11,7 +11,7 @@ namespace flow_document {
 
 class Object;
 class FlowDocument;
-class ObjectsChangedPropertiesEvent;
+class ChangeEvent;
 
 class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject {
   Q_OBJECT
@@ -28,7 +28,7 @@ class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject {
   [[nodiscard]] bool isHovered() const;
 
  private Q_SLOTS:
-  void onEvent(const ObjectsChangedPropertiesEvent &event);
+  void onEvent(const ChangeEvent &event);
 
  private:
   FlowDocument *m_document;

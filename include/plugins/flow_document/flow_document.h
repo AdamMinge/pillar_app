@@ -12,10 +12,7 @@
 namespace flow_document {
 
 class Node;
-
-class ObjectsChangedPropertiesEvent;
-class ObjectsAddedEvent;
-class ObjectsRemovedEvent;
+class ChangeEvent;
 
 class FLOW_DOCUMENT_API FlowDocument : public flow::Document {
   Q_OBJECT
@@ -30,9 +27,7 @@ class FLOW_DOCUMENT_API FlowDocument : public flow::Document {
   void removeNode(Node *node);
 
  Q_SIGNALS:
-  void event(const ObjectsChangedPropertiesEvent &event);
-  void event(const ObjectsAddedEvent &event);
-  void event(const ObjectsRemovedEvent &event);
+  void event(const ChangeEvent &event);
 
  protected:
   explicit FlowDocument(QObject *parent = nullptr);
