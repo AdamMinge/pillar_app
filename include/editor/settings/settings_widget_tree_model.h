@@ -1,5 +1,5 @@
-#ifndef FLOW_SETTINGS_WIDGET_TREE_MODEL_H
-#define FLOW_SETTINGS_WIDGET_TREE_MODEL_H
+#ifndef SETTINGS_WIDGET_TREE_MODEL_H
+#define SETTINGS_WIDGET_TREE_MODEL_H
 
 /* ---------------------------------- Standard ------------------------------ */
 #include <map>
@@ -43,4 +43,4 @@ class SettingsWidgetTreeModel
       m_settings_widget_by_factory;
 };
 
-#endif  // FLOW_SETTINGS_WIDGET_TREE_MODEL_H
+#endif  // SETTINGS_WIDGET_TREE_MODEL_H

@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_SCRIPT_MODULE_H
-#define FLOW_FLOW_SCRIPT_MODULE_H
+#ifndef FLOW_DOCUMENT_FLOW_SCRIPT_MODULE_H
+#define FLOW_DOCUMENT_FLOW_SCRIPT_MODULE_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/script_module.h>
@@ -22,4 +22,4 @@ class LIB_FLOW_API FlowScriptModule : public flow::ScriptModule {
 
 }  // namespace flow_document
 
-#endif  // FLOW_FLOW_SCRIPT_MODULE_H
+#endif  // FLOW_DOCUMENT_FLOW_SCRIPT_MODULE_H

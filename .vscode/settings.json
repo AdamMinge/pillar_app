@@ -73,7 +73,12 @@
         "qfilesystemwatcher": "cpp",
         "qstringlist": "cpp",
         "qvariant": "cpp",
-        "qabstractitemview": "cpp"
+        "qabstractitemview": "cpp",
+        "qdockwidget": "cpp",
+        "qstyleditemdelegate": "cpp",
+        "qiodevice": "cpp",
+        "qtoolbar": "cpp",
+        "qflag": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

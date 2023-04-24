@@ -1,5 +1,5 @@
-#ifndef FLOW_NEW_PROJECT_DIALOG_H
-#define FLOW_NEW_PROJECT_DIALOG_H
+#ifndef NEW_PROJECT_DIALOG_H
+#define NEW_PROJECT_DIALOG_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDialog>
@@ -48,4 +48,4 @@ class NewProjectDialog : public QDialog {
   QScopedPointer<Preferences> m_preferences;
 };
 
-#endif  // FLOW_NEW_PROJECT_DIALOG_H
+#endif  // NEW_PROJECT_DIALOG_H

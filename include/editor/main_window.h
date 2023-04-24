@@ -1,5 +1,5 @@
-#ifndef FLOW_MAIN_WINDOW_H
-#define FLOW_MAIN_WINDOW_H
+#ifndef MAIN_WINDOW_H
+#define MAIN_WINDOW_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
@@ -73,4 +73,4 @@ class MainWindow final : public QMainWindow {
   QAction *m_exit_action;
 };
 
-#endif  // FLOW_MAIN_WINDOW_H
+#endif  // MAIN_WINDOW_H

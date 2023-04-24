@@ -1,5 +1,5 @@
-#ifndef FLOW_RECENT_PROJECT_LIST_DELEGATE_H
-#define FLOW_RECENT_PROJECT_LIST_DELEGATE_H
+#ifndef RECENT_PROJECT_LIST_DELEGATE_H
+#define RECENT_PROJECT_LIST_DELEGATE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QStyledItemDelegate>
@@ -36,4 +36,4 @@ class RecentProjectListDelegate : public QStyledItemDelegate {
   QSize m_spacing;
 };
 
-#endif  // FLOW_RECENT_PROJECT_LIST_DELEGATE_H
+#endif  // RECENT_PROJECT_LIST_DELEGATE_H

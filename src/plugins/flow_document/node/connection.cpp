@@ -1,16 +1,12 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/node/connection.h"
-
-#include "flow_document/node/node_data.h"
-#include "flow_document/node/type_converter.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-Connection::Connection(Pin &out, Pin &in)
-    : m_in(in), m_out(out), m_converter(nullptr) {
+Connection::Connection(Pin &out, Pin &in) : m_in(in), m_out(out) {
   out.addListener([this](auto &&data) {
-    this->transferData(std::forward<decltype(data)>(data));
+    m_in.setData(std::forward<decltype(data)>(data));
   });
 }
 
@@ -22,23 +18,6 @@ const Pin &Connection::getPin(Pin::Type type) const {
 
 Pin &Connection::getPin(Pin::Type type) {
   return type == Pin::Type::In ? m_in : m_out;
-}
-
-void Connection::setConverter(std::shared_ptr<TypeConverter> converter) {
-  m_converter = std::move(converter);
-}
-
-std::shared_ptr<TypeConverter> Connection::getConverter() const {
-  return m_converter;
-}
-
-void Connection::transferData(const NodeData &data) {
-  if (m_converter) {
-    auto converted_data = m_converter->convert(data);
-    if (converted_data) m_in.setData(*converted_data);
-  } else {
-    m_in.setData(data);
-  }
 }
 
 }  // namespace flow_document

@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_API_EXPORT_H
-#define PLUGIN_FLOW_DOCUMENT_API_EXPORT_H
+#ifndef FLOW_DOCUMENT_EXPORT_H
+#define FLOW_DOCUMENT_EXPORT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QtCore/QtGlobal>
@@ -11,4 +11,4 @@
 #define FLOW_DOCUMENT_API Q_DECL_IMPORT
 #endif
 
-#endif  // PLUGIN_FLOW_DOCUMENT_API_EXPORT_H
+#endif  // FLOW_DOCUMENT_EXPORT_H

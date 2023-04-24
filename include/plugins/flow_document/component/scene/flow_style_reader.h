@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_STYLE_READER_H
-#define PLUGIN_FLOW_FLOW_STYLE_READER_H
+#ifndef FLOW_DOCUMENT_FLOW_STYLE_READER_H
+#define FLOW_DOCUMENT_FLOW_STYLE_READER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
@@ -30,4 +30,4 @@ class FLOW_DOCUMENT_API FlowStyleReader {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_STYLE_READER_H
+#endif  // FLOW_DOCUMENT_FLOW_STYLE_READER_H

@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_ABSTRACT_TOOL_H
-#define FLOW_FLOW_ABSTRACT_TOOL_H
+#ifndef FLOW_DOCUMENT_FLOW_ABSTRACT_TOOL_H
+#define FLOW_DOCUMENT_FLOW_ABSTRACT_TOOL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAction>
@@ -78,4 +78,4 @@ class FLOW_DOCUMENT_API FlowAbstractTool : public QObject {
 
 }  // namespace flow_document
 
-#endif  // FLOW_FLOW_ABSTRACT_TOOL_H
+#endif  // FLOW_DOCUMENT_FLOW_ABSTRACT_TOOL_H

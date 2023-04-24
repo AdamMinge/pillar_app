@@ -1,5 +1,5 @@
-#ifndef FLOW_COMMAND_LINE_PARSER_H
-#define FLOW_COMMAND_LINE_PARSER_H
+#ifndef COMMAND_LINE_PARSER_H
+#define COMMAND_LINE_PARSER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
@@ -85,4 +85,4 @@ CONVERTER_VALUE_SPEC(float, value.toFloat())
 CONVERTER_VALUE_SPEC(double, value.toDouble())
 #undef CONVERTER_VALUE_SPEC
 
-#endif  // FLOW_COMMAND_LINE_PARSER_H
+#endif  // COMMAND_LINE_PARSER_H

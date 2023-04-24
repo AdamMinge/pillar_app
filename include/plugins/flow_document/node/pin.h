@@ -1,8 +1,9 @@
-#ifndef FLOW_PIN_H
-#define FLOW_PIN_H
+#ifndef FLOW_DOCUMENT_PIN_H
+#define FLOW_DOCUMENT_PIN_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QString>
+#include <QVariant>
 /* --------------------------------- Standard ------------------------------- */
 #include <functional>
 #include <list>
@@ -13,37 +14,34 @@
 
 namespace flow_document {
 
-class NodeData;
-
 class FLOW_DOCUMENT_API Pin {
  public:
-  enum class Type;
-  using Listener = std::function<void(const NodeData &)>;
+  enum class Type { In, Out };
+
+  using Listener = std::function<void(const QVariant &)>;
 
  public:
-  explicit Pin(std::unique_ptr<NodeData> data, QString caption = {});
+  explicit Pin(QVariant data, QString caption);
   ~Pin();
 
-  [[nodiscard]] const NodeData &getData() const;
-  [[nodiscard]] QString getCaption() const;
+  [[nodiscard]] const QVariant &getData() const;
+  [[nodiscard]] const QString &getCaption() const;
 
-  void setData(const NodeData &data);
-  void setCaption(const QString &caption);
+  void setData(QVariant data);
+  void setCaption(QString caption);
 
   void addListener(Listener &&listener);
   void clearListeners();
 
  private:
-  void dataChanged(const NodeData &data);
+  void dataChangeNotify();
 
  private:
-  std::unique_ptr<NodeData> m_data;
-  std::list<Listener> m_listeners;
+  QVariant m_data;
   QString m_caption;
+  std::list<Listener> m_listeners;
 };
-
-enum class Pin::Type { In, Out };
 
 }  // namespace flow_document
 
-#endif  // FLOW_PIN_H
+#endif  // FLOW_DOCUMENT_PIN_H

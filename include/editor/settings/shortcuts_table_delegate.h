@@ -1,5 +1,5 @@
-#ifndef FLOW_SHORTCUTS_TABLE_DELEGATE_H
-#define FLOW_SHORTCUTS_TABLE_DELEGATE_H
+#ifndef SHORTCUTS_TABLE_DELEGATE_H
+#define SHORTCUTS_TABLE_DELEGATE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAction>
@@ -24,4 +24,4 @@ class ShortcutsTableDelegate : public QStyledItemDelegate {
                     const QModelIndex &index) const override;
 };
 
-#endif  // FLOW_SHORTCUTS_TABLE_DELEGATE_H
+#endif  // SHORTCUTS_TABLE_DELEGATE_H

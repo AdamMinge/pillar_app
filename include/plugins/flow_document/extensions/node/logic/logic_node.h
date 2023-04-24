@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_H
-#define PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_H
+#ifndef LOGIC_NODE_H
+#define LOGIC_NODE_H
 
 /* ----------------------------- PluginFlowDocument ------------------------- */
 #include <flow_document/node/node.h>
@@ -19,4 +19,4 @@ class LOGIC_NODE_API LogicNodeWithTwoParams : public LogicNodeWithOneParam {
   ~LogicNodeWithTwoParams() override;
 };
 
-#endif  // PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_H
+#endif  // LOGIC_NODE_H

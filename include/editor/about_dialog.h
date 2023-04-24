@@ -1,5 +1,5 @@
-#ifndef FLOW_ABOUT_DIALOG_H
-#define FLOW_ABOUT_DIALOG_H
+#ifndef ABOUT_DIALOG_H
+#define ABOUT_DIALOG_H
 
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/dialog/dialog_with_url_links.h>
@@ -26,4 +26,4 @@ class AboutDialog : public utils::QtDialogWithUrlLinks<AboutDialog> {
   QScopedPointer<Ui::AboutDialog> m_ui;
 };
 
-#endif  // FLOW_ABOUT_DIALOG_H
+#endif  // ABOUT_DIALOG_H

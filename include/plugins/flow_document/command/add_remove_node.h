@@ -1,5 +1,5 @@
-#ifndef FLOW_ADD_REMOVE_NODE_H
-#define FLOW_ADD_REMOVE_NODE_H
+#ifndef FLOW_DOCUMENT_ADD_REMOVE_NODE_H
+#define FLOW_DOCUMENT_ADD_REMOVE_NODE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPointF>
@@ -60,4 +60,4 @@ class RemoveNodeCommand : public AddRemoveNodeCommand {
 
 }  // namespace flow_document
 
-#endif  // FLOW_ADD_REMOVE_NODE_H
+#endif  // FLOW_DOCUMENT_ADD_REMOVE_NODE_H

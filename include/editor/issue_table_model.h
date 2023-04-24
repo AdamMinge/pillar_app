@@ -1,5 +1,5 @@
-#ifndef FLOW_ISSUE_TABLE_MODEL_H
-#define FLOW_ISSUE_TABLE_MODEL_H
+#ifndef ISSUE_TABLE_MODEL_H
+#define ISSUE_TABLE_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractTableModel>
@@ -45,4 +45,4 @@ class IssueTableModel : public QAbstractTableModel {
   std::vector<std::pair<flow::Issue, unsigned>> m_issues;
 };
 
-#endif  // FLOW_ISSUE_TABLE_MODEL_H
+#endif  // ISSUE_TABLE_MODEL_H

@@ -1,5 +1,5 @@
-#ifndef FLOW_SHORTCUTS_SETTINGS_WIDGET_H
-#define FLOW_SHORTCUTS_SETTINGS_WIDGET_H
+#ifndef SHORTCUTS_SETTINGS_WIDGET_H
+#define SHORTCUTS_SETTINGS_WIDGET_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
@@ -60,4 +60,4 @@ class ShortcutsSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
 };
 
-#endif  // FLOW_SHORTCUTS_SETTINGS_WIDGET_H
+#endif  // SHORTCUTS_SETTINGS_WIDGET_H

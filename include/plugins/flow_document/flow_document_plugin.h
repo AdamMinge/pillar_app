@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_PLUGIN_H
-#define PLUGIN_FLOW_FLOW_DOCUMENT_PLUGIN_H
+#ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_PLUGIN_H
+#define FLOW_DOCUMENT_FLOW_DOCUMENT_PLUGIN_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/plugin_interface.h>
@@ -23,4 +23,4 @@ class FLOW_DOCUMENT_API FlowDocumentPlugin : public flow::PluginInterface {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_DOCUMENT_PLUGIN_H
+#endif  // FLOW_DOCUMENT_FLOW_DOCUMENT_PLUGIN_H

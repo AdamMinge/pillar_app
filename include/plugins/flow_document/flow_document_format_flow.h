@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
-#define PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
+#ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_FLOW_H
+#define FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_FLOW_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
@@ -28,4 +28,4 @@ class FLOW_DOCUMENT_API FlowDocumentFormatFlow : public FlowDocumentFormat {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_DOCUMENT_FORMAT_FLOW_H
+#endif  // FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_FLOW_H

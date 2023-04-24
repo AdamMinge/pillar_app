@@ -1,5 +1,5 @@
-#ifndef FLOW_NODES_TREE_DELEGATE_H
-#define FLOW_NODES_TREE_DELEGATE_H
+#ifndef FLOW_DOCUMENT_FLOW_NODES_TREE_DELEGATE_H
+#define FLOW_DOCUMENT_FLOW_NODES_TREE_DELEGATE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QStyledItemDelegate>
@@ -28,4 +28,4 @@ class FLOW_DOCUMENT_API FlowNodesTreeDelegate : public QStyledItemDelegate {
 
 }  // namespace flow_document
 
-#endif  // FLOW_NODES_TREE_DELEGATE_H
+#endif  // FLOW_DOCUMENT_FLOW_NODES_TREE_DELEGATE_H

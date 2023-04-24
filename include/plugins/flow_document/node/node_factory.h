@@ -1,5 +1,5 @@
-#ifndef FLOW_NODE_FACTORY_H
-#define FLOW_NODE_FACTORY_H
+#ifndef FLOW_DOCUMENT_NODE_FACTORY_H
+#define FLOW_DOCUMENT_NODE_FACTORY_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIcon>
@@ -75,4 +75,4 @@ class FLOW_DOCUMENT_API NodeFactories : public QObject {
 
 Q_DECLARE_INTERFACE(flow_document::NodeFactories, "org.flow.NodeFactories")
 
-#endif  // FLOW_NODE_FACTORY_H
+#endif  // FLOW_DOCUMENT_NODE_FACTORY_H

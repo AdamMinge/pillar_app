@@ -29,12 +29,6 @@ set(sources
     ${source_root}/node/node.cpp
     ${source_root}/node/pin.cpp
     ${source_root}/node/node_factory.cpp
-    ${source_root}/node/type_converter_factory.cpp
-    ${source_root}/node/base/boolean_node_data.cpp
-    ${source_root}/node/base/character_node_data.cpp
-    ${source_root}/node/base/floating_point_node_data.cpp
-    ${source_root}/node/base/integer_node_data.cpp
-    ${source_root}/node/base/string_node_data.cpp
     ${source_root}/component/node/flow_nodes_dock.cpp
     ${source_root}/component/node/flow_nodes_tree_delegate.cpp
     ${source_root}/component/node/flow_nodes_tree_model.cpp
@@ -51,10 +45,7 @@ set(sources
     ${source_root}/component/scene/flow_abstract_tool.cpp
     ${source_root}/component/scene/selection_rectangle.cpp
     ${source_root}/component/scene/flow_selection_tool.cpp
-    ${source_root}/component/scene/flow_tools_bar.cpp
-    ${source_root}/component/type_converter/flow_type_converters_dock.cpp
-    ${source_root}/component/type_converter/flow_type_converters_tree_delegate.cpp
-    ${source_root}/component/type_converter/flow_type_converters_tree_model.cpp)
+    ${source_root}/component/scene/flow_tools_bar.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -74,16 +65,8 @@ set(includes
     ${include_root}/node/object.h
     ${include_root}/node/connection.h
     ${include_root}/node/node.h
-    ${include_root}/node/node_data.h
     ${include_root}/node/pin.h
-    ${include_root}/node/type_converter.h
     ${include_root}/node/node_factory.h
-    ${include_root}/node/type_converter_factory.h
-    ${include_root}/node/base/boolean_node_data.h
-    ${include_root}/node/base/character_node_data.h
-    ${include_root}/node/base/floating_point_node_data.h
-    ${include_root}/node/base/integer_node_data.h
-    ${include_root}/node/base/string_node_data.h
     ${include_root}/component/node/flow_nodes_dock.h
     ${include_root}/component/node/flow_nodes_tree_delegate.h
     ${include_root}/component/node/flow_nodes_tree_model.h
@@ -100,10 +83,7 @@ set(includes
     ${include_root}/component/scene/flow_abstract_tool.h
     ${include_root}/component/scene/flow_selection_tool.h
     ${include_root}/component/scene/flow_tools_bar.h
-    ${include_root}/component/scene/selection_rectangle.h
-    ${include_root}/component/type_converter/flow_type_converters_dock.h
-    ${include_root}/component/type_converter/flow_type_converters_tree_delegate.h
-    ${include_root}/component/type_converter/flow_type_converters_tree_model.h)
+    ${include_root}/component/scene/selection_rectangle.h)
 
 set(resources ${resources_root}/flow_document.qrc)
 

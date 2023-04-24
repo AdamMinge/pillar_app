@@ -1,5 +1,5 @@
-#ifndef FLOW_PROJECT_WRITER_H
-#define FLOW_PROJECT_WRITER_H
+#ifndef PROJECT_WRITER_H
+#define PROJECT_WRITER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
@@ -26,4 +26,4 @@ class ProjectWriter {
   std::unique_ptr<ProjectWriterImpl> m_impl;
 };
 
-#endif  // FLOW_PROJECT_WRITER_H
+#endif  // PROJECT_WRITER_H

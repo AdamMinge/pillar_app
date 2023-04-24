@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_VIEW_H
-#define PLUGIN_FLOW_FLOW_VIEW_H
+#ifndef FLOW_DOCUMENT_FLOW_VIEW_H
+#define FLOW_DOCUMENT_FLOW_VIEW_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsView>
@@ -55,4 +55,4 @@ class FLOW_DOCUMENT_API FlowView : public QGraphicsView {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_VIEW_H
+#endif  // FLOW_DOCUMENT_FLOW_VIEW_H

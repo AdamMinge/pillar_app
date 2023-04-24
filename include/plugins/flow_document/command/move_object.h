@@ -1,5 +1,5 @@
-#ifndef FLOW_MOVE_OBJECT_H
-#define FLOW_MOVE_OBJECT_H
+#ifndef FLOW_DOCUMENT_MOVE_OBJECT_H
+#define FLOW_DOCUMENT_MOVE_OBJECT_H
 
 /* ------------------------------------- Qt --------------------------------- */
 #include <QGraphicsItem>
@@ -36,4 +36,4 @@ class FLOW_DOCUMENT_API MoveObject : public flow::Command {
 
 }  // namespace flow_document
 
-#endif  // FLOW_MOVE_OBJECT_H
+#endif  // FLOW_DOCUMENT_MOVE_OBJECT_H

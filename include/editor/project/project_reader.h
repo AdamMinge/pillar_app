@@ -1,5 +1,5 @@
-#ifndef FLOW_PROJECT_READER_H
-#define FLOW_PROJECT_READER_H
+#ifndef PROJECT_READER_H
+#define PROJECT_READER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
@@ -30,4 +30,4 @@ class ProjectReader {
   std::unique_ptr<ProjectReaderImpl> m_impl;
 };
 
-#endif  // FLOW_PROJECT_READER_H
+#endif  // PROJECT_READER_H

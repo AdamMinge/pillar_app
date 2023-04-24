@@ -1,5 +1,5 @@
-#ifndef FLOW_NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
-#define FLOW_NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
+#ifndef NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
+#define NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QStyledItemDelegate>
@@ -36,4 +36,4 @@ class NewDocumentWidgetListDelegate : public QStyledItemDelegate {
   QSize m_spacing;
 };
 
-#endif  // FLOW_NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H
+#endif  // NEW_DOCUMENT_WIDGET_LIST_DELEGATE_H

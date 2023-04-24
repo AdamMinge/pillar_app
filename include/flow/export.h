@@ -1,5 +1,5 @@
-#ifndef FLOW_LIB_FLOW_EXPORT_H
-#define FLOW_LIB_FLOW_EXPORT_H
+#ifndef FLOW_EXPORT_H
+#define FLOW_EXPORT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QtCore/QtGlobal>
@@ -11,4 +11,4 @@
 #define LIB_FLOW_API Q_DECL_IMPORT
 #endif
 
-#endif  // FLOW_LIB_FLOW_EXPORT_H
+#endif  // FLOW_EXPORT_H

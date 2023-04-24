@@ -1,5 +1,5 @@
-#ifndef FLOW_SHORTCUTS_TABLE_MODEL_H
-#define FLOW_SHORTCUTS_TABLE_MODEL_H
+#ifndef SHORTCUTS_TABLE_MODEL_H
+#define SHORTCUTS_TABLE_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractTableModel>
@@ -59,4 +59,4 @@ class ShortcutsTableModel : public QAbstractTableModel {
   std::vector<ShortcutData> m_actions;
 };
 
-#endif  // FLOW_SHORTCUTS_TABLE_MODEL_H
+#endif  // SHORTCUTS_TABLE_MODEL_H

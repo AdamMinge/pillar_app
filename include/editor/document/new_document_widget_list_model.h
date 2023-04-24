@@ -1,5 +1,5 @@
-#ifndef FLOW_NEW_DOCUMENT_WIDGET_LIST_MODEL_H
-#define FLOW_NEW_DOCUMENT_WIDGET_LIST_MODEL_H
+#ifndef NEW_DOCUMENT_WIDGET_LIST_MODEL_H
+#define NEW_DOCUMENT_WIDGET_LIST_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractListModel>
@@ -34,4 +34,4 @@ class NewDocumentWidgetListModel
       m_new_document_widget_by_factory;
 };
 
-#endif  // FLOW_NEW_DOCUMENT_WIDGET_LIST_MODEL_H
+#endif  // NEW_DOCUMENT_WIDGET_LIST_MODEL_H

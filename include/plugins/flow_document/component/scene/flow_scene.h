@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_SCENE_H
-#define PLUGIN_FLOW_FLOW_SCENE_H
+#ifndef FLOW_DOCUMENT_FLOW_SCENE_H
+#define FLOW_DOCUMENT_FLOW_SCENE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsScene>
@@ -76,4 +76,4 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_SCENE_H
+#endif  // FLOW_DOCUMENT_FLOW_SCENE_H

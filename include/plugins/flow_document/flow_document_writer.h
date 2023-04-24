@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_WRITER_H
-#define PLUGIN_FLOW_FLOW_DOCUMENT_WRITER_H
+#ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_WRITER_H
+#define FLOW_DOCUMENT_FLOW_DOCUMENT_WRITER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
@@ -30,4 +30,4 @@ class FLOW_DOCUMENT_API FlowDocumentWriter {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_DOCUMENT_WRITER_H
+#endif  // FLOW_DOCUMENT_FLOW_DOCUMENT_WRITER_H

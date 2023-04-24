@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_NODE_GEOMETRY_H
-#define PLUGIN_FLOW_FLOW_NODE_GEOMETRY_H
+#ifndef FLOW_DOCUMENT_FLOW_NODE_GEOMETRY_H
+#define FLOW_DOCUMENT_FLOW_NODE_GEOMETRY_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMap>
@@ -49,4 +49,4 @@ class FLOW_DOCUMENT_API FlowNodeGeometry {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_NODE_GEOMETRY_H
+#endif  // FLOW_DOCUMENT_FLOW_NODE_GEOMETRY_H

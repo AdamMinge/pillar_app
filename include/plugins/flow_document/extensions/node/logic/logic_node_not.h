@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_NOT_H
-#define PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_NOT_H
+#ifndef LOGIC_NODE_NOT_H
+#define LOGIC_NODE_NOT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
@@ -15,4 +15,4 @@ class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam {
   void compute() override;
 };
 
-#endif  // PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_NOT_H
+#endif  // LOGIC_NODE_NOT_H

@@ -1,5 +1,5 @@
-#ifndef FLOW_PLUGIN_SETTINGS_WIDGET_H
-#define FLOW_PLUGIN_SETTINGS_WIDGET_H
+#ifndef PLUGIN_SETTINGS_WIDGET_H
+#define PLUGIN_SETTINGS_WIDGET_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
@@ -57,4 +57,4 @@ class PluginSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
 };
 
-#endif  // FLOW_PLUGIN_SETTINGS_WIDGET_H
+#endif  // PLUGIN_SETTINGS_WIDGET_H

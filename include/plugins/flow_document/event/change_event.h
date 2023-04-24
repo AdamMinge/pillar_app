@@ -1,5 +1,5 @@
-#ifndef FLOW_CHANGE_EVENT_H
-#define FLOW_CHANGE_EVENT_H
+#ifndef FLOW_DOCUMENT_CHANGE_EVENT_H
+#define FLOW_DOCUMENT_CHANGE_EVENT_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
@@ -23,4 +23,4 @@ class FLOW_DOCUMENT_API ChangeEvent {
 
 }  // namespace flow_document
 
-#endif  // FLOW_CHANGE_EVENT_H
+#endif  // FLOW_DOCUMENT_CHANGE_EVENT_H

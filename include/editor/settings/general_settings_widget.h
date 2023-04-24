@@ -1,5 +1,5 @@
-#ifndef FLOW_GENERAL_SETTINGS_WIDGET_H
-#define FLOW_GENERAL_SETTINGS_WIDGET_H
+#ifndef GENERAL_SETTINGS_WIDGET_H
+#define GENERAL_SETTINGS_WIDGET_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/settings/settings_widget.h>
@@ -41,4 +41,4 @@ class GeneralSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
 };
 
-#endif  // FLOW_GENERAL_SETTINGS_WIDGET_H
+#endif  // GENERAL_SETTINGS_WIDGET_H

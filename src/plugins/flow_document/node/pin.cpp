@@ -1,23 +1,24 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/node/pin.h"
-
-#include "flow_document/node/node_data.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-Pin::Pin(std::unique_ptr<NodeData> data, QString caption)
+Pin::Pin(QVariant data, QString caption)
     : m_data(std::move(data)), m_caption(std::move(caption)) {}
 
 Pin::~Pin() = default;
 
-const NodeData &Pin::getData() const { return *m_data; }
+const QVariant &Pin::getData() const { return m_data; }
 
-QString Pin::getCaption() const { return m_caption; }
+const QString &Pin::getCaption() const { return m_caption; }
 
-void Pin::setData(const NodeData &data) { m_data->assign(data); }
+void Pin::setData(QVariant data) {
+  m_data = std::move(data);
+  dataChangeNotify();
+}
 
-void Pin::setCaption(const QString &caption) { m_caption = caption; }
+void Pin::setCaption(QString caption) { m_caption = caption; }
 
 void Pin::addListener(Listener &&listener) {
   m_listeners.push_back(std::move(listener));
@@ -25,8 +26,8 @@ void Pin::addListener(Listener &&listener) {
 
 void Pin::clearListeners() { m_listeners.clear(); }
 
-void Pin::dataChanged(const NodeData &data) {
-  for (auto &listener : m_listeners) listener(data);
+void Pin::dataChangeNotify() {
+  for (auto &listener : m_listeners) listener(m_data);
 }
 
 }  // namespace flow_document

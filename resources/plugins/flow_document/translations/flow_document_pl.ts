@@ -26,14 +26,6 @@
     </message>
 </context>
 <context>
-    <name>FlowTypeConvertersTreeModel</name>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/component/type_converter/flow_type_converters_tree_model.cpp" line="160"/>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LogicNodeFactories</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/node_factory.cpp" line="10"/>
@@ -88,17 +80,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_and.cpp" line="7"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_and.cpp" line="5"/>
         <source>AND</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_not.cpp" line="7"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_not.cpp" line="5"/>
         <source>NOT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_or.cpp" line="7"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_or.cpp" line="5"/>
         <source>OR</source>
         <translation type="unfinished"></translation>
     </message>

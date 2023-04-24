@@ -1,5 +1,5 @@
-#ifndef FLOW_NEW_DOCUMENT_DIALOG_H
-#define FLOW_NEW_DOCUMENT_DIALOG_H
+#ifndef NEW_DOCUMENT_DIALOG_H
+#define NEW_DOCUMENT_DIALOG_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDialog>
@@ -52,4 +52,4 @@ class NewDocumentDialog : public QDialog {
   QScopedPointer<NewDocumentWidgetListDelegate> m_new_document_widget_delegate;
 };
 
-#endif  // FLOW_NEW_DOCUMENT_DIALOG_H
+#endif  // NEW_DOCUMENT_DIALOG_H

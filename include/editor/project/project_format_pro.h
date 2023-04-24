@@ -1,5 +1,5 @@
-#ifndef FLOW_PROJECT_FORMAT_PRO_H
-#define FLOW_PROJECT_FORMAT_PRO_H
+#ifndef PROJECT_FORMAT_PRO_H
+#define PROJECT_FORMAT_PRO_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/project/project_format.h>
@@ -23,4 +23,4 @@ class ProjectFormatPro : public flow::ProjectFormat {
             QString *error) override;
 };
 
-#endif  // FLOW_PROJECT_FORMAT_PRO_H
+#endif  // PROJECT_FORMAT_PRO_H

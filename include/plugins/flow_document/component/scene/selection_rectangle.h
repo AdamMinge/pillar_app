@@ -1,5 +1,5 @@
-#ifndef FLOW_SELECTION_RACTANGLE_H
-#define FLOW_SELECTION_RACTANGLE_H
+#ifndef FLOW_DOCUMENT_SELECTION_RACTANGLE_H
+#define FLOW_DOCUMENT_SELECTION_RACTANGLE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsItem>
@@ -26,4 +26,4 @@ class FLOW_DOCUMENT_API SelectionRectangle : public QGraphicsItem {
 
 }  // namespace flow_document
 
-#endif  // FLOW_SELECTION_RACTANGLE_H
+#endif  // FLOW_DOCUMENT_SELECTION_RACTANGLE_H

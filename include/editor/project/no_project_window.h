@@ -1,5 +1,5 @@
-#ifndef FLOW_NO_PROJECT_WINDOW_H
-#define FLOW_NO_PROJECT_WINDOW_H
+#ifndef NO_PROJECT_WINDOW_H
+#define NO_PROJECT_WINDOW_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
@@ -53,4 +53,4 @@ class NoProjectWindow : public QMainWindow {
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
-#endif  // FLOW_NO_PROJECT_WINDOW_H
+#endif  // NO_PROJECT_WINDOW_H

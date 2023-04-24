@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
-#define PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
+#ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_H
+#define FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/document/document_format.h>
@@ -23,4 +23,4 @@ class FLOW_DOCUMENT_API FlowDocumentFormat : public flow::DocumentFormat {
 Q_DECLARE_INTERFACE(flow_document::FlowDocumentFormat,
                     "org.flow.FlowDocumentFormat")
 
-#endif  // PLUGIN_FLOW_FLOW_DOCUMENT_FORMAT_H
+#endif  // FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_H

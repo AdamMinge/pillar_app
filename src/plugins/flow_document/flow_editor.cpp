@@ -6,7 +6,6 @@
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/flow_tools_bar.h"
 #include "flow_document/component/scene/flow_view.h"
-#include "flow_document/component/type_converter/flow_type_converters_dock.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
@@ -35,7 +34,6 @@ FlowEditor::FlowEditor(QObject *parent)
       m_tools_bar(new FlowToolsBar(m_main_window)),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_nodes_dock(new FlowNodesDock(m_main_window)),
-      m_converters_dock(new FlowConvertersDock(m_main_window)),
       m_undo_dock(new flow::UndoDock(m_main_window)),
       m_preferences(new Preferences) {
   initUi();
@@ -110,7 +108,7 @@ void FlowEditor::restoreState() {
 }
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
-  return QList<QDockWidget *>{m_undo_dock, m_nodes_dock, m_converters_dock};
+  return QList<QDockWidget *>{m_undo_dock, m_nodes_dock};
 }
 
 QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const {
@@ -163,8 +161,6 @@ void FlowEditor::initUi() {
 
   m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_converters_dock);
-  m_main_window->tabifyDockWidget(m_nodes_dock, m_converters_dock);
   m_nodes_dock->raise();
 
   m_main_window->addToolBar(m_tools_bar);

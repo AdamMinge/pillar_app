@@ -1,5 +1,5 @@
-#ifndef FLOW_ISSUE_TABLE_FILTER_MODEL_H
-#define FLOW_ISSUE_TABLE_FILTER_MODEL_H
+#ifndef ISSUE_TABLE_FILTER_MODEL_H
+#define ISSUE_TABLE_FILTER_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
@@ -28,4 +28,4 @@ class IssueTableFilterModel : public QSortFilterProxyModel {
   bool m_errors_visible;
 };
 
-#endif  // FLOW_ISSUE_TABLE_FILTER_MODEL_H
+#endif  // ISSUE_TABLE_FILTER_MODEL_H

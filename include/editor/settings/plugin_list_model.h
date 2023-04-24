@@ -1,5 +1,5 @@
-#ifndef FLOW_PLUGIN_LIST_MODEL_H
-#define FLOW_PLUGIN_LIST_MODEL_H
+#ifndef PLUGIN_LIST_MODEL_H
+#define PLUGIN_LIST_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractListModel>
@@ -62,4 +62,4 @@ class DynamicPluginListModel : public PluginListModel {
   ~DynamicPluginListModel() override;
 };
 
-#endif  // FLOW_PLUGIN_LIST_MODEL_H
+#endif  // PLUGIN_LIST_MODEL_H

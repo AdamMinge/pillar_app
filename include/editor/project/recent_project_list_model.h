@@ -1,5 +1,5 @@
-#ifndef FLOW_RECENT_PROJECT_LIST_MODEL_H
-#define FLOW_RECENT_PROJECT_LIST_MODEL_H
+#ifndef RECENT_PROJECT_LIST_MODEL_H
+#define RECENT_PROJECT_LIST_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractListModel>
@@ -36,4 +36,4 @@ class RecentProjectListModel : public QAbstractListModel {
   QStringList m_projects;
 };
 
-#endif  // FLOW_RECENT_PROJECT_LIST_MODEL_H
+#endif  // RECENT_PROJECT_LIST_MODEL_H

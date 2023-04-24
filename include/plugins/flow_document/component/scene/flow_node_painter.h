@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_NODE_PAINTER_H
-#define PLUGIN_FLOW_FLOW_NODE_PAINTER_H
+#ifndef FLOW_DOCUMENT_FLOW_NODE_PAINTER_H
+#define FLOW_DOCUMENT_FLOW_NODE_PAINTER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPainter>
@@ -33,4 +33,4 @@ class FLOW_DOCUMENT_API FlowNodePainter {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_NODE_PAINTER_H
+#endif  // FLOW_DOCUMENT_FLOW_NODE_PAINTER_H

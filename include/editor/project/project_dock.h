@@ -1,5 +1,5 @@
-#ifndef FLOW_PROJECT_DOCK_H
-#define FLOW_PROJECT_DOCK_H
+#ifndef PROJECT_DOCK_H
+#define PROJECT_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
@@ -56,4 +56,4 @@ class ProjectDock : public QDockWidget {
   QScopedPointer<QAbstractFileIconProvider> m_icon_provider;
 };
 
-#endif  // FLOW_PROJECT_DOCK_H
+#endif  // PROJECT_DOCK_H

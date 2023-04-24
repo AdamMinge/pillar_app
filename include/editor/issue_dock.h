@@ -1,5 +1,5 @@
-#ifndef FLOW_ISSUE_DOCK_H
-#define FLOW_ISSUE_DOCK_H
+#ifndef ISSUE_DOCK_H
+#define ISSUE_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
@@ -40,4 +40,4 @@ class IssueDock : public QDockWidget {
   QScopedPointer<IssueTableFilterModel> m_issue_filter_model;
 };
 
-#endif  // FLOW_ISSUE_DOCK_H
+#endif  // ISSUE_DOCK_H

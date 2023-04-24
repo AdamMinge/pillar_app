@@ -1,5 +1,5 @@
-#ifndef FLOW_SETTINGS_DIALOG_H
-#define FLOW_SETTINGS_DIALOG_H
+#ifndef SETTINGS_DIALOG_H
+#define SETTINGS_DIALOG_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
@@ -53,4 +53,4 @@ class SettingsDialog : public utils::QtDialogWithUrlLinks<SettingsDialog> {
   QScopedPointer<QSortFilterProxyModel> m_settings_widget_filter_model;
 };
 
-#endif  // FLOW_SETTINGS_DIALOG_H
+#endif  // SETTINGS_DIALOG_H

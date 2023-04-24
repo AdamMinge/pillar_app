@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_EDITOR_H
-#define PLUGIN_FLOW_FLOW_EDITOR_H
+#ifndef FLOW_DOCUMENT_FLOW_EDITOR_H
+#define FLOW_DOCUMENT_FLOW_EDITOR_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
@@ -20,7 +20,6 @@ namespace flow_document {
 
 class FlowDocument;
 class FlowNodesDock;
-class FlowConvertersDock;
 class FlowAbstractTool;
 class FlowToolsBar;
 class FlowView;
@@ -71,7 +70,6 @@ class FLOW_DOCUMENT_API FlowEditor : public flow::DocumentEditor {
   FlowToolsBar *m_tools_bar;
   QStackedWidget *m_scene_stack;
   FlowNodesDock *m_nodes_dock;
-  FlowConvertersDock *m_converters_dock;
   flow::UndoDock *m_undo_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;
@@ -81,4 +79,4 @@ class FLOW_DOCUMENT_API FlowEditor : public flow::DocumentEditor {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_EDITOR_H
+#endif  // FLOW_DOCUMENT_FLOW_EDITOR_H

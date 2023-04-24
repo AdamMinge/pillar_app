@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_STYLE_MANAGER_H
-#define FLOW_FLOW_STYLE_MANAGER_H
+#ifndef FLOW_DOCUMENT_FLOW_STYLE_MANAGER_H
+#define FLOW_DOCUMENT_FLOW_STYLE_MANAGER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
@@ -47,4 +47,4 @@ const FlowStyle::PinStyleViewer &getPinStyle(const FlowNodeItem &item);
 
 }  // namespace flow_document
 
-#endif  // FLOW_FLOW_STYLE_MANAGER_H
+#endif  // FLOW_DOCUMENT_FLOW_STYLE_MANAGER_H

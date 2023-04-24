@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_DOCUMENT_H
-#define FLOW_FLOW_DOCUMENT_H
+#ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_H
+#define FLOW_DOCUMENT_FLOW_DOCUMENT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPointer>
@@ -38,4 +38,4 @@ class FLOW_DOCUMENT_API FlowDocument : public flow::Document {
 
 }  // namespace flow_document
 
-#endif  // FLOW_FLOW_DOCUMENT_H
+#endif  // FLOW_DOCUMENT_FLOW_DOCUMENT_H

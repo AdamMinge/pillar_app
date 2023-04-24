@@ -1,5 +1,5 @@
-#ifndef FLOW_PROJECT_WINDOW_H
-#define FLOW_PROJECT_WINDOW_H
+#ifndef PROJECT_WINDOW_H
+#define PROJECT_WINDOW_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
@@ -114,4 +114,4 @@ class ProjectWindow : public QMainWindow {
   QMenu *m_help_menu;
 };
 
-#endif  // FLOW_PROJECT_WINDOW_H
+#endif  // PROJECT_WINDOW_H

@@ -1,5 +1,5 @@
-#ifndef FLOW_PLUGIN_LIST_DELEGATE_H
-#define FLOW_PLUGIN_LIST_DELEGATE_H
+#ifndef PLUGIN_LIST_DELEGATE_H
+#define PLUGIN_LIST_DELEGATE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QStyledItemDelegate>
@@ -31,4 +31,4 @@ class PluginListDelegate : public QStyledItemDelegate {
   const int m_spacing;
 };
 
-#endif  // FLOW_PLUGIN_LIST_DELEGATE_H
+#endif  // PLUGIN_LIST_DELEGATE_H

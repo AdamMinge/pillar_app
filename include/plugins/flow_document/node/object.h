@@ -1,5 +1,5 @@
-#ifndef FLOW_OBJECT_H
-#define FLOW_OBJECT_H
+#ifndef FLOW_DOCUMENT_OBJECT_H
+#define FLOW_DOCUMENT_OBJECT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
@@ -33,4 +33,4 @@ class FLOW_DOCUMENT_API Object {
 
 }  // namespace flow_document
 
-#endif  // FLOW_OBJECT_H
+#endif  // FLOW_DOCUMENT_OBJECT_H

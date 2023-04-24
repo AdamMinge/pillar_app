@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_NODE_FACTORY_H
-#define PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_NODE_FACTORY_H
+#ifndef NODE_FACTORY_H
+#define NODE_FACTORY_H
 
 /* ----------------------------- PluginFlowDocument ------------------------- */
 #include <flow_document/node/node_factory.h>
@@ -17,4 +17,4 @@ class LOGIC_NODE_API LogicNodeFactories : public flow_document::NodeFactories {
   ~LogicNodeFactories() override;
 };
 
-#endif  // PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_NODE_FACTORY_H
+#endif  // NODE_FACTORY_H

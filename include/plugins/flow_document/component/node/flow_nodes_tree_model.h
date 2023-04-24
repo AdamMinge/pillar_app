@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_NODES_TREE_MODEL_H
-#define PLUGIN_FLOW_FLOW_NODES_TREE_MODEL_H
+#ifndef FLOW_DOCUMENT_FLOW_NODES_TREE_MODEL_H
+#define FLOW_DOCUMENT_FLOW_NODES_TREE_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
@@ -115,4 +115,4 @@ class FLOW_DOCUMENT_API FlowNodesTreeModel
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_NODES_TREE_MODEL_H
+#endif  // FLOW_DOCUMENT_FLOW_NODES_TREE_MODEL_H

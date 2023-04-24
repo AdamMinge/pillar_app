@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_NODES_DOCK_H
-#define PLUGIN_FLOW_FLOW_NODES_DOCK_H
+#ifndef FLOW_DOCUMENT_FLOW_NODES_DOCK_H
+#define FLOW_DOCUMENT_FLOW_NODES_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
@@ -43,4 +43,4 @@ class FLOW_DOCUMENT_API FlowNodesDock : public QDockWidget {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_NODES_DOCK_H
+#endif  // FLOW_DOCUMENT_FLOW_NODES_DOCK_H

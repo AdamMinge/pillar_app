@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_EXPORT_H
-#define PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_EXPORT_H
+#ifndef EXPORT_H
+#define EXPORT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QtCore/QtGlobal>
@@ -11,4 +11,4 @@
 #define LOGIC_NODE_API Q_DECL_IMPORT
 #endif
 
-#endif  // PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_EXPORT_H
+#endif  // EXPORT_H

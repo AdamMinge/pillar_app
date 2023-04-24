@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_NODE_ITEM_H
-#define PLUGIN_FLOW_FLOW_NODE_ITEM_H
+#ifndef FLOW_DOCUMENT_FLOW_NODE_ITEM_H
+#define FLOW_DOCUMENT_FLOW_NODE_ITEM_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/flow_item.h"
@@ -37,4 +37,4 @@ class FLOW_DOCUMENT_API FlowNodeItem : public FlowItem {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_NODE_ITEM_H
+#endif  // FLOW_DOCUMENT_FLOW_NODE_ITEM_H

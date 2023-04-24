@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_STYLE_H
-#define FLOW_FLOW_STYLE_H
+#ifndef FLOW_DOCUMENT_FLOW_STYLE_H
+#define FLOW_DOCUMENT_FLOW_STYLE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QColor>
@@ -233,4 +233,4 @@ class FlowStyle::NodeStyleViewer {
 
 }  // namespace flow_document
 
-#endif  // FLOW_FLOW_STYLE_H
+#endif  // FLOW_DOCUMENT_FLOW_STYLE_H

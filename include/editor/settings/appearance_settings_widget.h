@@ -1,5 +1,5 @@
-#ifndef FLOW_APPEARANCE_SETTINGS_WIDGET_H
-#define FLOW_APPEARANCE_SETTINGS_WIDGET_H
+#ifndef APPEARANCE_SETTINGS_WIDGET_H
+#define APPEARANCE_SETTINGS_WIDGET_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/settings/settings_widget.h>
@@ -46,4 +46,4 @@ class AppearanceSettingsWidgetFactory : public flow::SettingsWidgetFactory {
   [[nodiscard]] QString getParentObjectName() const override;
 };
 
-#endif  // FLOW_APPEARANCE_SETTINGS_WIDGET_H
+#endif  // APPEARANCE_SETTINGS_WIDGET_H

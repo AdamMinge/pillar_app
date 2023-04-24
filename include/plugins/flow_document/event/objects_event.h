@@ -1,5 +1,5 @@
-#ifndef FLOW_OBJECTS_EVENT_H
-#define FLOW_OBJECTS_EVENT_H
+#ifndef FLOW_DOCUMENT_OBJECTS_EVENT_H
+#define FLOW_DOCUMENT_OBJECTS_EVENT_H
 
 /* ------------------------------------- Qt --------------------------------- */
 #include <QFlag>
@@ -80,4 +80,4 @@ class FLOW_DOCUMENT_API ObjectsRemovedEvent : public ObjectsAddedRemovedEvent {
 
 }  // namespace flow_document
 
-#endif  // FLOW_OBJECTS_EVENT_H
+#endif  // FLOW_DOCUMENT_OBJECTS_EVENT_H

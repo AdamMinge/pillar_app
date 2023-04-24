@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_FLOW_ITEM_H
-#define PLUGIN_FLOW_FLOW_ITEM_H
+#ifndef FLOW_DOCUMENT_FLOW_ITEM_H
+#define FLOW_DOCUMENT_FLOW_ITEM_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsObject>
@@ -38,4 +38,4 @@ class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject {
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_FLOW_ITEM_H
+#endif  // FLOW_DOCUMENT_FLOW_ITEM_H

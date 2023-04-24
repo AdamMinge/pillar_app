@@ -1,5 +1,5 @@
-#ifndef FLOW_NO_DOCUMENT_WIDGET_H
-#define FLOW_NO_DOCUMENT_WIDGET_H
+#ifndef NO_DOCUMENT_WIDGET_H
+#define NO_DOCUMENT_WIDGET_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
@@ -27,4 +27,4 @@ class NoDocumentWidget : public QWidget {
   QScopedPointer<Ui::NoDocumentWidget> m_ui;
 };
 
-#endif  // FLOW_NO_DOCUMENT_WIDGET_H
+#endif  // NO_DOCUMENT_WIDGET_H

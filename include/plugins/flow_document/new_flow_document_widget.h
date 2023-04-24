@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
-#define PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
+#ifndef FLOW_DOCUMENT_NEW_FLOW_DOCUMENT_WIDGET_H
+#define FLOW_DOCUMENT_NEW_FLOW_DOCUMENT_WIDGET_H
 
 /* ----------------------------------- Flow --------------------------------- */
 #include <flow/document/new_document_widget.h>
@@ -55,4 +55,4 @@ class FLOW_DOCUMENT_API NewFlowDocumentWidgetFactory
 
 }  // namespace flow_document
 
-#endif  // PLUGIN_FLOW_NEW_FLOW_DOCUMENT_WIDGET_H
+#endif  // FLOW_DOCUMENT_NEW_FLOW_DOCUMENT_WIDGET_H

@@ -1,5 +1,5 @@
-#ifndef FLOW_FLOW_SELECTION_TOOL_H
-#define FLOW_FLOW_SELECTION_TOOL_H
+#ifndef FLOW_DOCUMENT_FLOW_SELECTION_TOOL_H
+#define FLOW_DOCUMENT_FLOW_SELECTION_TOOL_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/flow_abstract_tool.h"
@@ -61,4 +61,4 @@ enum class FlowSelectionTool::Action { NoAction, ItemMoving, ItemSelection };
 
 }  // namespace flow_document
 
-#endif  // FLOW_FLOW_SELECTION_TOOL_H
+#endif  // FLOW_DOCUMENT_FLOW_SELECTION_TOOL_H

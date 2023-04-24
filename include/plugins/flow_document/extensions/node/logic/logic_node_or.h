@@ -1,5 +1,5 @@
-#ifndef PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_OR_H
-#define PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_OR_H
+#ifndef LOGIC_NODE_OR_H
+#define LOGIC_NODE_OR_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
@@ -15,4 +15,4 @@ class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams {
   void compute() override;
 };
 
-#endif  // PLUGIN_FLOW_DOCUMENT_EXTENSION_NODE_LOGIC_LOGIC_NODE_OR_H
+#endif  // LOGIC_NODE_OR_H
