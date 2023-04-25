@@ -2,13 +2,13 @@
 #include "flow_document/command/move_object.h"
 
 #include "flow_document/event/objects_event.h"
+#include "flow_document/flow/flow_object.h"
 #include "flow_document/flow_document.h"
-#include "flow_document/node/object.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-MoveObject::MoveObject(FlowDocument *document, QList<Object *> objects,
+MoveObject::MoveObject(FlowDocument *document, QList<FlowObject *> objects,
                        const QPointF &move, egnite::Command *parent)
     : egnite::Command(QLatin1String("MoveObject"), parent),
       m_document(document),

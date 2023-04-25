@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_FLOW_ITEM_H
-#define FLOW_DOCUMENT_FLOW_ITEM_H
+#ifndef FLOW_DOCUMENT_FLOW_GRAPHICS_ITEM_H
+#define FLOW_DOCUMENT_FLOW_GRAPHICS_ITEM_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsObject>
@@ -9,19 +9,19 @@
 
 namespace flow_document {
 
-class Object;
+class FlowObject;
 class FlowDocument;
 class ChangeEvent;
 
-class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject {
+class FLOW_DOCUMENT_API FlowGraphicsItem : public QGraphicsObject {
   Q_OBJECT
 
  public:
-  explicit FlowItem(FlowDocument *document, Object *object,
-                    QGraphicsItem *parent = nullptr);
-  ~FlowItem() override;
+  explicit FlowGraphicsItem(FlowDocument *document, FlowObject *object,
+                            QGraphicsItem *parent = nullptr);
+  ~FlowGraphicsItem() override;
 
-  [[nodiscard]] Object *getObject() const;
+  [[nodiscard]] FlowObject *getObject() const;
   [[nodiscard]] FlowDocument *getDocument() const;
 
   void setHovered(bool hovered);
@@ -32,10 +32,10 @@ class FLOW_DOCUMENT_API FlowItem : public QGraphicsObject {
 
  private:
   FlowDocument *m_document;
-  Object *m_object;
+  FlowObject *m_object;
   bool m_hovered;
 };
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_FLOW_ITEM_H
+#endif  // FLOW_DOCUMENT_FLOW_GRAPHICS_ITEM_H

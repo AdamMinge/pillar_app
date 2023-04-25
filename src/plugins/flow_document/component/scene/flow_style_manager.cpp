@@ -44,7 +44,8 @@ bool FlowStyleManager::saveStyle(const QString &file_name) {
 
 const FlowStyle &FlowStyleManager::getStyle() const { return *m_style; }
 
-const FlowStyle::NodeStyleViewer &getNodeStyle(const FlowNodeItem &item) {
+const FlowStyle::NodeStyleViewer &getNodeStyle(
+    const FlowNodeGraphicsItem &item) {
   auto state = NodeStyle::States{NodeStyle::State::Normal};
   if (item.isSelected()) state |= NodeStyle::State::Selected;
   if (item.isHovered()) state |= NodeStyle::State::Hovered;
@@ -54,7 +55,7 @@ const FlowStyle::NodeStyleViewer &getNodeStyle(const FlowNodeItem &item) {
   return node_style;
 }
 
-const FlowStyle::PinStyleViewer &getPinStyle(const FlowNodeItem &item) {
+const FlowStyle::PinStyleViewer &getPinStyle(const FlowNodeGraphicsItem &item) {
   auto state = PinStyle::States{PinStyle::State::Normal};
   if (item.isSelected()) state |= PinStyle::State::Selected;
   if (item.isHovered()) state |= PinStyle::State::Hovered;

@@ -78,7 +78,9 @@
         "qstyleditemdelegate": "cpp",
         "qiodevice": "cpp",
         "qtoolbar": "cpp",
-        "qflag": "cpp"
+        "qflag": "cpp",
+        "qstyleoptiongraphicsitem": "cpp",
+        "qgraphicsscenedragdropevent": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

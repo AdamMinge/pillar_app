@@ -1,9 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/command/add_remove_node.h"
 
+#include "flow_document/flow/flow_node.h"
+#include "flow_document/flow/flow_node_factory.h"
 #include "flow_document/flow_document.h"
-#include "flow_document/node/node.h"
-#include "flow_document/node/node_factory.h"
 /* ----------------------------------- Egnite ------------------------------- */
 #include <egnite/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
@@ -11,9 +11,9 @@
 namespace flow_document {
 
 namespace {
-NodeFactory *getNodeFactory(const QString &node_to_create_id) {
+FlowNodeFactory *getFlowNodeFactory(const QString &node_to_create_id) {
   auto node_factories_list =
-      egnite::PluginManager::getInstance().getObjects<NodeFactories>();
+      egnite::PluginManager::getInstance().getObjects<FlowNodeFactories>();
 
   for (auto node_factories : node_factories_list)
     if (auto factory = node_factories->getFactory(node_to_create_id); factory)
@@ -26,7 +26,7 @@ NodeFactory *getNodeFactory(const QString &node_to_create_id) {
 /* ---------------------------- AddRemoveNodeCommand ------------------------ */
 
 AddRemoveNodeCommand::AddRemoveNodeCommand(QString name, FlowDocument *document,
-                                           Node *node_to_remove,
+                                           FlowNode *node_to_remove,
                                            egnite::Command *parent)
     : egnite::Command(std::move(name), parent),
       m_document(document),
@@ -40,7 +40,7 @@ AddRemoveNodeCommand::AddRemoveNodeCommand(QString name, FlowDocument *document,
     : egnite::Command(std::move(name), parent),
       m_document(document),
       m_node_to_remove(nullptr) {
-  m_node_to_add = getNodeFactory(node_to_create_id)->create().release();
+  m_node_to_add = getFlowNodeFactory(node_to_create_id)->create().release();
   m_node_to_add->setPosition(pos);
 }
 
@@ -77,7 +77,7 @@ void AddNodeCommand::undo() { removeNode(); }
 /* ----------------------------- RemoveNodeCommand -------------------------- */
 
 RemoveNodeCommand::RemoveNodeCommand(FlowDocument *document,
-                                     Node *node_to_remove, Command *parent)
+                                     FlowNode *node_to_remove, Command *parent)
     : AddRemoveNodeCommand(QLatin1String("RemoveNode"), document,
                            node_to_remove, parent) {
   setText(QObject::tr("Remove Node"));

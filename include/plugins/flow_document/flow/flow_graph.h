@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_GRAPH_H
-#define FLOW_DOCUMENT_GRAPH_H
+#ifndef FLOW_DOCUMENT_FLOW_GRAPH_H
+#define FLOW_DOCUMENT_FLOW_GRAPH_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
@@ -17,47 +17,50 @@
 
 namespace flow_document {
 
-class Node;
-class PinConnection;
+class FlowNode;
+class FlowPinConnection;
 
-class NodeFactory;
-class NodeFactories;
+class FlowNodeFactory;
+class FlowNodeFactories;
 
-class FLOW_DOCUMENT_API Graph : public QObject,
-                                public egnite::PluginListener<NodeFactories> {
+class FLOW_DOCUMENT_API FlowGraph
+    : public QObject,
+      public egnite::PluginListener<FlowNodeFactories> {
  public:
-  explicit Graph(QObject *parent = nullptr);
-  ~Graph() override;
+  explicit FlowGraph(QObject *parent = nullptr);
+  ~FlowGraph() override;
 
   QUuid addNode(const QString &node_type);
   bool removeNode(const QUuid &node_id);
 
-  [[nodiscard]] const Node &getNode(const QUuid &node_id) const;
-  [[nodiscard]] const Node *findNode(const QUuid &node_id) const;
+  [[nodiscard]] const FlowNode &getNode(const QUuid &node_id) const;
+  [[nodiscard]] const FlowNode *findNode(const QUuid &node_id) const;
 
   QUuid addConnection(const QUuid &out_node_id, size_t out_pin_id,
                       const QUuid &in_node_id, size_t in_pin_id);
   bool removeConnection(const QUuid &connection_id);
 
-  [[nodiscard]] const PinConnection &getConnection(
+  [[nodiscard]] const FlowPinConnection &getConnection(
       const QUuid &connection_id) const;
-  [[nodiscard]] const PinConnection *findConnection(
+  [[nodiscard]] const FlowPinConnection *findConnection(
       const QUuid &connection_id) const;
 
  protected:
-  void addedObject(NodeFactories *factories) override;
-  void removedObject(NodeFactories *factories) override;
+  void addedObject(FlowNodeFactories *factories) override;
+  void removedObject(FlowNodeFactories *factories) override;
 
  private:
-  [[nodiscard]] NodeFactory *findFactory(const QString &node_type);
+  [[nodiscard]] FlowNodeFactory *findFactory(const QString &node_type);
 
  private:
-  std::unordered_map<QUuid, std::unique_ptr<Node>, utils::QUuidHash> m_nodes;
-  std::unordered_map<QUuid, std::unique_ptr<PinConnection>, utils::QUuidHash>
+  std::unordered_map<QUuid, std::unique_ptr<FlowNode>, utils::QUuidHash>
+      m_nodes;
+  std::unordered_map<QUuid, std::unique_ptr<FlowPinConnection>,
+                     utils::QUuidHash>
       m_connections;
-  std::set<NodeFactories *> m_node_factories;
+  std::set<FlowNodeFactories *> m_node_factories;
 };
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_GRAPH_H
+#endif  // FLOW_DOCUMENT_FLOW_GRAPH_H

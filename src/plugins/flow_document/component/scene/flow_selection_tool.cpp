@@ -2,7 +2,7 @@
 #include "flow_document/component/scene/flow_selection_tool.h"
 
 #include "flow_document/command/move_object.h"
-#include "flow_document/component/scene/flow_item.h"
+#include "flow_document/component/scene/flow_graphics_item.h"
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/selection_rectangle.h"
 #include "flow_document/flow_document.h"
@@ -92,7 +92,7 @@ void FlowSelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
 
       if (getScene()) {
         auto item = getScene()->itemAt(m_mouse_clicked_pos, QTransform{});
-        if (auto flow_item = dynamic_cast<FlowItem *>(item); flow_item)
+        if (auto flow_item = dynamic_cast<FlowGraphicsItem *>(item); flow_item)
           m_clicked_item = flow_item;
       }
 
@@ -156,7 +156,7 @@ void FlowSelectionTool::startItemMoving() {
     }
 
     for (auto item : getScene()->selectedItems()) {
-      if (auto flow_item = dynamic_cast<FlowItem *>(item); flow_item)
+      if (auto flow_item = dynamic_cast<FlowGraphicsItem *>(item); flow_item)
         m_moving_items.append(std::make_pair(flow_item, flow_item->pos()));
     }
   }
@@ -194,7 +194,7 @@ void FlowSelectionTool::updateItemSelection(const QPointF &mouse_pos) {
 
 void FlowSelectionTool::endItemMoving() {
   auto &[first_item, first_item_old_pos] = m_moving_items.front();
-  auto objects = QList<Object *>{};
+  auto objects = QList<FlowObject *>{};
   auto move = first_item->pos() - first_item_old_pos;
 
   for (auto &[moving_item, _] : m_moving_items)

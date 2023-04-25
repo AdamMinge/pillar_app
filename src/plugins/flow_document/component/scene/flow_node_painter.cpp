@@ -2,14 +2,14 @@
 #include "flow_document/component/scene/flow_node_painter.h"
 
 #include "flow_document/component/scene/flow_node_geometry.h"
-#include "flow_document/component/scene/flow_node_item.h"
+#include "flow_document/component/scene/flow_node_graphics_item.h"
 #include "flow_document/component/scene/flow_style_manager.h"
-#include "flow_document/node/node.h"
+#include "flow_document/flow/flow_node.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-FlowNodePainter::FlowNodePainter(const FlowNodeItem &node_item)
+FlowNodePainter::FlowNodePainter(const FlowNodeGraphicsItem &node_item)
     : m_node_item(node_item) {}
 
 FlowNodePainter::~FlowNodePainter() = default;
@@ -68,7 +68,7 @@ void FlowNodePainter::paintNodePins(QPainter *painter,
   const auto node = m_node_item.getNode();
   const auto geometry = m_node_item.getGeometry();
 
-  for (auto type : {Pin::Type::In, Pin::Type::Out}) {
+  for (auto type : {FlowPin::Type::In, FlowPin::Type::Out}) {
     for (auto index = 0; index < node->getPinsCounts(type); ++index) {
       const auto pin_pos = geometry->getPinPosition(type, index);
 
@@ -88,7 +88,7 @@ void FlowNodePainter::paintNodePinLabels(
   const auto node = m_node_item.getNode();
   const auto geometry = m_node_item.getGeometry();
 
-  for (auto type : {Pin::Type::In, Pin::Type::Out}) {
+  for (auto type : {FlowPin::Type::In, FlowPin::Type::Out}) {
     for (auto index = 0; index < node->getPinsCounts(type); ++index) {
       const auto pin_label_pos = geometry->getPinLabelPosition(type, index);
       const auto pin_label = node->getPin(type, index).getCaption();

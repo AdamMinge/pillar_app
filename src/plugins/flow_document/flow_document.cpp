@@ -2,7 +2,7 @@
 #include "flow_document/flow_document.h"
 
 #include "flow_document/event/objects_event.h"
-#include "flow_document/node/graph.h"
+#include "flow_document/flow/flow_graph.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -14,13 +14,13 @@ std::unique_ptr<egnite::Document> FlowDocument::create() {
 
 FlowDocument::FlowDocument(QObject *parent)
     : Document(QLatin1String("FlowDocument"), parent),
-      m_graph(new Graph(this)) {}
+      m_graph(new FlowGraph(this)) {}
 
 FlowDocument::~FlowDocument() = default;
 
-const Graph *FlowDocument::getGraph() const { return m_graph; }
+const FlowGraph *FlowDocument::getGraph() const { return m_graph; }
 
-Graph *FlowDocument::getGraph() { return m_graph; }
+FlowGraph *FlowDocument::getGraph() { return m_graph; }
 /*
 void FlowDocument::addNode(Node *node) {
   m_nodes.append(node);

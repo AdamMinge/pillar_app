@@ -24,12 +24,12 @@ set(sources
     ${source_root}/event/objects_event.cpp
     ${source_root}/command/add_remove_node.cpp
     ${source_root}/command/move_object.cpp
-    ${source_root}/node/object.cpp
-    ${source_root}/node/node.cpp
-    ${source_root}/node/pin.cpp
-    ${source_root}/node/pin_connection.cpp
-    ${source_root}/node/node_factory.cpp
-    ${source_root}/node/graph.cpp
+    ${source_root}/flow/flow_object.cpp
+    ${source_root}/flow/flow_node.cpp
+    ${source_root}/flow/flow_pin.cpp
+    ${source_root}/flow/flow_pin_connection.cpp
+    ${source_root}/flow/flow_node_factory.cpp
+    ${source_root}/flow/flow_graph.cpp
     ${source_root}/component/node/flow_nodes_dock.cpp
     ${source_root}/component/node/flow_nodes_tree_delegate.cpp
     ${source_root}/component/node/flow_nodes_tree_model.cpp
@@ -39,8 +39,8 @@ set(sources
     ${source_root}/component/scene/flow_style_writer.cpp
     ${source_root}/component/scene/flow_style_reader.cpp
     ${source_root}/component/scene/flow_style.cpp
-    ${source_root}/component/scene/flow_node_item.cpp
-    ${source_root}/component/scene/flow_item.cpp
+    ${source_root}/component/scene/flow_node_graphics_item.cpp
+    ${source_root}/component/scene/flow_graphics_item.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/flow_abstract_tool.cpp
@@ -63,12 +63,12 @@ set(includes
     ${include_root}/event/objects_event.h
     ${include_root}/command/add_remove_node.h
     ${include_root}/command/move_object.h
-    ${include_root}/node/object.h
-    ${include_root}/node/node.h
-    ${include_root}/node/pin.h
-    ${include_root}/node/pin_connection.h
-    ${include_root}/node/node_factory.h
-    ${include_root}/node/graph.h
+    ${include_root}/flow/flow_object.h
+    ${include_root}/flow/flow_node.h
+    ${include_root}/flow/flow_pin.h
+    ${include_root}/flow/flow_pin_connection.h
+    ${include_root}/flow/flow_node_factory.h
+    ${include_root}/flow/flow_graph.h
     ${include_root}/component/node/flow_nodes_dock.h
     ${include_root}/component/node/flow_nodes_tree_delegate.h
     ${include_root}/component/node/flow_nodes_tree_model.h
@@ -78,8 +78,8 @@ set(includes
     ${include_root}/component/scene/flow_style_writer.h
     ${include_root}/component/scene/flow_style_reader.h
     ${include_root}/component/scene/flow_style.h
-    ${include_root}/component/scene/flow_node_item.h
-    ${include_root}/component/scene/flow_item.h
+    ${include_root}/component/scene/flow_node_graphics_item.h
+    ${include_root}/component/scene/flow_graphics_item.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/flow_abstract_tool.h

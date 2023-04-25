@@ -11,8 +11,8 @@
 
 namespace flow_document {
 
-class NodeFactories;
-class NodeFactory;
+class FlowNodeFactories;
+class FlowNodeFactory;
 
 class FLOW_DOCUMENT_API FlowNodesTreeItem {
  public:
@@ -41,35 +41,35 @@ class FLOW_DOCUMENT_API FlowNodesTreeItem {
 
 class FLOW_DOCUMENT_API FlowNodesTreeFactoriesItem : public FlowNodesTreeItem {
  public:
-  explicit FlowNodesTreeFactoriesItem(NodeFactories *factories);
+  explicit FlowNodesTreeFactoriesItem(FlowNodeFactories *factories);
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
   [[nodiscard]] Qt::ItemFlags flags() const override;
 
-  [[nodiscard]] NodeFactories *getNodeFactories() const;
+  [[nodiscard]] FlowNodeFactories *getFlowNodeFactories() const;
 
  private:
-  NodeFactories *m_factories;
+  FlowNodeFactories *m_factories;
 };
 
 class FLOW_DOCUMENT_API FlowNodesTreeFactoryItem : public FlowNodesTreeItem {
  public:
-  explicit FlowNodesTreeFactoryItem(NodeFactory *factory);
+  explicit FlowNodesTreeFactoryItem(FlowNodeFactory *factory);
 
   [[nodiscard]] QString getName() const override;
   [[nodiscard]] QIcon getIcon() const override;
   [[nodiscard]] Qt::ItemFlags flags() const override;
 
-  [[nodiscard]] NodeFactory *getNodeFactory() const;
+  [[nodiscard]] FlowNodeFactory *getFlowNodeFactory() const;
 
  private:
-  NodeFactory *m_factory;
+  FlowNodeFactory *m_factory;
 };
 
 class FLOW_DOCUMENT_API FlowNodesTreeModel
     : public QAbstractItemModel,
-      public egnite::PluginListener<NodeFactories> {
+      public egnite::PluginListener<FlowNodeFactories> {
   Q_OBJECT
 
  public:
@@ -103,8 +103,8 @@ class FLOW_DOCUMENT_API FlowNodesTreeModel
   [[nodiscard]] QStringList mimeTypes() const override;
 
  protected:
-  void addedObject(NodeFactories *factories) override;
-  void removedObject(NodeFactories *factories) override;
+  void addedObject(FlowNodeFactories *factories) override;
+  void removedObject(FlowNodeFactories *factories) override;
 
  private:
   [[nodiscard]] QByteArray createMimeData(const QModelIndexList &indexes) const;

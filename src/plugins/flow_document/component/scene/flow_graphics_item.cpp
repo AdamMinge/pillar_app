@@ -1,15 +1,15 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/flow_item.h"
+#include "flow_document/component/scene/flow_graphics_item.h"
 
 #include "flow_document/event/objects_event.h"
+#include "flow_document/flow/flow_object.h"
 #include "flow_document/flow_document.h"
-#include "flow_document/node/object.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-FlowItem::FlowItem(FlowDocument *document, Object *object,
-                   QGraphicsItem *parent)
+FlowGraphicsItem::FlowGraphicsItem(FlowDocument *document, FlowObject *object,
+                                   QGraphicsItem *parent)
     : QGraphicsObject(parent),
       m_document(document),
       m_object(object),
@@ -20,25 +20,25 @@ FlowItem::FlowItem(FlowDocument *document, Object *object,
   setPos(m_object->getPosition());
 
   connect(document, qOverload<const ChangeEvent &>(&FlowDocument::event), this,
-          qOverload<const ChangeEvent &>(&FlowItem::onEvent));
+          qOverload<const ChangeEvent &>(&FlowGraphicsItem::onEvent));
 }
 
-FlowItem::~FlowItem() = default;
+FlowGraphicsItem::~FlowGraphicsItem() = default;
 
-Object *FlowItem::getObject() const { return m_object; }
+FlowObject *FlowGraphicsItem::getObject() const { return m_object; }
 
-FlowDocument *FlowItem::getDocument() const { return m_document; }
+FlowDocument *FlowGraphicsItem::getDocument() const { return m_document; }
 
-void FlowItem::setHovered(bool hovered) {
+void FlowGraphicsItem::setHovered(bool hovered) {
   if (m_hovered == hovered) return;
 
   m_hovered = hovered;
   update();
 }
 
-bool FlowItem::isHovered() const { return m_hovered; }
+bool FlowGraphicsItem::isHovered() const { return m_hovered; }
 
-void FlowItem::onEvent(const ChangeEvent &event) {
+void FlowGraphicsItem::onEvent(const ChangeEvent &event) {
   switch (event.getType()) {
     case ChangeEvent::Type::ObjectsChangedProperties: {
       const auto &change_properties_event =

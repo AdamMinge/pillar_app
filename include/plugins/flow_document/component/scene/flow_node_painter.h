@@ -10,11 +10,11 @@
 
 namespace flow_document {
 
-class FlowNodeItem;
+class FlowNodeGraphicsItem;
 
 class FLOW_DOCUMENT_API FlowNodePainter {
  public:
-  explicit FlowNodePainter(const FlowNodeItem &node_item);
+  explicit FlowNodePainter(const FlowNodeGraphicsItem &node_item);
   virtual ~FlowNodePainter();
 
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option);
@@ -28,7 +28,7 @@ class FLOW_DOCUMENT_API FlowNodePainter {
                           const QStyleOptionGraphicsItem *option);
 
  private:
-  const FlowNodeItem &m_node_item;
+  const FlowNodeGraphicsItem &m_node_item;
 };
 
 }  // namespace flow_document

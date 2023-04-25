@@ -11,15 +11,13 @@
 
 namespace flow_document {
 
-class Node;
-class NodeFactory;
-
+class FlowNode;
 class FlowDocument;
 
 class FLOW_DOCUMENT_API AddRemoveNodeCommand : public egnite::Command {
  public:
   explicit AddRemoveNodeCommand(QString name, FlowDocument *document,
-                                Node *node_to_remove,
+                                FlowNode *node_to_remove,
                                 egnite::Command *parent = nullptr);
   explicit AddRemoveNodeCommand(QString name, FlowDocument *document,
                                 const QString &node_to_create_id,
@@ -33,8 +31,8 @@ class FLOW_DOCUMENT_API AddRemoveNodeCommand : public egnite::Command {
 
  private:
   FlowDocument *m_document;
-  Node *m_node_to_remove;
-  Node *m_node_to_add;
+  FlowNode *m_node_to_remove;
+  FlowNode *m_node_to_add;
 };
 
 class AddNodeCommand : public AddRemoveNodeCommand {
@@ -50,7 +48,7 @@ class AddNodeCommand : public AddRemoveNodeCommand {
 
 class RemoveNodeCommand : public AddRemoveNodeCommand {
  public:
-  explicit RemoveNodeCommand(FlowDocument *document, Node *node_to_remove,
+  explicit RemoveNodeCommand(FlowDocument *document, FlowNode *node_to_remove,
                              egnite::Command *parent = nullptr);
   ~RemoveNodeCommand() override;
 

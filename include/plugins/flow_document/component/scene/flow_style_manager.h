@@ -6,7 +6,7 @@
 /* ---------------------------------- Standard ------------------------------ */
 #include <memory>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/flow_node_item.h"
+#include "flow_document/component/scene/flow_node_graphics_item.h"
 #include "flow_document/component/scene/flow_style.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -42,8 +42,9 @@ class FLOW_DOCUMENT_API FlowStyleManager : public QObject {
   std::unique_ptr<FlowStyle> m_style;
 };
 
-const FlowStyle::NodeStyleViewer &getNodeStyle(const FlowNodeItem &item);
-const FlowStyle::PinStyleViewer &getPinStyle(const FlowNodeItem &item);
+const FlowStyle::NodeStyleViewer &getNodeStyle(
+    const FlowNodeGraphicsItem &item);
+const FlowStyle::PinStyleViewer &getPinStyle(const FlowNodeGraphicsItem &item);
 
 }  // namespace flow_document
 

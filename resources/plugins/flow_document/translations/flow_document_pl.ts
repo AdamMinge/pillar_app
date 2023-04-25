@@ -12,7 +12,7 @@
 <context>
     <name>FlowNodesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/node/flow_nodes_tree_model.cpp" line="143"/>
+        <location filename="../../../../src/plugins/flow_document/component/node/flow_nodes_tree_model.cpp" line="144"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -43,7 +43,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/node_factory.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/node_factory.cpp" line="21"/>
         <source>Or</source>
         <translation type="unfinished"></translation>
     </message>

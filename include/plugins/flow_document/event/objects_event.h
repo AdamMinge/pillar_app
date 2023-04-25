@@ -11,18 +11,18 @@
 
 namespace flow_document {
 
-class Object;
+class FlowObject;
 
 class FLOW_DOCUMENT_API ObjectsChangedEvent : public ChangeEvent {
  public:
-  explicit ObjectsChangedEvent(const QList<Object *> &objects, Type type);
+  explicit ObjectsChangedEvent(const QList<FlowObject *> &objects, Type type);
   virtual ~ObjectsChangedEvent();
 
-  [[nodiscard]] QList<Object *> getObjects() const;
-  [[nodiscard]] bool contains(Object *object) const;
+  [[nodiscard]] QList<FlowObject *> getObjects() const;
+  [[nodiscard]] bool contains(FlowObject *object) const;
 
  private:
-  QList<Object *> m_objects;
+  QList<FlowObject *> m_objects;
 };
 
 class FLOW_DOCUMENT_API ObjectsChangedPropertiesEvent
@@ -32,8 +32,9 @@ class FLOW_DOCUMENT_API ObjectsChangedPropertiesEvent
   Q_DECLARE_FLAGS(Properties, Property)
 
  public:
-  explicit ObjectsChangedPropertiesEvent(Object *object, Properties properties);
-  explicit ObjectsChangedPropertiesEvent(const QList<Object *> &objects,
+  explicit ObjectsChangedPropertiesEvent(FlowObject *object,
+                                         Properties properties);
+  explicit ObjectsChangedPropertiesEvent(const QList<FlowObject *> &objects,
                                          Properties properties);
   ~ObjectsChangedPropertiesEvent() override;
 
@@ -55,7 +56,7 @@ class FLOW_DOCUMENT_API ObjectsAddedRemovedEvent : public ObjectsChangedEvent {
   [[nodiscard]] ObjectsType getObjectsType() const;
 
  protected:
-  explicit ObjectsAddedRemovedEvent(const QList<Object *> &objects,
+  explicit ObjectsAddedRemovedEvent(const QList<FlowObject *> &objects,
                                     ObjectsType objects_type, Type type);
 
  private:
@@ -64,16 +65,16 @@ class FLOW_DOCUMENT_API ObjectsAddedRemovedEvent : public ObjectsChangedEvent {
 
 class FLOW_DOCUMENT_API ObjectsAddedEvent : public ObjectsAddedRemovedEvent {
  public:
-  explicit ObjectsAddedEvent(Object *object, ObjectsType objects_type);
-  explicit ObjectsAddedEvent(const QList<Object *> &objects,
+  explicit ObjectsAddedEvent(FlowObject *object, ObjectsType objects_type);
+  explicit ObjectsAddedEvent(const QList<FlowObject *> &objects,
                              ObjectsType objects_type);
   ~ObjectsAddedEvent() override;
 };
 
 class FLOW_DOCUMENT_API ObjectsRemovedEvent : public ObjectsAddedRemovedEvent {
  public:
-  explicit ObjectsRemovedEvent(Object *object, ObjectsType objects_type);
-  explicit ObjectsRemovedEvent(const QList<Object *> &objects,
+  explicit ObjectsRemovedEvent(FlowObject *object, ObjectsType objects_type);
+  explicit ObjectsRemovedEvent(const QList<FlowObject *> &objects,
                                ObjectsType objects_type);
   ~ObjectsRemovedEvent() override;
 };

@@ -2,25 +2,25 @@
 #define FLOW_DOCUMENT_FLOW_NODE_ITEM_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/flow_item.h"
+#include "flow_document/component/scene/flow_graphics_item.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-class Node;
+class FlowNode;
 
 class FlowNodePainter;
 class FlowNodeGeometry;
 
-class FLOW_DOCUMENT_API FlowNodeItem : public FlowItem {
+class FLOW_DOCUMENT_API FlowNodeGraphicsItem : public FlowGraphicsItem {
   Q_OBJECT
 
  public:
-  explicit FlowNodeItem(FlowDocument *document, Node *node);
-  ~FlowNodeItem() override;
+  explicit FlowNodeGraphicsItem(FlowDocument *document, FlowNode *node);
+  ~FlowNodeGraphicsItem() override;
 
-  [[nodiscard]] Node *getNode() const;
+  [[nodiscard]] FlowNode *getNode() const;
   [[nodiscard]] QRectF boundingRect() const override;
 
   [[nodiscard]] const FlowNodePainter *getPainter() const;

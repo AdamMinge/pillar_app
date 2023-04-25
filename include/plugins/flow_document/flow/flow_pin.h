@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_PIN_H
-#define FLOW_DOCUMENT_PIN_H
+#ifndef FLOW_DOCUMENT_FLOW_PIN_H
+#define FLOW_DOCUMENT_FLOW_PIN_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QString>
@@ -13,15 +13,15 @@
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API Pin {
+class FLOW_DOCUMENT_API FlowPin {
  public:
   enum class Type { In, Out };
 
   using Listener = std::function<void(const QVariant &)>;
 
  public:
-  explicit Pin(QVariant data, QString caption);
-  ~Pin();
+  explicit FlowPin(QVariant data, QString caption);
+  ~FlowPin();
 
   [[nodiscard]] const QVariant &getData() const;
   [[nodiscard]] const QString &getCaption() const;
@@ -43,4 +43,4 @@ class FLOW_DOCUMENT_API Pin {
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_PIN_H
+#endif  // FLOW_DOCUMENT_FLOW_PIN_H

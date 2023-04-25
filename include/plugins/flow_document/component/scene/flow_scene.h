@@ -12,10 +12,11 @@
 
 namespace flow_document {
 
-class Node;
+class FlowNode;
 
-class FlowItem;
-class FlowNodeItem;
+class FlowGraphicsItem;
+class FlowNodeGraphicsItem;
+
 class FlowDocument;
 class FlowAbstractTool;
 
@@ -36,7 +37,7 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   void setTool(FlowAbstractTool *tool);
   [[nodiscard]] FlowAbstractTool *getTool() const;
 
-  [[nodiscard]] QList<FlowItem *> hoveredItems();
+  [[nodiscard]] QList<FlowGraphicsItem *> hoveredItems();
   [[nodiscard]] QPainterPath hoveredArea() const;
   void setHoveredArea(
       const QPainterPath &path,
@@ -69,9 +70,9 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   FlowAbstractTool *m_flow_tool;
 
   QPainterPath m_hovered_area;
-  QList<FlowItem *> m_hovered_items;
+  QList<FlowGraphicsItem *> m_hovered_items;
 
-  QMap<Node *, FlowNodeItem *> m_node_items;
+  QMap<FlowNode *, FlowNodeGraphicsItem *> m_node_items;
 };
 
 }  // namespace flow_document

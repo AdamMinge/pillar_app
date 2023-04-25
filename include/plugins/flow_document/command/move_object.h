@@ -12,13 +12,13 @@
 
 namespace flow_document {
 
-class Object;
+class FlowObject;
 
 class FlowDocument;
 
 class FLOW_DOCUMENT_API MoveObject : public egnite::Command {
  public:
-  explicit MoveObject(FlowDocument *document, QList<Object *> objects,
+  explicit MoveObject(FlowDocument *document, QList<FlowObject *> objects,
                       const QPointF &move, egnite::Command *parent = nullptr);
   ~MoveObject() override;
 
@@ -30,7 +30,7 @@ class FLOW_DOCUMENT_API MoveObject : public egnite::Command {
 
  private:
   FlowDocument *m_document;
-  QList<Object *> m_objects;
+  QList<FlowObject *> m_objects;
   QPointF m_move;
 };
 

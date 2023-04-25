@@ -3,11 +3,11 @@
 
 #include "flow_document/command/add_remove_node.h"
 #include "flow_document/component/scene/flow_abstract_tool.h"
-#include "flow_document/component/scene/flow_item.h"
-#include "flow_document/component/scene/flow_node_item.h"
+#include "flow_document/component/scene/flow_graphics_item.h"
+#include "flow_document/component/scene/flow_node_graphics_item.h"
 #include "flow_document/event/objects_event.h"
+#include "flow_document/flow/flow_node.h"
 #include "flow_document/flow_document.h"
-#include "flow_document/node/node.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsSceneDragDropEvent>
 /* -------------------------------------------------------------------------- */
@@ -51,17 +51,18 @@ void FlowScene::setTool(FlowAbstractTool *tool) {
 
 FlowAbstractTool *FlowScene::getTool() const { return m_flow_tool; }
 
-QList<FlowItem *> FlowScene::hoveredItems() { return m_hovered_items; }
+QList<FlowGraphicsItem *> FlowScene::hoveredItems() { return m_hovered_items; }
 
 QPainterPath FlowScene::hoveredArea() const { return m_hovered_area; }
 
 void FlowScene::setHoveredArea(const QPainterPath &path,
                                Qt::ItemSelectionOperation selectionOperation,
                                Qt::ItemSelectionMode mode) {
-  auto hovered_items = QList<FlowItem *>{};
+  auto hovered_items = QList<FlowGraphicsItem *>{};
   auto items_in_area = items(path, mode);
   for (auto item : items_in_area) {
-    if (auto hovered_item = dynamic_cast<FlowItem *>(item); hovered_item)
+    if (auto hovered_item = dynamic_cast<FlowGraphicsItem *>(item);
+        hovered_item)
       hovered_items.append(hovered_item);
   }
 
@@ -69,7 +70,8 @@ void FlowScene::setHoveredArea(const QPainterPath &path,
     case Qt::ReplaceSelection: {
       auto hover_items = [](auto &items, auto hovered) {
         for (auto item : items) {
-          if (auto hovered_item = dynamic_cast<FlowItem *>(item); hovered_item)
+          if (auto hovered_item = dynamic_cast<FlowGraphicsItem *>(item);
+              hovered_item)
             hovered_item->setHovered(hovered);
         }
       };
@@ -164,10 +166,11 @@ void FlowScene::onEvent(const ChangeEvent &event) {
 void FlowScene::onObjectsAddedEvent(const ObjectsAddedEvent &event) {
   for (auto object : event.getObjects()) {
     if (event.getObjectsType() == ObjectsAddedEvent::ObjectsType::Node) {
-      auto node = dynamic_cast<Node *>(object);
+      auto node = dynamic_cast<FlowNode *>(object);
       Q_ASSERT(node && !m_node_items.contains(node));
 
-      auto node_item = std::make_unique<FlowNodeItem>(m_flow_document, node);
+      auto node_item =
+          std::make_unique<FlowNodeGraphicsItem>(m_flow_document, node);
       m_node_items.insert(node, node_item.get());
       addItem(node_item.release());
     }
@@ -177,7 +180,7 @@ void FlowScene::onObjectsAddedEvent(const ObjectsAddedEvent &event) {
 void FlowScene::onObjectsRemovedEvent(const ObjectsRemovedEvent &event) {
   for (auto object : event.getObjects()) {
     if (event.getObjectsType() == ObjectsAddedEvent::ObjectsType::Node) {
-      auto node = dynamic_cast<Node *>(object);
+      auto node = dynamic_cast<FlowNode *>(object);
       Q_ASSERT(node && m_node_items.contains(node));
 
       removeItem(m_node_items[node]);

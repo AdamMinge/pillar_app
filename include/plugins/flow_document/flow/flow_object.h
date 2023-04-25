@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_OBJECT_H
-#define FLOW_DOCUMENT_OBJECT_H
+#ifndef FLOW_DOCUMENT_FLOW_OBJECT_H
+#define FLOW_DOCUMENT_FLOW_OBJECT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPointF>
@@ -11,10 +11,10 @@
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API Object {
+class FLOW_DOCUMENT_API FlowObject {
  public:
-  explicit Object();
-  virtual ~Object();
+  explicit FlowObject();
+  virtual ~FlowObject();
 
   void setName(const QString &name);
   [[nodiscard]] QString getName() const;
@@ -33,4 +33,4 @@ class FLOW_DOCUMENT_API Object {
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_OBJECT_H
+#endif  // FLOW_DOCUMENT_FLOW_OBJECT_H
