@@ -47,7 +47,7 @@ class FLOW_DOCUMENT_API FlowNodesTreeFactoriesItem : public FlowNodesTreeItem {
   [[nodiscard]] QIcon getIcon() const override;
   [[nodiscard]] Qt::ItemFlags flags() const override;
 
-  [[nodiscard]] FlowNodeFactories *getFlowNodeFactories() const;
+  [[nodiscard]] FlowNodeFactories *getNodeFactories() const;
 
  private:
   FlowNodeFactories *m_factories;
@@ -61,7 +61,7 @@ class FLOW_DOCUMENT_API FlowNodesTreeFactoryItem : public FlowNodesTreeItem {
   [[nodiscard]] QIcon getIcon() const override;
   [[nodiscard]] Qt::ItemFlags flags() const override;
 
-  [[nodiscard]] FlowNodeFactory *getFlowNodeFactory() const;
+  [[nodiscard]] FlowNodeFactory *getNodeFactory() const;
 
  private:
   FlowNodeFactory *m_factory;

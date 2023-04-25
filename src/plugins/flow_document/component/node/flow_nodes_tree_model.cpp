@@ -74,7 +74,7 @@ Qt::ItemFlags FlowNodesTreeFactoriesItem::flags() const {
   return Qt::NoItemFlags;
 }
 
-FlowNodeFactories *FlowNodesTreeFactoriesItem::getFlowNodeFactories() const {
+FlowNodeFactories *FlowNodesTreeFactoriesItem::getNodeFactories() const {
   return m_factories;
 }
 
@@ -95,7 +95,7 @@ Qt::ItemFlags FlowNodesTreeFactoryItem::flags() const {
   return Qt::ItemIsDragEnabled;
 }
 
-FlowNodeFactory *FlowNodesTreeFactoryItem::getFlowNodeFactory() const {
+FlowNodeFactory *FlowNodesTreeFactoryItem::getNodeFactory() const {
   return m_factory;
 }
 
@@ -214,9 +214,8 @@ void FlowNodesTreeModel::addedObject(FlowNodeFactories *factories) {
 
 void FlowNodesTreeModel::removedObject(FlowNodeFactories *factories) {
   auto found_root = std::find_if(
-      m_root_items.begin(), m_root_items.end(), [factories](auto item) {
-        return item->getFlowNodeFactories() == factories;
-      });
+      m_root_items.begin(), m_root_items.end(),
+      [factories](auto item) { return item->getNodeFactories() == factories; });
 
   if (found_root != m_root_items.end()) {
     auto index_to_remove =
@@ -234,7 +233,7 @@ QByteArray FlowNodesTreeModel::createMimeData(
   for (auto index : indexes) {
     auto node_factory =
         static_cast<FlowNodesTreeFactoryItem *>(index.internalPointer())
-            ->getFlowNodeFactory();
+            ->getNodeFactory();
     nodes << node_factory->getNodeType();
   }
 

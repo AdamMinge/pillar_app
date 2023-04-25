@@ -27,7 +27,7 @@ set(sources
     ${source_root}/flow/flow_object.cpp
     ${source_root}/flow/flow_node.cpp
     ${source_root}/flow/flow_pin.cpp
-    ${source_root}/flow/flow_pin_connection.cpp
+    ${source_root}/flow/flow_connection.cpp
     ${source_root}/flow/flow_node_factory.cpp
     ${source_root}/flow/flow_graph.cpp
     ${source_root}/component/node/flow_nodes_dock.cpp
@@ -66,7 +66,7 @@ set(includes
     ${include_root}/flow/flow_object.h
     ${include_root}/flow/flow_node.h
     ${include_root}/flow/flow_pin.h
-    ${include_root}/flow/flow_pin_connection.h
+    ${include_root}/flow/flow_connection.h
     ${include_root}/flow/flow_node_factory.h
     ${include_root}/flow/flow_graph.h
     ${include_root}/component/node/flow_nodes_dock.h

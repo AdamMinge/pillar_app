@@ -8,13 +8,13 @@
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API FlowPinConnection {
+class FLOW_DOCUMENT_API FlowConnection {
  public:
-  explicit FlowPinConnection(FlowPin &out, FlowPin &in);
-  ~FlowPinConnection();
+  explicit FlowConnection(FlowPin &out, FlowPin &in);
+  ~FlowConnection();
 
-  [[nodiscard]] const FlowPin &getFlowPin(FlowPin::Type type) const;
-  [[nodiscard]] FlowPin &getFlowPin(FlowPin::Type type);
+  [[nodiscard]] const FlowPin &getPin(FlowPin::Type type) const;
+  [[nodiscard]] FlowPin &getPin(FlowPin::Type type);
 
  private:
   FlowPin &m_in;

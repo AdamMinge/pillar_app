@@ -1,9 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow/flow_graph.h"
 
+#include "flow_document/flow/flow_connection.h"
 #include "flow_document/flow/flow_node.h"
 #include "flow_document/flow/flow_node_factory.h"
-#include "flow_document/flow/flow_pin_connection.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -53,7 +53,7 @@ QUuid FlowGraph::addConnection(const QUuid &out_node_id, size_t out_pin_id,
   auto &out_pin = out_node->getPin(FlowPin::Type::Out, out_pin_id);
   auto &in_pin = in_node->getPin(FlowPin::Type::In, in_pin_id);
 
-  auto pin_connection = std::make_unique<FlowPinConnection>(out_pin, in_pin);
+  auto pin_connection = std::make_unique<FlowConnection>(out_pin, in_pin);
   auto connection_id = QUuid::createUuid();
 
   auto iter = m_connections.emplace(std::move(connection_id),
@@ -68,12 +68,12 @@ bool FlowGraph::removeConnection(const QUuid &connection_id) {
   return true;
 }
 
-const FlowPinConnection &FlowGraph::getConnection(
+const FlowConnection &FlowGraph::getConnection(
     const QUuid &connection_id) const {
   return *m_connections.at(connection_id);
 }
 
-const FlowPinConnection *FlowGraph::findConnection(
+const FlowConnection *FlowGraph::findConnection(
     const QUuid &connection_id) const {
   if (!m_connections.contains(connection_id)) return nullptr;
   return m_connections.at(connection_id).get();

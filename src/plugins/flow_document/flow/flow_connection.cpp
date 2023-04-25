@@ -1,23 +1,23 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/flow/flow_pin_connection.h"
+#include "flow_document/flow/flow_connection.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-FlowPinConnection::FlowPinConnection(FlowPin &out, FlowPin &in)
+FlowConnection::FlowConnection(FlowPin &out, FlowPin &in)
     : m_in(in), m_out(out) {
   out.addListener([this](auto &&data) {
     m_in.setData(std::forward<decltype(data)>(data));
   });
 }
 
-FlowPinConnection::~FlowPinConnection() = default;
+FlowConnection::~FlowConnection() = default;
 
-const FlowPin &FlowPinConnection::getFlowPin(FlowPin::Type type) const {
+const FlowPin &FlowConnection::getPin(FlowPin::Type type) const {
   return type == FlowPin::Type::In ? m_in : m_out;
 }
 
-FlowPin &FlowPinConnection::getFlowPin(FlowPin::Type type) {
+FlowPin &FlowConnection::getPin(FlowPin::Type type) {
   return type == FlowPin::Type::In ? m_in : m_out;
 }
 

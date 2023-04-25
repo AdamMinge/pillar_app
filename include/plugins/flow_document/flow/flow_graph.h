@@ -18,7 +18,7 @@
 namespace flow_document {
 
 class FlowNode;
-class FlowPinConnection;
+class FlowConnection;
 
 class FlowNodeFactory;
 class FlowNodeFactories;
@@ -40,9 +40,9 @@ class FLOW_DOCUMENT_API FlowGraph
                       const QUuid &in_node_id, size_t in_pin_id);
   bool removeConnection(const QUuid &connection_id);
 
-  [[nodiscard]] const FlowPinConnection &getConnection(
+  [[nodiscard]] const FlowConnection &getConnection(
       const QUuid &connection_id) const;
-  [[nodiscard]] const FlowPinConnection *findConnection(
+  [[nodiscard]] const FlowConnection *findConnection(
       const QUuid &connection_id) const;
 
  protected:
@@ -55,8 +55,7 @@ class FLOW_DOCUMENT_API FlowGraph
  private:
   std::unordered_map<QUuid, std::unique_ptr<FlowNode>, utils::QUuidHash>
       m_nodes;
-  std::unordered_map<QUuid, std::unique_ptr<FlowPinConnection>,
-                     utils::QUuidHash>
+  std::unordered_map<QUuid, std::unique_ptr<FlowConnection>, utils::QUuidHash>
       m_connections;
   std::set<FlowNodeFactories *> m_node_factories;
 };
