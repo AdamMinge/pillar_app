@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ------------------------#
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/utils/property_browser)
-set(include_root ${FLOW_SOURCE_DIR}/include/utils/property_browser)
+set(source_root ${EGNITE_SOURCE_DIR}/src/utils/property_browser)
+set(include_root ${EGNITE_SOURCE_DIR}/include/utils/property_browser)
 
 set(sources
     ${source_root}/button_property_browser.cpp
@@ -41,12 +41,12 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create utils shared lib ---------------------#
 # ----------------------------------------------------------------------- #
-flow_add_utils(property_browser SOURCES ${sources} ${includes} DEPENDS_PRIVATE
-               Qt6::Widgets)
+egnite_add_utils(property_browser SOURCES ${sources} ${includes}
+                 DEPENDS_PRIVATE Qt6::Widgets)
 
 target_include_directories(
   property_browser
-  PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include/>
+  PUBLIC $<BUILD_INTERFACE:${EGNITE_SOURCE_DIR}/include/>
   INTERFACE $<INSTALL_INTERFACE:include>
-  PRIVATE ${FLOW_SOURCE_DIR}/src/)
+  PRIVATE ${EGNITE_SOURCE_DIR}/src/)
 # ----------------------------------------------------------------------- #

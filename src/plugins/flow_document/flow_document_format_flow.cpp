@@ -32,13 +32,13 @@ bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const {
   return false;
 }
 
-std::unique_ptr<flow::Document> FlowDocumentFormatFlow::load(
+std::unique_ptr<egnite::Document> FlowDocumentFormatFlow::load(
     const QString &file_name, QString *error) {
   FlowDocumentReader document_reader;
   return document_reader.read(file_name, error);
 }
 
-bool FlowDocumentFormatFlow::save(const flow::Document &document,
+bool FlowDocumentFormatFlow::save(const egnite::Document &document,
                                   const QString &file_name, QString *error) {
   FlowDocumentWriter document_writer;
   return document_writer.write(dynamic_cast<const FlowDocument &>(document),

@@ -4,8 +4,8 @@
 /* ------------------------------------- Qt --------------------------------- */
 #include <QGraphicsItem>
 #include <QPointF>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/command/command.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/command/command.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -16,10 +16,10 @@ class Object;
 
 class FlowDocument;
 
-class FLOW_DOCUMENT_API MoveObject : public flow::Command {
+class FLOW_DOCUMENT_API MoveObject : public egnite::Command {
  public:
   explicit MoveObject(FlowDocument *document, QList<Object *> objects,
-                      const QPointF &move, flow::Command *parent = nullptr);
+                      const QPointF &move, egnite::Command *parent = nullptr);
   ~MoveObject() override;
 
   void redo() override;

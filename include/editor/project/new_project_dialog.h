@@ -9,7 +9,7 @@ namespace Ui {
 class NewProjectDialog;
 }
 
-namespace flow {
+namespace egnite {
 class Project;
 }
 
@@ -23,7 +23,7 @@ class NewProjectDialog : public QDialog {
   explicit NewProjectDialog(QWidget *parent = nullptr);
   ~NewProjectDialog() override;
 
-  [[nodiscard]] std::unique_ptr<flow::Project> create();
+  [[nodiscard]] std::unique_ptr<egnite::Project> create();
 
  protected:
   void changeEvent(QEvent *event) override;

@@ -39,7 +39,7 @@ void AboutDialog::retranslateUi() {
           "<head/>"
           "<body>"
           "<p align=\"center\"><span style=\" font-size:48pt; "
-          "font-weight:700;\">Flow</span></p>"
+          "font-weight:700;\">Egnite</span></p>"
           "<p align=\"center\"><span style=\" color:#555753;\">%1</span></p>"
           "<p align=\"center\"><span style=\" font-size:12pt;\">%2</span></p>"
           "<p align=\"center\"><span style=\" font-size:12pt;\">%3 </span><a "
@@ -50,11 +50,11 @@ void AboutDialog::retranslateUi() {
           "color:#555753;\">%7</span><br/></p>"
           "</body>"
           "</html>"}
-          .arg(tr("Version %1").arg(FLOW_VERSION_STR),
+          .arg(tr("Version %1").arg(EGNITE_VERSION_STR),
                tr("This Project is open source and <br/> contributions are "
                   "welcomed."),
                tr("Visit"), tr("https://github.com/AdamMinge/flow"),
-               tr("GitHub/AdamMinge/flow"),
+               tr("GitHub/AdamMinge/egnite"),
                tr("for more information or to report a bug <br> or to suggest "
                   "a new "
                   "feature."),

@@ -9,9 +9,9 @@
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/document/undo_dock.h>
-#include <flow/preferences_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/document/undo_dock.h>
+#include <egnite/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -19,22 +19,22 @@ namespace flow_document {
 /* -------------------------------- Preferences ----------------------------- */
 
 struct FlowEditor::Preferences {
-  flow::Preference<QSize> editor_size =
-      flow::Preference<QSize>(QString("flow_editor/size"));
-  flow::Preference<QByteArray> editor_state =
-      flow::Preference<QByteArray>(QString("flow_editor/state"));
+  egnite::Preference<QSize> editor_size =
+      egnite::Preference<QSize>(QString("flow_editor/size"));
+  egnite::Preference<QByteArray> editor_state =
+      egnite::Preference<QByteArray>(QString("flow_editor/state"));
 };
 
 /* -------------------------------- SceneEditor ----------------------------- */
 
 FlowEditor::FlowEditor(QObject *parent)
-    : flow::DocumentEditor(parent),
+    : egnite::DocumentEditor(parent),
       m_current_document(nullptr),
       m_main_window(new QMainWindow()),
       m_tools_bar(new FlowToolsBar(m_main_window)),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_nodes_dock(new FlowNodesDock(m_main_window)),
-      m_undo_dock(new flow::UndoDock(m_main_window)),
+      m_undo_dock(new egnite::UndoDock(m_main_window)),
       m_preferences(new Preferences) {
   initUi();
   initConnections();
@@ -42,7 +42,7 @@ FlowEditor::FlowEditor(QObject *parent)
 
 FlowEditor::~FlowEditor() = default;
 
-void FlowEditor::setCurrentDocument(flow::Document *document) {
+void FlowEditor::setCurrentDocument(egnite::Document *document) {
   if (m_current_document == document) return;
 
   auto flow_document = qobject_cast<FlowDocument *>(document);
@@ -59,7 +59,7 @@ void FlowEditor::setCurrentDocument(flow::Document *document) {
   }
 }
 
-void FlowEditor::addDocument(flow::Document *document) {
+void FlowEditor::addDocument(egnite::Document *document) {
   auto flow_document = dynamic_cast<FlowDocument *>(document);
   Q_ASSERT(flow_document);
 
@@ -75,7 +75,7 @@ void FlowEditor::addDocument(flow::Document *document) {
   m_scene_stack->addWidget(view);
 }
 
-void FlowEditor::removeDocument(flow::Document *document) {
+void FlowEditor::removeDocument(egnite::Document *document) {
   auto flow_document = dynamic_cast<FlowDocument *>(document);
   Q_ASSERT(flow_document);
   Q_ASSERT(m_view_for_document.contains(flow_document));
@@ -88,7 +88,7 @@ void FlowEditor::removeDocument(flow::Document *document) {
   view->deleteLater();
 }
 
-flow::Document *FlowEditor::getCurrentDocument() const {
+egnite::Document *FlowEditor::getCurrentDocument() const {
   return m_current_document;
 }
 

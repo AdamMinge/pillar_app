@@ -6,9 +6,9 @@ cmake_minimum_required(VERSION 3.11)
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
 set(source_root
-    ${FLOW_SOURCE_DIR}/src/plugins/flow_document/extensions/node/logic)
+    ${EGNITE_SOURCE_DIR}/src/plugins/flow_document/extensions/node/logic)
 set(include_root
-    ${FLOW_SOURCE_DIR}/include/plugins/flow_document/extensions/node/logic)
+    ${EGNITE_SOURCE_DIR}/include/plugins/flow_document/extensions/node/logic)
 
 set(sources
     ${source_root}/logic_node.cpp ${source_root}/logic_node_not.cpp
@@ -32,7 +32,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
-flow_add_plugins(
+egnite_add_plugins(
   logic_node
   SOURCES
   ${sources}

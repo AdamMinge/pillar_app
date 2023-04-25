@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 project(gtest NONE)
 
-set(prefix_dir @FLOW_BUILD_DEPS_DIR@/gtest)
+set(prefix_dir @EGNITE_BUILD_DEPS_DIR@/gtest)
 set(src_dir ${prefix_dir}/src/gtest)
 set(build_dir ${prefix_dir}/src/gtest-build)
 set(install_dir ${prefix_dir}/src/gtest-install)

@@ -1,16 +1,16 @@
 #ifndef GENERAL_SETTINGS_WIDGET_H
 #define GENERAL_SETTINGS_WIDGET_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/settings/settings_widget.h>
-#include <flow/settings/settings_widget_factory.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/settings/settings_widget.h>
+#include <egnite/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
 class GeneralSettingsWidget;
 }
 
-class GeneralSettingsWidget : public flow::SettingsWidget {
+class GeneralSettingsWidget : public egnite::SettingsWidget {
   Q_OBJECT
 
  public:
@@ -30,15 +30,15 @@ class GeneralSettingsWidget : public flow::SettingsWidget {
   QScopedPointer<Ui::GeneralSettingsWidget> m_ui;
 };
 
-class GeneralSettingsWidgetFactory : public flow::SettingsWidgetFactory {
+class GeneralSettingsWidgetFactory : public egnite::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::SettingsWidgetFactory)
+  Q_INTERFACES(egnite::SettingsWidgetFactory)
 
  public:
   explicit GeneralSettingsWidgetFactory(QObject *parent = nullptr);
   ~GeneralSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
+  [[nodiscard]] std::unique_ptr<egnite::SettingsWidget> create() const override;
 };
 
 #endif  // GENERAL_SETTINGS_WIDGET_H

@@ -5,9 +5,9 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/utils/widget)
-set(include_root ${FLOW_SOURCE_DIR}/include/utils/widget)
-set(uis_root ${FLOW_SOURCE_DIR}/uis/utils/widget)
+set(source_root ${EGNITE_SOURCE_DIR}/src/utils/widget)
+set(include_root ${EGNITE_SOURCE_DIR}/include/utils/widget)
+set(uis_root ${EGNITE_SOURCE_DIR}/uis/utils/widget)
 
 set(sources ${source_root}/name_and_path_filler.cpp
             ${source_root}/shortcut_selector.cpp)
@@ -31,7 +31,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create utils shared lib -------------------- #
 # ----------------------------------------------------------------------- #
-flow_add_utils(
+egnite_add_utils(
   widget
   SOURCES
   ${sources}
@@ -42,7 +42,7 @@ flow_add_utils(
 
 target_include_directories(
   widget
-  PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include/>
+  PUBLIC $<BUILD_INTERFACE:${EGNITE_SOURCE_DIR}/include/>
   INTERFACE $<INSTALL_INTERFACE:include>
-  PRIVATE ${FLOW_SOURCE_DIR}/src/)
+  PRIVATE ${EGNITE_SOURCE_DIR}/src/)
 # ----------------------------------------------------------------------- #

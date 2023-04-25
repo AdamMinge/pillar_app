@@ -1,17 +1,17 @@
 #ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_PLUGIN_H
 #define FLOW_DOCUMENT_FLOW_DOCUMENT_PLUGIN_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/plugin_interface.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_interface.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API FlowDocumentPlugin : public flow::PluginInterface {
+class FLOW_DOCUMENT_API FlowDocumentPlugin : public egnite::PluginInterface {
   Q_OBJECT
-  Q_INTERFACES(flow::PluginInterface)
+  Q_INTERFACES(egnite::PluginInterface)
   Q_PLUGIN_METADATA(IID "org.flow.PluginInterface" FILE "plugin.json")
 
  public:

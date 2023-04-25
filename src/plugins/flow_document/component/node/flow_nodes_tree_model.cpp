@@ -57,8 +57,8 @@ int FlowNodesTreeItem::findChild(FlowNodesTreeItem *child) const {
 
 FlowNodesTreeFactoriesItem::FlowNodesTreeFactoriesItem(NodeFactories *factories)
     : m_factories(factories) {
-  for (const auto &node_id : factories->getNodeIds())
-    addChild(new FlowNodesTreeFactoryItem(factories->getFactory(node_id)));
+  for (const auto &node_type : factories->getNodeTypes())
+    addChild(new FlowNodesTreeFactoryItem(factories->getFactory(node_type)));
 }
 
 QString FlowNodesTreeFactoriesItem::getName() const {
@@ -233,7 +233,7 @@ QByteArray FlowNodesTreeModel::createMimeData(
     auto node_factory =
         static_cast<FlowNodesTreeFactoryItem *>(index.internalPointer())
             ->getNodeFactory();
-    nodes << node_factory->getNodeId();
+    nodes << node_factory->getNodeType();
   }
 
   return nodes.join(';').toLocal8Bit();

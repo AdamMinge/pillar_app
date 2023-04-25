@@ -195,20 +195,26 @@ FlowStyle::FlowStyle() = default;
 
 FlowStyle::~FlowStyle() = default;
 
-void FlowStyle::setNodeStyle(const NodeStyle &style) { m_node_style = style; }
+void FlowStyle::setNodeStyle(const NodeStyle &style) {
+  m_node_style = style;
+  m_node_styles_viewers.clear();
+}
 
 const NodeStyle &FlowStyle::getNodeStyle() const { return m_node_style; }
 
 const FlowStyle::NodeStyleViewer &FlowStyle::getNodeStyleViewer(
     NodeStyle::States states) const {
-  if (!m_node_style_viewers.contains(states))
-    m_node_style_viewers.insert(
+  if (!m_node_styles_viewers.contains(states))
+    m_node_styles_viewers.insert(
         std::make_pair(states, NodeStyleViewer(m_node_style, states)));
 
-  return m_node_style_viewers.at(states);
+  return m_node_styles_viewers.at(states);
 }
 
-void FlowStyle::setPinStyle(const PinStyle &style) { m_pin_style = style; }
+void FlowStyle::setPinStyle(const PinStyle &style) {
+  m_pin_style = style;
+  m_pin_styles_viewers.clear();
+}
 
 const PinStyle &FlowStyle::getPinStyle() const { return m_pin_style; }
 

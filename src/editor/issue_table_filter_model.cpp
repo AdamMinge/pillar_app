@@ -37,11 +37,11 @@ bool IssueTableFilterModel::filterAcceptsRow(
     int sourceRow, const QModelIndex &sourceParent) const {
   auto index = sourceModel()->index(sourceRow, 0, sourceParent);
   auto issue =
-      index.data(IssueTableModel::Role::IssueRole).value<flow::Issue>();
+      index.data(IssueTableModel::Role::IssueRole).value<egnite::Issue>();
 
-  if ((issue.getSeverity() == flow::Issue::Severity::Warning &&
+  if ((issue.getSeverity() == egnite::Issue::Severity::Warning &&
        areWarningsVisible()) ||
-      (issue.getSeverity() == flow::Issue::Severity::Error &&
+      (issue.getSeverity() == egnite::Issue::Severity::Error &&
        areErrorsVisible()))
     return QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent);
 

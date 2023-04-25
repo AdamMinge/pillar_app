@@ -9,9 +9,9 @@
 #include "settings/shortcuts_settings_widget.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/plugin_manager.h>
-#include <flow/preferences_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_manager.h>
+#include <egnite/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */
@@ -44,10 +44,10 @@ static void messagesToConsole(QtMsgType type, const QMessageLogContext &context,
 
 /* ----------------------------- CommandLineParser -------------------------- */
 
-class FlowCommandLineParser : public CommandLineParser {
+class EgniteCommandLineParser : public CommandLineParser {
  public:
-  explicit FlowCommandLineParser();
-  ~FlowCommandLineParser() override;
+  explicit EgniteCommandLineParser();
+  ~EgniteCommandLineParser() override;
 
   [[nodiscard]] bool isWithoutSettings() const { return m_without_settings; };
   [[nodiscard]] QStringList getPluginsPaths() const { return m_plugins_paths; };
@@ -57,7 +57,7 @@ class FlowCommandLineParser : public CommandLineParser {
   QStringList m_plugins_paths;
 };
 
-FlowCommandLineParser::FlowCommandLineParser() : m_without_settings(false) {
+EgniteCommandLineParser::EgniteCommandLineParser() : m_without_settings(false) {
   registerOption(
       {"without-preferences"},
       QObject::tr("Execute application without loading/saving preferences"),
@@ -69,22 +69,22 @@ FlowCommandLineParser::FlowCommandLineParser() : m_without_settings(false) {
       QLatin1String("paths"));
 }
 
-FlowCommandLineParser::~FlowCommandLineParser() = default;
+EgniteCommandLineParser::~EgniteCommandLineParser() = default;
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
 static void registerDefaultFormats(QApplication &app) {
-  flow::PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
+  egnite::PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
 }
 
 static void registerDefaultSettings(QApplication &app) {
-  flow::PluginManager::getInstance().addObject(
+  egnite::PluginManager::getInstance().addObject(
       new GeneralSettingsWidgetFactory(&app));
-  flow::PluginManager::getInstance().addObject(
+  egnite::PluginManager::getInstance().addObject(
       new AppearanceSettingsWidgetFactory(&app));
-  flow::PluginManager::getInstance().addObject(
+  egnite::PluginManager::getInstance().addObject(
       new ShortcutsSettingsWidgetFactory(&app));
-  flow::PluginManager::getInstance().addObject(
+  egnite::PluginManager::getInstance().addObject(
       new PluginSettingsWidgetFactory(&app));
 }
 
@@ -96,26 +96,26 @@ static void registerDefaultPlugins(QApplication &app) {
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
 static void parseCommandLine(QApplication &app) {
-  FlowCommandLineParser parser;
+  EgniteCommandLineParser parser;
   parser.process(app);
 
   if (parser.isWithoutSettings())
-    flow::PreferencesManager::getInstance().setSettingsType(
-        flow::PreferencesSettings::Type::Temporary);
+    egnite::PreferencesManager::getInstance().setSettingsType(
+        egnite::PreferencesSettings::Type::Temporary);
 
   if (auto paths = app.libraryPaths() + parser.getPluginsPaths();
       !paths.isEmpty())
-    flow::PluginManager::getInstance().setDefaultPluginsPaths(paths);
+    egnite::PluginManager::getInstance().setDefaultPluginsPaths(paths);
 }
 
 /* ----------------------------------- main --------------------------------- */
 
 int main(int argc, char **argv) {
   QApplication app(argc, argv);
-  QApplication::setApplicationName(QStringLiteral("Flow-Editor"));
-  QApplication::setApplicationVersion(QLatin1String(FLOW_VERSION_STR));
-  QApplication::setApplicationDisplayName(QStringLiteral("Flow-Editor"));
-  QApplication::setOrganizationName(QStringLiteral("Flow"));
+  QApplication::setApplicationName(QStringLiteral("Egnite-Editor"));
+  QApplication::setApplicationVersion(QLatin1String(EGNITE_VERSION_STR));
+  QApplication::setApplicationDisplayName(QStringLiteral("Egnite-Editor"));
+  QApplication::setOrganizationName(QStringLiteral("Egnite"));
 
   qInstallMessageHandler(messagesToConsole);
 

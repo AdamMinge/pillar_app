@@ -3,21 +3,21 @@
 # ----------------------------------------------------------------------- #
 cmake_minimum_required(VERSION 3.11)
 project(
-  FLOW
+  EGNITE
   VERSION 0.1.0
   LANGUAGES CXX)
 # ----------------------------------------------------------------------- #
 # ------------------------ Include config and macros -------------------- #
 # ----------------------------------------------------------------------- #
-include(${FLOW_SOURCE_DIR}/cmake/config.cmake)
-include(${FLOW_SOURCE_DIR}/cmake/macros.cmake)
+include(${EGNITE_SOURCE_DIR}/cmake/config.cmake)
+include(${EGNITE_SOURCE_DIR}/cmake/macros.cmake)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Add subdirectories ----------------------- #
 # ----------------------------------------------------------------------- #
 add_subdirectory(deps)
 add_subdirectory(src)
 
-if(FLOW_BUILD_TEST)
+if(EGNITE_BUILD_TEST)
   add_subdirectory(tests)
 endif()
 
@@ -25,6 +25,6 @@ add_subdirectory(docs)
 # ----------------------------------------------------------------------- #
 # ------------------------------- Final steps --------------------------- #
 # ----------------------------------------------------------------------- #
-flow_export_modules()
-flow_static_analyzers()
+egnite_export_modules()
+egnite_static_analyzers()
 # ----------------------------------------------------------------------- #

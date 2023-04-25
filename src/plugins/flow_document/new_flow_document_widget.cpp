@@ -5,11 +5,11 @@
 #include "flow_document/flow_document_format.h"
 /* ------------------------------------- Qt --------------------------------- */
 #include <QMessageBox>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/format_helper.h>
-#include <flow/preferences_manager.h>
-#include <flow/project/project.h>
-#include <flow/project/project_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/format_helper.h>
+#include <egnite/preferences_manager.h>
+#include <egnite/project/project.h>
+#include <egnite/project/project_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_flow_document_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -23,14 +23,15 @@ struct NewFlowDocumentWidget::Preferences {};
 /* --------------------------- NewFlowDocumentWidget ------------------------ */
 
 NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
-    : flow::NewDocumentWidget(parent), m_ui(new Ui::NewFlowDocumentWidget()) {
+    : egnite::NewDocumentWidget(parent), m_ui(new Ui::NewFlowDocumentWidget()) {
   m_ui->setupUi(this);
 
   m_ui->m_name_and_path_filler->setPathValidations(
       utils::QtNameAndPathFiller::PathValidation::NotEmpty |
       utils::QtNameAndPathFiller::PathValidation::DirExists);
 
-  const auto project = flow::ProjectManager::getInstance().getCurrentProject();
+  const auto project =
+      egnite::ProjectManager::getInstance().getCurrentProject();
   const auto path = QFileInfo(project->getFileName()).absoluteDir().path();
   m_ui->m_name_and_path_filler->setPath(path);
 
@@ -43,15 +44,15 @@ NewFlowDocumentWidget::NewFlowDocumentWidget(QWidget *parent)
 
 NewFlowDocumentWidget::~NewFlowDocumentWidget() = default;
 
-std::unique_ptr<flow::Document> NewFlowDocumentWidget::createDocument() {
+std::unique_ptr<egnite::Document> NewFlowDocumentWidget::createDocument() {
   if (!isValid()) return nullptr;
 
   const auto name = m_ui->m_name_and_path_filler->getName();
   const auto path = m_ui->m_name_and_path_filler->getPath();
 
-  return flow::NewDocumentWidget::createDocument<FlowDocument,
-                                                 FlowDocumentFormat>(name,
-                                                                     path);
+  return egnite::NewDocumentWidget::createDocument<FlowDocument,
+                                                   FlowDocumentFormat>(name,
+                                                                       path);
 }
 
 void NewFlowDocumentWidget::changeEvent(QEvent *event) {
@@ -76,14 +77,14 @@ void NewFlowDocumentWidget::validate() {
 /* ------------------------ NewFlowDocumentWidgetFactory -------------------- */
 
 NewFlowDocumentWidgetFactory::NewFlowDocumentWidgetFactory(QObject *parent)
-    : flow::NewDocumentWidgetFactory(
+    : egnite::NewDocumentWidgetFactory(
           QIcon(":/plugins/flow_document/images/64x64/flow_document.png"),
           parent) {}
 
 NewFlowDocumentWidgetFactory::~NewFlowDocumentWidgetFactory() = default;
 
-std::unique_ptr<flow::NewDocumentWidget> NewFlowDocumentWidgetFactory::create()
-    const {
+std::unique_ptr<egnite::NewDocumentWidget>
+NewFlowDocumentWidgetFactory::create() const {
   return std::make_unique<NewFlowDocumentWidget>();
 }
 

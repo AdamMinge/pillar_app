@@ -3,8 +3,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 #include <QXmlStreamReader>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/project/project.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/pointer_cast/unique_ptr_cast.h>
 /* -------------------------------------------------------------------------- */
@@ -16,14 +16,14 @@ class ProjectReader::ProjectReaderImpl {
   explicit ProjectReaderImpl() = default;
   ~ProjectReaderImpl() = default;
 
-  std::unique_ptr<flow::Project> readProject(QIODevice &device);
+  std::unique_ptr<egnite::Project> readProject(QIODevice &device);
   bool isValid(QIODevice &device);
 
  private:
-  std::unique_ptr<flow::Project> readProject(QXmlStreamReader &writer);
+  std::unique_ptr<egnite::Project> readProject(QXmlStreamReader &writer);
 };
 
-std::unique_ptr<flow::Project> ProjectReader::ProjectReaderImpl::readProject(
+std::unique_ptr<egnite::Project> ProjectReader::ProjectReaderImpl::readProject(
     QIODevice &device) {
   QXmlStreamReader reader;
   reader.setDevice(&device);
@@ -35,9 +35,9 @@ std::unique_ptr<flow::Project> ProjectReader::ProjectReaderImpl::readProject(
   return readProject(reader);
 }
 
-std::unique_ptr<flow::Project> ProjectReader::ProjectReaderImpl::readProject(
+std::unique_ptr<egnite::Project> ProjectReader::ProjectReaderImpl::readProject(
     QXmlStreamReader &writer) {
-  return utils::cast_unique_ptr<flow::Project>(flow::Project::create());
+  return utils::cast_unique_ptr<egnite::Project>(egnite::Project::create());
 }
 
 bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device) {
@@ -58,16 +58,16 @@ ProjectReader::ProjectReader()
 
 ProjectReader::~ProjectReader() = default;
 
-std::unique_ptr<flow::Project> ProjectReader::read(QIODevice &device,
-                                                   QString *error) {
+std::unique_ptr<egnite::Project> ProjectReader::read(QIODevice &device,
+                                                     QString *error) {
   auto project = m_impl->readProject(device);
   if (!project && error) *error = QObject::tr("Failed to load project");
 
   return project;
 }
 
-std::unique_ptr<flow::Project> ProjectReader::read(const QString &file_name,
-                                                   QString *error) {
+std::unique_ptr<egnite::Project> ProjectReader::read(const QString &file_name,
+                                                     QString *error) {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
     if (error) *error = QObject::tr("Failed to open file = %1").arg(file_name);

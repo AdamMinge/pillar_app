@@ -17,6 +17,7 @@ FlowItem::FlowItem(FlowDocument *document, Object *object,
   setAcceptedMouseButtons(Qt::MouseButton{});
   setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemIsSelectable);
+  setPos(m_object->getPosition());
 
   connect(document, qOverload<const ChangeEvent &>(&FlowDocument::event), this,
           qOverload<const ChangeEvent &>(&FlowItem::onEvent));

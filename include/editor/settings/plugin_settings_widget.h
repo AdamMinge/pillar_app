@@ -3,9 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/settings/settings_widget.h>
-#include <flow/settings/settings_widget_factory.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/settings/settings_widget.h>
+#include <egnite/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
@@ -15,7 +15,7 @@ class PluginSettingsWidget;
 class PluginListModel;
 class PluginListDelegate;
 
-class PluginSettingsWidget : public flow::SettingsWidget {
+class PluginSettingsWidget : public egnite::SettingsWidget {
   Q_OBJECT
 
  public:
@@ -46,15 +46,15 @@ class PluginSettingsWidget : public flow::SettingsWidget {
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
-class PluginSettingsWidgetFactory : public flow::SettingsWidgetFactory {
+class PluginSettingsWidgetFactory : public egnite::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::SettingsWidgetFactory)
+  Q_INTERFACES(egnite::SettingsWidgetFactory)
 
  public:
   explicit PluginSettingsWidgetFactory(QObject *parent = nullptr);
   ~PluginSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
+  [[nodiscard]] std::unique_ptr<egnite::SettingsWidget> create() const override;
 };
 
 #endif  // PLUGIN_SETTINGS_WIDGET_H

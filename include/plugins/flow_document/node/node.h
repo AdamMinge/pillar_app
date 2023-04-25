@@ -14,13 +14,13 @@ class FLOW_DOCUMENT_API Node : public Object {
   explicit Node();
   ~Node() override;
 
-  [[nodiscard]] unsigned getPinsCounts(Pin::Type type) const;
+  [[nodiscard]] size_t getPinsCounts(Pin::Type type) const;
 
-  [[nodiscard]] const Pin &getPin(Pin::Type type, unsigned index) const;
-  [[nodiscard]] Pin &getPin(Pin::Type type, unsigned index);
+  [[nodiscard]] const Pin &getPin(Pin::Type type, size_t index) const;
+  [[nodiscard]] Pin &getPin(Pin::Type type, size_t index);
 
-  void insertPin(Pin::Type type, Pin pin, int index);
-  void removePin(Pin::Type type, int index);
+  void insertPin(Pin::Type type, Pin pin, size_t index);
+  void removePin(Pin::Type type, size_t index);
 
  protected:
   virtual void compute() = 0;

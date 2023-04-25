@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/plugins/flow_document/)
-set(include_root ${FLOW_SOURCE_DIR}/include/plugins/flow_document)
-set(uis_root ${FLOW_SOURCE_DIR}/uis/plugins/flow_document)
-set(resources_root ${FLOW_SOURCE_DIR}/resources/plugins/flow_document)
+set(source_root ${EGNITE_SOURCE_DIR}/src/plugins/flow_document/)
+set(include_root ${EGNITE_SOURCE_DIR}/include/plugins/flow_document)
+set(uis_root ${EGNITE_SOURCE_DIR}/uis/plugins/flow_document)
+set(resources_root ${EGNITE_SOURCE_DIR}/resources/plugins/flow_document)
 
 set(sources
     ${source_root}/flow_document.cpp
@@ -25,10 +25,11 @@ set(sources
     ${source_root}/command/add_remove_node.cpp
     ${source_root}/command/move_object.cpp
     ${source_root}/node/object.cpp
-    ${source_root}/node/connection.cpp
     ${source_root}/node/node.cpp
     ${source_root}/node/pin.cpp
+    ${source_root}/node/pin_connection.cpp
     ${source_root}/node/node_factory.cpp
+    ${source_root}/node/graph.cpp
     ${source_root}/component/node/flow_nodes_dock.cpp
     ${source_root}/component/node/flow_nodes_tree_delegate.cpp
     ${source_root}/component/node/flow_nodes_tree_model.cpp
@@ -63,10 +64,11 @@ set(includes
     ${include_root}/command/add_remove_node.h
     ${include_root}/command/move_object.h
     ${include_root}/node/object.h
-    ${include_root}/node/connection.h
     ${include_root}/node/node.h
     ${include_root}/node/pin.h
+    ${include_root}/node/pin_connection.h
     ${include_root}/node/node_factory.h
+    ${include_root}/node/graph.h
     ${include_root}/component/node/flow_nodes_dock.h
     ${include_root}/component/node/flow_nodes_tree_delegate.h
     ${include_root}/component/node/flow_nodes_tree_model.h
@@ -87,8 +89,7 @@ set(includes
 
 set(resources ${resources_root}/flow_document.qrc)
 
-set(uis ${uis_root}/new_flow_document_widget.ui
-        ${uis_root}/flow_converters_dock.ui ${uis_root}/flow_nodes_dock.ui)
+set(uis ${uis_root}/new_flow_document_widget.ui ${uis_root}/flow_nodes_dock.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #
@@ -104,7 +105,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
-flow_add_plugins(
+egnite_add_plugins(
   flow_document
   SOURCES
   ${sources}
@@ -113,15 +114,15 @@ flow_add_plugins(
   DEPENDS_PRIVATE
   Qt6::Core
   Qt6::Widgets
-  flow::flow)
+  egnite::egnite)
 
 target_include_directories(
   flow_document
-  PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include/plugins>
+  PUBLIC $<BUILD_INTERFACE:${EGNITE_SOURCE_DIR}/include/plugins>
   INTERFACE $<INSTALL_INTERFACE:include>
-  PRIVATE ${FLOW_SOURCE_DIR}/src/plugins)
+  PRIVATE ${EGNITE_SOURCE_DIR}/src/plugins)
 
-flow_add_translations(
+egnite_add_translations(
   flow_document
   QM_DIR
   ${resources_root}/translations

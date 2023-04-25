@@ -1,16 +1,16 @@
 #ifndef APPEARANCE_SETTINGS_WIDGET_H
 #define APPEARANCE_SETTINGS_WIDGET_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/settings/settings_widget.h>
-#include <flow/settings/settings_widget_factory.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/settings/settings_widget.h>
+#include <egnite/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
 class AppearanceSettingsWidget;
 }
 
-class AppearanceSettingsWidget : public flow::SettingsWidget {
+class AppearanceSettingsWidget : public egnite::SettingsWidget {
   Q_OBJECT
 
  public:
@@ -34,15 +34,15 @@ class AppearanceSettingsWidget : public flow::SettingsWidget {
   QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;
 };
 
-class AppearanceSettingsWidgetFactory : public flow::SettingsWidgetFactory {
+class AppearanceSettingsWidgetFactory : public egnite::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::SettingsWidgetFactory)
+  Q_INTERFACES(egnite::SettingsWidgetFactory)
 
  public:
   explicit AppearanceSettingsWidgetFactory(QObject *parent = nullptr);
   ~AppearanceSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::SettingsWidget> create() const override;
+  [[nodiscard]] std::unique_ptr<egnite::SettingsWidget> create() const override;
   [[nodiscard]] QString getParentObjectName() const override;
 };
 

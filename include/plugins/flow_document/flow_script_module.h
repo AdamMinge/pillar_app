@@ -1,17 +1,17 @@
 #ifndef FLOW_DOCUMENT_FLOW_SCRIPT_MODULE_H
 #define FLOW_DOCUMENT_FLOW_SCRIPT_MODULE_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/script_module.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/script_module.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-class LIB_FLOW_API FlowScriptModule : public flow::ScriptModule {
+class FLOW_DOCUMENT_API FlowScriptModule : public egnite::ScriptModule {
   Q_OBJECT
-  Q_INTERFACES(flow::ScriptModule)
+  Q_INTERFACES(egnite::ScriptModule)
 
  public:
   explicit FlowScriptModule(QObject *parent = nullptr);

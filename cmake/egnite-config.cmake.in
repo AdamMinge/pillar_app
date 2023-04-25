@@ -1,0 +1,61 @@
+# ----------------------------------------------------------------------- #
+# ------------------- Check that called with component ------------------ #
+# ----------------------------------------------------------------------- #
+if (NOT egnite_FIND_COMPONENTS)
+    message(FATAL_ERROR "find_package(egnite) called with no component")
+endif()
+# ----------------------------------------------------------------------- #
+# -------------- Set config_name dependent on libraries type ------------ #
+# ----------------------------------------------------------------------- #
+if(EGNITE_STATIC_LIBRARIES)
+    set(config_name "static")
+else()
+    set(config_name "shared")
+endif()
+# ----------------------------------------------------------------------- #
+# ---------------------- Update requested components -------------------- #
+# ----------------------------------------------------------------------- #
+set(FIND_egnite_ADDITIONAL_COMPONENTS "")
+
+foreach(component ${egnite_FIND_COMPONENTS})
+    list(APPEND FIND_egnite_ADDITIONAL_COMPONENTS ${FIND_egnite_${component}_DEPENDENCIES})
+endforeach()
+
+list(APPEND egnite_FIND_COMPONENTS ${FIND_egnite_ADDITIONAL_COMPONENTS})
+list(REMOVE_DUPLICATES egnite_FIND_COMPONENTS)
+# ----------------------------------------------------------------------- #
+# -------------------- Load targets and dependencies -------------------- #
+# ----------------------------------------------------------------------- #
+set(targets_config_file ${CMAKE_CURRENT_LIST_DIR}/egnite-${config_name}-targets.cmake)
+set(egnite_FOUND TRUE)
+
+if(EXISTS ${targets_config_file})
+    include(${targets_config_file})
+    include("${CMAKE_CURRENT_LIST_DIR}/egnite-config-dependencies.cmake")
+
+    if (egnite_FOUND)
+        foreach (component ${egnite_FIND_COMPONENTS})
+            if (TARGET egnite-${component})
+                set(egnite_${component}_FOUND TRUE)
+            else()
+                set(FIND_egnite_ERROR "Found egnite but requested component '${component}' is missing in the config defined in ${EGNITE_DIR}.")
+                set(egnite_${component}_FOUND FALSE)
+                set(egnite_FOUND FALSE)
+            endif()
+        endforeach()
+    endif()
+else()
+    set(FIND_egnite_ERROR "Requested egnite configuration (${config_name}) was not found")
+    set(egnite_FOUND FALSE)
+endif()
+# ----------------------------------------------------------------------- #
+# ------------=------------- Display all errors ------------------------- #
+# ----------------------------------------------------------------------- #
+if (NOT egnite_FOUND)
+    if(egnite_FIND_REQUIRED)
+        message(FATAL_ERROR "${FIND_egnite_ERROR}")
+    elseif(NOT egnite_FIND_QUIETLY)
+        message(STATUS "${FIND_egnite_ERROR}")
+    endif()
+endif()
+# ----------------------------------------------------------------------- #

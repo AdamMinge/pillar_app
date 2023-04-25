@@ -2,18 +2,18 @@
 #include "settings/shortcuts_table_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMultiMap>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/action_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/action_manager.h>
 /* -------------------------------------------------------------------------- */
 
 ShortcutsTableModel::ShortcutsTableModel(QObject *parent)
     : QAbstractTableModel(parent) {
-  connect(&flow::ActionManager::getInstance(),
-          &flow::ActionManager::registeredAction, this,
+  connect(&egnite::ActionManager::getInstance(),
+          &egnite::ActionManager::registeredAction, this,
           &ShortcutsTableModel::addedShortcut);
 
-  connect(&flow::ActionManager::getInstance(),
-          &flow::ActionManager::unregisteredAction, this,
+  connect(&egnite::ActionManager::getInstance(),
+          &egnite::ActionManager::unregisteredAction, this,
           &ShortcutsTableModel::removedShortcut);
 
   init();
@@ -25,7 +25,7 @@ bool ShortcutsTableModel::apply() {
   for (auto i = 0; i < m_actions.size(); ++i) {
     const auto &shortcut_data = m_actions[i];
     if (shortcut_data.action->shortcut() != shortcut_data.key_sequence) {
-      flow::ActionManager::getInstance().setCustomShortcut(
+      egnite::ActionManager::getInstance().setCustomShortcut(
           shortcut_data.action_id, shortcut_data.key_sequence);
 
       Q_EMIT dataChanged(index(i, 0), index(i, 1));
@@ -140,7 +140,7 @@ Qt::ItemFlags ShortcutsTableModel::flags(const QModelIndex &index) const {
 }
 
 void ShortcutsTableModel::init() {
-  const auto action_ids = flow::ActionManager::getInstance().getActionsId();
+  const auto action_ids = egnite::ActionManager::getInstance().getActionsId();
   for (const auto &action_id : action_ids) addedShortcut(action_id);
 }
 
@@ -152,7 +152,7 @@ void ShortcutsTableModel::addedShortcut(const QString &action_id) {
 
   if (shortcut_data_iter == m_actions.end()) {
     auto row = static_cast<int>(m_actions.size());
-    auto action = flow::ActionManager::getInstance().findAction(action_id);
+    auto action = egnite::ActionManager::getInstance().findAction(action_id);
     auto key_sequence = action->shortcut();
 
     beginInsertRows(QModelIndex{}, row, row);

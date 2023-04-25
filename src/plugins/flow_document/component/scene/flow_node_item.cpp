@@ -14,9 +14,7 @@ namespace flow_document {
 FlowNodeItem::FlowNodeItem(FlowDocument *document, Node *node)
     : FlowItem(document, node),
       m_node_painter(std::make_unique<FlowNodePainter>(*this)),
-      m_node_geometry(std::make_unique<FlowNodeGeometry>(*this)) {
-  setPos(getNode()->getPosition());
-}
+      m_node_geometry(std::make_unique<FlowNodeGeometry>(*this)) {}
 
 FlowNodeItem::~FlowNodeItem() = default;
 

@@ -2,9 +2,9 @@
 #include "settings/appearance_settings_widget.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/language_manager.h>
-#include <flow/style_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/language_manager.h>
+#include <egnite/style_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_appearance_settings_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -36,7 +36,7 @@ void AppearanceSettingsWidget::changeEvent(QEvent *event) {
 void AppearanceSettingsWidget::initUi() {
   m_ui->setupUi(this);
 
-  auto &language_manager = flow::LanguageManager::getInstance();
+  auto &language_manager = egnite::LanguageManager::getInstance();
   auto languages_str = QStringList{};
   for (auto &language : language_manager.getAvailableLanguages())
     languages_str << QLocale::languageToString(language.language());
@@ -45,7 +45,7 @@ void AppearanceSettingsWidget::initUi() {
   m_ui->m_language_combobox->setCurrentText(QLocale::languageToString(
       language_manager.getCurrentLanguage().language()));
 
-  auto &style_manager = flow::StyleManager::getInstance();
+  auto &style_manager = egnite::StyleManager::getInstance();
   auto styles = style_manager.getAvailableStyles();
 
   m_ui->m_theme_combobox->addItems(styles);
@@ -64,12 +64,12 @@ void AppearanceSettingsWidget::initConnections() {
 void AppearanceSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 
 void AppearanceSettingsWidget::languageChanged(const QString &language) {
-  auto &language_manager = flow::LanguageManager::getInstance();
+  auto &language_manager = egnite::LanguageManager::getInstance();
   language_manager.setLanguage(QLocale(language));
 }
 
 void AppearanceSettingsWidget::styleChanged(const QString &style) {
-  auto &style_manager = flow::StyleManager::getInstance();
+  auto &style_manager = egnite::StyleManager::getInstance();
   style_manager.setStyle(style);
 }
 
@@ -77,12 +77,12 @@ void AppearanceSettingsWidget::styleChanged(const QString &style) {
 
 AppearanceSettingsWidgetFactory::AppearanceSettingsWidgetFactory(
     QObject *parent)
-    : flow::SettingsWidgetFactory(parent) {}
+    : egnite::SettingsWidgetFactory(parent) {}
 
 AppearanceSettingsWidgetFactory::~AppearanceSettingsWidgetFactory() = default;
 
-std::unique_ptr<flow::SettingsWidget> AppearanceSettingsWidgetFactory::create()
-    const {
+std::unique_ptr<egnite::SettingsWidget>
+AppearanceSettingsWidgetFactory::create() const {
   return std::make_unique<AppearanceSettingsWidget>();
 }
 

@@ -7,7 +7,7 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace egnite {
 class Project;
 }
 
@@ -18,10 +18,10 @@ class ProjectReader {
   explicit ProjectReader();
   ~ProjectReader();
 
-  std::unique_ptr<flow::Project> read(QIODevice &device,
-                                      QString *error = nullptr);
-  std::unique_ptr<flow::Project> read(const QString &file_name,
-                                      QString *error = nullptr);
+  std::unique_ptr<egnite::Project> read(QIODevice &device,
+                                        QString *error = nullptr);
+  std::unique_ptr<egnite::Project> read(const QString &file_name,
+                                        QString *error = nullptr);
 
   bool isValid(const QString &file_name);
   bool isValid(QIODevice &device);

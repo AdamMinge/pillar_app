@@ -2,8 +2,8 @@
 #define FLOW_DOCUMENT_OBJECT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QObject>
 #include <QPointF>
+#include <QString>
 #include <QVariantMap>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"

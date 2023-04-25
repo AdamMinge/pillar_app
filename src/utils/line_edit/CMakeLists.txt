@@ -5,9 +5,9 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ------------------------#
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/utils/line_edit)
-set(include_root ${FLOW_SOURCE_DIR}/include/utils/line_edit)
-set(resources_root ${FLOW_SOURCE_DIR}/resources/utils/line_edit)
+set(source_root ${EGNITE_SOURCE_DIR}/src/utils/line_edit)
+set(include_root ${EGNITE_SOURCE_DIR}/include/utils/line_edit)
+set(resources_root ${EGNITE_SOURCE_DIR}/resources/utils/line_edit)
 
 set(sources
     ${source_root}/line_edit_with_history.cpp
@@ -33,7 +33,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create utils shared lib ---------------------#
 # ----------------------------------------------------------------------- #
-flow_add_utils(
+egnite_add_utils(
   line_edit
   SOURCES
   ${sources}
@@ -45,7 +45,7 @@ flow_add_utils(
 
 target_include_directories(
   line_edit
-  PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include/>
+  PUBLIC $<BUILD_INTERFACE:${EGNITE_SOURCE_DIR}/include/>
   INTERFACE $<INSTALL_INTERFACE:include>
-  PRIVATE ${FLOW_SOURCE_DIR}/src/)
+  PRIVATE ${EGNITE_SOURCE_DIR}/src/)
 # ----------------------------------------------------------------------- #

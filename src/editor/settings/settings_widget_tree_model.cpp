@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "settings/settings_widget_tree_model.h"
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/settings/settings_widget.h>
-#include <flow/settings/settings_widget_factory.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/settings/settings_widget.h>
+#include <egnite/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 SettingsWidgetTreeModel::SettingsWidgetTreeModel(QObject *parent)
@@ -14,7 +14,7 @@ SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
 
 bool SettingsWidgetTreeModel::apply() {
   const auto to_apply = m_to_apply;
-  std::set<flow::SettingsWidget *> applied_widget;
+  std::set<egnite::SettingsWidget *> applied_widget;
 
   std::for_each(to_apply.begin(), to_apply.end(),
                 [&applied_widget](auto settings_widget) {
@@ -33,7 +33,7 @@ bool SettingsWidgetTreeModel::apply() {
 bool SettingsWidgetTreeModel::applied() const { return m_to_apply.empty(); }
 
 void SettingsWidgetTreeModel::addedObject(
-    flow::SettingsWidgetFactory *factory) {
+    egnite::SettingsWidgetFactory *factory) {
   auto parent_index = QModelIndex{};
   if (auto parent_name = factory->getParentObjectName(); !parent_name.isEmpty())
     parent_index = getIndexBy(Role::ObjectNameRole, parent_name, QModelIndex{});
@@ -43,14 +43,14 @@ void SettingsWidgetTreeModel::addedObject(
 
   append(new utils::QtStackedWidgetTreeItem(settings_widget), parent_index);
 
-  connect(settings_widget, &flow::SettingsWidget::appliedChanged, this,
+  connect(settings_widget, &egnite::SettingsWidget::appliedChanged, this,
           [this, settings_widget](auto applied) {
             onAppliedChanged(settings_widget, applied);
           });
 }
 
 void SettingsWidgetTreeModel::removedObject(
-    flow::SettingsWidgetFactory *factory) {
+    egnite::SettingsWidgetFactory *factory) {
   if (m_settings_widget_by_factory.contains(factory)) {
     auto index =
         getIndexBy(Role::WidgetRole,
@@ -61,7 +61,7 @@ void SettingsWidgetTreeModel::removedObject(
 }
 
 void SettingsWidgetTreeModel::onAppliedChanged(
-    flow::SettingsWidget *settings_widget, bool applied) {
+    egnite::SettingsWidget *settings_widget, bool applied) {
   if (!applied)
     m_to_apply.insert(settings_widget);
   else if (m_to_apply.contains(settings_widget))

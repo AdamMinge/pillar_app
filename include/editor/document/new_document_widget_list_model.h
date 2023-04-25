@@ -5,20 +5,20 @@
 #include <QAbstractListModel>
 #include <QIcon>
 #include <QStringList>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/plugin_listener.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_listener.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/stacked_widget/stacked_widget_tree_model.h>
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace egnite {
 class NewDocumentWidgetFactory;
 class NewDocumentWidget;
-}  // namespace flow
+}  // namespace egnite
 
 class NewDocumentWidgetListModel
     : public utils::QtStackedWidgetTreeModel,
-      public flow::PluginListener<flow::NewDocumentWidgetFactory> {
+      public egnite::PluginListener<egnite::NewDocumentWidgetFactory> {
   Q_OBJECT
 
  public:
@@ -26,11 +26,11 @@ class NewDocumentWidgetListModel
   ~NewDocumentWidgetListModel() override;
 
  protected:
-  void addedObject(flow::NewDocumentWidgetFactory *factory) override;
-  void removedObject(flow::NewDocumentWidgetFactory *factory) override;
+  void addedObject(egnite::NewDocumentWidgetFactory *factory) override;
+  void removedObject(egnite::NewDocumentWidgetFactory *factory) override;
 
  private:
-  std::map<flow::NewDocumentWidgetFactory *, flow::NewDocumentWidget *>
+  std::map<egnite::NewDocumentWidgetFactory *, egnite::NewDocumentWidget *>
       m_new_document_widget_by_factory;
 };
 

@@ -30,7 +30,7 @@
     </message>
     <message>
         <location filename="../../../src/editor/about_dialog.cpp" line="57"/>
-        <source>GitHub/AdamMinge/flow</source>
+        <source>GitHub/AdamMinge/egnite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -96,32 +96,32 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="216"/>
+        <location filename="../../../src/editor/main_window.cpp" line="218"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="217"/>
+        <location filename="../../../src/editor/main_window.cpp" line="219"/>
         <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="218"/>
+        <location filename="../../../src/editor/main_window.cpp" line="220"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="219"/>
+        <location filename="../../../src/editor/main_window.cpp" line="221"/>
         <source>Settings Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="220"/>
+        <location filename="../../../src/editor/main_window.cpp" line="222"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="221"/>
+        <location filename="../../../src/editor/main_window.cpp" line="223"/>
         <source>Exit Application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -298,13 +298,13 @@
     <name>ProjectWindow</name>
     <message>
         <location filename="../../../src/editor/project/project_window.cpp" line="112"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="626"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="629"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/editor/project/project_window.cpp" line="114"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="628"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="631"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,197 +319,197 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="218"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="219"/>
         <source>[*]%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="309"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="604"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="648"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="310"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="607"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="651"/>
         <source>Open Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="319"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="320"/>
         <source>Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="359"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="615"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="362"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="618"/>
         <source>Open Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="600"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="603"/>
         <source>&amp;Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="601"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="612"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="604"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="615"/>
         <source>&amp;New...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="602"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="605"/>
         <source>New Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="603"/>
-        <location filename="../../../src/editor/project/project_window.cpp" line="614"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="606"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="617"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="605"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="608"/>
         <source>Open &amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="606"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="609"/>
         <source>Clear &amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="607"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="610"/>
         <source>Clear Recent Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="608"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="611"/>
         <source>&amp;Close Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="609"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="612"/>
         <source>Close Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="611"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="614"/>
         <source>&amp;Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="613"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="616"/>
         <source>New Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="616"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="619"/>
         <source>&amp;Close Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="617"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="620"/>
         <source>Close Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="618"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="621"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="619"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="622"/>
         <source>Save Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="620"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="623"/>
         <source>Save &amp;As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="621"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="624"/>
         <source>Save Document As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="622"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="625"/>
         <source>Save All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="623"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="626"/>
         <source>Save All Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="625"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="628"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="627"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="630"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="629"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="632"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="630"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="633"/>
         <source>&amp;Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="631"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="634"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="632"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="635"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="633"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="636"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="634"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="637"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="635"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="638"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="636"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="639"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="637"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="640"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="639"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="642"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="640"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="643"/>
         <source>Views and &amp;Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="642"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="645"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_window.cpp" line="649"/>
+        <location filename="../../../src/editor/project/project_window.cpp" line="652"/>
         <source>There is currently open project. Do you want to close it and open new one now?</source>
         <translation type="unfinished"></translation>
     </message>

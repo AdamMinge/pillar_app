@@ -20,9 +20,9 @@ class FLOW_DOCUMENT_API FlowDocumentFormatFlow : public FlowDocumentFormat {
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<flow::Document> load(const QString &file_name,
-                                       QString *error) override;
-  bool save(const flow::Document &document, const QString &file_name,
+  std::unique_ptr<egnite::Document> load(const QString &file_name,
+                                         QString *error) override;
+  bool save(const egnite::Document &document, const QString &file_name,
             QString *error) override;
 };
 

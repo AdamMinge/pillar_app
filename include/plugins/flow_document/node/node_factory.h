@@ -16,32 +16,32 @@ class FLOW_DOCUMENT_API NodeFactory : public QObject {
   Q_OBJECT
 
  public:
-  explicit NodeFactory(QString name, QString node_id);
+  explicit NodeFactory(QString name, QString node_type);
   ~NodeFactory() override;
 
   [[nodiscard]] virtual std::unique_ptr<Node> create() const = 0;
 
   [[nodiscard]] QString getName() const;
-  [[nodiscard]] QString getNodeId() const;
+  [[nodiscard]] QString getNodeType() const;
 
  private:
   QString m_name;
-  QString m_node_id;
+  QString m_node_type;
 };
 
 template <typename TYPE>
 requires std::derived_from<TYPE, Node>
 class BaseNodeFactory : public NodeFactory {
  public:
-  explicit BaseNodeFactory(QString name, QString node_id);
+  explicit BaseNodeFactory(QString name, QString node_type);
 
   [[nodiscard]] std::unique_ptr<Node> create() const override;
 };
 
 template <typename TYPE>
 requires std::derived_from<TYPE, Node> BaseNodeFactory<TYPE>::BaseNodeFactory(
-    QString name, QString node_id)
-    : NodeFactory(std::move(name), std::move(node_id)) {}
+    QString name, QString node_type)
+    : NodeFactory(std::move(name), std::move(node_type)) {}
 
 template <typename TYPE>
 requires std::derived_from<TYPE, Node> std::unique_ptr<Node>
@@ -56,18 +56,18 @@ class FLOW_DOCUMENT_API NodeFactories : public QObject {
   ~NodeFactories() override;
 
   void registerFactory(std::unique_ptr<NodeFactory> factory);
-  void unregisterFactory(const QString &node_id);
+  void unregisterFactory(const QString &node_type);
 
-  [[nodiscard]] QStringList getNodeIds() const;
-  [[nodiscard]] NodeFactory *getFactory(const QString &node_id) const;
+  [[nodiscard]] QStringList getNodeTypes() const;
+  [[nodiscard]] NodeFactory *getFactory(const QString &node_type) const;
 
   [[nodiscard]] virtual std::unique_ptr<Node> create(
-      const QString &node_id) const;
+      const QString &node_type) const;
 
   [[nodiscard]] QString getName() const;
 
  private:
-  std::map<QString, std::unique_ptr<NodeFactory>> m_factories;
+  std::unordered_map<QString, std::unique_ptr<NodeFactory>> m_factories;
   QString m_name;
 };
 

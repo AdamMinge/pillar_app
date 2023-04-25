@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/utils/color)
-set(include_root ${FLOW_SOURCE_DIR}/include/utils/color)
+set(source_root ${EGNITE_SOURCE_DIR}/src/utils/color)
+set(include_root ${EGNITE_SOURCE_DIR}/include/utils/color)
 
 set(sources ${source_root}/color.cpp)
 
@@ -24,12 +24,12 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create utils shared lib -------------------- #
 # ----------------------------------------------------------------------- #
-flow_add_utils(color SOURCES ${sources} ${includes} DEPENDS_PRIVATE
-               Qt6::Widgets)
+egnite_add_utils(color SOURCES ${sources} ${includes} DEPENDS_PRIVATE
+                 Qt6::Widgets)
 
 target_include_directories(
   color
-  PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include/>
+  PUBLIC $<BUILD_INTERFACE:${EGNITE_SOURCE_DIR}/include/>
   INTERFACE $<INSTALL_INTERFACE:include>
-  PRIVATE ${FLOW_SOURCE_DIR}/src/)
+  PRIVATE ${EGNITE_SOURCE_DIR}/src/)
 # ----------------------------------------------------------------------- #

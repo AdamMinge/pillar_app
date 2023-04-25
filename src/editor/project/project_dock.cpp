@@ -13,11 +13,11 @@
 #include <QProcess>
 #include <QTreeView>
 #include <QUrl>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/action_manager.h>
-#include <flow/document/document.h>
-#include <flow/document/document_manager.h>
-#include <flow/project/project.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/action_manager.h>
+#include <egnite/document/document.h>
+#include <egnite/document/document_manager.h>
+#include <egnite/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/file_system/file_system_proxy_model.h>
 #include <utils/view/unselectable_view.h>
@@ -40,7 +40,7 @@ ProjectDock::ProjectDock(QWidget *parent)
 
 ProjectDock::~ProjectDock() = default;
 
-void ProjectDock::setProject(flow::Project *project) {
+void ProjectDock::setProject(egnite::Project *project) {
   if (m_current_project == project) return;
 
   m_current_project = project;
@@ -60,7 +60,7 @@ void ProjectDock::setProject(flow::Project *project) {
   m_view->expand(root_index);
 }
 
-flow::Project *ProjectDock::getProject() const { return m_current_project; }
+egnite::Project *ProjectDock::getProject() const { return m_current_project; }
 
 void ProjectDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);
@@ -204,7 +204,7 @@ void ProjectDock::openContextMenu(const QPoint &position) {
   QMenu open_in_menu(tr("&Open In"));
 
   new_menu.addAction(tr("&Document"), []() {
-    flow::ActionManager::getInstance().findAction("new_document")->trigger();
+    egnite::ActionManager::getInstance().findAction("new_document")->trigger();
   });
   new_menu.addSeparator();
   new_menu.addAction(tr("&Directory"), [this, valid_directory_index]() {
@@ -246,5 +246,5 @@ void ProjectDock::openDocument(const QModelIndex &index) {
   auto file_info = QFileInfo(file_path);
 
   if (file_info.isFile())
-    flow::DocumentManager::getInstance().loadDocument(file_path);
+    egnite::DocumentManager::getInstance().loadDocument(file_path);
 }

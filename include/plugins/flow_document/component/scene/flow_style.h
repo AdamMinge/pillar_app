@@ -184,7 +184,7 @@ class FlowStyle {
       PinStyle::States states) const;
 
  private:
-  mutable std::map<NodeStyle::States, NodeStyleViewer> m_node_style_viewers;
+  mutable std::map<NodeStyle::States, NodeStyleViewer> m_node_styles_viewers;
   mutable std::map<PinStyle::States, PinStyleViewer> m_pin_styles_viewers;
 
   NodeStyle m_node_style;

@@ -3,8 +3,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 #include <QXmlStreamWriter>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/project/project.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/project/project.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectWriterImpl -------------------------- */
@@ -14,14 +14,14 @@ class ProjectWriter::ProjectWriterImpl {
   explicit ProjectWriterImpl() = default;
   ~ProjectWriterImpl() = default;
 
-  void writeProject(const flow::Project &project, QIODevice &device);
+  void writeProject(const egnite::Project &project, QIODevice &device);
 
  private:
-  void writeProject(QXmlStreamWriter &writer, const flow::Project &project);
+  void writeProject(QXmlStreamWriter &writer, const egnite::Project &project);
 };
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
-    const flow::Project &project, QIODevice &device) {
+    const egnite::Project &project, QIODevice &device) {
   QXmlStreamWriter writer(&device);
 
   writer.writeStartDocument();
@@ -30,7 +30,7 @@ void ProjectWriter::ProjectWriterImpl::writeProject(
 }
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
-    QXmlStreamWriter &writer, const flow::Project &project) {
+    QXmlStreamWriter &writer, const egnite::Project &project) {
   writer.writeStartElement(QStringLiteral("project"));
 
   writer.writeEndElement();
@@ -43,11 +43,11 @@ ProjectWriter::ProjectWriter()
 
 ProjectWriter::~ProjectWriter() = default;
 
-void ProjectWriter::write(const flow::Project &project, QIODevice &device) {
+void ProjectWriter::write(const egnite::Project &project, QIODevice &device) {
   m_impl->writeProject(project, device);
 }
 
-bool ProjectWriter::write(const flow::Project &project,
+bool ProjectWriter::write(const egnite::Project &project,
                           const QString &file_name, QString *error) {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

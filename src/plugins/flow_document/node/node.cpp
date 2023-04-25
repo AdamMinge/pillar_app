@@ -8,23 +8,23 @@ Node::Node() = default;
 
 Node::~Node() = default;
 
-unsigned Node::getPinsCounts(Pin::Type type) const {
+size_t Node::getPinsCounts(Pin::Type type) const {
   return getPins(type).size();
 }
 
-const Pin &Node::getPin(Pin::Type type, unsigned index) const {
+const Pin &Node::getPin(Pin::Type type, size_t index) const {
   auto &pins = getPins(type);
   Q_ASSERT(pins.size() > index);
   return pins[index];
 }
 
-Pin &Node::getPin(Pin::Type type, unsigned index) {
+Pin &Node::getPin(Pin::Type type, size_t index) {
   auto &pins = getPins(type);
   Q_ASSERT(pins.size() > index);
   return pins[index];
 }
 
-void Node::insertPin(Pin::Type type, Pin pin, int index) {
+void Node::insertPin(Pin::Type type, Pin pin, size_t index) {
   auto &pins = getPins(type);
   auto insert_iter = pins.insert(pins.begin() + index, std::move(pin));
 
@@ -32,7 +32,7 @@ void Node::insertPin(Pin::Type type, Pin pin, int index) {
     (*insert_iter).addListener([this](auto &&data) { this->compute(); });
 }
 
-void Node::removePin(Pin::Type type, int index) {
+void Node::removePin(Pin::Type type, size_t index) {
   auto &pins = getPins(type);
   pins.erase(pins.begin() + index);
 }

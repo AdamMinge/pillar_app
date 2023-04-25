@@ -1,9 +1,9 @@
 #ifndef FLOW_DOCUMENT_NEW_FLOW_DOCUMENT_WIDGET_H
 #define FLOW_DOCUMENT_NEW_FLOW_DOCUMENT_WIDGET_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/document/new_document_widget.h>
-#include <flow/document/new_document_widget_factory.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/document/new_document_widget.h>
+#include <egnite/document/new_document_widget_factory.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -14,7 +14,8 @@ class NewFlowDocumentWidget;
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API NewFlowDocumentWidget : public flow::NewDocumentWidget {
+class FLOW_DOCUMENT_API NewFlowDocumentWidget
+    : public egnite::NewDocumentWidget {
   Q_OBJECT
 
  private:
@@ -24,7 +25,7 @@ class FLOW_DOCUMENT_API NewFlowDocumentWidget : public flow::NewDocumentWidget {
   explicit NewFlowDocumentWidget(QWidget *parent = nullptr);
   ~NewFlowDocumentWidget() override;
 
-  [[nodiscard]] std::unique_ptr<flow::Document> createDocument() override;
+  [[nodiscard]] std::unique_ptr<egnite::Document> createDocument() override;
 
  protected:
   void changeEvent(QEvent *event) override;
@@ -41,15 +42,15 @@ class FLOW_DOCUMENT_API NewFlowDocumentWidget : public flow::NewDocumentWidget {
 };
 
 class FLOW_DOCUMENT_API NewFlowDocumentWidgetFactory
-    : public flow::NewDocumentWidgetFactory {
+    : public egnite::NewDocumentWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(flow::NewDocumentWidgetFactory)
+  Q_INTERFACES(egnite::NewDocumentWidgetFactory)
 
  public:
   explicit NewFlowDocumentWidgetFactory(QObject *parent = nullptr);
   ~NewFlowDocumentWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<flow::NewDocumentWidget> create()
+  [[nodiscard]] std::unique_ptr<egnite::NewDocumentWidget> create()
       const override;
 };
 

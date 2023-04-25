@@ -5,7 +5,7 @@
 namespace flow_document {
 
 FlowScriptModule::FlowScriptModule(QObject *parent)
-    : flow::ScriptModule(parent) {}
+    : egnite::ScriptModule(parent) {}
 
 FlowScriptModule::~FlowScriptModule() = default;
 

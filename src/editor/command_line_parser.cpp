@@ -16,7 +16,7 @@ CommandLineParser::~CommandLineParser() = default;
 
 void CommandLineParser::process(const QCoreApplication &app) {
   QCommandLineParser parser;
-  parser.setApplicationDescription("Flow Editor");
+  parser.setApplicationDescription("Egnite Editor");
   parser.addHelpOption();
   parser.addVersionOption();
 

@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 project(qt NONE)
 
-set(prefix_dir @FLOW_BUILD_DEPS_DIR@/qt)
+set(prefix_dir @EGNITE_BUILD_DEPS_DIR@/qt)
 set(install_dir ${prefix_dir}/src/qt-install)
 
 include(ExternalProject)

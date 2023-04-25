@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ----------------------- Setup Dependency Helper ----------------------- #
 # ----------------------------------------------------------------------- #
-macro(flow_setup_dependency directory dependency)
+macro(egnite_setup_dependency directory dependency)
   configure_file(external_${dependency}.txt.in ${dependency}/CMakeLists.txt
                  @ONLY)
 
@@ -17,7 +17,7 @@ macro(flow_setup_dependency directory dependency)
     message(FATAL_ERROR "CMake step for ${dependency} failed: ${result}")
   endif()
 
-  if(FLOW_BUILD_DEPS)
+  if(EGNITE_BUILD_DEPS)
     execute_process(
       COMMAND ${CMAKE_COMMAND} --build .
       RESULT_VARIABLE result
@@ -34,13 +34,13 @@ macro(flow_setup_dependency directory dependency)
       PARENT_SCOPE)
 endmacro()
 
-if(NOT FLOW_BUILD_DEPS_DIR)
-  set(FLOW_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
+if(NOT EGNITE_BUILD_DEPS_DIR)
+  set(EGNITE_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 # ----------------------------------------------------------------------- #
 # -------------------------- Setup Dependency --------------------------- #
 # ----------------------------------------------------------------------- #
-flow_setup_dependency(${FLOW_BUILD_DEPS_DIR} gtest)
-flow_setup_dependency(${FLOW_BUILD_DEPS_DIR} boost)
-flow_setup_dependency(${FLOW_BUILD_DEPS_DIR} qt)
+egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} gtest)
+egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} boost)
+egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} qt)
 # ----------------------------------------------------------------------- #

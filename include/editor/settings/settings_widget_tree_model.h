@@ -4,20 +4,20 @@
 /* ---------------------------------- Standard ------------------------------ */
 #include <map>
 #include <set>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/plugin_listener.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_listener.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/stacked_widget/stacked_widget_tree_model.h>
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace egnite {
 class SettingsWidgetFactory;
 class SettingsWidget;
-}  // namespace flow
+}  // namespace egnite
 
 class SettingsWidgetTreeModel
     : public utils::QtStackedWidgetTreeModel,
-      public flow::PluginListener<flow::SettingsWidgetFactory> {
+      public egnite::PluginListener<egnite::SettingsWidgetFactory> {
   Q_OBJECT
 
  public:
@@ -31,15 +31,15 @@ class SettingsWidgetTreeModel
   void appliedChanged(bool applied);
 
  protected:
-  void addedObject(flow::SettingsWidgetFactory *factory) override;
-  void removedObject(flow::SettingsWidgetFactory *factory) override;
+  void addedObject(egnite::SettingsWidgetFactory *factory) override;
+  void removedObject(egnite::SettingsWidgetFactory *factory) override;
 
  private Q_SLOTS:
-  void onAppliedChanged(flow::SettingsWidget *settings_widget, bool applied);
+  void onAppliedChanged(egnite::SettingsWidget *settings_widget, bool applied);
 
  private:
-  std::set<flow::SettingsWidget *> m_to_apply;
-  std::map<flow::SettingsWidgetFactory *, flow::SettingsWidget *>
+  std::set<egnite::SettingsWidget *> m_to_apply;
+  std::map<egnite::SettingsWidgetFactory *, egnite::SettingsWidget *>
       m_settings_widget_by_factory;
 };
 

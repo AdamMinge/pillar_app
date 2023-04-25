@@ -6,13 +6,13 @@
 #include <QPointer>
 #include <QStackedWidget>
 #include <QToolBar>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/document/document_editor.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/document/document_editor.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace egnite {
 class UndoDock;
 }
 
@@ -24,9 +24,9 @@ class FlowAbstractTool;
 class FlowToolsBar;
 class FlowView;
 
-class FLOW_DOCUMENT_API FlowEditor : public flow::DocumentEditor {
+class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   Q_OBJECT
-  Q_INTERFACES(flow::DocumentEditor)
+  Q_INTERFACES(egnite::DocumentEditor)
 
  private:
   struct Preferences;
@@ -35,12 +35,12 @@ class FLOW_DOCUMENT_API FlowEditor : public flow::DocumentEditor {
   explicit FlowEditor(QObject *parent = nullptr);
   ~FlowEditor() override;
 
-  void setCurrentDocument(flow::Document *document) override;
+  void setCurrentDocument(egnite::Document *document) override;
 
-  void addDocument(flow::Document *document) override;
-  void removeDocument(flow::Document *document) override;
+  void addDocument(egnite::Document *document) override;
+  void removeDocument(egnite::Document *document) override;
 
-  [[nodiscard]] flow::Document *getCurrentDocument() const override;
+  [[nodiscard]] egnite::Document *getCurrentDocument() const override;
   [[nodiscard]] QWidget *getEditorWidget() const override;
 
   void saveState() override;
@@ -70,7 +70,7 @@ class FLOW_DOCUMENT_API FlowEditor : public flow::DocumentEditor {
   FlowToolsBar *m_tools_bar;
   QStackedWidget *m_scene_stack;
   FlowNodesDock *m_nodes_dock;
-  flow::UndoDock *m_undo_dock;
+  egnite::UndoDock *m_undo_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;
 

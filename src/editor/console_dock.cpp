@@ -5,9 +5,9 @@
 #include <QMenu>
 #include <QShortcut>
 #include <QVBoxLayout>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/logging_manager.h>
-#include <flow/script_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/logging_manager.h>
+#include <egnite/script_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/color/color.h>
 #include <utils/dpi/dpi.h>
@@ -83,7 +83,7 @@ void ConsoleDock::executeScript() {
   if (script.isEmpty()) return;
 
   onScriptReport(script);
-  const auto result = flow::ScriptManager::getInstance().evaluate(script);
+  const auto result = egnite::ScriptManager::getInstance().evaluate(script);
   if (!result.isError() && !result.isUndefined())
     onScriptResultReport(result.toString());
 
@@ -130,12 +130,12 @@ void ConsoleDock::initConnections() {
   connect(m_clear_button, &QPushButton::pressed, m_plain_text_edit,
           &QPlainTextEdit::clear);
 
-  auto &logging_manager = flow::LoggingManager::getInstance();
-  connect(&logging_manager, &flow::LoggingManager::onInfoLog, this,
+  auto &logging_manager = egnite::LoggingManager::getInstance();
+  connect(&logging_manager, &egnite::LoggingManager::onInfoLog, this,
           &ConsoleDock::onInfoLog);
-  connect(&logging_manager, &flow::LoggingManager::onWarningLog, this,
+  connect(&logging_manager, &egnite::LoggingManager::onWarningLog, this,
           &ConsoleDock::onWarningLog);
-  connect(&logging_manager, &flow::LoggingManager::onErrorLog, this,
+  connect(&logging_manager, &egnite::LoggingManager::onErrorLog, this,
           &ConsoleDock::onErrorLog);
 }
 

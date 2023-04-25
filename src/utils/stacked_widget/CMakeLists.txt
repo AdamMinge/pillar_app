@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ------------------------#
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/utils/stacked_widget)
-set(include_root ${FLOW_SOURCE_DIR}/include/utils/stacked_widget)
-set(uis_root ${FLOW_SOURCE_DIR}/uis/utils/stacked_widget)
-set(resources_root ${FLOW_SOURCE_DIR}/resources/utils/stacked_widget)
+set(source_root ${EGNITE_SOURCE_DIR}/src/utils/stacked_widget)
+set(include_root ${EGNITE_SOURCE_DIR}/include/utils/stacked_widget)
+set(uis_root ${EGNITE_SOURCE_DIR}/uis/utils/stacked_widget)
+set(resources_root ${EGNITE_SOURCE_DIR}/resources/utils/stacked_widget)
 
 set(sources
     ${source_root}/stacked_widget_tree_model.cpp
@@ -38,7 +38,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create utils shared lib ---------------------#
 # ----------------------------------------------------------------------- #
-flow_add_utils(
+egnite_add_utils(
   stacked_widget
   SOURCES
   ${sources}
@@ -50,7 +50,7 @@ flow_add_utils(
 
 target_include_directories(
   stacked_widget
-  PUBLIC $<BUILD_INTERFACE:${FLOW_SOURCE_DIR}/include/>
+  PUBLIC $<BUILD_INTERFACE:${EGNITE_SOURCE_DIR}/include/>
   INTERFACE $<INSTALL_INTERFACE:include>
-  PRIVATE ${FLOW_SOURCE_DIR}/src/)
+  PRIVATE ${EGNITE_SOURCE_DIR}/src/)
 # ----------------------------------------------------------------------- #

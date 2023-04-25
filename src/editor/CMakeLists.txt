@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${FLOW_SOURCE_DIR}/src/editor)
-set(include_root ${FLOW_SOURCE_DIR}/include/editor)
-set(uis_root ${FLOW_SOURCE_DIR}/uis/editor)
-set(resources_root ${FLOW_SOURCE_DIR}/resources/editor)
+set(source_root ${EGNITE_SOURCE_DIR}/src/editor)
+set(include_root ${EGNITE_SOURCE_DIR}/include/editor)
+set(uis_root ${EGNITE_SOURCE_DIR}/uis/editor)
+set(resources_root ${EGNITE_SOURCE_DIR}/resources/editor)
 
 set(sources
     ${source_root}/main.cpp
@@ -107,7 +107,7 @@ find_package(Boost 1.78 REQUIRED)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Create app editor ------------------------ #
 # ----------------------------------------------------------------------- #
-flow_add_application(
+egnite_add_application(
   editor
   SOURCES
   ${sources}
@@ -117,10 +117,11 @@ flow_add_application(
   DEPENDS
   Qt6::Widgets
   Qt6::Qml
-  flow::flow
+  egnite::egnite
   utils::action
   utils::color
   utils::pointer_cast
+  utils::container
   utils::dialog
   utils::dpi
   utils::file_system
@@ -136,7 +137,7 @@ target_include_directories(
   INTERFACE $<INSTALL_INTERFACE:include>
   PRIVATE ${source_root})
 
-flow_add_translations(
+egnite_add_translations(
   editor
   QM_DIR
   ${resources_root}/translations

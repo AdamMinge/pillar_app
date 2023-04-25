@@ -4,8 +4,8 @@
 #include "flow_document/flow_document.h"
 #include "flow_document/node/node.h"
 #include "flow_document/node/node_factory.h"
-/* ------------------------------------ Flow -------------------------------- */
-#include <flow/plugin_manager.h>
+/* ----------------------------------- Egnite ------------------------------- */
+#include <egnite/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -13,7 +13,7 @@ namespace flow_document {
 namespace {
 NodeFactory *getNodeFactory(const QString &node_to_create_id) {
   auto node_factories_list =
-      flow::PluginManager::getInstance().getObjects<NodeFactories>();
+      egnite::PluginManager::getInstance().getObjects<NodeFactories>();
 
   for (auto node_factories : node_factories_list)
     if (auto factory = node_factories->getFactory(node_to_create_id); factory)
@@ -27,8 +27,8 @@ NodeFactory *getNodeFactory(const QString &node_to_create_id) {
 
 AddRemoveNodeCommand::AddRemoveNodeCommand(QString name, FlowDocument *document,
                                            Node *node_to_remove,
-                                           flow::Command *parent)
-    : flow::Command(std::move(name), parent),
+                                           egnite::Command *parent)
+    : egnite::Command(std::move(name), parent),
       m_document(document),
       m_node_to_remove(node_to_remove),
       m_node_to_add(nullptr) {}
@@ -36,8 +36,8 @@ AddRemoveNodeCommand::AddRemoveNodeCommand(QString name, FlowDocument *document,
 AddRemoveNodeCommand::AddRemoveNodeCommand(QString name, FlowDocument *document,
                                            const QString &node_to_create_id,
                                            const QPointF &pos,
-                                           flow::Command *parent)
-    : flow::Command(std::move(name), parent),
+                                           egnite::Command *parent)
+    : egnite::Command(std::move(name), parent),
       m_document(document),
       m_node_to_remove(nullptr) {
   m_node_to_add = getNodeFactory(node_to_create_id)->create().release();
@@ -48,13 +48,13 @@ AddRemoveNodeCommand::~AddRemoveNodeCommand() { delete m_node_to_add; }
 
 void AddRemoveNodeCommand::addNode() {
   Q_ASSERT(m_node_to_add);
-  m_document->addNode(m_node_to_add);
+  // m_document->addNode(m_node_to_add);
   std::swap(m_node_to_add, m_node_to_remove);
 }
 
 void AddRemoveNodeCommand::removeNode() {
   Q_ASSERT(m_node_to_remove);
-  m_document->removeNode(m_node_to_remove);
+  // m_document->removeNode(m_node_to_remove);
   std::swap(m_node_to_add, m_node_to_remove);
 }
 

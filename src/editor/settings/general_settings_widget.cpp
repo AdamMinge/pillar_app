@@ -63,11 +63,11 @@ void GeneralSettingsWidget::retranslateUi() {
 /* ------------------------ GeneralSettingsWidgetFactory -------------------- */
 
 GeneralSettingsWidgetFactory::GeneralSettingsWidgetFactory(QObject *parent)
-    : flow::SettingsWidgetFactory(parent) {}
+    : egnite::SettingsWidgetFactory(parent) {}
 
 GeneralSettingsWidgetFactory::~GeneralSettingsWidgetFactory() = default;
 
-std::unique_ptr<flow::SettingsWidget> GeneralSettingsWidgetFactory::create()
+std::unique_ptr<egnite::SettingsWidget> GeneralSettingsWidgetFactory::create()
     const {
   return std::make_unique<GeneralSettingsWidget>();
 }

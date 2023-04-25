@@ -2,14 +2,14 @@
 #include "project/recent_project_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/preferences_manager.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 RecentProjectListModel::RecentProjectListModel(QObject *parent)
     : QAbstractListModel(parent) {
-  connect(std::addressof(flow::PreferencesManager::getInstance()),
-          &flow::PreferencesManager::recentProjectFilesChanged, this,
+  connect(std::addressof(egnite::PreferencesManager::getInstance()),
+          &egnite::PreferencesManager::recentProjectFilesChanged, this,
           &RecentProjectListModel::recentProjectFilesChanged);
 
   recentProjectFilesChanged();
@@ -48,7 +48,8 @@ int RecentProjectListModel::rowCount(const QModelIndex &parent) const {
 
 void RecentProjectListModel::recentProjectFilesChanged() {
   beginResetModel();
-  m_projects = flow::PreferencesManager::getInstance().getRecentProjectFiles();
+  m_projects =
+      egnite::PreferencesManager::getInstance().getRecentProjectFiles();
   endResetModel();
 }
 

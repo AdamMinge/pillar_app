@@ -3,8 +3,8 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPointF>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/command/command.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/command/command.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -16,15 +16,15 @@ class NodeFactory;
 
 class FlowDocument;
 
-class FLOW_DOCUMENT_API AddRemoveNodeCommand : public flow::Command {
+class FLOW_DOCUMENT_API AddRemoveNodeCommand : public egnite::Command {
  public:
   explicit AddRemoveNodeCommand(QString name, FlowDocument *document,
                                 Node *node_to_remove,
-                                flow::Command *parent = nullptr);
+                                egnite::Command *parent = nullptr);
   explicit AddRemoveNodeCommand(QString name, FlowDocument *document,
                                 const QString &node_to_create_id,
                                 const QPointF &pos,
-                                flow::Command *parent = nullptr);
+                                egnite::Command *parent = nullptr);
   ~AddRemoveNodeCommand() override;
 
  protected:
@@ -41,7 +41,7 @@ class AddNodeCommand : public AddRemoveNodeCommand {
  public:
   explicit AddNodeCommand(FlowDocument *document,
                           const QString &node_to_create_id, const QPointF &pos,
-                          flow::Command *parent = nullptr);
+                          egnite::Command *parent = nullptr);
   ~AddNodeCommand() override;
 
   void redo() override;
@@ -51,7 +51,7 @@ class AddNodeCommand : public AddRemoveNodeCommand {
 class RemoveNodeCommand : public AddRemoveNodeCommand {
  public:
   explicit RemoveNodeCommand(FlowDocument *document, Node *node_to_remove,
-                             flow::Command *parent = nullptr);
+                             egnite::Command *parent = nullptr);
   ~RemoveNodeCommand() override;
 
   void redo() override;

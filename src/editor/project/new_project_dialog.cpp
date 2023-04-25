@@ -6,10 +6,10 @@
 #include <QDir>
 #include <QEvent>
 #include <QMessageBox>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/format_helper.h>
-#include <flow/preferences_manager.h>
-#include <flow/project/project.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/format_helper.h>
+#include <egnite/preferences_manager.h>
+#include <egnite/project/project.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "project/ui_new_project_dialog.h"
 /* -------------------------------------------------------------------------- */
@@ -17,8 +17,8 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NewProjectDialog::Preferences {
-  flow::Preference<QByteArray> new_project_dialog_geometry =
-      flow::Preference<QByteArray>("new_project_dialog/geometry");
+  egnite::Preference<QByteArray> new_project_dialog_geometry =
+      egnite::Preference<QByteArray>("new_project_dialog/geometry");
 };
 
 /* ----------------------------- NewProjectDialog -------------------------- */
@@ -36,18 +36,18 @@ NewProjectDialog::NewProjectDialog(QWidget *parent)
 
 NewProjectDialog::~NewProjectDialog() { writeSettings(); }
 
-std::unique_ptr<flow::Project> NewProjectDialog::create() {
+std::unique_ptr<egnite::Project> NewProjectDialog::create() {
   if (exec() != QDialog::Accepted) return nullptr;
 
-  auto format_helper =
-      flow::FormatHelper<ProjectFormatPro>{flow::FileFormat::Capability::Write};
+  auto format_helper = egnite::FormatHelper<ProjectFormatPro>{
+      egnite::FileFormat::Capability::Write};
   auto format = format_helper.getFormats().isEmpty()
                     ? nullptr
                     : format_helper.getFormats().front();
 
   auto error = tr("Wrong project format");
   if (format) {
-    auto project = flow::Project::create();
+    auto project = egnite::Project::create();
     project->setWriterFormat(format);
 
     const auto name = m_ui->m_name_and_path_filler->getName();

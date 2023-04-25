@@ -3,8 +3,8 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
-/* ----------------------------------- Local -------------------------------- */
-#include <flow/plugin_listener.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_listener.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -69,7 +69,7 @@ class FLOW_DOCUMENT_API FlowNodesTreeFactoryItem : public FlowNodesTreeItem {
 
 class FLOW_DOCUMENT_API FlowNodesTreeModel
     : public QAbstractItemModel,
-      public flow::PluginListener<NodeFactories> {
+      public egnite::PluginListener<NodeFactories> {
   Q_OBJECT
 
  public:

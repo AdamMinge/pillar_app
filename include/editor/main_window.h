@@ -11,9 +11,9 @@ namespace Ui {
 class MainWindow;
 }
 
-namespace flow {
+namespace egnite {
 class Project;
-}  // namespace flow
+}  // namespace egnite
 
 class ProjectWindow;
 class NoProjectWindow;
@@ -56,7 +56,7 @@ class MainWindow final : public QMainWindow {
   void openSettings();
   void openAbout();
 
-  void currentProjectChanged(flow::Project *project);
+  void currentProjectChanged(egnite::Project *project);
 
   void updateWindowTitle();
 

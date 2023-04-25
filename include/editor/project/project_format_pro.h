@@ -1,13 +1,13 @@
 #ifndef PROJECT_FORMAT_PRO_H
 #define PROJECT_FORMAT_PRO_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/project/project_format.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/project/project_format.h>
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormatPro : public flow::ProjectFormat {
+class ProjectFormatPro : public egnite::ProjectFormat {
   Q_OBJECT
-  Q_INTERFACES(flow::ProjectFormat)
+  Q_INTERFACES(egnite::ProjectFormat)
 
  public:
   explicit ProjectFormatPro(QObject *parent = nullptr);
@@ -17,9 +17,9 @@ class ProjectFormatPro : public flow::ProjectFormat {
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<flow::Project> load(const QString &file_name,
-                                      QString *error) override;
-  bool save(const flow::Project &project, const QString &file_name,
+  std::unique_ptr<egnite::Project> load(const QString &file_name,
+                                        QString *error) override;
+  bool save(const egnite::Project &project, const QString &file_name,
             QString *error) override;
 };
 

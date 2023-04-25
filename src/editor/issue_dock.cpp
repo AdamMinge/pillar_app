@@ -71,7 +71,7 @@ void IssueDock::retranslateUi() { m_ui->retranslateUi(this); }
 void IssueDock::issueActivate(const QModelIndex &index) {
   const auto issue =
       m_issue_filter_model->data(index, IssueTableModel::Role::IssueRole)
-          .value<flow::Issue>();
+          .value<egnite::Issue>();
   if (auto callback = issue.getCallback(); callback) callback();
 }
 

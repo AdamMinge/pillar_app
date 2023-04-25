@@ -1,40 +1,41 @@
 /* -------------------------------------------------------------------------- */
-#ifndef FLOW_CONFIG_H
-#define FLOW_CONFIG_H
+#ifndef EGNITE_CONFIG_H
+#define EGNITE_CONFIG_H
 /* -------------------------------------------------------------------------- */
-/* ---------------------------- Define FLOW version ------------------------- */
+/* ---------------------------- Define EGNITE version -------------------------
+ */
 /* -------------------------------------------------------------------------- */
-#define FLOW_VERSION_MAJOR @FLOW_VERSION_MAJOR @
-#define FLOW_VERSION_MINOR @FLOW_VERSION_MINOR @
-#define FLOW_VERSION_PATCH @FLOW_VERSION_PATCH @
-#define FLOW_VERSION \
-  @FLOW_VERSION_MAJOR FLOW_VERSION_MINOR FLOW_VERSION_PATCH @
-#define FLOW_VERSION_STR \
+#define EGNITE_VERSION_MAJOR @EGNITE_VERSION_MAJOR @
+#define EGNITE_VERSION_MINOR @EGNITE_VERSION_MINOR @
+#define EGNITE_VERSION_PATCH @EGNITE_VERSION_PATCH @
+#define EGNITE_VERSION \
+  @EGNITE_VERSION_MAJOR EGNITE_VERSION_MINOR EGNITE_VERSION_PATCH @
+#define EGNITE_VERSION_STR \
   "0.1.0"
 /* -------------------------------------------------------------------------- */
 /* ----------------------- Identify the operating system -------------------- */
 /* -------------------------------------------------------------------------- */
 #if defined(_WIN32)
-#define FLOW_OS_WINDOWS
+#define EGNITE_OS_WINDOWS
 #elif defined(__linux__)
-#define FLOW_OS_LINUX
+#define EGNITE_OS_LINUX
 #else
-#error This operating system is not supported by FLOW library
+#error This operating system is not supported by EGNITE library
 #endif
 /* -------------------------------------------------------------------------- */
 /* ------------------------ Define a portable debug macro ------------------- */
 /* -------------------------------------------------------------------------- */
 #if !defined(NDEBUG)
-#define FLOW_DEBUG
+#define EGNITE_DEBUG
 #endif
 /* -------------------------------------------------------------------------- */
 /* -------------------- Define helpers to set items as deprecated ----------- */
 /* -------------------------------------------------------------------------- */
-#if !defined(FLOW_DEPRECATED_WARNINGS)
-#define FLOW_DEPRECATED [[deprecated]]
+#if !defined(EGNITE_DEPRECATED_WARNINGS)
+#define EGNITE_DEPRECATED [[deprecated]]
 #else
-#define FLOW_DEPRECATED
+#define EGNITE_DEPRECATED
 #endif
 /* -------------------------------------------------------------------------- */
-#endif  // FLOW_CONFIG_H
+#endif  // EGNITE_CONFIG_H
 /* -------------------------------------------------------------------------- */

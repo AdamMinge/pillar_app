@@ -3,28 +3,28 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPointer>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/document/document.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/document/document.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-class Node;
 class ChangeEvent;
+class Graph;
 
-class FLOW_DOCUMENT_API FlowDocument : public flow::Document {
+class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   Q_OBJECT
 
  public:
-  static std::unique_ptr<flow::Document> create();
+  static std::unique_ptr<egnite::Document> create();
 
  public:
   ~FlowDocument() override;
 
-  void addNode(Node *node);
-  void removeNode(Node *node);
+  [[nodiscard]] const Graph *getGraph() const;
+  [[nodiscard]] Graph *getGraph();
 
  Q_SIGNALS:
   void event(const ChangeEvent &event);
@@ -33,7 +33,7 @@ class FLOW_DOCUMENT_API FlowDocument : public flow::Document {
   explicit FlowDocument(QObject *parent = nullptr);
 
  private:
-  QList<Node *> m_nodes;
+  Graph *m_graph;
 };
 
 }  // namespace flow_document

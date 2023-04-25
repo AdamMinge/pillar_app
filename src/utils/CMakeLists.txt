@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.11)
 # --------------------------- Add subdirectories ------------------------ #
 # ----------------------------------------------------------------------- #
 add_subdirectory(pointer_cast)
+add_subdirectory(container)
 add_subdirectory(action)
 add_subdirectory(color)
 add_subdirectory(dialog)

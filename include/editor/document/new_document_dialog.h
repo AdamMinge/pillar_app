@@ -5,9 +5,9 @@
 #include <QDialog>
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace egnite {
 class Document;
-}  // namespace flow
+}  // namespace egnite
 
 namespace Ui {
 class NewDocumentDialog;
@@ -26,7 +26,7 @@ class NewDocumentDialog : public QDialog {
   explicit NewDocumentDialog(QWidget *parent = nullptr);
   ~NewDocumentDialog() override;
 
-  [[nodiscard]] std::unique_ptr<flow::Document> create();
+  [[nodiscard]] std::unique_ptr<egnite::Document> create();
 
  protected:
   void changeEvent(QEvent *event) override;

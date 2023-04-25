@@ -1,17 +1,17 @@
 #ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_H
 #define FLOW_DOCUMENT_FLOW_DOCUMENT_FORMAT_H
 
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/document/document_format.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/document/document_format.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API FlowDocumentFormat : public flow::DocumentFormat {
+class FLOW_DOCUMENT_API FlowDocumentFormat : public egnite::DocumentFormat {
   Q_OBJECT
-  Q_INTERFACES(flow::DocumentFormat)
+  Q_INTERFACES(egnite::DocumentFormat)
 
  public:
   explicit FlowDocumentFormat(QObject *parent = nullptr);

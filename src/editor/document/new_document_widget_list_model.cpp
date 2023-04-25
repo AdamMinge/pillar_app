@@ -2,9 +2,9 @@
 #include "document/new_document_widget_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
-/* ----------------------------------- Flow --------------------------------- */
-#include <flow/document/new_document_widget.h>
-#include <flow/document/new_document_widget_factory.h>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/document/new_document_widget.h>
+#include <egnite/document/new_document_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 NewDocumentWidgetListModel::NewDocumentWidgetListModel(QObject *parent)
@@ -15,7 +15,7 @@ NewDocumentWidgetListModel::NewDocumentWidgetListModel(QObject *parent)
 NewDocumentWidgetListModel::~NewDocumentWidgetListModel() = default;
 
 void NewDocumentWidgetListModel::addedObject(
-    flow::NewDocumentWidgetFactory *factory) {
+    egnite::NewDocumentWidgetFactory *factory) {
   auto settings_widget = factory->create().release();
   m_new_document_widget_by_factory[factory] = settings_widget;
 
@@ -25,7 +25,7 @@ void NewDocumentWidgetListModel::addedObject(
 }
 
 void NewDocumentWidgetListModel::removedObject(
-    flow::NewDocumentWidgetFactory *factory) {
+    egnite::NewDocumentWidgetFactory *factory) {
   if (m_new_document_widget_by_factory.contains(factory)) {
     auto index = getIndexBy(
         Role::WidgetRole,

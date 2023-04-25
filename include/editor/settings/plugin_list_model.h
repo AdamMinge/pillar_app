@@ -7,7 +7,7 @@
 #include <utility>
 /* -------------------------------------------------------------------------- */
 
-namespace flow {
+namespace egnite {
 class Plugin;
 }
 
@@ -43,7 +43,7 @@ class PluginListModel : public QAbstractListModel {
   void appliedChanged(bool applied);
 
  protected:
-  std::vector<std::pair<flow::Plugin *, bool>> m_plugins;
+  std::vector<std::pair<egnite::Plugin *, bool>> m_plugins;
 };
 
 class StaticPluginListModel : public PluginListModel {

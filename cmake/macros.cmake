@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------- #
 # ------------- Define a macro that helps add engine module ------------- #
 # ----------------------------------------------------------------------- #
-macro(flow_add_module target)
+macro(egnite_add_module target)
 
   cmake_parse_arguments(
     THIS
@@ -12,12 +12,12 @@ macro(flow_add_module target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_module: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_module: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   add_library(${target} ${THIS_SOURCES})
-  add_library(flow::${target} ALIAS ${target})
+  add_library(egnite::${target} ALIAS ${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -37,7 +37,7 @@ macro(flow_add_module target)
   endif()
 
   foreach(target_depends ${THIS_DEPENDS})
-    install(TARGETS ${target_depends} EXPORT flowConfigExport)
+    install(TARGETS ${target_depends} EXPORT egniteConfigExport)
   endforeach()
 
   string(REPLACE "-" "_" NAME_UPPER "${target}")
@@ -57,20 +57,20 @@ macro(flow_add_module target)
 
   install(
     TARGETS ${target}
-    EXPORT flowConfigExport
+    EXPORT egniteConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "FLOW_STATIC")
+    target_compile_definitions(${target} PUBLIC "EGNITE_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # --------------- Define a macro that helps export engine --------------- #
 # ----------------------------------------------------------------------- #
-function(flow_export_modules)
+function(egnite_export_modules)
 
   if(BUILD_SHARED_LIBS)
     set(config_name "shared")
@@ -78,41 +78,41 @@ function(flow_export_modules)
     set(config_name "static")
   endif()
 
-  set(current_dir "${FLOW_SOURCE_DIR}/cmake")
-  set(targets_config_filename "flow-${config_name}-targets.cmake")
-  set(config_package_location ${CMAKE_INSTALL_LIBDIR}/cmake/flow)
+  set(current_dir "${EGNITE_SOURCE_DIR}/cmake")
+  set(targets_config_filename "egnite-${config_name}-targets.cmake")
+  set(config_package_location ${CMAKE_INSTALL_LIBDIR}/cmake/egnite)
 
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/flow-config-version.cmake"
-    VERSION ${FLOW_VERSION_MAJOR}.${FLOW_VERSION_MINOR}
+    "${CMAKE_CURRENT_BINARY_DIR}/egnite-config-version.cmake"
+    VERSION ${EGNITE_VERSION_MAJOR}.${EGNITE_VERSION_MINOR}
     COMPATIBILITY SameMajorVersion)
 
-  export(EXPORT flowConfigExport
+  export(EXPORT egniteConfigExport
          FILE "${CMAKE_CURRENT_BINARY_DIR}/${targets_config_filename}")
 
   configure_package_config_file(
-    "${current_dir}/flow-config.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/flow-config.cmake"
+    "${current_dir}/egnite-config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/egnite-config.cmake"
     INSTALL_DESTINATION "${config_package_location}")
   configure_package_config_file(
-    "${current_dir}/flow-config-dependencies.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/flow-config-dependencies.cmake"
+    "${current_dir}/egnite-config-dependencies.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/egnite-config-dependencies.cmake"
     INSTALL_DESTINATION "${config_package_location}")
 
   install(
-    EXPORT flowConfigExport
+    EXPORT egniteConfigExport
     FILE ${targets_config_filename}
     DESTINATION ${config_package_location})
 
   install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/flow-config.cmake
-          ${CMAKE_CURRENT_BINARY_DIR}/flow-config-dependencies.cmake
-          ${CMAKE_CURRENT_BINARY_DIR}/flow-config-version.cmake
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/egnite-config.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/egnite-config-dependencies.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/egnite-config-version.cmake
     DESTINATION ${config_package_location})
 
   install(
-    DIRECTORY ${FLOW_SOURCE_DIR}/include
+    DIRECTORY ${EGNITE_SOURCE_DIR}/include
     DESTINATION .
     COMPONENT devel
     FILES_MATCHING
@@ -124,14 +124,14 @@ endfunction()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that helps add application -------------- #
 # ----------------------------------------------------------------------- #
-macro(_flow_add_executable target)
+macro(_egnite_add_executable target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling _flow_add_executable: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling _egnite_add_executable: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -168,20 +168,20 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that helps add engine test -------------- #
 # ----------------------------------------------------------------------- #
-macro(flow_add_test target)
+macro(egnite_add_test target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_test: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_test: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   find_package(GTest REQUIRED)
 
-  _flow_add_executable(
+  _egnite_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -198,18 +198,18 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ------------ Define a macro that helps add engine example ------------- #
 # ----------------------------------------------------------------------- #
-macro(flow_add_example target)
+macro(egnite_add_example target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_test: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_test: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
-  _flow_add_executable(
+  _egnite_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -224,18 +224,18 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------------- Define a macro that helps add tool ------------------ #
 # ----------------------------------------------------------------------- #
-macro(flow_add_application target)
+macro(egnite_add_application target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_application: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_application: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
-  _flow_add_executable(
+  _egnite_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -252,7 +252,7 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # --------------- Define a macro that helps add utils lib --------------- #
 # ----------------------------------------------------------------------- #
-macro(flow_add_utils target)
+macro(egnite_add_utils target)
 
   cmake_parse_arguments(
     THIS
@@ -263,7 +263,7 @@ macro(flow_add_utils target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -288,7 +288,7 @@ macro(flow_add_utils target)
   endif()
 
   foreach(target_depends ${THIS_DEPENDS})
-    install(TARGETS ${target_depends} EXPORT flowConfigExport)
+    install(TARGETS ${target_depends} EXPORT egniteConfigExport)
   endforeach()
 
   string(REPLACE "-" "_" NAME_UPPER "${target}")
@@ -308,20 +308,20 @@ macro(flow_add_utils target)
 
   install(
     TARGETS ${target}
-    EXPORT flowConfigExport
+    EXPORT egniteConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "FLOW_STATIC")
+    target_compile_definitions(${target} PUBLIC "EGNITE_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # ---------------- Define a macro that helps add plugins ---------------- #
 # ----------------------------------------------------------------------- #
-macro(flow_add_plugins target)
+macro(egnite_add_plugins target)
 
   cmake_parse_arguments(
     THIS
@@ -332,7 +332,7 @@ macro(flow_add_plugins target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -373,22 +373,22 @@ macro(flow_add_plugins target)
 
   install(
     TARGETS ${target}
-    EXPORT flowConfigExport
+    EXPORT egniteConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib)
 
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "FLOW_STATIC")
+    target_compile_definitions(${target} PUBLIC "EGNITE_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # ------------- Define a macro that generate documentation -------------- #
 # ----------------------------------------------------------------------- #
-function(flow_generate_documentation)
+function(egnite_generate_documentation)
   find_package(Doxygen REQUIRED)
-  set(DOXYGEN_IN ${FLOW_SOURCE_DIR}/docs/Doxyfile.in)
+  set(DOXYGEN_IN ${EGNITE_SOURCE_DIR}/docs/Doxyfile.in)
   set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
 
   configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
@@ -403,20 +403,20 @@ endfunction()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that install documentation -------------- #
 # ----------------------------------------------------------------------- #
-function(flow_install_documentation)
+function(egnite_install_documentation)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc_doxygen/
           DESTINATION ${CMAKE_INSTALL_PREFIX}/docs)
 endfunction()
 # ----------------------------------------------------------------------- #
 # ----------- Define a macro that helps defining translations ----------- #
 # ----------------------------------------------------------------------- #
-macro(flow_add_translations target)
+macro(egnite_add_translations target)
 
   cmake_parse_arguments(THIS "" "QM_DIR" "TS_FILES;DIRS" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling flow_add_translations: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling egnite_add_translations: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -461,8 +461,8 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------- Define a function that helps add static analysis ---------- #
 # ----------------------------------------------------------------------- #
-function(flow_static_analyzers)
-  if(FLOW_ENABLE_CLANG_TIDY)
+function(egnite_static_analyzers)
+  if(EGNITE_ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)
     if(CLANGTIDY)
       set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY}
@@ -472,7 +472,7 @@ function(flow_static_analyzers)
     endif()
   endif()
 
-  if(FLOW_ENABLE_CPPCHECK)
+  if(EGNITE_ENABLE_CPPCHECK)
     find_program(CPPCHECK cppcheck)
     if(CPPCHECK)
       set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --suppress=missingInclude --enable=all
