@@ -2,10 +2,10 @@
 #include "flow_document/flow_editor.h"
 
 #include "flow_document/component/node/flow_nodes_dock.h"
-#include "flow_document/component/scene/flow_abstract_tool.h"
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/flow_tools_bar.h"
 #include "flow_document/component/scene/flow_view.h"
+#include "flow_document/component/scene/tool/flow_abstract_tool.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>

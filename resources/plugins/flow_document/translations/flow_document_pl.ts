@@ -20,7 +20,7 @@
 <context>
     <name>FlowSelectionTool</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/flow_selection_tool.cpp" line="18"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/flow_selection_tool.cpp" line="18"/>
         <source>Selection Tool</source>
         <translation type="unfinished"></translation>
     </message>

@@ -26,12 +26,12 @@ class PinStyle {
   explicit PinStyle();
   ~PinStyle();
 
-  void setFont(const std::optional<QFont> &font, State state);
-  void setFontColor(const std::optional<QColor> &color, State state);
-  void setSize(const std::optional<QSizeF> &size, State state);
-  void setMargins(const std::optional<QMarginsF> &margins, State state);
-  void setColor(const std::optional<QColor> &color, State state);
-  void setBorderColor(const std::optional<QColor> &color, State state);
+  void setFont(std::optional<QFont> font, State state);
+  void setFontColor(std::optional<QColor> color, State state);
+  void setSize(std::optional<QSizeF> size, State state);
+  void setMargins(std::optional<QMarginsF> margins, State state);
+  void setColor(std::optional<QColor> color, State state);
+  void setBorderColor(std::optional<QColor> color, State state);
 
   [[nodiscard]] const QFont &getFont(States states) const;
   [[nodiscard]] const QColor &getFontColor(States states) const;
@@ -94,14 +94,13 @@ class NodeStyle {
   explicit NodeStyle();
   ~NodeStyle();
 
-  void setFont(const std::optional<QFont> &font, State state);
-  void setFontColor(const std::optional<QColor> &color, State state);
-  void setMargins(const std::optional<QMarginsF> &margins, State state);
-  void setGradient(const std::optional<std::array<QColor, 4>> &gradient,
-                   State state);
-  void setGradientScale(
-      const std::optional<std::array<float, 4>> &gradient_scale, State state);
-  void setBorderColor(const std::optional<QColor> &color, State state);
+  void setFont(std::optional<QFont> font, State state);
+  void setFontColor(std::optional<QColor> color, State state);
+  void setMargins(std::optional<QMarginsF> margins, State state);
+  void setGradient(std::optional<std::array<QColor, 4>> gradient, State state);
+  void setGradientScale(std::optional<std::array<float, 4>> gradient_scale,
+                        State state);
+  void setBorderColor(std::optional<QColor> color, State state);
   void setBorderRadius(std::optional<float> radius, State state);
   void setBorderSize(std::optional<float> size, State state);
 

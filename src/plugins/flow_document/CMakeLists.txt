@@ -43,10 +43,10 @@ set(sources
     ${source_root}/component/scene/flow_graphics_item.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
-    ${source_root}/component/scene/flow_abstract_tool.cpp
-    ${source_root}/component/scene/selection_rectangle.cpp
-    ${source_root}/component/scene/flow_selection_tool.cpp
-    ${source_root}/component/scene/flow_tools_bar.cpp)
+    ${source_root}/component/scene/flow_tools_bar.cpp
+    ${source_root}/component/scene/tool/flow_abstract_tool.cpp
+    ${source_root}/component/scene/tool/flow_selection_tool.cpp
+    ${source_root}/component/scene/tool/selection_rectangle.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -82,10 +82,10 @@ set(includes
     ${include_root}/component/scene/flow_graphics_item.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
-    ${include_root}/component/scene/flow_abstract_tool.h
-    ${include_root}/component/scene/flow_selection_tool.h
     ${include_root}/component/scene/flow_tools_bar.h
-    ${include_root}/component/scene/selection_rectangle.h)
+    ${include_root}/component/scene/tool/flow_abstract_tool.h
+    ${include_root}/component/scene/tool/flow_selection_tool.h
+    ${include_root}/component/scene/tool/selection_rectangle.h)
 
 set(resources ${resources_root}/flow_document.qrc)
 

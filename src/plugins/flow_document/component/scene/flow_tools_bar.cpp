@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/flow_tools_bar.h"
 
-#include "flow_document/component/scene/flow_selection_tool.h"
+#include "flow_document/component/scene/tool/flow_selection_tool.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {

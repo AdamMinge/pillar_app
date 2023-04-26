@@ -2,7 +2,7 @@
 #define FLOW_DOCUMENT_FLOW_SELECTION_TOOL_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/flow_abstract_tool.h"
+#include "flow_document/component/scene/tool/flow_abstract_tool.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 

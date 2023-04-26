@@ -10,29 +10,28 @@ PinStyle::PinStyle() = default;
 
 PinStyle::~PinStyle() = default;
 
-void PinStyle::setFont(const std::optional<QFont> &font, State state) {
-  m_state_data[state].font = font;
+void PinStyle::setFont(std::optional<QFont> font, State state) {
+  m_state_data[state].font = std::move(font);
 }
 
-void PinStyle::setFontColor(const std::optional<QColor> &color, State state) {
-  m_state_data[state].font_color = color;
+void PinStyle::setFontColor(std::optional<QColor> color, State state) {
+  m_state_data[state].font_color = std::move(color);
 }
 
-void PinStyle::setSize(const std::optional<QSizeF> &size, State state) {
-  m_state_data[state].size = size;
+void PinStyle::setSize(std::optional<QSizeF> size, State state) {
+  m_state_data[state].size = std::move(size);
 }
 
-void PinStyle::setMargins(const std::optional<QMarginsF> &margins,
-                          State state) {
-  m_state_data[state].margins = margins;
+void PinStyle::setMargins(std::optional<QMarginsF> margins, State state) {
+  m_state_data[state].margins = std::move(margins);
 }
 
-void PinStyle::setColor(const std::optional<QColor> &color, State state) {
-  m_state_data[state].color = color;
+void PinStyle::setColor(std::optional<QColor> color, State state) {
+  m_state_data[state].color = std::move(color);
 }
 
-void PinStyle::setBorderColor(const std::optional<QColor> &color, State state) {
-  m_state_data[state].border_color = color;
+void PinStyle::setBorderColor(std::optional<QColor> color, State state) {
+  m_state_data[state].border_color = std::move(color);
 }
 
 const QFont &PinStyle::getFont(States states) const {
@@ -89,40 +88,38 @@ NodeStyle::NodeStyle() = default;
 
 NodeStyle::~NodeStyle() = default;
 
-void NodeStyle::setFont(const std::optional<QFont> &font, State state) {
-  m_state_data[state].font = font;
+void NodeStyle::setFont(std::optional<QFont> font, State state) {
+  m_state_data[state].font = std::move(font);
 }
 
-void NodeStyle::setFontColor(const std::optional<QColor> &color, State state) {
-  m_state_data[state].font_color = color;
+void NodeStyle::setFontColor(std::optional<QColor> color, State state) {
+  m_state_data[state].font_color = std::move(color);
 }
 
-void NodeStyle::setMargins(const std::optional<QMarginsF> &margins,
-                           State state) {
-  m_state_data[state].margins = margins;
+void NodeStyle::setMargins(std::optional<QMarginsF> margins, State state) {
+  m_state_data[state].margins = std::move(margins);
 }
 
-void NodeStyle::setGradient(
-    const std::optional<std::array<QColor, 4>> &gradient, State state) {
-  m_state_data[state].gradient = gradient;
+void NodeStyle::setGradient(std::optional<std::array<QColor, 4>> gradient,
+                            State state) {
+  m_state_data[state].gradient = std::move(gradient);
 }
 
 void NodeStyle::setGradientScale(
-    const std::optional<std::array<float, 4>> &gradient_scale, State state) {
-  m_state_data[state].gradient_scale = gradient_scale;
+    std::optional<std::array<float, 4>> gradient_scale, State state) {
+  m_state_data[state].gradient_scale = std::move(gradient_scale);
 }
 
-void NodeStyle::setBorderColor(const std::optional<QColor> &color,
-                               State state) {
-  m_state_data[state].border_color = color;
+void NodeStyle::setBorderColor(std::optional<QColor> color, State state) {
+  m_state_data[state].border_color = std::move(color);
 }
 
 void NodeStyle::setBorderRadius(std::optional<float> radius, State state) {
-  m_state_data[state].border_radius = radius;
+  m_state_data[state].border_radius = std::move(radius);
 }
 
 void NodeStyle::setBorderSize(std::optional<float> size, State state) {
-  m_state_data[state].border_size = size;
+  m_state_data[state].border_size = std::move(size);
 }
 
 const QFont &NodeStyle::getFont(States states) const {
