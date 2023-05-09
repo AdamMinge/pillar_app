@@ -11,6 +11,8 @@ namespace flow_document {
 class Node;
 
 class FLOW_DOCUMENT_API NodeLayer : public Layer {
+  FLOW_OBJECT_CLASS(NodeLayer, Layer)
+
  public:
   using Nodes = std::vector<std::unique_ptr<Node>>;
 

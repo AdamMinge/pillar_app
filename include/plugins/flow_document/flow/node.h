@@ -10,6 +10,8 @@
 namespace flow_document {
 
 class FLOW_DOCUMENT_API Node : public Object {
+  FLOW_OBJECT_CLASS(Node, Object)
+
  public:
   explicit Node();
   ~Node() override;

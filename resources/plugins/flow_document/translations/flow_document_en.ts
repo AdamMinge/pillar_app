@@ -25,17 +25,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="14"/>
-        <source>Not</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="13"/>
+        <source>Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="17"/>
+        <source>Not</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="21"/>
         <source>And</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="25"/>
         <source>Or</source>
         <translation type="unfinished"></translation>
     </message>

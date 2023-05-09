@@ -11,6 +11,8 @@
 namespace flow_document {
 
 class FLOW_DOCUMENT_API GroupLayer : public Layer {
+  FLOW_OBJECT_CLASS(GroupLayer, Layer)
+
  public:
   using Layers = std::vector<std::unique_ptr<Layer>>;
 

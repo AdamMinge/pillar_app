@@ -13,6 +13,8 @@ class GroupLayer;
 class FLOW_DOCUMENT_API Layer : public Object {
   friend GroupLayer;
 
+  FLOW_OBJECT_CLASS(Layer, Object)
+
  public:
   enum class Type {
     GroupLayer,

@@ -10,14 +10,21 @@
 
 LogicGroupFactory::LogicGroupFactory()
     : flow_document::GroupFactory(tr("Logic")) {
-  append(std::make_unique<flow_document::BaseNodeFactory<LogicNodeNot>>(
-      tr("Not"), QLatin1String("LogicNodeNot")));
+  auto nodes_group = std::make_unique<flow_document::GroupFactory>(tr("Nodes"));
 
-  append(std::make_unique<flow_document::BaseNodeFactory<LogicNodeAnd>>(
-      tr("And"), QLatin1String("LogicNodeAnd")));
+  nodes_group->append(
+      std::make_unique<flow_document::BaseNodeFactory<LogicNodeNot>>(
+          tr("Not"), QLatin1String("LogicNodeNot")));
 
-  append(std::make_unique<flow_document::BaseNodeFactory<LogicNodeOr>>(
-      tr("Or"), QLatin1String("LogicNodeOr")));
+  nodes_group->append(
+      std::make_unique<flow_document::BaseNodeFactory<LogicNodeAnd>>(
+          tr("And"), QLatin1String("LogicNodeAnd")));
+
+  nodes_group->append(
+      std::make_unique<flow_document::BaseNodeFactory<LogicNodeOr>>(
+          tr("Or"), QLatin1String("LogicNodeOr")));
+
+  append(std::move(nodes_group));
 }
 
 LogicGroupFactory::~LogicGroupFactory() = default;

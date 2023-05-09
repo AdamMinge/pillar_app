@@ -11,6 +11,8 @@ namespace flow_document {
 class GroupLayer;
 
 class FLOW_DOCUMENT_API Flow : public Object {
+  FLOW_OBJECT_CLASS(Flow, Object)
+
  public:
   explicit Flow();
   ~Flow() override;

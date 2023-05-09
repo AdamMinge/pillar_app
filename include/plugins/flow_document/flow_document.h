@@ -1,8 +1,8 @@
 #ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_H
 #define FLOW_DOCUMENT_FLOW_DOCUMENT_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QPointer>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/document/document.h>
 /* ----------------------------------- Local -------------------------------- */
@@ -12,6 +12,7 @@
 namespace flow_document {
 
 class ChangeEvent;
+class Flow;
 
 class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   Q_OBJECT
@@ -22,11 +23,16 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
  public:
   ~FlowDocument() override;
 
+  [[nodiscard]] Flow *getFlow() const;
+
  Q_SIGNALS:
   void event(const ChangeEvent &event);
 
  protected:
   explicit FlowDocument(QObject *parent = nullptr);
+
+ private:
+  std::unique_ptr<Flow> m_flow;
 };
 
 }  // namespace flow_document
