@@ -38,8 +38,8 @@ class SettingsWidgetTreeModel
   void onAppliedChanged(egnite::SettingsWidget *settings_widget, bool applied);
 
  private:
-  std::set<egnite::SettingsWidget *> m_to_apply;
-  std::map<egnite::SettingsWidgetFactory *, egnite::SettingsWidget *>
+  QSet<egnite::SettingsWidget *> m_to_apply;
+  QMap<egnite::SettingsWidgetFactory *, egnite::SettingsWidget *>
       m_settings_widget_by_factory;
 };
 

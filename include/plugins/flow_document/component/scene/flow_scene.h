@@ -12,17 +12,13 @@
 
 namespace flow_document {
 
-class FlowNode;
-
-class FlowGraphicsItem;
-class FlowNodeGraphicsItem;
+class GraphicsItem;
 
 class FlowDocument;
-class FlowAbstractTool;
+
+class AbstractTool;
 
 class ChangeEvent;
-class ObjectsAddedEvent;
-class ObjectsRemovedEvent;
 
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   Q_OBJECT
@@ -34,10 +30,10 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   void setSceneDocument(FlowDocument *flow_document);
   [[nodiscard]] FlowDocument *getSceneDocument() const;
 
-  void setTool(FlowAbstractTool *tool);
-  [[nodiscard]] FlowAbstractTool *getTool() const;
+  void setTool(AbstractTool *tool);
+  [[nodiscard]] AbstractTool *getTool() const;
 
-  [[nodiscard]] QList<FlowGraphicsItem *> hoveredItems();
+  [[nodiscard]] QList<GraphicsItem *> hoveredItems();
   [[nodiscard]] QPainterPath hoveredArea() const;
   void setHoveredArea(
       const QPainterPath &path,
@@ -62,17 +58,12 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
  private:
   bool isAcceptable(const QMimeData *mime_data) const;
 
-  void onObjectsAddedEvent(const ObjectsAddedEvent &event);
-  void onObjectsRemovedEvent(const ObjectsRemovedEvent &event);
-
  private:
   FlowDocument *m_flow_document;
-  FlowAbstractTool *m_flow_tool;
+  AbstractTool *m_tool;
 
   QPainterPath m_hovered_area;
-  QList<FlowGraphicsItem *> m_hovered_items;
-
-  QMap<FlowNode *, FlowNodeGraphicsItem *> m_node_items;
+  QList<GraphicsItem *> m_hovered_items;
 };
 
 }  // namespace flow_document

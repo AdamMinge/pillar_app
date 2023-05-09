@@ -9,7 +9,7 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API ChangeEvent {
  public:
-  enum class Type { ObjectsAdded, ObjectsRemoved, ObjectsChangedProperties };
+  enum Type : size_t { NodesAdded, NodesRemoved, NodesChangedProperties };
 
  public:
   explicit ChangeEvent(Type type);

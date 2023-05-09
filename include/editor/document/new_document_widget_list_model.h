@@ -30,7 +30,7 @@ class NewDocumentWidgetListModel
   void removedObject(egnite::NewDocumentWidgetFactory *factory) override;
 
  private:
-  std::map<egnite::NewDocumentWidgetFactory *, egnite::NewDocumentWidget *>
+  QMap<egnite::NewDocumentWidgetFactory *, egnite::NewDocumentWidget *>
       m_new_document_widget_by_factory;
 };
 

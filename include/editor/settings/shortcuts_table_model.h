@@ -56,7 +56,7 @@ class ShortcutsTableModel : public QAbstractTableModel {
   };
 
  private:
-  std::vector<ShortcutData> m_actions;
+  QVector<ShortcutData> m_actions;
 };
 
 #endif  // SHORTCUTS_TABLE_MODEL_H

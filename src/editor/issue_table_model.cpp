@@ -99,7 +99,7 @@ void IssueTableModel::addIssue(const egnite::Issue &issue) {
 }
 
 void IssueTableModel::removeIssues(const QVariant &context) {
-  auto erased_elements = std::erase_if(m_issues, [&context](auto &issue_pair) {
+  const auto erased_elements = m_issues.removeIf([&context](auto &issue_pair) {
     return issue_pair.first.getContext() == context;
   });
 

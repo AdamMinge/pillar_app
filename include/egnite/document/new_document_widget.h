@@ -8,6 +8,7 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/format_helper.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "egnite/concept.h"
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -30,11 +31,9 @@ class LIB_EGNITE_API NewDocumentWidget : public QWidget {
   void isValidChanged(bool valid);
 
  protected:
-  template <typename DOCUMENT, typename FORMAT>
-  requires std::derived_from<DOCUMENT, Document> &&
-      std::derived_from<FORMAT, FileFormat>
-          std::unique_ptr<Document> createDocument(const QString &name,
-                                                   const QString &path);
+  template <IsDocument DOCUMENT, IsFileFormat FORMAT>
+  std::unique_ptr<Document> createDocument(const QString &name,
+                                           const QString &path);
 
   void setValid(bool valid);
 
@@ -42,11 +41,9 @@ class LIB_EGNITE_API NewDocumentWidget : public QWidget {
   bool m_valid;
 };
 
-template <typename DOCUMENT, typename FORMAT>
-requires std::derived_from<DOCUMENT, Document> &&
-    std::derived_from<FORMAT, FileFormat>
-        std::unique_ptr<Document> NewDocumentWidget::createDocument(
-            const QString &name, const QString &path) {
+template <IsDocument DOCUMENT, IsFileFormat FORMAT>
+std::unique_ptr<Document> NewDocumentWidget::createDocument(
+    const QString &name, const QString &path) {
   auto format_helper =
       egnite::FormatHelper<FORMAT>{egnite::FileFormat::Capability::Write};
   auto format = format_helper.getFormats().isEmpty()

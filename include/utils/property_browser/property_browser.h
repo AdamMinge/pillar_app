@@ -147,38 +147,38 @@ class PROPERTY_BROWSER_API QtAbstractEditorFactoryBase : public QObject {
   friend class QtAbstractPropertyBrowser;
 };
 
-template <class PropertyManager>
+template <typename PROPERTY_MANAGER>
 class PROPERTY_BROWSER_API QtAbstractEditorFactory
     : public QtAbstractEditorFactoryBase {
  public:
   explicit QtAbstractEditorFactory(QObject *parent)
       : QtAbstractEditorFactoryBase(parent) {}
   QWidget *createEditor(QtProperty *property, QWidget *parent) override {
-    for (PropertyManager *manager : qAsConst(m_managers)) {
+    for (PROPERTY_MANAGER *manager : qAsConst(m_managers)) {
       if (manager == property->propertyManager()) {
         return createEditor(manager, property, parent);
       }
     }
     return 0;
   }
-  void addPropertyManager(PropertyManager *manager) {
+  void addPropertyManager(PROPERTY_MANAGER *manager) {
     if (m_managers.contains(manager)) return;
     m_managers.insert(manager);
     connectPropertyManager(manager);
     connect(manager, SIGNAL(destroyed(QObject *)), this,
             SLOT(managerDestroyed(QObject *)));
   }
-  void removePropertyManager(PropertyManager *manager) {
+  void removePropertyManager(PROPERTY_MANAGER *manager) {
     if (!m_managers.contains(manager)) return;
     disconnect(manager, SIGNAL(destroyed(QObject *)), this,
                SLOT(managerDestroyed(QObject *)));
     disconnectPropertyManager(manager);
     m_managers.remove(manager);
   }
-  QSet<PropertyManager *> propertyManagers() const { return m_managers; }
-  PropertyManager *propertyManager(QtProperty *property) const {
+  QSet<PROPERTY_MANAGER *> propertyManagers() const { return m_managers; }
+  PROPERTY_MANAGER *propertyManager(QtProperty *property) const {
     QtAbstractPropertyManager *manager = property->propertyManager();
-    for (PropertyManager *m : qAsConst(m_managers)) {
+    for (PROPERTY_MANAGER *m : qAsConst(m_managers)) {
       if (m == manager) {
         return m;
       }
@@ -187,12 +187,12 @@ class PROPERTY_BROWSER_API QtAbstractEditorFactory
   }
 
  protected:
-  virtual void connectPropertyManager(PropertyManager *manager) = 0;
-  virtual QWidget *createEditor(PropertyManager *manager, QtProperty *property,
+  virtual void connectPropertyManager(PROPERTY_MANAGER *manager) = 0;
+  virtual QWidget *createEditor(PROPERTY_MANAGER *manager, QtProperty *property,
                                 QWidget *parent) = 0;
-  virtual void disconnectPropertyManager(PropertyManager *manager) = 0;
+  virtual void disconnectPropertyManager(PROPERTY_MANAGER *manager) = 0;
   void managerDestroyed(QObject *manager) override {
-    for (PropertyManager *m : qAsConst(m_managers)) {
+    for (PROPERTY_MANAGER *m : qAsConst(m_managers)) {
       if (m == manager) {
         m_managers.remove(m);
         return;
@@ -202,7 +202,7 @@ class PROPERTY_BROWSER_API QtAbstractEditorFactory
 
  private:
   void breakConnection(QtAbstractPropertyManager *manager) override {
-    for (PropertyManager *m : qAsConst(m_managers)) {
+    for (PROPERTY_MANAGER *m : qAsConst(m_managers)) {
       if (m == manager) {
         removePropertyManager(m);
         return;
@@ -211,7 +211,7 @@ class PROPERTY_BROWSER_API QtAbstractEditorFactory
   }
 
  private:
-  QSet<PropertyManager *> m_managers;
+  QSet<PROPERTY_MANAGER *> m_managers;
   friend class QtAbstractPropertyEditor;
 };
 
@@ -247,9 +247,10 @@ class PROPERTY_BROWSER_API QtAbstractPropertyBrowser : public QWidget {
   QList<QtBrowserItem *> topLevelItems() const;
   void clear();
 
-  template <class PropertyManager>
-  void setFactoryForManager(PropertyManager *manager,
-                            QtAbstractEditorFactory<PropertyManager> *factory) {
+  template <typename PROPERTY_MANAGER>
+  void setFactoryForManager(
+      PROPERTY_MANAGER *manager,
+      QtAbstractEditorFactory<PROPERTY_MANAGER> *factory) {
     QtAbstractPropertyManager *abstractManager = manager;
     QtAbstractEditorFactoryBase *abstractFactory = factory;
 

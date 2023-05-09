@@ -42,7 +42,7 @@ class IssueTableModel : public QAbstractTableModel {
   [[nodiscard]] QString getIssueSeverityName(const QModelIndex &index) const;
 
  private:
-  std::vector<std::pair<egnite::Issue, unsigned>> m_issues;
+  QVector<std::pair<egnite::Issue, unsigned>> m_issues;
 };
 
 #endif  // ISSUE_TABLE_MODEL_H

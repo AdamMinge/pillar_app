@@ -19,10 +19,13 @@ class UndoDock;
 namespace flow_document {
 
 class FlowDocument;
-class FlowNodesDock;
-class FlowAbstractTool;
-class FlowToolsBar;
 class FlowView;
+
+class NodesDock;
+class AbstractTool;
+class ToolsBar;
+
+class FactoriesDock;
 
 class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   Q_OBJECT
@@ -56,7 +59,7 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   [[nodiscard]] QString getDocumentId() const override;
 
  private Q_SLOTS:
-  void toolSelected(FlowAbstractTool *tool);
+  void toolSelected(AbstractTool *tool);
   void cursorChanged(const QCursor &cursor);
 
  private:
@@ -67,10 +70,11 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   FlowDocument *m_current_document;
   QPointer<QMainWindow> m_main_window;
 
-  FlowToolsBar *m_tools_bar;
+  ToolsBar *m_tools_bar;
   QStackedWidget *m_scene_stack;
-  FlowNodesDock *m_nodes_dock;
   egnite::UndoDock *m_undo_dock;
+
+  FactoriesDock *m_factories_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;
 

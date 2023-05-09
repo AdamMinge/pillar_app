@@ -38,7 +38,7 @@ bool PluginListModel::setData(const QModelIndex &index, const QVariant &value,
 
   if (role == Role::PluginStateRole) {
     auto applied_before = applied();
-    m_plugins.at(index.row()).second = value.toBool();
+    m_plugins[index.row()].second = value.toBool();
     auto applied_after = applied();
 
     if (applied_before != applied_after) Q_EMIT appliedChanged(applied_after);

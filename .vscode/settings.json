@@ -80,7 +80,12 @@
         "qtoolbar": "cpp",
         "qflag": "cpp",
         "qstyleoptiongraphicsitem": "cpp",
-        "qgraphicsscenedragdropevent": "cpp"
+        "qgraphicsscenedragdropevent": "cpp",
+        "qobject": "cpp",
+        "qpointf": "cpp",
+        "qicon": "cpp",
+        "qjsondocument": "cpp",
+        "qjsonobject": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

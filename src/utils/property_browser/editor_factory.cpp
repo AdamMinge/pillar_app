@@ -84,32 +84,32 @@ static inline void setupTreeViewEditorMargin(QLayout *lt) {
 // Base class for editor factory private classes. Manages mapping of properties
 // to editors and vice versa.
 
-template <class Editor>
+template <typename EDITOR>
 class EditorFactoryPrivate {
  public:
-  typedef QList<Editor *> EditorList;
+  typedef QList<EDITOR *> EditorList;
   typedef QMap<QtProperty *, EditorList> PropertyToEditorListMap;
-  typedef QMap<Editor *, QtProperty *> EditorToPropertyMap;
+  typedef QMap<EDITOR *, QtProperty *> EditorToPropertyMap;
 
-  Editor *createEditor(QtProperty *property, QWidget *parent);
-  void initializeEditor(QtProperty *property, Editor *e);
+  EDITOR *createEditor(QtProperty *property, QWidget *parent);
+  void initializeEditor(QtProperty *property, EDITOR *e);
   void slotEditorDestroyed(QObject *object);
 
   PropertyToEditorListMap m_createdEditors;
   EditorToPropertyMap m_editorToProperty;
 };
 
-template <class Editor>
-Editor *EditorFactoryPrivate<Editor>::createEditor(QtProperty *property,
+template <typename EDITOR>
+EDITOR *EditorFactoryPrivate<EDITOR>::createEditor(QtProperty *property,
                                                    QWidget *parent) {
-  Editor *editor = new Editor(parent);
+  EDITOR *editor = new EDITOR(parent);
   initializeEditor(property, editor);
   return editor;
 }
 
-template <class Editor>
-void EditorFactoryPrivate<Editor>::initializeEditor(QtProperty *property,
-                                                    Editor *editor) {
+template <typename EDITOR>
+void EditorFactoryPrivate<EDITOR>::initializeEditor(QtProperty *property,
+                                                    EDITOR *editor) {
   typename PropertyToEditorListMap::iterator it =
       m_createdEditors.find(property);
   if (it == m_createdEditors.end())
@@ -118,14 +118,14 @@ void EditorFactoryPrivate<Editor>::initializeEditor(QtProperty *property,
   m_editorToProperty.insert(editor, property);
 }
 
-template <class Editor>
-void EditorFactoryPrivate<Editor>::slotEditorDestroyed(QObject *object) {
+template <typename EDITOR>
+void EditorFactoryPrivate<EDITOR>::slotEditorDestroyed(QObject *object) {
   const typename EditorToPropertyMap::iterator ecend = m_editorToProperty.end();
   for (typename EditorToPropertyMap::iterator itEditor =
            m_editorToProperty.begin();
        itEditor != ecend; ++itEditor) {
     if (itEditor.key() == object) {
-      Editor *editor = itEditor.key();
+      EDITOR *editor = itEditor.key();
       QtProperty *property = itEditor.value();
       const typename PropertyToEditorListMap::iterator pit =
           m_createdEditors.find(property);

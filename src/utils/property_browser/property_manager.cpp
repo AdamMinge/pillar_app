@@ -64,24 +64,24 @@
     disable : 4786) /* MS VS 6: truncating debug info after 255 characters */
 #endif
 
-template <class PrivateData, class Value>
-static void setSimpleMinimumData(PrivateData *data, const Value &minVal) {
+template <typename PRIVATE_DATA, typename Value>
+static void setSimpleMinimumData(PRIVATE_DATA *data, const Value &minVal) {
   data->minVal = minVal;
   if (data->maxVal < data->minVal) data->maxVal = data->minVal;
 
   if (data->val < data->minVal) data->val = data->minVal;
 }
 
-template <class PrivateData, class Value>
-static void setSimpleMaximumData(PrivateData *data, const Value &maxVal) {
+template <typename PRIVATE_DATA, typename Value>
+static void setSimpleMaximumData(PRIVATE_DATA *data, const Value &maxVal) {
   data->maxVal = maxVal;
   if (data->minVal > data->maxVal) data->minVal = data->maxVal;
 
   if (data->val > data->maxVal) data->val = data->maxVal;
 }
 
-template <class PrivateData, class Value>
-static void setSizeMinimumData(PrivateData *data, const Value &newMinVal) {
+template <typename PRIVATE_DATA, typename Value>
+static void setSizeMinimumData(PRIVATE_DATA *data, const Value &newMinVal) {
   data->minVal = newMinVal;
   if (data->maxVal.width() < data->minVal.width())
     data->maxVal.setWidth(data->minVal.width());
@@ -94,8 +94,8 @@ static void setSizeMinimumData(PrivateData *data, const Value &newMinVal) {
     data->val.setHeight(data->minVal.height());
 }
 
-template <class PrivateData, class Value>
-static void setSizeMaximumData(PrivateData *data, const Value &newMaxVal) {
+template <typename PRIVATE_DATA, typename Value>
+static void setSizeMaximumData(PRIVATE_DATA *data, const Value &newMaxVal) {
   data->maxVal = newMaxVal;
   if (data->minVal.width() > data->maxVal.width())
     data->minVal.setWidth(data->maxVal.width());
@@ -108,10 +108,10 @@ static void setSizeMaximumData(PrivateData *data, const Value &newMaxVal) {
     data->val.setHeight(data->maxVal.height());
 }
 
-template <class SizeValue>
-static SizeValue qBoundSize(const SizeValue &minVal, const SizeValue &val,
-                            const SizeValue &maxVal) {
-  SizeValue croppedVal = val;
+template <typename SIZE_VALUE>
+static SIZE_VALUE qBoundSize(const SIZE_VALUE &minVal, const SIZE_VALUE &val,
+                             const SIZE_VALUE &maxVal) {
+  SIZE_VALUE croppedVal = val;
   if (minVal.width() > val.width())
     croppedVal.setWidth(minVal.width());
   else if (maxVal.width() < val.width())
@@ -139,15 +139,15 @@ namespace utils {
 namespace {
 
 namespace {
-template <class Value>
-void orderBorders(Value &minVal, Value &maxVal) {
+template <typename VALUE>
+void orderBorders(VALUE &minVal, VALUE &maxVal) {
   if (minVal > maxVal) qSwap(minVal, maxVal);
 }
 
-template <class Value>
-static void orderSizeBorders(Value &minVal, Value &maxVal) {
-  Value fromSize = minVal;
-  Value toSize = maxVal;
+template <typename VALUE>
+static void orderSizeBorders(VALUE &minVal, VALUE &maxVal) {
+  VALUE fromSize = minVal;
+  VALUE toSize = maxVal;
   if (fromSize.width() > toSize.width()) {
     fromSize.setWidth(maxVal.width());
     toSize.setWidth(minVal.width());
@@ -172,45 +172,46 @@ void orderBorders(QSizeF &minVal, QSizeF &maxVal) {
 }  // namespace
 ////////
 
-template <class Value, class PrivateData>
-static Value getData(const QMap<const QtProperty *, PrivateData> &propertyMap,
-                     Value PrivateData::*data, const QtProperty *property,
-                     const Value &defaultValue = Value()) {
+template <typename VALUE, typename PrivateData>
+static VALUE getData(const QMap<const QtProperty *, PrivateData> &propertyMap,
+                     VALUE PrivateData::*data, const QtProperty *property,
+                     const VALUE &defaultValue = VALUE()) {
   const auto it = propertyMap.constFind(property);
   if (it == propertyMap.constEnd()) return defaultValue;
   return it.value().*data;
 }
 
-template <class Value, class PrivateData>
-static Value getValue(const QMap<const QtProperty *, PrivateData> &propertyMap,
+template <typename VALUE, typename PrivateData>
+static VALUE getValue(const QMap<const QtProperty *, PrivateData> &propertyMap,
                       const QtProperty *property,
-                      const Value &defaultValue = Value()) {
-  return getData<Value>(propertyMap, &PrivateData::val, property, defaultValue);
+                      const VALUE &defaultValue = VALUE()) {
+  return getData<VALUE>(propertyMap, &PrivateData::val, property, defaultValue);
 }
 
-template <class Value, class PrivateData>
-static Value getMinimum(
+template <typename VALUE, typename PrivateData>
+static VALUE getMinimum(
     const QMap<const QtProperty *, PrivateData> &propertyMap,
-    const QtProperty *property, const Value &defaultValue = Value()) {
-  return getData<Value>(propertyMap, &PrivateData::minVal, property,
+    const QtProperty *property, const VALUE &defaultValue = VALUE()) {
+  return getData<VALUE>(propertyMap, &PrivateData::minVal, property,
                         defaultValue);
 }
 
-template <class Value, class PrivateData>
-static Value getMaximum(
+template <typename VALUE, typename PrivateData>
+static VALUE getMaximum(
     const QMap<const QtProperty *, PrivateData> &propertyMap,
-    const QtProperty *property, const Value &defaultValue = Value()) {
-  return getData<Value>(propertyMap, &PrivateData::maxVal, property,
+    const QtProperty *property, const VALUE &defaultValue = VALUE()) {
+  return getData<VALUE>(propertyMap, &PrivateData::maxVal, property,
                         defaultValue);
 }
 
-template <class ValueChangeParameter, class Value, class PropertyManager>
+template <typename VALUE_CHANGE_PARAMETER, typename VALUE,
+          typename PROPERTY_MANAGER>
 static void setSimpleValue(
-    QMap<const QtProperty *, Value> &propertyMap, PropertyManager *manager,
-    void (PropertyManager::*propertyChangedSignal)(QtProperty *),
-    void (PropertyManager::*valueChangedSignal)(QtProperty *,
-                                                ValueChangeParameter),
-    QtProperty *property, const Value &val) {
+    QMap<const QtProperty *, VALUE> &propertyMap, PROPERTY_MANAGER *manager,
+    void (PROPERTY_MANAGER::*propertyChangedSignal)(QtProperty *),
+    void (PROPERTY_MANAGER::*valueChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER),
+    QtProperty *property, const VALUE &val) {
   const auto it = propertyMap.find(property);
   if (it == propertyMap.end()) return;
 
@@ -222,16 +223,16 @@ static void setSimpleValue(
   emit(manager->*valueChangedSignal)(property, val);
 }
 
-template <class ValueChangeParameter, class PropertyManagerPrivate,
-          class PropertyManager, class Value>
+template <typename VALUE_CHANGE_PARAMETER, typename PROPERTY_MANAGER_PRIVATE,
+          typename PROPERTY_MANAGER, typename VALUE>
 static void setValueInRange(
-    PropertyManager *manager, PropertyManagerPrivate *managerPrivate,
-    void (PropertyManager::*propertyChangedSignal)(QtProperty *),
-    void (PropertyManager::*valueChangedSignal)(QtProperty *,
-                                                ValueChangeParameter),
-    QtProperty *property, const Value &val,
-    void (PropertyManagerPrivate::*setSubPropertyValue)(QtProperty *,
-                                                        ValueChangeParameter)) {
+    PROPERTY_MANAGER *manager, PROPERTY_MANAGER_PRIVATE *managerPrivate,
+    void (PROPERTY_MANAGER::*propertyChangedSignal)(QtProperty *),
+    void (PROPERTY_MANAGER::*valueChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER),
+    QtProperty *property, const VALUE &val,
+    void (PROPERTY_MANAGER_PRIVATE::*setSubPropertyValue)(
+        QtProperty *, VALUE_CHANGE_PARAMETER)) {
   const auto it = managerPrivate->m_values.find(property);
   if (it == managerPrivate->m_values.end()) return;
 
@@ -239,7 +240,7 @@ static void setValueInRange(
 
   if (data.val == val) return;
 
-  const Value oldVal = data.val;
+  const VALUE oldVal = data.val;
 
   data.val = qBound(data.minVal, val, data.maxVal);
 
@@ -252,34 +253,33 @@ static void setValueInRange(
   emit(manager->*valueChangedSignal)(property, data.val);
 }
 
-template <class ValueChangeParameter, class PropertyManagerPrivate,
-          class PropertyManager, class Value>
+template <typename VALUE_CHANGE_PARAMETER, typename PROPERTY_MANAGER_PRIVATE,
+          typename PROPERTY_MANAGER, typename VALUE>
 static void setBorderValues(
-    PropertyManager *manager, PropertyManagerPrivate *managerPrivate,
-    void (PropertyManager::*propertyChangedSignal)(QtProperty *),
-    void (PropertyManager::*valueChangedSignal)(QtProperty *,
-                                                ValueChangeParameter),
-    void (PropertyManager::*rangeChangedSignal)(QtProperty *,
-                                                ValueChangeParameter,
-                                                ValueChangeParameter),
-    QtProperty *property, ValueChangeParameter minVal,
-    ValueChangeParameter maxVal,
-    void (PropertyManagerPrivate::*setSubPropertyRange)(QtProperty *,
-                                                        ValueChangeParameter,
-                                                        ValueChangeParameter,
-                                                        ValueChangeParameter)) {
+    PROPERTY_MANAGER *manager, PROPERTY_MANAGER_PRIVATE *managerPrivate,
+    void (PROPERTY_MANAGER::*propertyChangedSignal)(QtProperty *),
+    void (PROPERTY_MANAGER::*valueChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER),
+    void (PROPERTY_MANAGER::*rangeChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER,
+                                                 VALUE_CHANGE_PARAMETER),
+    QtProperty *property, VALUE_CHANGE_PARAMETER minVal,
+    VALUE_CHANGE_PARAMETER maxVal,
+    void (PROPERTY_MANAGER_PRIVATE::*setSubPropertyRange)(
+        QtProperty *, VALUE_CHANGE_PARAMETER, VALUE_CHANGE_PARAMETER,
+        VALUE_CHANGE_PARAMETER)) {
   const auto it = managerPrivate->m_values.find(property);
   if (it == managerPrivate->m_values.end()) return;
 
-  Value fromVal = minVal;
-  Value toVal = maxVal;
+  VALUE fromVal = minVal;
+  VALUE toVal = maxVal;
   orderBorders(fromVal, toVal);
 
   auto &data = it.value();
 
   if (data.minVal == fromVal && data.maxVal == toVal) return;
 
-  const Value oldVal = data.val;
+  const VALUE oldVal = data.val;
 
   data.setMinimumValue(fromVal);
   data.setMaximumValue(toVal);
@@ -296,23 +296,22 @@ static void setBorderValues(
   emit(manager->*valueChangedSignal)(property, data.val);
 }
 
-template <class ValueChangeParameter, class PropertyManagerPrivate,
-          class PropertyManager, class Value, class PrivateData>
+template <typename VALUE_CHANGE_PARAMETER, typename PROPERTY_MANAGER_PRIVATE,
+          typename PROPERTY_MANAGER, typename VALUE, typename PrivateData>
 static void setBorderValue(
-    PropertyManager *manager, PropertyManagerPrivate *managerPrivate,
-    void (PropertyManager::*propertyChangedSignal)(QtProperty *),
-    void (PropertyManager::*valueChangedSignal)(QtProperty *,
-                                                ValueChangeParameter),
-    void (PropertyManager::*rangeChangedSignal)(QtProperty *,
-                                                ValueChangeParameter,
-                                                ValueChangeParameter),
-    QtProperty *property, Value (PrivateData::*getRangeVal)() const,
-    void (PrivateData::*setRangeVal)(ValueChangeParameter),
-    const Value &borderVal,
-    void (PropertyManagerPrivate::*setSubPropertyRange)(QtProperty *,
-                                                        ValueChangeParameter,
-                                                        ValueChangeParameter,
-                                                        ValueChangeParameter)) {
+    PROPERTY_MANAGER *manager, PROPERTY_MANAGER_PRIVATE *managerPrivate,
+    void (PROPERTY_MANAGER::*propertyChangedSignal)(QtProperty *),
+    void (PROPERTY_MANAGER::*valueChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER),
+    void (PROPERTY_MANAGER::*rangeChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER,
+                                                 VALUE_CHANGE_PARAMETER),
+    QtProperty *property, VALUE (PrivateData::*getRangeVal)() const,
+    void (PrivateData::*setRangeVal)(VALUE_CHANGE_PARAMETER),
+    const VALUE &borderVal,
+    void (PROPERTY_MANAGER_PRIVATE::*setSubPropertyRange)(
+        QtProperty *, VALUE_CHANGE_PARAMETER, VALUE_CHANGE_PARAMETER,
+        VALUE_CHANGE_PARAMETER)) {
   const auto it = managerPrivate->m_values.find(property);
   if (it == managerPrivate->m_values.end()) return;
 
@@ -320,7 +319,7 @@ static void setBorderValue(
 
   if ((data.*getRangeVal)() == borderVal) return;
 
-  const Value oldVal = data.val;
+  const VALUE oldVal = data.val;
 
   (data.*setRangeVal)(borderVal);
 
@@ -336,47 +335,49 @@ static void setBorderValue(
   emit(manager->*valueChangedSignal)(property, data.val);
 }
 
-template <class ValueChangeParameter, class PropertyManagerPrivate,
-          class PropertyManager, class Value, class PrivateData>
+template <typename VALUE_CHANGE_PARAMETER, typename PROPERTY_MANAGER_PRIVATE,
+          typename PROPERTY_MANAGER, typename VALUE, typename PrivateData>
 static void setMinimumValue(
-    PropertyManager *manager, PropertyManagerPrivate *managerPrivate,
-    void (PropertyManager::*propertyChangedSignal)(QtProperty *),
-    void (PropertyManager::*valueChangedSignal)(QtProperty *,
-                                                ValueChangeParameter),
-    void (PropertyManager::*rangeChangedSignal)(QtProperty *,
-                                                ValueChangeParameter,
-                                                ValueChangeParameter),
-    QtProperty *property, const Value &minVal) {
-  void (PropertyManagerPrivate::*setSubPropertyRange)(
-      QtProperty *, ValueChangeParameter, ValueChangeParameter,
-      ValueChangeParameter) = 0;
-  setBorderValue<ValueChangeParameter, PropertyManagerPrivate, PropertyManager,
-                 Value, PrivateData>(
+    PROPERTY_MANAGER *manager, PROPERTY_MANAGER_PRIVATE *managerPrivate,
+    void (PROPERTY_MANAGER::*propertyChangedSignal)(QtProperty *),
+    void (PROPERTY_MANAGER::*valueChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER),
+    void (PROPERTY_MANAGER::*rangeChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER,
+                                                 VALUE_CHANGE_PARAMETER),
+    QtProperty *property, const VALUE &minVal) {
+  void (PROPERTY_MANAGER_PRIVATE::*setSubPropertyRange)(
+      QtProperty *, VALUE_CHANGE_PARAMETER, VALUE_CHANGE_PARAMETER,
+      VALUE_CHANGE_PARAMETER) = 0;
+  setBorderValue<VALUE_CHANGE_PARAMETER, PROPERTY_MANAGER_PRIVATE,
+                 PROPERTY_MANAGER, VALUE, PrivateData>(
       manager, managerPrivate, propertyChangedSignal, valueChangedSignal,
-      rangeChangedSignal, property, &PropertyManagerPrivate::Data::minimumValue,
-      &PropertyManagerPrivate::Data::setMinimumValue, minVal,
+      rangeChangedSignal, property,
+      &PROPERTY_MANAGER_PRIVATE::Data::minimumValue,
+      &PROPERTY_MANAGER_PRIVATE::Data::setMinimumValue, minVal,
       setSubPropertyRange);
 }
 
-template <class ValueChangeParameter, class PropertyManagerPrivate,
-          class PropertyManager, class Value, class PrivateData>
+template <typename VALUE_CHANGE_PARAMETER, typename PROPERTY_MANAGER_PRIVATE,
+          typename PROPERTY_MANAGER, typename VALUE, typename PrivateData>
 static void setMaximumValue(
-    PropertyManager *manager, PropertyManagerPrivate *managerPrivate,
-    void (PropertyManager::*propertyChangedSignal)(QtProperty *),
-    void (PropertyManager::*valueChangedSignal)(QtProperty *,
-                                                ValueChangeParameter),
-    void (PropertyManager::*rangeChangedSignal)(QtProperty *,
-                                                ValueChangeParameter,
-                                                ValueChangeParameter),
-    QtProperty *property, const Value &maxVal) {
-  void (PropertyManagerPrivate::*setSubPropertyRange)(
-      QtProperty *, ValueChangeParameter, ValueChangeParameter,
-      ValueChangeParameter) = 0;
-  setBorderValue<ValueChangeParameter, PropertyManagerPrivate, PropertyManager,
-                 Value, PrivateData>(
+    PROPERTY_MANAGER *manager, PROPERTY_MANAGER_PRIVATE *managerPrivate,
+    void (PROPERTY_MANAGER::*propertyChangedSignal)(QtProperty *),
+    void (PROPERTY_MANAGER::*valueChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER),
+    void (PROPERTY_MANAGER::*rangeChangedSignal)(QtProperty *,
+                                                 VALUE_CHANGE_PARAMETER,
+                                                 VALUE_CHANGE_PARAMETER),
+    QtProperty *property, const VALUE &maxVal) {
+  void (PROPERTY_MANAGER_PRIVATE::*setSubPropertyRange)(
+      QtProperty *, VALUE_CHANGE_PARAMETER, VALUE_CHANGE_PARAMETER,
+      VALUE_CHANGE_PARAMETER) = 0;
+  setBorderValue<VALUE_CHANGE_PARAMETER, PROPERTY_MANAGER_PRIVATE,
+                 PROPERTY_MANAGER, VALUE, PrivateData>(
       manager, managerPrivate, propertyChangedSignal, valueChangedSignal,
-      rangeChangedSignal, property, &PropertyManagerPrivate::Data::maximumValue,
-      &PropertyManagerPrivate::Data::setMaximumValue, maxVal,
+      rangeChangedSignal, property,
+      &PROPERTY_MANAGER_PRIVATE::Data::maximumValue,
+      &PROPERTY_MANAGER_PRIVATE::Data::setMaximumValue, maxVal,
       setSubPropertyRange);
 }
 

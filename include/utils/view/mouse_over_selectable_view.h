@@ -8,13 +8,13 @@
 #include <QTableView>
 #include <QTreeView>
 /* ----------------------------------- Local -------------------------------- */
+#include "utils/view/concept.h"
 #include "utils/view/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace utils {
 
-template <typename VIEW>
-requires std::derived_from<VIEW, QAbstractItemView>
+template <IsView VIEW>
 class VIEW_API QtMouseOverSelectableView : public VIEW {
  public:
   explicit QtMouseOverSelectableView(QWidget *parent = nullptr);
@@ -25,17 +25,14 @@ class VIEW_API QtMouseOverSelectableView : public VIEW {
   void leaveEvent(QEvent *event) override;
 };
 
-template <typename VIEW>
-requires std::derived_from<VIEW, QAbstractItemView>
+template <IsView VIEW>
 QtMouseOverSelectableView<VIEW>::QtMouseOverSelectableView(QWidget *parent)
     : VIEW(parent) {}
 
-template <typename VIEW>
-requires std::derived_from<VIEW, QAbstractItemView>
-    QtMouseOverSelectableView<VIEW>::~QtMouseOverSelectableView() = default;
+template <IsView VIEW>
+QtMouseOverSelectableView<VIEW>::~QtMouseOverSelectableView() = default;
 
-template <typename VIEW>
-requires std::derived_from<VIEW, QAbstractItemView>
+template <IsView VIEW>
 void QtMouseOverSelectableView<VIEW>::mouseMoveEvent(QMouseEvent *event) {
   auto item = VIEW::indexAt(event->pos());
   VIEW::setCurrentIndex(QModelIndex{});
@@ -44,8 +41,7 @@ void QtMouseOverSelectableView<VIEW>::mouseMoveEvent(QMouseEvent *event) {
   VIEW::mouseMoveEvent(event);
 }
 
-template <typename VIEW>
-requires std::derived_from<VIEW, QAbstractItemView>
+template <IsView VIEW>
 void QtMouseOverSelectableView<VIEW>::leaveEvent(QEvent *event) {
   VIEW::setCurrentIndex(QModelIndex{});
   VIEW::leaveEvent(event);

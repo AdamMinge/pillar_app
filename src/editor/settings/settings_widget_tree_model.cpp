@@ -14,7 +14,7 @@ SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
 
 bool SettingsWidgetTreeModel::apply() {
   const auto to_apply = m_to_apply;
-  std::set<egnite::SettingsWidget *> applied_widget;
+  QSet<egnite::SettingsWidget *> applied_widget;
 
   std::for_each(to_apply.begin(), to_apply.end(),
                 [&applied_widget](auto settings_widget) {
@@ -65,7 +65,7 @@ void SettingsWidgetTreeModel::onAppliedChanged(
   if (!applied)
     m_to_apply.insert(settings_widget);
   else if (m_to_apply.contains(settings_widget))
-    m_to_apply.erase(settings_widget);
+    m_to_apply.remove(settings_widget);
 
   Q_EMIT appliedChanged(m_to_apply.empty());
 }

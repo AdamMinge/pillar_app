@@ -1,11 +1,11 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_editor.h"
 
-#include "flow_document/component/node/flow_nodes_dock.h"
+#include "flow_document/component/factories/factories_dock.h"
 #include "flow_document/component/scene/flow_scene.h"
-#include "flow_document/component/scene/flow_tools_bar.h"
 #include "flow_document/component/scene/flow_view.h"
-#include "flow_document/component/scene/tool/flow_abstract_tool.h"
+#include "flow_document/component/scene/tool/abstract_tool.h"
+#include "flow_document/component/scene/tool/tools_bar.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
@@ -31,10 +31,10 @@ FlowEditor::FlowEditor(QObject *parent)
     : egnite::DocumentEditor(parent),
       m_current_document(nullptr),
       m_main_window(new QMainWindow()),
-      m_tools_bar(new FlowToolsBar(m_main_window)),
+      m_tools_bar(new ToolsBar(m_main_window)),
       m_scene_stack(new QStackedWidget(m_main_window)),
-      m_nodes_dock(new FlowNodesDock(m_main_window)),
       m_undo_dock(new egnite::UndoDock(m_main_window)),
+      m_factories_dock(new FactoriesDock(m_main_window)),
       m_preferences(new Preferences) {
   initUi();
   initConnections();
@@ -108,7 +108,7 @@ void FlowEditor::restoreState() {
 }
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
-  return QList<QDockWidget *>{m_undo_dock, m_nodes_dock};
+  return QList<QDockWidget *>{m_undo_dock, m_factories_dock};
 }
 
 QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const {
@@ -129,13 +129,13 @@ QString FlowEditor::getDocumentId() const {
   return QLatin1String("FlowDocument");
 }
 
-void FlowEditor::toolSelected(FlowAbstractTool *tool) {
+void FlowEditor::toolSelected(AbstractTool *tool) {
   auto flow_view = m_view_for_document[m_current_document];
   auto flow_scene = flow_view->getScene();
   auto prev_tool = flow_scene->getTool();
 
   if (prev_tool) {
-    disconnect(prev_tool, &FlowAbstractTool::cursorChanged, this,
+    disconnect(prev_tool, &AbstractTool::cursorChanged, this,
                &FlowEditor::cursorChanged);
   }
 
@@ -143,7 +143,7 @@ void FlowEditor::toolSelected(FlowAbstractTool *tool) {
   flow_view->viewport()->setCursor(tool ? tool->getCursor() : Qt::ArrowCursor);
 
   if (tool) {
-    connect(tool, &FlowAbstractTool::cursorChanged, this,
+    connect(tool, &AbstractTool::cursorChanged, this,
             &FlowEditor::cursorChanged);
   }
 }
@@ -160,14 +160,13 @@ void FlowEditor::initUi() {
   m_main_window->setCentralWidget(m_scene_stack);
 
   m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
-  m_nodes_dock->raise();
+  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_factories_dock);
 
   m_main_window->addToolBar(m_tools_bar);
 }
 
 void FlowEditor::initConnections() {
-  connect(m_tools_bar, &FlowToolsBar::toolSelected, this,
+  connect(m_tools_bar, &ToolsBar::toolSelected, this,
           &FlowEditor::toolSelected);
 }
 

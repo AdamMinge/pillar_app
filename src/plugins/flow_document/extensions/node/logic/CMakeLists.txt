@@ -13,12 +13,12 @@ set(include_root
 set(sources
     ${source_root}/logic_node.cpp ${source_root}/logic_node_not.cpp
     ${source_root}/logic_node_and.cpp ${source_root}/logic_node_or.cpp
-    ${source_root}/node_factory.cpp)
+    ${source_root}/logic_group_factory.cpp)
 
 set(includes
     ${include_root}/export.h ${include_root}/logic_node.h
     ${include_root}/logic_node_not.h ${include_root}/logic_node_and.h
-    ${include_root}/logic_node_or.h ${include_root}/node_factory.h)
+    ${include_root}/logic_node_or.h ${include_root}/logic_group_factory.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

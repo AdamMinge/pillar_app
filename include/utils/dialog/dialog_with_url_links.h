@@ -9,6 +9,7 @@
 /* -------------------------------------------------------------------------- */
 
 namespace utils {
+
 template <typename TYPE>
 class DIALOG_API QtDialogWithUrlLinks : public QDialog {
  public:

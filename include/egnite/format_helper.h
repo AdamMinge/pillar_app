@@ -2,6 +2,7 @@
 #define EGNITE_FORMAT_HELPER_H
 
 /* ----------------------------------- Local -------------------------------- */
+#include "egnite/concept.h"
 #include "egnite/export.h"
 #include "egnite/file_format.h"
 #include "egnite/plugin_manager.h"
@@ -9,8 +10,7 @@
 
 namespace egnite {
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat>
+template <IsFileFormat FORMAT>
 class LIB_EGNITE_API FormatHelper {
  public:
   explicit FormatHelper(FileFormat::Capabilities capabilities);
@@ -28,8 +28,7 @@ class LIB_EGNITE_API FormatHelper {
   QString m_filter;
 };
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat>
+template <IsFileFormat FORMAT>
 FormatHelper<FORMAT>::FormatHelper(FileFormat::Capabilities capabilities) {
   PluginManager::getInstance().forEach<FORMAT>(
       [this, capabilities](auto format) {
@@ -42,19 +41,19 @@ FormatHelper<FORMAT>::FormatHelper(FileFormat::Capabilities capabilities) {
       });
 }
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat>
-const QString &FormatHelper<FORMAT>::getFilter() const { return m_filter; }
+template <IsFileFormat FORMAT>
+const QString &FormatHelper<FORMAT>::getFilter() const {
+  return m_filter;
+}
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat>
+template <IsFileFormat FORMAT>
 const QList<FORMAT *> &FormatHelper<FORMAT>::getFormats() const {
   return m_formats;
 }
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat> FORMAT *
-FormatHelper<FORMAT>::findFormatByFileName(const QString &file_name) const {
+template <IsFileFormat FORMAT>
+FORMAT *FormatHelper<FORMAT>::findFormatByFileName(
+    const QString &file_name) const {
   auto found_format = std::find_if(
       m_formats.begin(), m_formats.end(),
       [&file_name](auto format) { return format->supportsFile(file_name); });
@@ -62,9 +61,9 @@ FormatHelper<FORMAT>::findFormatByFileName(const QString &file_name) const {
   return found_format != m_formats.end() ? *found_format : nullptr;
 }
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat> FORMAT *
-FormatHelper<FORMAT>::findFormatByShortName(const QString &short_name) const {
+template <IsFileFormat FORMAT>
+FORMAT *FormatHelper<FORMAT>::findFormatByShortName(
+    const QString &short_name) const {
   auto found_format = std::find_if(
       m_formats.begin(), m_formats.end(), [&short_name](auto format) {
         return format->getShortName() == short_name;
@@ -73,9 +72,9 @@ FormatHelper<FORMAT>::findFormatByShortName(const QString &short_name) const {
   return found_format != m_formats.end() ? *found_format : nullptr;
 }
 
-template <typename FORMAT>
-requires std::derived_from<FORMAT, FileFormat> FORMAT *
-FormatHelper<FORMAT>::findFormatByNameFilter(const QString &name_filter) const {
+template <IsFileFormat FORMAT>
+FORMAT *FormatHelper<FORMAT>::findFormatByNameFilter(
+    const QString &name_filter) const {
   auto found_format = std::find_if(
       m_formats.begin(), m_formats.end(), [&name_filter](auto format) {
         return format->getNameFilter() == name_filter;

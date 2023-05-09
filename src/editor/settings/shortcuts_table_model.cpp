@@ -92,7 +92,7 @@ bool ShortcutsTableModel::setData(const QModelIndex &index,
   if (role == Qt::DisplayRole && index.column() == Column::ShortcutColumn) {
     auto new_key_sequence = value.value<QKeySequence>();
     auto old_key_sequence = m_actions.at(index.row()).key_sequence;
-    auto &shortcut_data = m_actions.at(index.row());
+    auto &shortcut_data = m_actions[index.row()];
 
     shortcut_data.key_sequence = new_key_sequence;
 

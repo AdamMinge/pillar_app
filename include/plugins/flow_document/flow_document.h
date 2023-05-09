@@ -12,7 +12,6 @@
 namespace flow_document {
 
 class ChangeEvent;
-class FlowGraph;
 
 class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   Q_OBJECT
@@ -23,17 +22,11 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
  public:
   ~FlowDocument() override;
 
-  [[nodiscard]] const FlowGraph *getGraph() const;
-  [[nodiscard]] FlowGraph *getGraph();
-
  Q_SIGNALS:
   void event(const ChangeEvent &event);
 
  protected:
   explicit FlowDocument(QObject *parent = nullptr);
-
- private:
-  FlowGraph *m_graph;
 };
 
 }  // namespace flow_document

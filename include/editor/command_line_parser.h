@@ -43,7 +43,7 @@ class CommandLineParser {
                           const QString &valueName = QString{});
 
  private:
-  std::list<Option> m_options;
+  QList<Option> m_options;
 };
 
 template <typename TYPE>
