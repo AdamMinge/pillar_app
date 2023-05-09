@@ -1,5 +1,5 @@
 {
-  "Name": "Logic Nodes",
+  "Name": "Logic Flow",
   "Description": [
     "Add factory for logic nodes as AND, NOT, OR."
   ],
