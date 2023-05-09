@@ -6,6 +6,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QVBoxLayout>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/model/leaf_filter_proxy_model.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_factories_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -16,7 +18,7 @@ FactoriesDock::FactoriesDock(QWidget *parent)
     : QDockWidget(parent),
       m_ui(new Ui::FactoriesDock()),
       m_factories_model(new FactoriesTreeModel),
-      m_factories_filter_model(new QSortFilterProxyModel),
+      m_search_proxy_model(new utils::LeafFilterProxyModel),
       m_factories_delegate(new FactoriesTreeDelegate) {
   setObjectName(QLatin1String("Factories"));
 
@@ -40,16 +42,26 @@ void FactoriesDock::changeEvent(QEvent *event) {
   }
 }
 
+void FactoriesDock::searchFactories(const QString &search) {
+  m_search_proxy_model->setFilterWildcard(search);
+}
+
 void FactoriesDock::initUi() {
   m_ui->setupUi(this);
 
-  m_factories_filter_model->setSourceModel(m_factories_model.get());
+  m_search_proxy_model->setSourceModel(m_factories_model.get());
 
-  m_ui->m_factories_view->setModel(m_factories_filter_model.get());
+  m_ui->m_factories_view->setModel(m_search_proxy_model.get());
   m_ui->m_factories_view->setItemDelegate(m_factories_delegate.get());
+
+  m_search_proxy_model->setFilterRole(FactoriesTreeModel::Role::NameRole);
+  m_search_proxy_model->setRecursiveFilteringEnabled(true);
 }
 
-void FactoriesDock::initConnections() {}
+void FactoriesDock::initConnections() {
+  connect(m_ui->m_search_factories_edit, &QLineEdit::textChanged, this,
+          &FactoriesDock::searchFactories);
+}
 
 void FactoriesDock::retranslateUi() { m_ui->retranslateUi(this); }
 

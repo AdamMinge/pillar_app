@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FactoriesDock</class>
- <widget class="QDockWidget" name="FactoriesDock">
+ <class>ObjectsDock</class>
+ <widget class="QDockWidget" name="ObjectsDock">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Factories</string>
+   <string>Objects</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -39,21 +39,14 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLineEdit" name="m_search_factories_edit">
+       <widget class="QLineEdit" name="m_search_objects_edit">
         <property name="placeholderText">
-         <string>Search factories</string>
+         <string>Search objects</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="utils::QtUnselectableTreeView" name="m_factories_view">
-        <property name="dragEnabled">
-         <bool>true</bool>
-        </property>
-        <attribute name="headerVisible">
-         <bool>false</bool>
-        </attribute>
-       </widget>
+       <widget class="utils::QtUnselectableTreeView" name="m_objects_view"/>
       </item>
      </layout>
     </item>

@@ -9,20 +9,25 @@
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
-class LayoutsDock;
+class ObjectsDock;
 }
 
 namespace flow_document {
 
-class FLOW_DOCUMENT_API LayoutsDock : public QDockWidget {
+class ObjectsTreeModel;
+
+class FLOW_DOCUMENT_API ObjectsDock : public QDockWidget {
   Q_OBJECT
 
  public:
-  explicit LayoutsDock(QWidget *parent = nullptr);
-  ~LayoutsDock() override;
+  explicit ObjectsDock(QWidget *parent = nullptr);
+  ~ObjectsDock() override;
 
  protected:
   void changeEvent(QEvent *event) override;
+
+ private Q_SLOTS:
+  void searchObjects(const QString &search);
 
  private:
   void initUi();
@@ -31,7 +36,10 @@ class FLOW_DOCUMENT_API LayoutsDock : public QDockWidget {
   void retranslateUi();
 
  private:
-  QScopedPointer<Ui::LayoutsDock> m_ui;
+  QScopedPointer<Ui::ObjectsDock> m_ui;
+
+  QScopedPointer<ObjectsTreeModel> m_objects_model;
+  QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
 }  // namespace flow_document

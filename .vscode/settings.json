@@ -86,7 +86,9 @@
         "qicon": "cpp",
         "qjsondocument": "cpp",
         "qjsonobject": "cpp",
-        "qvboxlayout": "cpp"
+        "qvboxlayout": "cpp",
+        "qcolor": "cpp",
+        "qregularexpression": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

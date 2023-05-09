@@ -35,7 +35,8 @@ set(sources
     ${source_root}/component/factories/factories_tree_delegate.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
     ${source_root}/component/properties/properties_dock.cpp
-    ${source_root}/component/layouts/layouts_dock.cpp
+    ${source_root}/component/objects/objects_dock.cpp
+    ${source_root}/component/objects/objects_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/item/graphics_item.cpp
@@ -77,7 +78,8 @@ set(includes
     ${include_root}/component/factories/factories_tree_delegate.h
     ${include_root}/component/factories/factories_tree_model.h
     ${include_root}/component/properties/properties_dock.h
-    ${include_root}/component/layouts/layouts_dock.h
+    ${include_root}/component/objects/objects_dock.h
+    ${include_root}/component/objects/objects_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/item/graphics_item.h
@@ -120,7 +122,8 @@ egnite_add_plugins(
   DEPENDS_PRIVATE
   Qt6::Core
   Qt6::Widgets
-  egnite::egnite)
+  egnite::egnite
+  utils::model)
 
 target_include_directories(
   flow_document

@@ -27,6 +27,9 @@ class FLOW_DOCUMENT_API FactoriesDock : public QDockWidget {
  protected:
   void changeEvent(QEvent *event) override;
 
+ private Q_SLOTS:
+  void searchFactories(const QString &search);
+
  private:
   void initUi();
   void initConnections();
@@ -37,7 +40,7 @@ class FLOW_DOCUMENT_API FactoriesDock : public QDockWidget {
   QScopedPointer<Ui::FactoriesDock> m_ui;
 
   QScopedPointer<FactoriesTreeModel> m_factories_model;
-  QScopedPointer<QSortFilterProxyModel> m_factories_filter_model;
+  QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
   QScopedPointer<FactoriesTreeDelegate> m_factories_delegate;
 };
 

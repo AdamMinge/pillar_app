@@ -27,8 +27,8 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   explicit FlowScene(QObject *parent = nullptr);
   ~FlowScene() override;
 
-  void setSceneDocument(FlowDocument *flow_document);
-  [[nodiscard]] FlowDocument *getSceneDocument() const;
+  void setDocument(FlowDocument *flow_document);
+  [[nodiscard]] FlowDocument *getDocument() const;
 
   void setTool(AbstractTool *tool);
   [[nodiscard]] AbstractTool *getTool() const;

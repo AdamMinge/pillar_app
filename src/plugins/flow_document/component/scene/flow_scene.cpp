@@ -18,7 +18,7 @@ FlowScene::FlowScene(QObject *parent)
 
 FlowScene::~FlowScene() = default;
 
-void FlowScene::setSceneDocument(FlowDocument *flow_document) {
+void FlowScene::setDocument(FlowDocument *flow_document) {
   if (m_flow_document == flow_document) return;
 
   if (m_flow_document) {
@@ -36,7 +36,7 @@ void FlowScene::setSceneDocument(FlowDocument *flow_document) {
   }
 }
 
-FlowDocument *FlowScene::getSceneDocument() const { return m_flow_document; }
+FlowDocument *FlowScene::getDocument() const { return m_flow_document; }
 
 void FlowScene::setTool(AbstractTool *tool) {
   if (m_tool) m_tool->deactivate();
