@@ -34,6 +34,8 @@ set(sources
     ${source_root}/component/factories/factories_dock.cpp
     ${source_root}/component/factories/factories_tree_delegate.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
+    ${source_root}/component/properties/properties_dock.cpp
+    ${source_root}/component/layouts/layouts_dock.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/item/graphics_item.cpp
@@ -74,6 +76,8 @@ set(includes
     ${include_root}/component/factories/factories_dock.h
     ${include_root}/component/factories/factories_tree_delegate.h
     ${include_root}/component/factories/factories_tree_model.h
+    ${include_root}/component/properties/properties_dock.h
+    ${include_root}/component/layouts/layouts_dock.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/item/graphics_item.h
@@ -90,7 +94,8 @@ set(includes
 
 set(resources ${resources_root}/flow_document.qrc)
 
-set(uis ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui)
+set(uis ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui
+        ${uis_root}/properties_dock.ui ${uis_root}/layouts_dock.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #
