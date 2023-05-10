@@ -21,11 +21,11 @@ void FlowDocumentActionHandler::deleteInstance() { m_instance.reset(nullptr); }
 FlowDocumentActionHandler::FlowDocumentActionHandler() {
   m_add_group_layer = new QAction(this);
   m_add_group_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/add.png"));
+      QIcon(":/plugins/flow_document/images/16x16/group_layer.png"));
 
   m_add_node_layer = new QAction(this);
   m_add_node_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/add.png"));
+      QIcon(":/plugins/flow_document/images/16x16/node_layer.png"));
 
   m_remove_layer = new QAction(this);
   m_remove_layer->setIcon(

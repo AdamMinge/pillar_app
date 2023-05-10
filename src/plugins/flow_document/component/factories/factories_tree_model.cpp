@@ -138,10 +138,10 @@ QString FactoriesTreeModel::getName(Factory *factory) const {
 QIcon FactoriesTreeModel::getIcon(Factory *factory) const {
   switch (factory->getType()) {
     case Factory::Type::GroupFactory:
-      return QIcon(":/plugins/flow_document/images/32x32/factories.png");
+      return QIcon(":/plugins/flow_document/images/32x32/dir.png");
 
     case Factory::Type::NodeFactory:
-      return QIcon(":/plugins/flow_document/images/32x32/node_factory.png");
+      return QIcon(":/plugins/flow_document/images/32x32/node.png");
   }
 
   return QIcon{};

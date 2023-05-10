@@ -10,12 +10,12 @@
         <file>images/16x16/duplicate.png</file>
         <file>images/16x16/unlocked.png</file>
         <file>images/16x16/visible.png</file>
+        <file>images/16x16/group_layer.png</file>
+        <file>images/16x16/node_layer.png</file>
 
-
-        <file>images/32x32/factories.png</file>
-        <file>images/32x32/node_factory.png</file>
+        <file>images/32x32/dir.png</file>
+        <file>images/32x32/node.png</file>
         <file>images/32x32/selection_tool.png</file>
-        <file>images/32x32/type_converter_factory.png</file>
 
         <file>images/64x64/flow_document.png</file>
 
