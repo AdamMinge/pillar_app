@@ -5,25 +5,17 @@
 namespace flow_document {
 
 ObjectsTreeModel::ObjectsTreeModel(QObject *parent)
-    : QAbstractItemModel(parent), m_flow_document(nullptr), m_flow(nullptr) {}
+    : QAbstractItemModel(parent), m_document(nullptr), m_flow(nullptr) {}
 
 ObjectsTreeModel::~ObjectsTreeModel() = default;
 
 void ObjectsTreeModel::setDocument(FlowDocument *flow_document) {
-  if (m_flow_document == flow_document) return;
+  if (m_document == flow_document) return;
 
-  if (m_flow_document) {
-    // TODO
-  }
-
-  m_flow_document = flow_document;
-
-  if (m_flow_document) {
-    // TODO
-  }
+  m_document = flow_document;
 }
 
-FlowDocument *ObjectsTreeModel::getDocument() const { return m_flow_document; }
+FlowDocument *ObjectsTreeModel::getDocument() const { return m_document; }
 
 Qt::ItemFlags ObjectsTreeModel::flags(const QModelIndex &index) const {}
 

@@ -28,6 +28,7 @@ class ToolsBar;
 class FactoriesDock;
 class PropertiesDock;
 class ObjectsDock;
+class LayersDock;
 
 class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   Q_OBJECT
@@ -79,6 +80,7 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   FactoriesDock *m_factories_dock;
   PropertiesDock *m_properties_dock;
   ObjectsDock *m_objects_dock;
+  LayersDock *m_layers_dock;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;
 

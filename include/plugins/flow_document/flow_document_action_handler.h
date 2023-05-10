@@ -1,0 +1,74 @@
+#ifndef FLOW_DOCUMENT_FLOW_DOCUMENT_ACTION_HANDLER_H
+#define FLOW_DOCUMENT_FLOW_DOCUMENT_ACTION_HANDLER_H
+
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QAction>
+#include <QMenu>
+#include <QObject>
+/* ----------------------------------- Local -------------------------------- */
+#include "flow_document/export.h"
+/* -------------------------------------------------------------------------- */
+
+namespace flow_document {
+
+class FlowDocument;
+
+class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
+  Q_OBJECT
+
+ public:
+  static FlowDocumentActionHandler& getInstance();
+  static void deleteInstance();
+
+ public:
+  ~FlowDocumentActionHandler() override;
+
+  void setDocument(FlowDocument* document);
+  [[nodiscard]] FlowDocument* getDocument() const;
+
+  [[nodiscard]] QAction* getAddGroupLayerAction() const;
+  [[nodiscard]] QAction* getAddNodeLayerAction() const;
+  [[nodiscard]] QAction* getRemoveLayerAction() const;
+  [[nodiscard]] QAction* getRaiseLayerAction() const;
+  [[nodiscard]] QAction* getLowerLayerAction() const;
+  [[nodiscard]] QAction* getDuplicateLayerAction() const;
+  [[nodiscard]] QAction* getShowHideOtherLayersAction() const;
+  [[nodiscard]] QAction* getLockUnlockOtherLayersAction() const;
+
+  [[nodiscard]] QAction* getRemoveObjectAction() const;
+  [[nodiscard]] QAction* getRaiseObjectAction() const;
+  [[nodiscard]] QAction* getLowerObjectAction() const;
+  [[nodiscard]] QAction* getDuplicateObjectAction() const;
+
+  [[nodiscard]] QMenu* createNewLayerMenu(QWidget* parent) const;
+
+ private:
+  explicit FlowDocumentActionHandler();
+
+  void updateActions();
+  void retranslateUi();
+
+ private:
+  static QScopedPointer<FlowDocumentActionHandler> m_instance;
+
+ private:
+  FlowDocument* m_document;
+
+  QAction* m_add_group_layer;
+  QAction* m_add_node_layer;
+  QAction* m_remove_layer;
+  QAction* m_raise_layer;
+  QAction* m_lower_layer;
+  QAction* m_duplicate_layer;
+  QAction* m_show_hide_other_layers;
+  QAction* m_lock_unlock_other_layers;
+
+  QAction* m_remove_object;
+  QAction* m_raise_object;
+  QAction* m_lower_object;
+  QAction* m_duplicate_object;
+};
+
+}  // namespace flow_document
+
+#endif  // FLOW_DOCUMENT_FLOW_DOCUMENT_ACTION_HANDLER_H

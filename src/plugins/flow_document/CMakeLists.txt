@@ -14,6 +14,7 @@ set(sources
     ${source_root}/flow_document.cpp
     ${source_root}/flow_document_format.cpp
     ${source_root}/flow_document_format_flow.cpp
+    ${source_root}/flow_document_action_handler.cpp
     ${source_root}/flow_document_plugin.cpp
     ${source_root}/flow_document_reader.cpp
     ${source_root}/flow_document_writer.cpp
@@ -37,6 +38,8 @@ set(sources
     ${source_root}/component/properties/properties_dock.cpp
     ${source_root}/component/objects/objects_dock.cpp
     ${source_root}/component/objects/objects_tree_model.cpp
+    ${source_root}/component/layers/layers_dock.cpp
+    ${source_root}/component/layers/layers_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/item/graphics_item.cpp
@@ -57,6 +60,7 @@ set(includes
     ${include_root}/flow_document.h
     ${include_root}/flow_document_format.h
     ${include_root}/flow_document_format_flow.h
+    ${include_root}/flow_document_action_handler.h
     ${include_root}/flow_document_plugin.h
     ${include_root}/flow_document_reader.h
     ${include_root}/flow_document_writer.h
@@ -80,6 +84,8 @@ set(includes
     ${include_root}/component/properties/properties_dock.h
     ${include_root}/component/objects/objects_dock.h
     ${include_root}/component/objects/objects_tree_model.h
+    ${include_root}/component/layers/layers_dock.h
+    ${include_root}/component/layers/layers_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/item/graphics_item.h
@@ -96,8 +102,10 @@ set(includes
 
 set(resources ${resources_root}/flow_document.qrc)
 
-set(uis ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui
-        ${uis_root}/properties_dock.ui ${uis_root}/layouts_dock.ui)
+set(uis
+    ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui
+    ${uis_root}/properties_dock.ui ${uis_root}/layers_dock.ui
+    ${uis_root}/objects_dock.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

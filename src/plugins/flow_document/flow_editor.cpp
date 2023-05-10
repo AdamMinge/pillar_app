@@ -2,6 +2,7 @@
 #include "flow_document/flow_editor.h"
 
 #include "flow_document/component/factories/factories_dock.h"
+#include "flow_document/component/layers/layers_dock.h"
 #include "flow_document/component/objects/objects_dock.h"
 #include "flow_document/component/properties/properties_dock.h"
 #include "flow_document/component/scene/flow_scene.h"
@@ -39,6 +40,7 @@ FlowEditor::FlowEditor(QObject *parent)
       m_factories_dock(new FactoriesDock(m_main_window)),
       m_properties_dock(new PropertiesDock(m_main_window)),
       m_objects_dock(new ObjectsDock(m_main_window)),
+      m_layers_dock(new LayersDock(m_main_window)),
       m_preferences(new Preferences) {
   initUi();
   initConnections();
@@ -113,7 +115,7 @@ void FlowEditor::restoreState() {
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
   return QList<QDockWidget *>{m_undo_dock, m_factories_dock, m_properties_dock,
-                              m_objects_dock};
+                              m_objects_dock, m_layers_dock};
 }
 
 QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const {
@@ -171,7 +173,10 @@ void FlowEditor::initUi() {
 
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_factories_dock);
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_objects_dock);
+  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_layers_dock);
+
   m_main_window->tabifyDockWidget(m_factories_dock, m_objects_dock);
+  m_main_window->tabifyDockWidget(m_factories_dock, m_layers_dock);
   m_factories_dock->raise();
 
   m_main_window->addToolBar(m_tools_bar);

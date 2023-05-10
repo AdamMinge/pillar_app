@@ -10,6 +10,74 @@
     </message>
 </context>
 <context>
+    <name>FlowDocumentActionHandler</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="133"/>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="145"/>
+        <source>&amp;Group Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="146"/>
+        <source>&amp;Node Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="147"/>
+        <source>&amp;Remove Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="148"/>
+        <source>&amp;Raise Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="149"/>
+        <source>&amp;Lower Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="150"/>
+        <source>&amp;Duplicate Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="151"/>
+        <source>Show/&amp;Hide Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="152"/>
+        <source>Lock/&amp;Unlock Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="154"/>
+        <source>&amp;Remove Objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="155"/>
+        <source>&amp;Raise Objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="156"/>
+        <source>&amp;Lower Objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="157"/>
+        <source>&amp;Duplicate Objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FlowDocumentFormatFlow</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_format_flow.cpp" line="17"/>
@@ -88,6 +156,14 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="17"/>
         <source>Selection Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ToolsBar</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="143"/>
+        <source>ToolsBar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

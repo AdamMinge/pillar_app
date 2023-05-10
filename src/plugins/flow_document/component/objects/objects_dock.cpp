@@ -2,8 +2,11 @@
 #include "flow_document/component/objects/objects_dock.h"
 
 #include "flow_document/component/objects/objects_tree_model.h"
+#include "flow_document/flow_document_action_handler.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
+#include <QToolBar>
+#include <QToolButton>
 #include <QVBoxLayout>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_objects_dock.h"
@@ -46,12 +49,25 @@ void ObjectsDock::initUi() {
   m_ui->setupUi(this);
 
   // TODO - Uncomment when finish tree model impl
-
   // m_search_proxy_model->setSourceModel(m_objects_model.get());
   // m_ui->m_objects_view->setModel(m_search_proxy_model.get());
 
   // m_search_proxy_model->setFilterRole(ObjectsTreeModel::Role::NameRole);
   // m_search_proxy_model->setRecursiveFilteringEnabled(true);
+
+  const auto &handler = FlowDocumentActionHandler::getInstance();
+
+  auto buttons_container = new QToolBar();
+  buttons_container->setFloatable(false);
+  buttons_container->setMovable(false);
+  buttons_container->setIconSize(QSize(16, 16));
+
+  buttons_container->addAction(handler.getRemoveObjectAction());
+  buttons_container->addAction(handler.getRaiseObjectAction());
+  buttons_container->addAction(handler.getLowerObjectAction());
+  buttons_container->addAction(handler.getDuplicateObjectAction());
+
+  m_ui->m_toolbar_layout->addWidget(buttons_container);
 }
 
 void ObjectsDock::initConnections() {

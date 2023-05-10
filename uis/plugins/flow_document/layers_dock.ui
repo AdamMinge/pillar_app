@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ObjectsDock</class>
- <widget class="QDockWidget" name="ObjectsDock">
+ <class>LayersDock</class>
+ <widget class="QDockWidget" name="LayersDock">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Objects</string>
+   <string>Layers</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -39,9 +39,9 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLineEdit" name="m_search_objects_edit">
+       <widget class="QLineEdit" name="m_search_layers_edit">
         <property name="placeholderText">
-         <string>Search objects</string>
+         <string>Search layers</string>
         </property>
        </widget>
       </item>

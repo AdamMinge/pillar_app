@@ -15,6 +15,7 @@ ToolsBar::ToolsBar(QWidget *parent)
 
   initUi();
   initConnections();
+  retranslateUi();
 
   selectFirstTool();
 }
@@ -90,6 +91,18 @@ QAction *ToolsBar::findAction(AbstractTool *tool) {
   return nullptr;
 }
 
+void ToolsBar::changeEvent(QEvent *event) {
+  QToolBar::changeEvent(event);
+
+  switch (event->type()) {
+    case QEvent::LanguageChange:
+      retranslateUi();
+      break;
+    default:
+      break;
+  }
+}
+
 void ToolsBar::toolActivate(QAction *action) {
   auto tool = action->data().value<AbstractTool *>();
   Q_ASSERT(tool);
@@ -126,6 +139,8 @@ void ToolsBar::initConnections() {
   connect(m_action_group, &QActionGroup::triggered, this,
           &ToolsBar::toolActivate);
 }
+
+void ToolsBar::retranslateUi() { setWindowTitle(tr("ToolsBar")); }
 
 void ToolsBar::selectFirstTool() {
   auto action = m_action_group->actions().first();
