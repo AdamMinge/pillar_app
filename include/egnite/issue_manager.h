@@ -3,6 +3,8 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 #include "egnite/issue.h"
@@ -36,7 +38,7 @@ class LIB_EGNITE_API IssueManager : public QObject {
   explicit IssueManager();
 
  private:
-  static QScopedPointer<IssueManager> m_instance;
+  static std::unique_ptr<IssueManager> m_instance;
 };
 
 inline void REPORT_WARNING(QString text, QVariant context = QVariant{},

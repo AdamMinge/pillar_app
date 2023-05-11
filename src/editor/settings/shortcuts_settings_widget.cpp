@@ -64,8 +64,8 @@ void ShortcutsSettingsWidget::initUi() {
   m_ui->m_shortcuts_table->hideColumn(
       ShortcutsTableModel::Column::AppliedColumn);
   m_ui->m_shortcuts_table->setItemDelegate(m_shortcuts_table_delegate.get());
-  m_ui->m_shortcuts_table->horizontalHeader()->resizeSections(
-      QHeaderView::ResizeToContents);
+
+  resizeSections();
 }
 
 void ShortcutsSettingsWidget::initConnections() {
@@ -75,11 +75,21 @@ void ShortcutsSettingsWidget::initConnections() {
   connect(m_shortcuts_table_model.get(), &ShortcutsTableModel::dataChanged,
           [this]() { Q_EMIT appliedChanged(applied()); });
 
+  connect(m_shortcuts_table_model.get(), &ShortcutsTableModel::rowsInserted,
+          this, &ShortcutsSettingsWidget::resizeSections);
+  connect(m_shortcuts_table_model.get(), &ShortcutsTableModel::rowsRemoved,
+          this, &ShortcutsSettingsWidget::resizeSections);
+
   connect(m_ui->m_shortcuts_table, &QTableView::customContextMenuRequested,
           this, &ShortcutsSettingsWidget::contextMenu);
 }
 
 void ShortcutsSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
+
+void ShortcutsSettingsWidget::resizeSections() {
+  m_ui->m_shortcuts_table->horizontalHeader()->resizeSections(
+      QHeaderView::ResizeToContents);
+}
 
 void ShortcutsSettingsWidget::searchAction(const QString &search) {
   m_search_proxy_model->setFilterWildcard(search);

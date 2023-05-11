@@ -4,11 +4,11 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
 #include <QPointer>
-#include <QScopedPointer>
 #include <QStackedLayout>
 #include <QTabBar>
 #include <QUndoGroup>
 /* --------------------------------- Standard ------------------------------- */
+#include <memory>
 #include <unordered_map>
 /* ---------------------------------- Local --------------------------------- */
 #include "egnite/export.h"
@@ -95,7 +95,7 @@ class LIB_EGNITE_API DocumentManager : public QObject,
   void enabledStandardActionsChanged();
 
  private:
-  static QScopedPointer<DocumentManager> m_instance;
+  static std::unique_ptr<DocumentManager> m_instance;
 
   std::vector<std::unique_ptr<Document>> m_documents;
   std::unordered_map<QString, DocumentEditor *> m_editor_for_document_id;

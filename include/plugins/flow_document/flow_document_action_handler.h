@@ -49,7 +49,7 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   void retranslateUi();
 
  private:
-  static QScopedPointer<FlowDocumentActionHandler> m_instance;
+  static std::unique_ptr<FlowDocumentActionHandler> m_instance;
 
  private:
   FlowDocument* m_document;

@@ -4,11 +4,11 @@
 
 namespace egnite {
 
-QScopedPointer<IssueManager> IssueManager::m_instance =
-    QScopedPointer<IssueManager>(nullptr);
+std::unique_ptr<IssueManager> IssueManager::m_instance =
+    std::unique_ptr<IssueManager>(nullptr);
 
 IssueManager &IssueManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new IssueManager);
+  if (!m_instance) m_instance.reset(new IssueManager);
 
   return *m_instance;
 }

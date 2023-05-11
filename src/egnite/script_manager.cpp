@@ -8,11 +8,11 @@
 
 namespace egnite {
 
-QScopedPointer<ScriptManager> ScriptManager::m_instance =
-    QScopedPointer<ScriptManager>(nullptr);
+std::unique_ptr<ScriptManager> ScriptManager::m_instance =
+    std::unique_ptr<ScriptManager>(nullptr);
 
 ScriptManager &ScriptManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new ScriptManager);
+  if (!m_instance) m_instance.reset(new ScriptManager);
 
   return *m_instance;
 }

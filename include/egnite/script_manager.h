@@ -46,7 +46,7 @@ class LIB_EGNITE_API ScriptManager : public QObject,
   void onScriptWarnings(const QList<QQmlError> &warnings);
 
  private:
-  static QScopedPointer<ScriptManager> m_instance;
+  static std::unique_ptr<ScriptManager> m_instance;
 
   std::unique_ptr<QQmlEngine> m_engine;
   std::unique_ptr<ScriptModule> m_script_module;

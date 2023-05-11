@@ -35,6 +35,7 @@ class ShortcutsSettingsWidget : public egnite::SettingsWidget {
   void retranslateUi();
 
  private Q_SLOTS:
+  void resizeSections();
   void searchAction(const QString &search);
   void contextMenu(const QPoint &pos);
 

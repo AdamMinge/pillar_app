@@ -38,11 +38,13 @@ requires std::derived_from<VIEW, QAbstractItemView>
 void QtUnselectableView<VIEW>::mousePressEvent(QMouseEvent *event) {
   if (event->buttons() != Qt::RightButton) {
     auto item = VIEW::indexAt(event->pos());
-    auto selected = VIEW::selectionModel()->isSelected(item);
 
-    if ((item.row() == -1 && item.column() == -1) || selected) {
-      VIEW::selectionModel()->setCurrentIndex(
-          QModelIndex(), QItemSelectionModel::ClearAndSelect);
+    if (auto selection_model = VIEW::selectionModel()) {
+      auto selected = selection_model && selection_model->isSelected(item);
+      if ((item.row() == -1 && item.column() == -1) || selected) {
+        VIEW::selectionModel()->setCurrentIndex(
+            QModelIndex(), QItemSelectionModel::ClearAndSelect);
+      }
     }
   }
 
@@ -53,8 +55,10 @@ template <typename VIEW>
 requires std::derived_from<VIEW, QAbstractItemView>
 void QtUnselectableView<VIEW>::focusOutEvent(QFocusEvent *event) {
   if (event->reason() != Qt::PopupFocusReason) {
-    VIEW::selectionModel()->setCurrentIndex(
-        QModelIndex(), QItemSelectionModel::ClearAndSelect);
+    if (auto selection_model = VIEW::selectionModel()) {
+      selection_model->setCurrentIndex(QModelIndex(),
+                                       QItemSelectionModel::ClearAndSelect);
+    }
   }
 
   VIEW::focusOutEvent(event);

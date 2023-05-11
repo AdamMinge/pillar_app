@@ -10,6 +10,7 @@
 #include "flow_document/component/scene/tool/abstract_tool.h"
 #include "flow_document/component/scene/tool/tools_bar.h"
 #include "flow_document/flow_document.h"
+#include "flow_document/flow_document_action_handler.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
 /* ---------------------------------- Egnite -------------------------------- */
@@ -41,12 +42,13 @@ FlowEditor::FlowEditor(QObject *parent)
       m_properties_dock(new PropertiesDock(m_main_window)),
       m_objects_dock(new ObjectsDock(m_main_window)),
       m_layers_dock(new LayersDock(m_main_window)),
+      m_action_handler(FlowDocumentActionHandler::getInstance()),
       m_preferences(new Preferences) {
   initUi();
   initConnections();
 }
 
-FlowEditor::~FlowEditor() = default;
+FlowEditor::~FlowEditor() { FlowDocumentActionHandler::deleteInstance(); }
 
 void FlowEditor::setCurrentDocument(egnite::Document *document) {
   if (m_current_document == document) return;
@@ -57,6 +59,8 @@ void FlowEditor::setCurrentDocument(egnite::Document *document) {
   m_current_document = flow_document;
 
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
+
+  m_action_handler.setDocument(m_current_document);
 
   m_tools_bar->setDocument(m_current_document);
   if (auto flow_view = m_view_for_document[flow_document]; flow_view) {

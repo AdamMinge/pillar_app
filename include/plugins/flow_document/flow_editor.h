@@ -30,6 +30,8 @@ class PropertiesDock;
 class ObjectsDock;
 class LayersDock;
 
+class FlowDocumentActionHandler;
+
 class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   Q_OBJECT
   Q_INTERFACES(egnite::DocumentEditor)
@@ -81,6 +83,8 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   PropertiesDock *m_properties_dock;
   ObjectsDock *m_objects_dock;
   LayersDock *m_layers_dock;
+
+  FlowDocumentActionHandler &m_action_handler;
 
   QHash<FlowDocument *, FlowView *> m_view_for_document;
 

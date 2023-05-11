@@ -4,11 +4,11 @@
 
 namespace egnite {
 
-QScopedPointer<ActionManager> ActionManager::m_instance =
-    QScopedPointer<ActionManager>(nullptr);
+std::unique_ptr<ActionManager> ActionManager::m_instance =
+    std::unique_ptr<ActionManager>(nullptr);
 
 ActionManager &ActionManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new ActionManager);
+  if (!m_instance) m_instance.reset(new ActionManager);
 
   return *m_instance;
 }

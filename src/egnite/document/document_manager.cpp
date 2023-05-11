@@ -15,11 +15,11 @@
 
 namespace egnite {
 
-QScopedPointer<DocumentManager> DocumentManager::m_instance =
-    QScopedPointer<DocumentManager>(nullptr);
+std::unique_ptr<DocumentManager> DocumentManager::m_instance =
+    std::unique_ptr<DocumentManager>(nullptr);
 
 DocumentManager &DocumentManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new DocumentManager);
+  if (!m_instance) m_instance.reset(new DocumentManager);
 
   return *m_instance;
 }

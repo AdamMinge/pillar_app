@@ -14,10 +14,10 @@ FlowDocumentPlugin::FlowDocumentPlugin() = default;
 FlowDocumentPlugin::~FlowDocumentPlugin() = default;
 
 void FlowDocumentPlugin::init() {
-  addObject(new FlowEditor);
-  addObject(new FlowScriptModule);
-  addObject(new FlowDocumentFormatFlow);
-  addObject(new NewFlowDocumentWidgetFactory);
+  addObject(new FlowEditor(this));
+  addObject(new FlowScriptModule(this));
+  addObject(new FlowDocumentFormatFlow(this));
+  addObject(new NewFlowDocumentWidgetFactory(this));
 }
 
 }  // namespace flow_document

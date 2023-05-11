@@ -4,8 +4,9 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QLocale>
 #include <QObject>
-#include <QScopedPointer>
 #include <QTranslator>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
@@ -42,7 +43,7 @@ class LIB_EGNITE_API LanguageManager : public QObject {
   explicit LanguageManager();
 
  private:
-  static QScopedPointer<LanguageManager> m_instance;
+  static std::unique_ptr<LanguageManager> m_instance;
 
   QString m_translations_dir;
   QString m_translations_prefix;

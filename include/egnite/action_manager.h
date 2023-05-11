@@ -6,7 +6,8 @@
 #include <QHash>
 #include <QMenu>
 #include <QObject>
-#include <QScopedPointer>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
@@ -59,7 +60,7 @@ class LIB_EGNITE_API ActionManager : public QObject {
   explicit ActionManager();
 
  private:
-  static QScopedPointer<ActionManager> m_instance;
+  static std::unique_ptr<ActionManager> m_instance;
 
   QMultiHash<QString, QAction *> m_actions;
   QHash<QString, QMenu *> m_menus;

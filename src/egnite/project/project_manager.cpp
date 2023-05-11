@@ -8,11 +8,11 @@
 
 namespace egnite {
 
-QScopedPointer<ProjectManager> ProjectManager::m_instance =
-    QScopedPointer<ProjectManager>(nullptr);
+std::unique_ptr<ProjectManager> ProjectManager::m_instance =
+    std::unique_ptr<ProjectManager>(nullptr);
 
 ProjectManager &ProjectManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new ProjectManager);
+  if (!m_instance) m_instance.reset(new ProjectManager);
 
   return *m_instance;
 }

@@ -7,11 +7,11 @@
 
 namespace egnite {
 
-QScopedPointer<StyleManager> StyleManager::m_instance =
-    QScopedPointer<StyleManager>(nullptr);
+std::unique_ptr<StyleManager> StyleManager::m_instance =
+    std::unique_ptr<StyleManager>(nullptr);
 
 StyleManager &StyleManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new StyleManager);
+  if (!m_instance) m_instance.reset(new StyleManager);
 
   return *m_instance;
 }

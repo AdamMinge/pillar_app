@@ -10,11 +10,15 @@
 #include <QMessageBox>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/action_manager.h>
+#include <egnite/document/document_manager.h>
+#include <egnite/issue_manager.h>
 #include <egnite/language_manager.h>
+#include <egnite/logging_manager.h>
 #include <egnite/plugin_manager.h>
 #include <egnite/preferences_manager.h>
 #include <egnite/project/project.h>
 #include <egnite/project/project_manager.h>
+#include <egnite/script_manager.h>
 #include <egnite/style_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/action/action.h>
@@ -62,7 +66,18 @@ MainWindow::MainWindow(QWidget *parent)
   retranslateUi();
 }
 
-MainWindow::~MainWindow() = default;
+MainWindow::~MainWindow() {
+  egnite::PluginManager::deleteInstance();
+  egnite::DocumentManager::deleteInstance();
+  egnite::ProjectManager::deleteInstance();
+  egnite::ActionManager::deleteInstance();
+  egnite::IssueManager::deleteInstance();
+  egnite::LanguageManager::deleteInstance();
+  egnite::LoggingManager::deleteInstance();
+  egnite::PreferencesManager::deleteInstance();
+  egnite::ScriptManager::deleteInstance();
+  egnite::StyleManager::deleteInstance();
+}
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   if (auto current_widget = m_stacked_widget->currentWidget();

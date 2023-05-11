@@ -135,11 +135,11 @@ std::unique_ptr<PreferencesSettings> PreferencesSettings::create(Type type) {
 
 /* ----------------------------- PreferencesManager ------------------------- */
 
-QScopedPointer<PreferencesManager> PreferencesManager::m_instance =
-    QScopedPointer<PreferencesManager>(nullptr);
+std::unique_ptr<PreferencesManager> PreferencesManager::m_instance =
+    std::unique_ptr<PreferencesManager>(nullptr);
 
 PreferencesManager &PreferencesManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new PreferencesManager);
+  if (!m_instance) m_instance.reset(new PreferencesManager);
 
   return *m_instance;
 }

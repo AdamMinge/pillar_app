@@ -3,8 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
-#include <QScopedPointer>
 #include <QString>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
@@ -76,7 +77,7 @@ class LIB_EGNITE_API PreferencesManager : public QObject {
   void save();
 
  private:
-  static QScopedPointer<PreferencesManager> m_instance;
+  static std::unique_ptr<PreferencesManager> m_instance;
 
   std::unique_ptr<PreferencesSettings> m_settings;
   QStringList m_recent_project_files;

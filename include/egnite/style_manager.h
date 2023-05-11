@@ -7,6 +7,7 @@
 #include <QStyle>
 /* --------------------------------- Standard ------------------------------- */
 #include <functional>
+#include <memory>
 #include <unordered_map>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
@@ -45,7 +46,7 @@ class LIB_EGNITE_API StyleManager : public QObject {
   explicit StyleManager();
 
  private:
-  static QScopedPointer<StyleManager> m_instance;
+  static std::unique_ptr<StyleManager> m_instance;
 
   std::unordered_map<QString, StyleFactory> m_factories;
 };

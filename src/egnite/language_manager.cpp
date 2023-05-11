@@ -8,11 +8,11 @@
 
 namespace egnite {
 
-QScopedPointer<LanguageManager> LanguageManager::m_instance =
-    QScopedPointer<LanguageManager>(nullptr);
+std::unique_ptr<LanguageManager> LanguageManager::m_instance =
+    std::unique_ptr<LanguageManager>(nullptr);
 
 LanguageManager &LanguageManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new LanguageManager);
+  if (!m_instance) m_instance.reset(new LanguageManager);
 
   return *m_instance;
 }

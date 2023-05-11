@@ -3,6 +3,8 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ---------------------------------- Local --------------------------------- */
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
@@ -46,7 +48,7 @@ class LIB_EGNITE_API ProjectManager : public QObject {
   explicit ProjectManager();
 
  private:
-  static QScopedPointer<ProjectManager> m_instance;
+  static std::unique_ptr<ProjectManager> m_instance;
 
   std::vector<std::unique_ptr<Project>> m_projects;
   Project *m_current_project;

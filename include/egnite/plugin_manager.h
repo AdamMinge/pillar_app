@@ -3,7 +3,8 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
-#include <QScopedPointer>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 #include "egnite/plugin.h"
@@ -47,7 +48,7 @@ class LIB_EGNITE_API PluginManager : public QObject {
   explicit PluginManager();
 
  private:
-  static QScopedPointer<PluginManager> m_instance;
+  static std::unique_ptr<PluginManager> m_instance;
 
   QObjectList m_objects;
   std::list<Plugin> m_plugins;

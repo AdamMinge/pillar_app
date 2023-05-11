@@ -96,32 +96,32 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="218"/>
+        <location filename="../../../src/editor/main_window.cpp" line="233"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="219"/>
+        <location filename="../../../src/editor/main_window.cpp" line="234"/>
         <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="220"/>
+        <location filename="../../../src/editor/main_window.cpp" line="235"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="221"/>
+        <location filename="../../../src/editor/main_window.cpp" line="236"/>
         <source>Settings Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="222"/>
+        <location filename="../../../src/editor/main_window.cpp" line="237"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="223"/>
+        <location filename="../../../src/editor/main_window.cpp" line="238"/>
         <source>Exit Application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -565,12 +565,12 @@
 <context>
     <name>ShortcutsSettingsWidget</name>
     <message>
-        <location filename="../../../src/editor/settings/shortcuts_settings_widget.cpp" line="94"/>
+        <location filename="../../../src/editor/settings/shortcuts_settings_widget.cpp" line="104"/>
         <source>Set to Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/settings/shortcuts_settings_widget.cpp" line="97"/>
+        <location filename="../../../src/editor/settings/shortcuts_settings_widget.cpp" line="107"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>

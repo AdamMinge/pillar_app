@@ -35,7 +35,7 @@ class FLOW_DOCUMENT_API StyleManager : public QObject {
   explicit StyleManager();
 
  private:
-  static QScopedPointer<StyleManager> m_instance;
+  static std::unique_ptr<StyleManager> m_instance;
 
   std::unique_ptr<FlowStyle> m_style;
 };

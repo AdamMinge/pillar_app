@@ -4,11 +4,11 @@
 
 namespace egnite {
 
-QScopedPointer<LoggingManager> LoggingManager::m_instance =
-    QScopedPointer<LoggingManager>(nullptr);
+std::unique_ptr<LoggingManager> LoggingManager::m_instance =
+    std::unique_ptr<LoggingManager>(nullptr);
 
 LoggingManager &LoggingManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new LoggingManager);
+  if (!m_instance) m_instance.reset(new LoggingManager);
 
   return *m_instance;
 }

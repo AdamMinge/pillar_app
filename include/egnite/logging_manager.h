@@ -3,6 +3,8 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
@@ -33,7 +35,7 @@ class LIB_EGNITE_API LoggingManager : public QObject {
   explicit LoggingManager();
 
  private:
-  static QScopedPointer<LoggingManager> m_instance;
+  static std::unique_ptr<LoggingManager> m_instance;
 };
 
 inline void LOG_INFO(const QString &message) {

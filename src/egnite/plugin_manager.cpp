@@ -8,11 +8,11 @@
 
 namespace egnite {
 
-QScopedPointer<PluginManager> PluginManager::m_instance =
-    QScopedPointer<PluginManager>(nullptr);
+std::unique_ptr<PluginManager> PluginManager::m_instance =
+    std::unique_ptr<PluginManager>(nullptr);
 
 PluginManager &PluginManager::getInstance() {
-  if (m_instance.isNull()) m_instance.reset(new PluginManager);
+  if (!m_instance) m_instance.reset(new PluginManager);
 
   return *m_instance;
 }
