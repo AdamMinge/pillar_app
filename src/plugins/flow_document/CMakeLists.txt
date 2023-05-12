@@ -57,6 +57,7 @@ set(sources
 set(includes
     ${include_root}/export.h
     ${include_root}/concept.h
+    ${include_root}/resources.h
     ${include_root}/flow_document.h
     ${include_root}/flow_document_format.h
     ${include_root}/flow_document_format_flow.h

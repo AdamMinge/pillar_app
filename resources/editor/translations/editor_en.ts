@@ -68,27 +68,27 @@
 <context>
     <name>IssueTableModel</name>
     <message>
-        <location filename="../../../src/editor/issue_table_model.cpp" line="65"/>
+        <location filename="../../../src/editor/issue_table_model.cpp" line="67"/>
         <source>Severity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/issue_table_model.cpp" line="68"/>
+        <location filename="../../../src/editor/issue_table_model.cpp" line="70"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/issue_table_model.cpp" line="71"/>
+        <location filename="../../../src/editor/issue_table_model.cpp" line="73"/>
         <source>Occurrences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/issue_table_model.cpp" line="139"/>
+        <location filename="../../../src/editor/issue_table_model.cpp" line="141"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/issue_table_model.cpp" line="142"/>
+        <location filename="../../../src/editor/issue_table_model.cpp" line="144"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>

@@ -85,12 +85,12 @@
 <context>
     <name>UndoDock</name>
     <message>
-        <location filename="../../../src/egnite/document/undo_dock.cpp" line="42"/>
+        <location filename="../../../src/egnite/document/undo_dock.cpp" line="44"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/egnite/document/undo_dock.cpp" line="43"/>
+        <location filename="../../../src/egnite/document/undo_dock.cpp" line="45"/>
         <source>&lt;empty&gt;</source>
         <translation type="unfinished"></translation>
     </message>

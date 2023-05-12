@@ -2,6 +2,7 @@
 #include "flow_document/component/factories/factories_tree_model.h"
 
 #include "flow_document/flow/group_factory.h"
+#include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
 /* -------------------------------------------------------------------------- */
@@ -138,10 +139,10 @@ QIcon FactoriesTreeModel::getIcon(const QModelIndex &index) const {
   auto factory = static_cast<Factory *>(index.internalPointer());
   switch (factory->getType()) {
     case Factory::Type::GroupFactory:
-      return QIcon(":/plugins/flow_document/images/32x32/dir.png");
+      return QIcon(icons::x32::Dir);
 
     case Factory::Type::NodeFactory:
-      return QIcon(":/plugins/flow_document/images/32x32/node.png");
+      return QIcon(icons::x32::Node);
   }
 
   return QIcon{};

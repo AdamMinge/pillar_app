@@ -3,6 +3,7 @@
 
 #include "flow_document/flow_document.h"
 #include "flow_document/flow_document_format.h"
+#include "flow_document/resources.h"
 /* ------------------------------------- Qt --------------------------------- */
 #include <QMessageBox>
 /* ---------------------------------- Egnite -------------------------------- */
@@ -77,9 +78,8 @@ void NewFlowDocumentWidget::validate() {
 /* ------------------------ NewFlowDocumentWidgetFactory -------------------- */
 
 NewFlowDocumentWidgetFactory::NewFlowDocumentWidgetFactory(QObject *parent)
-    : egnite::NewDocumentWidgetFactory(
-          QIcon(":/plugins/flow_document/images/64x64/flow_document.png"),
-          parent) {}
+    : egnite::NewDocumentWidgetFactory(QIcon(icons::x64::FlowDocument),
+                                       parent) {}
 
 NewFlowDocumentWidgetFactory::~NewFlowDocumentWidgetFactory() = default;
 

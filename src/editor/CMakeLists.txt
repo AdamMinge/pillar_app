@@ -44,6 +44,7 @@ set(sources
     ${source_root}/document/new_document_widget_list_delegate.cpp)
 
 set(includes
+    ${include_root}/resources.h
     ${include_root}/command_line_parser.h
     ${include_root}/main_window.h
     ${include_root}/about_dialog.h

@@ -4,6 +4,7 @@
 #include "flow_document/component/scene/style/style.h"
 #include "flow_document/component/scene/style/style_reader.h"
 #include "flow_document/component/scene/style/style_writer.h"
+#include "flow_document/resources.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -25,9 +26,7 @@ StyleManager::~StyleManager() = default;
 
 void StyleManager::setStyle(const FlowStyle &style) { *m_style = style; }
 
-void StyleManager::resetStyle() {
-  loadStyle(":/plugins/flow_document/styles/default.json");
-}
+void StyleManager::resetStyle() { loadStyle(styles::Default); }
 
 bool StyleManager::loadStyle(const QString &file_name) {
   auto reader = FlowStyleReader{};

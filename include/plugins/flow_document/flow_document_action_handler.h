@@ -42,6 +42,21 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
 
   [[nodiscard]] QMenu* createNewLayerMenu(QWidget* parent) const;
 
+ private Q_SLOTS:
+  void onAddGroupLayer() const;
+  void onAddNodeLayer() const;
+  void onRemoveLayer() const;
+  void onRaiseLayer() const;
+  void onLowerLayer() const;
+  void onDuplicateLayer() const;
+  void onShowHideOtherLayers() const;
+  void onLockUnlockOtherLayers() const;
+
+  void onRemoveObject() const;
+  void onRaiseObject() const;
+  void onLowerObject() const;
+  void onDuplicateObject() const;
+
  private:
   explicit FlowDocumentActionHandler();
 

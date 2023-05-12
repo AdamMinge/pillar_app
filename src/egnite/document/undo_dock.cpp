@@ -1,5 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/document/undo_dock.h"
+
+#include "egnite/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QVBoxLayout>
@@ -11,7 +13,7 @@ UndoDock::UndoDock(QWidget *parent)
     : QDockWidget(parent), m_undo_view(new QUndoView(this)) {
   setObjectName(QLatin1String("History"));
 
-  m_undo_view->setCleanIcon(QIcon(":/egnite/images/16x16/undo_clean.png"));
+  m_undo_view->setCleanIcon(QIcon(icons::x16::UndoClean));
 
   auto widget = new QWidget(this);
   auto layout = new QVBoxLayout(widget);

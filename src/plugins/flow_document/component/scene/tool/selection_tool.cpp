@@ -5,6 +5,7 @@
 #include "flow_document/component/scene/item/graphics_item.h"
 #include "flow_document/component/scene/item/selection_rectangle.h"
 #include "flow_document/flow_document.h"
+#include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QKeyEvent>
@@ -13,10 +14,8 @@
 namespace flow_document {
 
 SelectionTool::SelectionTool(QObject *parent)
-    : AbstractTool(
-          tr("Selection Tool"),
-          QIcon(":/plugins/flow_document/images/32x32/selection_tool.png"),
-          QKeySequence(Qt::Key_S), parent),
+    : AbstractTool(tr("Selection Tool"), QIcon(icons::x32::SelectionTool),
+                   QKeySequence(Qt::Key_S), parent),
       m_action(Action::NoAction),
       m_mouse_clicked_button(Qt::MouseButton{}),
       m_selection_rect(std::make_unique<SelectionRectangle>()),

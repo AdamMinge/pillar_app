@@ -1,5 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "project/recent_project_list_model.h"
+
+#include "resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
 /* ---------------------------------- Egnite -------------------------------- */
@@ -54,5 +56,5 @@ void RecentProjectListModel::recentProjectFilesChanged() {
 }
 
 QIcon RecentProjectListModel::getProjectIcon(const QModelIndex &index) const {
-  return QIcon(":/editor/images/64x64/project.png");
+  return QIcon(icons::x64::Project);
 }

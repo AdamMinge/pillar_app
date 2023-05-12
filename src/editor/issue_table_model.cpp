@@ -1,5 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "issue_table_model.h"
+
+#include "resources.h"
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/issue_manager.h>
 /* -------------------------------------------------------------------------- */
@@ -122,10 +124,10 @@ QIcon IssueTableModel::getIssueIcon(const QModelIndex &index) const {
 
   switch (issue.getSeverity()) {
     case egnite::Issue::Severity::Error:
-      return QIcon(":/editor/images/32x32/error_issue.png");
+      return QIcon(icons::x32::ErrorIssue);
 
     case egnite::Issue::Severity::Warning:
-      return QIcon(":/editor/images/32x32/warning_issue.png");
+      return QIcon(icons::x32::WarningIssue);
   }
 
   return QIcon{};

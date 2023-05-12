@@ -2,6 +2,7 @@
 #include "flow_document/flow_document_action_handler.h"
 
 #include "flow_document/flow_document.h"
+#include "flow_document/resources.h"
 /* ----------------------------------- Egnite ------------------------------- */
 #include <egnite/action_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
@@ -24,52 +25,32 @@ void FlowDocumentActionHandler::deleteInstance() { m_instance.reset(nullptr); }
 
 FlowDocumentActionHandler::FlowDocumentActionHandler() {
   m_add_group_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_add_group_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/group_layer.png"));
-
   m_add_node_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_add_node_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/node_layer.png"));
-
   m_remove_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_remove_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/remove.png"));
-
   m_raise_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_raise_layer->setIcon(QIcon(":/plugins/flow_document/images/16x16/up.png"));
-
   m_lower_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_lower_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/down.png"));
-
   m_duplicate_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_duplicate_layer->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/duplicate.png"));
-
   m_show_hide_other_layers =
       utils::createActionWithShortcut(QKeySequence{}, this);
-  m_show_hide_other_layers->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/show_hide_others.png"));
-
   m_lock_unlock_other_layers =
       utils::createActionWithShortcut(QKeySequence{}, this);
-  m_lock_unlock_other_layers->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/locked.png"));
-
   m_remove_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_remove_object->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/remove.png"));
-
   m_raise_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_raise_object->setIcon(QIcon(":/plugins/flow_document/images/16x16/up.png"));
-
   m_lower_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_lower_object->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/down.png"));
-
   m_duplicate_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_duplicate_object->setIcon(
-      QIcon(":/plugins/flow_document/images/16x16/duplicate.png"));
+
+  m_add_group_layer->setIcon(QIcon(icons::x16::GroupLayer));
+  m_add_node_layer->setIcon(QIcon(icons::x16::NodeLayer));
+  m_remove_layer->setIcon(QIcon(icons::x16::Remove));
+  m_raise_layer->setIcon(QIcon(icons::x16::Up));
+  m_lower_layer->setIcon(QIcon(icons::x16::Down));
+  m_duplicate_layer->setIcon(QIcon(icons::x16::Duplicate));
+  m_show_hide_other_layers->setIcon(QIcon(icons::x16::ShowHideOthers));
+  m_lock_unlock_other_layers->setIcon(QIcon(icons::x16::Locked));
+  m_remove_object->setIcon(QIcon(icons::x16::Remove));
+  m_raise_object->setIcon(QIcon(icons::x16::Up));
+  m_lower_object->setIcon(QIcon(icons::x16::Down));
+  m_duplicate_object->setIcon(QIcon(icons::x16::Duplicate));
 
   auto& action_manager = egnite::ActionManager::getInstance();
   action_manager.registerAction(m_add_group_layer, "add_group_layer");
@@ -169,13 +150,37 @@ QAction* FlowDocumentActionHandler::getDuplicateObjectAction() const {
 
 QMenu* FlowDocumentActionHandler::createNewLayerMenu(QWidget* parent) const {
   auto menu = new QMenu(tr("&New"), parent);
-  menu->setIcon(QIcon(":/plugins/flow_document/images/16x16/add.png"));
+  menu->setIcon(QIcon(icons::x16::Add));
 
   menu->addAction(m_add_group_layer);
   menu->addAction(m_add_node_layer);
 
   return menu;
 }
+
+void FlowDocumentActionHandler::onAddGroupLayer() const {}
+
+void FlowDocumentActionHandler::onAddNodeLayer() const {}
+
+void FlowDocumentActionHandler::onRemoveLayer() const {}
+
+void FlowDocumentActionHandler::onRaiseLayer() const {}
+
+void FlowDocumentActionHandler::onLowerLayer() const {}
+
+void FlowDocumentActionHandler::onDuplicateLayer() const {}
+
+void FlowDocumentActionHandler::onShowHideOtherLayers() const {}
+
+void FlowDocumentActionHandler::onLockUnlockOtherLayers() const {}
+
+void FlowDocumentActionHandler::onRemoveObject() const {}
+
+void FlowDocumentActionHandler::onRaiseObject() const {}
+
+void FlowDocumentActionHandler::onLowerObject() const {}
+
+void FlowDocumentActionHandler::onDuplicateObject() const {}
 
 void FlowDocumentActionHandler::updateActions() {}
 

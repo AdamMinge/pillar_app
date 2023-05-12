@@ -4,6 +4,7 @@
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
+#include "flow_document/resources.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -117,10 +118,10 @@ QIcon LayersTreeModel::getIcon(const QModelIndex &index) const {
   auto layer = static_cast<Layer *>(index.internalPointer());
   switch (layer->getType()) {
     case Layer::Type::GroupLayer:
-      return QIcon(":/plugins/flow_document/images/32x32/group_layer.png");
+      return QIcon(icons::x32::GroupLayer);
 
     case Layer::Type::NodeLayer:
-      return QIcon(":/plugins/flow_document/images/32x32/node_layer.png");
+      return QIcon(icons::x32::NodeLayer);
   }
 
   return QIcon{};

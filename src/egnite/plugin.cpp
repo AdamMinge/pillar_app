@@ -3,6 +3,7 @@
 
 #include "egnite/plugin_interface.h"
 #include "egnite/plugin_manager.h"
+#include "egnite/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QPluginLoader>
 #include <memory>
@@ -79,7 +80,7 @@ DynamicPluginImpl::DynamicPluginImpl(std::unique_ptr<QPluginLoader> loader)
     auto plugin_icon = std::unique_ptr<QIcon>(getPluginIcon());
     m_icon = QIcon(*plugin_icon);
   } else {
-    m_icon = QIcon(":/egnite/images/64x64/plugin.png");
+    m_icon = QIcon(icons::x64::Plugin);
   }
   lib.unload();
 }
