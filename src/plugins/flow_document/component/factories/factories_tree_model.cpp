@@ -16,23 +16,21 @@ FactoriesTreeModel::FactoriesTreeModel(QObject *parent)
 FactoriesTreeModel::~FactoriesTreeModel() = default;
 
 Qt::ItemFlags FactoriesTreeModel::flags(const QModelIndex &index) const {
-  auto item = static_cast<Factory *>(index.internalPointer());
-  return QAbstractItemModel::flags(index) | getFlags(item);
+  return QAbstractItemModel::flags(index) | getFlags(index);
 }
 
 QVariant FactoriesTreeModel::data(const QModelIndex &index, int role) const {
   if (index.row() < 0 || index.row() >= rowCount(index.parent()))
     return QVariant{};
 
-  auto item = static_cast<Factory *>(index.internalPointer());
   switch (role) {
     case Qt::DisplayRole:
     case Role::NameRole:
-      return getName(item);
+      return getName(index);
 
     case Qt::DecorationRole:
     case Role::IconRole:
-      return getIcon(item);
+      return getIcon(index);
 
     default:
       return QVariant{};
@@ -131,11 +129,13 @@ void FactoriesTreeModel::removedObject(GroupFactory *group_factories) {
   endRemoveRows();
 }
 
-QString FactoriesTreeModel::getName(Factory *factory) const {
+QString FactoriesTreeModel::getName(const QModelIndex &index) const {
+  auto factory = static_cast<Factory *>(index.internalPointer());
   return factory->getName();
 }
 
-QIcon FactoriesTreeModel::getIcon(Factory *factory) const {
+QIcon FactoriesTreeModel::getIcon(const QModelIndex &index) const {
+  auto factory = static_cast<Factory *>(index.internalPointer());
   switch (factory->getType()) {
     case Factory::Type::GroupFactory:
       return QIcon(":/plugins/flow_document/images/32x32/dir.png");
@@ -147,7 +147,8 @@ QIcon FactoriesTreeModel::getIcon(Factory *factory) const {
   return QIcon{};
 }
 
-Qt::ItemFlags FactoriesTreeModel::getFlags(Factory *factory) const {
+Qt::ItemFlags FactoriesTreeModel::getFlags(const QModelIndex &index) const {
+  auto factory = static_cast<Factory *>(index.internalPointer());
   auto flags = Qt::ItemFlags{Qt::NoItemFlags};
   switch (factory->getType()) {
     case Factory::Type::NodeFactory:

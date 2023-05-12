@@ -4,7 +4,7 @@
 <context>
     <name>FactoriesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/factories/factories_tree_model.cpp" line="50"/>
+        <location filename="../../../../src/plugins/flow_document/component/factories/factories_tree_model.cpp" line="48"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -142,6 +142,14 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_format_flow.cpp" line="17"/>
         <source>Flow files (*.flow *.xml)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LayersTreeModel</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="53"/>
+        <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

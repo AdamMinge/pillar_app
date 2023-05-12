@@ -12,7 +12,6 @@
 namespace flow_document {
 
 class GroupFactory;
-class Factory;
 
 class FLOW_DOCUMENT_API FactoriesTreeModel
     : public QAbstractItemModel,
@@ -54,9 +53,9 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
   void removedObject(GroupFactory *group_factories) override;
 
  private:
-  [[nodiscard]] QString getName(Factory *factory) const;
-  [[nodiscard]] QIcon getIcon(Factory *factory) const;
-  [[nodiscard]] Qt::ItemFlags getFlags(Factory *factory) const;
+  [[nodiscard]] QString getName(const QModelIndex &index) const;
+  [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
+  [[nodiscard]] Qt::ItemFlags getFlags(const QModelIndex &index) const;
 
  private:
   QList<GroupFactory *> m_group_factories;

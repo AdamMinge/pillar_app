@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
+#include <QIcon>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -43,6 +44,10 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
 
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
+
+ private:
+  [[nodiscard]] QString getName(const QModelIndex &index) const;
+  [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
 
  private:
   FlowDocument *m_document;
