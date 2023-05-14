@@ -3,8 +3,8 @@
         <file>images/16x16/undo_clean.png</file>
         <file>images/64x64/plugin.png</file>
 
-        <file>translations/qt_en.qm</file>
-        <file>translations/qt_pl.qm</file>
+        <file>translations/qtbase_en.qm</file>
+        <file>translations/qtbase_pl.qm</file>
         <file>translations/egnite_en.qm</file>
         <file>translations/egnite_pl.qm</file>
     </qresource>

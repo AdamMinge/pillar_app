@@ -33,7 +33,7 @@ _DEFINE_ICON(Plugin, "64x64", "plugin.png")
 namespace translations {
 
 constexpr QLatin1String TranslationsPath{":/egnite/translations"};
-constexpr QLatin1String QtTranslationsPrefix{"qt"};
+constexpr QLatin1String QtBaseTranslationsPrefix{"qtbase"};
 constexpr QLatin1String EgniteTranslationsPrefix{"egnite"};
 
 }  // namespace translations

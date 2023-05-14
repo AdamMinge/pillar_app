@@ -20,7 +20,8 @@ void LanguageManager::deleteInstance() { m_instance.reset(nullptr); }
 
 LanguageManager::LanguageManager() {
   auto qt_translator = new egnite::BaseLanguageTranslator(
-      translations::TranslationsPath, translations::QtTranslationsPrefix, this);
+      translations::TranslationsPath, translations::QtBaseTranslationsPrefix,
+      this);
   auto egnite_translator = new egnite::BaseLanguageTranslator(
       translations::TranslationsPath, translations::EgniteTranslationsPrefix,
       this);
