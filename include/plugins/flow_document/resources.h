@@ -62,6 +62,15 @@ _DEFINE_STYLE(Default, "default.png")
 
 }  // namespace styles
 
+/* -------------------------------- Translations ---------------------------- */
+
+namespace translations {
+
+constexpr QLatin1String TranslationsPath{
+    ":/plugins/flow_document/translations"};
+
+}  // namespace translations
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_RESOURCES_H

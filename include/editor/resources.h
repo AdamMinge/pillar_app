@@ -40,4 +40,12 @@ _DEFINE_ICON(AboutLogo, "256x256", "about_logo.png")
 
 }  // namespace icons
 
+/* -------------------------------- Translations ---------------------------- */
+
+namespace translations {
+
+constexpr QLatin1String TranslationsPath{":/editor/translations"};
+
+}  // namespace translations
+
 #endif  // RESOURCES_H

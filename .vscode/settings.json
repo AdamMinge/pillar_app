@@ -90,7 +90,9 @@
         "qcolor": "cpp",
         "qregularexpression": "cpp",
         "qabstractitemmodel": "cpp",
-        "qlatin1string": "cpp"
+        "qlatin1string": "cpp",
+        "qtranslator": "cpp",
+        "qscopedpointer": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -28,6 +28,16 @@ _DEFINE_ICON(Plugin, "64x64", "plugin.png")
 
 }  // namespace icons
 
+/* -------------------------------- Translations ---------------------------- */
+
+namespace translations {
+
+constexpr QLatin1String TranslationsPath{":/egnite/translations"};
+constexpr QLatin1String QtTranslationsPrefix{"qt"};
+constexpr QLatin1String EgniteTranslationsPrefix{"egnite"};
+
+}  // namespace translations
+
 }  // namespace egnite
 
 #endif  // EGNITE_RESOURCES_H

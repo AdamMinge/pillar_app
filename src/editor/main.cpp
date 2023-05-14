@@ -3,6 +3,7 @@
 #include "command_line_parser.h"
 #include "main_window.h"
 #include "project/project_format_pro.h"
+#include "resources.h"
 #include "settings/appearance_settings_widget.h"
 #include "settings/general_settings_widget.h"
 #include "settings/plugin_settings_widget.h"
@@ -10,6 +11,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 /* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/language_translator.h>
 #include <egnite/plugin_manager.h>
 #include <egnite/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
@@ -88,9 +90,15 @@ static void registerDefaultSettings(QApplication &app) {
       new PluginSettingsWidgetFactory(&app));
 }
 
+static void registerDefaultLanguageTranslators(QApplication &app) {
+  egnite::PluginManager::getInstance().addObject(
+      new egnite::BaseLanguageTranslator(translations::TranslationsPath, &app));
+}
+
 static void registerDefaultPlugins(QApplication &app) {
   registerDefaultFormats(app);
   registerDefaultSettings(app);
+  registerDefaultLanguageTranslators(app);
 }
 
 /* -------------------------- RegisterDefaultPlugins ------------------------ */

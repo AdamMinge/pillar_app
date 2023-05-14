@@ -20,5 +20,8 @@
         <file>images/64x64/flow_document.png</file>
 
         <file>styles/default.json</file>
+
+        <file>translations/flow_document_en.qm</file>
+        <file>translations/flow_document_pl.qm</file>
     </qresource>
 </RCC>

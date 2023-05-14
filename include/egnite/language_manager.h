@@ -4,16 +4,18 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QLocale>
 #include <QObject>
-#include <QTranslator>
-/* --------------------------------- Standard ------------------------------- */
-#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
+#include "egnite/plugin_listener.h"
 /* -------------------------------------------------------------------------- */
 
 namespace egnite {
 
-class LIB_EGNITE_API LanguageManager : public QObject {
+class LanguageTranslator;
+
+class LIB_EGNITE_API LanguageManager
+    : public QObject,
+      public PluginListener<LanguageTranslator> {
   Q_OBJECT
 
  public:
@@ -24,32 +26,28 @@ class LIB_EGNITE_API LanguageManager : public QObject {
   ~LanguageManager() override;
 
   [[nodiscard]] QList<QLocale> getAvailableLanguages() const;
-  [[nodiscard]] const QString &getTranslationsDir() const;
-  [[nodiscard]] const QString &getTranslationsPrefix() const;
-
   [[nodiscard]] QLocale getCurrentLanguage() const;
 
  public Q_SLOTS:
   bool setLanguage(const QLocale &locale);
-  void setTranslationsDir(const QString &translations_dir);
-  void setTranslationsPrefix(const QString &translations_prefix);
 
  Q_SIGNALS:
   void languageChanged(const QLocale &locale);
-  void translationsDirChanged(const QString &translations_dir);
-  void translationsPrefixChanged(const QString &translations_prefix);
+  void availableLanguagesChanged(const QList<QLocale> &locales);
 
  private:
   explicit LanguageManager();
 
+  void addedObject(LanguageTranslator *translator) override;
+  void removedObject(LanguageTranslator *translator) override;
+  void calculateAvailableLocales();
+
  private:
   static std::unique_ptr<LanguageManager> m_instance;
 
-  QString m_translations_dir;
-  QString m_translations_prefix;
-  QScopedPointer<QTranslator> m_qt_translator;
-  QScopedPointer<QTranslator> m_app_translator;
   QLocale m_current_locale;
+  QList<QLocale> m_available_locales;
+  QSet<LanguageTranslator *> m_translators;
 };
 
 }  // namespace egnite

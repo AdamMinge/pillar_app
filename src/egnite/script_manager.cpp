@@ -19,7 +19,7 @@ ScriptManager &ScriptManager::getInstance() {
 
 void ScriptManager::deleteInstance() { m_instance.reset(nullptr); }
 
-ScriptManager::ScriptManager() : m_engine(nullptr), m_script_module(nullptr) {
+ScriptManager::ScriptManager() : m_engine(nullptr) {
   init();
   loadObjects();
 }
@@ -37,7 +37,6 @@ QJSValue ScriptManager::evaluate(const QString &program,
 
 void ScriptManager::reset() {
   m_engine.reset();
-  m_script_module.reset();
 
   init();
 }

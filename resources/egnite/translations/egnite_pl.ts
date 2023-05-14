@@ -72,12 +72,12 @@
 <context>
     <name>ScriptManager</name>
     <message>
-        <location filename="../../../src/egnite/script_manager.cpp" line="66"/>
+        <location filename="../../../src/egnite/script_manager.cpp" line="65"/>
         <source>Stack traceback:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/egnite/script_manager.cpp" line="77"/>
+        <location filename="../../../src/egnite/script_manager.cpp" line="76"/>
         <source>At line %1: %2</source>
         <translation type="unfinished"></translation>
     </message>

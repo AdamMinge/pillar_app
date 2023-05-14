@@ -37,13 +37,7 @@ void AppearanceSettingsWidget::initUi() {
   m_ui->setupUi(this);
 
   auto &language_manager = egnite::LanguageManager::getInstance();
-  auto languages_str = QStringList{};
-  for (auto &language : language_manager.getAvailableLanguages())
-    languages_str << QLocale::languageToString(language.language());
-
-  m_ui->m_language_combobox->addItems(languages_str);
-  m_ui->m_language_combobox->setCurrentText(QLocale::languageToString(
-      language_manager.getCurrentLanguage().language()));
+  availableLanguagesChanged(language_manager.getAvailableLanguages());
 
   auto &style_manager = egnite::StyleManager::getInstance();
   auto styles = style_manager.getAvailableStyles();
@@ -59,6 +53,11 @@ void AppearanceSettingsWidget::initConnections() {
 
   connect(m_ui->m_theme_combobox, &QComboBox::currentTextChanged, this,
           &AppearanceSettingsWidget::styleChanged);
+
+  auto &language_manager = egnite::LanguageManager::getInstance();
+  connect(&language_manager,
+          &egnite::LanguageManager::availableLanguagesChanged, this,
+          &AppearanceSettingsWidget::availableLanguagesChanged);
 }
 
 void AppearanceSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
@@ -71,6 +70,19 @@ void AppearanceSettingsWidget::languageChanged(const QString &language) {
 void AppearanceSettingsWidget::styleChanged(const QString &style) {
   auto &style_manager = egnite::StyleManager::getInstance();
   style_manager.setStyle(style);
+}
+
+void AppearanceSettingsWidget::availableLanguagesChanged(
+    const QList<QLocale> &locales) {
+  auto &language_manager = egnite::LanguageManager::getInstance();
+  auto languages_str = QStringList{};
+  for (const auto &language : language_manager.getAvailableLanguages())
+    languages_str << QLocale::languageToString(language.language());
+
+  m_ui->m_language_combobox->clear();
+  m_ui->m_language_combobox->addItems(languages_str);
+  m_ui->m_language_combobox->setCurrentText(QLocale::languageToString(
+      language_manager.getCurrentLanguage().language()));
 }
 
 /* ---------------------- AppearanceSettingsWidgetFactory ------------------- */

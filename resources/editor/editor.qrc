@@ -6,5 +6,8 @@
         <file>images/64x64/project.png</file>
         <file>images/64x64/unknown_document.png</file>
         <file>images/256x256/about_logo.png</file>
+
+        <file>translations/editor_en.qm</file>
+        <file>translations/editor_pl.qm</file>
     </qresource>
 </RCC>

@@ -5,6 +5,9 @@
 #include "flow_document/flow_editor.h"
 #include "flow_document/flow_script_module.h"
 #include "flow_document/new_flow_document_widget.h"
+#include "flow_document/resources.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <egnite/language_translator.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -18,6 +21,9 @@ void FlowDocumentPlugin::init() {
   addObject(new FlowScriptModule(this));
   addObject(new FlowDocumentFormatFlow(this));
   addObject(new NewFlowDocumentWidgetFactory(this));
+
+  addObject(
+      new egnite::BaseLanguageTranslator(translations::TranslationsPath, this));
 }
 
 }  // namespace flow_document

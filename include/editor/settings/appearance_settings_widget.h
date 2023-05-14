@@ -29,6 +29,7 @@ class AppearanceSettingsWidget : public egnite::SettingsWidget {
  private Q_SLOTS:
   void languageChanged(const QString &language);
   void styleChanged(const QString &style);
+  void availableLanguagesChanged(const QList<QLocale> &locales);
 
  private:
   QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;

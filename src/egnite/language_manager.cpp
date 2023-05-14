@@ -1,9 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/language_manager.h"
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QApplication>
-#include <QDirIterator>
-#include <QLibraryInfo>
+
+#include "egnite/language_translator.h"
+#include "egnite/resources.h"
 /* -------------------------------------------------------------------------- */
 
 namespace egnite {
@@ -19,80 +18,61 @@ LanguageManager &LanguageManager::getInstance() {
 
 void LanguageManager::deleteInstance() { m_instance.reset(nullptr); }
 
-LanguageManager::LanguageManager()
-    : m_translations_dir(":/translations"),
-      m_translations_prefix(QString("egnite_editor_")),
-      m_qt_translator(nullptr),
-      m_app_translator(nullptr),
-      m_current_locale(QLocale(QLocale::Language::English)) {}
+LanguageManager::LanguageManager() {
+  auto qt_translator = new egnite::BaseLanguageTranslator(
+      translations::TranslationsPath, translations::QtTranslationsPrefix, this);
+  auto egnite_translator = new egnite::BaseLanguageTranslator(
+      translations::TranslationsPath, translations::EgniteTranslationsPrefix,
+      this);
 
-LanguageManager::~LanguageManager() {
-  if (m_qt_translator) QApplication::removeTranslator(m_qt_translator.data());
-  if (m_app_translator) QApplication::removeTranslator(m_app_translator.data());
+  addedObject(qt_translator);
+  addedObject(egnite_translator);
+
+  loadObjects();
 }
+
+LanguageManager::~LanguageManager() = default;
 
 QList<QLocale> LanguageManager::getAvailableLanguages() const {
-  auto languages = QList<QLocale>{};
-  auto filters = QStringList{m_translations_prefix + QLatin1String("*.qm")};
-
-  QDirIterator iterator(m_translations_dir, filters,
-                        QDir::Files | QDir::Readable);
-  while (iterator.hasNext()) {
-    iterator.next();
-    auto base_name = iterator.fileInfo().completeBaseName();
-    languages.append(QLocale(base_name.mid(m_translations_prefix.length())));
-  }
-
-  if (languages.empty()) languages.append(m_current_locale);
-
-  return languages;
-}
-
-const QString &LanguageManager::getTranslationsDir() const {
-  return m_translations_dir;
-}
-
-const QString &LanguageManager::getTranslationsPrefix() const {
-  return m_translations_prefix;
+  return m_available_locales;
 }
 
 QLocale LanguageManager::getCurrentLanguage() const { return m_current_locale; }
 
 bool LanguageManager::setLanguage(const QLocale &locale) {
-  Q_ASSERT(getAvailableLanguages().contains(locale));
-  auto bcp47_name = locale.bcp47Name();
+  if (m_current_locale == locale) return true;
+  if (!m_available_locales.contains(locale)) return false;
 
-  if (m_qt_translator) QApplication::removeTranslator(m_qt_translator.data());
-  if (m_app_translator) QApplication::removeTranslator(m_app_translator.data());
+  for (auto translator : m_translators) translator->setLanguage(locale);
 
-  m_qt_translator.reset(new QTranslator);
-  m_app_translator.reset(new QTranslator);
-
-  if (!m_qt_translator->load(QLatin1String("qt_%1").arg(bcp47_name),
-                             m_translations_dir) ||
-      !m_app_translator->load(m_translations_prefix + bcp47_name,
-                              m_translations_dir)) {
-    m_qt_translator.reset(nullptr);
-    m_app_translator.reset(nullptr);
-    return false;
-  }
-
-  m_current_locale = locale;
-  QApplication::installTranslator(m_qt_translator.data());
-  QApplication::installTranslator(m_app_translator.data());
   Q_EMIT languageChanged(locale);
   return true;
 }
 
-void LanguageManager::setTranslationsDir(const QString &translations_dir) {
-  m_translations_dir = translations_dir;
-  Q_EMIT translationsDirChanged(translations_dir);
+void LanguageManager::addedObject(LanguageTranslator *translator) {
+  m_translators.insert(translator);
+  translator->setLanguage(m_current_locale);
+  calculateAvailableLocales();
 }
 
-void LanguageManager::setTranslationsPrefix(
-    const QString &translations_prefix) {
-  m_translations_prefix = translations_prefix;
-  Q_EMIT translationsPrefixChanged(translations_prefix);
+void LanguageManager::removedObject(LanguageTranslator *translator) {
+  m_translators.remove(translator);
+  calculateAvailableLocales();
+}
+
+void LanguageManager::calculateAvailableLocales() {
+  QList<QLocale> available_locales;
+  for (const auto translator : m_translators) {
+    for (const auto &available_language : translator->getAvailableLanguages()) {
+      if (!available_locales.contains(available_language))
+        available_locales.append(available_language);
+    }
+  }
+
+  if (available_locales.size() == m_available_locales.size()) return;
+
+  m_available_locales = available_locales;
+  Q_EMIT availableLanguagesChanged(m_available_locales);
 }
 
 }  // namespace egnite

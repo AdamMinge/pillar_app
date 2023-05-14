@@ -21,6 +21,7 @@ set(sources
     ${source_root}/style_manager.cpp
     ${source_root}/plugin_manager.cpp
     ${source_root}/language_manager.cpp
+    ${source_root}/language_translator.cpp
     ${source_root}/issue_manager.cpp
     ${source_root}/issue.cpp
     ${source_root}/settings/settings_widget.cpp
@@ -47,6 +48,7 @@ set(includes
     ${include_root}/issue.h
     ${include_root}/issue_manager.h
     ${include_root}/language_manager.h
+    ${include_root}/language_translator.h
     ${include_root}/logging_manager.h
     ${include_root}/plugin.h
     ${include_root}/plugin_listener.h

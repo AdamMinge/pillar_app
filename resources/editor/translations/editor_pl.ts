@@ -517,12 +517,12 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/editor/main.cpp" line="63"/>
+        <location filename="../../../src/editor/main.cpp" line="65"/>
         <source>Execute application without loading/saving preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main.cpp" line="67"/>
+        <location filename="../../../src/editor/main.cpp" line="69"/>
         <source>Specified locations of plugins to load</source>
         <translation type="unfinished"></translation>
     </message>
