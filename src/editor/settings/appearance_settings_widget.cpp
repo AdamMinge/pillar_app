@@ -48,7 +48,7 @@ void AppearanceSettingsWidget::initUi() {
 }
 
 void AppearanceSettingsWidget::initConnections() {
-  connect(m_ui->m_language_combobox, &QComboBox::currentTextChanged, this,
+  connect(m_ui->m_language_combobox, &QComboBox::currentIndexChanged, this,
           &AppearanceSettingsWidget::languageChanged);
 
   connect(m_ui->m_theme_combobox, &QComboBox::currentTextChanged, this,
@@ -62,9 +62,10 @@ void AppearanceSettingsWidget::initConnections() {
 
 void AppearanceSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 
-void AppearanceSettingsWidget::languageChanged(const QString &language) {
+void AppearanceSettingsWidget::languageChanged(int index) {
+  const auto locale = m_ui->m_language_combobox->itemData(index).toLocale();
   auto &language_manager = egnite::LanguageManager::getInstance();
-  language_manager.setLanguage(QLocale(language));
+  language_manager.setLanguage(locale);
 }
 
 void AppearanceSettingsWidget::styleChanged(const QString &style) {
@@ -75,14 +76,20 @@ void AppearanceSettingsWidget::styleChanged(const QString &style) {
 void AppearanceSettingsWidget::availableLanguagesChanged(
     const QList<QLocale> &locales) {
   auto &language_manager = egnite::LanguageManager::getInstance();
-  auto languages_str = QStringList{};
-  for (const auto &language : language_manager.getAvailableLanguages())
-    languages_str << QLocale::languageToString(language.language());
+  const auto current_locale = language_manager.getCurrentLanguage().language();
+  const auto available_languages = language_manager.getAvailableLanguages();
 
   m_ui->m_language_combobox->clear();
-  m_ui->m_language_combobox->addItems(languages_str);
-  m_ui->m_language_combobox->setCurrentText(QLocale::languageToString(
-      language_manager.getCurrentLanguage().language()));
+  for (const auto &locale : available_languages)
+    m_ui->m_language_combobox->addItem(
+        QLocale::languageToString(locale.language()), locale);
+
+  auto current_index = m_ui->m_language_combobox->findData(current_locale);
+  if (current_index)
+    current_index = m_ui->m_language_combobox->findData(
+        QLocale(QLocale::Language::English));
+
+  m_ui->m_language_combobox->setCurrentIndex(current_index);
 }
 
 /* ---------------------- AppearanceSettingsWidgetFactory ------------------- */

@@ -27,7 +27,7 @@ class AppearanceSettingsWidget : public egnite::SettingsWidget {
   void retranslateUi();
 
  private Q_SLOTS:
-  void languageChanged(const QString &language);
+  void languageChanged(int index);
   void styleChanged(const QString &style);
   void availableLanguagesChanged(const QList<QLocale> &locales);
 
