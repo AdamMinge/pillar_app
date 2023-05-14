@@ -30,7 +30,7 @@
     </message>
     <message>
         <location filename="../../../src/editor/about_dialog.cpp" line="57"/>
-        <source>GitHub/AdamMinge/egnite</source>
+        <source>GitHub/AdamMinge/flow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

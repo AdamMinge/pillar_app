@@ -39,6 +39,7 @@ set(sources
     ${source_root}/component/objects/objects_dock.cpp
     ${source_root}/component/objects/objects_tree_model.cpp
     ${source_root}/component/layers/layers_dock.cpp
+    ${source_root}/component/layers/layers_tree_delegate.cpp
     ${source_root}/component/layers/layers_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
@@ -86,6 +87,7 @@ set(includes
     ${include_root}/component/objects/objects_dock.h
     ${include_root}/component/objects/objects_tree_model.h
     ${include_root}/component/layers/layers_dock.h
+    ${include_root}/component/layers/layers_tree_delegate.h
     ${include_root}/component/layers/layers_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h

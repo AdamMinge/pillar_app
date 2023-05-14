@@ -15,6 +15,7 @@ class LayersDock;
 namespace flow_document {
 
 class LayersTreeModel;
+class LayersTreeDelegate;
 
 class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
   Q_OBJECT
@@ -40,6 +41,7 @@ class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
 
   QScopedPointer<LayersTreeModel> m_layers_model;
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
+  QScopedPointer<LayersTreeDelegate> m_layers_delegate;
 };
 
 }  // namespace flow_document

@@ -46,7 +46,14 @@
        </widget>
       </item>
       <item>
-       <widget class="utils::QtUnselectableTreeView" name="m_objects_view"/>
+       <widget class="utils::QtUnselectableTreeView" name="m_objects_view">
+        <property name="dragEnabled">
+         <bool>true</bool>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="m_toolbar_layout">

@@ -10,6 +10,8 @@
         <file>images/16x16/duplicate.png</file>
         <file>images/16x16/unlocked.png</file>
         <file>images/16x16/visible.png</file>
+        <file>images/16x16/group_layer.png</file>
+        <file>images/16x16/node_layer.png</file>
 
         <file>images/32x32/dir.png</file>
         <file>images/32x32/node.png</file>

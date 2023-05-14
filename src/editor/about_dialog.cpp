@@ -54,7 +54,7 @@ void AboutDialog::retranslateUi() {
                tr("This Project is open source and <br/> contributions are "
                   "welcomed."),
                tr("Visit"), tr("https://github.com/AdamMinge/flow"),
-               tr("GitHub/AdamMinge/egnite"),
+               tr("GitHub/AdamMinge/flow"),
                tr("for more information or to report a bug <br> or to suggest "
                   "a new "
                   "feature."),

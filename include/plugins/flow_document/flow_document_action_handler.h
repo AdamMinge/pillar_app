@@ -60,8 +60,13 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
  private:
   explicit FlowDocumentActionHandler();
 
+  void initActions();
+  void connectActions();
   void updateActions();
   void retranslateUi();
+
+  void registerActions();
+  void unregisterActions();
 
  private:
   static std::unique_ptr<FlowDocumentActionHandler> m_instance;

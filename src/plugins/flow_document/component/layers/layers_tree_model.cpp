@@ -4,6 +4,7 @@
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
+#include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
 /* -------------------------------------------------------------------------- */
 
@@ -18,11 +19,16 @@ void LayersTreeModel::setDocument(FlowDocument *flow_document) {
   if (m_document == flow_document) return;
 
   m_document = flow_document;
+
+  m_flow = m_document ? m_document->getFlow() : nullptr;
 }
 
 FlowDocument *LayersTreeModel::getDocument() const { return m_document; }
 
 Qt::ItemFlags LayersTreeModel::flags(const QModelIndex &index) const {
+  if (index.row() < 0 || index.row() >= rowCount(index.parent()))
+    return Qt::NoItemFlags;
+
   return QAbstractItemModel::flags(index);
 }
 
@@ -91,7 +97,7 @@ QModelIndex LayersTreeModel::parent(const QModelIndex &index) const {
 }
 
 int LayersTreeModel::rowCount(const QModelIndex &parent) const {
-  if (parent.column() > 0) return 0;
+  if (parent.column() > 0 || !m_document) return 0;
 
   if (!parent.isValid()) {
     auto root_layer = m_flow->getRootLayer();
