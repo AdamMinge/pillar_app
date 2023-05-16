@@ -1,6 +1,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_document_action_handler.h"
 
+#include "flow_document/command/add_remove_layer.h"
+#include "flow_document/flow/flow.h"
+#include "flow_document/flow/group_layer.h"
+#include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
 /* ----------------------------------- Egnite ------------------------------- */
@@ -120,13 +124,29 @@ QMenu* FlowDocumentActionHandler::createNewLayerMenu(QWidget* parent) const {
 void FlowDocumentActionHandler::onAddGroupLayer() const {
   Q_ASSERT(m_document);
 
-  // TODO
+  auto group_layer = m_document->getFlow()->getRootLayer();
+  auto new_layer = std::make_unique<GroupLayer>();
+  const auto index = group_layer->size();
+
+  auto entires = std::list<LayerEntry>{};
+  entires.emplace_back(LayerEntry{group_layer, std::move(new_layer), index});
+
+  m_document->getUndoStack()->push(
+      new AddLayers(m_document, std::move(entires)));
 }
 
 void FlowDocumentActionHandler::onAddNodeLayer() const {
   Q_ASSERT(m_document);
 
-  // TODO
+  auto group_layer = m_document->getFlow()->getRootLayer();
+  auto new_layer = std::make_unique<NodeLayer>();
+  const auto index = group_layer->size();
+
+  auto entires = std::list<LayerEntry>{};
+  entires.emplace_back(LayerEntry{group_layer, std::move(new_layer), index});
+
+  m_document->getUndoStack()->push(
+      new AddLayers(m_document, std::move(entires)));
 }
 
 void FlowDocumentActionHandler::onRemoveLayer() const {

@@ -22,6 +22,7 @@ set(sources
     ${source_root}/flow_script_module.cpp
     ${source_root}/new_flow_document_widget.cpp
     ${source_root}/event/change_event.cpp
+    ${source_root}/event/layer_change_event.cpp
     ${source_root}/flow/node.cpp
     ${source_root}/flow/object.cpp
     ${source_root}/flow/pin.cpp
@@ -32,19 +33,20 @@ set(sources
     ${source_root}/flow/layer.cpp
     ${source_root}/flow/group_layer.cpp
     ${source_root}/flow/node_layer.cpp
+    ${source_root}/command/add_remove_layer.cpp
     ${source_root}/component/factories/factories_dock.cpp
-    ${source_root}/component/factories/factories_tree_delegate.cpp
+    ${source_root}/component/factories/factories_view.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
     ${source_root}/component/properties/properties_dock.cpp
     ${source_root}/component/objects/objects_dock.cpp
+    ${source_root}/component/objects/objects_view.cpp
     ${source_root}/component/objects/objects_tree_model.cpp
     ${source_root}/component/layers/layers_dock.cpp
-    ${source_root}/component/layers/layers_tree_delegate.cpp
+    ${source_root}/component/layers/layers_view.cpp
     ${source_root}/component/layers/layers_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/item/graphics_item.cpp
-    ${source_root}/component/scene/item/object_graphics_item.cpp
     ${source_root}/component/scene/item/node_graphics_item.cpp
     ${source_root}/component/scene/item/selection_rectangle.cpp
     ${source_root}/component/scene/style/style_manager.cpp
@@ -70,6 +72,7 @@ set(includes
     ${include_root}/flow_script_module.h
     ${include_root}/new_flow_document_widget.h
     ${include_root}/event/change_event.h
+    ${include_root}/event/layer_change_event.h
     ${include_root}/flow/node.h
     ${include_root}/flow/object.h
     ${include_root}/flow/pin.h
@@ -80,19 +83,20 @@ set(includes
     ${include_root}/flow/layer.h
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
+    ${include_root}/command/add_remove_layer.h
     ${include_root}/component/factories/factories_dock.h
-    ${include_root}/component/factories/factories_tree_delegate.h
+    ${include_root}/component/factories/factories_view.h
     ${include_root}/component/factories/factories_tree_model.h
     ${include_root}/component/properties/properties_dock.h
     ${include_root}/component/objects/objects_dock.h
+    ${include_root}/component/objects/objects_view.h
     ${include_root}/component/objects/objects_tree_model.h
     ${include_root}/component/layers/layers_dock.h
-    ${include_root}/component/layers/layers_tree_delegate.h
+    ${include_root}/component/layers/layers_view.h
     ${include_root}/component/layers/layers_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/item/graphics_item.h
-    ${include_root}/component/scene/item/object_graphics_item.h
     ${include_root}/component/scene/item/node_graphics_item.h
     ${include_root}/component/scene/item/selection_rectangle.h
     ${include_root}/component/scene/style/style_manager.h

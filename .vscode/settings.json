@@ -92,7 +92,8 @@
         "qabstractitemmodel": "cpp",
         "qlatin1string": "cpp",
         "qtranslator": "cpp",
-        "qscopedpointer": "cpp"
+        "qscopedpointer": "cpp",
+        "qtreeview": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

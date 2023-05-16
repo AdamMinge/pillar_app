@@ -1,7 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/factories/factories_dock.h"
 
-#include "flow_document/component/factories/factories_tree_delegate.h"
 #include "flow_document/component/factories/factories_tree_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
@@ -18,8 +17,7 @@ FactoriesDock::FactoriesDock(QWidget *parent)
     : QDockWidget(parent),
       m_ui(new Ui::FactoriesDock()),
       m_factories_model(new FactoriesTreeModel),
-      m_search_proxy_model(new utils::LeafFilterProxyModel),
-      m_factories_delegate(new FactoriesTreeDelegate) {
+      m_search_proxy_model(new utils::LeafFilterProxyModel) {
   setObjectName(QLatin1String("Factories"));
 
   initUi();
@@ -52,7 +50,6 @@ void FactoriesDock::initUi() {
   m_search_proxy_model->setSourceModel(m_factories_model.get());
 
   m_ui->m_factories_view->setModel(m_search_proxy_model.get());
-  m_ui->m_factories_view->setItemDelegate(m_factories_delegate.get());
 
   m_search_proxy_model->setFilterRole(FactoriesTreeModel::Role::NameRole);
   m_search_proxy_model->setRecursiveFilteringEnabled(true);

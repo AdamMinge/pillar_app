@@ -8,6 +8,10 @@ Node::Node() = default;
 
 Node::~Node() = default;
 
+void Node::setPosition(const QPointF &position) { m_position = position; }
+
+QPointF Node::getPosition() const { return m_position; }
+
 size_t Node::getPinsCounts(Pin::Type type) const {
   return getPins(type).size();
 }

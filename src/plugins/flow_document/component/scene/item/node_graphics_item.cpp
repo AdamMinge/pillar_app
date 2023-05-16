@@ -42,15 +42,21 @@ const PinStyleViewer &getPinStyle(const NodeGraphicsItem &item) {
 
 NodeGraphicsItem::NodeGraphicsItem(FlowDocument *document, Node *node,
                                    QGraphicsItem *parent)
-    : ObjectGraphicsItem(document, node, parent),
+    : GraphicsItem(parent),
       m_node_painter(std::make_unique<NodePainter>(*this)),
-      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {}
+      m_node_geometry(std::make_unique<NodeGeometry>(*this)),
+      m_document(document),
+      m_node(node) {
+  setPos(m_node->getPosition());
+
+  connect(m_document, &FlowDocument::event, this, &NodeGraphicsItem::onEvent);
+}
 
 NodeGraphicsItem::~NodeGraphicsItem() = default;
 
-Node *NodeGraphicsItem::getNode() const {
-  return static_cast<Node *>(getObject());
-}
+Node *NodeGraphicsItem::getNode() const { return m_node; }
+
+FlowDocument *NodeGraphicsItem::getDocument() const { return m_document; }
 
 QRectF NodeGraphicsItem::boundingRect() const {
   return m_node_geometry->getBoundingRect();
@@ -69,6 +75,10 @@ void NodeGraphicsItem::paint(QPainter *painter,
                              QWidget *widget) {
   painter->setClipRect(option->exposedRect);
   m_node_painter->paint(painter, option);
+}
+
+void NodeGraphicsItem::onEvent(const ChangeEvent &event) {
+  // TODO
 }
 
 /* ----------------------------- NodeGeometry --------------------------- */

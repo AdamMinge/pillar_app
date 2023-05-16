@@ -2,20 +2,22 @@
 #define FLOW_DOCUMENT_NODE_GRAPHICS_ITEM_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/item/object_graphics_item.h"
+#include "flow_document/component/scene/item/graphics_item.h"
 #include "flow_document/export.h"
 #include "flow_document/flow/pin.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
+class FlowDocument;
+class ChangeEvent;
 class NodePainter;
 class NodeGeometry;
 class Node;
 
 /* --------------------------- NodeGraphicsItem ------------------------- */
 
-class FLOW_DOCUMENT_API NodeGraphicsItem : public ObjectGraphicsItem {
+class FLOW_DOCUMENT_API NodeGraphicsItem : public GraphicsItem {
   Q_OBJECT
 
  public:
@@ -24,6 +26,7 @@ class FLOW_DOCUMENT_API NodeGraphicsItem : public ObjectGraphicsItem {
   ~NodeGraphicsItem() override;
 
   [[nodiscard]] Node *getNode() const;
+  [[nodiscard]] FlowDocument *getDocument() const;
 
   [[nodiscard]] QRectF boundingRect() const override;
 
@@ -35,6 +38,11 @@ class FLOW_DOCUMENT_API NodeGraphicsItem : public ObjectGraphicsItem {
              QWidget *widget) override;
 
  private:
+  void onEvent(const ChangeEvent &event);
+
+ private:
+  FlowDocument *m_document;
+  Node *m_node;
   std::unique_ptr<NodePainter> m_node_painter;
   std::unique_ptr<NodeGeometry> m_node_geometry;
 };

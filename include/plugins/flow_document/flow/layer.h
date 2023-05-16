@@ -27,6 +27,9 @@ class FLOW_DOCUMENT_API Layer : public Object {
 
   [[nodiscard]] Type getType() const;
 
+  void setPosition(const QPointF& position);
+  [[nodiscard]] QPointF getPosition() const;
+
   void setOpacity(qreal opacity);
   [[nodiscard]] qreal getOpacity() const;
 
@@ -44,6 +47,7 @@ class FLOW_DOCUMENT_API Layer : public Object {
  private:
   Type m_type;
   GroupLayer* m_parent;
+  QPointF m_position;
   qreal m_opacity;
   bool m_locked;
   bool m_visible;

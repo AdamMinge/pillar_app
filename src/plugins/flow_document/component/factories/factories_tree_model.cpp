@@ -84,8 +84,6 @@ QModelIndex FactoriesTreeModel::parent(const QModelIndex &index) const {
 }
 
 int FactoriesTreeModel::rowCount(const QModelIndex &parent) const {
-  if (parent.column() > 0) return 0;
-
   if (!parent.isValid())
     return static_cast<int>(m_group_factories.size());
   else {

@@ -1,7 +1,6 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/layers/layers_dock.h"
 
-#include "flow_document/component/layers/layers_tree_delegate.h"
 #include "flow_document/component/layers/layers_tree_model.h"
 #include "flow_document/flow_document_action_handler.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -19,8 +18,7 @@ LayersDock::LayersDock(QWidget *parent)
     : QDockWidget(parent),
       m_ui(new Ui::LayersDock()),
       m_layers_model(new LayersTreeModel),
-      m_search_proxy_model(new QSortFilterProxyModel),
-      m_layers_delegate(new LayersTreeDelegate) {
+      m_search_proxy_model(new QSortFilterProxyModel) {
   setObjectName(QLatin1String("Layers"));
 
   initUi();
@@ -30,6 +28,16 @@ LayersDock::LayersDock(QWidget *parent)
 }
 
 LayersDock::~LayersDock() = default;
+
+void LayersDock::setDocument(FlowDocument *document) {
+  if (m_document == document) return;
+
+  m_document = document;
+
+  m_layers_model->setDocument(m_document);
+}
+
+FlowDocument *LayersDock::getDocument() const { return m_document; }
 
 void LayersDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);
@@ -52,7 +60,6 @@ void LayersDock::initUi() {
 
   m_search_proxy_model->setSourceModel(m_layers_model.get());
   m_ui->m_layers_view->setModel(m_search_proxy_model.get());
-  m_ui->m_layers_view->setItemDelegate(m_layers_delegate.get());
 
   m_search_proxy_model->setFilterRole(LayersTreeModel::Role::NameRole);
   m_search_proxy_model->setRecursiveFilteringEnabled(true);

@@ -9,7 +9,14 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API ChangeEvent {
  public:
-  enum Type : size_t { NodesAdded, NodesRemoved, NodesChangedProperties };
+  enum class Type {
+    LayersChanged,
+    LayerAboutToBeAdded,
+    LayerAdded,
+    LayerRemoved,
+    LayerAboutToBeRemoved
+  };
+  Q_DECLARE_FLAGS(Types, Type);
 
  public:
   explicit ChangeEvent(Type type);
@@ -22,5 +29,7 @@ class FLOW_DOCUMENT_API ChangeEvent {
 };
 
 }  // namespace flow_document
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(flow_document::ChangeEvent::Types);
 
 #endif  // FLOW_DOCUMENT_CHANGE_EVENT_H

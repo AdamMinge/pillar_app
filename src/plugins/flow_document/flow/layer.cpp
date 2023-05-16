@@ -15,6 +15,10 @@ Layer::~Layer() = default;
 
 Layer::Type Layer::getType() const { return m_type; }
 
+void Layer::setPosition(const QPointF& position) { m_position = position; }
+
+QPointF Layer::getPosition() const { return m_position; }
+
 qreal Layer::getOpacity() const { return m_opacity; }
 
 void Layer::setOpacity(qreal opacity) { m_opacity = opacity; }

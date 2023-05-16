@@ -15,7 +15,6 @@ class FactoriesDock;
 namespace flow_document {
 
 class FactoriesTreeModel;
-class FactoriesTreeDelegate;
 
 class FLOW_DOCUMENT_API FactoriesDock : public QDockWidget {
   Q_OBJECT
@@ -41,7 +40,6 @@ class FLOW_DOCUMENT_API FactoriesDock : public QDockWidget {
 
   QScopedPointer<FactoriesTreeModel> m_factories_model;
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
-  QScopedPointer<FactoriesTreeDelegate> m_factories_delegate;
 };
 
 }  // namespace flow_document

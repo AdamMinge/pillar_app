@@ -52,6 +52,8 @@ class STACKED_WIDGET_API QtStackedWidgetTreeModel : public QAbstractItemModel {
     IconRole
   };
 
+  enum Column { NameColumn };
+
  public:
   [[nodiscard]] static QModelIndex getIndexBy(const QAbstractItemModel &model,
                                               Role role, const QVariant &value,

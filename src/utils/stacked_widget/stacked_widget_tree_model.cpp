@@ -151,7 +151,7 @@ QVariant QtStackedWidgetTreeModel::headerData(int section,
 
   switch (section)  // NOLINT(hicpp-multiway-paths-covered)
   {
-    case 0:
+    case Column::NameColumn:
       return tr("Name");
     default:
       return QVariant{};
@@ -192,8 +192,6 @@ QModelIndex QtStackedWidgetTreeModel::parent(const QModelIndex &index) const {
 }
 
 int QtStackedWidgetTreeModel::rowCount(const QModelIndex &parent) const {
-  if (parent.column() > 0) return 0;
-
   if (!parent.isValid())
     return static_cast<int>(m_root_items.size());
   else

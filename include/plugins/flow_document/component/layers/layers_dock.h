@@ -14,8 +14,8 @@ class LayersDock;
 
 namespace flow_document {
 
+class FlowDocument;
 class LayersTreeModel;
-class LayersTreeDelegate;
 
 class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
   Q_OBJECT
@@ -23,6 +23,9 @@ class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
  public:
   explicit LayersDock(QWidget *parent = nullptr);
   ~LayersDock() override;
+
+  void setDocument(FlowDocument *document);
+  [[nodiscard]] FlowDocument *getDocument() const;
 
  protected:
   void changeEvent(QEvent *event) override;
@@ -37,11 +40,12 @@ class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
   void retranslateUi();
 
  private:
+  FlowDocument *m_document;
+
   QScopedPointer<Ui::LayersDock> m_ui;
 
   QScopedPointer<LayersTreeModel> m_layers_model;
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
-  QScopedPointer<LayersTreeDelegate> m_layers_delegate;
 };
 
 }  // namespace flow_document

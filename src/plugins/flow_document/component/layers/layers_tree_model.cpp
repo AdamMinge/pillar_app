@@ -1,6 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/layers/layers_tree_model.h"
 
+#include "flow_document/event/change_event.h"
+#include "flow_document/event/layer_change_event.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
@@ -18,7 +20,16 @@ LayersTreeModel::~LayersTreeModel() = default;
 void LayersTreeModel::setDocument(FlowDocument *flow_document) {
   if (m_document == flow_document) return;
 
+  if (m_document) {
+    disconnect(m_document, &FlowDocument::event, this,
+               &LayersTreeModel::onEvent);
+  }
+
   m_document = flow_document;
+
+  if (m_document) {
+    connect(m_document, &FlowDocument::event, this, &LayersTreeModel::onEvent);
+  }
 
   m_flow = m_document ? m_document->getFlow() : nullptr;
 }
@@ -73,31 +84,27 @@ QModelIndex LayersTreeModel::index(int row, int column,
     return createIndex(row, column, parent_item->at(row));
   } else {
     auto root_layer = m_flow->getRootLayer();
-    return createIndex(row, column, root_layer);
+    return createIndex(row, column, root_layer->at(row));
   }
 }
 
 QModelIndex LayersTreeModel::parent(const QModelIndex &index) const {
   if (!index.isValid()) return QModelIndex{};
 
-  auto root_layer = m_flow->getRootLayer();
   auto child_item = static_cast<Layer *>(index.internalPointer());
   auto item = child_item->getParent();
 
-  if (auto root_index = root_layer->indexOf(item); root_index > 0) {
-    auto row = static_cast<int>(root_index);
-    return createIndex(row, 0, item);
-  } else {
-    auto parent_item = item ? item->getParent() : nullptr;
-    if (!parent_item) return QModelIndex{};
-
-    auto row = parent_item->indexOf(item);
+  if (item) {
+    auto parent_item = item->getParent();
+    auto row = parent_item ? parent_item->indexOf(item) : 0;
     return createIndex(row, 0, item);
   }
+
+  return QModelIndex{};
 }
 
 int LayersTreeModel::rowCount(const QModelIndex &parent) const {
-  if (parent.column() > 0 || !m_document) return 0;
+  if (!m_document) return 0;
 
   if (!parent.isValid()) {
     auto root_layer = m_flow->getRootLayer();
@@ -114,6 +121,45 @@ int LayersTreeModel::rowCount(const QModelIndex &parent) const {
 }
 
 int LayersTreeModel::columnCount(const QModelIndex &parent) const { return 1; }
+
+void LayersTreeModel::onEvent(const ChangeEvent &event) {
+  switch (event.getType()) {
+    using enum ChangeEvent::Type;
+
+    case LayerAboutToBeAdded: {
+      const auto &e = static_cast<const LayerEvent &>(event);
+      beginInsertRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
+      break;
+    }
+
+    case LayerAdded: {
+      endInsertRows();
+      break;
+    }
+
+    case LayerAboutToBeRemoved: {
+      const auto &e = static_cast<const LayerEvent &>(event);
+      beginRemoveRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
+      break;
+    }
+
+    case LayerRemoved: {
+      endRemoveRows();
+      break;
+    }
+  }
+}
+
+QModelIndex LayersTreeModel::index(Layer *layer) const {
+  Q_ASSERT(layer);
+  const auto group_layer = layer->getParent();
+  if (!group_layer) return QModelIndex{};
+
+  const auto row = group_layer->indexOf(layer);
+  Q_ASSERT(row >= 0);
+
+  return createIndex(row, 0, layer);
+}
 
 QString LayersTreeModel::getName(const QModelIndex &index) const {
   auto layer = static_cast<Layer *>(index.internalPointer());

@@ -46,7 +46,7 @@
        </widget>
       </item>
       <item>
-       <widget class="utils::QtUnselectableTreeView" name="m_layers_view">
+       <widget class="flow_document::LayersView" name="m_layers_view">
         <property name="dragEnabled">
          <bool>true</bool>
         </property>
@@ -81,9 +81,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>utils::QtUnselectableTreeView</class>
+   <class>flow_document::LayersView</class>
    <extends>QTreeView</extends>
-   <header location="global">utils/view/unselectable_view.h</header>
+   <header>flow_document/component/layers/layers_view.h</header>
   </customwidget>
  </customwidgets>
  <resources>

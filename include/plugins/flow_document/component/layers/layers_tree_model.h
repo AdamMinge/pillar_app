@@ -11,6 +11,8 @@
 namespace flow_document {
 
 class FlowDocument;
+class ChangeEvent;
+class Layer;
 class Flow;
 
 class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
@@ -46,6 +48,10 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
  private:
+  void onEvent(const ChangeEvent &event);
+
+  [[nodiscard]] QModelIndex index(Layer *layer) const;
+
   [[nodiscard]] QString getName(const QModelIndex &index) const;
   [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
 
