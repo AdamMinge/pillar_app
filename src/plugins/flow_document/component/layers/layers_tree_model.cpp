@@ -124,9 +124,8 @@ QVariant LayersTreeModel::headerData(int section, Qt::Orientation orientation,
 
 QModelIndex LayersTreeModel::index(int row, int column,
                                    const QModelIndex &parent) const {
-  GroupLayer *parent_item{nullptr};
   if (parent.isValid()) {
-    parent_item = static_cast<GroupLayer *>(parent.internalPointer());
+    auto parent_item = static_cast<GroupLayer *>(parent.internalPointer());
     return createIndex(row, column, parent_item->at(row));
   } else {
     auto root_layer = m_flow->getRootLayer();
@@ -138,15 +137,7 @@ QModelIndex LayersTreeModel::parent(const QModelIndex &index) const {
   if (!index.isValid()) return QModelIndex{};
 
   auto child_item = static_cast<Layer *>(index.internalPointer());
-  auto item = child_item->getParent();
-
-  if (item) {
-    auto parent_item = item->getParent();
-    auto row = parent_item ? parent_item->indexOf(item) : 0;
-    return createIndex(row, 0, item);
-  }
-
-  return QModelIndex{};
+  return LayersTreeModel::index(child_item->getParent());
 }
 
 int LayersTreeModel::rowCount(const QModelIndex &parent) const {
@@ -157,12 +148,8 @@ int LayersTreeModel::rowCount(const QModelIndex &parent) const {
     return static_cast<int>(root_layer->size());
   } else {
     auto layer = static_cast<Layer *>(parent.internalPointer());
-    if (layer->getLayerType() == Layer::LayerType::GroupLayer) {
-      auto group_layer = static_cast<GroupLayer *>(layer);
-      return group_layer->size();
-    }
-
-    return 0;
+    auto group_layer = static_cast<GroupLayer *>(layer);
+    return group_layer->size();
   }
 }
 
@@ -215,7 +202,7 @@ void LayersTreeModel::onEvent(const ChangeEvent &event) {
           auto min_index = index(layer, *col_min);
           auto max_index = index(layer, *col_max);
 
-          Q_EMIT dataChanged(min_index, max_index);
+          Q_EMIT dataChanged(min_index, max_index);  // DOESN"T WORK !!
         }
       }
 
