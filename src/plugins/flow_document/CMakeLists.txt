@@ -34,6 +34,7 @@ set(sources
     ${source_root}/flow/group_layer.cpp
     ${source_root}/flow/node_layer.cpp
     ${source_root}/command/add_remove_layer.cpp
+    ${source_root}/command/change_layer.cpp
     ${source_root}/component/factories/factories_dock.cpp
     ${source_root}/component/factories/factories_view.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
@@ -84,6 +85,7 @@ set(includes
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
     ${include_root}/command/add_remove_layer.h
+    ${include_root}/command/change_layer.h
     ${include_root}/component/factories/factories_dock.h
     ${include_root}/component/factories/factories_view.h
     ${include_root}/component/factories/factories_tree_model.h
@@ -138,7 +140,8 @@ egnite_add_plugins(
   Qt6::Core
   Qt6::Widgets
   egnite::egnite
-  utils::model)
+  utils::model
+  utils::delegate)
 
 target_include_directories(
   flow_document

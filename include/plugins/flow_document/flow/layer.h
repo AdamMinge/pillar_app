@@ -16,16 +16,16 @@ class FLOW_DOCUMENT_API Layer : public Object {
   FLOW_OBJECT_CLASS(Layer, Object)
 
  public:
-  enum class Type {
+  enum class LayerType {
     GroupLayer,
     NodeLayer,
   };
 
  public:
-  explicit Layer(Type type);
+  explicit Layer(LayerType type);
   ~Layer() override;
 
-  [[nodiscard]] Type getType() const;
+  [[nodiscard]] LayerType getLayerType() const;
 
   void setPosition(const QPointF& position);
   [[nodiscard]] QPointF getPosition() const;
@@ -45,7 +45,7 @@ class FLOW_DOCUMENT_API Layer : public Object {
   void setParent(GroupLayer* parent);
 
  private:
-  Type m_type;
+  LayerType m_type;
   GroupLayer* m_parent;
   QPointF m_position;
   qreal m_opacity;

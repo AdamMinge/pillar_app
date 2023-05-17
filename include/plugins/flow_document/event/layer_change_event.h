@@ -45,8 +45,24 @@ class FLOW_DOCUMENT_API LayersEvent : public ChangeEvent {
 
 class FLOW_DOCUMENT_API LayersChangeEvent : public LayersEvent {
  public:
-  explicit LayersChangeEvent(QList<Layer*> layers);
+  enum class Property {
+    Name = 1 << 0,
+    Visible = 1 << 1,
+    Locked = 1 << 2,
+    Opacity = 1 << 3,
+    Position = 1 << 4,
+    Custom = 1 << 5,
+  };
+  Q_DECLARE_FLAGS(Properties, Property)
+
+ public:
+  explicit LayersChangeEvent(QList<Layer*> layers, Properties properties);
   ~LayersChangeEvent() override;
+
+  [[nodiscard]] Properties getProperties() const;
+
+ private:
+  Properties m_properties;
 };
 
 }  // namespace flow_document

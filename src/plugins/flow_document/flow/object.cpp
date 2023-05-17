@@ -4,9 +4,11 @@
 
 namespace flow_document {
 
-Object::Object() : m_id(QUuid::createUuid()) {}
+Object::Object(Type type) : m_id(QUuid::createUuid()), m_type(type) {}
 
 Object::~Object() = default;
+
+Object::Type Object::getType() const { return m_type; }
 
 QUuid Object::getId() const { return m_id; }
 

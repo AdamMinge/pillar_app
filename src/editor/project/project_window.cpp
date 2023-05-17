@@ -202,13 +202,13 @@ void ProjectWindow::updateActions() {
   m_save_all_documents_action->setEnabled(current_document);
 
   m_cut_action->setEnabled(standard_actions &
-                           egnite::DocumentEditor::CutAction);
+                           egnite::DocumentEditor::StandardAction::CutAction);
   m_copy_action->setEnabled(standard_actions &
-                            egnite::DocumentEditor::CopyAction);
-  m_paste_action->setEnabled(standard_actions &
-                             egnite::DocumentEditor::PasteAction);
-  m_delete_action->setEnabled(standard_actions &
-                              egnite::DocumentEditor::DeleteAction);
+                            egnite::DocumentEditor::StandardAction::CopyAction);
+  m_paste_action->setEnabled(
+      standard_actions & egnite::DocumentEditor::StandardAction::PasteAction);
+  m_delete_action->setEnabled(
+      standard_actions & egnite::DocumentEditor::StandardAction::DeleteAction);
 }
 
 void ProjectWindow::updateWindowTitle() {
@@ -420,28 +420,32 @@ void ProjectWindow::
     performCut()  // NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
-    editor->performStandardAction(egnite::DocumentEditor::CutAction);
+    editor->performStandardAction(
+        egnite::DocumentEditor::StandardAction::CutAction);
 }
 
 void ProjectWindow::
     performCopy()  // NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
-    editor->performStandardAction(egnite::DocumentEditor::CopyAction);
+    editor->performStandardAction(
+        egnite::DocumentEditor::StandardAction::CopyAction);
 }
 
 void ProjectWindow::
     performPaste()  // NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
-    editor->performStandardAction(egnite::DocumentEditor::PasteAction);
+    editor->performStandardAction(
+        egnite::DocumentEditor::StandardAction::PasteAction);
 }
 
 void ProjectWindow::
     performDelete()  // NOLINT(readability-convert-member-functions-to-static)
 {
   if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
-    editor->performStandardAction(egnite::DocumentEditor::DeleteAction);
+    editor->performStandardAction(
+        egnite::DocumentEditor::StandardAction::DeleteAction);
 }
 
 void ProjectWindow::writeSettings() {

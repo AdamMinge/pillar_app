@@ -9,7 +9,11 @@
 
 namespace flow_document {
 
+class NodeLayer;
+
 class FLOW_DOCUMENT_API Node : public Object {
+  friend NodeLayer;
+
   FLOW_OBJECT_CLASS(Node, Object)
 
  public:
@@ -27,14 +31,19 @@ class FLOW_DOCUMENT_API Node : public Object {
   void insertPin(Pin::Type type, Pin pin, size_t index);
   void removePin(Pin::Type type, size_t index);
 
+  [[nodiscard]] NodeLayer *getParent() const;
+
  protected:
   virtual void compute() = 0;
+
+  void setParent(NodeLayer *parent);
 
  private:
   [[nodiscard]] QVector<Pin> &getPins(Pin::Type type);
   [[nodiscard]] const QVector<Pin> &getPins(Pin::Type type) const;
 
  private:
+  NodeLayer *m_parent;
   QPointF m_position;
   QVector<Pin> m_out_pins;
   QVector<Pin> m_in_pins;

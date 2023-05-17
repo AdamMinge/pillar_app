@@ -18,4 +18,5 @@ add_subdirectory(view)
 add_subdirectory(widget)
 add_subdirectory(stacked_widget)
 add_subdirectory(model)
+add_subdirectory(delegate)
 # ----------------------------------------------------------------------- #

@@ -6,7 +6,7 @@
 
 namespace flow_document {
 
-NodeLayer::NodeLayer() : Layer(Type::NodeLayer) {}
+NodeLayer::NodeLayer() : Layer(LayerType::NodeLayer) {}
 
 NodeLayer::~NodeLayer() = default;
 
@@ -17,6 +17,8 @@ void NodeLayer::append(std::unique_ptr<Node> node) {
 void NodeLayer::insert(qsizetype index, std::unique_ptr<Node> node) {
   auto insert_iter = m_nodes.begin() + index;
   auto added_node_iter = m_nodes.insert(insert_iter, std::move(node));
+
+  (*added_node_iter)->setParent(this);
 }
 
 void NodeLayer::remove(qsizetype index) { Q_UNUSED(take(index)); }
@@ -25,6 +27,8 @@ std::unique_ptr<Node> NodeLayer::take(qsizetype index) {
   auto take_iter = m_nodes.begin() + index;
   auto node = std::move(*take_iter);
   m_nodes.erase(take_iter);
+
+  node->setParent(nullptr);
   return node;
 }
 

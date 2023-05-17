@@ -64,6 +64,7 @@ void FlowEditor::setCurrentDocument(egnite::Document *document) {
 
   m_tools_bar->setDocument(m_current_document);
   m_layers_dock->setDocument(m_current_document);
+  m_objects_dock->setDocument(m_current_document);
 
   if (auto flow_view = m_view_for_document[flow_document]; flow_view) {
     m_scene_stack->setCurrentWidget(flow_view);

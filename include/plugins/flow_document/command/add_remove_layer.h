@@ -18,7 +18,7 @@ class Layer;
 
 /* --------------------------------- LayerEntry ----------------------------- */
 
-struct LayerEntry {
+struct FLOW_DOCUMENT_API LayerEntry {
  public:
   explicit LayerEntry(LayerEntry&& other);
   explicit LayerEntry(GroupLayer* group_layer, qsizetype index);
@@ -34,7 +34,7 @@ struct LayerEntry {
 
 /* ------------------------------ AddRemoveLayers --------------------------- */
 
-class AddRemoveLayers : public egnite::Command {
+class FLOW_DOCUMENT_API AddRemoveLayers : public egnite::Command {
  public:
   explicit AddRemoveLayers(const QString& name, FlowDocument* document,
                            std::list<LayerEntry> entries,
@@ -52,7 +52,7 @@ class AddRemoveLayers : public egnite::Command {
 
 /* ---------------------------------- AddLayers ----------------------------- */
 
-class AddLayers : public AddRemoveLayers {
+class FLOW_DOCUMENT_API AddLayers : public AddRemoveLayers {
  public:
   explicit AddLayers(FlowDocument* document, std::list<LayerEntry> entries,
                      Command* parent = nullptr);
@@ -64,7 +64,7 @@ class AddLayers : public AddRemoveLayers {
 
 /* -------------------------------- RemoveLayers ---------------------------- */
 
-class RemoveLayers : public AddRemoveLayers {
+class FLOW_DOCUMENT_API RemoveLayers : public AddRemoveLayers {
  public:
   RemoveLayers(FlowDocument* document, std::list<LayerEntry> entries,
                Command* parent = nullptr);

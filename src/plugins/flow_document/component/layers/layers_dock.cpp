@@ -34,6 +34,15 @@ void LayersDock::setDocument(FlowDocument *document) {
 
   m_document = document;
 
+  if (m_document) {
+    m_ui->m_layers_view->header()->setSectionResizeMode(
+        LayersTreeModel::Column::NameColumn, QHeaderView::Stretch);
+    m_ui->m_layers_view->header()->setSectionResizeMode(
+        LayersTreeModel::Column::VisibleColumn, QHeaderView::Fixed);
+    m_ui->m_layers_view->header()->setSectionResizeMode(
+        LayersTreeModel::Column::LockedColumn, QHeaderView::Fixed);
+  }
+
   m_layers_model->setDocument(m_document);
 }
 
@@ -61,7 +70,7 @@ void LayersDock::initUi() {
   m_search_proxy_model->setSourceModel(m_layers_model.get());
   m_ui->m_layers_view->setModel(m_search_proxy_model.get());
 
-  m_search_proxy_model->setFilterRole(LayersTreeModel::Role::NameRole);
+  m_search_proxy_model->setFilterKeyColumn(LayersTreeModel::Column::NameColumn);
   m_search_proxy_model->setRecursiveFilteringEnabled(true);
 
   const auto &handler = FlowDocumentActionHandler::getInstance();

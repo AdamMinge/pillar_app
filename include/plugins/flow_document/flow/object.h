@@ -13,8 +13,17 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API Object {
  public:
-  explicit Object();
+  enum class Type {
+    Flow,
+    Layer,
+    Node,
+  };
+
+ public:
+  explicit Object(Type type);
   virtual ~Object();
+
+  [[nodiscard]] Type getType() const;
 
   [[nodiscard]] QUuid getId() const;
 
@@ -35,6 +44,7 @@ class FLOW_DOCUMENT_API Object {
   }
 
  private:
+  Type m_type;
   QUuid m_id;
   QString m_name;
   QVariantMap m_properties;

@@ -51,7 +51,8 @@ void FactoriesDock::initUi() {
 
   m_ui->m_factories_view->setModel(m_search_proxy_model.get());
 
-  m_search_proxy_model->setFilterRole(FactoriesTreeModel::Role::NameRole);
+  m_search_proxy_model->setFilterKeyColumn(
+      FactoriesTreeModel::Column::NameColumn);
   m_search_proxy_model->setRecursiveFilteringEnabled(true);
 }
 

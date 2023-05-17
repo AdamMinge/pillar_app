@@ -6,7 +6,8 @@
 
 namespace flow_document {
 
-Flow::Flow() : m_root_layer(std::make_unique<GroupLayer>()) {}
+Flow::Flow()
+    : Object(Type::Flow), m_root_layer(std::make_unique<GroupLayer>()) {}
 
 Flow::~Flow() = default;
 

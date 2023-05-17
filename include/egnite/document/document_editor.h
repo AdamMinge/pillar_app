@@ -20,11 +20,11 @@ class LIB_EGNITE_API DocumentEditor : public QObject {
   Q_OBJECT
 
  public:
-  enum StandardAction {
-    CutAction = 0x01,
-    CopyAction = 0x02,
-    PasteAction = 0x04,
-    DeleteAction = 0x08
+  enum class StandardAction {
+    CutAction = 1 << 0,
+    CopyAction = 1 << 1,
+    PasteAction = 1 << 2,
+    DeleteAction = 1 << 3,
   };
   Q_DECLARE_FLAGS(StandardActions, StandardAction)
   Q_FLAG(StandardActions)
@@ -59,6 +59,7 @@ class LIB_EGNITE_API DocumentEditor : public QObject {
 
 }  // namespace egnite
 
+Q_DECLARE_OPERATORS_FOR_FLAGS(egnite::DocumentEditor::StandardActions)
 Q_DECLARE_INTERFACE(egnite::DocumentEditor, "org.egnite.DocumentEditor")
 
 #endif  // EGNITE_DOCUMENT_EDITOR_H

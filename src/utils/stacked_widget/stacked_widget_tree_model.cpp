@@ -119,8 +119,7 @@ Qt::ItemFlags QtStackedWidgetTreeModel::flags(const QModelIndex &index) const {
 
 QVariant QtStackedWidgetTreeModel::data(const QModelIndex &index,
                                         int role) const {
-  if (index.row() < 0 || index.row() >= rowCount(index.parent()))
-    return QVariant{};
+  if (!index.isValid()) return QVariant{};
 
   auto item = static_cast<QtStackedWidgetTreeItem *>(index.internalPointer());
   switch (role) {
@@ -160,8 +159,6 @@ QVariant QtStackedWidgetTreeModel::headerData(int section,
 
 QModelIndex QtStackedWidgetTreeModel::index(int row, int column,
                                             const QModelIndex &parent) const {
-  if (!hasIndex(row, column, parent)) return QModelIndex{};
-
   QtStackedWidgetTreeItem *parent_item{nullptr};
   if (parent.isValid()) {
     parent_item =

@@ -26,11 +26,9 @@ QVariant FactoriesTreeModel::data(const QModelIndex &index, int role) const {
 
   switch (role) {
     case Qt::DisplayRole:
-    case Role::NameRole:
       return getName(index);
 
     case Qt::DecorationRole:
-    case Role::IconRole:
       return getIcon(index);
 
     default:
@@ -54,8 +52,6 @@ QVariant FactoriesTreeModel::headerData(int section,
 
 QModelIndex FactoriesTreeModel::index(int row, int column,
                                       const QModelIndex &parent) const {
-  if (!hasIndex(row, column, parent)) return QModelIndex{};
-
   GroupFactory *parent_item{nullptr};
   if (parent.isValid()) {
     parent_item = static_cast<GroupFactory *>(parent.internalPointer());

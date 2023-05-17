@@ -29,6 +29,16 @@ ObjectsDock::ObjectsDock(QWidget *parent)
 
 ObjectsDock::~ObjectsDock() = default;
 
+void ObjectsDock::setDocument(FlowDocument *document) {
+  if (m_document == document) return;
+
+  m_document = document;
+
+  m_objects_model->setDocument(m_document);
+}
+
+FlowDocument *ObjectsDock::getDocument() const { return m_document; }
+
 void ObjectsDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);
 
@@ -48,12 +58,12 @@ void ObjectsDock::searchObjects(const QString &search) {
 void ObjectsDock::initUi() {
   m_ui->setupUi(this);
 
-  // TODO - Uncomment when finish tree model impl
-  // m_search_proxy_model->setSourceModel(m_objects_model.get());
-  // m_ui->m_objects_view->setModel(m_search_proxy_model.get());
+  m_search_proxy_model->setSourceModel(m_objects_model.get());
+  m_ui->m_objects_view->setModel(m_search_proxy_model.get());
 
-  // m_search_proxy_model->setFilterRole(ObjectsTreeModel::Role::NameRole);
-  // m_search_proxy_model->setRecursiveFilteringEnabled(true);
+  m_search_proxy_model->setFilterKeyColumn(
+      ObjectsTreeModel::Column::NameColumn);
+  m_search_proxy_model->setRecursiveFilteringEnabled(true);
 
   const auto &handler = FlowDocumentActionHandler::getInstance();
 

@@ -19,11 +19,6 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
   Q_OBJECT
 
  public:
-  enum Role {
-    NameRole = Qt::UserRole + 1,
-    IconRole,
-  };
-
   enum Column { NameColumn };
 
  public:

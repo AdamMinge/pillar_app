@@ -4,7 +4,7 @@
 
 namespace flow_document {
 
-Node::Node() = default;
+Node::Node() : Object(Type::Node) {}
 
 Node::~Node() = default;
 
@@ -40,6 +40,10 @@ void Node::removePin(Pin::Type type, size_t index) {
   auto &pins = getPins(type);
   pins.erase(pins.begin() + index);
 }
+
+NodeLayer *Node::getParent() const { return m_parent; }
+
+void Node::setParent(NodeLayer *parent) { m_parent = parent; }
 
 QVector<Pin> &Node::getPins(Pin::Type type) {
   return type == Pin::Type::Out ? m_out_pins : m_in_pins;

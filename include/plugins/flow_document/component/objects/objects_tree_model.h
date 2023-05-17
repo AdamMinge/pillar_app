@@ -10,17 +10,14 @@
 namespace flow_document {
 
 class FlowDocument;
+class ChangeEvent;
+class Object;
 class Flow;
 
 class FLOW_DOCUMENT_API ObjectsTreeModel : public QAbstractItemModel {
   Q_OBJECT
 
  public:
-  enum Role {
-    NameRole = Qt::UserRole + 1,
-    IconRole,
-  };
-
   enum Column { NameColumn };
 
  public:
@@ -43,6 +40,12 @@ class FLOW_DOCUMENT_API ObjectsTreeModel : public QAbstractItemModel {
 
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
+
+ private:
+  void onEvent(const ChangeEvent &event);
+
+  [[nodiscard]] QString getName(const QModelIndex &index) const;
+  [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
 
  private:
   FlowDocument *m_document;

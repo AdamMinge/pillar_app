@@ -19,12 +19,7 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
   Q_OBJECT
 
  public:
-  enum Role {
-    NameRole = Qt::UserRole + 1,
-    IconRole,
-  };
-
-  enum Column { NameColumn };
+  enum Column { NameColumn, VisibleColumn, LockedColumn };
 
  public:
   explicit LayersTreeModel(QObject *parent = nullptr);
@@ -37,6 +32,8 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
 
   [[nodiscard]] QVariant data(const QModelIndex &index,
                               int role) const override;
+  bool setData(const QModelIndex &index, const QVariant &value, int role);
+
   [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation,
                                     int role) const override;
 
@@ -50,10 +47,16 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
  private:
   void onEvent(const ChangeEvent &event);
 
-  [[nodiscard]] QModelIndex index(Layer *layer) const;
+  [[nodiscard]] QModelIndex index(Layer *layer, int column = 0) const;
 
   [[nodiscard]] QString getName(const QModelIndex &index) const;
   [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
+  [[nodiscard]] Qt::CheckState isVisible(const QModelIndex &index) const;
+  [[nodiscard]] Qt::CheckState isLocked(const QModelIndex &index) const;
+
+  void setName(const QModelIndex &index, const QString &name);
+  void setVisible(const QModelIndex &index, Qt::CheckState state);
+  void setLocked(const QModelIndex &index, Qt::CheckState state);
 
  private:
   FlowDocument *m_document;
