@@ -257,39 +257,41 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="19"/>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="48"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="17"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="43"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="68"/>
         <source>Set Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="20"/>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="49"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="18"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="44"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="69"/>
         <source>Set Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="22"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="20"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="22"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="20"/>
         <source>Invisible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="51"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="45"/>
         <source>Unlocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="51"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="45"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="77"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="70"/>
         <source>Set Layer Name</source>
         <translation type="unfinished"></translation>
     </message>

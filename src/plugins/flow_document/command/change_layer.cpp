@@ -12,84 +12,74 @@ namespace flow_document {
 
 SetLayersVisible::SetLayersVisible(FlowDocument* document, QList<Layer*> layers,
                                    bool visible, Command* parent)
-    : egnite::Command(QLatin1String("SetLayersVisible"), parent),
-      m_document(document),
-      m_layers(std::move(layers)),
-      m_visible(visible) {
-  const auto what = m_layers.size() > 1 ? QObject::tr("Set Layers")
-                                        : QObject::tr("Set Layer");
+    : ChangeValue<Layer, bool>(QLatin1String("SetLayersVisible"), document,
+                               std::move(layers), visible, parent) {
+  const auto what = getObjects().size() > 1 ? QObject::tr("Set Layers")
+                                            : QObject::tr("Set Layer");
   const auto action =
-      m_visible ? QObject::tr("Visible") : QObject::tr("Invisible");
+      visible ? QObject::tr("Visible") : QObject::tr("Invisible");
 
   setText(QString("%1 %2").arg(what, action));
 }
 
 SetLayersVisible::~SetLayersVisible() = default;
 
-void SetLayersVisible::undo() { setVisible(!m_visible); }
+bool SetLayersVisible::getValue(const Layer* layer) const {
+  return layer->isVisible();
+}
 
-void SetLayersVisible::redo() { setVisible(m_visible); }
-
-void SetLayersVisible::setVisible(bool visible) {
-  for (auto layer : m_layers) layer->setVisible(visible);
-
-  m_document->event(
-      LayersChangeEvent(m_layers, LayersChangeEvent::Property::Visible));
+void SetLayersVisible::setValue(Layer* layer, const bool& visible) {
+  layer->setVisible(visible);
+  getDocument()->event(
+      LayersChangeEvent({layer}, LayersChangeEvent::Property::Visible));
 }
 
 /* ------------------------------ SetLayersLocked --------------------------- */
 
 SetLayersLocked::SetLayersLocked(FlowDocument* document, QList<Layer*> layers,
                                  bool locked, Command* parent)
-    : egnite::Command(QLatin1String("SetLayersLocked"), parent),
-      m_document(document),
-      m_layers(std::move(layers)),
-      m_locked(locked) {
-  const auto what = m_layers.size() > 1 ? QObject::tr("Set Layers")
-                                        : QObject::tr("Set Layer");
-  const auto action =
-      m_locked ? QObject::tr("Locked") : QObject::tr("Unlocked");
+    : ChangeValue<Layer, bool>(QLatin1String("SetLayersLocked"), document,
+                               std::move(layers), locked, parent) {
+  const auto what = getObjects().size() > 1 ? QObject::tr("Set Layers")
+                                            : QObject::tr("Set Layer");
+  const auto action = locked ? QObject::tr("Locked") : QObject::tr("Unlocked");
 
   setText(QString("%1 %2").arg(what, action));
 }
 
 SetLayersLocked::~SetLayersLocked() = default;
 
-void SetLayersLocked::undo() { setLocked(!m_locked); }
-
-void SetLayersLocked::redo() { setLocked(m_locked); }
-
-void SetLayersLocked::setLocked(bool locked) {
-  for (auto layer : m_layers) layer->setLocked(locked);
-
-  m_document->event(
-      LayersChangeEvent(m_layers, LayersChangeEvent::Property::Locked));
+bool SetLayersLocked::getValue(const Layer* layer) const {
+  return layer->isLocked();
 }
 
-/* ------------------------------- SetLayerName ----------------------------- */
+void SetLayersLocked::setValue(Layer* layer, const bool& locked) {
+  layer->setLocked(locked);
+  getDocument()->event(
+      LayersChangeEvent({layer}, LayersChangeEvent::Property::Locked));
+}
 
-SetLayerName::SetLayerName(FlowDocument* document, Layer* layer, QString name,
-                           Command* parent)
-    : egnite::Command(QLatin1String("SetLayerName"), parent),
-      m_document(document),
-      m_layer(layer),
-      m_name(std::move(name)) {
+/* ------------------------------- SetLayersName ---------------------------- */
+
+SetLayersName::SetLayersName(FlowDocument* document, QList<Layer*> layers,
+                             QString name, Command* parent)
+    : ChangeValue<Layer, QString>(QLatin1String("SetLayersName"), document,
+                                  std::move(layers), name, parent) {
+  const auto what = getObjects().size() > 1 ? QObject::tr("Set Layers")
+                                            : QObject::tr("Set Layer");
   setText(QObject::tr("Set Layer Name"));
 }
 
-SetLayerName::~SetLayerName() = default;
+SetLayersName::~SetLayersName() = default;
 
-void SetLayerName::undo() { setName(); }
+QString SetLayersName::getValue(const Layer* layer) const {
+  return layer->getName();
+}
 
-void SetLayerName::redo() { setName(); }
-
-void SetLayerName::setName() {
-  auto old_name = m_layer->getName();
-  m_layer->setName(m_name);
-  m_name = old_name;
-
-  m_document->event(
-      LayersChangeEvent({m_layer}, LayersChangeEvent::Property::Name));
+void SetLayersName::setValue(Layer* layer, const QString& name) {
+  layer->setName(name);
+  getDocument()->event(
+      LayersChangeEvent({layer}, LayersChangeEvent::Property::Name));
 }
 
 }  // namespace flow_document

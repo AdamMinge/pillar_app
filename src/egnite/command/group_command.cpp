@@ -10,10 +10,15 @@ GroupCommand::GroupCommand(QString name, Command *parent)
 GroupCommand::~GroupCommand() { qDeleteAll(m_commands); }
 
 void GroupCommand::undo() {
-  for (auto &command : m_commands) command->undo();
+  for (auto command_iter = m_commands.rbegin();
+       command_iter != m_commands.rend(); ++command_iter)
+    (*command_iter)->undo();
 }
+
 void GroupCommand::redo() {
-  for (auto &command : m_commands) command->redo();
+  for (auto command_iter = m_commands.begin(); command_iter != m_commands.end();
+       ++command_iter)
+    (*command_iter)->undo();
 }
 
 bool GroupCommand::canMergeWith(const Command &other) const {

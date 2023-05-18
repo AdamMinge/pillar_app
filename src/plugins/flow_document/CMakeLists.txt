@@ -85,6 +85,7 @@ set(includes
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
     ${include_root}/command/add_remove_layer.h
+    ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h
     ${include_root}/component/factories/factories_dock.h
     ${include_root}/component/factories/factories_view.h

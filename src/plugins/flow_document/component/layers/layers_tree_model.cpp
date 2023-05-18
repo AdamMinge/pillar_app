@@ -254,7 +254,8 @@ void LayersTreeModel::setName(const QModelIndex &index, const QString &name) {
   auto layer = static_cast<Layer *>(index.internalPointer());
   if (layer->getName() == name) return;
 
-  m_document->getUndoStack()->push(new SetLayerName(m_document, layer, name));
+  m_document->getUndoStack()->push(
+      new SetLayersName(m_document, {layer}, name));
 }
 
 void LayersTreeModel::setVisible(const QModelIndex &index,
