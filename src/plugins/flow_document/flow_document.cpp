@@ -38,14 +38,14 @@ void FlowDocument::setCurrentLayer(Layer *layer) {
 }
 
 void FlowDocument::setSelectedLayers(const QList<Layer *> &layers) {
-  if (m_selected_layers != layers) return;
+  if (m_selected_layers == layers) return;
 
   m_selected_layers = layers;
   Q_EMIT selectedLayersChanged(m_selected_layers);
 }
 
 void FlowDocument::setSelectedObjects(const QList<Object *> &objects) {
-  if (m_selected_objects != objects) return;
+  if (m_selected_objects == objects) return;
 
   m_selected_objects = objects;
   Q_EMIT selectedObjectsChanged(m_selected_objects);

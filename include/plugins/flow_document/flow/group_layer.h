@@ -1,8 +1,6 @@
 #ifndef FLOW_DOCUMENT_GROUP_LAYER_H
 #define FLOW_DOCUMENT_GROUP_LAYER_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 #include "flow_document/flow/layer.h"

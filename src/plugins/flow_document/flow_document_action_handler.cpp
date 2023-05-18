@@ -2,11 +2,15 @@
 #include "flow_document/flow_document_action_handler.h"
 
 #include "flow_document/command/add_remove_layer.h"
+#include "flow_document/command/change_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
+#include "flow_document/flow/layer_iterator.h"
 #include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QStack>
 /* ----------------------------------- Egnite ------------------------------- */
 #include <egnite/action_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
@@ -14,6 +18,38 @@
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
+
+namespace {
+
+[[nodiscard]] QList<Layer*> getAllLayers(GroupLayer* root,
+                                         const QList<Layer*>& except = {}) {
+  auto layers = QList<Layer*>{};
+
+  auto iter = LayerPreOrderIterator(root);
+  while (iter.hasNext()) {
+    if (auto layer = iter.next(); !except.contains(layer)) layers.append(layer);
+  }
+
+  return layers;
+}
+
+[[nodiscard]] bool moreVisible(const QList<Layer*> layers) {
+  auto count_of_visible =
+      std::count_if(layers.cbegin(), layers.cend(),
+                    [](const auto layer) { return layer->isVisible(); });
+
+  return count_of_visible > (layers.count() - count_of_visible);
+}
+
+[[nodiscard]] bool moreLocked(const QList<Layer*> layers) {
+  auto count_of_locked =
+      std::count_if(layers.cbegin(), layers.cend(),
+                    [](const auto layer) { return layer->isLocked(); });
+
+  return count_of_locked > (layers.count() - count_of_locked);
+}
+
+}  // namespace
 
 std::unique_ptr<FlowDocumentActionHandler>
     FlowDocumentActionHandler::m_instance =
@@ -143,7 +179,7 @@ void FlowDocumentActionHandler::onAddNodeLayer() const {
   const auto index = group_layer->size();
 
   auto entires = std::list<LayerEntry>{};
-  entires.emplace_back(LayerEntry{group_layer, std::move(new_layer), index});
+  entires.emplace_back(LayerEntry(group_layer, std::move(new_layer), index));
 
   m_document->getUndoStack()->push(
       new AddLayers(m_document, std::move(entires)));
@@ -155,7 +191,15 @@ void FlowDocumentActionHandler::onRemoveLayer() const {
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
-  // TODO
+  auto entires = std::list<LayerEntry>{};
+  for (auto selected_layer : selected_layers) {
+    auto group_layer = selected_layer->getParent();
+    entires.emplace_back(
+        LayerEntry(group_layer, group_layer->indexOf(selected_layer)));
+  }
+
+  m_document->getUndoStack()->push(
+      new RemoveLayers(m_document, std::move(entires)));
 }
 
 void FlowDocumentActionHandler::onRaiseLayer() const {
@@ -191,7 +235,12 @@ void FlowDocumentActionHandler::onShowHideOtherLayers() const {
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
-  // TODO
+  auto other_layers =
+      getAllLayers(m_document->getFlow()->getRootLayer(), selected_layers);
+  auto visible = !moreVisible(other_layers);
+
+  m_document->getUndoStack()->push(
+      new SetLayersVisible(m_document, other_layers, visible));
 }
 
 void FlowDocumentActionHandler::onLockUnlockOtherLayers() const {
@@ -200,7 +249,12 @@ void FlowDocumentActionHandler::onLockUnlockOtherLayers() const {
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
-  // TODO
+  auto other_layers =
+      getAllLayers(m_document->getFlow()->getRootLayer(), selected_layers);
+  auto locked = !moreLocked(other_layers);
+
+  m_document->getUndoStack()->push(
+      new SetLayersLocked(m_document, other_layers, locked));
 }
 
 void FlowDocumentActionHandler::onRemoveObject() const {

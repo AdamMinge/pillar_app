@@ -93,7 +93,8 @@
         "qlatin1string": "cpp",
         "qtranslator": "cpp",
         "qscopedpointer": "cpp",
-        "qtreeview": "cpp"
+        "qtreeview": "cpp",
+        "qsortfilterproxymodel": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

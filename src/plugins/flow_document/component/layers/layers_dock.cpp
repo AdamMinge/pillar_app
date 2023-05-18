@@ -44,6 +44,7 @@ void LayersDock::setDocument(FlowDocument *document) {
   }
 
   m_layers_model->setDocument(m_document);
+  m_ui->m_layers_view->setDocument(m_document);
 }
 
 FlowDocument *LayersDock::getDocument() const { return m_document; }

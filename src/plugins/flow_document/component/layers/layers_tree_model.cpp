@@ -155,6 +155,11 @@ int LayersTreeModel::rowCount(const QModelIndex &parent) const {
 
 int LayersTreeModel::columnCount(const QModelIndex &parent) const { return 3; }
 
+Layer *LayersTreeModel::layer(const QModelIndex &index) const {
+  if (!index.isValid()) return nullptr;
+  return static_cast<Layer *>(index.internalPointer());
+}
+
 void LayersTreeModel::onEvent(const ChangeEvent &event) {
   switch (event.getType()) {
     using enum ChangeEvent::Type;

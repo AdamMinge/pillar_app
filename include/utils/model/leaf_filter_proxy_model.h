@@ -1,5 +1,5 @@
-#ifndef UTILS_COLOR_COLOR_H
-#define UTILS_COLOR_COLOR_H
+#ifndef UTILS_MODEL_LEAF_FILTER_PROXY_MODEL_H
+#define UTILS_MODEL_LEAF_FILTER_PROXY_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
@@ -20,4 +20,4 @@ class MODEL_API LeafFilterProxyModel : public QSortFilterProxyModel {
 
 }  // namespace utils
 
-#endif  // UTILS_COLOR_COLOR_H
+#endif  // UTILS_MODEL_LEAF_FILTER_PROXY_MODEL_H

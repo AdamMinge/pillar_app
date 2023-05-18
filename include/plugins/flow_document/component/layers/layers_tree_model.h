@@ -44,6 +44,8 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
+  [[nodiscard]] Layer *layer(const QModelIndex &index) const;
+
  private:
   void onEvent(const ChangeEvent &event);
 
