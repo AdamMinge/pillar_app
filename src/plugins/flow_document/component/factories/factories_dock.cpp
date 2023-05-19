@@ -17,7 +17,7 @@ FactoriesDock::FactoriesDock(QWidget *parent)
     : QDockWidget(parent),
       m_ui(new Ui::FactoriesDock()),
       m_factories_model(new FactoriesTreeModel),
-      m_search_proxy_model(new utils::LeafFilterProxyModel) {
+      m_search_proxy_model(new utils::QtLeafFilterProxyModel) {
   setObjectName(QLatin1String("Factories"));
 
   initUi();

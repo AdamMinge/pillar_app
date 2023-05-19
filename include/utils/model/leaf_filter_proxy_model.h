@@ -9,10 +9,10 @@
 
 namespace utils {
 
-class MODEL_API LeafFilterProxyModel : public QSortFilterProxyModel {
+class MODEL_API QtLeafFilterProxyModel : public QSortFilterProxyModel {
  public:
-  LeafFilterProxyModel(QObject *parent = nullptr);
-  ~LeafFilterProxyModel() override;
+  QtLeafFilterProxyModel(QObject *parent = nullptr);
+  ~QtLeafFilterProxyModel() override;
 
   bool filterAcceptsRow(int source_row,
                         const QModelIndex &source_parent) const override;

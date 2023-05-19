@@ -8,6 +8,8 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/model/reverse_proxy_model.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_layers_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -18,7 +20,7 @@ LayersDock::LayersDock(QWidget *parent)
     : QDockWidget(parent),
       m_ui(new Ui::LayersDock()),
       m_layers_model(new LayersTreeModel),
-      m_search_proxy_model(new QSortFilterProxyModel) {
+      m_filter_model(new utils::QtReverseProxyModel) {
   setObjectName(QLatin1String("Layers"));
 
   initUi();
@@ -62,17 +64,17 @@ void LayersDock::changeEvent(QEvent *event) {
 }
 
 void LayersDock::searchLayers(const QString &search) {
-  m_search_proxy_model->setFilterWildcard(search);
+  m_filter_model->setFilterWildcard(search);
 }
 
 void LayersDock::initUi() {
   m_ui->setupUi(this);
 
-  m_search_proxy_model->setSourceModel(m_layers_model.get());
-  m_ui->m_layers_view->setModel(m_search_proxy_model.get());
+  m_filter_model->setSourceModel(m_layers_model.get());
+  m_ui->m_layers_view->setModel(m_filter_model.get());
 
-  m_search_proxy_model->setFilterKeyColumn(LayersTreeModel::Column::NameColumn);
-  m_search_proxy_model->setRecursiveFilteringEnabled(true);
+  m_filter_model->setFilterKeyColumn(LayersTreeModel::Column::NameColumn);
+  m_filter_model->setRecursiveFilteringEnabled(true);
 
   const auto &handler = FlowDocumentActionHandler::getInstance();
 

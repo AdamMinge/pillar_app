@@ -6,12 +6,12 @@
 
 namespace utils {
 
-LeafFilterProxyModel::LeafFilterProxyModel(QObject *parent)
+QtLeafFilterProxyModel::QtLeafFilterProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent) {}
 
-LeafFilterProxyModel::~LeafFilterProxyModel() = default;
+QtLeafFilterProxyModel::~QtLeafFilterProxyModel() = default;
 
-bool LeafFilterProxyModel::filterAcceptsRow(
+bool QtLeafFilterProxyModel::filterAcceptsRow(
     int source_row, const QModelIndex &source_parent) const {
   const auto source_index = sourceModel()->index(source_row, 0, source_parent);
   if (!source_index.isValid()) return false;

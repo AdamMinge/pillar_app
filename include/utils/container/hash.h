@@ -9,7 +9,7 @@
 
 namespace utils {
 
-struct CONTAINER_API QUuidHash {
+struct CONTAINER_API QtUuidHash {
   std::size_t operator()(const QUuid& uuid) const {
     return std::hash<std::string>()(uuid.toString().toStdString());
   }
