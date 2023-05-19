@@ -237,22 +237,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="65"/>
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="69"/>
         <source>Add Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="66"/>
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="70"/>
         <source>Add Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="82"/>
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="86"/>
         <source>Remove Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="83"/>
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="87"/>
         <source>Remove Layer</source>
         <translation type="unfinished"></translation>
     </message>

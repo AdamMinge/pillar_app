@@ -28,7 +28,11 @@ AddRemoveLayers::AddRemoveLayers(const QString& name, FlowDocument* document,
                                  std::list<LayerEntry> entries, Command* parent)
     : egnite::Command(name, parent),
       m_document(document),
-      m_entries(std::move(entries)) {}
+      m_entries(std::move(entries)) {
+  m_entries.sort([](const auto& left, const auto& right) {
+    return left.index > right.index;
+  });
+}
 
 AddRemoveLayers::~AddRemoveLayers() = default;
 
