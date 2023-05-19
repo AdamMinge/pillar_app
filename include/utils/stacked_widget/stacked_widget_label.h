@@ -35,18 +35,18 @@ class STACKED_WIDGET_API QtStackedWidgetLabel : public QWidget {
   void changeEvent(QEvent *event) override;
 
  private Q_SLOTS:
-  void selectionChanged(const QItemSelection &selected,
-                        const QItemSelection &deselected);
+  void selectionChanged();
   void modelChanged(QAbstractItemModel *model);
-
-  void moveHistory(qsizetype direction);
-  void appendToHistory(const QModelIndex &index);
 
  private:
   void initUi();
   void initConnections();
 
   void updateActions();
+
+  void moveHistory(qsizetype direction);
+  void appendToHistory(const QModelIndex &index);
+  void updateLabel(const QModelIndex &index);
 
   void retranslateUi();
 

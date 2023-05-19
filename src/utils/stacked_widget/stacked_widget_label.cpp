@@ -45,7 +45,7 @@ void QtStackedWidgetLabel::setView(QAbstractItemView *view) {
   }
 
   modelChanged(m_view ? m_view->model() : nullptr);
-  selectionChanged(QItemSelection{}, QItemSelection{});
+  selectionChanged();
 }
 
 const QAbstractItemView *QtStackedWidgetLabel::getView() const {
@@ -72,59 +72,22 @@ void QtStackedWidgetLabel::changeEvent(QEvent *event) {
   }
 }
 
-void QtStackedWidgetLabel::selectionChanged(const QItemSelection &selected,
-                                            const QItemSelection &deselected) {
-  const auto indexes = selected.indexes();
-  if (!indexes.empty()) {
-    auto label_text = QString{};
-    auto current_index = indexes.front();
+void QtStackedWidgetLabel::selectionChanged() {
+  auto selection_model = m_view ? m_view->selectionModel() : nullptr;
+  if (!selection_model) return;
 
-    appendToHistory(current_index);
-    while (current_index.isValid()) {
-      const auto name =
-          current_index.data(QtStackedWidgetTreeModel::Role::NameRole)
-              .toString();
+  const auto indexes = selection_model->selectedRows();
+  const auto selected_index =
+      !indexes.empty() ? indexes.front() : QModelIndex{};
 
-      label_text = label_text.isEmpty()
-                       ? name
-                       : QString("%1 > %2").arg(name, label_text);
-
-      current_index = current_index.parent();
-    }
-
-    m_ui->m_label->setText(label_text);
-  } else if (!deselected.empty()) {
-    m_ui->m_label->clear();
-  }
-
+  appendToHistory(selected_index);
+  updateLabel(selected_index);
   updateActions();
 }
 
 void QtStackedWidgetLabel::modelChanged(QAbstractItemModel *model) {
   m_history.clear();
   m_history_position = 0;
-}
-
-void QtStackedWidgetLabel::moveHistory(qsizetype direction) {
-  auto new_history_position =
-      qBound(0, m_history_position + direction, m_history.size() - 1);
-
-  m_history_position = new_history_position;
-
-  Q_EMIT currentChanged(m_history[new_history_position]);
-}
-
-void QtStackedWidgetLabel::appendToHistory(const QModelIndex &index) {
-  auto widget =
-      index.data(QtStackedWidgetTreeModel::Role::WidgetRole).value<QWidget *>();
-
-  if (m_history.empty() || (m_history_position < m_history.size() &&
-                            m_history[m_history_position] != widget)) {
-    m_history = m_history.mid(m_history.size() == m_history_size ? 1 : 0,
-                              m_history_position + 1)
-                << widget;
-    m_history_position = m_history.size() - 1;
-  }
 }
 
 void QtStackedWidgetLabel::initUi() { m_ui->setupUi(this); }
@@ -141,6 +104,51 @@ void QtStackedWidgetLabel::updateActions() {
   m_ui->m_next_button->setEnabled(m_history_position < m_history.size() - 1);
 }
 
-void QtStackedWidgetLabel::retranslateUi() { m_ui->retranslateUi(this); }
+void QtStackedWidgetLabel::moveHistory(qsizetype direction) {
+  auto new_history_position =
+      qBound(0, m_history_position + direction, m_history.size() - 1);
+
+  m_history_position = new_history_position;
+
+  Q_EMIT currentChanged(m_history[new_history_position]);
+}
+
+void QtStackedWidgetLabel::appendToHistory(const QModelIndex &index) {
+  if (!index.isValid()) return;
+
+  auto widget =
+      index.data(QtStackedWidgetTreeModel::Role::WidgetRole).value<QWidget *>();
+
+  if (m_history.empty() || m_history[m_history_position] != widget) {
+    m_history = m_history.mid(m_history.size() == m_history_size ? 1 : 0,
+                              m_history_position + 1)
+                << widget;
+    m_history_position = m_history.size() - 1;
+  }
+}
+
+void QtStackedWidgetLabel::updateLabel(const QModelIndex &index) {
+  if (!index.isValid()) return;
+
+  auto current_index = index;
+  auto label_text = QString{};
+
+  while (current_index.isValid()) {
+    const auto name =
+        current_index.data(QtStackedWidgetTreeModel::Role::NameRole).toString();
+
+    label_text =
+        label_text.isEmpty() ? name : QString("%1 > %2").arg(name, label_text);
+
+    current_index = current_index.parent();
+  }
+
+  m_ui->m_label->setText(label_text);
+}
+
+void QtStackedWidgetLabel::retranslateUi() {
+  m_ui->retranslateUi(this);
+  selectionChanged();
+}
 
 }  // namespace utils
