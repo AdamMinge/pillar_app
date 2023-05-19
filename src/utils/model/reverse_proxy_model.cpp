@@ -5,7 +5,9 @@
 namespace utils {
 
 QtReverseProxyModel::QtReverseProxyModel(QObject *parent)
-    : QSortFilterProxyModel(parent) {}
+    : QSortFilterProxyModel(parent) {
+  sort(0);
+}
 
 QtReverseProxyModel::~QtReverseProxyModel() = default;
 
