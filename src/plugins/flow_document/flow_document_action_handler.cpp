@@ -3,6 +3,7 @@
 
 #include "flow_document/command/add_remove_layer.h"
 #include "flow_document/command/change_layer.h"
+#include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer_iterator.h"
@@ -21,13 +22,16 @@ namespace flow_document {
 
 namespace {
 
-[[nodiscard]] QList<Layer*> getAllLayers(GroupLayer* root,
+[[nodiscard]] QList<Layer*> getAllLayers(FlowDocument* document,
                                          const QList<Layer*>& except = {}) {
-  auto layers = QList<Layer*>{};
+  auto root = document ? document->getFlow()->getRootLayer() : nullptr;
+  if (!root) return {};
 
+  auto layers = QList<Layer*>{};
   auto iter = LayerPreOrderIterator(root);
   while (iter.hasNext()) {
-    if (auto layer = iter.next(); !except.contains(layer)) layers.append(layer);
+    if (auto layer = iter.next(); !except.contains(layer) && layer != root)
+      layers.append(layer);
   }
 
   return layers;
@@ -81,6 +85,8 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
                &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::selectedObjectsChanged, this,
                &FlowDocumentActionHandler::updateActions);
+    disconnect(m_document, &FlowDocument::event, this,
+               &FlowDocumentActionHandler::onEvent);
   }
 
   m_document = document;
@@ -90,6 +96,8 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::selectedObjectsChanged, this,
             &FlowDocumentActionHandler::updateActions);
+    connect(m_document, &FlowDocument::event, this,
+            &FlowDocumentActionHandler::onEvent);
   }
 
   updateActions();
@@ -235,8 +243,7 @@ void FlowDocumentActionHandler::onShowHideOtherLayers() const {
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
-  auto other_layers =
-      getAllLayers(m_document->getFlow()->getRootLayer(), selected_layers);
+  auto other_layers = getAllLayers(m_document, selected_layers);
   auto visible = !moreVisible(other_layers);
 
   m_document->getUndoStack()->push(
@@ -249,8 +256,7 @@ void FlowDocumentActionHandler::onLockUnlockOtherLayers() const {
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
-  auto other_layers =
-      getAllLayers(m_document->getFlow()->getRootLayer(), selected_layers);
+  auto other_layers = getAllLayers(m_document, selected_layers);
   auto locked = !moreLocked(other_layers);
 
   m_document->getUndoStack()->push(
@@ -291,6 +297,18 @@ void FlowDocumentActionHandler::onDuplicateObject() const {
   Q_ASSERT(selected_objects.size() > 0);
 
   // TODO
+}
+
+void FlowDocumentActionHandler::onEvent(const ChangeEvent& event) {
+  switch (event.getType()) {
+    using enum ChangeEvent::Type;
+
+    case LayerRemoved:
+    case LayerAdded: {
+      updateActions();
+      break;
+    }
+  }
 }
 
 void FlowDocumentActionHandler::initActions() {
@@ -352,24 +370,35 @@ void FlowDocumentActionHandler::connectActions() {
 
 void FlowDocumentActionHandler::updateActions() {
   const auto has_document = m_document != nullptr;
-  const auto selected_layers =
-      m_document && m_document->getSelectedLayers().size() > 0;
-  const auto selected_objects =
-      m_document && m_document->getSelectedObject().size() > 0;
+  auto any_selected_layers = false;
+  auto any_not_selected_layers = false;
+  auto any_selected_objects = false;
+
+  if (has_document) {
+    const auto& selected_layers = m_document->getSelectedLayers();
+    const auto& selected_objects = m_document->getSelectedObject();
+    const auto& not_selected_layers = getAllLayers(m_document, selected_layers);
+
+    any_selected_layers = selected_layers.size() > 0;
+    any_selected_objects = selected_objects.size() > 0;
+    any_not_selected_layers = not_selected_layers.size() > 0;
+  }
 
   m_add_group_layer->setEnabled(has_document);
   m_add_node_layer->setEnabled(has_document);
-  m_remove_layer->setEnabled(selected_layers);
-  m_raise_layer->setEnabled(selected_layers);
-  m_lower_layer->setEnabled(selected_layers);
-  m_duplicate_layer->setEnabled(selected_layers);
-  m_show_hide_other_layers->setEnabled(selected_layers);
-  m_lock_unlock_other_layers->setEnabled(selected_layers);
+  m_remove_layer->setEnabled(any_selected_layers);
+  m_raise_layer->setEnabled(any_selected_layers);
+  m_lower_layer->setEnabled(any_selected_layers);
+  m_duplicate_layer->setEnabled(any_selected_layers);
+  m_show_hide_other_layers->setEnabled(any_selected_layers &&
+                                       any_not_selected_layers);
+  m_lock_unlock_other_layers->setEnabled(any_selected_layers &&
+                                         any_not_selected_layers);
 
-  m_remove_object->setEnabled(selected_objects);
-  m_raise_object->setEnabled(selected_objects);
-  m_lower_object->setEnabled(selected_objects);
-  m_duplicate_object->setEnabled(selected_objects);
+  m_remove_object->setEnabled(any_selected_objects);
+  m_raise_object->setEnabled(any_selected_objects);
+  m_lower_object->setEnabled(any_selected_objects);
+  m_duplicate_object->setEnabled(any_selected_objects);
 }
 
 void FlowDocumentActionHandler::retranslateUi() {

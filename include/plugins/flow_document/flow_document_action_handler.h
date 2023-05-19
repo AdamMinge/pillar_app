@@ -12,6 +12,7 @@
 namespace flow_document {
 
 class FlowDocument;
+class ChangeEvent;
 
 class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   Q_OBJECT
@@ -56,6 +57,8 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   void onRaiseObject() const;
   void onLowerObject() const;
   void onDuplicateObject() const;
+
+  void onEvent(const ChangeEvent& event);
 
  private:
   explicit FlowDocumentActionHandler();

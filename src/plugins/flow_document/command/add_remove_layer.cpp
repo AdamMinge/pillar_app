@@ -37,7 +37,8 @@ AddRemoveLayers::AddRemoveLayers(const QString& name, FlowDocument* document,
 AddRemoveLayers::~AddRemoveLayers() = default;
 
 void AddRemoveLayers::addLayer() {
-  for (auto& entry : m_entries) {
+  for (auto iter = m_entries.rbegin(); iter != m_entries.rend(); ++iter) {
+    auto& entry = *iter;
     Q_ASSERT(entry.new_layer);
 
     Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
@@ -49,7 +50,8 @@ void AddRemoveLayers::addLayer() {
 }
 
 void AddRemoveLayers::removeLayer() {
-  for (auto& entry : m_entries) {
+  for (auto iter = m_entries.begin(); iter != m_entries.end(); ++iter) {
+    auto& entry = *iter;
     Q_ASSERT(!entry.new_layer);
 
     Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
