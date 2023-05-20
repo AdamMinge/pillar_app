@@ -36,6 +36,7 @@ set(sources
     ${source_root}/flow/layer_iterator.cpp
     ${source_root}/command/add_remove_layer.cpp
     ${source_root}/command/change_layer.cpp
+    ${source_root}/command/reparent_layer.cpp
     ${source_root}/component/factories/factories_dock.cpp
     ${source_root}/component/factories/factories_view.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
@@ -61,6 +62,7 @@ set(sources
 
 set(includes
     ${include_root}/export.h
+    ${include_root}/global.h
     ${include_root}/concept.h
     ${include_root}/resources.h
     ${include_root}/flow_document.h
@@ -89,6 +91,7 @@ set(includes
     ${include_root}/command/add_remove_layer.h
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h
+    ${include_root}/command/reparent_layer.h
     ${include_root}/component/factories/factories_dock.h
     ${include_root}/component/factories/factories_view.h
     ${include_root}/component/factories/factories_tree_model.h

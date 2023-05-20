@@ -15,6 +15,7 @@ void NodeLayer::append(std::unique_ptr<Node> node) {
 }
 
 void NodeLayer::insert(qsizetype index, std::unique_ptr<Node> node) {
+  Q_ASSERT(index >= 0 && index <= m_nodes.size());
   auto insert_iter = m_nodes.begin() + index;
   auto added_node_iter = m_nodes.insert(insert_iter, std::move(node));
 
@@ -24,6 +25,7 @@ void NodeLayer::insert(qsizetype index, std::unique_ptr<Node> node) {
 void NodeLayer::remove(qsizetype index) { Q_UNUSED(take(index)); }
 
 std::unique_ptr<Node> NodeLayer::take(qsizetype index) {
+  Q_ASSERT(index >= 0 && index <= m_nodes.size());
   auto take_iter = m_nodes.begin() + index;
   auto node = std::move(*take_iter);
   m_nodes.erase(take_iter);
@@ -32,7 +34,10 @@ std::unique_ptr<Node> NodeLayer::take(qsizetype index) {
   return node;
 }
 
-Node* NodeLayer::at(qsizetype index) const { return m_nodes.at(index).get(); }
+Node* NodeLayer::at(qsizetype index) const {
+  Q_ASSERT(index >= 0 && index <= m_nodes.size());
+  return m_nodes.at(index).get();
+}
 
 qsizetype NodeLayer::indexOf(Node* node) const {
   auto iter = std::find_if(

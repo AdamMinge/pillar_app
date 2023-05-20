@@ -68,8 +68,8 @@ AddLayers::AddLayers(FlowDocument* document, std::list<LayerEntry> entries,
                      Command* parent)
     : AddRemoveLayers(QLatin1String("AddLayers"), document, std::move(entries),
                       parent) {
-  const auto command_text = m_entries.size() > 1 ? QObject::tr("Add Layers")
-                                                 : QObject::tr("Add Layer");
+  const auto command_text =
+      QObject::tr("Add Layer(s)", nullptr, m_entries.size());
   setText(command_text);
 }
 
@@ -85,8 +85,8 @@ RemoveLayers::RemoveLayers(FlowDocument* document,
                            std::list<LayerEntry> entries, Command* parent)
     : AddRemoveLayers(QLatin1String("RemoveLayers"), document,
                       std::move(entries), parent) {
-  const auto command_text = m_entries.size() > 1 ? QObject::tr("Remove Layers")
-                                                 : QObject::tr("Remove Layer");
+  const auto command_text =
+      QObject::tr("Remove Layer(s)", nullptr, m_entries.size());
   setText(command_text);
 }
 

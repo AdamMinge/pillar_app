@@ -13,6 +13,7 @@ void GroupLayer::append(std::unique_ptr<Layer> layer) {
 }
 
 void GroupLayer::insert(qsizetype index, std::unique_ptr<Layer> layer) {
+  Q_ASSERT(index >= 0 && index <= m_layers.size());
   auto insert_iter = m_layers.begin() + index;
   auto added_layer_iter = m_layers.insert(insert_iter, std::move(layer));
 
@@ -22,6 +23,7 @@ void GroupLayer::insert(qsizetype index, std::unique_ptr<Layer> layer) {
 void GroupLayer::remove(qsizetype index) { Q_UNUSED(take(index)); }
 
 std::unique_ptr<Layer> GroupLayer::take(qsizetype index) {
+  Q_ASSERT(index >= 0 && index <= m_layers.size());
   auto take_iter = m_layers.begin() + index;
   auto layer = std::move(*take_iter);
   m_layers.erase(take_iter);
@@ -31,6 +33,7 @@ std::unique_ptr<Layer> GroupLayer::take(qsizetype index) {
 }
 
 Layer* GroupLayer::at(qsizetype index) const {
+  Q_ASSERT(index >= 0 && index <= m_layers.size());
   return m_layers.at(index).get();
 }
 

@@ -19,6 +19,7 @@ LayersView::LayersView(QWidget *parent)
   setHeaderHidden(true);
   setUniformRowHeights(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
+  setDragDropMode(QAbstractItemView::InternalMove);
 
   setItemDelegateForColumn(
       LayersTreeModel::Column::VisibleColumn,
@@ -60,7 +61,7 @@ void LayersView::selectionChanged() {
   auto layers = QList<Layer *>{};
   for (const auto &index : indexes) {
     auto source_index = utils::mapToSourceIndex(index, model());
-    auto layer = layers_model->layer(source_index);
+    auto layer = layers_model->toLayer(source_index);
     Q_ASSERT(layer);
 
     layers.append(layer);

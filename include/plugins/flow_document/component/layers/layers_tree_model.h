@@ -44,7 +44,15 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
 
-  [[nodiscard]] Layer *layer(const QModelIndex &index) const;
+  [[nodiscard]] QStringList mimeTypes() const override;
+  [[nodiscard]] QMimeData *mimeData(
+      const QModelIndexList &indexes) const override;
+  [[nodiscard]] Qt::DropActions supportedDropActions() const override;
+  [[nodiscard]] bool dropMimeData(const QMimeData *data, Qt::DropAction action,
+                                  int row, int column,
+                                  const QModelIndex &parent) override;
+
+  [[nodiscard]] Layer *toLayer(const QModelIndex &index) const;
 
  private:
   void onEvent(const ChangeEvent &event);

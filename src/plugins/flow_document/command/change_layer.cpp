@@ -14,8 +14,7 @@ SetLayersVisible::SetLayersVisible(FlowDocument* document, QList<Layer*> layers,
                                    bool visible, Command* parent)
     : ChangeValue<Layer, bool>(QLatin1String("SetLayersVisible"), document,
                                std::move(layers), visible, parent) {
-  const auto what = getObjects().size() > 1 ? QObject::tr("Set Layers")
-                                            : QObject::tr("Set Layer");
+  const auto what = QObject::tr("Set Layer(s)", nullptr, getObjects().size());
   const auto action =
       visible ? QObject::tr("Visible") : QObject::tr("Invisible");
 
@@ -40,8 +39,7 @@ SetLayersLocked::SetLayersLocked(FlowDocument* document, QList<Layer*> layers,
                                  bool locked, Command* parent)
     : ChangeValue<Layer, bool>(QLatin1String("SetLayersLocked"), document,
                                std::move(layers), locked, parent) {
-  const auto what = getObjects().size() > 1 ? QObject::tr("Set Layers")
-                                            : QObject::tr("Set Layer");
+  const auto what = QObject::tr("Set Layer(s)", nullptr, getObjects().size());
   const auto action = locked ? QObject::tr("Locked") : QObject::tr("Unlocked");
 
   setText(QString("%1 %2").arg(what, action));
@@ -65,9 +63,9 @@ SetLayersName::SetLayersName(FlowDocument* document, QList<Layer*> layers,
                              QString name, Command* parent)
     : ChangeValue<Layer, QString>(QLatin1String("SetLayersName"), document,
                                   std::move(layers), name, parent) {
-  const auto what = getObjects().size() > 1 ? QObject::tr("Set Layers")
-                                            : QObject::tr("Set Layer");
-  setText(QObject::tr("Set Layer Name"));
+  const auto what = QObject::tr("Set Layer(s)", nullptr, getObjects().size());
+  const auto action = QObject::tr("Name");
+  setText(QString("%1 %2").arg(what, action));
 }
 
 SetLayersName::~SetLayersName() = default;

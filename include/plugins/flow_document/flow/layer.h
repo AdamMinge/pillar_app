@@ -40,6 +40,9 @@ class FLOW_DOCUMENT_API Layer : public Object {
   bool isVisible() const;
 
   [[nodiscard]] GroupLayer* getParent() const;
+  [[nodiscard]] GroupLayer* getRoot() const;
+
+  [[nodiscard]] qsizetype getHierarchicalId() const;
 
  protected:
   void setParent(GroupLayer* parent);

@@ -148,17 +148,17 @@
 <context>
     <name>LayersTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="115"/>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="142"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="117"/>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="144"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="119"/>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="146"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
@@ -236,64 +236,64 @@
         <source>Failed to load document</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="71"/>
-        <source>Add Layers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="72"/>
-        <source>Add Layer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="88"/>
-        <source>Remove Layers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="89"/>
-        <source>Remove Layer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+    <message numerus="yes">
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="17"/>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="43"/>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="68"/>
-        <source>Set Layers</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="42"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="66"/>
+        <source>Set Layer(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="18"/>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="44"/>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="69"/>
-        <source>Set Layer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="19"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="19"/>
         <source>Invisible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="45"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="43"/>
         <source>Unlocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="45"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="43"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="70"/>
-        <source>Set Layer Name</source>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="67"/>
+        <source>Name</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="72"/>
+        <source>Add Layer(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_layer.cpp" line="89"/>
+        <source>Remove Layer(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/reparent_layer.cpp" line="27"/>
+        <source>Reparent Layer(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>

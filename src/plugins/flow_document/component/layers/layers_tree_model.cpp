@@ -2,16 +2,37 @@
 #include "flow_document/component/layers/layers_tree_model.h"
 
 #include "flow_document/command/change_layer.h"
+#include "flow_document/command/reparent_layer.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
+#include "flow_document/flow/layer_iterator.h"
 #include "flow_document/flow_document.h"
+#include "flow_document/global.h"
 #include "flow_document/resources.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QMimeData>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
+
+[[nodiscard]] QList<Layer *> getLayers(
+    FlowDocument *document, const QList<qsizetype> &hierarchical_ids) {
+  auto root = document ? document->getFlow()->getRootLayer() : nullptr;
+  if (!root) return {};
+
+  auto layers = QList<Layer *>{};
+  auto iter = LayerPreOrderIterator(root);
+  while (iter.hasNext()) {
+    if (auto layer = iter.next();
+        hierarchical_ids.contains(layer->getHierarchicalId()))
+      layers.append(layer);
+  }
+
+  return layers;
+}
 
 LayersTreeModel::LayersTreeModel(QObject *parent)
     : QAbstractItemModel(parent), m_document(nullptr), m_flow(nullptr) {}
@@ -48,6 +69,12 @@ Qt::ItemFlags LayersTreeModel::flags(const QModelIndex &index) const {
     flags |= Qt::ItemIsUserCheckable;
 
   if (index.column() == Column::NameColumn) flags |= Qt::ItemIsEditable;
+
+  auto layer = toLayer(index);
+
+  if (layer) flags |= Qt::ItemIsDragEnabled;
+  if (layer->getLayerType() == Layer::LayerType::GroupLayer)
+    flags |= Qt::ItemIsDropEnabled;
 
   return flags;
 }
@@ -155,7 +182,69 @@ int LayersTreeModel::rowCount(const QModelIndex &parent) const {
 
 int LayersTreeModel::columnCount(const QModelIndex &parent) const { return 3; }
 
-Layer *LayersTreeModel::layer(const QModelIndex &index) const {
+QStringList LayersTreeModel::mimeTypes() const {
+  return QStringList{} << mimetype::Layers;
+}
+
+QMimeData *LayersTreeModel::mimeData(const QModelIndexList &indexes) const {
+  if (indexes.isEmpty()) return nullptr;
+
+  auto mime_data = new QMimeData;
+  QByteArray encoded_data;
+  QDataStream stream(&encoded_data, QDataStream::WriteOnly);
+
+  QList<Layer *> layers;
+  for (const auto &index : indexes) {
+    auto layer = toLayer(index);
+    if (layers.contains(layer)) continue;
+    layers.append(layer);
+
+    stream << layer->getHierarchicalId();
+  }
+
+  mime_data->setData(mimetype::Layers, encoded_data);
+  return mime_data;
+}
+
+Qt::DropActions LayersTreeModel::supportedDropActions() const {
+  return Qt::MoveAction;
+}
+
+bool LayersTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
+                                   int row, int column,
+                                   const QModelIndex &parent) {
+  if (!data || action != Qt::MoveAction) return false;
+  if (!data->hasFormat(mimetype::Layers)) return false;
+
+  auto parent_layer =
+      parent.isValid() ? toLayer(parent) : m_flow->getRootLayer();
+  if (parent_layer &&
+      parent_layer->getLayerType() != Layer::LayerType::GroupLayer)
+    return false;
+
+  auto group_layer = static_cast<GroupLayer *>(parent_layer);
+
+  const QByteArray encoded_data = data->data(QLatin1String(mimetype::Layers));
+  QDataStream stream(encoded_data);
+  QList<qsizetype> hierarchical_ids;
+
+  while (!stream.atEnd()) {
+    qsizetype hierarchical_id;
+    stream >> hierarchical_id;
+    hierarchical_ids.append(hierarchical_id);
+  }
+
+  auto index = std::max(0, row + 1);
+  index = index > columnCount(parent) ? 0 : index;
+
+  auto layers = getLayers(m_document, hierarchical_ids);
+  m_document->getUndoStack()->push(
+      new ReparentLayers(m_document, std::move(layers), group_layer, index));
+
+  return true;
+}
+
+Layer *LayersTreeModel::toLayer(const QModelIndex &index) const {
   if (!index.isValid()) return nullptr;
   return static_cast<Layer *>(index.internalPointer());
 }

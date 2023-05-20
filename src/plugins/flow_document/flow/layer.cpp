@@ -1,5 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow/layer.h"
+
+#include "flow_document/flow/group_layer.h"
+#include "flow_document/flow/layer_iterator.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -33,6 +36,26 @@ void Layer::setVisible(bool visible) { m_visible = visible; }
 bool Layer::isVisible() const { return m_visible; }
 
 GroupLayer* Layer::getParent() const { return m_parent; }
+
+GroupLayer* Layer::getRoot() const {
+  auto root = getParent();
+  while (root && root->getParent()) {
+    root = root->getParent();
+  }
+
+  return root;
+}
+
+qsizetype Layer::getHierarchicalId() const {
+  auto root = getRoot();
+  auto id = 0;
+  if (root) {
+    auto iter = LayerPreOrderIterator(root);
+    while (iter.hasNext() && iter.next() != this) id += 1;
+  }
+
+  return id;
+}
 
 void Layer::setParent(GroupLayer* parent) { m_parent = parent; }
 
