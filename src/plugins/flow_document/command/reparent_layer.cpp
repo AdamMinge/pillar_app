@@ -49,7 +49,11 @@ void ReparentLayers::reparent() {
                                         current_parent, current_index));
 
     auto same_parent = current_parent == data.parent;
-    if (same_parent && current_index < data.index) data.index -= 1;
+    if (same_parent && current_index < data.index) {
+      data.index -= 1;
+    } else if (same_parent && current_index > data.index) {
+      current_index += 1;
+    }
 
     Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
                                         data.parent, data.index));
