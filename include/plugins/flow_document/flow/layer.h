@@ -10,6 +10,8 @@ namespace flow_document {
 
 class GroupLayer;
 
+/* ----------------------------------- Layer -------------------------------- */
+
 class FLOW_DOCUMENT_API Layer : public Object {
   friend GroupLayer;
 
@@ -42,8 +44,6 @@ class FLOW_DOCUMENT_API Layer : public Object {
   [[nodiscard]] GroupLayer* getParent() const;
   [[nodiscard]] GroupLayer* getRoot() const;
 
-  [[nodiscard]] qsizetype getHierarchicalId() const;
-
  protected:
   void setParent(GroupLayer* parent);
 
@@ -55,6 +55,16 @@ class FLOW_DOCUMENT_API Layer : public Object {
   bool m_locked;
   bool m_visible;
 };
+
+/* -------------------------------- Layer Utils ----------------------------- */
+
+[[nodiscard]] qsizetype getLayerHierarchicalId(Layer* layer);
+[[nodiscard]] QList<qsizetype> getLayersHierarchicalIds(
+    const QList<Layer*>& layers);
+
+[[nodiscard]] Layer* getLayerByHierarchicalId(Layer* root, qsizetype id);
+[[nodiscard]] QList<Layer*> getLayersByHierarchicalIds(
+    Layer* root, const QList<qsizetype>& ids);
 
 }  // namespace flow_document
 

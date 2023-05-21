@@ -20,7 +20,8 @@ ReparentLayers::ReparentLayers(FlowDocument* document, QVector<Layer*> layers,
   }
 
   m_reparent_data.sort([](const auto& left, const auto& right) {
-    return left.layer->getHierarchicalId() < right.layer->getHierarchicalId();
+    return getLayerHierarchicalId(left.layer) <
+           getLayerHierarchicalId(right.layer);
   });
 
   const auto command_text =
@@ -62,7 +63,8 @@ void ReparentLayers::reparent() {
         LayerEvent(LayerEvent::Type::LayerAdded, data.parent, data.index));
 
     data.parent = current_parent;
-    data.index = current_index;
+    data.index = std::min(current_index,
+                          std::max(current_parent->size() - 1, qsizetype(0)));
   };
 }
 

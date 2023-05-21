@@ -7,6 +7,8 @@
 
 namespace flow_document {
 
+/* ----------------------------------- Layer -------------------------------- */
+
 Layer::Layer(LayerType type)
     : Object(Type::Layer),
       m_type(type),
@@ -46,17 +48,88 @@ GroupLayer* Layer::getRoot() const {
   return root;
 }
 
-qsizetype Layer::getHierarchicalId() const {
-  auto root = getRoot();
+void Layer::setParent(GroupLayer* parent) { m_parent = parent; }
+
+/* -------------------------------- Layer Utils ----------------------------- */
+
+qsizetype getLayerHierarchicalId(Layer* layer) {
+  auto root = layer->getRoot();
   auto id = 0;
   if (root) {
     auto iter = LayerPreOrderIterator(root);
-    while (iter.hasNext() && iter.next() != this) id += 1;
+    while (iter.hasNext() && iter.next() != layer) id += 1;
   }
 
   return id;
 }
 
-void Layer::setParent(GroupLayer* parent) { m_parent = parent; }
+QList<qsizetype> getLayersHierarchicalIds(const QList<Layer*>& layers) {
+  if (layers.empty()) return {};
+
+  auto ids = QList<qsizetype>(layers.size());
+  auto root = layers.at(0)->getRoot();
+  auto remaining = ids.size();
+  auto id = 0;
+
+  if (root) {
+    auto iter = LayerPreOrderIterator(root);
+    while (iter.hasNext() && remaining > 0) {
+      auto layer = iter.next();
+      auto index = layers.indexOf(layer);
+
+      if (index >= 0) {
+        ids[index] = id;
+        remaining -= 1;
+      }
+
+      id += 1;
+    }
+  }
+
+  return remaining == 0 ? ids : QList<qsizetype>{};
+}
+
+Layer* getLayerByHierarchicalId(Layer* root, qsizetype id) {
+  if (root) {
+    Q_ASSERT(!root->getRoot());
+    auto layer = root;
+    auto iter = LayerPreOrderIterator(layer);
+
+    id += 1;
+    while (iter.hasNext() && id > 0) {
+      layer = iter.next();
+      id -= 1;
+    }
+
+    if (id == 0) return layer;
+  }
+
+  return nullptr;
+}
+
+QList<Layer*> getLayersByHierarchicalIds(Layer* root,
+                                         const QList<qsizetype>& ids) {
+  if (!root) return {};
+
+  Q_ASSERT(!root->getRoot());
+  auto layers = QList<Layer*>(ids.size());
+  auto iter = LayerPreOrderIterator(root);
+  auto remaining = ids.size();
+  auto id = 0;
+
+  while (iter.hasNext() && remaining > 0) {
+    auto layer = iter.next();
+    auto index = ids.indexOf(id);
+
+    if (index >= 0) {
+      layers[index] = layer;
+      remaining -= 1;
+    }
+
+    id += 1;
+  }
+
+  return remaining == 0 ? layers : QList<Layer*>{};
+}
 
 }  // namespace flow_document

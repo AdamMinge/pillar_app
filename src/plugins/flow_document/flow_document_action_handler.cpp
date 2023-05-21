@@ -53,6 +53,29 @@ namespace {
   return count_of_locked > (layers.count() - count_of_locked);
 }
 
+bool canRaiseLayers(FlowDocument* document, const QList<Layer*> layers) {
+  if (layers.empty()) return false;
+
+  auto root = document->getFlow()->getRootLayer();
+  auto most_top_layer = root->at(root->size() - 1);
+
+  return std::all_of(
+      layers.cbegin(), layers.cend(),
+      [most_top_layer](const auto layer) { return layer != most_top_layer; });
+}
+
+bool canLowerLayers(FlowDocument* document, const QList<Layer*> layers) {
+  if (layers.empty()) return false;
+
+  auto root = document->getFlow()->getRootLayer();
+  auto most_bottom_layer = root->at(0);
+
+  return std::all_of(layers.cbegin(), layers.cend(),
+                     [most_bottom_layer](const auto layer) {
+                       return layer != most_bottom_layer;
+                     });
+}
+
 }  // namespace
 
 std::unique_ptr<FlowDocumentActionHandler>
@@ -215,6 +238,7 @@ void FlowDocumentActionHandler::onRaiseLayer() const {
 
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
+  Q_ASSERT(canRaiseLayers(m_document, selected_layers));
 
   // TODO
 }
@@ -224,6 +248,7 @@ void FlowDocumentActionHandler::onLowerLayer() const {
 
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
+  Q_ASSERT(canLowerLayers(m_document, selected_layers));
 
   // TODO
 }
@@ -373,6 +398,8 @@ void FlowDocumentActionHandler::updateActions() {
   auto any_selected_layers = false;
   auto any_not_selected_layers = false;
   auto any_selected_objects = false;
+  auto can_raise_layers = false;
+  auto can_lower_layers = false;
 
   if (has_document) {
     const auto& selected_layers = m_document->getSelectedLayers();
@@ -382,13 +409,16 @@ void FlowDocumentActionHandler::updateActions() {
     any_selected_layers = selected_layers.size() > 0;
     any_selected_objects = selected_objects.size() > 0;
     any_not_selected_layers = not_selected_layers.size() > 0;
+
+    can_raise_layers = canRaiseLayers(m_document, selected_layers);
+    can_lower_layers = canLowerLayers(m_document, selected_layers);
   }
 
   m_add_group_layer->setEnabled(has_document);
   m_add_node_layer->setEnabled(has_document);
   m_remove_layer->setEnabled(any_selected_layers);
-  m_raise_layer->setEnabled(any_selected_layers);
-  m_lower_layer->setEnabled(any_selected_layers);
+  m_raise_layer->setEnabled(can_raise_layers);
+  m_lower_layer->setEnabled(can_lower_layers);
   m_duplicate_layer->setEnabled(any_selected_layers);
   m_show_hide_other_layers->setEnabled(any_selected_layers &&
                                        any_not_selected_layers);

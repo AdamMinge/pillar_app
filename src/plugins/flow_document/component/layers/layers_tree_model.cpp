@@ -23,14 +23,8 @@ namespace flow_document {
   auto root = document ? document->getFlow()->getRootLayer() : nullptr;
   if (!root) return {};
 
-  auto layers = QList<Layer *>{};
-  auto iter = LayerPreOrderIterator(root);
-  while (iter.hasNext()) {
-    if (auto layer = iter.next();
-        hierarchical_ids.contains(layer->getHierarchicalId()))
-      layers.append(layer);
-  }
-
+  auto layers = getLayersByHierarchicalIds(root, hierarchical_ids);
+  Q_ASSERT(!layers.empty());
   return layers;
 }
 
@@ -60,8 +54,6 @@ void LayersTreeModel::setDocument(FlowDocument *flow_document) {
 FlowDocument *LayersTreeModel::getDocument() const { return m_document; }
 
 Qt::ItemFlags LayersTreeModel::flags(const QModelIndex &index) const {
-  if (!index.isValid()) return Qt::NoItemFlags;
-
   auto flags = QAbstractItemModel::flags(index);
 
   if (index.column() == Column::VisibleColumn ||
@@ -70,10 +62,13 @@ Qt::ItemFlags LayersTreeModel::flags(const QModelIndex &index) const {
 
   if (index.column() == Column::NameColumn) flags |= Qt::ItemIsEditable;
 
-  auto layer = toLayer(index);
+  auto parent_index = parent(index);
+  auto parent_layer =
+      parent_index.isValid() ? toLayer(parent_index) : m_flow->getRootLayer();
 
-  if (layer) flags |= Qt::ItemIsDragEnabled;
-  if (layer->getLayerType() == Layer::LayerType::GroupLayer)
+  if (parent_layer) flags |= Qt::ItemIsDragEnabled;
+  if (parent_layer &&
+      parent_layer->getLayerType() == Layer::LayerType::GroupLayer)
     flags |= Qt::ItemIsDropEnabled;
 
   return flags;
@@ -193,13 +188,18 @@ QMimeData *LayersTreeModel::mimeData(const QModelIndexList &indexes) const {
   QByteArray encoded_data;
   QDataStream stream(&encoded_data, QDataStream::WriteOnly);
 
-  QList<Layer *> layers;
+  auto layers = QList<Layer *>{};
   for (const auto &index : indexes) {
     auto layer = toLayer(index);
     if (layers.contains(layer)) continue;
     layers.append(layer);
+  }
 
-    stream << layer->getHierarchicalId();
+  auto hierarchical_ids = getLayersHierarchicalIds(layers);
+  Q_ASSERT(!hierarchical_ids.empty());
+
+  for (const auto &hierarchical_id : hierarchical_ids) {
+    stream << hierarchical_id;
   }
 
   mime_data->setData(mimetype::Layers, encoded_data);
@@ -235,7 +235,7 @@ bool LayersTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
   }
 
   auto index = std::max(0, row + 1);
-  index = index > columnCount(parent) ? 0 : index;
+  index = index > rowCount(parent) ? 0 : index;
 
   auto layers = getLayers(m_document, hierarchical_ids);
   m_document->getUndoStack()->push(
