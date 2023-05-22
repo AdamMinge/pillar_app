@@ -13,6 +13,7 @@ namespace flow_document {
 
 class FlowDocument;
 class ChangeEvent;
+class Layer;
 
 class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   Q_OBJECT
@@ -70,6 +71,8 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
 
   void registerActions();
   void unregisterActions();
+
+  void addLayer(std::unique_ptr<Layer> layer) const;
 
  private:
   static std::unique_ptr<FlowDocumentActionHandler> m_instance;

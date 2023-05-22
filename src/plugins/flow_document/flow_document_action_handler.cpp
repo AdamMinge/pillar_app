@@ -191,31 +191,13 @@ QMenu* FlowDocumentActionHandler::createNewLayerMenu(QWidget* parent) const {
 }
 
 void FlowDocumentActionHandler::onAddGroupLayer() const {
-  Q_ASSERT(m_document);
-
-  auto group_layer = m_document->getFlow()->getRootLayer();
   auto new_layer = std::make_unique<GroupLayer>();
-  const auto index = group_layer->size();
-
-  auto entires = std::list<LayerEntry>{};
-  entires.emplace_back(LayerEntry{group_layer, std::move(new_layer), index});
-
-  m_document->getUndoStack()->push(
-      new AddLayers(m_document, std::move(entires)));
+  addLayer(std::move(new_layer));
 }
 
 void FlowDocumentActionHandler::onAddNodeLayer() const {
-  Q_ASSERT(m_document);
-
-  auto group_layer = m_document->getFlow()->getRootLayer();
   auto new_layer = std::make_unique<NodeLayer>();
-  const auto index = group_layer->size();
-
-  auto entires = std::list<LayerEntry>{};
-  entires.emplace_back(LayerEntry(group_layer, std::move(new_layer), index));
-
-  m_document->getUndoStack()->push(
-      new AddLayers(m_document, std::move(entires)));
+  addLayer(std::move(new_layer));
 }
 
 void FlowDocumentActionHandler::onRemoveLayer() const {
@@ -238,7 +220,7 @@ void FlowDocumentActionHandler::onRemoveLayer() const {
 void FlowDocumentActionHandler::onRaiseLayer() const {
   Q_ASSERT(m_document);
 
-  const auto selected_layers = m_document->getSelectedLayers();
+  const auto& selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
   Q_ASSERT(canRaiseLayers(m_document, selected_layers));
 
@@ -249,7 +231,7 @@ void FlowDocumentActionHandler::onRaiseLayer() const {
 void FlowDocumentActionHandler::onLowerLayer() const {
   Q_ASSERT(m_document);
 
-  const auto selected_layers = m_document->getSelectedLayers();
+  const auto& selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
   Q_ASSERT(canLowerLayers(m_document, selected_layers));
 
@@ -260,7 +242,7 @@ void FlowDocumentActionHandler::onLowerLayer() const {
 void FlowDocumentActionHandler::onDuplicateLayer() const {
   Q_ASSERT(m_document);
 
-  const auto selected_layers = m_document->getSelectedLayers();
+  const auto& selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
   m_document->getUndoStack()->push(
@@ -270,7 +252,7 @@ void FlowDocumentActionHandler::onDuplicateLayer() const {
 void FlowDocumentActionHandler::onShowHideOtherLayers() const {
   Q_ASSERT(m_document);
 
-  const auto selected_layers = m_document->getSelectedLayers();
+  const auto& selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
   auto other_layers = getAllLayers(m_document, selected_layers);
@@ -283,7 +265,7 @@ void FlowDocumentActionHandler::onShowHideOtherLayers() const {
 void FlowDocumentActionHandler::onLockUnlockOtherLayers() const {
   Q_ASSERT(m_document);
 
-  const auto selected_layers = m_document->getSelectedLayers();
+  const auto& selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
   auto other_layers = getAllLayers(m_document, selected_layers);
@@ -508,6 +490,27 @@ void FlowDocumentActionHandler::unregisterActions() {
   action_manager.unregisterAction(m_raise_object, "raise_object");
   action_manager.unregisterAction(m_lower_object, "lower_object");
   action_manager.unregisterAction(m_duplicate_object, "duplicate_object");
+}
+
+void FlowDocumentActionHandler::addLayer(std::unique_ptr<Layer> layer) const {
+  Q_ASSERT(m_document);
+
+  auto group_layer = m_document->getFlow()->getRootLayer();
+  auto index = group_layer->size();
+
+  const auto& selected_layers = m_document->getSelectedLayers();
+  if (selected_layers.size() > 0) {
+    auto selected_layer = selected_layers.at(0);
+
+    group_layer = selected_layer->getParent();
+    index = group_layer->indexOf(selected_layer) + 1;
+  }
+
+  auto entires = std::list<LayerEntry>{};
+  entires.emplace_back(LayerEntry{group_layer, std::move(layer), index});
+
+  m_document->getUndoStack()->push(
+      new AddLayers(m_document, std::move(entires)));
 }
 
 }  // namespace flow_document

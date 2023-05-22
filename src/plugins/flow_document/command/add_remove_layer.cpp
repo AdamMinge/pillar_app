@@ -30,7 +30,13 @@ AddRemoveLayers::AddRemoveLayers(const QString& name, FlowDocument* document,
       m_document(document),
       m_entries(std::move(entries)) {
   m_entries.sort([](const auto& left, const auto& right) {
-    return left.index > right.index;
+    auto left_id = getLayerHierarchicalId(left.group_layer);
+    auto right_id = getLayerHierarchicalId(right.group_layer);
+
+    if (left_id > right_id) return true;
+    if (left_id == right_id && left.index > right.index) return true;
+
+    return false;
   });
 }
 
