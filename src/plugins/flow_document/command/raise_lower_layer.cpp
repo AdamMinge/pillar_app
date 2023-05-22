@@ -46,7 +46,7 @@ void RaiseLowerLayers::moveLayers(bool raise) {
         new_index = raise ? 0 : new_parent->size();
       } else {
         new_parent = parent;
-        new_index += step;
+        new_index = index + step;
       }
     } else {
       new_parent = parent->getParent();

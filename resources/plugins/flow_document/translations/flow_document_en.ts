@@ -296,7 +296,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../../../src/plugins/flow_document/command/raise_lower_layer.cpp" line="123"/>
+        <location filename="../../../../src/plugins/flow_document/command/raise_lower_layer.cpp" line="97"/>
         <source>Raise Layer(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -304,7 +304,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../../../src/plugins/flow_document/command/raise_lower_layer.cpp" line="140"/>
+        <location filename="../../../../src/plugins/flow_document/command/raise_lower_layer.cpp" line="114"/>
         <source>Lower Layer(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
