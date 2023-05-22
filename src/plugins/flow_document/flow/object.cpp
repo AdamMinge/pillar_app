@@ -22,4 +22,9 @@ void Object::setProperties(const QVariantMap &properties) {
 
 const QVariantMap &Object::getProperties() const { return m_properties; }
 
+void Object::init(const Object *object) {
+  m_name = object->m_name;
+  m_properties = object->m_properties;
+}
+
 }  // namespace flow_document

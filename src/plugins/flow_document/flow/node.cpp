@@ -45,6 +45,14 @@ NodeLayer *Node::getParent() const { return m_parent; }
 
 void Node::setParent(NodeLayer *parent) { m_parent = parent; }
 
+void Node::init(const Node *node) {
+  Object::init(node);
+
+  m_position = node->m_position;
+  m_out_pins = node->m_out_pins;
+  m_in_pins = node->m_in_pins;
+}
+
 QVector<Pin> &Node::getPins(Pin::Type type) {
   return type == Pin::Type::Out ? m_out_pins : m_in_pins;
 }

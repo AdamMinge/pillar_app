@@ -3,6 +3,7 @@
 
 #include "flow_document/command/add_remove_layer.h"
 #include "flow_document/command/change_layer.h"
+#include "flow_document/command/duplicate_layer.h"
 #include "flow_document/command/raise_lower_layer.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
@@ -262,7 +263,8 @@ void FlowDocumentActionHandler::onDuplicateLayer() const {
   const auto selected_layers = m_document->getSelectedLayers();
   Q_ASSERT(selected_layers.size() > 0);
 
-  // TODO
+  m_document->getUndoStack()->push(
+      new DuplicateLayers(m_document, selected_layers));
 }
 
 void FlowDocumentActionHandler::onShowHideOtherLayers() const {

@@ -34,6 +34,11 @@ class FLOW_DOCUMENT_API GroupLayer : public Layer {
   Layers::const_iterator begin() const;
   Layers::const_iterator end() const;
 
+  [[nodiscard]] std::unique_ptr<Layer> clone() const override;
+
+ protected:
+  void init(const GroupLayer* group_layer);
+
  private:
   Layers m_layers;
 };

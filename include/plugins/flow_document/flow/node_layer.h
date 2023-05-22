@@ -36,6 +36,11 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
   Nodes::const_iterator begin() const;
   Nodes::const_iterator end() const;
 
+  [[nodiscard]] std::unique_ptr<Layer> clone() const override;
+
+ protected:
+  void init(const NodeLayer* node_layer);
+
  private:
   Nodes m_nodes;
 };

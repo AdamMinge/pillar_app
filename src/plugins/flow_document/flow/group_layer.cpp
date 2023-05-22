@@ -61,4 +61,18 @@ GroupLayer::Layers::const_iterator GroupLayer::end() const {
   return m_layers.end();
 }
 
+std::unique_ptr<Layer> GroupLayer::clone() const {
+  auto group_layer = std::make_unique<GroupLayer>();
+  group_layer->init(this);
+  return std::move(group_layer);
+}
+
+void GroupLayer::init(const GroupLayer* group_layer) {
+  Layer::init(group_layer);
+
+  for (const auto& layer : *group_layer) {
+    append(layer->clone());
+  }
+}
+
 }  // namespace flow_document

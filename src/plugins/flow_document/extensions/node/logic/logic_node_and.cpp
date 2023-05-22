@@ -6,6 +6,12 @@ LogicNodeAnd::LogicNodeAnd() { setName(QObject::tr("AND")); }
 
 LogicNodeAnd::~LogicNodeAnd() = default;
 
+std::unique_ptr<flow_document::Node> LogicNodeAnd::clone() const {
+  auto node = std::make_unique<LogicNodeAnd>();
+  node->init(this);
+  return std::move(node);
+}
+
 void LogicNodeAnd::compute() {
   const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
   const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);

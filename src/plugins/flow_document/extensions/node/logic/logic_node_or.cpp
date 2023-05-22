@@ -6,6 +6,12 @@ LogicNodeOr::LogicNodeOr() { setName(QObject::tr("OR")); }
 
 LogicNodeOr::~LogicNodeOr() = default;
 
+std::unique_ptr<flow_document::Node> LogicNodeOr::clone() const {
+  auto node = std::make_unique<LogicNodeOr>();
+  node->init(this);
+  return std::move(node);
+}
+
 void LogicNodeOr::compute() {
   const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
   const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);

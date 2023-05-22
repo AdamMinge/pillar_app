@@ -63,4 +63,18 @@ NodeLayer::Nodes::const_iterator NodeLayer::end() const {
   return m_nodes.end();
 }
 
+std::unique_ptr<Layer> NodeLayer::clone() const {
+  auto node_layer = std::make_unique<NodeLayer>();
+  node_layer->init(this);
+  return std::move(node_layer);
+}
+
+void NodeLayer::init(const NodeLayer* node_layer) {
+  Layer::init(node_layer);
+
+  for (const auto& node : *node_layer) {
+    append(node->clone());
+  }
+}
+
 }  // namespace flow_document

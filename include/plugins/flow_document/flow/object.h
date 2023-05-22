@@ -43,6 +43,9 @@ class FLOW_DOCUMENT_API Object {
     return Object::className() == className;
   }
 
+ protected:
+  void init(const Object *object);
+
  private:
   Type m_type;
   QUuid m_id;

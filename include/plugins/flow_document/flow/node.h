@@ -33,9 +33,12 @@ class FLOW_DOCUMENT_API Node : public Object {
 
   [[nodiscard]] NodeLayer *getParent() const;
 
+  [[nodiscard]] virtual std::unique_ptr<Node> clone() const = 0;
+
  protected:
   virtual void compute() = 0;
 
+  void init(const Node *node);
   void setParent(NodeLayer *parent);
 
  private:

@@ -11,6 +11,8 @@ class LOGIC_NODE_API LogicNodeAnd : public LogicNodeWithTwoParams {
   explicit LogicNodeAnd();
   ~LogicNodeAnd() override;
 
+  [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
+
  protected:
   void compute() override;
 };

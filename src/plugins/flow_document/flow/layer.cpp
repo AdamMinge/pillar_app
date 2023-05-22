@@ -48,6 +48,15 @@ GroupLayer* Layer::getRoot() const {
   return root;
 }
 
+void Layer::init(const Layer* layer) {
+  Object::init(layer);
+
+  m_opacity = layer->m_opacity;
+  m_position = layer->m_position;
+  m_locked = layer->m_locked;
+  m_visible = layer->m_visible;
+}
+
 void Layer::setParent(GroupLayer* parent) { m_parent = parent; }
 
 /* -------------------------------- Layer Utils ----------------------------- */
