@@ -3,6 +3,7 @@
 
 #include "flow_document/command/add_remove_layer.h"
 #include "flow_document/command/change_layer.h"
+#include "flow_document/command/raise_lower_layer.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
@@ -240,7 +241,8 @@ void FlowDocumentActionHandler::onRaiseLayer() const {
   Q_ASSERT(selected_layers.size() > 0);
   Q_ASSERT(canRaiseLayers(m_document, selected_layers));
 
-  // TODO
+  m_document->getUndoStack()->push(
+      new RaiseLayers(m_document, std::move(selected_layers)));
 }
 
 void FlowDocumentActionHandler::onLowerLayer() const {
@@ -250,7 +252,8 @@ void FlowDocumentActionHandler::onLowerLayer() const {
   Q_ASSERT(selected_layers.size() > 0);
   Q_ASSERT(canLowerLayers(m_document, selected_layers));
 
-  // TODO
+  m_document->getUndoStack()->push(
+      new LowerLayers(m_document, std::move(selected_layers)));
 }
 
 void FlowDocumentActionHandler::onDuplicateLayer() const {

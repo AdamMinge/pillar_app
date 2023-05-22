@@ -37,6 +37,7 @@ set(sources
     ${source_root}/command/add_remove_layer.cpp
     ${source_root}/command/change_layer.cpp
     ${source_root}/command/reparent_layer.cpp
+    ${source_root}/command/raise_lower_layer.cpp
     ${source_root}/component/factories/factories_dock.cpp
     ${source_root}/component/factories/factories_view.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
@@ -92,6 +93,7 @@ set(includes
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h
     ${include_root}/command/reparent_layer.h
+    ${include_root}/command/raise_lower_layer.h
     ${include_root}/component/factories/factories_dock.h
     ${include_root}/component/factories/factories_view.h
     ${include_root}/component/factories/factories_tree_model.h
