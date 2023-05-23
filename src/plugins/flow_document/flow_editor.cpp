@@ -3,7 +3,7 @@
 
 #include "flow_document/component/factories/factories_dock.h"
 #include "flow_document/component/layers/layers_dock.h"
-#include "flow_document/component/objects/objects_dock.h"
+#include "flow_document/component/nodes/nodes_dock.h"
 #include "flow_document/component/properties/properties_dock.h"
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/flow_view.h"
@@ -40,7 +40,7 @@ FlowEditor::FlowEditor(QObject *parent)
       m_undo_dock(new egnite::UndoDock(m_main_window)),
       m_factories_dock(new FactoriesDock(m_main_window)),
       m_properties_dock(new PropertiesDock(m_main_window)),
-      m_objects_dock(new ObjectsDock(m_main_window)),
+      m_nodes_dock(new NodesDock(m_main_window)),
       m_layers_dock(new LayersDock(m_main_window)),
       m_action_handler(FlowDocumentActionHandler::getInstance()),
       m_preferences(new Preferences) {
@@ -64,7 +64,7 @@ void FlowEditor::setCurrentDocument(egnite::Document *document) {
 
   m_tools_bar->setDocument(m_current_document);
   m_layers_dock->setDocument(m_current_document);
-  m_objects_dock->setDocument(m_current_document);
+  m_nodes_dock->setDocument(m_current_document);
 
   if (auto flow_view = m_view_for_document[flow_document]; flow_view) {
     m_scene_stack->setCurrentWidget(flow_view);
@@ -122,7 +122,7 @@ void FlowEditor::restoreState() {
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
   return QList<QDockWidget *>{m_undo_dock, m_factories_dock, m_properties_dock,
-                              m_objects_dock, m_layers_dock};
+                              m_nodes_dock, m_layers_dock};
 }
 
 QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const {
@@ -179,10 +179,10 @@ void FlowEditor::initUi() {
   m_undo_dock->raise();
 
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_factories_dock);
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_objects_dock);
+  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
   m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_layers_dock);
 
-  m_main_window->tabifyDockWidget(m_factories_dock, m_objects_dock);
+  m_main_window->tabifyDockWidget(m_factories_dock, m_nodes_dock);
   m_main_window->tabifyDockWidget(m_factories_dock, m_layers_dock);
   m_factories_dock->raise();
 

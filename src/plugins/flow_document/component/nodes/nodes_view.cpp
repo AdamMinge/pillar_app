@@ -1,11 +1,11 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/objects/objects_view.h"
+#include "flow_document/component/nodes/nodes_view.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-ObjectsView::ObjectsView(QWidget* parent) : QTreeView(parent) {}
+NodesView::NodesView(QWidget* parent) : QTreeView(parent) {}
 
-ObjectsView::~ObjectsView() = default;
+NodesView::~NodesView() = default;
 
 }  // namespace flow_document

@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_OBJECTS_DOCK_H
-#define FLOW_DOCUMENT_OBJECTS_DOCK_H
+#ifndef FLOW_DOCUMENT_NODES_DOCK_H
+#define FLOW_DOCUMENT_NODES_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDockWidget>
@@ -9,20 +9,20 @@
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
-class ObjectsDock;
+class NodesDock;
 }
 
 namespace flow_document {
 
-class ObjectsTreeModel;
+class NodesTreeModel;
 class FlowDocument;
 
-class FLOW_DOCUMENT_API ObjectsDock : public QDockWidget {
+class FLOW_DOCUMENT_API NodesDock : public QDockWidget {
   Q_OBJECT
 
  public:
-  explicit ObjectsDock(QWidget *parent = nullptr);
-  ~ObjectsDock() override;
+  explicit NodesDock(QWidget *parent = nullptr);
+  ~NodesDock() override;
 
   void setDocument(FlowDocument *document);
   [[nodiscard]] FlowDocument *getDocument() const;
@@ -31,7 +31,7 @@ class FLOW_DOCUMENT_API ObjectsDock : public QDockWidget {
   void changeEvent(QEvent *event) override;
 
  private Q_SLOTS:
-  void searchObjects(const QString &search);
+  void searchNodes(const QString &search);
 
  private:
   void initUi();
@@ -42,12 +42,12 @@ class FLOW_DOCUMENT_API ObjectsDock : public QDockWidget {
  private:
   FlowDocument *m_document;
 
-  QScopedPointer<Ui::ObjectsDock> m_ui;
+  QScopedPointer<Ui::NodesDock> m_ui;
 
-  QScopedPointer<ObjectsTreeModel> m_objects_model;
+  QScopedPointer<NodesTreeModel> m_nodes_model;
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_OBJECTS_DOCK_H
+#endif  // FLOW_DOCUMENT_NODES_DOCK_H

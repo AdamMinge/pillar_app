@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/objects/objects_tree_model.h"
+#include "flow_document/component/nodes/nodes_tree_model.h"
 
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
@@ -8,37 +8,37 @@
 
 namespace flow_document {
 
-ObjectsTreeModel::ObjectsTreeModel(QObject *parent)
+NodesTreeModel::NodesTreeModel(QObject *parent)
     : QAbstractItemModel(parent), m_document(nullptr), m_flow(nullptr) {}
 
-ObjectsTreeModel::~ObjectsTreeModel() = default;
+NodesTreeModel::~NodesTreeModel() = default;
 
-void ObjectsTreeModel::setDocument(FlowDocument *flow_document) {
+void NodesTreeModel::setDocument(FlowDocument *flow_document) {
   if (m_document == flow_document) return;
 
   if (m_document) {
     disconnect(m_document, &FlowDocument::event, this,
-               &ObjectsTreeModel::onEvent);
+               &NodesTreeModel::onEvent);
   }
 
   m_document = flow_document;
 
   if (m_document) {
-    connect(m_document, &FlowDocument::event, this, &ObjectsTreeModel::onEvent);
+    connect(m_document, &FlowDocument::event, this, &NodesTreeModel::onEvent);
   }
 
   m_flow = m_document ? m_document->getFlow() : nullptr;
 }
 
-FlowDocument *ObjectsTreeModel::getDocument() const { return m_document; }
+FlowDocument *NodesTreeModel::getDocument() const { return m_document; }
 
-Qt::ItemFlags ObjectsTreeModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags NodesTreeModel::flags(const QModelIndex &index) const {
   if (!index.isValid()) return Qt::NoItemFlags;
 
   return QAbstractItemModel::flags(index);
 }
 
-QVariant ObjectsTreeModel::data(const QModelIndex &index, int role) const {
+QVariant NodesTreeModel::data(const QModelIndex &index, int role) const {
   if (!index.isValid()) return QVariant{};
 
   switch (role) {
@@ -56,8 +56,8 @@ QVariant ObjectsTreeModel::data(const QModelIndex &index, int role) const {
   return QVariant{};
 }
 
-QVariant ObjectsTreeModel::headerData(int section, Qt::Orientation orientation,
-                                      int role) const {
+QVariant NodesTreeModel::headerData(int section, Qt::Orientation orientation,
+                                    int role) const {
   if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
     return QVariant{};
 
@@ -69,34 +69,34 @@ QVariant ObjectsTreeModel::headerData(int section, Qt::Orientation orientation,
   }
 }
 
-QModelIndex ObjectsTreeModel::index(int row, int column,
-                                    const QModelIndex &parent) const {
+QModelIndex NodesTreeModel::index(int row, int column,
+                                  const QModelIndex &parent) const {
   return QModelIndex{};
 }
 
-QModelIndex ObjectsTreeModel::parent(const QModelIndex &index) const {
+QModelIndex NodesTreeModel::parent(const QModelIndex &index) const {
   if (!index.isValid()) return QModelIndex{};
 
   return QModelIndex{};
 }
 
-int ObjectsTreeModel::rowCount(const QModelIndex &parent) const {
+int NodesTreeModel::rowCount(const QModelIndex &parent) const {
   if (!m_document) return 0;
 
   return 0;
 }
 
-int ObjectsTreeModel::columnCount(const QModelIndex &parent) const { return 1; }
+int NodesTreeModel::columnCount(const QModelIndex &parent) const { return 1; }
 
-void ObjectsTreeModel::onEvent(const ChangeEvent &event) {
+void NodesTreeModel::onEvent(const ChangeEvent &event) {
   switch (event.getType()) { using enum ChangeEvent::Type; }
 }
 
-QString ObjectsTreeModel::getName(const QModelIndex &index) const {
+QString NodesTreeModel::getName(const QModelIndex &index) const {
   return QString{};
 }
 
-QIcon ObjectsTreeModel::getIcon(const QModelIndex &index) const {
+QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
   return QIcon{};
 }
 

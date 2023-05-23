@@ -192,9 +192,9 @@
     </message>
 </context>
 <context>
-    <name>ObjectsTreeModel</name>
+    <name>NodesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/objects/objects_tree_model.cpp" line="66"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="66"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>

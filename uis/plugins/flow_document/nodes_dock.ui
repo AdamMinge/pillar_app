@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ObjectsDock</class>
- <widget class="QDockWidget" name="ObjectsDock">
+ <class>NodesDock</class>
+ <widget class="QDockWidget" name="NodesDock">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Objects</string>
+   <string>Nodes</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -39,14 +39,14 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLineEdit" name="m_search_objects_edit">
+       <widget class="QLineEdit" name="m_search_nodes_edit">
         <property name="placeholderText">
-         <string>Search objects</string>
+         <string>Search nodes</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="utils::QtUnselectableTreeView" name="m_objects_view">
+       <widget class="utils::QtUnselectableTreeView" name="m_nodes_view">
         <property name="dragEnabled">
          <bool>true</bool>
         </property>

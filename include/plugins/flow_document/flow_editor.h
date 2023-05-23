@@ -21,13 +21,12 @@ namespace flow_document {
 class FlowDocument;
 class FlowView;
 
-class NodesDock;
 class AbstractTool;
 class ToolsBar;
 
 class FactoriesDock;
 class PropertiesDock;
-class ObjectsDock;
+class NodesDock;
 class LayersDock;
 
 class FlowDocumentActionHandler;
@@ -81,7 +80,7 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
 
   FactoriesDock *m_factories_dock;
   PropertiesDock *m_properties_dock;
-  ObjectsDock *m_objects_dock;
+  NodesDock *m_nodes_dock;
   LayersDock *m_layers_dock;
 
   FlowDocumentActionHandler &m_action_handler;

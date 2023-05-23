@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_OBJECTS_TREE_MODEL_H
-#define FLOW_DOCUMENT_OBJECTS_TREE_MODEL_H
+#ifndef FLOW_DOCUMENT_NODES_TREE_MODEL_H
+#define FLOW_DOCUMENT_NODES_TREE_MODEL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
@@ -11,18 +11,18 @@ namespace flow_document {
 
 class FlowDocument;
 class ChangeEvent;
-class Object;
+class Node;
 class Flow;
 
-class FLOW_DOCUMENT_API ObjectsTreeModel : public QAbstractItemModel {
+class FLOW_DOCUMENT_API NodesTreeModel : public QAbstractItemModel {
   Q_OBJECT
 
  public:
   enum Column { NameColumn };
 
  public:
-  explicit ObjectsTreeModel(QObject *parent = nullptr);
-  ~ObjectsTreeModel() override;
+  explicit NodesTreeModel(QObject *parent = nullptr);
+  ~NodesTreeModel() override;
 
   void setDocument(FlowDocument *flow_document);
   [[nodiscard]] FlowDocument *getDocument() const;
@@ -54,4 +54,4 @@ class FLOW_DOCUMENT_API ObjectsTreeModel : public QAbstractItemModel {
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_OBJECTS_TREE_MODEL_H
+#endif  // FLOW_DOCUMENT_NODES_TREE_MODEL_H

@@ -43,9 +43,9 @@ set(sources
     ${source_root}/component/factories/factories_view.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
     ${source_root}/component/properties/properties_dock.cpp
-    ${source_root}/component/objects/objects_dock.cpp
-    ${source_root}/component/objects/objects_view.cpp
-    ${source_root}/component/objects/objects_tree_model.cpp
+    ${source_root}/component/nodes/nodes_dock.cpp
+    ${source_root}/component/nodes/nodes_view.cpp
+    ${source_root}/component/nodes/nodes_tree_model.cpp
     ${source_root}/component/layers/layers_dock.cpp
     ${source_root}/component/layers/layers_view.cpp
     ${source_root}/component/layers/layers_tree_model.cpp
@@ -100,9 +100,9 @@ set(includes
     ${include_root}/component/factories/factories_view.h
     ${include_root}/component/factories/factories_tree_model.h
     ${include_root}/component/properties/properties_dock.h
-    ${include_root}/component/objects/objects_dock.h
-    ${include_root}/component/objects/objects_view.h
-    ${include_root}/component/objects/objects_tree_model.h
+    ${include_root}/component/nodes/nodes_dock.h
+    ${include_root}/component/nodes/nodes_view.h
+    ${include_root}/component/nodes/nodes_tree_model.h
     ${include_root}/component/layers/layers_dock.h
     ${include_root}/component/layers/layers_view.h
     ${include_root}/component/layers/layers_tree_model.h
@@ -124,7 +124,7 @@ set(resources ${resources_root}/flow_document.qrc)
 set(uis
     ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui
     ${uis_root}/properties_dock.ui ${uis_root}/layers_dock.ui
-    ${uis_root}/objects_dock.ui)
+    ${uis_root}/nodes_dock.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #
