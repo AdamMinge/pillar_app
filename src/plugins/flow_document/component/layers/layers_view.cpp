@@ -3,8 +3,10 @@
 
 #include "flow_document/component/layers/layers_tree_model.h"
 #include "flow_document/flow_document.h"
+#include "flow_document/flow_document_action_handler.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QContextMenuEvent>
 #include <QHeaderView>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/delegate/icon_check_delegate.h>
@@ -52,6 +54,22 @@ void LayersView::setDocument(FlowDocument *document) {
 }
 
 FlowDocument *LayersView::getDocument() const { return m_document; }
+
+void LayersView::contextMenuEvent(QContextMenuEvent *event) {
+  const auto &handler = FlowDocumentActionHandler::getInstance();
+
+  QMenu menu;
+  menu.addMenu(handler.createNewLayerMenu(&menu));
+  menu.addAction(handler.getRemoveLayerAction());
+  menu.addAction(handler.getRaiseLayerAction());
+  menu.addAction(handler.getLowerLayerAction());
+  menu.addAction(handler.getDuplicateLayerAction());
+  menu.addSeparator();
+  menu.addAction(handler.getShowHideOtherLayersAction());
+  menu.addAction(handler.getLockUnlockOtherLayersAction());
+
+  menu.exec(event->globalPos());
+}
 
 void LayersView::selectionChanged() {
   const auto indexes = selectionModel()->selectedRows();

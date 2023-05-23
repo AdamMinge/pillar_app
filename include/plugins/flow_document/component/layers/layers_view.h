@@ -21,6 +21,9 @@ class FLOW_DOCUMENT_API LayersView : public QTreeView {
   void setDocument(FlowDocument *document);
   [[nodiscard]] FlowDocument *getDocument() const;
 
+ protected:
+  void contextMenuEvent(QContextMenuEvent *event) override;
+
  private Q_SLOTS:
   void selectionChanged();
 
