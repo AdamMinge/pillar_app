@@ -98,42 +98,42 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="446"/>
-        <source>&amp;Remove Objects</source>
+        <source>&amp;Remove Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="447"/>
-        <source>Remove Selected Objects</source>
+        <source>Remove Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="449"/>
-        <source>&amp;Raise Objects</source>
+        <source>&amp;Raise Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="450"/>
-        <source>Raise Selected Objects</source>
+        <source>Raise Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="452"/>
-        <source>&amp;Lower Objects</source>
+        <source>&amp;Lower Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="453"/>
-        <source>Lower Selected Objects</source>
+        <source>Lower Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="455"/>
-        <source>&amp;Duplicate Objects</source>
+        <source>&amp;Duplicate Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="456"/>
-        <source>Duplicate Selected Objects</source>
+        <source>Duplicate Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

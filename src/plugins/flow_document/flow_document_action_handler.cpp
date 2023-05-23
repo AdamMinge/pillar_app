@@ -108,7 +108,7 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
   if (m_document) {
     disconnect(m_document, &FlowDocument::selectedLayersChanged, this,
                &FlowDocumentActionHandler::updateActions);
-    disconnect(m_document, &FlowDocument::selectedObjectsChanged, this,
+    disconnect(m_document, &FlowDocument::selectedNodesChanged, this,
                &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::event, this,
                &FlowDocumentActionHandler::onEvent);
@@ -119,7 +119,7 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
   if (m_document) {
     connect(m_document, &FlowDocument::selectedLayersChanged, this,
             &FlowDocumentActionHandler::updateActions);
-    connect(m_document, &FlowDocument::selectedObjectsChanged, this,
+    connect(m_document, &FlowDocument::selectedNodesChanged, this,
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::event, this,
             &FlowDocumentActionHandler::onEvent);
@@ -164,20 +164,20 @@ QAction* FlowDocumentActionHandler::getLockUnlockOtherLayersAction() const {
   return m_lock_unlock_other_layers;
 }
 
-QAction* FlowDocumentActionHandler::getRemoveObjectAction() const {
-  return m_remove_object;
+QAction* FlowDocumentActionHandler::getRemoveNodeAction() const {
+  return m_remove_node;
 }
 
-QAction* FlowDocumentActionHandler::getRaiseObjectAction() const {
-  return m_raise_object;
+QAction* FlowDocumentActionHandler::getRaiseNodeAction() const {
+  return m_raise_node;
 }
 
-QAction* FlowDocumentActionHandler::getLowerObjectAction() const {
-  return m_lower_object;
+QAction* FlowDocumentActionHandler::getLowerNodeAction() const {
+  return m_lower_node;
 }
 
-QAction* FlowDocumentActionHandler::getDuplicateObjectAction() const {
-  return m_duplicate_object;
+QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
+  return m_duplicate_node;
 }
 
 QMenu* FlowDocumentActionHandler::createNewLayerMenu(QWidget* parent) const {
@@ -275,38 +275,38 @@ void FlowDocumentActionHandler::onLockUnlockOtherLayers() const {
       new SetLayersLocked(m_document, other_layers, locked));
 }
 
-void FlowDocumentActionHandler::onRemoveObject() const {
+void FlowDocumentActionHandler::onRemoveNode() const {
   Q_ASSERT(m_document);
 
-  const auto selected_objects = m_document->getSelectedObject();
-  Q_ASSERT(selected_objects.size() > 0);
+  const auto selected_nodes = m_document->getSelectedNodes();
+  Q_ASSERT(selected_nodes.size() > 0);
 
   // TODO
 }
 
-void FlowDocumentActionHandler::onRaiseObject() const {
+void FlowDocumentActionHandler::onRaiseNode() const {
   Q_ASSERT(m_document);
 
-  const auto selected_objects = m_document->getSelectedObject();
-  Q_ASSERT(selected_objects.size() > 0);
+  const auto selected_nodes = m_document->getSelectedNodes();
+  Q_ASSERT(selected_nodes.size() > 0);
 
   // TODO
 }
 
-void FlowDocumentActionHandler::onLowerObject() const {
+void FlowDocumentActionHandler::onLowerNode() const {
   Q_ASSERT(m_document);
 
-  const auto selected_objects = m_document->getSelectedObject();
-  Q_ASSERT(selected_objects.size() > 0);
+  const auto selected_nodes = m_document->getSelectedNodes();
+  Q_ASSERT(selected_nodes.size() > 0);
 
   // TODO
 }
 
-void FlowDocumentActionHandler::onDuplicateObject() const {
+void FlowDocumentActionHandler::onDuplicateNode() const {
   Q_ASSERT(m_document);
 
-  const auto selected_objects = m_document->getSelectedObject();
-  Q_ASSERT(selected_objects.size() > 0);
+  const auto selected_nodes = m_document->getSelectedNodes();
+  Q_ASSERT(selected_nodes.size() > 0);
 
   // TODO
 }
@@ -334,10 +334,10 @@ void FlowDocumentActionHandler::initActions() {
       utils::createActionWithShortcut(QKeySequence{}, this);
   m_lock_unlock_other_layers =
       utils::createActionWithShortcut(QKeySequence{}, this);
-  m_remove_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_raise_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_lower_object = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_duplicate_object = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_remove_node = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_raise_node = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_lower_node = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_duplicate_node = utils::createActionWithShortcut(QKeySequence{}, this);
 
   m_add_group_layer->setIcon(QIcon(icons::x16::GroupLayer));
   m_add_node_layer->setIcon(QIcon(icons::x16::NodeLayer));
@@ -347,10 +347,10 @@ void FlowDocumentActionHandler::initActions() {
   m_duplicate_layer->setIcon(QIcon(icons::x16::Duplicate));
   m_show_hide_other_layers->setIcon(QIcon(icons::x16::ShowHideOthers));
   m_lock_unlock_other_layers->setIcon(QIcon(icons::x16::Locked));
-  m_remove_object->setIcon(QIcon(icons::x16::Remove));
-  m_raise_object->setIcon(QIcon(icons::x16::Up));
-  m_lower_object->setIcon(QIcon(icons::x16::Down));
-  m_duplicate_object->setIcon(QIcon(icons::x16::Duplicate));
+  m_remove_node->setIcon(QIcon(icons::x16::Remove));
+  m_raise_node->setIcon(QIcon(icons::x16::Up));
+  m_lower_node->setIcon(QIcon(icons::x16::Down));
+  m_duplicate_node->setIcon(QIcon(icons::x16::Duplicate));
 }
 
 void FlowDocumentActionHandler::connectActions() {
@@ -370,31 +370,31 @@ void FlowDocumentActionHandler::connectActions() {
           &FlowDocumentActionHandler::onShowHideOtherLayers);
   connect(m_lock_unlock_other_layers, &QAction::triggered, this,
           &FlowDocumentActionHandler::onLockUnlockOtherLayers);
-  connect(m_remove_object, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onRemoveObject);
-  connect(m_raise_object, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onRaiseObject);
-  connect(m_lower_object, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onLowerObject);
-  connect(m_duplicate_object, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onDuplicateObject);
+  connect(m_remove_node, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onRemoveNode);
+  connect(m_raise_node, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onRaiseNode);
+  connect(m_lower_node, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onLowerNode);
+  connect(m_duplicate_node, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onDuplicateNode);
 }
 
 void FlowDocumentActionHandler::updateActions() {
   const auto has_document = m_document != nullptr;
   auto any_selected_layers = false;
   auto any_not_selected_layers = false;
-  auto any_selected_objects = false;
+  auto any_selected_nodes = false;
   auto can_raise_layers = false;
   auto can_lower_layers = false;
 
   if (has_document) {
     const auto& selected_layers = m_document->getSelectedLayers();
-    const auto& selected_objects = m_document->getSelectedObject();
+    const auto& selected_nodes = m_document->getSelectedNodes();
     const auto& not_selected_layers = getAllLayers(m_document, selected_layers);
 
     any_selected_layers = selected_layers.size() > 0;
-    any_selected_objects = selected_objects.size() > 0;
+    any_selected_nodes = selected_nodes.size() > 0;
     any_not_selected_layers = not_selected_layers.size() > 0;
 
     can_raise_layers = canRaiseLayers(m_document, selected_layers);
@@ -412,10 +412,10 @@ void FlowDocumentActionHandler::updateActions() {
   m_lock_unlock_other_layers->setEnabled(any_selected_layers &&
                                          any_not_selected_layers);
 
-  m_remove_object->setEnabled(any_selected_objects);
-  m_raise_object->setEnabled(any_selected_objects);
-  m_lower_object->setEnabled(any_selected_objects);
-  m_duplicate_object->setEnabled(any_selected_objects);
+  m_remove_node->setEnabled(any_selected_nodes);
+  m_raise_node->setEnabled(any_selected_nodes);
+  m_lower_node->setEnabled(any_selected_nodes);
+  m_duplicate_node->setEnabled(any_selected_nodes);
 }
 
 void FlowDocumentActionHandler::retranslateUi() {
@@ -443,17 +443,17 @@ void FlowDocumentActionHandler::retranslateUi() {
   m_lock_unlock_other_layers->setText(tr("Lock/&Unlock Layers"));
   m_lock_unlock_other_layers->setWhatsThis(tr("Lock/Unlock Selected Layers"));
 
-  m_remove_object->setText(tr("&Remove Objects"));
-  m_remove_object->setWhatsThis(tr("Remove Selected Objects"));
+  m_remove_node->setText(tr("&Remove Nodes"));
+  m_remove_node->setWhatsThis(tr("Remove Selected Nodes"));
 
-  m_raise_object->setText(tr("&Raise Objects"));
-  m_raise_object->setWhatsThis(tr("Raise Selected Objects"));
+  m_raise_node->setText(tr("&Raise Nodes"));
+  m_raise_node->setWhatsThis(tr("Raise Selected Nodes"));
 
-  m_lower_object->setText(tr("&Lower Objects"));
-  m_lower_object->setWhatsThis(tr("Lower Selected Objects"));
+  m_lower_node->setText(tr("&Lower Nodes"));
+  m_lower_node->setWhatsThis(tr("Lower Selected Nodes"));
 
-  m_duplicate_object->setText(tr("&Duplicate Objects"));
-  m_duplicate_object->setWhatsThis(tr("Duplicate Selected Objects"));
+  m_duplicate_node->setText(tr("&Duplicate Nodes"));
+  m_duplicate_node->setWhatsThis(tr("Duplicate Selected Nodes"));
 }
 
 void FlowDocumentActionHandler::registerActions() {
@@ -468,10 +468,10 @@ void FlowDocumentActionHandler::registerActions() {
                                 "show_hide_other_layers");
   action_manager.registerAction(m_lock_unlock_other_layers,
                                 "lock_unlock_other_layers");
-  action_manager.registerAction(m_remove_object, "remove_object");
-  action_manager.registerAction(m_raise_object, "raise_object");
-  action_manager.registerAction(m_lower_object, "lower_object");
-  action_manager.registerAction(m_duplicate_object, "duplicate_object");
+  action_manager.registerAction(m_remove_node, "remove_node");
+  action_manager.registerAction(m_raise_node, "raise_node");
+  action_manager.registerAction(m_lower_node, "lower_node");
+  action_manager.registerAction(m_duplicate_node, "duplicate_node");
 }
 
 void FlowDocumentActionHandler::unregisterActions() {
@@ -486,10 +486,10 @@ void FlowDocumentActionHandler::unregisterActions() {
                                   "show_hide_other_layers");
   action_manager.unregisterAction(m_lock_unlock_other_layers,
                                   "lock_unlock_other_layers");
-  action_manager.unregisterAction(m_remove_object, "remove_object");
-  action_manager.unregisterAction(m_raise_object, "raise_object");
-  action_manager.unregisterAction(m_lower_object, "lower_object");
-  action_manager.unregisterAction(m_duplicate_object, "duplicate_object");
+  action_manager.unregisterAction(m_remove_node, "remove_node");
+  action_manager.unregisterAction(m_raise_node, "raise_node");
+  action_manager.unregisterAction(m_lower_node, "lower_node");
+  action_manager.unregisterAction(m_duplicate_node, "duplicate_node");
 }
 
 void FlowDocumentActionHandler::addLayer(std::unique_ptr<Layer> layer) const {

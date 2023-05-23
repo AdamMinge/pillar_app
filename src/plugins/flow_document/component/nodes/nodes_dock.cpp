@@ -71,10 +71,10 @@ void NodesDock::initUi() {
   buttons_container->setMovable(false);
   buttons_container->setIconSize(QSize(16, 16));
 
-  buttons_container->addAction(handler.getRemoveObjectAction());
-  buttons_container->addAction(handler.getRaiseObjectAction());
-  buttons_container->addAction(handler.getLowerObjectAction());
-  buttons_container->addAction(handler.getDuplicateObjectAction());
+  buttons_container->addAction(handler.getRemoveNodeAction());
+  buttons_container->addAction(handler.getRaiseNodeAction());
+  buttons_container->addAction(handler.getLowerNodeAction());
+  buttons_container->addAction(handler.getDuplicateNodeAction());
 
   m_ui->m_toolbar_layout->addWidget(buttons_container);
 }

@@ -10,7 +10,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 #include "flow_document/flow/layer.h"
-#include "flow_document/flow/object.h"
+#include "flow_document/flow/node.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -30,23 +30,26 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   [[nodiscard]] Flow *getFlow() const;
 
   [[nodiscard]] Layer *getCurrentLayer() const;
+  [[nodiscard]] Node *getCurrentNode() const;
 
   [[nodiscard]] const QList<Layer *> &getSelectedLayers() const;
-  [[nodiscard]] const QList<Object *> &getSelectedObject() const;
+  [[nodiscard]] const QList<Node *> &getSelectedNodes() const;
 
  public Q_SLOTS:
   void setCurrentLayer(Layer *layer);
+  void setCurrentNode(Node *node);
 
   void setSelectedLayers(const QList<Layer *> &layers);
-  void setSelectedObjects(const QList<Object *> &objects);
+  void setSelectedNodes(const QList<Node *> &nodes);
 
  Q_SIGNALS:
   void event(const ChangeEvent &event);
 
   void currentLayerChanged(Layer *layer);
+  void currentNodeChanged(Node *node);
 
   void selectedLayersChanged(const QList<Layer *> &layers);
-  void selectedObjectsChanged(const QList<Object *> &objects);
+  void selectedNodesChanged(const QList<Node *> &nodes);
 
  protected:
   explicit FlowDocument(QObject *parent = nullptr);
@@ -55,9 +58,10 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   std::unique_ptr<Flow> m_flow;
 
   Layer *m_current_layer;
+  Node *m_current_node;
 
   QList<Layer *> m_selected_layers;
-  QList<Object *> m_selected_objects;
+  QList<Node *> m_selected_nodes;
 };
 
 }  // namespace flow_document

@@ -14,6 +14,7 @@ namespace flow_document {
 class FlowDocument;
 class ChangeEvent;
 class Layer;
+class Node;
 
 class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   Q_OBJECT
@@ -37,10 +38,10 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   [[nodiscard]] QAction* getShowHideOtherLayersAction() const;
   [[nodiscard]] QAction* getLockUnlockOtherLayersAction() const;
 
-  [[nodiscard]] QAction* getRemoveObjectAction() const;
-  [[nodiscard]] QAction* getRaiseObjectAction() const;
-  [[nodiscard]] QAction* getLowerObjectAction() const;
-  [[nodiscard]] QAction* getDuplicateObjectAction() const;
+  [[nodiscard]] QAction* getRemoveNodeAction() const;
+  [[nodiscard]] QAction* getRaiseNodeAction() const;
+  [[nodiscard]] QAction* getLowerNodeAction() const;
+  [[nodiscard]] QAction* getDuplicateNodeAction() const;
 
   [[nodiscard]] QMenu* createNewLayerMenu(QWidget* parent) const;
 
@@ -54,10 +55,10 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   void onShowHideOtherLayers() const;
   void onLockUnlockOtherLayers() const;
 
-  void onRemoveObject() const;
-  void onRaiseObject() const;
-  void onLowerObject() const;
-  void onDuplicateObject() const;
+  void onRemoveNode() const;
+  void onRaiseNode() const;
+  void onLowerNode() const;
+  void onDuplicateNode() const;
 
   void onEvent(const ChangeEvent& event);
 
@@ -89,10 +90,10 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   QAction* m_show_hide_other_layers;
   QAction* m_lock_unlock_other_layers;
 
-  QAction* m_remove_object;
-  QAction* m_raise_object;
-  QAction* m_lower_object;
-  QAction* m_duplicate_object;
+  QAction* m_remove_node;
+  QAction* m_raise_node;
+  QAction* m_lower_node;
+  QAction* m_duplicate_node;
 };
 
 }  // namespace flow_document
