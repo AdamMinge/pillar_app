@@ -9,6 +9,7 @@
 #include <QContextMenuEvent>
 #include <QHeaderView>
 /* ----------------------------------- Utils -------------------------------- */
+#include <utils/delegate/conditional_bold_delegate.h>
 #include <utils/delegate/icon_check_delegate.h>
 #include <utils/dpi/dpi.h>
 #include <utils/model/cast.h>
@@ -23,6 +24,14 @@ LayersView::LayersView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   setDragDropMode(QAbstractItemView::InternalMove);
 
+  setItemDelegateForColumn(
+      LayersTreeModel::Column::NameColumn,
+      new utils::QtConditionalBoldDelegate([this](const auto &index) {
+        auto selection_model = this->selectionModel();
+        Q_ASSERT(selection_model);
+        auto current_index = selection_model->currentIndex();
+        return index == current_index;
+      }));
   setItemDelegateForColumn(
       LayersTreeModel::Column::VisibleColumn,
       new utils::QtIconCheckDelegate(QIcon(icons::x16::Visible),
@@ -87,6 +96,13 @@ void LayersView::selectionChanged() {
 
   Q_ASSERT(m_document);
   m_document->setSelectedLayers(layers);
+}
+
+QItemSelectionModel::SelectionFlags LayersView::selectionCommand(
+    const QModelIndex &index, const QEvent *event) const {
+  if (!index.isValid() && event && event->type() == QEvent::MouseButtonRelease)
+    return QItemSelectionModel::NoUpdate;
+  return QTreeView::selectionCommand(index, event);
 }
 
 }  // namespace flow_document

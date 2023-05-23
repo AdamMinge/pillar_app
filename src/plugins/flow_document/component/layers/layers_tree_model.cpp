@@ -146,13 +146,12 @@ QVariant LayersTreeModel::headerData(int section, Qt::Orientation orientation,
 
 QModelIndex LayersTreeModel::index(int row, int column,
                                    const QModelIndex &parent) const {
-  if (parent.isValid()) {
-    auto parent_item = static_cast<GroupLayer *>(parent.internalPointer());
-    return createIndex(row, column, parent_item->at(row));
-  } else {
-    auto root_layer = m_flow->getRootLayer();
-    return createIndex(row, column, root_layer->at(row));
-  }
+  auto parent_layer = m_flow->getRootLayer();
+  if (parent.isValid())
+    parent_layer = static_cast<GroupLayer *>(parent.internalPointer());
+
+  if (parent_layer->size() <= row) return QModelIndex{};
+  return createIndex(row, column, parent_layer->at(row));
 }
 
 QModelIndex LayersTreeModel::parent(const QModelIndex &index) const {

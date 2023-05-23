@@ -8,9 +8,11 @@ cmake_minimum_required(VERSION 3.11)
 set(source_root ${EGNITE_SOURCE_DIR}/src/utils/delegate)
 set(include_root ${EGNITE_SOURCE_DIR}/include/utils/delegate)
 
-set(sources ${source_root}/icon_check_delegate.cpp)
+set(sources ${source_root}/icon_check_delegate.cpp
+            ${source_root}/conditional_bold_delegate.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/icon_check_delegate.h)
+set(includes ${include_root}/export.h ${include_root}/icon_check_delegate.h
+             ${include_root}/conditional_bold_delegate.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

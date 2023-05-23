@@ -55,7 +55,8 @@ namespace {
   return count_of_locked > (layers.count() - count_of_locked);
 }
 
-bool canRaiseLayers(FlowDocument* document, const QList<Layer*> layers) {
+[[nodiscard]] bool canRaiseLayers(FlowDocument* document,
+                                  const QList<Layer*> layers) {
   if (layers.empty()) return false;
 
   auto root = document->getFlow()->getRootLayer();
@@ -66,7 +67,8 @@ bool canRaiseLayers(FlowDocument* document, const QList<Layer*> layers) {
       [most_top_layer](const auto layer) { return layer != most_top_layer; });
 }
 
-bool canLowerLayers(FlowDocument* document, const QList<Layer*> layers) {
+[[nodiscard]] bool canLowerLayers(FlowDocument* document,
+                                  const QList<Layer*> layers) {
   if (layers.empty()) return false;
 
   auto root = document->getFlow()->getRootLayer();
@@ -76,6 +78,45 @@ bool canLowerLayers(FlowDocument* document, const QList<Layer*> layers) {
                      [most_bottom_layer](const auto layer) {
                        return layer != most_bottom_layer;
                      });
+}
+
+[[nodiscard]] QString getLayerNameTemplate(Layer::LayerType type) {
+  switch (type) {
+    using enum Layer::LayerType;
+    case NodeLayer:
+      return QString("Node Layer %1");
+
+    case GroupLayer:
+      return QString("Group Layer %1");
+  }
+
+  return QString{};
+}
+
+[[nodiscard]] QSet<QString> getAllLayerNames(FlowDocument* document,
+                                             Layer::LayerType type) {
+  auto names = QSet<QString>{};
+  const auto layers = getAllLayers(document);
+  for (const auto layer : layers) {
+    if (layer->getLayerType() == type) names.insert(layer->getName());
+  }
+
+  return names;
+}
+
+[[nodiscard]] QString getNewLayerName(FlowDocument* document,
+                                      Layer::LayerType type) {
+  auto name_template = getLayerNameTemplate(type);
+  auto names = getAllLayerNames(document, type);
+
+  auto index = 1;
+  auto name = QString{};
+  do {
+    name = name_template.arg(index);
+    ++index;
+  } while (names.contains(name));
+
+  return name;
 }
 
 }  // namespace
@@ -191,12 +232,18 @@ QMenu* FlowDocumentActionHandler::createNewLayerMenu(QWidget* parent) const {
 }
 
 void FlowDocumentActionHandler::onAddGroupLayer() const {
+  Q_ASSERT(m_document);
+
   auto new_layer = std::make_unique<GroupLayer>();
+  new_layer->setName(getNewLayerName(m_document, new_layer->getLayerType()));
   addLayer(std::move(new_layer));
 }
 
 void FlowDocumentActionHandler::onAddNodeLayer() const {
+  Q_ASSERT(m_document);
+
   auto new_layer = std::make_unique<NodeLayer>();
+  new_layer->setName(getNewLayerName(m_document, new_layer->getLayerType()));
   addLayer(std::move(new_layer));
 }
 

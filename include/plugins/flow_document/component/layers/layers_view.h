@@ -24,6 +24,9 @@ class FLOW_DOCUMENT_API LayersView : public QTreeView {
  protected:
   void contextMenuEvent(QContextMenuEvent *event) override;
 
+  [[nodiscard]] QItemSelectionModel::SelectionFlags selectionCommand(
+      const QModelIndex &index, const QEvent *event = nullptr) const override;
+
  private Q_SLOTS:
   void selectionChanged();
 
