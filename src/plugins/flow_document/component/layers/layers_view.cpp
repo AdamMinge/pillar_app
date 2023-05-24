@@ -8,6 +8,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QContextMenuEvent>
 #include <QHeaderView>
+#include <QScopedValueRollback>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/delegate/conditional_bold_delegate.h>
 #include <utils/delegate/icon_check_delegate.h>
@@ -18,7 +19,7 @@
 namespace flow_document {
 
 LayersView::LayersView(QWidget *parent)
-    : QTreeView(parent), m_document(nullptr) {
+    : QTreeView(parent), m_document(nullptr), m_updating_selection(false) {
   setHeaderHidden(true);
   setUniformRowHeights(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -30,7 +31,9 @@ LayersView::LayersView(QWidget *parent)
         auto selection_model = this->selectionModel();
         Q_ASSERT(selection_model);
         auto current_index = selection_model->currentIndex();
-        return index == current_index;
+
+        return index.parent() == current_index.parent() &&
+               index.row() == current_index.row();
       }));
   setItemDelegateForColumn(
       LayersTreeModel::Column::VisibleColumn,
@@ -50,15 +53,23 @@ void LayersView::setDocument(FlowDocument *document) {
   if (m_document == document) return;
 
   if (m_document) {
-    disconnect(selectionModel(), &QItemSelectionModel::selectionChanged, this,
-               &LayersView::selectionChanged);
+    disconnect(m_document, &FlowDocument::currentLayerChanged, this,
+               &LayersView::onCurrentLayerChanged);
+    disconnect(m_document, &FlowDocument::selectedLayersChanged, this,
+               &LayersView::onSelectedLayersChanged);
+    disconnect(selectionModel(), &QItemSelectionModel::currentRowChanged, this,
+               &LayersView::onCurrentRowChanged);
   }
 
   m_document = document;
 
   if (m_document) {
-    connect(selectionModel(), &QItemSelectionModel::selectionChanged, this,
-            &LayersView::selectionChanged);
+    connect(m_document, &FlowDocument::currentLayerChanged, this,
+            &LayersView::onCurrentLayerChanged);
+    connect(m_document, &FlowDocument::selectedLayersChanged, this,
+            &LayersView::onSelectedLayersChanged);
+    connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this,
+            &LayersView::onCurrentRowChanged);
   }
 }
 
@@ -80,9 +91,15 @@ void LayersView::contextMenuEvent(QContextMenuEvent *event) {
   menu.exec(event->globalPos());
 }
 
-void LayersView::selectionChanged() {
+void LayersView::selectionChanged(const QItemSelection &selected,
+                                  const QItemSelection &deselected) {
+  QTreeView::selectionChanged(selected, deselected);
+
+  if (!m_document) return;
+  if (m_updating_selection) return;
+
   const auto indexes = selectionModel()->selectedRows();
-  auto layers_model = utils::cast<LayersTreeModel>(model());
+  auto layers_model = utils::toSourceModel<LayersTreeModel>(model());
   Q_ASSERT(layers_model);
 
   auto layers = QList<Layer *>{};
@@ -94,7 +111,6 @@ void LayersView::selectionChanged() {
     layers.append(layer);
   }
 
-  Q_ASSERT(m_document);
   m_document->setSelectedLayers(layers);
 }
 
@@ -103,6 +119,51 @@ QItemSelectionModel::SelectionFlags LayersView::selectionCommand(
   if (!index.isValid() && event && event->type() == QEvent::MouseButtonRelease)
     return QItemSelectionModel::NoUpdate;
   return QTreeView::selectionCommand(index, event);
+}
+
+void LayersView::onCurrentRowChanged(const QModelIndex &index) {
+  if (!m_document) return;
+  if (m_updating_selection) return;
+
+  const auto source_index = utils::mapToSourceIndex(index, model());
+  const auto layers_model = utils::toSourceModel<LayersTreeModel>(model());
+  auto current_layer = layers_model->toLayer(source_index);
+
+  m_document->setCurrentLayer(current_layer);
+}
+
+void LayersView::onCurrentLayerChanged(Layer *layer) {
+  auto layers_model = utils::toSourceModel<LayersTreeModel>(model());
+  const auto source_index = layer ? layers_model->index(layer) : QModelIndex{};
+  const auto index = utils::mapFromSourceIndex(source_index, model());
+  const auto current_index = currentIndex();
+
+  if (current_index.parent() != index.parent() ||
+      current_index.row() != index.row()) {
+    QScopedValueRollback<bool> updating(m_updating_selection, true);
+    selectionModel()->setCurrentIndex(index,
+                                      QItemSelectionModel::ClearAndSelect |
+                                          QItemSelectionModel::SelectCurrent |
+                                          QItemSelectionModel::Rows);
+  }
+}
+
+void LayersView::onSelectedLayersChanged(const QList<Layer *> &layers) {
+  if (m_updating_selection) return;
+
+  auto layers_model = utils::toSourceModel<LayersTreeModel>(model());
+  const auto source_indexes = QList<QModelIndex>{};
+
+  auto selection = QItemSelection{};
+  for (auto layer : layers) {
+    const auto source_index = layers_model->index(layer);
+    const auto index = utils::mapFromSourceIndex(source_index, model());
+    selection.select(index, index);
+  }
+
+  QScopedValueRollback<bool> updating(m_updating_selection, true);
+  selectionModel()->select(selection, QItemSelectionModel::ClearAndSelect |
+                                          QItemSelectionModel::Rows);
 }
 
 }  // namespace flow_document

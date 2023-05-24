@@ -36,6 +36,9 @@ void ReparentLayers::undo() { reparent(); }
 void ReparentLayers::redo() { reparent(); }
 
 void ReparentLayers::reparent() {
+  auto current_layer = m_document->getCurrentLayer();
+  auto selected_layers = m_document->getSelectedLayers();
+
   for (auto& data : m_reparent_data) {
     auto current_parent = data.layer->getParent();
     Q_ASSERT(current_parent);
@@ -66,6 +69,9 @@ void ReparentLayers::reparent() {
     data.index = std::min(current_index,
                           std::max(current_parent->size() - 1, qsizetype(0)));
   };
+
+  m_document->setCurrentLayer(current_layer);
+  m_document->setSelectedLayers(selected_layers);
 }
 
 }  // namespace flow_document

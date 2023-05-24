@@ -37,6 +37,7 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
   [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation,
                                     int role) const override;
 
+  [[nodiscard]] QModelIndex index(Layer *layer, int column = 0) const;
   [[nodiscard]] QModelIndex index(int row, int column,
                                   const QModelIndex &parent) const override;
   [[nodiscard]] QModelIndex parent(const QModelIndex &index) const override;
@@ -56,8 +57,6 @@ class FLOW_DOCUMENT_API LayersTreeModel : public QAbstractItemModel {
 
  private:
   void onEvent(const ChangeEvent &event);
-
-  [[nodiscard]] QModelIndex index(Layer *layer, int column = 0) const;
 
   [[nodiscard]] QString getName(const QModelIndex &index) const;
   [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;

@@ -144,6 +144,17 @@ QVariant LayersTreeModel::headerData(int section, Qt::Orientation orientation,
   }
 }
 
+QModelIndex LayersTreeModel::index(Layer *layer, int column) const {
+  Q_ASSERT(layer);
+  const auto group_layer = layer->getParent();
+  if (!group_layer) return QModelIndex{};
+
+  const auto row = group_layer->indexOf(layer);
+  Q_ASSERT(row >= 0);
+
+  return createIndex(row, column, layer);
+}
+
 QModelIndex LayersTreeModel::index(int row, int column,
                                    const QModelIndex &parent) const {
   auto parent_layer = m_flow->getRootLayer();
@@ -302,17 +313,6 @@ void LayersTreeModel::onEvent(const ChangeEvent &event) {
       break;
     }
   }
-}
-
-QModelIndex LayersTreeModel::index(Layer *layer, int column) const {
-  Q_ASSERT(layer);
-  const auto group_layer = layer->getParent();
-  if (!group_layer) return QModelIndex{};
-
-  const auto row = group_layer->indexOf(layer);
-  Q_ASSERT(row >= 0);
-
-  return createIndex(row, column, layer);
 }
 
 QString LayersTreeModel::getName(const QModelIndex &index) const {

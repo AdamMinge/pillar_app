@@ -30,6 +30,9 @@ void RaiseLowerLayers::raiseLayers() { moveLayers(true); }
 void RaiseLowerLayers::lowerLayers() { moveLayers(false); }
 
 void RaiseLowerLayers::moveLayers(bool raise) {
+  auto current_layer = m_document->getCurrentLayer();
+  auto selected_layers = m_document->getSelectedLayers();
+
   auto process_layer = [this, raise](auto layer) {
     const auto step = raise ? 1 : -1;
     const auto parent = layer->getParent();
@@ -61,6 +64,9 @@ void RaiseLowerLayers::moveLayers(bool raise) {
   } else {
     std::for_each(m_layers.rbegin(), m_layers.rend(), process_layer);
   }
+
+  m_document->setCurrentLayer(current_layer);
+  m_document->setSelectedLayers(selected_layers);
 }
 
 void RaiseLowerLayers::moveLayer(Layer* layer, GroupLayer* parent,

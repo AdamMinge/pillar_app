@@ -11,7 +11,7 @@
 namespace utils {
 
 template <typename MODEL>
-MODEL* cast(QAbstractItemModel* model) {
+MODEL* toSourceModel(QAbstractItemModel* model) {
   while (model) {
     if (auto casted_model = qobject_cast<MODEL*>(model); casted_model)
       return casted_model;
