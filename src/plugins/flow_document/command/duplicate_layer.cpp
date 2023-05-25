@@ -18,7 +18,7 @@ DuplicateData::DuplicateData(DuplicateData&& other)
 DuplicateData::DuplicateData(Layer* layer)
     : group_layer(layer->getParent()),
       copy_layer(layer->clone()),
-      index(group_layer->indexOf(layer)) {
+      index(group_layer->indexOf(layer) + 1) {
   copy_layer->setName(QString("%1 Copy").arg(copy_layer->getName()));
 }
 
