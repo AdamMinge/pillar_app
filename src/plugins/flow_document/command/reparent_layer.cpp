@@ -31,47 +31,57 @@ ReparentLayers::ReparentLayers(FlowDocument* document, QVector<Layer*> layers,
 
 ReparentLayers::~ReparentLayers() = default;
 
-void ReparentLayers::undo() { reparent(); }
+void ReparentLayers::undo() { reparentLayers(true); }
 
-void ReparentLayers::redo() { reparent(); }
+void ReparentLayers::redo() { reparentLayers(false); }
 
-void ReparentLayers::reparent() {
+void ReparentLayers::reparentLayers(bool revert) {
   auto current_layer = m_document->getCurrentLayer();
   auto selected_layers = m_document->getSelectedLayers();
 
-  for (auto& data : m_reparent_data) {
-    auto current_parent = data.layer->getParent();
-    Q_ASSERT(current_parent);
-    auto current_index = current_parent->indexOf(data.layer);
-    Q_ASSERT(current_index >= 0);
-
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
-                                        current_parent, current_index));
-    auto reparent_layer = current_parent->take(current_index);
-    Q_ASSERT(reparent_layer);
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerRemoved,
-                                        current_parent, current_index));
-
-    auto same_parent = current_parent == data.parent;
-    if (same_parent && current_index < data.index) {
-      data.index -= 1;
-    } else if (same_parent && current_index > data.index) {
-      current_index += 1;
-    }
-
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
-                                        data.parent, data.index));
-    data.parent->insert(data.index, std::move(reparent_layer));
-    Q_EMIT m_document->event(
-        LayerEvent(LayerEvent::Type::LayerAdded, data.parent, data.index));
-
-    data.parent = current_parent;
-    data.index = std::min(current_index,
-                          std::max(current_parent->size() - 1, qsizetype(0)));
-  };
+  auto process_reparent_data =
+      std::bind(&ReparentLayers::reparentLayer, this, std::placeholders::_1);
+  if (revert) {
+    std::for_each(m_reparent_data.begin(), m_reparent_data.end(),
+                  process_reparent_data);
+  } else {
+    std::for_each(m_reparent_data.rbegin(), m_reparent_data.rend(),
+                  process_reparent_data);
+  }
 
   m_document->setCurrentLayer(current_layer);
   m_document->setSelectedLayers(selected_layers);
+}
+
+void ReparentLayers::reparentLayer(ReparentData& data) {
+  auto current_parent = data.layer->getParent();
+  Q_ASSERT(current_parent);
+  auto current_index = current_parent->indexOf(data.layer);
+  Q_ASSERT(current_index >= 0);
+
+  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
+                                      current_parent, current_index));
+  auto reparent_layer = current_parent->take(current_index);
+  Q_ASSERT(reparent_layer);
+  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerRemoved,
+                                      current_parent, current_index));
+
+  auto same_parent = current_parent == data.parent;
+  if (same_parent && current_index < data.index) {
+    data.index -= 1;
+  } else if (same_parent && current_index > data.index) {
+    current_index += 1;
+  }
+
+  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
+                                      data.parent, data.index));
+  data.parent->insert(data.index, std::move(reparent_layer));
+  Q_EMIT m_document->event(
+      LayerEvent(LayerEvent::Type::LayerAdded, data.parent, data.index));
+
+  data.parent = current_parent;
+  data.index = std::min(current_index,
+                        std::max(current_parent->size() - 1, qsizetype(0)));
 }
 
 }  // namespace flow_document

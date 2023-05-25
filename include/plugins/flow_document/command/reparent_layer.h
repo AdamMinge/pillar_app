@@ -30,7 +30,8 @@ class FLOW_DOCUMENT_API ReparentLayers : public egnite::Command {
   void redo() override;
 
  private:
-  void reparent();
+  void reparentLayers(bool revert);
+  void reparentLayer(ReparentData& data);
 
  private:
   FlowDocument* m_document;
