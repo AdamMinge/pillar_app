@@ -48,6 +48,20 @@ GroupLayer* Layer::getRoot() const {
   return root;
 }
 
+bool Layer::isParent(Layer* layer) const {
+  auto root = getParent();
+  while (root && root->getParent()) {
+    if (root == layer) return true;
+    root = root->getParent();
+  }
+
+  return false;
+}
+
+bool Layer::isParentOrSelf(Layer* layer) const {
+  return layer == this || isParent(layer);
+}
+
 void Layer::init(const Layer* layer) {
   Object::init(layer);
 

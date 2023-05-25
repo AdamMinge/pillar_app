@@ -22,6 +22,8 @@ class FLOW_DOCUMENT_API LayersView : public QTreeView {
   void setDocument(FlowDocument *document);
   [[nodiscard]] FlowDocument *getDocument() const;
 
+  void setModel(QAbstractItemModel *model) override;
+
  protected:
   void contextMenuEvent(QContextMenuEvent *event) override;
   void selectionChanged(const QItemSelection &selected,
@@ -33,6 +35,7 @@ class FLOW_DOCUMENT_API LayersView : public QTreeView {
   void onCurrentRowChanged(const QModelIndex &index);
   void onCurrentLayerChanged(Layer *layer);
   void onSelectedLayersChanged(const QList<Layer *> &layers);
+  void onRowsInserted(const QModelIndex &parent, int first, int last);
 
  private:
   FlowDocument *m_document;

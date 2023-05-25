@@ -32,15 +32,14 @@ QModelIndex mapFromSourceIndex(const QModelIndex& index,
 
 QModelIndex mapFromSourceIndex(const QModelIndex& source_index,
                                QSortFilterProxyModel* proxy_model) {
-  const auto proxy_index = proxy_model->mapFromSource(source_index);
-
+  auto index = source_index;
   auto parent_proxy_model =
       qobject_cast<QSortFilterProxyModel*>(proxy_model->sourceModel());
   if (parent_proxy_model) {
-    return mapFromSourceIndex(proxy_index, parent_proxy_model);
+    index = mapFromSourceIndex(source_index, parent_proxy_model);
   }
 
-  return proxy_index;
+  return proxy_model->mapFromSource(index);
 }
 
 }  // namespace utils

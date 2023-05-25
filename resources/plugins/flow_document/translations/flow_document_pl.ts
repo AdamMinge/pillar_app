@@ -318,7 +318,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../../../src/plugins/flow_document/command/duplicate_layer.cpp" line="36"/>
+        <location filename="../../../../src/plugins/flow_document/command/duplicate_layer.cpp" line="48"/>
         <source>Duplicate Layer(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>

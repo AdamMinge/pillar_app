@@ -44,6 +44,9 @@ class FLOW_DOCUMENT_API Layer : public Object {
   [[nodiscard]] GroupLayer* getParent() const;
   [[nodiscard]] GroupLayer* getRoot() const;
 
+  [[nodiscard]] bool isParent(Layer* layer) const;
+  [[nodiscard]] bool isParentOrSelf(Layer* layer) const;
+
   [[nodiscard]] virtual std::unique_ptr<Layer> clone() const = 0;
 
  protected:

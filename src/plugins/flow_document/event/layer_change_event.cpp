@@ -1,5 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/event/layer_change_event.h"
+
+#include "flow_document/flow/group_layer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -14,6 +16,8 @@ LayerEvent::~LayerEvent() = default;
 GroupLayer* LayerEvent::getGroupLayer() const { return m_group_layer; }
 
 qsizetype LayerEvent::getIndex() const { return m_index; }
+
+Layer* LayerEvent::getLayer() const { return m_group_layer->at(m_index); }
 
 /* ------------------------------ LayersChangeEvent ------------------------- */
 

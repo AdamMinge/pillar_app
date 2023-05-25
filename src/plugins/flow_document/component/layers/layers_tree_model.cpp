@@ -306,7 +306,7 @@ void LayersTreeModel::onEvent(const ChangeEvent &event) {
           auto min_index = index(layer, *col_min);
           auto max_index = index(layer, *col_max);
 
-          Q_EMIT dataChanged(min_index, max_index);  // DOESN"T WORK !!
+          Q_EMIT dataChanged(min_index, max_index);
         }
       }
 

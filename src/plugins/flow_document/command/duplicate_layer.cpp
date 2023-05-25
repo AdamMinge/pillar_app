@@ -18,7 +18,9 @@ DuplicateData::DuplicateData(DuplicateData&& other)
 DuplicateData::DuplicateData(Layer* layer)
     : group_layer(layer->getParent()),
       copy_layer(layer->clone()),
-      index(group_layer->indexOf(layer)) {}
+      index(group_layer->indexOf(layer)) {
+  copy_layer->setName(QString("%1 Copy").arg(copy_layer->getName()));
+}
 
 DuplicateData::~DuplicateData() = default;
 
@@ -32,6 +34,16 @@ DuplicateLayers::DuplicateLayers(FlowDocument* document, QList<Layer*> layers,
     m_duplicate_data.push_back(DuplicateData(layer));
   }
 
+  m_duplicate_data.sort([](const auto& left, const auto& right) {
+    auto left_id = getLayerHierarchicalId(left.group_layer);
+    auto right_id = getLayerHierarchicalId(right.group_layer);
+
+    if (left_id > right_id) return true;
+    if (left_id == right_id && left.index > right.index) return true;
+
+    return false;
+  });
+
   const auto command_text =
       QObject::tr("Duplicate Layer(s)", nullptr, m_duplicate_data.size());
   setText(command_text);
@@ -40,7 +52,9 @@ DuplicateLayers::DuplicateLayers(FlowDocument* document, QList<Layer*> layers,
 DuplicateLayers::~DuplicateLayers() = default;
 
 void DuplicateLayers::undo() {
-  for (auto& data : m_duplicate_data) {
+  for (auto iter = m_duplicate_data.rbegin(); iter != m_duplicate_data.rend();
+       ++iter) {
+    auto& data = *iter;
     Q_ASSERT(data.group_layer);
     Q_ASSERT(!data.copy_layer);
 
@@ -53,7 +67,9 @@ void DuplicateLayers::undo() {
 }
 
 void DuplicateLayers::redo() {
-  for (auto& data : m_duplicate_data) {
+  for (auto iter = m_duplicate_data.begin(); iter != m_duplicate_data.end();
+       ++iter) {
+    auto& data = *iter;
     Q_ASSERT(data.group_layer);
     Q_ASSERT(data.copy_layer);
 

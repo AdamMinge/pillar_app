@@ -39,8 +39,14 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   void setCurrentLayer(Layer *layer);
   void setCurrentNode(Node *node);
 
+  void switchCurrentLayer(Layer *layer);
+  void switchCurrentNode(Node *node);
+
   void setSelectedLayers(const QList<Layer *> &layers);
   void setSelectedNodes(const QList<Node *> &nodes);
+
+  void switchSelectedLayers(const QList<Layer *> &layers);
+  void switchSelectedNodes(const QList<Node *> &nodes);
 
  Q_SIGNALS:
   void event(const ChangeEvent &event);

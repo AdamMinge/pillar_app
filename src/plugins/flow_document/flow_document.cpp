@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_document.h"
 
+#include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
 /* -------------------------------------------------------------------------- */
 
@@ -47,6 +48,16 @@ void FlowDocument::setCurrentNode(Node *node) {
   Q_EMIT currentNodeChanged(m_current_node);
 }
 
+void FlowDocument::switchCurrentLayer(Layer *layer) {
+  setCurrentLayer(layer);
+  if (layer && !m_selected_layers.contains(layer)) setSelectedLayers({layer});
+}
+
+void FlowDocument::switchCurrentNode(Node *node) {
+  setCurrentNode(node);
+  if (node && !m_selected_nodes.contains(node)) setSelectedNodes({node});
+}
+
 void FlowDocument::setSelectedLayers(const QList<Layer *> &layers) {
   if (m_selected_layers == layers) return;
 
@@ -59,6 +70,20 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
 
   m_selected_nodes = nodes;
   Q_EMIT selectedNodesChanged(m_selected_nodes);
+}
+
+void FlowDocument::switchSelectedLayers(const QList<Layer *> &layers) {
+  setSelectedLayers(layers);
+
+  if (layers.contains(m_current_layer))
+    setCurrentLayer(layers.isEmpty() ? nullptr : layers.first());
+}
+
+void FlowDocument::switchSelectedNodes(const QList<Node *> &nodes) {
+  setSelectedNodes(nodes);
+
+  if (nodes.contains(m_current_node))
+    setCurrentNode(nodes.isEmpty() ? nullptr : nodes.first());
 }
 
 }  // namespace flow_document
