@@ -108,22 +108,22 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="496"/>
-        <source>&amp;Raise Nodes</source>
+        <source>&amp;Move Up Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="497"/>
-        <source>Raise Selected Nodes</source>
+        <source>Move Up Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="499"/>
-        <source>&amp;Lower Nodes</source>
+        <source>&amp;Move Down Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="500"/>
-        <source>Lower Selected Nodes</source>
+        <source>Move Down Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -194,8 +194,13 @@
 <context>
     <name>NodesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="66"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="110"/>
         <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="112"/>
+        <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -248,11 +253,13 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="19"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="19"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="19"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="19"/>
         <source>Invisible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -268,6 +275,7 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="67"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="43"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -314,6 +322,15 @@
     <message numerus="yes">
         <location filename="../../../../src/plugins/flow_document/command/duplicate_layer.cpp" line="48"/>
         <source>Duplicate Layer(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="17"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="42"/>
+        <source>Set Node(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>

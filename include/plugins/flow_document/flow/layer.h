@@ -39,7 +39,7 @@ class FLOW_DOCUMENT_API Layer : public Object {
   [[nodiscard]] bool isLocked() const;
 
   void setVisible(bool visible);
-  bool isVisible() const;
+  [[nodiscard]] bool isVisible() const;
 
   [[nodiscard]] GroupLayer* getParent() const;
   [[nodiscard]] GroupLayer* getRoot() const;

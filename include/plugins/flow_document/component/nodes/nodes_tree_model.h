@@ -11,6 +11,7 @@ namespace flow_document {
 
 class FlowDocument;
 class ChangeEvent;
+class Layer;
 class Node;
 class Flow;
 
@@ -18,7 +19,7 @@ class FLOW_DOCUMENT_API NodesTreeModel : public QAbstractItemModel {
   Q_OBJECT
 
  public:
-  enum Column { NameColumn };
+  enum Column { NameColumn, VisibleColumn };
 
  public:
   explicit NodesTreeModel(QObject *parent = nullptr);
@@ -31,21 +32,34 @@ class FLOW_DOCUMENT_API NodesTreeModel : public QAbstractItemModel {
 
   [[nodiscard]] QVariant data(const QModelIndex &index,
                               int role) const override;
+  [[nodiscard]] bool setData(const QModelIndex &index, const QVariant &value,
+                             int role);
+
   [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation,
                                     int role) const override;
 
+  [[nodiscard]] QModelIndex index(Layer *layer, int column = 0) const;
+  [[nodiscard]] QModelIndex index(Node *node, int column = 0) const;
   [[nodiscard]] QModelIndex index(int row, int column,
                                   const QModelIndex &parent) const override;
+
   [[nodiscard]] QModelIndex parent(const QModelIndex &index) const override;
 
   [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
   [[nodiscard]] int columnCount(const QModelIndex &parent) const override;
+
+  [[nodiscard]] Layer *toLayer(const QModelIndex &index) const;
+  [[nodiscard]] Node *toNode(const QModelIndex &index) const;
 
  private:
   void onEvent(const ChangeEvent &event);
 
   [[nodiscard]] QString getName(const QModelIndex &index) const;
   [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
+  [[nodiscard]] Qt::CheckState isVisible(const QModelIndex &index) const;
+
+  void setName(const QModelIndex &index, const QString &name);
+  void setVisible(const QModelIndex &index, Qt::CheckState state);
 
  private:
   FlowDocument *m_document;

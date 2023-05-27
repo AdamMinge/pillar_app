@@ -29,7 +29,7 @@ class FLOW_DOCUMENT_API LayerEvent : public ChangeEvent {
   qsizetype m_index;
 };
 
-/* ------------------------------ LayersChangeEvent ------------------------- */
+/* --------------------------------- LayersEvent ---------------------------- */
 
 class FLOW_DOCUMENT_API LayersEvent : public ChangeEvent {
  public:

@@ -4,9 +4,13 @@
 
 namespace flow_document {
 
-Node::Node() : Object(Type::Node) {}
+Node::Node() : Object(Type::Node), m_visible(true) {}
 
 Node::~Node() = default;
+
+void Node::setVisible(bool visible) { m_visible = visible; }
+
+bool Node::isVisible() const { return m_visible; }
 
 void Node::setPosition(const QPointF &position) { m_position = position; }
 

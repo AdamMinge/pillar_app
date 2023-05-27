@@ -14,7 +14,13 @@ class FLOW_DOCUMENT_API ChangeEvent {
     LayerAboutToBeAdded,
     LayerAdded,
     LayerRemoved,
-    LayerAboutToBeRemoved
+    LayerAboutToBeRemoved,
+
+    NodesChanged,
+    NodeAboutToBeAdded,
+    NodeAdded,
+    NodeRemoved,
+    NodeAboutToBeRemoved
   };
   Q_DECLARE_FLAGS(Types, Type);
 

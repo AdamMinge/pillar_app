@@ -20,6 +20,9 @@ class FLOW_DOCUMENT_API Node : public Object {
   explicit Node();
   ~Node() override;
 
+  void setVisible(bool visible);
+  [[nodiscard]] bool isVisible() const;
+
   void setPosition(const QPointF &position);
   [[nodiscard]] QPointF getPosition() const;
 
@@ -50,6 +53,7 @@ class FLOW_DOCUMENT_API Node : public Object {
   QPointF m_position;
   QVector<Pin> m_out_pins;
   QVector<Pin> m_in_pins;
+  bool m_visible;
 };
 
 }  // namespace flow_document

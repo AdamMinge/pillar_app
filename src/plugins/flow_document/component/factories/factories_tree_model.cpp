@@ -52,9 +52,8 @@ QVariant FactoriesTreeModel::headerData(int section,
 
 QModelIndex FactoriesTreeModel::index(int row, int column,
                                       const QModelIndex &parent) const {
-  GroupFactory *parent_item{nullptr};
   if (parent.isValid()) {
-    parent_item = static_cast<GroupFactory *>(parent.internalPointer());
+    auto parent_item = static_cast<GroupFactory *>(parent.internalPointer());
     return createIndex(row, column, parent_item->at(row));
   } else {
     return createIndex(row, column, m_group_factories.at(row));
