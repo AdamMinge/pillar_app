@@ -44,7 +44,7 @@ void NodesDock::setDocument(FlowDocument *document) {
   }
 
   m_nodes_model->setDocument(m_document);
-  // m_ui->m_nodes_view->setDocument(m_document);
+  m_ui->m_nodes_view->setDocument(m_document);
 }
 
 FlowDocument *NodesDock::getDocument() const { return m_document; }

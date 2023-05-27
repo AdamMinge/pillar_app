@@ -80,8 +80,8 @@ void ReparentLayers::reparentLayer(ReparentData& data) {
       LayerEvent(LayerEvent::Type::LayerAdded, data.parent, data.index));
 
   data.parent = current_parent;
-  data.index = std::min(current_index,
-                        std::max(current_parent->size() - 1, qsizetype(0)));
+  data.index =
+      std::min(current_index, std::max(current_parent->size(), qsizetype(0)));
 }
 
 }  // namespace flow_document
