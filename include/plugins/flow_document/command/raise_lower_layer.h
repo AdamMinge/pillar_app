@@ -26,7 +26,7 @@ class FLOW_DOCUMENT_API RaiseLowerLayers : public egnite::Command {
   void lowerLayers();
 
  private:
-  void moveLayers(bool revert);
+  void moveLayers(bool raise);
   void moveLayer(Layer* layer, GroupLayer* parent, qsizetype index);
 
  protected:

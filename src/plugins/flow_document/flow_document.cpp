@@ -3,6 +3,7 @@
 
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
+#include "flow_document/flow/node_layer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -70,6 +71,20 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
 
   m_selected_nodes = nodes;
   Q_EMIT selectedNodesChanged(m_selected_nodes);
+
+  auto node_layer = static_cast<NodeLayer *>(nullptr);
+  for (auto node : m_selected_nodes) {
+    if (!node_layer) {
+      node_layer = node->getParent();
+    } else if (node_layer != node->getParent()) {
+      node_layer = nullptr;
+      break;
+    }
+  }
+
+  if (node_layer) {
+    switchCurrentLayer(node_layer);
+  }
 }
 
 void FlowDocument::switchSelectedLayers(const QList<Layer *> &layers) {

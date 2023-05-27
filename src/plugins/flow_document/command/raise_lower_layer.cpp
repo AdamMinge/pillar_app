@@ -25,19 +25,19 @@ RaiseLowerLayers::RaiseLowerLayers(const QString& name, FlowDocument* document,
 
 RaiseLowerLayers::~RaiseLowerLayers() = default;
 
-void RaiseLowerLayers::raiseLayers() { moveLayers(false); }
+void RaiseLowerLayers::raiseLayers() { moveLayers(true); }
 
-void RaiseLowerLayers::lowerLayers() { moveLayers(true); }
+void RaiseLowerLayers::lowerLayers() { moveLayers(false); }
 
-void RaiseLowerLayers::moveLayers(bool revert) {
+void RaiseLowerLayers::moveLayers(bool raise) {
   auto current_layer = m_document->getCurrentLayer();
   auto selected_layers = m_document->getSelectedLayers();
 
-  auto process_layer = [this, revert](auto layer) {
-    const auto step = revert ? 1 : -1;
+  auto process_layer = [this, raise](auto layer) {
+    const auto step = raise ? 1 : -1;
     const auto parent = layer->getParent();
     const auto index = parent->indexOf(layer);
-    const auto can_move = revert ? index < parent->size() - 1 : index > 0;
+    const auto can_move = raise ? index < parent->size() - 1 : index > 0;
 
     auto new_parent = static_cast<GroupLayer*>(nullptr);
     auto new_index = 0;
@@ -46,20 +46,20 @@ void RaiseLowerLayers::moveLayers(bool revert) {
       auto next_layer = parent->at(index + step);
       if (next_layer->getLayerType() == Layer::LayerType::GroupLayer) {
         new_parent = static_cast<GroupLayer*>(next_layer);
-        new_index = revert ? 0 : new_parent->size();
+        new_index = raise ? 0 : new_parent->size();
       } else {
         new_parent = parent;
         new_index = index + step;
       }
     } else {
       new_parent = parent->getParent();
-      new_index = new_parent->indexOf(parent) + (revert ? 1 : 0);
+      new_index = new_parent->indexOf(parent) + (raise ? 1 : 0);
     }
 
     this->moveLayer(layer, new_parent, new_index);
   };
 
-  if (revert) {
+  if (raise) {
     std::for_each(m_layers.begin(), m_layers.end(), process_layer);
   } else {
     std::for_each(m_layers.rbegin(), m_layers.rend(), process_layer);

@@ -17,7 +17,8 @@
 
 namespace flow_document {
 
-NodesView::NodesView(QWidget *parent) : QTreeView(parent), m_document(nullptr) {
+NodesView::NodesView(QWidget *parent)
+    : QTreeView(parent), m_document(nullptr), m_updating_selection(false) {
   setHeaderHidden(true);
   setUniformRowHeights(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -109,9 +110,13 @@ void NodesView::onCurrentRowChanged(const QModelIndex &index) {
 
   const auto source_index = utils::mapToSourceIndex(index, model());
   const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
-  auto current_node = nodes_model->toNode(source_index);
 
-  m_document->setCurrentNode(current_node);
+  if (auto current_node = nodes_model->toNode(source_index); current_node) {
+    m_document->setCurrentNode(current_node);
+  }
+  if (auto current_layer = nodes_model->toLayer(source_index); current_layer) {
+    m_document->switchCurrentLayer(current_layer);
+  }
 }
 
 void NodesView::onCurrentNodeChanged(Node *node) {
