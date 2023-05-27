@@ -38,8 +38,6 @@ void NodesTreeModel::setDocument(FlowDocument *flow_document) {
   if (m_document) {
     connect(m_document, &FlowDocument::event, this, &NodesTreeModel::onEvent);
   }
-
-  m_flow = m_document ? m_document->getFlow() : nullptr;
 }
 
 FlowDocument *NodesTreeModel::getDocument() const { return m_document; }
@@ -139,24 +137,27 @@ QModelIndex NodesTreeModel::index(Node *node, int column) const {
 
 QModelIndex NodesTreeModel::index(int row, int column,
                                   const QModelIndex &parent) const {
-  auto object = static_cast<Object *>(parent.internalPointer());
-  if (object->getType() != Object::Type::Layer) return QModelIndex{};
+  auto object = static_cast<Object *>(m_flow->getRootLayer());
+  if (parent.isValid())
+    object = static_cast<Object *>(parent.internalPointer());
 
-  auto layer = static_cast<Layer *>(object);
+  if (object->getType() == Object::Type::Layer) {
+    auto layer = static_cast<Layer *>(object);
 
-  switch (layer->getLayerType()) {
-    case Layer::LayerType::GroupLayer: {
-      auto group_layer = static_cast<GroupLayer *>(layer);
-      if (group_layer->size() > row)
-        return createIndex(row, column, group_layer->at(row));
-      break;
-    }
+    switch (layer->getLayerType()) {
+      case Layer::LayerType::GroupLayer: {
+        auto group_layer = static_cast<GroupLayer *>(layer);
+        if (group_layer->size() > row)
+          return createIndex(row, column, group_layer->at(row));
+        break;
+      }
 
-    case Layer::LayerType::NodeLayer: {
-      auto node_layer = static_cast<NodeLayer *>(layer);
-      if (node_layer->size() > row)
-        return createIndex(row, column, node_layer->at(row));
-      break;
+      case Layer::LayerType::NodeLayer: {
+        auto node_layer = static_cast<NodeLayer *>(layer);
+        if (node_layer->size() > row)
+          return createIndex(row, column, node_layer->at(row));
+        break;
+      }
     }
   }
 
@@ -170,12 +171,12 @@ QModelIndex NodesTreeModel::parent(const QModelIndex &index) const {
   switch (object->getType()) {
     case Object::Type::Layer: {
       auto layer = static_cast<Layer *>(object);
-      return NodesTreeModel::index(layer);
+      return NodesTreeModel::index(layer->getParent());
     }
 
     case Object::Type::Node: {
       auto node = static_cast<Node *>(object);
-      return NodesTreeModel::index(node);
+      return NodesTreeModel::index(node->getParent());
     }
   }
 
@@ -239,13 +240,13 @@ void NodesTreeModel::onEvent(const ChangeEvent &event) {
 
     case NodeAboutToBeAdded: {
       const auto &e = static_cast<const NodeEvent &>(event);
-      beginInsertRows(index(e.getNode()), e.getIndex(), e.getIndex());
+      beginInsertRows(index(e.getNodeLayer()), e.getIndex(), e.getIndex());
       break;
     }
 
     case LayerAboutToBeAdded: {
       const auto &e = static_cast<const LayerEvent &>(event);
-      beginInsertRows(index(e.getLayer()), e.getIndex(), e.getIndex());
+      beginInsertRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
       break;
     }
 
@@ -257,13 +258,13 @@ void NodesTreeModel::onEvent(const ChangeEvent &event) {
 
     case NodeAboutToBeRemoved: {
       const auto &e = static_cast<const NodeEvent &>(event);
-      beginRemoveRows(index(e.getNode()), e.getIndex(), e.getIndex());
+      beginRemoveRows(index(e.getNodeLayer()), e.getIndex(), e.getIndex());
       break;
     }
 
     case LayerAboutToBeRemoved: {
       const auto &e = static_cast<const LayerEvent &>(event);
-      beginRemoveRows(index(e.getLayer()), e.getIndex(), e.getIndex());
+      beginRemoveRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
       break;
     }
 

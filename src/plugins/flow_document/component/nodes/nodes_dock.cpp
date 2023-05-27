@@ -8,6 +8,8 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/model/reverse_proxy_model.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_nodes_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -18,7 +20,7 @@ NodesDock::NodesDock(QWidget *parent)
     : QDockWidget(parent),
       m_ui(new Ui::NodesDock()),
       m_nodes_model(new NodesTreeModel),
-      m_search_proxy_model(new QSortFilterProxyModel) {
+      m_filter_model(new utils::QtReverseProxyModel) {
   setObjectName(QLatin1String("Nodes"));
 
   initUi();
@@ -34,7 +36,15 @@ void NodesDock::setDocument(FlowDocument *document) {
 
   m_document = document;
 
+  if (m_document) {
+    m_ui->m_nodes_view->header()->setSectionResizeMode(
+        NodesTreeModel::Column::NameColumn, QHeaderView::Stretch);
+    m_ui->m_nodes_view->header()->setSectionResizeMode(
+        NodesTreeModel::Column::VisibleColumn, QHeaderView::Fixed);
+  }
+
   m_nodes_model->setDocument(m_document);
+  // m_ui->m_nodes_view->setDocument(m_document);
 }
 
 FlowDocument *NodesDock::getDocument() const { return m_document; }
@@ -52,17 +62,17 @@ void NodesDock::changeEvent(QEvent *event) {
 }
 
 void NodesDock::searchNodes(const QString &search) {
-  m_search_proxy_model->setFilterWildcard(search);
+  m_filter_model->setFilterWildcard(search);
 }
 
 void NodesDock::initUi() {
   m_ui->setupUi(this);
 
-  m_search_proxy_model->setSourceModel(m_nodes_model.get());
-  m_ui->m_nodes_view->setModel(m_search_proxy_model.get());
+  m_filter_model->setSourceModel(m_nodes_model.get());
+  m_ui->m_nodes_view->setModel(m_filter_model.get());
 
-  m_search_proxy_model->setFilterKeyColumn(NodesTreeModel::Column::NameColumn);
-  m_search_proxy_model->setRecursiveFilteringEnabled(true);
+  m_filter_model->setFilterKeyColumn(NodesTreeModel::Column::NameColumn);
+  m_filter_model->setRecursiveFilteringEnabled(true);
 
   const auto &handler = FlowDocumentActionHandler::getInstance();
 

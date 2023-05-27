@@ -45,7 +45,7 @@ class FLOW_DOCUMENT_API NodesDock : public QDockWidget {
   QScopedPointer<Ui::NodesDock> m_ui;
 
   QScopedPointer<NodesTreeModel> m_nodes_model;
-  QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
+  QScopedPointer<QSortFilterProxyModel> m_filter_model;
 };
 
 }  // namespace flow_document
