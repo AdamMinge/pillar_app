@@ -30,9 +30,33 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLineEdit" name="m_search_properties_edit">
+        <property name="placeholderText">
+         <string>Search properties</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="flow_document::PropertiesBrowser" name="m_properties_browser"/>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>flow_document::PropertiesBrowser</class>
+   <extends>QTreeView</extends>
+   <header>flow_document/component/properties/properties_browser.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

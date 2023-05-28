@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_document_plugin.h"
 
+#include "flow_document/component/properties/object_properties.h"
 #include "flow_document/flow_document_format_flow.h"
 #include "flow_document/flow_editor.h"
 #include "flow_document/flow_script_module.h"
@@ -21,6 +22,9 @@ void FlowDocumentPlugin::init() {
   addObject(new FlowScriptModule(this));
   addObject(new FlowDocumentFormatFlow(this));
   addObject(new NewFlowDocumentWidgetFactory(this));
+
+  addObject(new LayerProperties(this));
+  addObject(new NodeProperties(this));
 
   addObject(
       new egnite::BaseLanguageTranslator(translations::TranslationsPath, this));

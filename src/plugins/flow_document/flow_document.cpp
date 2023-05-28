@@ -17,7 +17,8 @@ FlowDocument::FlowDocument(QObject *parent)
     : Document(QLatin1String("FlowDocument"), parent),
       m_flow(std::make_unique<Flow>()),
       m_current_layer(nullptr),
-      m_current_node(nullptr) {}
+      m_current_node(nullptr),
+      m_current_object(nullptr) {}
 
 FlowDocument::~FlowDocument() = default;
 
@@ -26,6 +27,8 @@ Flow *FlowDocument::getFlow() const { return m_flow.get(); }
 Layer *FlowDocument::getCurrentLayer() const { return m_current_layer; }
 
 Node *FlowDocument::getCurrentNode() const { return m_current_node; }
+
+Object *FlowDocument::getCurrentObject() const { return m_current_object; }
 
 const QList<Layer *> &FlowDocument::getSelectedLayers() const {
   return m_selected_layers;
@@ -40,6 +43,8 @@ void FlowDocument::setCurrentLayer(Layer *layer) {
 
   m_current_layer = layer;
   Q_EMIT currentLayerChanged(m_current_layer);
+
+  setCurrentObject(layer);
 }
 
 void FlowDocument::setCurrentNode(Node *node) {
@@ -47,6 +52,13 @@ void FlowDocument::setCurrentNode(Node *node) {
 
   m_current_node = node;
   Q_EMIT currentNodeChanged(m_current_node);
+}
+
+void FlowDocument::setCurrentObject(Object *object) {
+  if (m_current_object == object) return;
+
+  m_current_object = object;
+  Q_EMIT currentObjectChanged(m_current_object);
 }
 
 void FlowDocument::switchCurrentLayer(Layer *layer) {

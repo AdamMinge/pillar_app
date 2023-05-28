@@ -45,6 +45,9 @@ set(sources
     ${source_root}/component/factories/factories_view.cpp
     ${source_root}/component/factories/factories_tree_model.cpp
     ${source_root}/component/properties/properties_dock.cpp
+    ${source_root}/component/properties/properties_browser.cpp
+    ${source_root}/component/properties/variant_property_manager.cpp
+    ${source_root}/component/properties/object_properties.cpp
     ${source_root}/component/nodes/nodes_dock.cpp
     ${source_root}/component/nodes/nodes_view.cpp
     ${source_root}/component/nodes/nodes_tree_model.cpp
@@ -104,6 +107,9 @@ set(includes
     ${include_root}/component/factories/factories_view.h
     ${include_root}/component/factories/factories_tree_model.h
     ${include_root}/component/properties/properties_dock.h
+    ${include_root}/component/properties/properties_browser.h
+    ${include_root}/component/properties/variant_property_manager.h
+    ${include_root}/component/properties/object_properties.h
     ${include_root}/component/nodes/nodes_dock.h
     ${include_root}/component/nodes/nodes_view.h
     ${include_root}/component/nodes/nodes_tree_model.h
@@ -155,7 +161,8 @@ egnite_add_plugins(
   Qt6::Widgets
   egnite::egnite
   utils::model
-  utils::delegate)
+  utils::delegate
+  utils::property_browser)
 
 target_include_directories(
   flow_document

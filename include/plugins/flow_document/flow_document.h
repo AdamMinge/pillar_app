@@ -31,6 +31,7 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   [[nodiscard]] Layer *getCurrentLayer() const;
   [[nodiscard]] Node *getCurrentNode() const;
+  [[nodiscard]] Object *getCurrentObject() const;
 
   [[nodiscard]] const QList<Layer *> &getSelectedLayers() const;
   [[nodiscard]] const QList<Node *> &getSelectedNodes() const;
@@ -38,6 +39,7 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
  public Q_SLOTS:
   void setCurrentLayer(Layer *layer);
   void setCurrentNode(Node *node);
+  void setCurrentObject(Object *object);
 
   void switchCurrentLayer(Layer *layer);
   void switchCurrentNode(Node *node);
@@ -53,6 +55,7 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   void currentLayerChanged(Layer *layer);
   void currentNodeChanged(Node *node);
+  void currentObjectChanged(Object *object);
 
   void selectedLayersChanged(const QList<Layer *> &layers);
   void selectedNodesChanged(const QList<Node *> &nodes);
@@ -65,6 +68,7 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   Layer *m_current_layer;
   Node *m_current_node;
+  Object *m_current_object;
 
   QList<Layer *> m_selected_layers;
   QList<Node *> m_selected_nodes;

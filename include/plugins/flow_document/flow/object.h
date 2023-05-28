@@ -39,6 +39,9 @@ class FLOW_DOCUMENT_API Object {
   [[nodiscard]] static QString staticParentClassName() { return ""; }
   [[nodiscard]] virtual QString parentClassName() const { return ""; }
 
+  [[nodiscard]] static QStringList staticInheritedClasses() { return {}; }
+  [[nodiscard]] virtual QStringList inheritedClasses() const { return {}; }
+
   [[nodiscard]] virtual bool isClass(const QString &className) {
     return Object::className() == className;
   }
@@ -63,6 +66,19 @@ class FLOW_DOCUMENT_API Object {
   }                                                                            \
   [[nodiscard]] QString parentClassName() const override {                     \
     return PARENT_CLASS::className();                                          \
+  }                                                                            \
+                                                                               \
+  [[nodiscard]] static QStringList staticInheritedClasses() {                  \
+    auto inherited_classes = QStringList{};                                    \
+    if (auto parent_class = staticParentClassName(); !parent_class.isEmpty())  \
+      inherited_classes << parent_class;                                       \
+    return inherited_classes << PARENT_CLASS::staticInheritedClasses();        \
+  }                                                                            \
+  [[nodiscard]] QStringList inheritedClasses() const override {                \
+    auto inherited_classes = QStringList{};                                    \
+    if (auto parent_class = staticParentClassName(); !parent_class.isEmpty())  \
+      inherited_classes << parent_class;                                       \
+    return inherited_classes << PARENT_CLASS::inheritedClasses();              \
   }                                                                            \
                                                                                \
   bool isClass(const QString &className) override {                            \
