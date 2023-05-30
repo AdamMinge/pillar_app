@@ -46,6 +46,8 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void initConnections();
   void retranslateUi();
 
+  [[nodiscard]] ObjectProperties* getPropertiesByObject(Object* object) const;
+
  private:
   FlowDocument* m_document;
 

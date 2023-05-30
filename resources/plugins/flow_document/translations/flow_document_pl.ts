@@ -146,6 +146,39 @@
     </message>
 </context>
 <context>
+    <name>LayerProperties</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="150"/>
+        <source>Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="152"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="153"/>
+        <source>Visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="155"/>
+        <source>Locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="156"/>
+        <source>Opacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="158"/>
+        <source>Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LayersTreeModel</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="137"/>
@@ -192,6 +225,29 @@
     </message>
 </context>
 <context>
+    <name>NodeProperties</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="199"/>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="201"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="202"/>
+        <source>Visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="204"/>
+        <source>Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NodesTreeModel</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="108"/>
@@ -201,6 +257,14 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="110"/>
         <source>Visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ObjectProperties</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="98"/>
+        <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

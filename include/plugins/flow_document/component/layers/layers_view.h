@@ -35,7 +35,9 @@ class FLOW_DOCUMENT_API LayersView : public QTreeView {
   void onCurrentRowChanged(const QModelIndex &index);
   void onCurrentLayerChanged(Layer *layer);
   void onSelectedLayersChanged(const QList<Layer *> &layers);
+
   void onRowsInserted(const QModelIndex &parent, int first, int last);
+  void onRowsRemoved(const QModelIndex &parent, int first, int last);
 
  private:
   FlowDocument *m_document;

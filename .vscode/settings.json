@@ -96,7 +96,8 @@
         "qtreeview": "cpp",
         "qsortfilterproxymodel": "cpp",
         "ranges": "cpp",
-        "qhash": "cpp"
+        "qhash": "cpp",
+        "*.moc": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

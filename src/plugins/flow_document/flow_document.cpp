@@ -44,7 +44,7 @@ void FlowDocument::setCurrentLayer(Layer *layer) {
   m_current_layer = layer;
   Q_EMIT currentLayerChanged(m_current_layer);
 
-  setCurrentObject(layer);
+  setCurrentObject(layer);  // To remove ??
 }
 
 void FlowDocument::setCurrentNode(Node *node) {

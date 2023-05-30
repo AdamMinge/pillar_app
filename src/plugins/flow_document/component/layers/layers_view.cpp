@@ -83,6 +83,8 @@ void LayersView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     disconnect(current_model, &QAbstractItemModel::rowsInserted, this,
                &LayersView::onRowsInserted);
+    disconnect(current_model, &QAbstractItemModel::rowsRemoved, this,
+               &LayersView::onRowsRemoved);
   }
 
   QTreeView::setModel(model);
@@ -90,6 +92,8 @@ void LayersView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     connect(current_model, &QAbstractItemModel::rowsInserted, this,
             &LayersView::onRowsInserted);
+    connect(current_model, &QAbstractItemModel::rowsRemoved, this,
+            &LayersView::onRowsRemoved);
   }
 }
 
@@ -194,6 +198,15 @@ void LayersView::onRowsInserted(const QModelIndex &parent, int first,
   auto layer = layers_model->toLayer(source_index);
 
   m_document->switchCurrentLayer(layer);
+}
+
+void LayersView::onRowsRemoved(const QModelIndex &parent, int first, int last) {
+  const auto &selected_layers = m_document->getSelectedLayers();
+  const auto current_layer = m_document->getCurrentLayer();
+
+  if (selected_layers.empty() && current_layer) {
+    m_document->setSelectedLayers({current_layer});
+  }
 }
 
 }  // namespace flow_document

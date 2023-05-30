@@ -7,7 +7,10 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 /* -------------------------------------------------------------------------- */
-
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/property_browser/editor_factory.h>
+#include <utils/property_browser/property_manager.h>
+#include <utils/property_browser/tree_property_browser.h>
 namespace flow_document {
 
 PropertiesBrowser::PropertiesBrowser(QWidget *parent)
@@ -30,6 +33,8 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
   if (m_document) {
     disconnect(m_document, &FlowDocument::currentObjectChanged, this,
                &PropertiesBrowser::onCurrentObjectChanged);
+    disconnect(m_document, &FlowDocument::event, this,
+               &PropertiesBrowser::onEvent);
   }
 
   m_document = document;
@@ -37,6 +42,8 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
   if (m_document) {
     connect(m_document, &FlowDocument::currentObjectChanged, this,
             &PropertiesBrowser::onCurrentObjectChanged);
+    connect(m_document, &FlowDocument::event, this,
+            &PropertiesBrowser::onEvent);
   }
 }
 
@@ -68,28 +75,26 @@ void PropertiesBrowser::onEvent(const ChangeEvent &event) {
 }
 
 void PropertiesBrowser::onCurrentObjectChanged(Object *object) {
-  auto object_properties = static_cast<ObjectProperties *>(nullptr);
+  auto object_properties = getPropertiesByObject(object);
 
-  if (object) {
-    auto inherited_classes = object->inheritedClasses();
-    qDebug() << "inherited_classes = " << inherited_classes;
-
-    for (const auto &inherited_class : inherited_classes) {
-      if (m_class_to_properties.contains(inherited_class)) {
-        object_properties = m_class_to_properties[inherited_class];
-        break;
-      }
-    }
+  if (m_current_properties) {
+    m_current_properties->unsetFactoryForManager(this);
+    m_current_properties->setObject(nullptr);
   }
-
-  qDebug() << "m_current_properties = " << object_properties;
-  if (m_current_properties == object_properties) return;
 
   m_current_properties = object_properties;
 
+  if (m_current_properties) {
+    m_current_properties->setFactoryForManager(this);
+    m_current_properties->setObject(object);
+  }
+
   clear();
-  if (m_current_properties)
-    addProperty(m_current_properties->getRootProperty());
+
+  if (m_current_properties) {
+    for (auto property : m_current_properties->getProperties())
+      addProperty(property);
+  }
 }
 
 void PropertiesBrowser::initBrowser() {
@@ -101,5 +106,24 @@ void PropertiesBrowser::initBrowser() {
 void PropertiesBrowser::initConnections() {}
 
 void PropertiesBrowser::retranslateUi() {}
+
+ObjectProperties *PropertiesBrowser::getPropertiesByObject(
+    Object *object) const {
+  auto object_properties = static_cast<ObjectProperties *>(nullptr);
+
+  if (object) {
+    auto inherited_classes = object->inheritedClasses();
+    inherited_classes.prepend(object->className());
+
+    for (const auto &inherited_class : inherited_classes) {
+      if (m_class_to_properties.contains(inherited_class)) {
+        object_properties = m_class_to_properties[inherited_class];
+        break;
+      }
+    }
+  }
+
+  return object_properties;
+}
 
 }  // namespace flow_document
