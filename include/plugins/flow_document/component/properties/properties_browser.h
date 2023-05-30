@@ -31,6 +31,9 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void setDocument(FlowDocument* document);
   [[nodiscard]] FlowDocument* getDocument() const;
 
+  void setFilter(const QString& filter);
+  [[nodiscard]] QString getFilter() const;
+
  protected:
   void changeEvent(QEvent* event) override;
 
@@ -46,11 +49,15 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void initConnections();
   void retranslateUi();
 
+  void filterProperties();
+  bool filterProperty(utils::QtBrowserItem* item);
+
   [[nodiscard]] ObjectProperties* getPropertiesByObject(Object* object) const;
 
  private:
   FlowDocument* m_document;
 
+  QString m_filter;
   ObjectProperties* m_current_properties;
   QHash<QString, ObjectProperties*> m_class_to_properties;
 };

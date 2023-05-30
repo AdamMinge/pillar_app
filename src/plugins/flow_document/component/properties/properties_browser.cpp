@@ -6,11 +6,10 @@
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
+#include <QRegularExpression>
+#include <QTreeWidgetItemIterator>
 /* -------------------------------------------------------------------------- */
-/* ----------------------------------- Utils -------------------------------- */
-#include <utils/property_browser/editor_factory.h>
-#include <utils/property_browser/property_manager.h>
-#include <utils/property_browser/tree_property_browser.h>
+
 namespace flow_document {
 
 PropertiesBrowser::PropertiesBrowser(QWidget *parent)
@@ -39,6 +38,9 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
 
   m_document = document;
 
+  onCurrentObjectChanged(m_document->getCurrentObject());
+  filterProperties();
+
   if (m_document) {
     connect(m_document, &FlowDocument::currentObjectChanged, this,
             &PropertiesBrowser::onCurrentObjectChanged);
@@ -48,6 +50,15 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
 }
 
 FlowDocument *PropertiesBrowser::getDocument() const { return m_document; }
+
+void PropertiesBrowser::setFilter(const QString &filter) {
+  if (m_filter == filter) return;
+
+  m_filter = filter;
+  filterProperties();
+}
+
+QString PropertiesBrowser::getFilter() const { return m_filter; }
 
 void PropertiesBrowser::changeEvent(QEvent *event) {
   utils::QtTreePropertyBrowser::changeEvent(event);
@@ -106,6 +117,26 @@ void PropertiesBrowser::initBrowser() {
 void PropertiesBrowser::initConnections() {}
 
 void PropertiesBrowser::retranslateUi() {}
+
+void PropertiesBrowser::filterProperties() {
+  for (auto item : topLevelItems()) filterProperty(item);
+}
+
+bool PropertiesBrowser::filterProperty(utils::QtBrowserItem *item) {
+  const auto property_name = item->property()->propertyName();
+  const auto item_matched =
+      property_name.contains(m_filter, Qt::CaseInsensitive);
+
+  auto any_children_matched = false;
+  for (auto child : item->children()) {
+    any_children_matched |= filterProperty(child);
+  }
+
+  const auto visible = item_matched || any_children_matched;
+  setItemVisible(item, visible);
+
+  return visible;
+}
 
 ObjectProperties *PropertiesBrowser::getPropertiesByObject(
     Object *object) const {

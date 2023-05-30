@@ -43,11 +43,16 @@ void PropertiesDock::changeEvent(QEvent *event) {
   }
 }
 
-void PropertiesDock::searchProperties(const QString &search) {}
+void PropertiesDock::searchProperties(const QString &search) {
+  m_ui->m_properties_browser->setFilter(search);
+}
 
 void PropertiesDock::initUi() { m_ui->setupUi(this); }
 
-void PropertiesDock::initConnections() {}
+void PropertiesDock::initConnections() {
+  connect(m_ui->m_search_properties_edit, &QLineEdit::textChanged, this,
+          &PropertiesDock::searchProperties);
+}
 
 void PropertiesDock::retranslateUi() { m_ui->retranslateUi(this); }
 
