@@ -37,6 +37,19 @@ class FLOW_DOCUMENT_API SetNodesName : public ChangeValue<Node, QString> {
   void setValue(Node* node, const QString& name) override;
 };
 
+/* ------------------------------ SetNodesPosition -------------------------- */
+
+class FLOW_DOCUMENT_API SetNodesPosition : public ChangeValue<Node, QPointF> {
+ public:
+  explicit SetNodesPosition(FlowDocument* document, QList<Node*> nodes,
+                            QPointF position, Command* parent = nullptr);
+  ~SetNodesPosition() override;
+
+ protected:
+  [[nodiscard]] QPointF getValue(const Node* node) const override;
+  void setValue(Node* node, const QPointF& position) override;
+};
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_CHANGE_NODE_H

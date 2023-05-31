@@ -50,6 +50,32 @@ class FLOW_DOCUMENT_API SetLayersName : public ChangeValue<Layer, QString> {
   void setValue(Layer* layer, const QString& name) override;
 };
 
+/* ------------------------------ SetLayersOpacity -------------------------- */
+
+class FLOW_DOCUMENT_API SetLayersOpacity : public ChangeValue<Layer, qreal> {
+ public:
+  explicit SetLayersOpacity(FlowDocument* document, QList<Layer*> layers,
+                            qreal opacity, Command* parent = nullptr);
+  ~SetLayersOpacity() override;
+
+ protected:
+  [[nodiscard]] qreal getValue(const Layer* layer) const override;
+  void setValue(Layer* layer, const qreal& opacity) override;
+};
+
+/* ----------------------------- SetLayersPosition -------------------------- */
+
+class FLOW_DOCUMENT_API SetLayersPosition : public ChangeValue<Layer, QPointF> {
+ public:
+  explicit SetLayersPosition(FlowDocument* document, QList<Layer*> layers,
+                             QPointF position, Command* parent = nullptr);
+  ~SetLayersPosition() override;
+
+ protected:
+  [[nodiscard]] QPointF getValue(const Layer* layer) const override;
+  void setValue(Layer* layer, const QPointF& position) override;
+};
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_CHANGE_LAYER_H

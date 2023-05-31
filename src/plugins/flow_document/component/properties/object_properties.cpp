@@ -1,14 +1,18 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/properties/object_properties.h"
 
+#include "flow_document/command/change_layer.h"
+#include "flow_document/command/change_node.h"
 #include "flow_document/component/properties/variant_property_manager.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/node.h"
+#include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMetaType>
+#include <QScopedValueRollback>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/property_browser/editor_factory.h>
 #include <utils/property_browser/property_manager.h>
@@ -22,22 +26,34 @@ namespace flow_document {
 ObjectProperties::ObjectProperties(QObject* parent)
     : QObject(parent),
       m_object(nullptr),
+      m_document(nullptr),
+      m_updating(false),
       m_group_property_manager(new utils::QtGroupPropertyManager(this)),
       m_variant_property_manager(new VariantPropertyManager(this)),
       m_variant_editor_factory(new utils::QtVariantEditorFactory(this)),
       m_customProperty(createCustomProperty()) {
   connect(m_variant_property_manager, &VariantPropertyManager::valueChanged,
-          this, &ObjectProperties::applyValue);
+          this, [this](auto property, auto value) {
+            if (m_updating) return;
+            applyValue(property, value);
+          });
 }
 
 ObjectProperties::~ObjectProperties() = default;
 
 void ObjectProperties::setDocument(FlowDocument* document) {
-  if (document == document) return;
+  if (m_document == document) return;
+
+  if (m_document) {
+    disconnect(m_document, &FlowDocument::event, this,
+               &ObjectProperties::onEvent);
+  }
 
   m_document = document;
 
-  setObject(nullptr);
+  if (m_document) {
+    connect(m_document, &FlowDocument::event, this, &ObjectProperties::onEvent);
+  }
 }
 
 FlowDocument* ObjectProperties::getDocument() const { return m_document; }
@@ -66,6 +82,8 @@ void ObjectProperties::unsetFactoryForManager(
 void ObjectProperties::onEvent(const ChangeEvent& event) {}
 
 void ObjectProperties::update() {
+  QScopedValueRollback<bool> updating(m_updating, true);
+
   updateObject();
   updateCustom();
 }
@@ -119,11 +137,11 @@ utils::QtProperty* ObjectProperties::createCustomProperty(
 }
 
 utils::QtVariantProperty* ObjectProperties::getPropertyById(int id) const {
-  return m_id_to_property[id];
+  return m_id_to_property.contains(id) ? m_id_to_property[id] : nullptr;
 }
 
 int ObjectProperties::getIdByProperty(utils::QtProperty* property) const {
-  return m_property_to_id[property];
+  return m_property_to_id.contains(property) ? m_property_to_id[property] : -1;
 }
 
 /* ------------------------------ LayerProperties --------------------------- */
@@ -161,22 +179,32 @@ void LayerProperties::updateObject() {
 void LayerProperties::applyValue(utils::QtProperty* property, QVariant value) {
   switch (getIdByProperty(property)) {
     case Property::Name: {
+      getDocument()->getUndoStack()->push(
+          new SetLayersName(getDocument(), {getLayer()}, value.toString()));
       break;
     }
 
     case Property::Visible: {
+      getDocument()->getUndoStack()->push(
+          new SetLayersVisible(getDocument(), {getLayer()}, value.toBool()));
       break;
     }
 
     case Property::Locked: {
+      getDocument()->getUndoStack()->push(
+          new SetLayersLocked(getDocument(), {getLayer()}, value.toBool()));
       break;
     }
 
     case Property::Opacity: {
+      getDocument()->getUndoStack()->push(
+          new SetLayersOpacity(getDocument(), {getLayer()}, value.toReal()));
       break;
     }
 
     case Property::Position: {
+      getDocument()->getUndoStack()->push(
+          new SetLayersPosition(getDocument(), {getLayer()}, value.toPointF()));
       break;
     }
   }
@@ -230,14 +258,20 @@ void NodeProperties::updateObject() {
 void NodeProperties::applyValue(utils::QtProperty* property, QVariant value) {
   switch (getIdByProperty(property)) {
     case Property::Name: {
+      getDocument()->getUndoStack()->push(
+          new SetNodesName(getDocument(), {getNode()}, value.toString()));
       break;
     }
 
     case Property::Visible: {
+      getDocument()->getUndoStack()->push(
+          new SetNodesVisible(getDocument(), {getNode()}, value.toBool()));
       break;
     }
 
     case Property::Position: {
+      getDocument()->getUndoStack()->push(
+          new SetNodesPosition(getDocument(), {getNode()}, value.toPointF()));
       break;
     }
   }

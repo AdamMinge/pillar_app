@@ -10,10 +10,10 @@ namespace flow_document {
 
 /* ------------------------------ SetNodesVisible --------------------------- */
 
-SetNodesVisible::SetNodesVisible(FlowDocument* document, QList<Node*> layers,
+SetNodesVisible::SetNodesVisible(FlowDocument* document, QList<Node*> nodes,
                                  bool visible, Command* parent)
     : ChangeValue<Node, bool>(QLatin1String("SetNodesVisible"), document,
-                              std::move(layers), visible, parent) {
+                              std::move(nodes), visible, parent) {
   const auto what = QObject::tr("Set Node(s)", nullptr, getObjects().size());
   const auto action =
       visible ? QObject::tr("Visible") : QObject::tr("Invisible");
@@ -35,10 +35,10 @@ void SetNodesVisible::setValue(Node* node, const bool& visible) {
 
 /* ------------------------------- SetNodesName ----------------------------- */
 
-SetNodesName::SetNodesName(FlowDocument* document, QList<Node*> layers,
+SetNodesName::SetNodesName(FlowDocument* document, QList<Node*> nodes,
                            QString name, Command* parent)
     : ChangeValue<Node, QString>(QLatin1String("SetNodesName"), document,
-                                 std::move(layers), name, parent) {
+                                 std::move(nodes), name, parent) {
   const auto what = QObject::tr("Set Node(s)", nullptr, getObjects().size());
   const auto action = QObject::tr("Name");
   setText(QString("%1 %2").arg(what, action));
@@ -54,6 +54,29 @@ void SetNodesName::setValue(Node* node, const QString& name) {
   node->setName(name);
   getDocument()->event(
       NodesChangeEvent({node}, NodesChangeEvent::Property::Name));
+}
+
+/* ------------------------------ SetNodesPosition -------------------------- */
+
+SetNodesPosition::SetNodesPosition(FlowDocument* document, QList<Node*> nodes,
+                                   QPointF position, Command* parent)
+    : ChangeValue<Node, QPointF>(QLatin1String("SetNodesPosition"), document,
+                                 std::move(nodes), position, parent) {
+  const auto what = QObject::tr("Set Node(s)", nullptr, getObjects().size());
+  const auto action = QObject::tr("Position");
+  setText(QString("%1 %2").arg(what, action));
+}
+
+SetNodesPosition::~SetNodesPosition() = default;
+
+QPointF SetNodesPosition::getValue(const Node* node) const {
+  return node->getPosition();
+}
+
+void SetNodesPosition::setValue(Node* node, const QPointF& position) {
+  node->setPosition(position);
+  getDocument()->event(
+      NodesChangeEvent({node}, NodesChangeEvent::Property::Position));
 }
 
 }  // namespace flow_document

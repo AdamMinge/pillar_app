@@ -75,6 +75,8 @@ class FLOW_DOCUMENT_API ObjectProperties : public QObject {
   FlowDocument* m_document;
   Object* m_object;
 
+  bool m_updating;
+
   utils::QtGroupPropertyManager* m_group_property_manager;
   utils::QtVariantPropertyManager* m_variant_property_manager;
 

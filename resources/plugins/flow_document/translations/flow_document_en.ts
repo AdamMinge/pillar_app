@@ -148,32 +148,32 @@
 <context>
     <name>LayerProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="186"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="214"/>
         <source>Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="188"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="216"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="189"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="217"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="191"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="219"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="192"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="220"/>
         <source>Opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="194"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="222"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -227,22 +227,22 @@
 <context>
     <name>NodeProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="247"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="281"/>
         <source>Node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="249"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="283"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="250"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="284"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="252"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="286"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -263,7 +263,7 @@
 <context>
     <name>ObjectProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="115"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="133"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -309,6 +309,8 @@
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="17"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="42"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="66"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="89"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="113"/>
         <source>Set Layer(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -341,6 +343,17 @@
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="67"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="43"/>
         <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="90"/>
+        <source>Opacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="114"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="66"/>
+        <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
@@ -394,6 +407,7 @@
     <message numerus="yes">
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="17"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="42"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="65"/>
         <source>Set Node(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
