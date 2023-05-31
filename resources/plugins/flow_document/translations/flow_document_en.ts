@@ -148,32 +148,32 @@
 <context>
     <name>LayerProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="150"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="186"/>
         <source>Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="152"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="188"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="153"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="189"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="155"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="191"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="156"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="192"/>
         <source>Opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="158"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="194"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -227,22 +227,22 @@
 <context>
     <name>NodeProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="199"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="247"/>
         <source>Node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="201"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="249"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="202"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="250"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="204"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="252"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -263,7 +263,7 @@
 <context>
     <name>ObjectProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="98"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="115"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>

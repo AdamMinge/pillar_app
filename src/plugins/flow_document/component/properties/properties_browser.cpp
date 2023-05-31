@@ -2,12 +2,11 @@
 #include "flow_document/component/properties/properties_browser.h"
 
 #include "flow_document/component/properties/object_properties.h"
-#include "flow_document/event/change_event.h"
+#include "flow_document/component/properties/object_properties_factory.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QRegularExpression>
-#include <QTreeWidgetItemIterator>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -32,8 +31,6 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
   if (m_document) {
     disconnect(m_document, &FlowDocument::currentObjectChanged, this,
                &PropertiesBrowser::onCurrentObjectChanged);
-    disconnect(m_document, &FlowDocument::event, this,
-               &PropertiesBrowser::onEvent);
   }
 
   m_document = document;
@@ -44,8 +41,6 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
   if (m_document) {
     connect(m_document, &FlowDocument::currentObjectChanged, this,
             &PropertiesBrowser::onCurrentObjectChanged);
-    connect(m_document, &FlowDocument::event, this,
-            &PropertiesBrowser::onEvent);
   }
 }
 
@@ -72,31 +67,28 @@ void PropertiesBrowser::changeEvent(QEvent *event) {
   }
 }
 
-void PropertiesBrowser::addedObject(ObjectProperties *object_properties) {
-  m_class_to_properties.insert(object_properties->supportedClass(),
-                               object_properties);
+void PropertiesBrowser::addedObject(ObjectPropertiesFactory *factory) {
+  m_properties_factories.append(factory);
 }
 
-void PropertiesBrowser::removedObject(ObjectProperties *object_properties) {
-  m_class_to_properties.remove(object_properties->supportedClass());
-}
-
-void PropertiesBrowser::onEvent(const ChangeEvent &event) {
-  if (m_current_properties) m_current_properties->onEvent(event);
+void PropertiesBrowser::removedObject(ObjectPropertiesFactory *factory) {
+  m_properties_factories.removeOne(factory);
 }
 
 void PropertiesBrowser::onCurrentObjectChanged(Object *object) {
-  auto object_properties = getPropertiesByObject(object);
+  auto current_properties = getPropertiesByObject(object);
 
-  if (m_current_properties) {
+  if (m_current_properties && m_current_properties != current_properties) {
     m_current_properties->unsetFactoryForManager(this);
+    m_current_properties->setDocument(nullptr);
     m_current_properties->setObject(nullptr);
   }
 
-  m_current_properties = object_properties;
+  m_current_properties = current_properties;
 
   if (m_current_properties) {
     m_current_properties->setFactoryForManager(this);
+    m_current_properties->setDocument(m_document);
     m_current_properties->setObject(object);
   }
 
@@ -138,23 +130,34 @@ bool PropertiesBrowser::filterProperty(utils::QtBrowserItem *item) {
   return visible;
 }
 
-ObjectProperties *PropertiesBrowser::getPropertiesByObject(
-    Object *object) const {
-  auto object_properties = static_cast<ObjectProperties *>(nullptr);
-
+ObjectPropertiesFactory *PropertiesBrowser::getFactoryByObject(Object *object) {
   if (object) {
     auto inherited_classes = object->inheritedClasses();
     inherited_classes.prepend(object->className());
 
     for (const auto &inherited_class : inherited_classes) {
-      if (m_class_to_properties.contains(inherited_class)) {
-        object_properties = m_class_to_properties[inherited_class];
-        break;
-      }
+      auto found_factory = std::find_if(
+          m_properties_factories.cbegin(), m_properties_factories.cend(),
+          [&inherited_class](const auto &factory) {
+            return factory->supportedClass() == inherited_class;
+          });
+
+      if (found_factory != m_properties_factories.cend()) return *found_factory;
     }
   }
 
-  return object_properties;
+  return nullptr;
+}
+
+ObjectProperties *PropertiesBrowser::getPropertiesByObject(Object *object) {
+  auto factory = getFactoryByObject(object);
+  if (!factory) return nullptr;
+
+  if (!m_factories_to_properties.contains(factory)) {
+    m_factories_to_properties.insert(factory, factory->create(this));
+  }
+
+  return m_factories_to_properties[factory];
 }
 
 }  // namespace flow_document

@@ -25,14 +25,28 @@ ObjectProperties::ObjectProperties(QObject* parent)
       m_group_property_manager(new utils::QtGroupPropertyManager(this)),
       m_variant_property_manager(new VariantPropertyManager(this)),
       m_variant_editor_factory(new utils::QtVariantEditorFactory(this)),
-      m_customProperty(createCustomProperty()) {}
+      m_customProperty(createCustomProperty()) {
+  connect(m_variant_property_manager, &VariantPropertyManager::valueChanged,
+          this, &ObjectProperties::applyValue);
+}
 
 ObjectProperties::~ObjectProperties() = default;
+
+void ObjectProperties::setDocument(FlowDocument* document) {
+  if (document == document) return;
+
+  m_document = document;
+
+  setObject(nullptr);
+}
+
+FlowDocument* ObjectProperties::getDocument() const { return m_document; }
 
 void ObjectProperties::setObject(Object* object) {
   if (m_object == object) return;
 
   m_object = object;
+
   update();
 }
 
@@ -59,6 +73,9 @@ void ObjectProperties::update() {
 void ObjectProperties::updateObject() {}
 
 void ObjectProperties::updateCustom() {}
+
+void ObjectProperties::applyValue(utils::QtProperty* property, QVariant value) {
+}
 
 utils::QtProperty* ObjectProperties::createGroup(const QString& name,
                                                  utils::QtProperty* parent) {
@@ -105,8 +122,7 @@ utils::QtVariantProperty* ObjectProperties::getPropertyById(int id) const {
   return m_id_to_property[id];
 }
 
-int ObjectProperties::getIdByProperty(
-    utils::QtVariantProperty* property) const {
+int ObjectProperties::getIdByProperty(utils::QtProperty* property) const {
   return m_property_to_id[property];
 }
 
@@ -119,10 +135,6 @@ LayerProperties::~LayerProperties() = default;
 
 QList<utils::QtProperty*> LayerProperties::getProperties() const {
   return {m_layerProperty, getCustomProperty()};
-}
-
-QString LayerProperties::supportedClass() const {
-  return Layer::staticClassName();
 }
 
 Layer* LayerProperties::getLayer() const {
@@ -143,6 +155,30 @@ void LayerProperties::updateObject() {
     getPropertyById(Property::Locked)->setValue(layer->isLocked());
     getPropertyById(Property::Opacity)->setValue(layer->getOpacity());
     getPropertyById(Property::Position)->setValue(layer->getPosition());
+  }
+}
+
+void LayerProperties::applyValue(utils::QtProperty* property, QVariant value) {
+  switch (getIdByProperty(property)) {
+    case Property::Name: {
+      break;
+    }
+
+    case Property::Visible: {
+      break;
+    }
+
+    case Property::Locked: {
+      break;
+    }
+
+    case Property::Opacity: {
+      break;
+    }
+
+    case Property::Position: {
+      break;
+    }
   }
 }
 
@@ -172,10 +208,6 @@ QList<utils::QtProperty*> NodeProperties::getProperties() const {
   return {m_nodeProperty, getCustomProperty()};
 }
 
-QString NodeProperties::supportedClass() const {
-  return Node::staticClassName();
-}
-
 Node* NodeProperties::getNode() const {
   return static_cast<Node*>(getObject());
 }
@@ -192,6 +224,22 @@ void NodeProperties::updateObject() {
     getPropertyById(Property::Name)->setValue(node->getName());
     getPropertyById(Property::Visible)->setValue(node->isVisible());
     getPropertyById(Property::Position)->setValue(node->getPosition());
+  }
+}
+
+void NodeProperties::applyValue(utils::QtProperty* property, QVariant value) {
+  switch (getIdByProperty(property)) {
+    case Property::Name: {
+      break;
+    }
+
+    case Property::Visible: {
+      break;
+    }
+
+    case Property::Position: {
+      break;
+    }
   }
 }
 

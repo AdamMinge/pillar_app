@@ -17,11 +17,12 @@ class FlowDocument;
 class ChangeEvent;
 class Object;
 
+class ObjectPropertiesFactory;
 class ObjectProperties;
 
 class FLOW_DOCUMENT_API PropertiesBrowser
     : public utils::QtTreePropertyBrowser,
-      public egnite::PluginListener<ObjectProperties> {
+      public egnite::PluginListener<ObjectPropertiesFactory> {
   Q_OBJECT
 
  public:
@@ -37,11 +38,10 @@ class FLOW_DOCUMENT_API PropertiesBrowser
  protected:
   void changeEvent(QEvent* event) override;
 
-  void addedObject(ObjectProperties* object_properties) override;
-  void removedObject(ObjectProperties* object_properties) override;
+  void addedObject(ObjectPropertiesFactory* factory) override;
+  void removedObject(ObjectPropertiesFactory* factory) override;
 
  private Q_SLOTS:
-  void onEvent(const ChangeEvent& event);
   void onCurrentObjectChanged(Object* object);
 
  private:
@@ -52,14 +52,16 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void filterProperties();
   bool filterProperty(utils::QtBrowserItem* item);
 
-  [[nodiscard]] ObjectProperties* getPropertiesByObject(Object* object) const;
+  [[nodiscard]] ObjectPropertiesFactory* getFactoryByObject(Object* object);
+  [[nodiscard]] ObjectProperties* getPropertiesByObject(Object* object);
 
  private:
   FlowDocument* m_document;
-
   QString m_filter;
+
   ObjectProperties* m_current_properties;
-  QHash<QString, ObjectProperties*> m_class_to_properties;
+  QList<ObjectPropertiesFactory*> m_properties_factories;
+  QHash<ObjectPropertiesFactory*, ObjectProperties*> m_factories_to_properties;
 };
 
 }  // namespace flow_document
