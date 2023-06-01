@@ -21,25 +21,97 @@
 
 namespace flow_document {
 
+/* -------------------------------- Properties ------------------------------ */
+
+Properties::Properties(const QString& name, QObject* parent)
+    : QObject(parent),
+      m_group_manager(new utils::QtGroupPropertyManager(this)),
+      m_property_manager(new VariantPropertyManager(this)),
+      m_editor_factory(new utils::QtVariantEditorFactory(this)),
+      m_root(m_group_manager->addProperty(name)) {
+  connect(m_property_manager, &VariantPropertyManager::valueChanged, this,
+          [this](const auto& property, const auto& value) {
+            if (auto id = getIdByProperty(property); id >= 0)
+              Q_EMIT valueChanged(id, value);
+          });
+}
+
+Properties::~Properties() = default;
+
+utils::QtProperty* Properties::getRoot() const { return m_root; }
+
+void Properties::setFactoryForManager(utils::QtTreePropertyBrowser* browser) {
+  browser->setFactoryForManager(m_property_manager, m_editor_factory);
+}
+
+void Properties::unsetFactoryForManager(utils::QtTreePropertyBrowser* browser) {
+  browser->unsetFactoryForManager(m_property_manager);
+}
+
+utils::QtProperty* Properties::createGroup(const QString& name,
+                                           utils::QtProperty* parent) {
+  auto property = m_group_manager->addProperty(name);
+
+  if (!parent) parent = m_root;
+  parent->addSubProperty(property);
+
+  return property;
+}
+
+utils::QtVariantProperty* Properties::createProperty(
+    int id, int type, const QString& name, utils::QtProperty* parent) {
+  Q_ASSERT(!m_id_to_property.contains(id));
+
+  auto property = m_property_manager->addProperty(type, name);
+  if (!property) {
+    property = m_property_manager->addProperty(QMetaType::QString, name);
+  }
+
+  if (type == QMetaType::Bool) {
+    property->setAttribute(QLatin1String("textVisible"), false);
+  }
+
+  m_property_to_id.insert(property, id);
+  m_id_to_property.insert(id, property);
+
+  if (!parent) parent = m_root;
+  parent->addSubProperty(property);
+
+  return property;
+}
+
+utils::QtVariantProperty* Properties::getPropertyById(int id) const {
+  return m_id_to_property.contains(id) ? m_id_to_property[id] : nullptr;
+}
+
+int Properties::getIdByProperty(utils::QtProperty* property) const {
+  return m_property_to_id.contains(property) ? m_property_to_id[property] : -1;
+}
+
 /* ----------------------------- ObjectProperties --------------------------- */
 
-ObjectProperties::ObjectProperties(QObject* parent)
+ObjectProperties::ObjectProperties(const QString& name, QObject* parent)
     : QObject(parent),
       m_object(nullptr),
       m_document(nullptr),
       m_updating(false),
-      m_group_property_manager(new utils::QtGroupPropertyManager(this)),
-      m_variant_property_manager(new VariantPropertyManager(this)),
-      m_variant_editor_factory(new utils::QtVariantEditorFactory(this)),
-      m_customProperty(createCustomProperty()) {
-  connect(m_variant_property_manager, &VariantPropertyManager::valueChanged,
-          this, [this](auto property, auto value) {
-            if (m_updating) return;
-            applyValue(property, value);
+      m_custom_properties(new Properties(tr("Custom"), this)),
+      m_object_properties(new Properties(name, this)) {
+  connect(m_custom_properties, &Properties::valueChanged, this,
+          [this](auto id, const auto& value) {
+            if (!m_updating) applyCustom(id, value);
+          });
+  connect(m_object_properties, &Properties::valueChanged, this,
+          [this](auto id, const auto& value) {
+            if (!m_updating) applyObject(id, value);
           });
 }
 
 ObjectProperties::~ObjectProperties() = default;
+
+QList<utils::QtProperty*> ObjectProperties::getProperties() const {
+  return {m_object_properties->getRoot(), m_custom_properties->getRoot()};
+}
 
 void ObjectProperties::setDocument(FlowDocument* document) {
   if (m_document == document) return;
@@ -70,90 +142,49 @@ Object* ObjectProperties::getObject() const { return m_object; }
 
 void ObjectProperties::setFactoryForManager(
     utils::QtTreePropertyBrowser* browser) {
-  browser->setFactoryForManager(m_variant_property_manager,
-                                m_variant_editor_factory);
+  m_custom_properties->setFactoryForManager(browser);
+  m_object_properties->setFactoryForManager(browser);
 }
 
 void ObjectProperties::unsetFactoryForManager(
     utils::QtTreePropertyBrowser* browser) {
-  browser->unsetFactoryForManager(m_variant_property_manager);
+  m_custom_properties->unsetFactoryForManager(browser);
+  m_object_properties->unsetFactoryForManager(browser);
 }
 
 void ObjectProperties::onEvent(const ChangeEvent& event) {}
 
+void ObjectProperties::applyCustom(int id, const QVariant& value) {}
+
+void ObjectProperties::applyObject(int id, const QVariant& value) {}
+
+Properties* ObjectProperties::getCustomProperties() const {
+  return m_custom_properties;
+}
+
+Properties* ObjectProperties::getObjectProperties() const {
+  return m_object_properties;
+}
+
 void ObjectProperties::update() {
   QScopedValueRollback<bool> updating(m_updating, true);
 
-  updateObject();
   updateCustom();
+  updateObject();
 }
-
-void ObjectProperties::updateObject() {}
 
 void ObjectProperties::updateCustom() {}
 
-void ObjectProperties::applyValue(utils::QtProperty* property, QVariant value) {
-}
-
-utils::QtProperty* ObjectProperties::createGroup(const QString& name,
-                                                 utils::QtProperty* parent) {
-  auto property = m_group_property_manager->addProperty(name);
-  if (parent) parent->addSubProperty(property);
-  return property;
-}
-
-utils::QtVariantProperty* ObjectProperties::createProperty(
-    int id, int type, const QString& name, utils::QtProperty* parent) {
-  Q_ASSERT(!m_id_to_property.contains(id));
-
-  auto property = m_variant_property_manager->addProperty(type, name);
-  if (!property) {
-    property =
-        m_variant_property_manager->addProperty(QMetaType::QString, name);
-  }
-
-  if (type == QMetaType::Bool) {
-    property->setAttribute(QLatin1String("textVisible"), false);
-  }
-
-  m_property_to_id.insert(property, id);
-  m_id_to_property.insert(id, property);
-
-  if (parent) parent->addSubProperty(property);
-
-  return property;
-}
-
-utils::QtProperty* ObjectProperties::getCustomProperty() const {
-  return m_customProperty;
-}
-
-utils::QtProperty* ObjectProperties::createCustomProperty(
-    utils::QtProperty* parent) {
-  auto custom_group = createGroup(tr("Custom"));
-  if (parent) parent->addSubProperty(custom_group);
-
-  return custom_group;
-}
-
-utils::QtVariantProperty* ObjectProperties::getPropertyById(int id) const {
-  return m_id_to_property.contains(id) ? m_id_to_property[id] : nullptr;
-}
-
-int ObjectProperties::getIdByProperty(utils::QtProperty* property) const {
-  return m_property_to_id.contains(property) ? m_property_to_id[property] : -1;
-}
+void ObjectProperties::updateObject() {}
 
 /* ------------------------------ LayerProperties --------------------------- */
 
 LayerProperties::LayerProperties(QObject* parent)
-    : ObjectProperties(parent), m_layerProperty(createLayerProperty()) {}
+    : ObjectProperties(tr("Layer"), parent) {
+  initLayerProperty();
+}
 
 LayerProperties::~LayerProperties() = default;
-
-QList<utils::QtProperty*> LayerProperties::getProperties() const {
-  return {m_layerProperty, getCustomProperty()};
-}
 
 Layer* LayerProperties::getLayer() const {
   return static_cast<Layer*>(getObject());
@@ -167,17 +198,18 @@ void LayerProperties::onEvent(const ChangeEvent& event) {
 }
 
 void LayerProperties::updateObject() {
+  auto prop = getObjectProperties();
   if (auto layer = getLayer(); layer) {
-    getPropertyById(Property::Name)->setValue(layer->getName());
-    getPropertyById(Property::Visible)->setValue(layer->isVisible());
-    getPropertyById(Property::Locked)->setValue(layer->isLocked());
-    getPropertyById(Property::Opacity)->setValue(layer->getOpacity());
-    getPropertyById(Property::Position)->setValue(layer->getPosition());
+    prop->getPropertyById(Property::Name)->setValue(layer->getName());
+    prop->getPropertyById(Property::Visible)->setValue(layer->isVisible());
+    prop->getPropertyById(Property::Locked)->setValue(layer->isLocked());
+    prop->getPropertyById(Property::Opacity)->setValue(layer->getOpacity());
+    prop->getPropertyById(Property::Position)->setValue(layer->getPosition());
   }
 }
 
-void LayerProperties::applyValue(utils::QtProperty* property, QVariant value) {
-  switch (getIdByProperty(property)) {
+void LayerProperties::applyObject(int id, const QVariant& value) {
+  switch (id) {
     case Property::Name: {
       getDocument()->getUndoStack()->push(
           new SetLayersName(getDocument(), {getLayer()}, value.toString()));
@@ -210,31 +242,23 @@ void LayerProperties::applyValue(utils::QtProperty* property, QVariant value) {
   }
 }
 
-utils::QtProperty* LayerProperties::createLayerProperty() {
-  auto object_group = createGroup(tr("Layer"));
-
-  createProperty(Property::Name, QMetaType::QString, tr("Name"), object_group);
-  createProperty(Property::Visible, QMetaType::Bool, tr("Visible"),
-                 object_group);
-  createProperty(Property::Locked, QMetaType::Bool, tr("Locked"), object_group);
-  createProperty(Property::Opacity, QMetaType::QReal, tr("Opacity"),
-                 object_group);
-  createProperty(Property::Position, QMetaType::QPointF, tr("Position"),
-                 object_group);
-
-  return object_group;
+void LayerProperties::initLayerProperty() {
+  auto prop = getObjectProperties();
+  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
+  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
+  prop->createProperty(Property::Locked, QMetaType::Bool, tr("Locked"));
+  prop->createProperty(Property::Opacity, QMetaType::QReal, tr("Opacity"));
+  prop->createProperty(Property::Position, QMetaType::QPointF, tr("Position"));
 }
 
 /* ------------------------------ NodeProperties ---------------------------- */
 
 NodeProperties::NodeProperties(QObject* parent)
-    : ObjectProperties(parent), m_nodeProperty(createNodeProperty()) {}
+    : ObjectProperties(tr("Node"), parent) {
+  initNodeProperty();
+}
 
 NodeProperties::~NodeProperties() = default;
-
-QList<utils::QtProperty*> NodeProperties::getProperties() const {
-  return {m_nodeProperty, getCustomProperty()};
-}
 
 Node* NodeProperties::getNode() const {
   return static_cast<Node*>(getObject());
@@ -248,15 +272,16 @@ void NodeProperties::onEvent(const ChangeEvent& event) {
 }
 
 void NodeProperties::updateObject() {
+  auto prop = getObjectProperties();
   if (auto node = getNode(); node) {
-    getPropertyById(Property::Name)->setValue(node->getName());
-    getPropertyById(Property::Visible)->setValue(node->isVisible());
-    getPropertyById(Property::Position)->setValue(node->getPosition());
+    prop->getPropertyById(Property::Name)->setValue(node->getName());
+    prop->getPropertyById(Property::Visible)->setValue(node->isVisible());
+    prop->getPropertyById(Property::Position)->setValue(node->getPosition());
   }
 }
 
-void NodeProperties::applyValue(utils::QtProperty* property, QVariant value) {
-  switch (getIdByProperty(property)) {
+void NodeProperties::applyObject(int id, const QVariant& value) {
+  switch (id) {
     case Property::Name: {
       getDocument()->getUndoStack()->push(
           new SetNodesName(getDocument(), {getNode()}, value.toString()));
@@ -277,16 +302,11 @@ void NodeProperties::applyValue(utils::QtProperty* property, QVariant value) {
   }
 }
 
-utils::QtProperty* NodeProperties::createNodeProperty() {
-  auto object_group = createGroup(tr("Node"));
-
-  createProperty(Property::Name, QMetaType::QString, tr("Name"), object_group);
-  createProperty(Property::Visible, QMetaType::Bool, tr("Visible"),
-                 object_group);
-  createProperty(Property::Position, QMetaType::QPointF, tr("Position"),
-                 object_group);
-
-  return object_group;
+void NodeProperties::initNodeProperty() {
+  auto prop = getObjectProperties();
+  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
+  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
+  prop->createProperty(Property::Position, QMetaType::QPointF, tr("Position"));
 }
 
 }  // namespace flow_document
