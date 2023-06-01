@@ -35,7 +35,7 @@ void PropertiesBrowser::setDocument(FlowDocument *document) {
 
   m_document = document;
 
-  onCurrentObjectChanged(m_document->getCurrentObject());
+  onCurrentObjectChanged(m_document ? m_document->getCurrentObject() : nullptr);
   filterProperties();
 
   if (m_document) {
