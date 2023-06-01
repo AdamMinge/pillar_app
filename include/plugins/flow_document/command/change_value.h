@@ -6,7 +6,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
-
+#include <QDebug>
 namespace flow_document {
 
 class FlowDocument;
@@ -65,10 +65,7 @@ bool ChangeValue<OBJECT, VALUE>::canMergeWith(const Command& other) const {
 
 template <typename OBJECT, typename VALUE>
 void ChangeValue<OBJECT, VALUE>::mergeWith(const Command& other) {
-  auto& change_event = static_cast<const ChangeValue<OBJECT, VALUE>&>(other);
-  m_values = change_event.m_values;
-
-  setObsolete(getValues() == change_event.getValues());
+  setObsolete(getValues() == m_values);
 }
 
 template <typename OBJECT, typename VALUE>
