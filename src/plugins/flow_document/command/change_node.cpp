@@ -87,9 +87,9 @@ SetNodesCustomProperty::SetNodesCustomProperty(FlowDocument* document,
                                                QList<Node*> nodes,
                                                QString property, QVariant value,
                                                Command* parent)
-    : ChangeValue<Node, QVariant>(QLatin1String("SetNodesCustomProperty"),
-                                  document, std::move(nodes), std::move(value),
-                                  parent),
+    : ChangeValue<Node, QVariant>(
+          QString("SetNodesCustomProperty-%1").arg(property), document,
+          std::move(nodes), std::move(value), parent),
       m_property(std::move(property)) {
   const auto what = QObject::tr("Set Node(s)", nullptr, getObjects().size());
   const auto action = QObject::tr("Custom Property");

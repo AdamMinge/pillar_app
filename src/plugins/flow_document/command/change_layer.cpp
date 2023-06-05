@@ -136,9 +136,9 @@ SetLayersCustomProperty::SetLayersCustomProperty(FlowDocument* document,
                                                  QString property,
                                                  QVariant value,
                                                  Command* parent)
-    : ChangeValue<Layer, QVariant>(QLatin1String("SetLayersCustomProperty"),
-                                   document, std::move(layers),
-                                   std::move(value), parent),
+    : ChangeValue<Layer, QVariant>(
+          QString("SetLayersCustomProperty-%1").arg(property), document,
+          std::move(layers), std::move(value), parent),
       m_property(std::move(property)) {
   const auto what = QObject::tr("Set Layer(s)", nullptr, getObjects().size());
   const auto action = QObject::tr("Custom Property");
