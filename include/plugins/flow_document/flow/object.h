@@ -30,6 +30,10 @@ class FLOW_DOCUMENT_API Object {
   void setName(const QString &name);
   [[nodiscard]] QString getName() const;
 
+  void setProperty(const QString &name, const QVariant &value);
+  [[nodiscard]] QVariant getProperty(const QString &name) const;
+  void removeProperty(const QString &name);
+
   void setProperties(const QVariantMap &properties);
   [[nodiscard]] const QVariantMap &getProperties() const;
 

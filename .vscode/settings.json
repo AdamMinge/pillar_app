@@ -97,7 +97,8 @@
         "qsortfilterproxymodel": "cpp",
         "ranges": "cpp",
         "qhash": "cpp",
-        "*.moc": "cpp"
+        "*.moc": "cpp",
+        "qevent": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

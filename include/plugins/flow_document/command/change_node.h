@@ -50,6 +50,70 @@ class FLOW_DOCUMENT_API SetNodesPosition : public ChangeValue<Node, QPointF> {
   void setValue(Node* node, const QPointF& position) override;
 };
 
+/* -------------------------- SetNodesCustomProperty ------------------------ */
+
+class FLOW_DOCUMENT_API SetNodesCustomProperty
+    : public ChangeValue<Node, QVariant> {
+ public:
+  explicit SetNodesCustomProperty(FlowDocument* document, QList<Node*> nodes,
+                                  QString property, QVariant value,
+                                  Command* parent = nullptr);
+  ~SetNodesCustomProperty() override;
+
+ protected:
+  [[nodiscard]] QVariant getValue(const Node* node) const override;
+  void setValue(Node* node, const QVariant& value) override;
+
+ private:
+  QString m_property;
+};
+
+/* ------------------------- AddRemoveNodesProperties ----------------------- */
+
+class FLOW_DOCUMENT_API AddRemoveNodesProperties : public egnite::Command {
+ public:
+  explicit AddRemoveNodesProperties(QString name, FlowDocument* document,
+                                    QList<Node*> nodes, QVariantMap properties,
+                                    Command* parent = nullptr);
+  ~AddRemoveNodesProperties() override;
+
+ protected:
+  void addProperties();
+  void removeProperties();
+
+ protected:
+  FlowDocument* m_document;
+  QList<Node*> m_nodes;
+  QVariantMap m_properties;
+};
+
+/* ---------------------------- AddNodesProperties -------------------------- */
+
+class FLOW_DOCUMENT_API AddNodesProperties : public AddRemoveNodesProperties {
+ public:
+  explicit AddNodesProperties(FlowDocument* document, QList<Node*> nodes,
+                              QVariantMap properties,
+                              Command* parent = nullptr);
+  ~AddNodesProperties() override;
+
+  void undo() override;
+  void redo() override;
+};
+
+/* --------------------------- RemoveNodesProperties ------------------------ */
+
+class FLOW_DOCUMENT_API RemoveNodesProperties
+    : public AddRemoveNodesProperties {
+ public:
+  explicit RemoveNodesProperties(FlowDocument* document, QList<Node*> nodes,
+                                 QStringList properties,
+                                 Command* parent = nullptr);
+  ~RemoveNodesProperties() override;
+
+  void undo() override;
+  void redo() override;
+};
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_CHANGE_NODE_H

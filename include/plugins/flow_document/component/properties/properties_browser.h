@@ -35,7 +35,11 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void setFilter(const QString& filter);
   [[nodiscard]] QString getFilter() const;
 
+  [[nodiscard]] QAction* getAddPropertyAction() const;
+  [[nodiscard]] QAction* getRemovePropertyAction() const;
+
  protected:
+  void contextMenuEvent(QContextMenuEvent* event) override;
   void changeEvent(QEvent* event) override;
 
   void addedObject(ObjectPropertiesFactory* factory) override;
@@ -43,6 +47,11 @@ class FLOW_DOCUMENT_API PropertiesBrowser
 
  private Q_SLOTS:
   void onCurrentObjectChanged(Object* object);
+
+  void onAddProperty();
+  void onRemoveProperty();
+
+  void updateActions();
 
  private:
   void initBrowser();
@@ -62,6 +71,9 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   ObjectProperties* m_current_properties;
   QList<ObjectPropertiesFactory*> m_properties_factories;
   QHash<ObjectPropertiesFactory*, ObjectProperties*> m_factories_to_properties;
+
+  QAction* m_add_property;
+  QAction* m_remove_property;
 };
 
 }  // namespace flow_document

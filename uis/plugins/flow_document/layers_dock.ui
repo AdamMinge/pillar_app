@@ -49,8 +49,7 @@
        </widget>
       </item>
       <item>
-       <widget class="flow_document::LayersView" name="m_layers_view">
-       </widget>
+       <widget class="flow_document::LayersView" name="m_layers_view"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="m_toolbar_layout">

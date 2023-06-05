@@ -45,6 +45,22 @@
       <item>
        <widget class="flow_document::PropertiesBrowser" name="m_properties_browser"/>
       </item>
+      <item>
+       <layout class="QHBoxLayout" name="m_toolbar_layout">
+        <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
+         <number>2</number>
+        </property>
+        <property name="rightMargin">
+         <number>2</number>
+        </property>
+        <property name="bottomMargin">
+         <number>2</number>
+        </property>
+       </layout>
+      </item>
      </layout>
     </item>
    </layout>

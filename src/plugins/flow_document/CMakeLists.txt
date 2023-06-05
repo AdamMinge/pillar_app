@@ -49,6 +49,7 @@ set(sources
     ${source_root}/component/properties/variant_property_manager.cpp
     ${source_root}/component/properties/object_properties.cpp
     ${source_root}/component/properties/object_properties_factory.cpp
+    ${source_root}/component/properties/create_property.cpp
     ${source_root}/component/nodes/nodes_dock.cpp
     ${source_root}/component/nodes/nodes_view.cpp
     ${source_root}/component/nodes/nodes_tree_model.cpp
@@ -112,6 +113,7 @@ set(includes
     ${include_root}/component/properties/variant_property_manager.h
     ${include_root}/component/properties/object_properties.h
     ${include_root}/component/properties/object_properties_factory.h
+    ${include_root}/component/properties/create_property.h
     ${include_root}/component/nodes/nodes_dock.h
     ${include_root}/component/nodes/nodes_view.h
     ${include_root}/component/nodes/nodes_tree_model.h

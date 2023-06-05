@@ -4,6 +4,8 @@
 #include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/node.h"
 #include "flow_document/flow_document.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/container/map.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -78,5 +80,119 @@ void SetNodesPosition::setValue(Node* node, const QPointF& position) {
   getDocument()->event(
       NodesChangeEvent({node}, NodesChangeEvent::Property::Position));
 }
+
+/* -------------------------- SetNodesCustomProperty ------------------------ */
+
+SetNodesCustomProperty::SetNodesCustomProperty(FlowDocument* document,
+                                               QList<Node*> nodes,
+                                               QString property, QVariant value,
+                                               Command* parent)
+    : ChangeValue<Node, QVariant>(QLatin1String("SetNodesCustomProperty"),
+                                  document, std::move(nodes), std::move(value),
+                                  parent),
+      m_property(std::move(property)) {
+  const auto what = QObject::tr("Set Node(s)", nullptr, getObjects().size());
+  const auto action = QObject::tr("Custom Property");
+  setText(QString("%1 %2").arg(what, action));
+}
+
+SetNodesCustomProperty::~SetNodesCustomProperty() = default;
+
+QVariant SetNodesCustomProperty::getValue(const Node* node) const {
+  return node->getProperty(m_property);
+}
+
+void SetNodesCustomProperty::setValue(Node* node, const QVariant& value) {
+  node->setProperty(m_property, value);
+  getDocument()->event(
+      NodesChangeEvent({node}, NodesChangeEvent::Property::Custom));
+}
+
+/* ------------------------- AddRemoveNodesProperties ---------------------- */
+
+AddRemoveNodesProperties::AddRemoveNodesProperties(QString name,
+                                                   FlowDocument* document,
+                                                   QList<Node*> nodes,
+                                                   QVariantMap properties,
+                                                   Command* parent)
+    : egnite::Command(name, parent),
+      m_document(document),
+      m_nodes(std::move(nodes)),
+      m_properties(std::move(properties)) {}
+
+AddRemoveNodesProperties::~AddRemoveNodesProperties() = default;
+
+void AddRemoveNodesProperties::addProperties() {
+  for (auto node : m_nodes) {
+    auto& old_properties = node->getProperties();
+    auto new_properties = old_properties;
+    new_properties.insert(m_properties);
+
+    Q_ASSERT(new_properties.size() ==
+             old_properties.size() + m_properties.size());
+
+    node->setProperties(new_properties);
+
+    m_document->event(
+        NodesChangeEvent({node}, NodesChangeEvent::Property::Custom));
+  }
+}
+
+void AddRemoveNodesProperties::removeProperties() {
+  for (auto node : m_nodes) {
+    auto& old_properties = node->getProperties();
+
+    auto new_properties = old_properties;
+    for (auto key : m_properties.keys()) {
+      Q_ASSERT(old_properties.contains(key));
+      m_properties[key] = old_properties[key];
+
+      new_properties.remove(key);
+    }
+
+    node->setProperties(new_properties);
+
+    m_document->event(
+        NodesChangeEvent({node}, NodesChangeEvent::Property::Custom));
+  }
+}
+
+/* ---------------------------- AddNodesProperties -------------------------- */
+
+AddNodesProperties::AddNodesProperties(FlowDocument* document,
+                                       QList<Node*> nodes,
+                                       QVariantMap properties, Command* parent)
+    : AddRemoveNodesProperties(QLatin1String("AddNodesProperties"), document,
+                               std::move(nodes), std::move(properties)) {
+  const auto what =
+      QObject::tr("Add Custom Property(s)", nullptr, m_properties.size());
+  setText(what);
+}
+
+AddNodesProperties::~AddNodesProperties() = default;
+
+void AddNodesProperties::undo() { removeProperties(); }
+
+void AddNodesProperties::redo() { addProperties(); }
+
+/* --------------------------- RemoveNodesProperties ------------------------ */
+
+RemoveNodesProperties::RemoveNodesProperties(FlowDocument* document,
+                                             QList<Node*> nodes,
+                                             QStringList properties,
+                                             Command* parent)
+    : AddRemoveNodesProperties(QLatin1String("RemoveNodesProperties"), document,
+                               std::move(nodes),
+                               utils::mapFromKeys(properties, QVariant{})) {
+  const auto what =
+      QObject::tr("Remove Custom Property(s)", nullptr, m_properties.size());
+  setText(what);
+}
+
+RemoveNodesProperties::~RemoveNodesProperties() = default;
+
+void RemoveNodesProperties::undo() { addProperties(); }
+
+void RemoveNodesProperties::redo() { removeProperties(); }
 
 }  // namespace flow_document

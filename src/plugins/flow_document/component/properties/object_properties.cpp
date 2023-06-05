@@ -31,14 +31,21 @@ Properties::Properties(const QString& name, QObject* parent)
       m_root(m_group_manager->addProperty(name)) {
   connect(m_property_manager, &VariantPropertyManager::valueChanged, this,
           [this](const auto& property, const auto& value) {
-            if (auto id = getIdByProperty(property); id >= 0)
-              Q_EMIT valueChanged(id, value);
+            if (auto opt_id = getIdByProperty(property); opt_id.has_value())
+              Q_EMIT valueChanged(*opt_id, value);
           });
 }
 
 Properties::~Properties() = default;
 
 utils::QtProperty* Properties::getRoot() const { return m_root; }
+
+qsizetype Properties::size() const { return m_property_to_id.size(); }
+
+bool Properties::contains(utils::QtProperty* property) const {
+  if (!property) return false;
+  return m_property_to_id.contains(property);
+}
 
 void Properties::setFactoryForManager(utils::QtTreePropertyBrowser* browser) {
   browser->setFactoryForManager(m_property_manager, m_editor_factory);
@@ -59,7 +66,7 @@ utils::QtProperty* Properties::createGroup(const QString& name,
 }
 
 utils::QtVariantProperty* Properties::createProperty(
-    int id, int type, const QString& name, utils::QtProperty* parent) {
+    size_t id, int type, const QString& name, utils::QtProperty* parent) {
   Q_ASSERT(!m_id_to_property.contains(id));
 
   auto property = m_property_manager->addProperty(type, name);
@@ -80,12 +87,20 @@ utils::QtVariantProperty* Properties::createProperty(
   return property;
 }
 
-utils::QtVariantProperty* Properties::getPropertyById(int id) const {
+utils::QtVariantProperty* Properties::getPropertyById(size_t id) const {
   return m_id_to_property.contains(id) ? m_id_to_property[id] : nullptr;
 }
 
-int Properties::getIdByProperty(utils::QtProperty* property) const {
-  return m_property_to_id.contains(property) ? m_property_to_id[property] : -1;
+std::optional<size_t> Properties::getIdByProperty(
+    utils::QtProperty* property) const {
+  if (m_property_to_id.contains(property)) return m_property_to_id[property];
+  return std::nullopt;
+}
+
+void Properties::clear() {
+  m_property_to_id.clear();
+  m_id_to_property.clear();
+  m_property_manager->clear();
 }
 
 /* ----------------------------- ObjectProperties --------------------------- */
@@ -140,6 +155,10 @@ void ObjectProperties::setObject(Object* object) {
 
 Object* ObjectProperties::getObject() const { return m_object; }
 
+bool ObjectProperties::isCustomProperty(utils::QtProperty* property) const {
+  return m_custom_properties->contains(property);
+}
+
 void ObjectProperties::setFactoryForManager(
     utils::QtTreePropertyBrowser* browser) {
   m_custom_properties->setFactoryForManager(browser);
@@ -154,9 +173,18 @@ void ObjectProperties::unsetFactoryForManager(
 
 void ObjectProperties::onEvent(const ChangeEvent& event) {}
 
-void ObjectProperties::applyCustom(int id, const QVariant& value) {}
+void ObjectProperties::applyCustom(size_t id, const QVariant& value) {
+  auto property = m_custom_properties->getPropertyById(id);
+  if (!property) return;
 
-void ObjectProperties::applyObject(int id, const QVariant& value) {}
+  auto property_name = property->propertyName();
+  applyCustom(property_name, value);
+}
+
+void ObjectProperties::applyCustom(const QString& name, const QVariant& value) {
+}
+
+void ObjectProperties::applyObject(size_t id, const QVariant& value) {}
 
 Properties* ObjectProperties::getCustomProperties() const {
   return m_custom_properties;
@@ -173,7 +201,26 @@ void ObjectProperties::update() {
   updateObject();
 }
 
-void ObjectProperties::updateCustom() {}
+void ObjectProperties::updateCustom() {
+  if (!m_object) return;
+
+  const auto& properties = m_object->getProperties();
+  if (m_custom_properties->size() != properties.size()) {
+    m_custom_properties->clear();
+  }
+
+  for (const auto& key : properties.keys()) {
+    const auto id = qHash(key);
+    auto property = m_custom_properties->getPropertyById(id);
+
+    if (!property) {
+      const auto type_id = properties[key].typeId();
+      property = m_custom_properties->createProperty(id, type_id, key);
+    }
+
+    property->setValue(properties[key]);
+  }
+}
 
 void ObjectProperties::updateObject() {}
 
@@ -188,6 +235,16 @@ LayerProperties::~LayerProperties() = default;
 
 Layer* LayerProperties::getLayer() const {
   return static_cast<Layer*>(getObject());
+}
+
+void LayerProperties::addProperty(const QString& name, const QVariant& value) {
+  getDocument()->getUndoStack()->push(new AddLayersProperties(
+      getDocument(), {getLayer()}, {std::make_pair(name, value)}));
+}
+
+void LayerProperties::removeProperty(const QString& name) {
+  getDocument()->getUndoStack()->push(
+      new RemoveLayersProperties(getDocument(), {getLayer()}, {name}));
 }
 
 void LayerProperties::onEvent(const ChangeEvent& event) {
@@ -208,7 +265,12 @@ void LayerProperties::updateObject() {
   }
 }
 
-void LayerProperties::applyObject(int id, const QVariant& value) {
+void LayerProperties::applyCustom(const QString& name, const QVariant& value) {
+  getDocument()->getUndoStack()->push(
+      new SetLayersCustomProperty(getDocument(), {getLayer()}, name, value));
+}
+
+void LayerProperties::applyObject(size_t id, const QVariant& value) {
   switch (id) {
     case Property::Name: {
       getDocument()->getUndoStack()->push(
@@ -264,6 +326,16 @@ Node* NodeProperties::getNode() const {
   return static_cast<Node*>(getObject());
 }
 
+void NodeProperties::addProperty(const QString& name, const QVariant& value) {
+  getDocument()->getUndoStack()->push(new AddNodesProperties(
+      getDocument(), {getNode()}, {std::make_pair(name, value)}));
+}
+
+void NodeProperties::removeProperty(const QString& name) {
+  getDocument()->getUndoStack()->push(
+      new RemoveNodesProperties(getDocument(), {getNode()}, {name}));
+}
+
 void NodeProperties::onEvent(const ChangeEvent& event) {
   if (event.getType() == ChangeEvent::Type::NodesChanged) {
     auto& e = static_cast<const NodesChangeEvent&>(event);
@@ -280,7 +352,12 @@ void NodeProperties::updateObject() {
   }
 }
 
-void NodeProperties::applyObject(int id, const QVariant& value) {
+void NodeProperties::applyCustom(const QString& name, const QVariant& value) {
+  getDocument()->getUndoStack()->push(
+      new SetNodesCustomProperty(getDocument(), {getNode()}, name, value));
+}
+
+void NodeProperties::applyObject(size_t id, const QVariant& value) {
   switch (id) {
     case Property::Name: {
       getDocument()->getUndoStack()->push(

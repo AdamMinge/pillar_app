@@ -4,6 +4,8 @@
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow_document.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/container/map.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -126,5 +128,121 @@ void SetLayersPosition::setValue(Layer* layer, const QPointF& position) {
   getDocument()->event(
       LayersChangeEvent({layer}, LayersChangeEvent::Property::Position));
 }
+
+/* -------------------------- SetLayersCustomProperty ----------------------- */
+
+SetLayersCustomProperty::SetLayersCustomProperty(FlowDocument* document,
+                                                 QList<Layer*> layers,
+                                                 QString property,
+                                                 QVariant value,
+                                                 Command* parent)
+    : ChangeValue<Layer, QVariant>(QLatin1String("SetLayersCustomProperty"),
+                                   document, std::move(layers),
+                                   std::move(value), parent),
+      m_property(std::move(property)) {
+  const auto what = QObject::tr("Set Layer(s)", nullptr, getObjects().size());
+  const auto action = QObject::tr("Custom Property");
+  setText(QString("%1 %2").arg(what, action));
+}
+
+SetLayersCustomProperty::~SetLayersCustomProperty() = default;
+
+QVariant SetLayersCustomProperty::getValue(const Layer* layer) const {
+  return layer->getProperty(m_property);
+}
+
+void SetLayersCustomProperty::setValue(Layer* layer, const QVariant& value) {
+  layer->setProperty(m_property, value);
+  getDocument()->event(
+      LayersChangeEvent({layer}, LayersChangeEvent::Property::Custom));
+}
+
+/* ------------------------- AddRemoveLayersProperties ---------------------- */
+
+AddRemoveLayersProperties::AddRemoveLayersProperties(QString name,
+                                                     FlowDocument* document,
+                                                     QList<Layer*> layers,
+                                                     QVariantMap properties,
+                                                     Command* parent)
+    : egnite::Command(name, parent),
+      m_document(document),
+      m_layers(std::move(layers)),
+      m_properties(std::move(properties)) {}
+
+AddRemoveLayersProperties::~AddRemoveLayersProperties() = default;
+
+void AddRemoveLayersProperties::addProperties() {
+  for (auto layer : m_layers) {
+    auto& old_properties = layer->getProperties();
+    auto new_properties = old_properties;
+    new_properties.insert(m_properties);
+
+    Q_ASSERT(new_properties.size() ==
+             old_properties.size() + m_properties.size());
+
+    layer->setProperties(new_properties);
+
+    m_document->event(
+        LayersChangeEvent({layer}, LayersChangeEvent::Property::Custom));
+  }
+}
+
+void AddRemoveLayersProperties::removeProperties() {
+  for (auto layer : m_layers) {
+    auto& old_properties = layer->getProperties();
+
+    auto new_properties = old_properties;
+    for (auto key : m_properties.keys()) {
+      Q_ASSERT(old_properties.contains(key));
+      m_properties[key] = old_properties[key];
+
+      new_properties.remove(key);
+    }
+
+    layer->setProperties(new_properties);
+
+    m_document->event(
+        LayersChangeEvent({layer}, LayersChangeEvent::Property::Custom));
+  }
+}
+
+/* ---------------------------- AddLayersProperties ------------------------- */
+
+AddLayersProperties::AddLayersProperties(FlowDocument* document,
+                                         QList<Layer*> layers,
+                                         QVariantMap properties,
+                                         Command* parent)
+    : AddRemoveLayersProperties(QLatin1String("AddLayersProperties"), document,
+                                std::move(layers), std::move(properties)) {
+  const auto what =
+      QObject::tr("Add Custom Property(s)", nullptr, m_properties.size());
+  setText(what);
+}
+
+AddLayersProperties::~AddLayersProperties() = default;
+
+void AddLayersProperties::undo() { removeProperties(); }
+
+void AddLayersProperties::redo() { addProperties(); }
+
+/* --------------------------- RemoveLayersProperties ----------------------- */
+
+RemoveLayersProperties::RemoveLayersProperties(FlowDocument* document,
+                                               QList<Layer*> layers,
+                                               QStringList properties,
+                                               Command* parent)
+    : AddRemoveLayersProperties(QLatin1String("RemoveLayersProperties"),
+                                document, std::move(layers),
+                                utils::mapFromKeys(properties, QVariant{})) {
+  const auto what =
+      QObject::tr("Remove Custom Property(s)", nullptr, m_properties.size());
+  setText(what);
+}
+
+RemoveLayersProperties::~RemoveLayersProperties() = default;
+
+void RemoveLayersProperties::undo() { addProperties(); }
+
+void RemoveLayersProperties::redo() { removeProperties(); }
 
 }  // namespace flow_document

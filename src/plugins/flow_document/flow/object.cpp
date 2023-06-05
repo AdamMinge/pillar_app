@@ -16,6 +16,16 @@ void Object::setName(const QString &name) { m_name = name; }
 
 QString Object::getName() const { return m_name; }
 
+void Object::setProperty(const QString &name, const QVariant &value) {
+  m_properties[name] = value;
+}
+
+QVariant Object::getProperty(const QString &name) const {
+  return m_properties.contains(name) ? m_properties[name] : QVariant{};
+}
+
+void Object::removeProperty(const QString &name) { m_properties.remove(name); }
+
 void Object::setProperties(const QVariantMap &properties) {
   m_properties = properties;
 }

@@ -39,7 +39,6 @@ class FLOW_DOCUMENT_API PropertiesDock : public QDockWidget {
 
  private:
   FlowDocument *m_document;
-
   QScopedPointer<Ui::PropertiesDock> m_ui;
 };
 

@@ -10,7 +10,8 @@ set(include_root ${EGNITE_SOURCE_DIR}/include/utils/container)
 
 set(sources)
 
-set(includes ${include_root}/export.h ${include_root}/hash.h)
+set(includes ${include_root}/export.h ${include_root}/hash.h
+             ${include_root}/map.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

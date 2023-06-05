@@ -2,7 +2,10 @@
 #include "flow_document/component/properties/properties_dock.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
+#include <QToolBar>
 #include <QVBoxLayout>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_properties_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -47,7 +50,21 @@ void PropertiesDock::searchProperties(const QString &search) {
   m_ui->m_properties_browser->setFilter(search);
 }
 
-void PropertiesDock::initUi() { m_ui->setupUi(this); }
+void PropertiesDock::initUi() {
+  m_ui->setupUi(this);
+
+  auto buttons_container = new QToolBar();
+  buttons_container->setFloatable(false);
+  buttons_container->setMovable(false);
+  buttons_container->setIconSize(QSize(16, 16));
+
+  buttons_container->addAction(
+      m_ui->m_properties_browser->getAddPropertyAction());
+  buttons_container->addAction(
+      m_ui->m_properties_browser->getRemovePropertyAction());
+
+  m_ui->m_toolbar_layout->addWidget(buttons_container);
+}
 
 void PropertiesDock::initConnections() {
   connect(m_ui->m_search_properties_edit, &QLineEdit::textChanged, this,

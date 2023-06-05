@@ -39,20 +39,28 @@ class FLOW_DOCUMENT_API Properties : public QObject {
 
   [[nodiscard]] utils::QtProperty* getRoot() const;
 
+  [[nodiscard]] qsizetype size() const;
+  [[nodiscard]] bool contains(utils::QtProperty* property) const;
+
   void setFactoryForManager(utils::QtTreePropertyBrowser* browser);
   void unsetFactoryForManager(utils::QtTreePropertyBrowser* browser);
 
-  utils::QtProperty* createGroup(const QString& name,
-                                 utils::QtProperty* parent = nullptr);
-  utils::QtVariantProperty* createProperty(int id, int type,
+  utils::QtVariantProperty* createProperty(size_t id, int type,
                                            const QString& name,
                                            utils::QtProperty* parent = nullptr);
 
-  [[nodiscard]] utils::QtVariantProperty* getPropertyById(int id) const;
-  [[nodiscard]] int getIdByProperty(utils::QtProperty* property) const;
+  [[nodiscard]] utils::QtVariantProperty* getPropertyById(size_t id) const;
+  [[nodiscard]] std::optional<size_t> getIdByProperty(
+      utils::QtProperty* property) const;
+
+  void clear();
 
  Q_SIGNALS:
-  void valueChanged(int id, QVariant value);
+  void valueChanged(size_t id, QVariant value);
+
+ private:
+  utils::QtProperty* createGroup(const QString& name,
+                                 utils::QtProperty* parent = nullptr);
 
  private:
   utils::QtGroupPropertyManager* m_group_manager;
@@ -60,8 +68,8 @@ class FLOW_DOCUMENT_API Properties : public QObject {
 
   utils::QtVariantEditorFactory* m_editor_factory;
 
-  QHash<int, utils::QtVariantProperty*> m_id_to_property;
-  QHash<utils::QtProperty*, int> m_property_to_id;
+  QHash<size_t, utils::QtVariantProperty*> m_id_to_property;
+  QHash<utils::QtProperty*, size_t> m_property_to_id;
 
   utils::QtProperty* m_root;
 };
@@ -83,14 +91,20 @@ class FLOW_DOCUMENT_API ObjectProperties : public QObject {
   void setObject(Object* object);
   [[nodiscard]] Object* getObject() const;
 
+  [[nodiscard]] bool isCustomProperty(utils::QtProperty* property) const;
+
+  virtual void addProperty(const QString& name, const QVariant& value) = 0;
+  virtual void removeProperty(const QString& name) = 0;
+
   void setFactoryForManager(utils::QtTreePropertyBrowser* browser);
   void unsetFactoryForManager(utils::QtTreePropertyBrowser* browser);
 
  protected Q_SLOTS:
   virtual void onEvent(const ChangeEvent& event);
 
-  void applyCustom(int id, const QVariant& value);
-  virtual void applyObject(int id, const QVariant& value);
+  void applyCustom(size_t id, const QVariant& value);
+  virtual void applyCustom(const QString& name, const QVariant& value);
+  virtual void applyObject(size_t id, const QVariant& value);
 
  protected:
   [[nodiscard]] Properties* getCustomProperties() const;
@@ -123,12 +137,17 @@ class FLOW_DOCUMENT_API LayerProperties : public ObjectProperties {
 
   [[nodiscard]] Layer* getLayer() const;
 
+  void addProperty(const QString& name, const QVariant& value) override;
+  void removeProperty(const QString& name) override;
+
  protected Q_SLOTS:
   void onEvent(const ChangeEvent& event) override;
 
  protected:
   void updateObject() override;
-  void applyObject(int id, const QVariant& value) override;
+
+  void applyCustom(const QString& name, const QVariant& value) override;
+  void applyObject(size_t id, const QVariant& value) override;
 
  private:
   void initLayerProperty();
@@ -148,12 +167,17 @@ class FLOW_DOCUMENT_API NodeProperties : public ObjectProperties {
 
   [[nodiscard]] Node* getNode() const;
 
+  void addProperty(const QString& name, const QVariant& value) override;
+  void removeProperty(const QString& name) override;
+
  protected Q_SLOTS:
   void onEvent(const ChangeEvent& event) override;
 
  protected:
   void updateObject() override;
-  void applyObject(int id, const QVariant& value) override;
+
+  void applyCustom(const QString& name, const QVariant& value) override;
+  void applyObject(size_t id, const QVariant& value) override;
 
  private:
   void initNodeProperty();
