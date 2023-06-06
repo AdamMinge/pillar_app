@@ -20,13 +20,10 @@ class NodeFactory : public Factory {
   Q_OBJECT
 
  public:
-  explicit NodeFactory(QString name, QString id);
+  explicit NodeFactory(QString name);
   ~NodeFactory() override;
 
   [[nodiscard]] virtual std::unique_ptr<Node> create() const = 0;
-
- private:
-  QString m_id;
 };
 
 /* ------------------------------ BaseNodeFactory --------------------------- */
@@ -34,14 +31,14 @@ class NodeFactory : public Factory {
 template <IsNode NODE>
 class BaseNodeFactory : public NodeFactory {
  public:
-  explicit BaseNodeFactory(QString name, QString id);
+  explicit BaseNodeFactory(QString name);
 
   [[nodiscard]] std::unique_ptr<Node> create() const override;
 };
 
 template <IsNode NODE>
-BaseNodeFactory<NODE>::BaseNodeFactory(QString name, QString id)
-    : NodeFactory(std::move(name), std::move(id)) {}
+BaseNodeFactory<NODE>::BaseNodeFactory(QString name)
+    : NodeFactory(std::move(name)) {}
 
 template <IsNode NODE>
 std::unique_ptr<Node> BaseNodeFactory<NODE>::create() const {

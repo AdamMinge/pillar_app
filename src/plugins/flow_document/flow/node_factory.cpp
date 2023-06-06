@@ -6,8 +6,8 @@
 
 namespace flow_document {
 
-NodeFactory::NodeFactory(QString name, QString id)
-    : Factory(Type::NodeFactory, std::move(name)), m_id(std::move(id)) {}
+NodeFactory::NodeFactory(QString name)
+    : Factory(Type::NodeFactory, std::move(name)) {}
 
 NodeFactory::~NodeFactory() = default;
 

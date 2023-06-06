@@ -14,15 +14,14 @@ LogicGroupFactory::LogicGroupFactory()
 
   nodes_group->append(
       std::make_unique<flow_document::BaseNodeFactory<LogicNodeNot>>(
-          tr("Not"), QLatin1String("LogicNodeNot")));
+          tr("Not")));
 
   nodes_group->append(
       std::make_unique<flow_document::BaseNodeFactory<LogicNodeAnd>>(
-          tr("And"), QLatin1String("LogicNodeAnd")));
+          tr("And")));
 
   nodes_group->append(
-      std::make_unique<flow_document::BaseNodeFactory<LogicNodeOr>>(
-          tr("Or"), QLatin1String("LogicNodeOr")));
+      std::make_unique<flow_document::BaseNodeFactory<LogicNodeOr>>(tr("Or")));
 
   append(std::move(nodes_group));
 }

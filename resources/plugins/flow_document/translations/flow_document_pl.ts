@@ -219,7 +219,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="25"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_group_factory.cpp" line="24"/>
         <source>Or</source>
         <translation type="unfinished"></translation>
     </message>
