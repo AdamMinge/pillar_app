@@ -171,6 +171,7 @@ egnite_add_plugins(
   DEPENDS_PRIVATE
   utils::model
   utils::delegate
+  utils::serializer
   utils::property_browser)
 
 target_include_directories(

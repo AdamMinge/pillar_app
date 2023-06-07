@@ -16,7 +16,7 @@ concept IsCreatableAsQVariant = requires(TYPE object) {
 };
 
 template <typename TYPE>
-class ArchiveProperty {
+class SERIALIZER_API ArchiveProperty {
  public:
   explicit ArchiveProperty(QString name, TYPE& value);
   ~ArchiveProperty();
