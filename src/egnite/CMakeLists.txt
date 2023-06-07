@@ -98,6 +98,7 @@ egnite_add_module(
   Qt6::Qml
   DEPENDS_PRIVATE
   utils::dialog
+  utils::serializer
   utils::file_system)
 
 target_include_directories(

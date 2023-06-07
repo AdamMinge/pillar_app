@@ -99,7 +99,8 @@
         "qhash": "cpp",
         "*.moc": "cpp",
         "qevent": "cpp",
-        "qvariantmap": "cpp"
+        "qvariantmap": "cpp",
+        "qxmlstreamreader": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

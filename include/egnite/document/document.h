@@ -6,6 +6,8 @@
 #include <QIcon>
 #include <QObject>
 #include <QUndoStack>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/serializable.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
 /* -------------------------------------------------------------------------- */
@@ -14,7 +16,7 @@ namespace egnite {
 
 class DocumentFormat;
 
-class LIB_EGNITE_API Document : public QObject {
+class LIB_EGNITE_API Document : public QObject, public utils::Serializable {
   Q_OBJECT
 
  public:

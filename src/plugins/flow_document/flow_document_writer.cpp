@@ -4,7 +4,8 @@
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
-#include <QXmlStreamWriter>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/xml_archive.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -17,25 +18,12 @@ class FlowDocumentWriter::FlowDocumentWriterImpl {
   ~FlowDocumentWriterImpl() = default;
 
   void writeDocument(const FlowDocument &document, QIODevice &device);
-
- private:
-  void writeDocument(QXmlStreamWriter &writer, const FlowDocument &document);
 };
 
 void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
     const FlowDocument &document, QIODevice &device) {
-  QXmlStreamWriter writer(&device);
-
-  writer.writeStartDocument();
-  writeDocument(writer, document);
-  writer.writeEndDocument();
-}
-
-void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
-    QXmlStreamWriter &writer, const FlowDocument &document) {
-  writer.writeStartElement(QStringLiteral("flow"));
-
-  writer.writeEndElement();
+  utils::OXmlArchive ar(device);
+  ar << utils::ArchiveProperty("flow_document", document);
 }
 
 /* ----------------------------- FlowDocumentWriter ------------------------- */

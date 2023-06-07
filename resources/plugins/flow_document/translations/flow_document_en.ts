@@ -302,8 +302,8 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="232"/>
         <location filename="../../../../src/plugins/flow_document/component/scene/style/style_writer.cpp" line="186"/>
-        <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="74"/>
-        <location filename="../../../../src/plugins/flow_document/flow_document_writer.cpp" line="57"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="65"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_writer.cpp" line="45"/>
         <source>Failed to open file = %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -323,8 +323,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="66"/>
-        <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="79"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="57"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="70"/>
         <source>Failed to load document</source>
         <translation type="unfinished"></translation>
     </message>

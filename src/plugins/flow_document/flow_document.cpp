@@ -99,6 +99,10 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   }
 }
 
+void FlowDocument::serialize(utils::OArchive &archive) const {}
+
+void FlowDocument::deserialize(utils::IArchive &archive) {}
+
 void FlowDocument::switchSelectedLayers(const QList<Layer *> &layers) {
   setSelectedLayers(layers);
 

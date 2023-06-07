@@ -7,6 +7,7 @@
 #include <QXmlStreamReader>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/pointer_cast/unique_ptr_cast.h>
+#include <utils/serializer/xml_archive.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -20,35 +21,25 @@ class FlowDocumentReader::FlowDocumentReaderImpl {
 
   std::unique_ptr<FlowDocument> readDocument(QIODevice &device);
   bool isValid(QIODevice &device);
-
- private:
-  std::unique_ptr<FlowDocument> readDocument(QXmlStreamReader &reader);
 };
 
 std::unique_ptr<FlowDocument>
 FlowDocumentReader::FlowDocumentReaderImpl::readDocument(QIODevice &device) {
-  QXmlStreamReader reader;
-  reader.setDevice(&device);
+  auto document = utils::cast_unique_ptr<FlowDocument>(FlowDocument::create());
 
-  if (reader.readNextStartElement() && reader.name() != QStringLiteral("flow"))
-    return nullptr;
+  utils::IXmlArchive ar(device);
+  ar >> utils::ArchiveProperty("flow_document", *document);
 
-  return readDocument(reader);
-}
-
-std::unique_ptr<FlowDocument>
-FlowDocumentReader::FlowDocumentReaderImpl::readDocument(
-    QXmlStreamReader &reader) {
-  return utils::cast_unique_ptr<FlowDocument>(FlowDocument::create());
+  return document;
 }
 
 bool FlowDocumentReader::FlowDocumentReaderImpl::isValid(QIODevice &device) {
-  QXmlStreamReader reader;
-  reader.setDevice(&device);
+  // QXmlStreamReader reader;
+  // reader.setDevice(&device);
 
-  if (reader.readNextStartElement() &&
-      reader.name() != QStringLiteral("flow document"))
-    return false;
+  // if (reader.readNextStartElement() &&
+  //     reader.name() != QStringLiteral("flow document"))
+  //   return false;
 
   return true;
 }
@@ -85,11 +76,13 @@ bool FlowDocumentReader::isValid(const QString &file_name) {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
 
-  return m_impl->isValid(file);
+  return true;
+  // return m_impl->isValid(file);
 }
 
 bool FlowDocumentReader::isValid(QIODevice &device) {
-  return m_impl->isValid(device);
+  return true;
+  // return m_impl->isValid(device);
 }
 
 }  // namespace flow_document

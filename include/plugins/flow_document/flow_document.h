@@ -36,6 +36,9 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   [[nodiscard]] const QList<Layer *> &getSelectedLayers() const;
   [[nodiscard]] const QList<Node *> &getSelectedNodes() const;
 
+  void serialize(utils::OArchive &archive) const override;
+  void deserialize(utils::IArchive &archive) override;
+
  public Q_SLOTS:
   void setCurrentLayer(Layer *layer);
   void setCurrentNode(Node *node);
