@@ -7,7 +7,7 @@ macro(egnite_add_module target)
     THIS
     ""
     ""
-    "SOURCES;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
+    "SOURCES;DEPENDS;DEPENDS_PRIVATE;DEPENDS_TO_EXPORT;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
     ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
@@ -36,7 +36,7 @@ macro(egnite_add_module target)
                               ${THIS_PRECOMPILE_PRIVATE_HEADERS})
   endif()
 
-  foreach(target_depends ${THIS_DEPENDS})
+  foreach(target_depends ${THIS_DEPENDS_TO_EXPORT})
     install(TARGETS ${target_depends} EXPORT egniteConfigExport)
   endforeach()
 
@@ -258,7 +258,7 @@ macro(egnite_add_utils target)
     THIS
     ""
     ""
-    "SOURCES;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
+    "SOURCES;DEPENDS;DEPENDS_PRIVATE;DEPENDS_TO_EXPORT;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
     ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
@@ -287,7 +287,7 @@ macro(egnite_add_utils target)
                               ${THIS_PRECOMPILE_PRIVATE_HEADERS})
   endif()
 
-  foreach(target_depends ${THIS_DEPENDS})
+  foreach(target_depends ${THIS_DEPENDS_TO_EXPORT})
     install(TARGETS ${target_depends} EXPORT egniteConfigExport)
   endforeach()
 

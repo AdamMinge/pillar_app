@@ -98,7 +98,8 @@
         "ranges": "cpp",
         "qhash": "cpp",
         "*.moc": "cpp",
-        "qevent": "cpp"
+        "qevent": "cpp",
+        "qvariantmap": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

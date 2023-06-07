@@ -31,8 +31,9 @@ egnite_add_utils(
   SOURCES
   ${sources}
   ${includes}
-  DEPENDS_PRIVATE
+  DEPENDS
   Qt6::Widgets
+  DEPENDS_PRIVATE
   utils::dpi)
 
 target_include_directories(

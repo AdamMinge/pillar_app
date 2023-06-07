@@ -104,7 +104,6 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${uis_root})
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
 find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
-find_package(Boost 1.78 REQUIRED)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Create app editor ------------------------ #
 # ----------------------------------------------------------------------- #
@@ -119,6 +118,7 @@ egnite_add_application(
   Qt6::Widgets
   Qt6::Qml
   egnite::egnite
+  DEPENDS_PRIVATE
   utils::action
   utils::color
   utils::pointer_cast

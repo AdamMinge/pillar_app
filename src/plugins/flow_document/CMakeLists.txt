@@ -164,10 +164,11 @@ egnite_add_plugins(
   ${sources}
   ${includes}
   ${resources}
-  DEPENDS_PRIVATE
+  DEPENDS
   Qt6::Core
   Qt6::Widgets
   egnite::egnite
+  DEPENDS_PRIVATE
   utils::model
   utils::delegate
   utils::property_browser)

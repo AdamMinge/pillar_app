@@ -93,9 +93,10 @@ egnite_add_module(
   ${sources}
   ${includes}
   ${resources}
-  DEPENDS_PRIVATE
+  DEPENDS
   Qt6::Widgets
   Qt6::Qml
+  DEPENDS_PRIVATE
   utils::dialog
   utils::file_system)
 

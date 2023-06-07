@@ -39,8 +39,9 @@ egnite_add_utils(
   ${sources}
   ${includes}
   ${resources}
-  DEPENDS_PRIVATE
+  DEPENDS
   Qt6::Widgets
+  DEPENDS_PRIVATE
   utils::dialog)
 
 target_include_directories(

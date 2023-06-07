@@ -25,8 +25,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create utils shared lib -------------------- #
 # ----------------------------------------------------------------------- #
-egnite_add_utils(container SOURCES ${sources} ${includes} DEPENDS_PRIVATE
-                 Qt6::Core)
+egnite_add_utils(container SOURCES ${sources} ${includes} DEPENDS Qt6::Core)
 
 target_include_directories(
   container

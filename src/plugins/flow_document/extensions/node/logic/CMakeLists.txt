@@ -37,7 +37,7 @@ egnite_add_plugins(
   SOURCES
   ${sources}
   ${includes}
-  DEPENDS_PRIVATE
+  DEPENDS
   Qt6::Widgets
   flow_document)
 

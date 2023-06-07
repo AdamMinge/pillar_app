@@ -11,6 +11,8 @@
 
 namespace flow_document {
 
+/* ----------------------------------- Object ------------------------------- */
+
 class FLOW_DOCUMENT_API Object {
  public:
   enum class Type {
@@ -59,6 +61,8 @@ class FLOW_DOCUMENT_API Object {
   QString m_name;
   QVariantMap m_properties;
 };
+
+/* -------------------------------- Object Utils ---------------------------- */
 
 #define IMPL_FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS, CLASS_NAME)                \
  public:                                                                       \
