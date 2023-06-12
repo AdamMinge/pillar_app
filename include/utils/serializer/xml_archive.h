@@ -20,8 +20,12 @@ class SERIALIZER_API OXmlArchive : public OArchive {
   ~OXmlArchive() override;
 
  protected:
-  void startSave(const QString& name) override;
-  void endSave(const QString& name) override;
+  void saveStart(const QString& name) override;
+  void saveEnd(const QString& name) override;
+
+  void arrayStart(qsizetype i) override;
+  void arrayEnd(qsizetype i) override;
+
   void save(const QVariant& value) override;
 
  private:
@@ -36,9 +40,17 @@ class SERIALIZER_API IXmlArchive : public IArchive {
   ~IXmlArchive() override;
 
  protected:
-  void startLoad(const QString& name) override;
-  void endLoad(const QString& name) override;
+  void loadStart(const QString& name) override;
+  void loadEnd(const QString& name) override;
+
+  void arrayStart(qsizetype i) override;
+  void arrayEnd(qsizetype i) override;
+
   QVariant load() override;
+
+ private:
+  [[nodiscard]] QStringList getChildNames() const override;
+  [[nodiscard]] qsizetype getChildCount() const override;
 
  private:
   QXmlStreamReader m_reader;

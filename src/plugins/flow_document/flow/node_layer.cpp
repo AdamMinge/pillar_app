@@ -2,6 +2,9 @@
 #include "flow_document/flow/node_layer.h"
 
 #include "flow_document/flow/node.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/archive.h>
+#include <utils/serializer/archive_property.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -67,6 +70,16 @@ std::unique_ptr<Layer> NodeLayer::clone() const {
   auto node_layer = std::make_unique<NodeLayer>();
   node_layer->init(this);
   return std::move(node_layer);
+}
+
+void NodeLayer::serialize(utils::OArchive& archive) const {
+  Layer::serialize(archive);
+
+  archive << utils::ArchiveProperty("nodes", m_nodes);
+}
+
+void NodeLayer::deserialize(utils::IArchive& archive) {
+  Layer::deserialize(archive);
 }
 
 void NodeLayer::init(const NodeLayer* node_layer) {

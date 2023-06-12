@@ -38,6 +38,9 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
 
   [[nodiscard]] std::unique_ptr<Layer> clone() const override;
 
+  void serialize(utils::OArchive& archive) const override;
+  void deserialize(utils::IArchive& archive) override;
+
  protected:
   void init(const NodeLayer* node_layer);
 

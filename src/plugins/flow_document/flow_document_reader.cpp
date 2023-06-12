@@ -27,8 +27,8 @@ std::unique_ptr<FlowDocument>
 FlowDocumentReader::FlowDocumentReaderImpl::readDocument(QIODevice &device) {
   auto document = utils::cast_unique_ptr<FlowDocument>(FlowDocument::create());
 
-  utils::IXmlArchive ar(device);
-  ar >> utils::ArchiveProperty("flow_document", *document);
+  utils::IXmlArchive archive(device);
+  archive >> utils::ArchiveProperty("flow_document", *document);
 
   return document;
 }

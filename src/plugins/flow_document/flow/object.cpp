@@ -1,5 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow/object.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/archive.h>
+#include <utils/serializer/archive_property.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -31,6 +34,14 @@ void Object::setProperties(const QVariantMap &properties) {
 }
 
 const QVariantMap &Object::getProperties() const { return m_properties; }
+
+void Object::serialize(utils::OArchive &archive) const {
+  archive << utils::ArchiveProperty("id", m_id);
+  archive << utils::ArchiveProperty("name", m_name);
+  archive << utils::ArchiveProperty("properties", m_properties);
+}
+
+void Object::deserialize(utils::IArchive &archive) {}
 
 void Object::init(const Object *object) {
   m_name = object->m_name;

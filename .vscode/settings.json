@@ -100,7 +100,11 @@
         "*.moc": "cpp",
         "qevent": "cpp",
         "qvariantmap": "cpp",
-        "qxmlstreamreader": "cpp"
+        "qxmlstreamreader": "cpp",
+        "qrect": "cpp",
+        "qsize": "cpp",
+        "qsizef": "cpp",
+        "qdate": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

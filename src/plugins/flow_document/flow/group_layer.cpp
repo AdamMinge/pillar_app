@@ -1,5 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow/group_layer.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/archive.h>
+#include <utils/serializer/archive_property.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -65,6 +68,16 @@ std::unique_ptr<Layer> GroupLayer::clone() const {
   auto group_layer = std::make_unique<GroupLayer>();
   group_layer->init(this);
   return std::move(group_layer);
+}
+
+void GroupLayer::serialize(utils::OArchive& archive) const {
+  Layer::serialize(archive);
+
+  archive << utils::ArchiveProperty("layers", m_layers);
+}
+
+void GroupLayer::deserialize(utils::IArchive& archive) {
+  Layer::deserialize(archive);
 }
 
 void GroupLayer::init(const GroupLayer* group_layer) {

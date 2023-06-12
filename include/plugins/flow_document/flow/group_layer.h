@@ -36,6 +36,9 @@ class FLOW_DOCUMENT_API GroupLayer : public Layer {
 
   [[nodiscard]] std::unique_ptr<Layer> clone() const override;
 
+  void serialize(utils::OArchive& archive) const override;
+  void deserialize(utils::IArchive& archive) override;
+
  protected:
   void init(const GroupLayer* group_layer);
 

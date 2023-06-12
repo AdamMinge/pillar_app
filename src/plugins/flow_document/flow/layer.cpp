@@ -3,6 +3,9 @@
 
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer_iterator.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/archive.h>
+#include <utils/serializer/archive_property.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -72,6 +75,19 @@ void Layer::init(const Layer* layer) {
 }
 
 void Layer::setParent(GroupLayer* parent) { m_parent = parent; }
+
+void Layer::serialize(utils::OArchive& archive) const {
+  Object::serialize(archive);
+
+  archive << utils::ArchiveProperty("position", m_position);
+  archive << utils::ArchiveProperty("opacity", m_opacity);
+  archive << utils::ArchiveProperty("locked", m_locked);
+  archive << utils::ArchiveProperty("visible", m_visible);
+}
+
+void Layer::deserialize(utils::IArchive& archive) {
+  Object::deserialize(archive);
+}
 
 /* -------------------------------- Layer Utils ----------------------------- */
 

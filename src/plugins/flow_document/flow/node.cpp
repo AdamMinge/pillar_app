@@ -1,5 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow/node.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/archive.h>
+#include <utils/serializer/archive_property.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -46,6 +49,17 @@ void Node::removePin(Pin::Type type, size_t index) {
 }
 
 NodeLayer *Node::getParent() const { return m_parent; }
+
+void Node::serialize(utils::OArchive &archive) const {
+  Object::serialize(archive);
+
+  archive << utils::ArchiveProperty("position", m_position);
+  archive << utils::ArchiveProperty("visible", m_visible);
+}
+
+void Node::deserialize(utils::IArchive &archive) {
+  Object::deserialize(archive);
+}
 
 void Node::setParent(NodeLayer *parent) { m_parent = parent; }
 

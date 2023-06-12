@@ -5,6 +5,8 @@
 #include <QPointF>
 #include <QUuid>
 #include <QVariantMap>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/serializable.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -13,7 +15,7 @@ namespace flow_document {
 
 /* ----------------------------------- Object ------------------------------- */
 
-class FLOW_DOCUMENT_API Object {
+class FLOW_DOCUMENT_API Object : public utils::Serializable {
  public:
   enum class Type {
     Flow,
@@ -38,6 +40,9 @@ class FLOW_DOCUMENT_API Object {
 
   void setProperties(const QVariantMap &properties);
   [[nodiscard]] const QVariantMap &getProperties() const;
+
+  void serialize(utils::OArchive &archive) const override;
+  void deserialize(utils::IArchive &archive) override;
 
   [[nodiscard]] static QString staticClassName() { return "Object"; }
   [[nodiscard]] virtual QString className() const { return "Object"; }

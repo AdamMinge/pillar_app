@@ -49,6 +49,9 @@ class FLOW_DOCUMENT_API Layer : public Object {
 
   [[nodiscard]] virtual std::unique_ptr<Layer> clone() const = 0;
 
+  void serialize(utils::OArchive& archive) const override;
+  void deserialize(utils::IArchive& archive) override;
+
  protected:
   void init(const Layer* layer);
   void setParent(GroupLayer* parent);

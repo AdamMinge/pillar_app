@@ -17,7 +17,10 @@ class FLOW_DOCUMENT_API Flow : public Object {
   explicit Flow();
   ~Flow() override;
 
-  [[nodiscard]] GroupLayer* getRootLayer() const;
+  [[nodiscard]] GroupLayer *getRootLayer() const;
+
+  void serialize(utils::OArchive &archive) const override;
+  void deserialize(utils::IArchive &archive) override;
 
  private:
   std::unique_ptr<GroupLayer> m_root_layer;

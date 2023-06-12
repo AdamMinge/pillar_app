@@ -4,6 +4,9 @@
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/node_layer.h"
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/archive.h>
+#include <utils/serializer/archive_property.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -99,7 +102,9 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   }
 }
 
-void FlowDocument::serialize(utils::OArchive &archive) const {}
+void FlowDocument::serialize(utils::OArchive &archive) const {
+  archive << utils::ArchiveProperty("flow", *m_flow);
+}
 
 void FlowDocument::deserialize(utils::IArchive &archive) {}
 

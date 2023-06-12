@@ -38,6 +38,9 @@ class FLOW_DOCUMENT_API Node : public Object {
 
   [[nodiscard]] virtual std::unique_ptr<Node> clone() const = 0;
 
+  void serialize(utils::OArchive &archive) const override;
+  void deserialize(utils::IArchive &archive) override;
+
  protected:
   virtual void compute() = 0;
 
@@ -51,9 +54,10 @@ class FLOW_DOCUMENT_API Node : public Object {
  private:
   NodeLayer *m_parent;
   QPointF m_position;
+  bool m_visible;
+
   QVector<Pin> m_out_pins;
   QVector<Pin> m_in_pins;
-  bool m_visible;
 };
 
 }  // namespace flow_document

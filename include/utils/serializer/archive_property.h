@@ -11,11 +11,6 @@
 namespace utils {
 
 template <typename TYPE>
-concept IsCreatableAsQVariant = requires(TYPE object) {
-  { QVariant(object) } -> std::convertible_to<QVariant>;
-};
-
-template <typename TYPE>
 class SERIALIZER_API ArchiveProperty {
  public:
   explicit ArchiveProperty(QString name, TYPE& value);

@@ -22,8 +22,8 @@ class FlowDocumentWriter::FlowDocumentWriterImpl {
 
 void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
     const FlowDocument &document, QIODevice &device) {
-  utils::OXmlArchive ar(device);
-  ar << utils::ArchiveProperty("flow_document", document);
+  utils::OXmlArchive archive(device);
+  archive << utils::ArchiveProperty("flow_document", document);
 }
 
 /* ----------------------------- FlowDocumentWriter ------------------------- */
