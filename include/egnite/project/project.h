@@ -4,12 +4,14 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIcon>
 #include <QObject>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/serializable.h>
 /* -------------------------------------------------------------------------- */
 
 namespace egnite {
 class ProjectFormat;
 
-class Project : public QObject {
+class Project : public QObject, public utils::Serializable {
   Q_OBJECT
 
  public:
@@ -32,6 +34,9 @@ class Project : public QObject {
   void setWriterFormat(ProjectFormat *format);
 
   bool save(const QString &file_name, QString *error);
+
+  void serialize(utils::OArchive &archive) const override;
+  void deserialize(utils::IArchive &archive) override;
 
  Q_SIGNALS:
   void fileNameChanged(const QString &new_file_name,

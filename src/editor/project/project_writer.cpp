@@ -2,9 +2,10 @@
 #include "project/project_writer.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
-#include <QXmlStreamWriter>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/project/project.h>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/serializer/xml_archive.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectWriterImpl -------------------------- */
@@ -15,25 +16,12 @@ class ProjectWriter::ProjectWriterImpl {
   ~ProjectWriterImpl() = default;
 
   void writeProject(const egnite::Project &project, QIODevice &device);
-
- private:
-  void writeProject(QXmlStreamWriter &writer, const egnite::Project &project);
 };
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
     const egnite::Project &project, QIODevice &device) {
-  QXmlStreamWriter writer(&device);
-
-  writer.writeStartDocument();
-  writeProject(writer, project);
-  writer.writeEndDocument();
-}
-
-void ProjectWriter::ProjectWriterImpl::writeProject(
-    QXmlStreamWriter &writer, const egnite::Project &project) {
-  writer.writeStartElement(QStringLiteral("project"));
-
-  writer.writeEndElement();
+  utils::OXmlArchive archive(device);
+  archive << utils::ArchiveProperty("project", project);
 }
 
 /* ------------------------------- ProjectWriter ---------------------------- */

@@ -210,10 +210,12 @@ void IArchive::deserializeContainer(TYPE& container) {
 
 template <IsMappingContainer TYPE>
 void IArchive::deserializeMappingContainer(TYPE& container) {
-  for (auto it = container.begin(); it != container.end(); ++it) {
-    const auto& key = it.key();
-    auto& value = it.value();
-    (*this) >> ArchiveProperty(key, value);
+  const auto names = getChildNames();
+  for (const auto& name : names) {
+    auto value = typename TYPE::mapped_type{};
+    (*this) >> ArchiveProperty(name, value);
+
+    container[name] = value;
   }
 }
 

@@ -94,7 +94,7 @@ concept IsMappingContainer = requires(T object) {
   { object.cend() } -> std::same_as<typename T::const_iterator>;
 };
 
-/* -----------------------=------ IsDereferenceable ------------------------- */
+/* ------------------------------ IsDereferenceable ------------------------- */
 
 template <typename T>
 concept IsDereferenceable = requires(T object) {

@@ -130,7 +130,8 @@ egnite_add_application(
   utils::property_browser
   utils::view
   utils::widget
-  utils::stacked_widget)
+  utils::stacked_widget
+  utils::serializer)
 
 target_include_directories(
   editor

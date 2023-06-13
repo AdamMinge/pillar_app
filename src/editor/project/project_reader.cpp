@@ -2,11 +2,11 @@
 #include "project/project_reader.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
-#include <QXmlStreamReader>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/pointer_cast/unique_ptr_cast.h>
+#include <utils/serializer/xml_archive.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectReaderImpl -------------------------- */
@@ -18,35 +18,26 @@ class ProjectReader::ProjectReaderImpl {
 
   std::unique_ptr<egnite::Project> readProject(QIODevice &device);
   bool isValid(QIODevice &device);
-
- private:
-  std::unique_ptr<egnite::Project> readProject(QXmlStreamReader &writer);
 };
 
 std::unique_ptr<egnite::Project> ProjectReader::ProjectReaderImpl::readProject(
     QIODevice &device) {
-  QXmlStreamReader reader;
-  reader.setDevice(&device);
+  auto project =
+      utils::cast_unique_ptr<egnite::Project>(egnite::Project::create());
 
-  if (!(reader.readNextStartElement() &&
-        reader.name() == QStringLiteral("project")))
-    return nullptr;
+  utils::IXmlArchive archive(device);
+  archive >> utils::ArchiveProperty("project", project);
 
-  return readProject(reader);
-}
-
-std::unique_ptr<egnite::Project> ProjectReader::ProjectReaderImpl::readProject(
-    QXmlStreamReader &writer) {
-  return utils::cast_unique_ptr<egnite::Project>(egnite::Project::create());
+  return project;
 }
 
 bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device) {
-  QXmlStreamReader reader;
-  reader.setDevice(&device);
+  // QXmlStreamReader reader;
+  // reader.setDevice(&device);
 
-  if (!(reader.readNextStartElement() &&
-        reader.name() == QStringLiteral("project")))
-    return false;
+  // if (!(reader.readNextStartElement() &&
+  //       reader.name() == QStringLiteral("project")))
+  //   return false;
 
   return true;
 }

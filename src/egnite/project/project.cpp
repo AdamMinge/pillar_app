@@ -96,4 +96,8 @@ std::unique_ptr<Project> Project::load(const QString &file_name,
   return project;
 }
 
+void Project::serialize(utils::OArchive &archive) const {}
+
+void Project::deserialize(utils::IArchive &archive) {}
+
 }  // namespace egnite

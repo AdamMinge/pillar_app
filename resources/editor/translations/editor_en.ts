@@ -527,14 +527,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_reader.cpp" line="64"/>
-        <location filename="../../../src/editor/project/project_reader.cpp" line="78"/>
+        <location filename="../../../src/editor/project/project_reader.cpp" line="55"/>
+        <location filename="../../../src/editor/project/project_reader.cpp" line="69"/>
         <source>Failed to load project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_reader.cpp" line="73"/>
-        <location filename="../../../src/editor/project/project_writer.cpp" line="54"/>
+        <location filename="../../../src/editor/project/project_reader.cpp" line="64"/>
+        <location filename="../../../src/editor/project/project_writer.cpp" line="42"/>
         <source>Failed to open file = %1</source>
         <translation type="unfinished"></translation>
     </message>
