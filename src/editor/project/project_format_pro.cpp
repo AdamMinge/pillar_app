@@ -12,7 +12,7 @@ ProjectFormatPro::ProjectFormatPro(QObject *parent)
 ProjectFormatPro::~ProjectFormatPro() = default;
 
 QString ProjectFormatPro::getNameFilter() const {
-  return tr("Project files (*.pro *.xml)");
+  return tr("Project files (*.pro *.json)");
 }
 
 QString ProjectFormatPro::getShortName() const { return QStringLiteral("pro"); }
@@ -20,7 +20,7 @@ QString ProjectFormatPro::getShortName() const { return QStringLiteral("pro"); }
 bool ProjectFormatPro::supportsFile(const QString &filename) const {
   if (filename.endsWith(QLatin1String(".pro"), Qt::CaseSensitive)) return true;
 
-  if (filename.endsWith(QLatin1String(".xml"), Qt::CaseSensitive)) {
+  if (filename.endsWith(QLatin1String(".json"), Qt::CaseSensitive)) {
     ProjectReader project_reader;
     return project_reader.isValid(filename);
   }

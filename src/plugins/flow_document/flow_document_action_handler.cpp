@@ -80,32 +80,30 @@ namespace {
                      });
 }
 
-[[nodiscard]] QString getLayerNameTemplate(Layer::LayerType type) {
-  switch (type) {
-    using enum Layer::LayerType;
-    case NodeLayer:
-      return QString("Node Layer %1");
-
-    case GroupLayer:
-      return QString("Group Layer %1");
+[[nodiscard]] QString getLayerNameTemplate(const QString& type) {
+  if (type == NodeLayer::getStaticClassName()) {
+    return QString("Node Layer %1");
+  }
+  if (type == GroupLayer::getStaticClassName()) {
+    return QString("Group Layer %1");
   }
 
   return QString{};
 }
 
 [[nodiscard]] QSet<QString> getAllLayerNames(FlowDocument* document,
-                                             Layer::LayerType type) {
+                                             const QString& type) {
   auto names = QSet<QString>{};
   const auto layers = getAllLayers(document);
   for (const auto layer : layers) {
-    if (layer->getLayerType() == type) names.insert(layer->getName());
+    if (layer->isClass(type)) names.insert(layer->getName());
   }
 
   return names;
 }
 
 [[nodiscard]] QString getNewLayerName(FlowDocument* document,
-                                      Layer::LayerType type) {
+                                      const QString& type) {
   auto name_template = getLayerNameTemplate(type);
   auto names = getAllLayerNames(document, type);
 
@@ -235,7 +233,7 @@ void FlowDocumentActionHandler::onAddGroupLayer() const {
   Q_ASSERT(m_document);
 
   auto new_layer = std::make_unique<GroupLayer>();
-  new_layer->setName(getNewLayerName(m_document, new_layer->getLayerType()));
+  new_layer->setName(getNewLayerName(m_document, new_layer->getClassName()));
   addLayer(std::move(new_layer));
 }
 
@@ -243,7 +241,7 @@ void FlowDocumentActionHandler::onAddNodeLayer() const {
   Q_ASSERT(m_document);
 
   auto new_layer = std::make_unique<NodeLayer>();
-  new_layer->setName(getNewLayerName(m_document, new_layer->getLayerType()));
+  new_layer->setName(getNewLayerName(m_document, new_layer->getClassName()));
   addLayer(std::move(new_layer));
 }
 

@@ -290,7 +290,7 @@
     <name>ProjectFormatPro</name>
     <message>
         <location filename="../../../src/editor/project/project_format_pro.cpp" line="15"/>
-        <source>Project files (*.pro *.xml)</source>
+        <source>Project files (*.pro *.json)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -527,13 +527,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_reader.cpp" line="55"/>
-        <location filename="../../../src/editor/project/project_reader.cpp" line="69"/>
+        <location filename="../../../src/editor/project/project_reader.cpp" line="48"/>
+        <location filename="../../../src/editor/project/project_reader.cpp" line="62"/>
         <source>Failed to load project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/project/project_reader.cpp" line="64"/>
+        <location filename="../../../src/editor/project/project_reader.cpp" line="57"/>
         <location filename="../../../src/editor/project/project_writer.cpp" line="42"/>
         <source>Failed to open file = %1</source>
         <translation type="unfinished"></translation>

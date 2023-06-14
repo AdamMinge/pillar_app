@@ -7,7 +7,7 @@
 
 namespace flow_document {
 
-Node::Node() : Object(Type::Node), m_visible(true) {}
+Node::Node() : m_visible(true) {}
 
 Node::~Node() = default;
 

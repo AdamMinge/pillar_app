@@ -17,17 +17,8 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API Object : public utils::Serializable {
  public:
-  enum class Type {
-    Flow,
-    Layer,
-    Node,
-  };
-
- public:
-  explicit Object(Type type);
+  explicit Object();
   virtual ~Object();
-
-  [[nodiscard]] Type getType() const;
 
   [[nodiscard]] QUuid getId() const;
 
@@ -44,24 +35,22 @@ class FLOW_DOCUMENT_API Object : public utils::Serializable {
   void serialize(utils::OArchive &archive) const override;
   void deserialize(utils::IArchive &archive) override;
 
-  [[nodiscard]] static QString staticClassName() { return "Object"; }
-  [[nodiscard]] virtual QString className() const { return "Object"; }
+  [[nodiscard]] static QString getStaticClassName();
+  [[nodiscard]] virtual QString getClassName() const;
 
-  [[nodiscard]] static QString staticParentClassName() { return ""; }
-  [[nodiscard]] virtual QString parentClassName() const { return ""; }
+  [[nodiscard]] static QString getStaticParentClassName();
+  [[nodiscard]] virtual QString getParentClassName() const;
 
-  [[nodiscard]] static QStringList staticInheritedClasses() { return {}; }
-  [[nodiscard]] virtual QStringList inheritedClasses() const { return {}; }
+  [[nodiscard]] static QStringList getStaticInheritedClasses();
+  [[nodiscard]] virtual QStringList getInheritedClasses() const;
 
-  [[nodiscard]] virtual bool isClass(const QString &className) {
-    return Object::className() == className;
-  }
+  [[nodiscard]] virtual bool isClass(const QString &class_name) const;
+  [[nodiscard]] virtual bool isClassOrChild(const QString &class_name) const;
 
  protected:
   void init(const Object *object);
 
  private:
-  Type m_type;
   QUuid m_id;
   QString m_name;
   QVariantMap m_properties;
@@ -69,34 +58,41 @@ class FLOW_DOCUMENT_API Object : public utils::Serializable {
 
 /* -------------------------------- Object Utils ---------------------------- */
 
-#define IMPL_FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS, CLASS_NAME)                \
- public:                                                                       \
-  static QString staticClassName() { return CLASS_NAME; }                      \
-  [[nodiscard]] QString className() const override { return CLASS_NAME; }      \
-                                                                               \
-  static QString staticParentClassName() {                                     \
-    return PARENT_CLASS::staticClassName();                                    \
-  }                                                                            \
-  [[nodiscard]] QString parentClassName() const override {                     \
-    return PARENT_CLASS::className();                                          \
-  }                                                                            \
-                                                                               \
-  [[nodiscard]] static QStringList staticInheritedClasses() {                  \
-    auto inherited_classes = QStringList{};                                    \
-    if (auto parent_class = staticParentClassName(); !parent_class.isEmpty())  \
-      inherited_classes << parent_class;                                       \
-    return inherited_classes << PARENT_CLASS::staticInheritedClasses();        \
-  }                                                                            \
-  [[nodiscard]] QStringList inheritedClasses() const override {                \
-    auto inherited_classes = QStringList{};                                    \
-    if (auto parent_class = staticParentClassName(); !parent_class.isEmpty())  \
-      inherited_classes << parent_class;                                       \
-    return inherited_classes << PARENT_CLASS::inheritedClasses();              \
-  }                                                                            \
-                                                                               \
-  bool isClass(const QString &className) override {                            \
-    return CLASS::className() == className ? true                              \
-                                           : PARENT_CLASS::isClass(className); \
+#define IMPL_FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS, CLASS_NAME)              \
+ public:                                                                     \
+  static QString getStaticClassName() { return CLASS_NAME; }                 \
+  [[nodiscard]] QString getClassName() const override { return CLASS_NAME; } \
+                                                                             \
+  static QString getStaticParentClassName() {                                \
+    return PARENT_CLASS::getStaticClassName();                               \
+  }                                                                          \
+  [[nodiscard]] QString getParentClassName() const override {                \
+    return PARENT_CLASS::getClassName();                                     \
+  }                                                                          \
+                                                                             \
+  [[nodiscard]] static QStringList getStaticInheritedClasses() {             \
+    auto inherited_classes = QStringList{};                                  \
+    if (auto parent_class = getStaticParentClassName();                      \
+        !parent_class.isEmpty())                                             \
+      inherited_classes << parent_class;                                     \
+    return inherited_classes << PARENT_CLASS::getStaticInheritedClasses();   \
+  }                                                                          \
+  [[nodiscard]] QStringList getInheritedClasses() const override {           \
+    auto inherited_classes = QStringList{};                                  \
+    if (auto parent_class = getStaticParentClassName();                      \
+        !parent_class.isEmpty())                                             \
+      inherited_classes << parent_class;                                     \
+    return inherited_classes << PARENT_CLASS::getInheritedClasses();         \
+  }                                                                          \
+                                                                             \
+  bool isClass(const QString &className) const override {                    \
+    return CLASS::getClassName() == className                                \
+               ? true                                                        \
+               : PARENT_CLASS::isClass(className);                           \
+  }                                                                          \
+                                                                             \
+  bool isClassOrChild(const QString &class_name) const override {            \
+    return isClass(class_name) || PARENT_CLASS::isClassOrChild(class_name);  \
   }
 
 #define FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS) \

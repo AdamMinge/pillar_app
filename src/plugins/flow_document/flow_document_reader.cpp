@@ -7,7 +7,7 @@
 #include <QXmlStreamReader>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/pointer_cast/unique_ptr_cast.h>
-#include <utils/serializer/xml_archive.h>
+#include <utils/serializer/json_archive.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -27,20 +27,13 @@ std::unique_ptr<FlowDocument>
 FlowDocumentReader::FlowDocumentReaderImpl::readDocument(QIODevice &device) {
   auto document = utils::cast_unique_ptr<FlowDocument>(FlowDocument::create());
 
-  utils::IXmlArchive archive(device);
+  utils::IJsonArchive archive(device);
   archive >> utils::ArchiveProperty("flow_document", document);
 
   return document;
 }
 
 bool FlowDocumentReader::FlowDocumentReaderImpl::isValid(QIODevice &device) {
-  // QXmlStreamReader reader;
-  // reader.setDevice(&device);
-
-  // if (reader.readNextStartElement() &&
-  //     reader.name() != QStringLiteral("flow document"))
-  //   return false;
-
   return true;
 }
 
@@ -75,14 +68,11 @@ std::unique_ptr<FlowDocument> FlowDocumentReader::read(const QString &file_name,
 bool FlowDocumentReader::isValid(const QString &file_name) {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
-
-  return true;
-  // return m_impl->isValid(file);
+  return m_impl->isValid(file);
 }
 
 bool FlowDocumentReader::isValid(QIODevice &device) {
-  return true;
-  // return m_impl->isValid(device);
+  return m_impl->isValid(device);
 }
 
 }  // namespace flow_document

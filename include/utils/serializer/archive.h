@@ -134,6 +134,9 @@ class SERIALIZER_API IArchive {
 
   virtual QVariant load() = 0;
 
+  [[nodiscard]] virtual QStringList getChildNames() const = 0;
+  [[nodiscard]] virtual qsizetype getChildCount() const = 0;
+
  private:
   template <typename TYPE>
   void deserialize(TYPE& value);
@@ -149,9 +152,6 @@ class SERIALIZER_API IArchive {
   void deserializeMappingContainer(TYPE& container);
   template <IsBase TYPE>
   void deserializeBase(TYPE& value);
-
-  [[nodiscard]] virtual QStringList getChildNames() const = 0;
-  [[nodiscard]] virtual qsizetype getChildCount() const = 0;
 };
 
 template <typename TYPE>

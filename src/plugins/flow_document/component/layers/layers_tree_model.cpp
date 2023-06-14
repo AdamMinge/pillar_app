@@ -9,6 +9,7 @@
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/layer_iterator.h"
+#include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/global.h"
 #include "flow_document/resources.h"
@@ -62,13 +63,9 @@ Qt::ItemFlags LayersTreeModel::flags(const QModelIndex &index) const {
 
   if (index.column() == Column::NameColumn) flags |= Qt::ItemIsEditable;
 
-  auto parent_index = parent(index);
-  auto parent_layer =
-      parent_index.isValid() ? toLayer(parent_index) : m_flow->getRootLayer();
-
-  if (parent_layer) flags |= Qt::ItemIsDragEnabled;
-  if (parent_layer &&
-      parent_layer->getLayerType() == Layer::LayerType::GroupLayer)
+  auto layer = index.isValid() ? toLayer(index) : m_flow->getRootLayer();
+  if (layer) flags |= Qt::ItemIsDragEnabled;
+  if (layer && layer->isClassOrChild(GroupLayer::getStaticClassName()))
     flags |= Qt::ItemIsDropEnabled;
 
   return flags;
@@ -229,7 +226,7 @@ bool LayersTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
   auto parent_layer =
       parent.isValid() ? toLayer(parent) : m_flow->getRootLayer();
   if (parent_layer &&
-      parent_layer->getLayerType() != Layer::LayerType::GroupLayer)
+      !parent_layer->isClassOrChild(GroupLayer::getStaticClassName()))
     return false;
 
   auto group_layer = static_cast<GroupLayer *>(parent_layer);
@@ -322,13 +319,11 @@ QString LayersTreeModel::getName(const QModelIndex &index) const {
 
 QIcon LayersTreeModel::getIcon(const QModelIndex &index) const {
   auto layer = static_cast<Layer *>(index.internalPointer());
-  switch (layer->getLayerType()) {
-    case Layer::LayerType::GroupLayer:
-      return QIcon(icons::x32::GroupLayer);
 
-    case Layer::LayerType::NodeLayer:
-      return QIcon(icons::x32::NodeLayer);
-  }
+  if (layer->isClassOrChild(GroupLayer::getStaticClassName()))
+    return QIcon(icons::x32::GroupLayer);
+  if (layer->isClassOrChild(NodeLayer::getStaticClassName()))
+    return QIcon(icons::x32::NodeLayer);
 
   return QIcon{};
 }

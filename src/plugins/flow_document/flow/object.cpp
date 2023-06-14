@@ -7,11 +7,9 @@
 
 namespace flow_document {
 
-Object::Object(Type type) : m_id(QUuid::createUuid()), m_type(type) {}
+Object::Object() : m_id(QUuid::createUuid()) {}
 
 Object::~Object() = default;
-
-Object::Type Object::getType() const { return m_type; }
 
 QUuid Object::getId() const { return m_id; }
 
@@ -41,7 +39,31 @@ void Object::serialize(utils::OArchive &archive) const {
   archive << utils::ArchiveProperty("properties", m_properties);
 }
 
-void Object::deserialize(utils::IArchive &archive) {}
+void Object::deserialize(utils::IArchive &archive) {
+  archive >> utils::ArchiveProperty("id", m_id);
+  archive >> utils::ArchiveProperty("name", m_name);
+  archive >> utils::ArchiveProperty("properties", m_properties);
+}
+
+QString Object::getStaticClassName() { return "Object"; }
+
+QString Object::getClassName() const { return "Object"; }
+
+QString Object::getStaticParentClassName() { return ""; }
+
+QString Object::getParentClassName() const { return ""; }
+
+QStringList Object::getStaticInheritedClasses() { return {}; }
+
+QStringList Object::getInheritedClasses() const { return {}; }
+
+bool Object::isClass(const QString &className) const {
+  return Object::getClassName() == className;
+}
+
+bool Object::isClassOrChild(const QString &class_name) const {
+  return isClass(class_name);
+}
 
 void Object::init(const Object *object) {
   m_name = object->m_name;

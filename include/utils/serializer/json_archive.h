@@ -1,10 +1,8 @@
-#ifndef UTILS_SERIALIZER_XML_SERIALIZER_H
-#define UTILS_SERIALIZER_XML_SERIALIZER_H
+#ifndef UTILS_SERIALIZER_JSON_ARCHIVE_H
+#define UTILS_SERIALIZER_JSON_ARCHIVE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIODevice>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
 /* ----------------------------------- Local -------------------------------- */
 #include "utils/serializer/archive.h"
 #include "utils/serializer/export.h"
@@ -12,12 +10,14 @@
 
 namespace utils {
 
-/* -------------------------------- OXmlArchive ----------------------------- */
+class JsonArchive;
 
-class SERIALIZER_API OXmlArchive : public OArchive {
+/* -------------------------------- OJsonArchive ---------------------------- */
+
+class SERIALIZER_API OJsonArchive : public OArchive {
  public:
-  explicit OXmlArchive(QIODevice& device);
-  ~OXmlArchive() override;
+  explicit OJsonArchive(QIODevice& device);
+  ~OJsonArchive() override;
 
  protected:
   void saveStart(const QString& name) override;
@@ -29,15 +29,17 @@ class SERIALIZER_API OXmlArchive : public OArchive {
   void save(const QVariant& value) override;
 
  private:
-  QXmlStreamWriter m_writer;
+  std::unique_ptr<JsonArchive> m_archive;
 };
 
-/* -------------------------------- IXmlArchive ----------------------------- */
+/* -------------------------------- IJsonArchive ---------------------------- */
 
-class SERIALIZER_API IXmlArchive : public IArchive {
+class SERIALIZER_API IJsonArchive : public IArchive {
+  class Impl;
+
  public:
-  explicit IXmlArchive(QIODevice& device);
-  ~IXmlArchive() override;
+  explicit IJsonArchive(QIODevice& device);
+  ~IJsonArchive() override;
 
  protected:
   void loadStart(const QString& name) override;
@@ -48,14 +50,14 @@ class SERIALIZER_API IXmlArchive : public IArchive {
 
   QVariant load() override;
 
- private:
+ protected:
   [[nodiscard]] QStringList getChildNames() const override;
   [[nodiscard]] qsizetype getChildCount() const override;
 
  private:
-  QXmlStreamReader m_reader;
+  std::unique_ptr<JsonArchive> m_archive;
 };
 
 }  // namespace utils
 
-#endif  // UTILS_SERIALIZER_XML_SERIALIZER_H
+#endif  // UTILS_SERIALIZER_JSON_ARCHIVE_H

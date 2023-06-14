@@ -22,7 +22,7 @@ Layer* LayerPostOrderIterator::next() {
 
   auto layer = m_stack.top();
 
-  if (layer->getLayerType() == Layer::LayerType::GroupLayer) {
+  if (layer->isClassOrChild(GroupLayer::getStaticClassName())) {
     auto group_layer = static_cast<GroupLayer*>(layer);
     for (auto& child_layer : *group_layer) m_stack.push(child_layer.get());
   }
@@ -47,7 +47,7 @@ Layer* LayerPreOrderIterator::next() {
 
   auto layer = m_stack.pop();
 
-  if (layer->getLayerType() == Layer::LayerType::GroupLayer) {
+  if (layer->isClassOrChild(GroupLayer::getStaticClassName())) {
     auto group_layer = static_cast<GroupLayer*>(layer);
     for (auto& child_layer : *group_layer) m_stack.push(child_layer.get());
   }

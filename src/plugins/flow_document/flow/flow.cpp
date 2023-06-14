@@ -9,8 +9,7 @@
 
 namespace flow_document {
 
-Flow::Flow()
-    : Object(Type::Flow), m_root_layer(std::make_unique<GroupLayer>()) {}
+Flow::Flow() : m_root_layer(std::make_unique<GroupLayer>()) {}
 
 Flow::~Flow() = default;
 
@@ -19,11 +18,13 @@ GroupLayer *Flow::getRootLayer() const { return m_root_layer.get(); }
 void Flow::serialize(utils::OArchive &archive) const {
   Object::serialize(archive);
 
-  archive << utils::ArchiveProperty("root_layer", *m_root_layer);
+  archive << utils::ArchiveProperty("root_layer", m_root_layer);
 }
 
 void Flow::deserialize(utils::IArchive &archive) {
   Object::deserialize(archive);
+
+  archive >> utils::ArchiveProperty("root_layer", m_root_layer);
 }
 
 }  // namespace flow_document

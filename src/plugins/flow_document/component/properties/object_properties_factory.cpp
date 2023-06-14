@@ -25,7 +25,7 @@ ObjectProperties* LayerPropertiesFactory::create(QObject* parent) const {
 }
 
 QString LayerPropertiesFactory::supportedClass() const {
-  return Layer::staticClassName();
+  return Layer::getStaticClassName();
 }
 
 /* --------------------------- NodePropertiesFactory ------------------------ */
@@ -38,7 +38,7 @@ ObjectProperties* NodePropertiesFactory::create(QObject* parent) const {
 }
 
 QString NodePropertiesFactory::supportedClass() const {
-  return Node::staticClassName();
+  return Node::getStaticClassName();
 }
 
 }  // namespace flow_document

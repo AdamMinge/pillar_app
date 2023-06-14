@@ -7,7 +7,7 @@
 
 namespace flow_document {
 
-GroupLayer::GroupLayer() : Layer(LayerType::GroupLayer) {}
+GroupLayer::GroupLayer() = default;
 
 GroupLayer::~GroupLayer() = default;
 

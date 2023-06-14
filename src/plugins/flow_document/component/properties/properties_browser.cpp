@@ -216,8 +216,8 @@ bool PropertiesBrowser::filterProperty(utils::QtBrowserItem *item) {
 
 ObjectPropertiesFactory *PropertiesBrowser::getFactoryByObject(Object *object) {
   if (object) {
-    auto inherited_classes = object->inheritedClasses();
-    inherited_classes.prepend(object->className());
+    auto inherited_classes = object->getInheritedClasses();
+    inherited_classes.prepend(object->getClassName());
 
     for (const auto &inherited_class : inherited_classes) {
       auto found_factory = std::find_if(

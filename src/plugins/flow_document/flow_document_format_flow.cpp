@@ -14,7 +14,7 @@ FlowDocumentFormatFlow::FlowDocumentFormatFlow(QObject *parent)
 FlowDocumentFormatFlow::~FlowDocumentFormatFlow() = default;
 
 QString FlowDocumentFormatFlow::getNameFilter() const {
-  return tr("Flow files (*.flow *.xml)");
+  return tr("Flow files (*.flow *.json)");
 }
 
 QString FlowDocumentFormatFlow::getShortName() const {
@@ -24,7 +24,7 @@ QString FlowDocumentFormatFlow::getShortName() const {
 bool FlowDocumentFormatFlow::supportsFile(const QString &filename) const {
   if (filename.endsWith(QLatin1String(".flow"), Qt::CaseSensitive)) return true;
 
-  if (filename.endsWith(QLatin1String(".xml"), Qt::CaseSensitive)) {
+  if (filename.endsWith(QLatin1String(".json"), Qt::CaseSensitive)) {
     FlowDocumentReader document_reader;
     return document_reader.isValid(filename);
   }

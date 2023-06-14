@@ -141,24 +141,14 @@ QModelIndex NodesTreeModel::index(int row, int column,
   if (parent.isValid())
     object = static_cast<Object *>(parent.internalPointer());
 
-  if (object->getType() == Object::Type::Layer) {
-    auto layer = static_cast<Layer *>(object);
-
-    switch (layer->getLayerType()) {
-      case Layer::LayerType::GroupLayer: {
-        auto group_layer = static_cast<GroupLayer *>(layer);
-        if (group_layer->size() > row)
-          return createIndex(row, column, group_layer->at(row));
-        break;
-      }
-
-      case Layer::LayerType::NodeLayer: {
-        auto node_layer = static_cast<NodeLayer *>(layer);
-        if (node_layer->size() > row)
-          return createIndex(row, column, node_layer->at(row));
-        break;
-      }
-    }
+  if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
+    auto group_layer = static_cast<GroupLayer *>(object);
+    if (group_layer->size() > row)
+      return createIndex(row, column, group_layer->at(row));
+  } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
+    auto node_layer = static_cast<NodeLayer *>(object);
+    if (node_layer->size() > row)
+      return createIndex(row, column, node_layer->at(row));
   }
 
   return QModelIndex{};
@@ -168,16 +158,14 @@ QModelIndex NodesTreeModel::parent(const QModelIndex &index) const {
   if (!index.isValid()) return QModelIndex{};
 
   auto object = static_cast<Object *>(index.internalPointer());
-  switch (object->getType()) {
-    case Object::Type::Layer: {
-      auto layer = static_cast<Layer *>(object);
-      return NodesTreeModel::index(layer->getParent());
-    }
+  const auto type = object->getClassName();
 
-    case Object::Type::Node: {
-      auto node = static_cast<Node *>(object);
-      return NodesTreeModel::index(node->getParent());
-    }
+  if (object->isClassOrChild(Layer::getStaticClassName())) {
+    auto layer = static_cast<Layer *>(object);
+    return NodesTreeModel::index(layer->getParent());
+  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+    auto node = static_cast<Node *>(object);
+    return NodesTreeModel::index(node->getParent());
   }
 
   return QModelIndex{};
@@ -191,19 +179,13 @@ int NodesTreeModel::rowCount(const QModelIndex &parent) const {
     return static_cast<int>(root_layer->size());
   } else {
     auto object = static_cast<Object *>(parent.internalPointer());
-    if (object->getType() == Object::Type::Layer) {
-      auto layer = static_cast<Layer *>(object);
-      switch (layer->getLayerType()) {
-        case Layer::LayerType::GroupLayer: {
-          auto group_layer = static_cast<GroupLayer *>(object);
-          return group_layer->size();
-        }
 
-        case Layer::LayerType::NodeLayer: {
-          auto node_layer = static_cast<NodeLayer *>(object);
-          return node_layer->size();
-        }
-      }
+    if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
+      auto group_layer = static_cast<GroupLayer *>(object);
+      return group_layer->size();
+    } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
+      auto node_layer = static_cast<NodeLayer *>(object);
+      return node_layer->size();
     }
   }
 
@@ -216,7 +198,7 @@ Layer *NodesTreeModel::toLayer(const QModelIndex &index) const {
   if (!index.isValid()) return nullptr;
 
   auto object = static_cast<Object *>(index.internalPointer());
-  if (object->getType() == Object::Type::Layer) {
+  if (object->isClassOrChild(Layer::getStaticClassName())) {
     return static_cast<Layer *>(object);
   }
 
@@ -227,7 +209,7 @@ Node *NodesTreeModel::toNode(const QModelIndex &index) const {
   if (!index.isValid()) return nullptr;
 
   auto object = static_cast<Object *>(index.internalPointer());
-  if (object->getType() == Object::Type::Node) {
+  if (object->isClassOrChild(Node::getStaticClassName())) {
     return static_cast<Node *>(object);
   }
 
@@ -330,17 +312,14 @@ void NodesTreeModel::onEvent(const ChangeEvent &event) {
 
 QString NodesTreeModel::getName(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
+  const auto type = object->getClassName();
 
-  switch (object->getType()) {
-    case Object::Type::Layer: {
-      auto layer = static_cast<Layer *>(object);
-      return layer->getName();
-    }
-
-    case Object::Type::Node: {
-      auto node = static_cast<Node *>(object);
-      return node->getName();
-    }
+  if (object->isClassOrChild(Layer::getStaticClassName())) {
+    auto layer = static_cast<Layer *>(object);
+    return layer->getName();
+  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+    auto node = static_cast<Node *>(object);
+    return node->getName();
   }
 
   return QString{};
@@ -348,23 +327,14 @@ QString NodesTreeModel::getName(const QModelIndex &index) const {
 
 QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
+  const auto type = object->getClassName();
 
-  switch (object->getType()) {
-    case Object::Type::Layer: {
-      auto layer = static_cast<Layer *>(object);
-
-      switch (layer->getLayerType()) {
-        case Layer::LayerType::GroupLayer:
-          return QIcon(icons::x32::GroupLayer);
-
-        case Layer::LayerType::NodeLayer:
-          return QIcon(icons::x32::NodeLayer);
-      }
-    }
-
-    case Object::Type::Node: {
-      return QIcon(icons::x32::Node);
-    }
+  if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
+    return QIcon(icons::x32::GroupLayer);
+  } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
+    return QIcon(icons::x32::NodeLayer);
+  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+    return QIcon(icons::x32::Node);
   }
 
   return QIcon{};
@@ -372,20 +342,15 @@ QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
 
 Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
+  const auto type = object->getClassName();
   auto visible = true;
 
-  switch (object->getType()) {
-    case Object::Type::Layer: {
-      auto layer = static_cast<Layer *>(object);
-      visible = layer->isVisible();
-      break;
-    }
-
-    case Object::Type::Node: {
-      auto node = static_cast<Node *>(object);
-      visible = node->isVisible();
-      break;
-    }
+  if (object->isClassOrChild(Layer::getStaticClassName())) {
+    auto layer = static_cast<Layer *>(object);
+    visible = layer->isVisible();
+  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+    auto node = static_cast<Node *>(object);
+    visible = node->isVisible();
   }
 
   return visible ? Qt::Checked : Qt::Unchecked;
@@ -393,43 +358,33 @@ Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
 
 void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
   const auto object = static_cast<Object *>(index.internalPointer());
+  const auto type = object->getClassName();
 
-  switch (object->getType()) {
-    case Object::Type::Layer: {
-      auto layer = static_cast<Layer *>(object);
-      m_document->getUndoStack()->push(
-          new SetLayersName(m_document, {layer}, name));
-      break;
-    }
-
-    case Object::Type::Node: {
-      auto node = static_cast<Node *>(object);
-      m_document->getUndoStack()->push(
-          new SetNodesName(m_document, {node}, name));
-      break;
-    }
+  if (object->isClassOrChild(Layer::getStaticClassName())) {
+    auto layer = static_cast<Layer *>(object);
+    m_document->getUndoStack()->push(
+        new SetLayersName(m_document, {layer}, name));
+  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+    auto node = static_cast<Node *>(object);
+    m_document->getUndoStack()->push(
+        new SetNodesName(m_document, {node}, name));
   }
 }
 
 void NodesTreeModel::setVisible(const QModelIndex &index,
                                 Qt::CheckState state) {
   const auto object = static_cast<Object *>(index.internalPointer());
+  const auto type = object->getClassName();
   const auto visible = state == Qt::Checked;
 
-  switch (object->getType()) {
-    case Object::Type::Layer: {
-      auto layer = static_cast<Layer *>(object);
-      m_document->getUndoStack()->push(
-          new SetLayersVisible(m_document, {layer}, visible));
-      break;
-    }
-
-    case Object::Type::Node: {
-      auto node = static_cast<Node *>(object);
-      m_document->getUndoStack()->push(
-          new SetNodesVisible(m_document, {node}, visible));
-      break;
-    }
+  if (object->isClassOrChild(Layer::getStaticClassName())) {
+    auto layer = static_cast<Layer *>(object);
+    m_document->getUndoStack()->push(
+        new SetLayersVisible(m_document, {layer}, visible));
+  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+    auto node = static_cast<Node *>(object);
+    m_document->getUndoStack()->push(
+        new SetNodesVisible(m_document, {node}, visible));
   }
 }
 

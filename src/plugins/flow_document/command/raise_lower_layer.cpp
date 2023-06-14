@@ -44,7 +44,7 @@ void RaiseLowerLayers::moveLayers(bool raise) {
 
     if (can_move) {
       auto next_layer = parent->at(index + step);
-      if (next_layer->getLayerType() == Layer::LayerType::GroupLayer) {
+      if (next_layer->isClass(GroupLayer::getStaticClassName())) {
         new_parent = static_cast<GroupLayer*>(next_layer);
         new_index = raise ? 0 : new_parent->size();
       } else {

@@ -5,7 +5,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
 /* ----------------------------------- Utils -------------------------------- */
-#include <utils/serializer/xml_archive.h>
+#include <utils/serializer/json_archive.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -22,7 +22,7 @@ class FlowDocumentWriter::FlowDocumentWriterImpl {
 
 void FlowDocumentWriter::FlowDocumentWriterImpl::writeDocument(
     const FlowDocument &document, QIODevice &device) {
-  utils::OXmlArchive archive(device);
+  utils::OJsonArchive archive(device);
   archive << utils::ArchiveProperty("flow_document", document);
 }
 

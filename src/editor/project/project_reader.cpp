@@ -6,7 +6,7 @@
 #include <egnite/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/pointer_cast/unique_ptr_cast.h>
-#include <utils/serializer/xml_archive.h>
+#include <utils/serializer/json_archive.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectReaderImpl -------------------------- */
@@ -25,20 +25,13 @@ std::unique_ptr<egnite::Project> ProjectReader::ProjectReaderImpl::readProject(
   auto project =
       utils::cast_unique_ptr<egnite::Project>(egnite::Project::create());
 
-  utils::IXmlArchive archive(device);
+  utils::IJsonArchive archive(device);
   archive >> utils::ArchiveProperty("project", project);
 
   return project;
 }
 
 bool ProjectReader::ProjectReaderImpl::isValid(QIODevice &device) {
-  // QXmlStreamReader reader;
-  // reader.setDevice(&device);
-
-  // if (!(reader.readNextStartElement() &&
-  //       reader.name() == QStringLiteral("project")))
-  //   return false;
-
   return true;
 }
 
@@ -74,7 +67,6 @@ std::unique_ptr<egnite::Project> ProjectReader::read(const QString &file_name,
 bool ProjectReader::isValid(const QString &file_name) {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
-
   return m_impl->isValid(file);
 }
 

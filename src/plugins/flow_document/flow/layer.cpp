@@ -12,17 +12,10 @@ namespace flow_document {
 
 /* ----------------------------------- Layer -------------------------------- */
 
-Layer::Layer(LayerType type)
-    : Object(Type::Layer),
-      m_type(type),
-      m_parent(nullptr),
-      m_opacity(0),
-      m_locked(false),
-      m_visible(true) {}
+Layer::Layer()
+    : m_parent(nullptr), m_opacity(0), m_locked(false), m_visible(true) {}
 
 Layer::~Layer() = default;
-
-Layer::LayerType Layer::getLayerType() const { return m_type; }
 
 void Layer::setPosition(const QPointF& position) { m_position = position; }
 

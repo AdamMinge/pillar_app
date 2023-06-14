@@ -5,7 +5,7 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/project/project.h>
 /* ----------------------------------- Utils -------------------------------- */
-#include <utils/serializer/xml_archive.h>
+#include <utils/serializer/json_archive.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- ProjectWriterImpl -------------------------- */
@@ -20,7 +20,7 @@ class ProjectWriter::ProjectWriterImpl {
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
     const egnite::Project &project, QIODevice &device) {
-  utils::OXmlArchive archive(device);
+  utils::OJsonArchive archive(device);
   archive << utils::ArchiveProperty("project", project);
 }
 

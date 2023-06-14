@@ -9,7 +9,7 @@
 
 namespace flow_document {
 
-NodeLayer::NodeLayer() : Layer(LayerType::NodeLayer) {}
+NodeLayer::NodeLayer() = default;
 
 NodeLayer::~NodeLayer() = default;
 
