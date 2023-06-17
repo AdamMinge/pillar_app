@@ -2,9 +2,9 @@
 #define FLOW_DOCUMENT_FACTORIES_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QDockWidget>
 #include <QSortFilterProxyModel>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow_document/component/flow_dock_widget.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -16,7 +16,7 @@ namespace flow_document {
 
 class FactoriesTreeModel;
 
-class FLOW_DOCUMENT_API FactoriesDock : public QDockWidget {
+class FLOW_DOCUMENT_API FactoriesDock : public FlowDockWidget {
   Q_OBJECT
 
  public:

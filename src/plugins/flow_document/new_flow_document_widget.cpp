@@ -83,9 +83,9 @@ NewFlowDocumentWidgetFactory::NewFlowDocumentWidgetFactory(QObject *parent)
 
 NewFlowDocumentWidgetFactory::~NewFlowDocumentWidgetFactory() = default;
 
-std::unique_ptr<egnite::NewDocumentWidget>
-NewFlowDocumentWidgetFactory::create() const {
-  return std::make_unique<NewFlowDocumentWidget>();
+egnite::NewDocumentWidget *NewFlowDocumentWidgetFactory::create(
+    QWidget *parent) const {
+  return new NewFlowDocumentWidget(parent);
 }
 
 }  // namespace flow_document

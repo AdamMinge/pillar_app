@@ -12,11 +12,13 @@ NewDocumentWidgetListModel::NewDocumentWidgetListModel(QObject *parent)
   loadObjects();
 }
 
-NewDocumentWidgetListModel::~NewDocumentWidgetListModel() = default;
+NewDocumentWidgetListModel::~NewDocumentWidgetListModel() {
+  qDeleteAll(m_new_document_widget_by_factory);
+}
 
 void NewDocumentWidgetListModel::addedObject(
     egnite::NewDocumentWidgetFactory *factory) {
-  auto settings_widget = factory->create().release();
+  auto settings_widget = factory->create();
   m_new_document_widget_by_factory[factory] = settings_widget;
 
   append(

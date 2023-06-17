@@ -1,9 +1,8 @@
 #ifndef FLOW_DOCUMENT_PROPERTIES_DOCK_H
 #define FLOW_DOCUMENT_PROPERTIES_DOCK_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QDockWidget>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow_document/component/flow_dock_widget.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -15,18 +14,16 @@ namespace flow_document {
 
 class FlowDocument;
 
-class FLOW_DOCUMENT_API PropertiesDock : public QDockWidget {
+class FLOW_DOCUMENT_API PropertiesDock : public FlowDockWidget {
   Q_OBJECT
 
  public:
   explicit PropertiesDock(QWidget *parent = nullptr);
   ~PropertiesDock() override;
 
-  void setDocument(FlowDocument *document);
-  [[nodiscard]] FlowDocument *getDocument() const;
-
- protected:
+ protected Q_SLOTS:
   void changeEvent(QEvent *event) override;
+  void onDocumentChanged(FlowDocument *from, FlowDocument *to) override;
 
  private Q_SLOTS:
   void searchProperties(const QString &search);
@@ -38,7 +35,6 @@ class FLOW_DOCUMENT_API PropertiesDock : public QDockWidget {
   void retranslateUi();
 
  private:
-  FlowDocument *m_document;
   QScopedPointer<Ui::PropertiesDock> m_ui;
 };
 

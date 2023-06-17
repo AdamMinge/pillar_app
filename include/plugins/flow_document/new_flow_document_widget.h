@@ -50,8 +50,8 @@ class FLOW_DOCUMENT_API NewFlowDocumentWidgetFactory
   explicit NewFlowDocumentWidgetFactory(QObject *parent = nullptr);
   ~NewFlowDocumentWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<egnite::NewDocumentWidget> create()
-      const override;
+  [[nodiscard]] egnite::NewDocumentWidget *create(
+      QWidget *parent = nullptr) const override;
 };
 
 }  // namespace flow_document

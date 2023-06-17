@@ -17,10 +17,11 @@ class LIB_EGNITE_API NewDocumentWidgetFactory : public QObject {
 
  public:
   explicit NewDocumentWidgetFactory(QIcon icon = QIcon{},
-                                    QObject *parent = nullptr);
+                                    QObject* parent = nullptr);
   ~NewDocumentWidgetFactory() override;
 
-  [[nodiscard]] virtual std::unique_ptr<NewDocumentWidget> create() const = 0;
+  [[nodiscard]] virtual NewDocumentWidget* create(
+      QWidget* parent = nullptr) const = 0;
 
   void setIcon(QIcon icon);
   [[nodiscard]] QIcon getIcon() const;

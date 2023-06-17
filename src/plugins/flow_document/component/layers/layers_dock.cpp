@@ -17,7 +17,7 @@
 namespace flow_document {
 
 LayersDock::LayersDock(QWidget *parent)
-    : QDockWidget(parent),
+    : FlowDockWidget(parent),
       m_ui(new Ui::LayersDock()),
       m_layers_model(new LayersTreeModel),
       m_filter_model(new utils::QtReverseProxyModel) {
@@ -31,12 +31,8 @@ LayersDock::LayersDock(QWidget *parent)
 
 LayersDock::~LayersDock() = default;
 
-void LayersDock::setDocument(FlowDocument *document) {
-  if (m_document == document) return;
-
-  m_document = document;
-
-  if (m_document) {
+void LayersDock::onDocumentChanged(FlowDocument *from, FlowDocument *to) {
+  if (to) {
     m_ui->m_layers_view->header()->setSectionResizeMode(
         LayersTreeModel::Column::NameColumn, QHeaderView::Stretch);
     m_ui->m_layers_view->header()->setSectionResizeMode(
@@ -45,11 +41,9 @@ void LayersDock::setDocument(FlowDocument *document) {
         LayersTreeModel::Column::LockedColumn, QHeaderView::Fixed);
   }
 
-  m_layers_model->setDocument(m_document);
-  m_ui->m_layers_view->setDocument(m_document);
+  m_layers_model->setDocument(to);
+  m_ui->m_layers_view->setDocument(to);
 }
-
-FlowDocument *LayersDock::getDocument() const { return m_document; }
 
 void LayersDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);

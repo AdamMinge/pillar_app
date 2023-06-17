@@ -17,7 +17,7 @@
 namespace flow_document {
 
 NodesDock::NodesDock(QWidget *parent)
-    : QDockWidget(parent),
+    : FlowDockWidget(parent),
       m_ui(new Ui::NodesDock()),
       m_nodes_model(new NodesTreeModel),
       m_filter_model(new utils::QtReverseProxyModel) {
@@ -31,23 +31,17 @@ NodesDock::NodesDock(QWidget *parent)
 
 NodesDock::~NodesDock() = default;
 
-void NodesDock::setDocument(FlowDocument *document) {
-  if (m_document == document) return;
-
-  m_document = document;
-
-  if (m_document) {
+void NodesDock::onDocumentChanged(FlowDocument *from, FlowDocument *to) {
+  if (to) {
     m_ui->m_nodes_view->header()->setSectionResizeMode(
         NodesTreeModel::Column::NameColumn, QHeaderView::Stretch);
     m_ui->m_nodes_view->header()->setSectionResizeMode(
         NodesTreeModel::Column::VisibleColumn, QHeaderView::Fixed);
   }
 
-  m_nodes_model->setDocument(m_document);
-  m_ui->m_nodes_view->setDocument(m_document);
+  m_nodes_model->setDocument(to);
+  m_ui->m_nodes_view->setDocument(to);
 }
-
-FlowDocument *NodesDock::getDocument() const { return m_document; }
 
 void NodesDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);

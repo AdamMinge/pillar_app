@@ -271,22 +271,22 @@
 <context>
     <name>PropertiesBrowser</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="190"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="192"/>
         <source>&amp;Add Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="191"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="193"/>
         <source>Add Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="193"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="195"/>
         <source>&amp;Remove Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="194"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="196"/>
         <source>Remove Selected Property</source>
         <translation type="unfinished"></translation>
     </message>

@@ -2,6 +2,7 @@
 #include "flow_document/flow_editor.h"
 
 #include "flow_document/component/factories/factories_dock.h"
+#include "flow_document/component/flow_dock_widget_factory.h"
 #include "flow_document/component/layers/layers_dock.h"
 #include "flow_document/component/nodes/nodes_dock.h"
 #include "flow_document/component/properties/properties_dock.h"
@@ -46,6 +47,7 @@ FlowEditor::FlowEditor(QObject *parent)
       m_preferences(new Preferences) {
   initUi();
   initConnections();
+  loadObjects();
 }
 
 FlowEditor::~FlowEditor() { FlowDocumentActionHandler::deleteInstance(); }
@@ -61,11 +63,14 @@ void FlowEditor::setCurrentDocument(egnite::Document *document) {
   if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
 
   m_action_handler.setDocument(m_current_document);
-
   m_tools_bar->setDocument(m_current_document);
   m_layers_dock->setDocument(m_current_document);
   m_nodes_dock->setDocument(m_current_document);
   m_properties_dock->setDocument(m_current_document);
+
+  for (auto dock_widget : m_dock_widget_for_factory) {
+    dock_widget->setDocument(m_current_document);
+  }
 
   if (auto flow_view = m_view_for_document[flow_document]; flow_view) {
     m_scene_stack->setCurrentWidget(flow_view);
@@ -122,8 +127,15 @@ void FlowEditor::restoreState() {
 }
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
-  return QList<QDockWidget *>{m_undo_dock, m_factories_dock, m_properties_dock,
-                              m_nodes_dock, m_layers_dock};
+  auto dock_widgets =
+      QList<QDockWidget *>{m_undo_dock, m_factories_dock, m_properties_dock,
+                           m_nodes_dock, m_layers_dock};
+
+  for (auto dock_widget : m_dock_widget_for_factory) {
+    dock_widgets.append(dock_widget);
+  }
+
+  return dock_widgets;
 }
 
 QList<utils::QtDialogWithToggleView *> FlowEditor::getDialogWidgets() const {
@@ -142,6 +154,17 @@ FlowEditor::StandardActions FlowEditor::getEnabledStandardActions() const {
 
 QString FlowEditor::getDocumentId() const {
   return QLatin1String("FlowDocument");
+}
+
+void FlowEditor::addedObject(FlowDockWidgetFactory *factory) {
+  m_dock_widget_for_factory[factory] = factory->create(m_main_window);
+}
+
+void FlowEditor::removedObject(FlowDockWidgetFactory *factory) {
+  if (m_dock_widget_for_factory.contains(factory)) {
+    m_dock_widget_for_factory[factory]->deleteLater();
+    m_dock_widget_for_factory.remove(factory);
+  }
 }
 
 void FlowEditor::toolSelected(AbstractTool *tool) {
@@ -186,6 +209,10 @@ void FlowEditor::initUi() {
   m_main_window->tabifyDockWidget(m_factories_dock, m_nodes_dock);
   m_main_window->tabifyDockWidget(m_factories_dock, m_layers_dock);
   m_factories_dock->raise();
+
+  for (auto dock_widget : m_dock_widget_for_factory) {
+    m_main_window->addDockWidget(Qt::RightDockWidgetArea, dock_widget);
+  }
 
   m_main_window->addToolBar(m_tools_bar);
 }

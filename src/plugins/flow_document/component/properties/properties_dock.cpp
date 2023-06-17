@@ -13,7 +13,7 @@
 namespace flow_document {
 
 PropertiesDock::PropertiesDock(QWidget *parent)
-    : QDockWidget(parent), m_document(nullptr), m_ui(new Ui::PropertiesDock()) {
+    : FlowDockWidget(parent), m_ui(new Ui::PropertiesDock()) {
   setObjectName(QLatin1String("Properties"));
 
   initUi();
@@ -24,15 +24,9 @@ PropertiesDock::PropertiesDock(QWidget *parent)
 
 PropertiesDock::~PropertiesDock() = default;
 
-void PropertiesDock::setDocument(FlowDocument *document) {
-  if (m_document == document) return;
-
-  m_document = document;
-
-  m_ui->m_properties_browser->setDocument(m_document);
+void PropertiesDock::onDocumentChanged(FlowDocument *from, FlowDocument *to) {
+  m_ui->m_properties_browser->setDocument(to);
 }
-
-FlowDocument *PropertiesDock::getDocument() const { return m_document; }
 
 void PropertiesDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);

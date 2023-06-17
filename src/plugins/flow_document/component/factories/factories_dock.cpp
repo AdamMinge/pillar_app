@@ -14,7 +14,7 @@
 namespace flow_document {
 
 FactoriesDock::FactoriesDock(QWidget *parent)
-    : QDockWidget(parent),
+    : FlowDockWidget(parent),
       m_ui(new Ui::FactoriesDock()),
       m_factories_model(new FactoriesTreeModel),
       m_search_proxy_model(new utils::QtLeafFilterProxyModel) {

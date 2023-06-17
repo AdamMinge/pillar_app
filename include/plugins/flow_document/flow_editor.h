@@ -8,6 +8,7 @@
 #include <QToolBar>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/document/document_editor.h>
+#include <egnite/plugin_listener.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -29,9 +30,14 @@ class PropertiesDock;
 class NodesDock;
 class LayersDock;
 
+class FlowDockWidget;
+class FlowDockWidgetFactory;
+
 class FlowDocumentActionHandler;
 
-class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
+class FLOW_DOCUMENT_API FlowEditor
+    : public egnite::DocumentEditor,
+      public egnite::PluginListener<FlowDockWidgetFactory> {
   Q_OBJECT
   Q_INTERFACES(egnite::DocumentEditor)
 
@@ -62,6 +68,10 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
 
   [[nodiscard]] QString getDocumentId() const override;
 
+ protected:
+  void addedObject(FlowDockWidgetFactory *factory) override;
+  void removedObject(FlowDockWidgetFactory *factory) override;
+
  private Q_SLOTS:
   void toolSelected(AbstractTool *tool);
   void cursorChanged(const QCursor &cursor);
@@ -82,6 +92,8 @@ class FLOW_DOCUMENT_API FlowEditor : public egnite::DocumentEditor {
   PropertiesDock *m_properties_dock;
   NodesDock *m_nodes_dock;
   LayersDock *m_layers_dock;
+
+  QHash<FlowDockWidgetFactory *, FlowDockWidget *> m_dock_widget_for_factory;
 
   FlowDocumentActionHandler &m_action_handler;
 

@@ -2,9 +2,9 @@
 #define FLOW_DOCUMENT_LAYERS_DOCK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QDockWidget>
 #include <QSortFilterProxyModel>
 /* ----------------------------------- Local -------------------------------- */
+#include "flow_document/component/flow_dock_widget.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -17,18 +17,16 @@ namespace flow_document {
 class FlowDocument;
 class LayersTreeModel;
 
-class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
+class FLOW_DOCUMENT_API LayersDock : public FlowDockWidget {
   Q_OBJECT
 
  public:
   explicit LayersDock(QWidget *parent = nullptr);
   ~LayersDock() override;
 
-  void setDocument(FlowDocument *document);
-  [[nodiscard]] FlowDocument *getDocument() const;
-
- protected:
+ protected Q_SLOTS:
   void changeEvent(QEvent *event) override;
+  void onDocumentChanged(FlowDocument *from, FlowDocument *to) override;
 
  private Q_SLOTS:
   void searchLayers(const QString &search);
@@ -40,8 +38,6 @@ class FLOW_DOCUMENT_API LayersDock : public QDockWidget {
   void retranslateUi();
 
  private:
-  FlowDocument *m_document;
-
   QScopedPointer<Ui::LayersDock> m_ui;
 
   QScopedPointer<LayersTreeModel> m_layers_model;

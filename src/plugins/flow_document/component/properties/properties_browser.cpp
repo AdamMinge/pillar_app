@@ -26,9 +26,10 @@ PropertiesBrowser::PropertiesBrowser(QWidget *parent)
       m_remove_property(utils::createActionWithShortcut(QKeySequence{}, this)) {
   initBrowser();
   initConnections();
-
   retranslateUi();
 
+  addedObject(new LayerPropertiesFactory(this));
+  addedObject(new NodePropertiesFactory(this));
   loadObjects();
 }
 
