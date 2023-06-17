@@ -4,7 +4,8 @@
 
 namespace flow_document {
 
-FlowDockWidgetFactory::FlowDockWidgetFactory(QObject* parent) {}
+FlowDockWidgetFactory::FlowDockWidgetFactory(QObject* parent)
+    : QObject(parent) {}
 
 FlowDockWidgetFactory::~FlowDockWidgetFactory() = default;
 

@@ -71,7 +71,8 @@ set(sources
     ${source_root}/component/scene/style/style.cpp
     ${source_root}/component/scene/tool/tools_bar.cpp
     ${source_root}/component/scene/tool/abstract_tool.cpp
-    ${source_root}/component/scene/tool/selection_tool.cpp)
+    ${source_root}/component/scene/tool/selection_tool.cpp
+    ${source_root}/component/scene/tool/abstract_tool_factory.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -139,7 +140,8 @@ set(includes
     ${include_root}/component/scene/style/style.h
     ${include_root}/component/scene/tool/tools_bar.h
     ${include_root}/component/scene/tool/abstract_tool.h
-    ${include_root}/component/scene/tool/selection_tool.h)
+    ${include_root}/component/scene/tool/selection_tool.h
+    ${include_root}/component/scene/tool/abstract_tool_factory.h)
 
 set(resources ${resources_root}/flow_document.qrc)
 

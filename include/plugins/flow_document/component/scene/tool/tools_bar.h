@@ -5,6 +5,8 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QToolBar>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_listener.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -12,9 +14,13 @@
 namespace flow_document {
 
 class FlowDocument;
-class AbstractTool;
 
-class FLOW_DOCUMENT_API ToolsBar : public QToolBar {
+class AbstractTool;
+class AbstractToolFactory;
+
+class FLOW_DOCUMENT_API ToolsBar
+    : public QToolBar,
+      public egnite::PluginListener<AbstractToolFactory> {
   Q_OBJECT
 
  public:
@@ -38,6 +44,9 @@ class FLOW_DOCUMENT_API ToolsBar : public QToolBar {
  protected:
   void changeEvent(QEvent *event) override;
 
+  void addedObject(AbstractToolFactory *factory) override;
+  void removedObject(AbstractToolFactory *factory) override;
+
  private Q_SLOTS:
   void toolActivate(QAction *action);
 
@@ -55,6 +64,8 @@ class FLOW_DOCUMENT_API ToolsBar : public QToolBar {
   FlowDocument *m_document;
   QActionGroup *m_action_group;
   AbstractTool *m_selected_tool;
+
+  QHash<AbstractToolFactory *, AbstractTool *> m_tool_for_factory;
 };
 
 }  // namespace flow_document

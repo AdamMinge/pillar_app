@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/tools_bar.h"
 
+#include "flow_document/component/scene/tool/abstract_tool_factory.h"
 #include "flow_document/component/scene/tool/selection_tool.h"
 /* -------------------------------------------------------------------------- */
 
@@ -16,7 +17,7 @@ ToolsBar::ToolsBar(QWidget *parent)
   initUi();
   initConnections();
   retranslateUi();
-
+  loadObjects();
   selectFirstTool();
 }
 
@@ -100,6 +101,22 @@ void ToolsBar::changeEvent(QEvent *event) {
       break;
     default:
       break;
+  }
+}
+
+void ToolsBar::addedObject(AbstractToolFactory *factory) {
+  auto tool = factory->create(this);
+  m_tool_for_factory[factory] = tool;
+  addAction(registerTool(tool));
+}
+
+void ToolsBar::removedObject(AbstractToolFactory *factory) {
+  if (m_tool_for_factory.contains(factory)) {
+    auto tool = m_tool_for_factory[factory];
+    m_tool_for_factory.remove(factory);
+
+    unregisterTool(tool);
+    tool->deleteLater();
   }
 }
 

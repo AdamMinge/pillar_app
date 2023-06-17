@@ -271,22 +271,22 @@
 <context>
     <name>PropertiesBrowser</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="192"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="191"/>
         <source>&amp;Add Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="193"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="192"/>
         <source>Add Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="195"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="194"/>
         <source>&amp;Remove Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="196"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/properties_browser.cpp" line="195"/>
         <source>Remove Selected Property</source>
         <translation type="unfinished"></translation>
     </message>
@@ -475,7 +475,7 @@
 <context>
     <name>ToolsBar</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="143"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="160"/>
         <source>ToolsBar</source>
         <translation type="unfinished"></translation>
     </message>

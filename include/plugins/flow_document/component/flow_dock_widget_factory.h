@@ -14,7 +14,7 @@ class FlowDockWidget;
 
 /* --------------------------- FlowDockWidgetFactory ------------------------ */
 
-class FLOW_DOCUMENT_API FlowDockWidgetFactory : public QDockWidget {
+class FLOW_DOCUMENT_API FlowDockWidgetFactory : public QObject {
   Q_OBJECT
 
  public:
