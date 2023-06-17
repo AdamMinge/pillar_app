@@ -80,6 +80,8 @@ void NodeLayer::serialize(utils::OArchive& archive) const {
 
 void NodeLayer::deserialize(utils::IArchive& archive) {
   Layer::deserialize(archive);
+
+  archive >> utils::ArchiveProperty("nodes", m_nodes);
 }
 
 void NodeLayer::init(const NodeLayer* node_layer) {

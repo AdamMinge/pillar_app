@@ -2,7 +2,7 @@
 #define LOGIC_GROUP_FACTORY_H
 
 /* ----------------------------- PluginFlowDocument ------------------------- */
-#include <flow_document/flow/group_factory.h>
+#include <flow_document/flow/factory/group_factory.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
 /* -------------------------------------------------------------------------- */

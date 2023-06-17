@@ -6,7 +6,7 @@
 #include <QString>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
-#include "flow_document/flow/factory.h"
+#include "flow_document/flow/factory/factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {

@@ -21,6 +21,7 @@ class FLOW_DOCUMENT_API Factory : public QObject {
   enum class Type {
     GroupFactory,
     NodeFactory,
+    LayerFactory,
   };
 
  public:
@@ -29,7 +30,7 @@ class FLOW_DOCUMENT_API Factory : public QObject {
 
   [[nodiscard]] Type getType() const;
 
-  [[nodiscard]] const QString &getName() const;
+  [[nodiscard]] QString getName() const;
   [[nodiscard]] GroupFactory *getParent() const;
 
  protected:

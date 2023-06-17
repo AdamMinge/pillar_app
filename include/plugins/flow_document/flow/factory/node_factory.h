@@ -7,7 +7,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/concept.h"
 #include "flow_document/export.h"
-#include "flow_document/flow/factory.h"
+#include "flow_document/flow/factory/factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -23,6 +23,7 @@ class NodeFactory : public Factory {
   explicit NodeFactory(QString name);
   ~NodeFactory() override;
 
+  [[nodiscard]] virtual QString getNodeType() const = 0;
   [[nodiscard]] virtual std::unique_ptr<Node> create() const = 0;
 };
 
@@ -33,12 +34,18 @@ class BaseNodeFactory : public NodeFactory {
  public:
   explicit BaseNodeFactory(QString name);
 
+  [[nodiscard]] QString getNodeType() const override;
   [[nodiscard]] std::unique_ptr<Node> create() const override;
 };
 
 template <IsNode NODE>
 BaseNodeFactory<NODE>::BaseNodeFactory(QString name)
     : NodeFactory(std::move(name)) {}
+
+template <IsNode NODE>
+QString BaseNodeFactory<NODE>::getNodeType() const {
+  return NODE::getStaticClassName();
+}
 
 template <IsNode NODE>
 std::unique_ptr<Node> BaseNodeFactory<NODE>::create() const {

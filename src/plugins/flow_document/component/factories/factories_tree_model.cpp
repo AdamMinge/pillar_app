@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/factories/factories_tree_model.h"
 
-#include "flow_document/flow/group_factory.h"
+#include "flow_document/flow/factory/group_factory.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>

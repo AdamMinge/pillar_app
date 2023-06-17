@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/flow/group_factory.h"
+#include "flow_document/flow/factory/group_factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {

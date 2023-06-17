@@ -5,7 +5,7 @@
 #include "logic_node_not.h"
 #include "logic_node_or.h"
 /* ----------------------------- PluginFlowDocument ------------------------- */
-#include <flow_document/flow/node_factory.h>
+#include <flow_document/flow/factory/node_factory.h>
 /* -------------------------------------------------------------------------- */
 
 LogicGroupFactory::LogicGroupFactory()

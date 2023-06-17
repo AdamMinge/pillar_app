@@ -27,14 +27,14 @@ set(sources
     ${source_root}/flow/node.cpp
     ${source_root}/flow/object.cpp
     ${source_root}/flow/pin.cpp
-    ${source_root}/flow/factory.cpp
-    ${source_root}/flow/group_factory.cpp
-    ${source_root}/flow/node_factory.cpp
     ${source_root}/flow/flow.cpp
     ${source_root}/flow/layer.cpp
     ${source_root}/flow/group_layer.cpp
     ${source_root}/flow/node_layer.cpp
     ${source_root}/flow/layer_iterator.cpp
+    ${source_root}/flow/factory/factory.cpp
+    ${source_root}/flow/factory/node_factory.cpp
+    ${source_root}/flow/factory/group_factory.cpp
     ${source_root}/command/add_remove_layer.cpp
     ${source_root}/command/change_layer.cpp
     ${source_root}/command/change_node.cpp
@@ -92,14 +92,14 @@ set(includes
     ${include_root}/flow/node.h
     ${include_root}/flow/object.h
     ${include_root}/flow/pin.h
-    ${include_root}/flow/factory.h
-    ${include_root}/flow/group_factory.h
-    ${include_root}/flow/node_factory.h
     ${include_root}/flow/flow.h
     ${include_root}/flow/layer.h
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
     ${include_root}/flow/layer_iterator.h
+    ${include_root}/flow/factory/factory.h
+    ${include_root}/flow/factory/node_factory.h
+    ${include_root}/flow/factory/group_factory.h
     ${include_root}/command/add_remove_layer.h
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h

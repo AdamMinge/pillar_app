@@ -1,7 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/flow/factory.h"
-
-#include "flow_document/flow/group_factory.h"
+#include "flow_document/flow/factory/factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -13,7 +11,7 @@ Factory::~Factory() = default;
 
 Factory::Type Factory::getType() const { return m_type; }
 
-const QString &Factory::getName() const { return m_name; }
+QString Factory::getName() const { return m_name; }
 
 GroupFactory *Factory::getParent() const { return m_parent; }
 

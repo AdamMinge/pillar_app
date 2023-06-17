@@ -59,6 +59,9 @@ void Node::serialize(utils::OArchive &archive) const {
 
 void Node::deserialize(utils::IArchive &archive) {
   Object::deserialize(archive);
+
+  archive >> utils::ArchiveProperty("position", m_position);
+  archive >> utils::ArchiveProperty("visible", m_visible);
 }
 
 void Node::setParent(NodeLayer *parent) { m_parent = parent; }

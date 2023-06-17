@@ -80,6 +80,11 @@ void Layer::serialize(utils::OArchive& archive) const {
 
 void Layer::deserialize(utils::IArchive& archive) {
   Object::deserialize(archive);
+
+  archive >> utils::ArchiveProperty("position", m_position);
+  archive >> utils::ArchiveProperty("opacity", m_opacity);
+  archive >> utils::ArchiveProperty("locked", m_locked);
+  archive >> utils::ArchiveProperty("visible", m_visible);
 }
 
 /* -------------------------------- Layer Utils ----------------------------- */

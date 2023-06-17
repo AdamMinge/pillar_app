@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/flow/node_factory.h"
+#include "flow_document/flow/factory/node_factory.h"
 
 #include "flow_document/flow/node.h"
 /* -------------------------------------------------------------------------- */
