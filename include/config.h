@@ -2,16 +2,17 @@
 #ifndef EGNITE_CONFIG_H
 #define EGNITE_CONFIG_H
 /* -------------------------------------------------------------------------- */
-/* ---------------------------- Define EGNITE version -------------------------
- */
+/* ---------------------------- Define EGNITE version ----------------------- */
 /* -------------------------------------------------------------------------- */
-#define EGNITE_VERSION_MAJOR @EGNITE_VERSION_MAJOR @
-#define EGNITE_VERSION_MINOR @EGNITE_VERSION_MINOR @
-#define EGNITE_VERSION_PATCH @EGNITE_VERSION_PATCH @
-#define EGNITE_VERSION \
-  @EGNITE_VERSION_MAJOR EGNITE_VERSION_MINOR EGNITE_VERSION_PATCH @
-#define EGNITE_VERSION_STR \
-  "0.1.0"
+// clang-format off
+
+#define EGNITE_VERSION_MAJOR 0
+#define EGNITE_VERSION_MINOR 1
+#define EGNITE_VERSION_PATCH 0
+#define EGNITE_VERSION 0.1.0
+#define EGNITE_VERSION_STR "0.1.0"
+
+// clang-format on
 /* -------------------------------------------------------------------------- */
 /* ----------------------- Identify the operating system -------------------- */
 /* -------------------------------------------------------------------------- */

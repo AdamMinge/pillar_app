@@ -48,7 +48,6 @@ void FactoriesDock::initUi() {
   m_ui->setupUi(this);
 
   m_search_proxy_model->setSourceModel(m_factories_model.get());
-
   m_ui->m_factories_view->setModel(m_search_proxy_model.get());
 
   m_search_proxy_model->setFilterKeyColumn(

@@ -28,4 +28,21 @@ class FLOW_DOCUMENT_API AbstractToolFactory : public QObject {
 Q_DECLARE_INTERFACE(flow_document::AbstractToolFactory,
                     "org.flow.AbstractToolFactory")
 
+namespace flow_document {
+
+/* ---------------------------- SelectionToolFactory ------------------------ */
+
+class FLOW_DOCUMENT_API SelectionToolFactory : public AbstractToolFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::AbstractToolFactory)
+
+ public:
+  explicit SelectionToolFactory(QObject* parent = nullptr);
+  ~SelectionToolFactory() override;
+
+  [[nodiscard]] AbstractTool* create(QObject* parent = nullptr) const override;
+};
+
+}  // namespace flow_document
+
 #endif  // FLOW_DOCUMENT_ABSTRACT_TOOL_FACTORY_H

@@ -34,7 +34,7 @@ set(sources
     ${source_root}/flow/layer_iterator.cpp
     ${source_root}/flow/factory/factory.cpp
     ${source_root}/flow/factory/node_factory.cpp
-    ${source_root}/flow/factory/group_factory.cpp
+    ${source_root}/flow/factory/layer_factory.cpp
     ${source_root}/command/add_remove_layer.cpp
     ${source_root}/command/change_layer.cpp
     ${source_root}/command/change_node.cpp
@@ -102,7 +102,7 @@ set(includes
     ${include_root}/flow/layer_iterator.h
     ${include_root}/flow/factory/factory.h
     ${include_root}/flow/factory/node_factory.h
-    ${include_root}/flow/factory/group_factory.h
+    ${include_root}/flow/factory/layer_factory.h
     ${include_root}/command/add_remove_layer.h
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h

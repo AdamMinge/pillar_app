@@ -5,6 +5,8 @@
 #include <QAction>
 #include <QMenu>
 #include <QObject>
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_listener.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -13,10 +15,13 @@ namespace flow_document {
 
 class FlowDocument;
 class ChangeEvent;
+class Factory;
 class Layer;
 class Node;
 
-class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
+class FLOW_DOCUMENT_API FlowDocumentActionHandler
+    : public QObject,
+      public egnite::PluginListener<Factory> {
   Q_OBJECT
 
  public:
@@ -29,8 +34,7 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   void setDocument(FlowDocument* document);
   [[nodiscard]] FlowDocument* getDocument() const;
 
-  [[nodiscard]] QAction* getAddGroupLayerAction() const;
-  [[nodiscard]] QAction* getAddNodeLayerAction() const;
+  [[nodiscard]] QMenu* getAddLayerMenu() const;
   [[nodiscard]] QAction* getRemoveLayerAction() const;
   [[nodiscard]] QAction* getRaiseLayerAction() const;
   [[nodiscard]] QAction* getLowerLayerAction() const;
@@ -38,16 +42,20 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   [[nodiscard]] QAction* getShowHideOtherLayersAction() const;
   [[nodiscard]] QAction* getLockUnlockOtherLayersAction() const;
 
+  [[nodiscard]] QMenu* getAddNodeMenu() const;
   [[nodiscard]] QAction* getRemoveNodeAction() const;
   [[nodiscard]] QAction* getMoveUpNodeAction() const;
   [[nodiscard]] QAction* getMoveDownNodeAction() const;
   [[nodiscard]] QAction* getDuplicateNodeAction() const;
 
-  [[nodiscard]] QMenu* createNewLayerMenu(QWidget* parent) const;
+ protected:
+  void addedObject(Factory* factory) override;
+  void removedObject(Factory* factory) override;
+
+  [[nodiscard]] std::function<void()> methodForFactory(Factory* factory) const;
+  [[nodiscard]] QMenu* menuForFactory(Factory* factory) const;
 
  private Q_SLOTS:
-  void onAddGroupLayer() const;
-  void onAddNodeLayer() const;
   void onRemoveLayer() const;
   void onRaiseLayer() const;
   void onLowerLayer() const;
@@ -74,6 +82,7 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   void unregisterActions();
 
   void addLayer(std::unique_ptr<Layer> layer) const;
+  void addNode(std::unique_ptr<Node> node) const;
 
  private:
   static std::unique_ptr<FlowDocumentActionHandler> m_instance;
@@ -81,8 +90,7 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
  private:
   FlowDocument* m_document;
 
-  QAction* m_add_group_layer;
-  QAction* m_add_node_layer;
+  QScopedPointer<QMenu> m_add_layer_menu;
   QAction* m_remove_layer;
   QAction* m_raise_layer;
   QAction* m_lower_layer;
@@ -90,6 +98,7 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler : public QObject {
   QAction* m_show_hide_other_layers;
   QAction* m_lock_unlock_other_layers;
 
+  QScopedPointer<QMenu> m_add_node_menu;
   QAction* m_remove_node;
   QAction* m_move_up_node;
   QAction* m_move_down_node;

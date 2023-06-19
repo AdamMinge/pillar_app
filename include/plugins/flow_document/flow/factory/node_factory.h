@@ -4,6 +4,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QObject>
 #include <QString>
+/* --------------------------------- Standard ------------------------------- */
+#include <memory>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/concept.h"
 #include "flow_document/export.h"
@@ -16,41 +18,52 @@ class Node;
 
 /* -------------------------------- NodeFactory ----------------------------- */
 
-class NodeFactory : public Factory {
+class FLOW_DOCUMENT_API NodeFactory : public Factory {
   Q_OBJECT
+  Q_INTERFACES(flow_document::Factory)
 
  public:
-  explicit NodeFactory(QString name);
+  explicit NodeFactory(QString name, QString section,
+                       QObject* parent = nullptr);
+  explicit NodeFactory(QString name, QString section, QIcon icon,
+                       QObject* parent = nullptr);
   ~NodeFactory() override;
 
   [[nodiscard]] virtual QString getNodeType() const = 0;
   [[nodiscard]] virtual std::unique_ptr<Node> create() const = 0;
 };
 
-/* ------------------------------ BaseNodeFactory --------------------------- */
+}  // namespace flow_document
 
-template <IsNode NODE>
-class BaseNodeFactory : public NodeFactory {
- public:
-  explicit BaseNodeFactory(QString name);
+Q_DECLARE_INTERFACE(flow_document::NodeFactory, "org.flow.NodeFactory")
 
-  [[nodiscard]] QString getNodeType() const override;
-  [[nodiscard]] std::unique_ptr<Node> create() const override;
-};
+namespace flow_document {
 
-template <IsNode NODE>
-BaseNodeFactory<NODE>::BaseNodeFactory(QString name)
-    : NodeFactory(std::move(name)) {}
+/* ----------------------- Helper macro to create factory ------------------- */
 
-template <IsNode NODE>
-QString BaseNodeFactory<NODE>::getNodeType() const {
-  return NODE::getStaticClassName();
-}
-
-template <IsNode NODE>
-std::unique_ptr<Node> BaseNodeFactory<NODE>::create() const {
-  return std::make_unique<NODE>();
-}
+// clang-format off
+#define DECLARE_NODE_FACTORY(export_api, node)                                    \
+  class export_api node##Factory : public flow_document::NodeFactory{             \
+    Q_OBJECT                                                                      \
+    Q_INTERFACES(flow_document::NodeFactory)                                      \
+    public :                                                                      \
+      explicit node##Factory(QString name, QString section,                       \
+                                QObject* parent = nullptr) :                      \
+            flow_document::NodeFactory(std::move(name), std::move(section),       \
+                                        parent){}                                 \
+      explicit node##Factory(QString name, QString section, QIcon icon,           \
+                                QObject* parent = nullptr) :                      \
+            flow_document::NodeFactory(std::move(name), std::move(section),       \
+                                        std::move(icon), parent){}                \
+                                                                                  \
+      [[nodiscard]] QString getNodeType() const {                                 \
+        return node::getStaticClassName();                                        \
+      }                                                                           \
+      [[nodiscard]] std::unique_ptr<flow_document::Node> create() const {         \
+        return std::make_unique<node>();                                          \
+      }                                                                           \
+  };
+// clang-format on
 
 }  // namespace flow_document
 

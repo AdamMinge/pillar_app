@@ -106,7 +106,8 @@
         "qsizef": "cpp",
         "qdate": "cpp",
         "qfile": "cpp",
-        "qjsonvalue": "cpp"
+        "qjsonvalue": "cpp",
+        "qstandarditemmodel": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

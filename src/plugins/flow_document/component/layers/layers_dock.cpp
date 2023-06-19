@@ -77,7 +77,7 @@ void LayersDock::initUi() {
   buttons_container->setMovable(false);
   buttons_container->setIconSize(QSize(16, 16));
 
-  auto new_layer_menu = handler.createNewLayerMenu(this);
+  auto new_layer_menu = handler.getAddLayerMenu();
   auto new_layer_button = new QToolButton();
   new_layer_button->setPopupMode(QToolButton::InstantPopup);
   new_layer_button->setMenu(new_layer_menu);

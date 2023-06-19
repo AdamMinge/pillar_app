@@ -36,6 +36,7 @@ _DEFINE_ICON(NodeLayer, "16x16", "node_layer.png")
 namespace x32 {
 
 _DEFINE_ICON(Dir, "32x32", "dir.png")
+_DEFINE_ICON(Layer, "32x32", "group_layer.png")
 _DEFINE_ICON(GroupLayer, "32x32", "group_layer.png")
 _DEFINE_ICON(NodeLayer, "32x32", "node_layer.png")
 _DEFINE_ICON(Node, "32x32", "node.png")

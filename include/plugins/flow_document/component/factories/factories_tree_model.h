@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
+#include <QStandardItem>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_listener.h>
 /* ----------------------------------- Local -------------------------------- */
@@ -11,15 +12,16 @@
 
 namespace flow_document {
 
-class GroupFactory;
+class Factory;
 
 class FLOW_DOCUMENT_API FactoriesTreeModel
     : public QAbstractItemModel,
-      public egnite::PluginListener<GroupFactory> {
+      public egnite::PluginListener<Factory> {
   Q_OBJECT
 
  public:
   enum Column { NameColumn };
+  enum Section { Nodes };
 
  public:
   explicit FactoriesTreeModel(QObject *parent = nullptr);
@@ -44,16 +46,23 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
   [[nodiscard]] QStringList mimeTypes() const override;
 
  protected:
-  void addedObject(GroupFactory *group_factories) override;
-  void removedObject(GroupFactory *group_factories) override;
+  void addedObject(Factory *factory) override;
+  void removedObject(Factory *factory) override;
 
  private:
-  [[nodiscard]] QString getName(const QModelIndex &index) const;
-  [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
+  [[nodiscard]] QStandardItem *getOrCreateFactorySection(Factory *factory);
+  [[nodiscard]] QStandardItem *createFactory(Factory *factory);
+  [[nodiscard]] QStandardItem *createSection(const QString &name);
+
+  [[nodiscard]] QStandardItem *findTypeSection(Factory *factory) const;
+  [[nodiscard]] QStandardItem *findFactory(QStandardItem *section,
+                                           Factory *factory) const;
+
+  [[nodiscard]] QStandardItem *getItem(const QModelIndex &index) const;
   [[nodiscard]] Qt::ItemFlags getFlags(const QModelIndex &index) const;
 
  private:
-  QList<GroupFactory *> m_group_factories;
+  QScopedPointer<QStandardItem> m_root;
 };
 
 }  // namespace flow_document

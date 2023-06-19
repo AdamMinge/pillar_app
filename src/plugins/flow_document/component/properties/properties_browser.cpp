@@ -28,8 +28,6 @@ PropertiesBrowser::PropertiesBrowser(QWidget *parent)
   initConnections();
   retranslateUi();
 
-  addedObject(new LayerPropertiesFactory(this));
-  addedObject(new NodePropertiesFactory(this));
   loadObjects();
 }
 

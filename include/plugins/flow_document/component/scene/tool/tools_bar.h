@@ -58,8 +58,6 @@ class FLOW_DOCUMENT_API ToolsBar
   void initConnections();
   void retranslateUi();
 
-  void selectFirstTool();
-
  private:
   FlowDocument *m_document;
   QActionGroup *m_action_group;

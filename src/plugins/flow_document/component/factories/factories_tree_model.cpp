@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/factories/factories_tree_model.h"
 
-#include "flow_document/flow/factory/group_factory.h"
+#include "flow_document/flow/factory/factory.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
@@ -10,7 +10,9 @@
 namespace flow_document {
 
 FactoriesTreeModel::FactoriesTreeModel(QObject *parent)
-    : QAbstractItemModel(parent) {
+    : QAbstractItemModel(parent), m_root(new QStandardItem()) {
+  m_root->insertRow(Section::Nodes, createSection(tr("Nodes")));
+
   loadObjects();
 }
 
@@ -21,19 +23,10 @@ Qt::ItemFlags FactoriesTreeModel::flags(const QModelIndex &index) const {
 }
 
 QVariant FactoriesTreeModel::data(const QModelIndex &index, int role) const {
-  if (index.row() < 0 || index.row() >= rowCount(index.parent()))
-    return QVariant{};
+  if (!index.isValid()) return QVariant();
 
-  switch (role) {
-    case Qt::DisplayRole:
-      return getName(index);
-
-    case Qt::DecorationRole:
-      return getIcon(index);
-
-    default:
-      return QVariant{};
-  }
+  auto item = getItem(index);
+  return item ? item->data(role) : QVariant();
 }
 
 QVariant FactoriesTreeModel::headerData(int section,
@@ -52,48 +45,35 @@ QVariant FactoriesTreeModel::headerData(int section,
 
 QModelIndex FactoriesTreeModel::index(int row, int column,
                                       const QModelIndex &parent) const {
-  if (parent.isValid()) {
-    auto parent_item = static_cast<GroupFactory *>(parent.internalPointer());
-    return createIndex(row, column, parent_item->at(row));
-  } else {
-    return createIndex(row, column, m_group_factories.at(row));
-  }
+  if (!hasIndex(row, column, parent)) return QModelIndex();
+
+  auto parent_item = getItem(parent);
+  auto child_item = parent_item->child(row, column);
+  if (child_item)
+    return createIndex(row, column, child_item);
+  else
+    return QModelIndex();
 }
 
 QModelIndex FactoriesTreeModel::parent(const QModelIndex &index) const {
-  if (!index.isValid()) return QModelIndex{};
+  if (!index.isValid()) return QModelIndex();
 
-  auto child_item = static_cast<Factory *>(index.internalPointer());
-  auto item = child_item->getParent();
+  auto child_item = getItem(index);
+  auto parent_item = child_item->parent();
+  if (!parent_item) return QModelIndex();
 
-  if (m_group_factories.contains(item)) {
-    auto row = static_cast<int>(m_group_factories.indexOf(item));
-    return createIndex(row, 0, item);
-  } else {
-    auto parent_item = item ? item->getParent() : nullptr;
-    if (!parent_item) return QModelIndex{};
-
-    auto row = parent_item->indexOf(item);
-    return createIndex(row, 0, item);
-  }
+  if (parent_item == m_root.get()) return QModelIndex();
+  return createIndex(parent_item->row(), 0, parent_item);
 }
 
 int FactoriesTreeModel::rowCount(const QModelIndex &parent) const {
-  if (!parent.isValid())
-    return static_cast<int>(m_group_factories.size());
-  else {
-    auto factory = static_cast<Factory *>(parent.internalPointer());
-    if (factory->getType() == Factory::Type::GroupFactory) {
-      auto group_factory = static_cast<GroupFactory *>(factory);
-      return group_factory->size();
-    }
-
-    return 0;
-  }
+  auto parent_item = getItem(parent);
+  return parent_item->rowCount();
 }
 
 int FactoriesTreeModel::columnCount(const QModelIndex &parent) const {
-  return 1;
+  auto parent_item = getItem(parent);
+  return parent_item->columnCount();
 }
 
 QMimeData *FactoriesTreeModel::mimeData(const QModelIndexList &indexes) const {
@@ -107,43 +87,107 @@ QStringList FactoriesTreeModel::mimeTypes() const {
   return QStringList{};
 }
 
-void FactoriesTreeModel::addedObject(GroupFactory *group_factories) {
-  auto index_to_insert = static_cast<int>(m_group_factories.count());
+void FactoriesTreeModel::addedObject(Factory *factory) {
+  beginResetModel();
 
-  beginInsertRows(QModelIndex{}, index_to_insert, index_to_insert);
-  m_group_factories.insert(index_to_insert, group_factories);
-  endInsertRows();
-}
-
-void FactoriesTreeModel::removedObject(GroupFactory *group_factories) {
-  auto index_to_remove = m_group_factories.indexOf(group_factories);
-
-  beginRemoveRows(QModelIndex{}, index_to_remove, index_to_remove);
-  m_group_factories.remove(index_to_remove);
-  endRemoveRows();
-}
-
-QString FactoriesTreeModel::getName(const QModelIndex &index) const {
-  auto factory = static_cast<Factory *>(index.internalPointer());
-  return factory->getName();
-}
-
-QIcon FactoriesTreeModel::getIcon(const QModelIndex &index) const {
-  auto factory = static_cast<Factory *>(index.internalPointer());
-  switch (factory->getType()) {
-    case Factory::Type::GroupFactory:
-      return QIcon(icons::x32::Dir);
-
-    case Factory::Type::NodeFactory:
-      return QIcon(icons::x32::Node);
+  auto factory_section = getOrCreateFactorySection(factory);
+  if (factory_section) {
+    Q_ASSERT(!findFactory(factory_section, factory));
+    factory_section->appendRow(createFactory(factory));
   }
 
-  return QIcon{};
+  endResetModel();
+}
+
+void FactoriesTreeModel::removedObject(Factory *factory) {
+  beginResetModel();
+
+  auto factory_section = getOrCreateFactorySection(factory);
+  if (factory_section) {
+    auto factory_item = findFactory(factory_section, factory);
+    Q_ASSERT(factory_item);
+
+    factory_section->removeRow(factory_item->row());
+    if (factory_section->rowCount() == 0) {
+      auto type_section = findTypeSection(factory);
+      type_section->removeRow(factory_section->row());
+    }
+  }
+
+  endResetModel();
+}
+
+QStandardItem *FactoriesTreeModel::getOrCreateFactorySection(Factory *factory) {
+  auto type_section = findTypeSection(factory);
+  if (!type_section) return nullptr;
+
+  const auto section_name = factory->getSection();
+  for (auto row = 0; row < type_section->rowCount(); ++row) {
+    auto child_item = type_section->child(row);
+    if (child_item->text() == section_name) {
+      return child_item;
+    }
+  }
+
+  auto section_item = createSection(section_name);
+  type_section->appendRow(section_item);
+
+  return section_item;
+}
+
+QStandardItem *FactoriesTreeModel::createFactory(Factory *factory) {
+  auto item = new QStandardItem(factory->getName());
+  item->setData(QVariant::fromValue(factory), Qt::UserRole);
+  item->setData(factory->getIcon(), Qt::DecorationRole);
+  item->setData(factory->getName(), Qt::DisplayRole);
+
+  return item;
+}
+
+QStandardItem *FactoriesTreeModel::createSection(const QString &name) {
+  auto item = new QStandardItem(name);
+  item->setData(QIcon(icons::x32::Dir), Qt::DecorationRole);
+
+  return item;
+}
+
+QStandardItem *FactoriesTreeModel::findTypeSection(Factory *factory) const {
+  switch (factory->getType()) {
+    case Factory::Type::NodeFactory:
+      return m_root->child(Section::Nodes);
+  }
+
+  return nullptr;
+}
+
+QStandardItem *FactoriesTreeModel::findFactory(QStandardItem *section,
+                                               Factory *factory) const {
+  Q_ASSERT(section);
+  for (auto row = 0; row < section->rowCount(); ++row) {
+    auto child_item = section->child(row);
+    auto child_item_factory = child_item->data(Qt::UserRole).value<Factory *>();
+
+    if (child_item_factory == factory) return child_item;
+  }
+
+  return nullptr;
+}
+
+QStandardItem *FactoriesTreeModel::getItem(const QModelIndex &index) const {
+  if (index.isValid()) {
+    auto item = static_cast<QStandardItem *>(index.internalPointer());
+    if (item) return item;
+  }
+
+  return m_root.get();
 }
 
 Qt::ItemFlags FactoriesTreeModel::getFlags(const QModelIndex &index) const {
-  auto factory = static_cast<Factory *>(index.internalPointer());
-  auto flags = Qt::ItemFlags{Qt::NoItemFlags};
+  auto item = static_cast<QStandardItem *>(index.internalPointer());
+  auto factory = item->data(Qt::UserRole).value<Factory *>();
+  if (!factory) return Qt::NoItemFlags;
+
+  auto flags = Qt::ItemFlags{};
   switch (factory->getType()) {
     case Factory::Type::NodeFactory:
       flags |= Qt::ItemIsDragEnabled;

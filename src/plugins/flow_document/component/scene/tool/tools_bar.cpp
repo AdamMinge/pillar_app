@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/tools_bar.h"
 
+#include "flow_document/component/scene/tool/abstract_tool.h"
 #include "flow_document/component/scene/tool/abstract_tool_factory.h"
-#include "flow_document/component/scene/tool/selection_tool.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -18,7 +18,6 @@ ToolsBar::ToolsBar(QWidget *parent)
   initConnections();
   retranslateUi();
   loadObjects();
-  selectFirstTool();
 }
 
 ToolsBar::~ToolsBar() = default;
@@ -145,12 +144,7 @@ void ToolsBar::toolVisibleChanged(bool visible) {
   action->setVisible(visible);
 }
 
-void ToolsBar::initUi() {
-  m_action_group->setExclusive(true);
-
-  auto select_tool = new SelectionTool(this);
-  addAction(registerTool(select_tool));
-}
+void ToolsBar::initUi() { m_action_group->setExclusive(true); }
 
 void ToolsBar::initConnections() {
   connect(m_action_group, &QActionGroup::triggered, this,
@@ -158,11 +152,5 @@ void ToolsBar::initConnections() {
 }
 
 void ToolsBar::retranslateUi() { setWindowTitle(tr("ToolsBar")); }
-
-void ToolsBar::selectFirstTool() {
-  auto action = m_action_group->actions().first();
-  auto tool = action->data().value<AbstractTool *>();
-  selectTool(tool);
-}
 
 }  // namespace flow_document

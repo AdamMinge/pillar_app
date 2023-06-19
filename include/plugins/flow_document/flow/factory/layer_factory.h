@@ -13,44 +13,84 @@
 namespace flow_document {
 
 class Layer;
+class GroupLayer;
+class NodeLayer;
 
 /* -------------------------------- LayerFactory ---------------------------- */
 
-class LayerFactory : public Factory {
+class FLOW_DOCUMENT_API LayerFactory : public Factory {
   Q_OBJECT
+  Q_INTERFACES(flow_document::Factory)
 
  public:
-  explicit LayerFactory(QString name);
+  explicit LayerFactory(QString name, QString section,
+                        QObject* parent = nullptr);
+  explicit LayerFactory(QString name, QString section, QIcon icon,
+                        QObject* parent = nullptr);
   ~LayerFactory() override;
 
   [[nodiscard]] virtual QString getLayerType() const = 0;
   [[nodiscard]] virtual std::unique_ptr<Layer> create() const = 0;
 };
 
-/* ------------------------------ BaseLayerFactory -------------------------- */
+}  // namespace flow_document
 
-template <IsLayer LAYER>
-class BaseLayerFactory : public LayerFactory {
+Q_DECLARE_INTERFACE(flow_document::LayerFactory, "org.flow.LayerFactory")
+
+namespace flow_document {
+
+/* ----------------------------- GroupLayerFactory -------------------------- */
+
+class FLOW_DOCUMENT_API GroupLayerFactory : public LayerFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::Factory)
+
  public:
-  explicit BaseLayerFactory(QString name);
+  explicit GroupLayerFactory(QObject* parent = nullptr);
+  ~GroupLayerFactory() override;
 
-  [[nodiscard]] QString getNodeType() const override;
+  [[nodiscard]] QString getLayerType() const override;
   [[nodiscard]] std::unique_ptr<Layer> create() const override;
 };
 
-template <IsLayer LAYER>
-BaseLayerFactory<LAYER>::BaseLayerFactory(QString name)
-    : LayerFactory(std::move(name)) {}
+/* ------------------------------ NodeLayerFactory -------------------------- */
 
-template <IsLayer LAYER>
-QString BaseLayerFactory<LAYER>::getNodeType() const {
-  return LAYER::getStaticClassName();
-}
+class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::Factory)
 
-template <IsLayer LAYER>
-std::unique_ptr<Layer> BaseLayerFactory<LAYER>::create() const {
-  return std::make_unique<LAYER>();
-}
+ public:
+  explicit NodeLayerFactory(QObject* parent = nullptr);
+  ~NodeLayerFactory() override;
+
+  [[nodiscard]] QString getLayerType() const override;
+  [[nodiscard]] std::unique_ptr<Layer> create() const override;
+};
+
+/* ----------------------- Helper macro to create factory ------------------- */
+// clang-format off
+#define DECLARE_LAYER_FACTORY(export_api, layer)                                  \
+  class export_api layer##Factory : public flow_document::LayerFactory{           \
+    Q_OBJECT                                                                      \
+    Q_INTERFACES(flow_document::LayerFactory)                                     \
+    public :                                                                      \
+      explicit layer##Factory(QString name, QString section,                      \
+                                QObject* parent = nullptr) :                      \
+            flow_document::LayerFactory(std::move(name), std::move(section),      \
+                                        parent){}                                 \
+      explicit layer##Factory(QString name, QString section, QIcon icon,          \
+                                QObject* parent = nullptr) :                      \
+            flow_document::LayerFactory(std::move(name), std::move(section),      \
+                                        std::move(icon), parent){}                \
+                                                                                  \
+      [[nodiscard]] QString getLayerType() const {                                \
+        return layer::getStaticClassName();                                       \
+      }                                                                           \
+      [[nodiscard]] std::unique_ptr<flow_document::Layer> create() const {        \
+        return std::make_unique<layer>();                                         \
+      }                                                                           \
+  };
+// clang-format on
 
 }  // namespace flow_document
 

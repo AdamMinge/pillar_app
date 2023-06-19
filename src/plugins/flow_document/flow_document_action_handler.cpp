@@ -6,6 +6,9 @@
 #include "flow_document/command/duplicate_layer.h"
 #include "flow_document/command/raise_lower_layer.h"
 #include "flow_document/event/change_event.h"
+#include "flow_document/flow/factory/factory.h"
+#include "flow_document/flow/factory/layer_factory.h"
+#include "flow_document/flow/factory/node_factory.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer_iterator.h"
@@ -37,6 +40,23 @@ namespace {
   }
 
   return layers;
+}
+
+[[nodiscard]] QList<Node*> getAllNodes(FlowDocument* document,
+                                       const QList<Node*>& except = {}) {
+  auto layers = getAllLayers(document, {});
+  auto nodes = QList<Node*>{};
+
+  for (auto layer : layers) {
+    if (layer->isClassOrChild(NodeLayer::getStaticClassName())) {
+      auto node_layer = static_cast<NodeLayer*>(layer);
+      for (auto& node : *node_layer) {
+        if (!except.contains(node.get())) nodes.append(node.get());
+      }
+    }
+  }
+
+  return nodes;
 }
 
 [[nodiscard]] bool moreVisible(const QList<Layer*> layers) {
@@ -80,32 +100,42 @@ namespace {
                      });
 }
 
-[[nodiscard]] QString getLayerNameTemplate(const QString& type) {
-  if (type == NodeLayer::getStaticClassName()) {
-    return QString("Node Layer %1");
-  }
-  if (type == GroupLayer::getStaticClassName()) {
-    return QString("Group Layer %1");
-  }
-
-  return QString{};
-}
-
 [[nodiscard]] QSet<QString> getAllLayerNames(FlowDocument* document,
-                                             const QString& type) {
+                                             const QString& prefix) {
   auto names = QSet<QString>{};
   const auto layers = getAllLayers(document);
   for (const auto layer : layers) {
-    if (layer->isClass(type)) names.insert(layer->getName());
+    if (layer->getName().startsWith(prefix)) names.insert(layer->getName());
   }
 
   return names;
 }
 
-[[nodiscard]] QString getNewLayerName(FlowDocument* document,
-                                      const QString& type) {
-  auto name_template = getLayerNameTemplate(type);
-  auto names = getAllLayerNames(document, type);
+[[nodiscard]] QSet<QString> getAllNodeNames(FlowDocument* document,
+                                            const QString& prefix) {
+  auto names = QSet<QString>{};
+  const auto nodes = getAllNodes(document);
+  for (const auto node : nodes) {
+    if (node->getName().startsWith(prefix)) names.insert(node->getName());
+  }
+
+  return names;
+}
+
+[[nodiscard]] QString getNewDefaultName(FlowDocument* document,
+                                        Factory* factory) {
+  auto name_template = factory->getName() + " %1";
+
+  auto names = QSet<QString>{};
+  switch (factory->getType()) {
+    case Factory::Type::NodeFactory:
+      names = getAllNodeNames(document, factory->getName());
+      break;
+
+    case Factory::Type::LayerFactory:
+      names = getAllLayerNames(document, factory->getName());
+      break;
+  }
 
   auto index = 1;
   auto name = QString{};
@@ -171,12 +201,8 @@ FlowDocument* FlowDocumentActionHandler::getDocument() const {
   return m_document;
 }
 
-QAction* FlowDocumentActionHandler::getAddGroupLayerAction() const {
-  return m_add_group_layer;
-}
-
-QAction* FlowDocumentActionHandler::getAddNodeLayerAction() const {
-  return m_add_node_layer;
+QMenu* FlowDocumentActionHandler::getAddLayerMenu() const {
+  return m_add_layer_menu.get();
 }
 
 QAction* FlowDocumentActionHandler::getRemoveLayerAction() const {
@@ -203,6 +229,10 @@ QAction* FlowDocumentActionHandler::getLockUnlockOtherLayersAction() const {
   return m_lock_unlock_other_layers;
 }
 
+QMenu* FlowDocumentActionHandler::getAddNodeMenu() const {
+  return m_add_node_menu.get();
+}
+
 QAction* FlowDocumentActionHandler::getRemoveNodeAction() const {
   return m_remove_node;
 }
@@ -219,30 +249,69 @@ QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
   return m_duplicate_node;
 }
 
-QMenu* FlowDocumentActionHandler::createNewLayerMenu(QWidget* parent) const {
-  auto menu = new QMenu(tr("&New"), parent);
-  menu->setIcon(QIcon(icons::x16::Add));
+void FlowDocumentActionHandler::addedObject(Factory* factory) {
+  auto menu = menuForFactory(factory);
+  Q_ASSERT(menu);
 
-  menu->addAction(m_add_group_layer);
-  menu->addAction(m_add_node_layer);
+  auto factory_action = utils::createActionWithShortcut(QKeySequence{}, this);
+  factory_action->setIcon(factory->getIcon());
+  factory_action->setText(tr("&%1").arg(factory->getName()));
+  factory_action->setWhatsThis(tr("Create %1").arg(factory->getName()));
+  factory_action->setData(QVariant::fromValue(factory));
 
-  return menu;
+  connect(factory_action, &QAction::triggered, methodForFactory(factory));
+
+  menu->addAction(factory_action);
 }
 
-void FlowDocumentActionHandler::onAddGroupLayer() const {
-  Q_ASSERT(m_document);
+void FlowDocumentActionHandler::removedObject(Factory* factory) {
+  auto menu = menuForFactory(factory);
+  Q_ASSERT(menu);
 
-  auto new_layer = std::make_unique<GroupLayer>();
-  new_layer->setName(getNewLayerName(m_document, new_layer->getClassName()));
-  addLayer(std::move(new_layer));
+  for (auto action : menu->actions()) {
+    auto action_factory = action->data().value<Factory*>();
+    if (action_factory == factory) {
+      menu->removeAction(action);
+      action->deleteLater();
+    }
+  }
 }
 
-void FlowDocumentActionHandler::onAddNodeLayer() const {
-  Q_ASSERT(m_document);
+std::function<void()> FlowDocumentActionHandler::methodForFactory(
+    Factory* factory) const {
+  switch (factory->getType()) {
+    case Factory::Type::NodeFactory:
+      return [this, factory]() {
+        auto node_factory = static_cast<NodeFactory*>(factory);
 
-  auto new_layer = std::make_unique<NodeLayer>();
-  new_layer->setName(getNewLayerName(m_document, new_layer->getClassName()));
-  addLayer(std::move(new_layer));
+        auto node = node_factory->create();
+        node->setName(getNewDefaultName(m_document, factory));
+
+        addNode(std::move(node));
+      };
+    case Factory::Type::LayerFactory:
+      return [this, factory]() {
+        auto layer_factory = static_cast<LayerFactory*>(factory);
+
+        auto layer = layer_factory->create();
+        layer->setName(getNewDefaultName(m_document, factory));
+
+        addLayer(std::move(layer));
+      };
+  }
+
+  return []() {};
+}
+
+QMenu* FlowDocumentActionHandler::menuForFactory(Factory* factory) const {
+  switch (factory->getType()) {
+    case Factory::Type::NodeFactory:
+      return m_add_node_menu.get();
+    case Factory::Type::LayerFactory:
+      return m_add_layer_menu.get();
+  }
+
+  return nullptr;
 }
 
 void FlowDocumentActionHandler::onRemoveLayer() const {
@@ -369,8 +438,7 @@ void FlowDocumentActionHandler::onEvent(const ChangeEvent& event) {
 }
 
 void FlowDocumentActionHandler::initActions() {
-  m_add_group_layer = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_add_node_layer = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_add_layer_menu.reset(new QMenu());
   m_remove_layer = utils::createActionWithShortcut(QKeySequence{}, this);
   m_raise_layer = utils::createActionWithShortcut(QKeySequence{}, this);
   m_lower_layer = utils::createActionWithShortcut(QKeySequence{}, this);
@@ -379,19 +447,22 @@ void FlowDocumentActionHandler::initActions() {
       utils::createActionWithShortcut(QKeySequence{}, this);
   m_lock_unlock_other_layers =
       utils::createActionWithShortcut(QKeySequence{}, this);
+
+  m_add_node_menu.reset(new QMenu());
   m_remove_node = utils::createActionWithShortcut(QKeySequence{}, this);
   m_move_up_node = utils::createActionWithShortcut(QKeySequence{}, this);
   m_move_down_node = utils::createActionWithShortcut(QKeySequence{}, this);
   m_duplicate_node = utils::createActionWithShortcut(QKeySequence{}, this);
 
-  m_add_group_layer->setIcon(QIcon(icons::x16::GroupLayer));
-  m_add_node_layer->setIcon(QIcon(icons::x16::NodeLayer));
+  m_add_layer_menu->setIcon(QIcon(icons::x16::Add));
   m_remove_layer->setIcon(QIcon(icons::x16::Remove));
   m_raise_layer->setIcon(QIcon(icons::x16::Up));
   m_lower_layer->setIcon(QIcon(icons::x16::Down));
   m_duplicate_layer->setIcon(QIcon(icons::x16::Duplicate));
   m_show_hide_other_layers->setIcon(QIcon(icons::x16::ShowHideOthers));
   m_lock_unlock_other_layers->setIcon(QIcon(icons::x16::Locked));
+
+  m_add_node_menu->setIcon(QIcon(icons::x16::Add));
   m_remove_node->setIcon(QIcon(icons::x16::Remove));
   m_move_up_node->setIcon(QIcon(icons::x16::Up));
   m_move_down_node->setIcon(QIcon(icons::x16::Down));
@@ -399,10 +470,6 @@ void FlowDocumentActionHandler::initActions() {
 }
 
 void FlowDocumentActionHandler::connectActions() {
-  connect(m_add_group_layer, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onAddGroupLayer);
-  connect(m_add_node_layer, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onAddNodeLayer);
   connect(m_remove_layer, &QAction::triggered, this,
           &FlowDocumentActionHandler::onRemoveLayer);
   connect(m_raise_layer, &QAction::triggered, this,
@@ -446,8 +513,6 @@ void FlowDocumentActionHandler::updateActions() {
     can_lower_layers = canLowerLayers(m_document, selected_layers);
   }
 
-  m_add_group_layer->setEnabled(has_document);
-  m_add_node_layer->setEnabled(has_document);
   m_remove_layer->setEnabled(any_selected_layers);
   m_raise_layer->setEnabled(can_raise_layers);
   m_lower_layer->setEnabled(can_lower_layers);
@@ -464,11 +529,8 @@ void FlowDocumentActionHandler::updateActions() {
 }
 
 void FlowDocumentActionHandler::retranslateUi() {
-  m_add_group_layer->setText(tr("&Group Layer"));
-  m_add_group_layer->setWhatsThis(tr("Create Group Layer"));
-
-  m_add_node_layer->setText(tr("&Node Layer"));
-  m_add_node_layer->setWhatsThis(tr("Create Node Layer"));
+  m_add_layer_menu->setTitle(tr("&New"));
+  m_add_layer_menu->setWhatsThis(tr("New"));
 
   m_remove_layer->setText(tr("&Remove Layers"));
   m_remove_layer->setWhatsThis(tr("Remove Selected Layers"));
@@ -488,6 +550,9 @@ void FlowDocumentActionHandler::retranslateUi() {
   m_lock_unlock_other_layers->setText(tr("Lock/&Unlock Layers"));
   m_lock_unlock_other_layers->setWhatsThis(tr("Lock/Unlock Selected Layers"));
 
+  m_add_node_menu->setTitle(tr("&New"));
+  m_add_node_menu->setWhatsThis(tr("New"));
+
   m_remove_node->setText(tr("&Remove Nodes"));
   m_remove_node->setWhatsThis(tr("Remove Selected Nodes"));
 
@@ -503,8 +568,6 @@ void FlowDocumentActionHandler::retranslateUi() {
 
 void FlowDocumentActionHandler::registerActions() {
   auto& action_manager = egnite::ActionManager::getInstance();
-  action_manager.registerAction(m_add_group_layer, "add_group_layer");
-  action_manager.registerAction(m_add_node_layer, "add_node_layer");
   action_manager.registerAction(m_remove_layer, "remove_layer");
   action_manager.registerAction(m_raise_layer, "raise_layer");
   action_manager.registerAction(m_lower_layer, "lower_layer");
@@ -521,8 +584,6 @@ void FlowDocumentActionHandler::registerActions() {
 
 void FlowDocumentActionHandler::unregisterActions() {
   auto& action_manager = egnite::ActionManager::getInstance();
-  action_manager.unregisterAction(m_add_group_layer, "add_group_layer");
-  action_manager.unregisterAction(m_add_node_layer, "add_node_layer");
   action_manager.unregisterAction(m_remove_layer, "remove_layer");
   action_manager.unregisterAction(m_raise_layer, "raise_layer");
   action_manager.unregisterAction(m_lower_layer, "lower_layer");
@@ -556,6 +617,10 @@ void FlowDocumentActionHandler::addLayer(std::unique_ptr<Layer> layer) const {
 
   m_document->getUndoStack()->push(
       new AddLayers(m_document, std::move(entires)));
+}
+
+void FlowDocumentActionHandler::addNode(std::unique_ptr<Node> node) const {
+  Q_ASSERT(m_document);
 }
 
 }  // namespace flow_document

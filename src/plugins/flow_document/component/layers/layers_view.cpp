@@ -101,7 +101,7 @@ void LayersView::contextMenuEvent(QContextMenuEvent *event) {
   const auto &handler = FlowDocumentActionHandler::getInstance();
 
   QMenu menu;
-  menu.addMenu(handler.createNewLayerMenu(&menu));
+  menu.addMenu(handler.getAddLayerMenu());
   menu.addAction(handler.getRemoveLayerAction());
   menu.addAction(handler.getRaiseLayerAction());
   menu.addAction(handler.getLowerLayerAction());
