@@ -330,7 +330,7 @@ QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
   const auto type = object->getClassName();
 
   if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
-    return QIcon(icons::x32::GroupLayer);
+    return QIcon(icons::x32::Group);
   } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
     return QIcon(icons::x32::NodeLayer);
   } else if (object->isClassOrChild(Node::getStaticClassName())) {

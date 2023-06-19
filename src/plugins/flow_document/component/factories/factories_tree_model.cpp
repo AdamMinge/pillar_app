@@ -146,7 +146,7 @@ QStandardItem *FactoriesTreeModel::createFactory(Factory *factory) {
 
 QStandardItem *FactoriesTreeModel::createSection(const QString &name) {
   auto item = new QStandardItem(name);
-  item->setData(QIcon(icons::x32::Dir), Qt::DecorationRole);
+  item->setData(QIcon(icons::x32::Group), Qt::DecorationRole);
 
   return item;
 }

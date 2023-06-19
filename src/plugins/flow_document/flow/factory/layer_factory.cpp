@@ -25,7 +25,7 @@ LayerFactory::~LayerFactory() = default;
 /* ----------------------------- GroupLayerFactory -------------------------- */
 
 GroupLayerFactory::GroupLayerFactory(QObject* parent)
-    : LayerFactory(tr("Group Layer"), tr("Base"), QIcon(icons::x32::GroupLayer),
+    : LayerFactory(tr("Group Layer"), tr("Base"), QIcon(icons::x32::Group),
                    parent) {}
 
 GroupLayerFactory::~GroupLayerFactory() = default;
