@@ -107,6 +107,8 @@ void ToolsBar::addedObject(AbstractToolFactory *factory) {
   auto tool = factory->create(this);
   m_tool_for_factory[factory] = tool;
   addAction(registerTool(tool));
+
+  if (!getSelectedTool()) selectTool(tool);
 }
 
 void ToolsBar::removedObject(AbstractToolFactory *factory) {

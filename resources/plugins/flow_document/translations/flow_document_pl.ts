@@ -510,7 +510,7 @@
 <context>
     <name>ToolsBar</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="154"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="156"/>
         <source>ToolsBar</source>
         <translation type="unfinished"></translation>
     </message>

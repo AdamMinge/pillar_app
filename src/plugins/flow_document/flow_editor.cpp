@@ -169,6 +169,8 @@ void FlowEditor::removedObject(FlowDockWidgetFactory *factory) {
 
 void FlowEditor::toolSelected(AbstractTool *tool) {
   auto flow_view = m_view_for_document[m_current_document];
+  if (!flow_view) return;
+
   auto flow_scene = flow_view->getScene();
   auto prev_tool = flow_scene->getTool();
 
