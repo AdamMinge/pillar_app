@@ -4,6 +4,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 #include "flow_document/flow/layer.h"
+#include "flow_document/flow/serialization/object_unique_ptr.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -12,7 +13,7 @@ class FLOW_DOCUMENT_API GroupLayer : public Layer {
   FLOW_OBJECT_CLASS(GroupLayer, Layer)
 
  public:
-  using Layers = std::vector<std::unique_ptr<Layer>>;
+  using Layers = std::vector<ObjectUniquePtr<Layer>>;
 
  public:
   explicit GroupLayer();

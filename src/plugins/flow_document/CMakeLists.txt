@@ -103,6 +103,7 @@ set(includes
     ${include_root}/flow/factory/factory.h
     ${include_root}/flow/factory/node_factory.h
     ${include_root}/flow/factory/layer_factory.h
+    ${include_root}/flow/serialization/object_unique_ptr.h
     ${include_root}/command/add_remove_layer.h
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h
@@ -174,6 +175,7 @@ egnite_add_plugins(
   Qt6::Core
   Qt6::Widgets
   egnite::egnite
+  utils::pointer_cast
   DEPENDS_PRIVATE
   utils::model
   utils::delegate

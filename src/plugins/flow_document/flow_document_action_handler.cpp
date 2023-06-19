@@ -21,6 +21,7 @@
 #include <egnite/action_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/action/action.h>
+#include <utils/pointer_cast/unique_ptr_cast.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -284,7 +285,9 @@ std::function<void()> FlowDocumentActionHandler::methodForFactory(
       return [this, factory]() {
         auto node_factory = static_cast<NodeFactory*>(factory);
 
-        auto node = node_factory->create();
+        auto node = utils::cast_unique_ptr<Node>(node_factory->create());
+        Q_ASSERT(node);
+
         node->setName(getNewDefaultName(m_document, factory));
 
         addNode(std::move(node));
@@ -293,7 +296,9 @@ std::function<void()> FlowDocumentActionHandler::methodForFactory(
       return [this, factory]() {
         auto layer_factory = static_cast<LayerFactory*>(factory);
 
-        auto layer = layer_factory->create();
+        auto layer = utils::cast_unique_ptr<Layer>(layer_factory->create());
+        Q_ASSERT(layer);
+
         layer->setName(getNewDefaultName(m_document, factory));
 
         addLayer(std::move(layer));

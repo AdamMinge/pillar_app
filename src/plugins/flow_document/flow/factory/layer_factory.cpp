@@ -30,11 +30,11 @@ GroupLayerFactory::GroupLayerFactory(QObject* parent)
 
 GroupLayerFactory::~GroupLayerFactory() = default;
 
-QString GroupLayerFactory::getLayerType() const {
+QString GroupLayerFactory::getObjectClass() const {
   return GroupLayer::getStaticClassName();
 }
 
-std::unique_ptr<Layer> GroupLayerFactory::create() const {
+std::unique_ptr<Object> GroupLayerFactory::create() const {
   return std::make_unique<GroupLayer>();
 }
 
@@ -46,11 +46,11 @@ NodeLayerFactory::NodeLayerFactory(QObject* parent)
 
 NodeLayerFactory::~NodeLayerFactory() = default;
 
-QString NodeLayerFactory::getLayerType() const {
+QString NodeLayerFactory::getObjectClass() const {
   return NodeLayer::getStaticClassName();
 }
 
-std::unique_ptr<Layer> NodeLayerFactory::create() const {
+std::unique_ptr<Object> NodeLayerFactory::create() const {
   return std::make_unique<NodeLayer>();
 }
 

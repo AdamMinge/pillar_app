@@ -80,6 +80,7 @@ void GroupLayer::deserialize(utils::IArchive& archive) {
   Layer::deserialize(archive);
 
   archive >> utils::ArchiveProperty("layers", m_layers);
+  for (auto& layer : m_layers) layer->setParent(this);
 }
 
 void GroupLayer::init(const GroupLayer* group_layer) {

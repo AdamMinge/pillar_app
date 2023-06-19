@@ -12,10 +12,6 @@
 
 namespace flow_document {
 
-class Layer;
-class GroupLayer;
-class NodeLayer;
-
 /* -------------------------------- LayerFactory ---------------------------- */
 
 class FLOW_DOCUMENT_API LayerFactory : public Factory {
@@ -29,8 +25,8 @@ class FLOW_DOCUMENT_API LayerFactory : public Factory {
                         QObject* parent = nullptr);
   ~LayerFactory() override;
 
-  [[nodiscard]] virtual QString getLayerType() const = 0;
-  [[nodiscard]] virtual std::unique_ptr<Layer> create() const = 0;
+  [[nodiscard]] QString getObjectClass() const = 0;
+  [[nodiscard]] std::unique_ptr<Object> create() const = 0;
 };
 
 }  // namespace flow_document
@@ -43,52 +39,52 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API GroupLayerFactory : public LayerFactory {
   Q_OBJECT
-  Q_INTERFACES(flow_document::Factory)
+  Q_INTERFACES(flow_document::LayerFactory)
 
  public:
   explicit GroupLayerFactory(QObject* parent = nullptr);
   ~GroupLayerFactory() override;
 
-  [[nodiscard]] QString getLayerType() const override;
-  [[nodiscard]] std::unique_ptr<Layer> create() const override;
+  [[nodiscard]] QString getObjectClass() const override;
+  [[nodiscard]] std::unique_ptr<Object> create() const override;
 };
 
 /* ------------------------------ NodeLayerFactory -------------------------- */
 
 class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
   Q_OBJECT
-  Q_INTERFACES(flow_document::Factory)
+  Q_INTERFACES(flow_document::LayerFactory)
 
  public:
   explicit NodeLayerFactory(QObject* parent = nullptr);
   ~NodeLayerFactory() override;
 
-  [[nodiscard]] QString getLayerType() const override;
-  [[nodiscard]] std::unique_ptr<Layer> create() const override;
+  [[nodiscard]] QString getObjectClass() const override;
+  [[nodiscard]] std::unique_ptr<Object> create() const override;
 };
 
 /* ----------------------- Helper macro to create factory ------------------- */
 // clang-format off
-#define DECLARE_LAYER_FACTORY(export_api, layer)                                  \
-  class export_api layer##Factory : public flow_document::LayerFactory{           \
-    Q_OBJECT                                                                      \
-    Q_INTERFACES(flow_document::LayerFactory)                                     \
-    public :                                                                      \
-      explicit layer##Factory(QString name, QString section,                      \
-                                QObject* parent = nullptr) :                      \
-            flow_document::LayerFactory(std::move(name), std::move(section),      \
-                                        parent){}                                 \
-      explicit layer##Factory(QString name, QString section, QIcon icon,          \
-                                QObject* parent = nullptr) :                      \
-            flow_document::LayerFactory(std::move(name), std::move(section),      \
-                                        std::move(icon), parent){}                \
-                                                                                  \
-      [[nodiscard]] QString getLayerType() const {                                \
-        return layer::getStaticClassName();                                       \
-      }                                                                           \
-      [[nodiscard]] std::unique_ptr<flow_document::Layer> create() const {        \
-        return std::make_unique<layer>();                                         \
-      }                                                                           \
+#define DECLARE_LAYER_FACTORY(export_api, layer)                                        \
+  class export_api layer##Factory : public flow_document::LayerFactory{                 \
+    Q_OBJECT                                                                            \
+    Q_INTERFACES(flow_document::LayerFactory)                                           \
+    public :                                                                            \
+      explicit layer##Factory(QString name, QString section,                            \
+                                QObject* parent = nullptr) :                            \
+            flow_document::LayerFactory(std::move(name), std::move(section),            \
+                                        parent){}                                       \
+      explicit layer##Factory(QString name, QString section, QIcon icon,                \
+                                QObject* parent = nullptr) :                            \
+            flow_document::LayerFactory(std::move(name), std::move(section),            \
+                                        std::move(icon), parent){}                      \
+                                                                                        \
+      [[nodiscard]] QString getObjectClass() const override {                           \
+        return layer::getStaticClassName();                                             \
+      }                                                                                 \
+      [[nodiscard]] std::unique_ptr<flow_document::Object> create() const override {    \
+        return std::make_unique<layer>();                                               \
+      }                                                                                 \
   };
 // clang-format on
 

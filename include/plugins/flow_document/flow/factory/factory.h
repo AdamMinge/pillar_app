@@ -11,6 +11,8 @@
 
 namespace flow_document {
 
+class Object;
+
 class FLOW_DOCUMENT_API Factory : public QObject {
   Q_OBJECT
 
@@ -25,8 +27,10 @@ class FLOW_DOCUMENT_API Factory : public QObject {
                    QObject* parent = nullptr);
   ~Factory() override;
 
-  [[nodiscard]] Type getType() const;
+  [[nodiscard]] virtual QString getObjectClass() const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Object> create() const = 0;
 
+  [[nodiscard]] Type getType() const;
   [[nodiscard]] QString getName() const;
   [[nodiscard]] QString getSection() const;
   [[nodiscard]] QIcon getIcon() const;
