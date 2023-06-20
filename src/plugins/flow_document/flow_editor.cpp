@@ -1,11 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_editor.h"
 
-#include "flow_document/component/factories/factories_dock.h"
+#include "flow_document/component/flow_dock_widget.h"
 #include "flow_document/component/flow_dock_widget_factory.h"
-#include "flow_document/component/layers/layers_dock.h"
-#include "flow_document/component/nodes/nodes_dock.h"
-#include "flow_document/component/properties/properties_dock.h"
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/flow_view.h"
 #include "flow_document/component/scene/tool/abstract_tool.h"
@@ -39,10 +36,6 @@ FlowEditor::FlowEditor(QObject *parent)
       m_tools_bar(new ToolsBar(m_main_window)),
       m_scene_stack(new QStackedWidget(m_main_window)),
       m_undo_dock(new egnite::UndoDock(m_main_window)),
-      m_factories_dock(new FactoriesDock(m_main_window)),
-      m_properties_dock(new PropertiesDock(m_main_window)),
-      m_nodes_dock(new NodesDock(m_main_window)),
-      m_layers_dock(new LayersDock(m_main_window)),
       m_action_handler(FlowDocumentActionHandler::getInstance()),
       m_preferences(new Preferences) {
   initUi();
@@ -60,13 +53,10 @@ void FlowEditor::setCurrentDocument(egnite::Document *document) {
 
   m_current_document = flow_document;
 
-  if (m_current_document) m_undo_dock->setStack(flow_document->getUndoStack());
-
   m_action_handler.setDocument(m_current_document);
   m_tools_bar->setDocument(m_current_document);
-  m_layers_dock->setDocument(m_current_document);
-  m_nodes_dock->setDocument(m_current_document);
-  m_properties_dock->setDocument(m_current_document);
+  m_undo_dock->setStack(flow_document ? flow_document->getUndoStack()
+                                      : nullptr);
 
   for (auto dock_widget : m_dock_widget_for_factory) {
     dock_widget->setDocument(m_current_document);
@@ -127,9 +117,7 @@ void FlowEditor::restoreState() {
 }
 
 QList<QDockWidget *> FlowEditor::getDockWidgets() const {
-  auto dock_widgets =
-      QList<QDockWidget *>{m_undo_dock, m_factories_dock, m_properties_dock,
-                           m_nodes_dock, m_layers_dock};
+  auto dock_widgets = QList<QDockWidget *>{m_undo_dock};
 
   for (auto dock_widget : m_dock_widget_for_factory) {
     dock_widgets.append(dock_widget);
@@ -157,7 +145,11 @@ QString FlowEditor::getDocumentId() const {
 }
 
 void FlowEditor::addedObject(FlowDockWidgetFactory *factory) {
-  m_dock_widget_for_factory[factory] = factory->create(m_main_window);
+  auto widget = factory->create(m_main_window);
+  auto area = factory->getDockWidgetArea();
+
+  m_dock_widget_for_factory[factory] = widget;
+  addDockWidget(widget, area);
 }
 
 void FlowEditor::removedObject(FlowDockWidgetFactory *factory) {
@@ -198,30 +190,34 @@ void FlowEditor::initUi() {
                                 QMainWindow::GroupedDragging);
   m_main_window->setDockNestingEnabled(true);
   m_main_window->setCentralWidget(m_scene_stack);
-
-  m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_undo_dock);
-  m_main_window->addDockWidget(Qt::LeftDockWidgetArea, m_properties_dock);
-  m_main_window->tabifyDockWidget(m_undo_dock, m_properties_dock);
-  m_undo_dock->raise();
-
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_factories_dock);
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_nodes_dock);
-  m_main_window->addDockWidget(Qt::RightDockWidgetArea, m_layers_dock);
-
-  m_main_window->tabifyDockWidget(m_factories_dock, m_nodes_dock);
-  m_main_window->tabifyDockWidget(m_factories_dock, m_layers_dock);
-  m_factories_dock->raise();
-
-  for (auto dock_widget : m_dock_widget_for_factory) {
-    m_main_window->addDockWidget(Qt::RightDockWidgetArea, dock_widget);
-  }
-
   m_main_window->addToolBar(m_tools_bar);
+
+  addDockWidget(m_undo_dock, Qt::LeftDockWidgetArea);
 }
 
 void FlowEditor::initConnections() {
   connect(m_tools_bar, &ToolsBar::toolSelected, this,
           &FlowEditor::toolSelected);
+}
+
+void FlowEditor::addDockWidget(QDockWidget *dock_widget,
+                               Qt::DockWidgetArea area) {
+  if (m_main_window->dockWidgetArea(dock_widget) != Qt::NoDockWidgetArea)
+    return;
+
+  m_main_window->addDockWidget(area, dock_widget);
+
+  const auto dock_widgets = m_main_window->findChildren<QDockWidget *>();
+  auto same_area_iter =
+      std::find_if(dock_widgets.begin(), dock_widgets.end(),
+                   [this, dock_widget, area](auto widget) {
+                     return m_main_window->dockWidgetArea(widget) == area &&
+                            dock_widget != widget;
+                   });
+
+  if (same_area_iter != dock_widgets.end()) {
+    m_main_window->tabifyDockWidget(*same_area_iter, dock_widget);
+  }
 }
 
 }  // namespace flow_document

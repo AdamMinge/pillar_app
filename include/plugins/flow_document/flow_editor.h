@@ -80,6 +80,8 @@ class FLOW_DOCUMENT_API FlowEditor
   void initUi();
   void initConnections();
 
+  void addDockWidget(QDockWidget *dock_widget, Qt::DockWidgetArea area);
+
  private:
   FlowDocument *m_current_document;
   QPointer<QMainWindow> m_main_window;
@@ -87,11 +89,6 @@ class FLOW_DOCUMENT_API FlowEditor
   ToolsBar *m_tools_bar;
   QStackedWidget *m_scene_stack;
   egnite::UndoDock *m_undo_dock;
-
-  FactoriesDock *m_factories_dock;
-  PropertiesDock *m_properties_dock;
-  NodesDock *m_nodes_dock;
-  LayersDock *m_layers_dock;
 
   QHash<FlowDockWidgetFactory *, FlowDockWidget *> m_dock_widget_for_factory;
 

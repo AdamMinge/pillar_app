@@ -10,6 +10,7 @@
 /* -------------------------------------------------------------------------- */
 
 namespace egnite {
+
 class LIB_EGNITE_API UndoDock : public QDockWidget {
   Q_OBJECT
 
@@ -28,6 +29,7 @@ class LIB_EGNITE_API UndoDock : public QDockWidget {
  private:
   QUndoView *m_undo_view;
 };
+
 }  // namespace egnite
 
 #endif  // EGNITE_UNDO_DOCK_H
