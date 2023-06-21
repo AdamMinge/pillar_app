@@ -2,7 +2,7 @@
 #include "flow_document/flow_document_plugin.h"
 
 #include "flow_document/component/flow_dock_widget_factory.h"
-#include "flow_document/component/properties/object_properties_factory.h"
+#include "flow_document/component/properties/factory/object_properties_factory.h"
 #include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 #include "flow_document/component/scene/tool/factory/abstract_tool_factory.h"
 #include "flow_document/flow/factory/layer_factory.h"

@@ -44,31 +44,4 @@ void GraphicsItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {
 
 void GraphicsItem::onEvent(const ChangeEvent& event) {}
 
-GraphicsItem* GraphicsItem::creatItem(Object* object, FlowDocument* document,
-                                      QGraphicsItem* parent) {
-  auto factory = getFactoryByObject(object);
-  Q_ASSERT(factory);
-
-  return factory->create(object, document, parent);
-}
-
-GraphicsItemFactory* GraphicsItem::getFactoryByObject(Object* object) {
-  if (object) {
-    auto& manager = egnite::PluginManager::getInstance();
-    auto inherited_classes = object->getInheritedClassNames();
-    inherited_classes.prepend(object->getClassName());
-
-    for (const auto& inherited_class : inherited_classes) {
-      auto factory =
-          manager.findIf<GraphicsItemFactory>([inherited_class](auto factory) {
-            return factory->getObjectClassName() == inherited_class;
-          });
-
-      if (factory) return factory;
-    }
-  }
-
-  return nullptr;
-}
-
 }  // namespace flow_document

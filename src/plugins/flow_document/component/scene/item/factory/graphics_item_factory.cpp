@@ -86,4 +86,33 @@ GraphicsItem* NodeItemFactory::create(Object* object, FlowDocument* document,
   return new NodeGraphicsItem(static_cast<Node*>(object), document, parent);
 }
 
+/* ----------------------------------- Utils -------------------------------- */
+
+GraphicsItem* createGraphicsItem(Object* object, FlowDocument* document,
+                                 QGraphicsItem* parent) {
+  auto factory = getGraphicsItemFactoryByObject(object);
+  if (!factory) return nullptr;
+
+  return factory->create(object, document, parent);
+}
+
+GraphicsItemFactory* getGraphicsItemFactoryByObject(Object* object) {
+  if (object) {
+    auto& manager = egnite::PluginManager::getInstance();
+    auto inherited_classes = object->getInheritedClassNames();
+    inherited_classes.prepend(object->getClassName());
+
+    for (const auto& inherited_class : inherited_classes) {
+      auto factory =
+          manager.findIf<GraphicsItemFactory>([inherited_class](auto factory) {
+            return factory->getObjectClassName() == inherited_class;
+          });
+
+      if (factory) return factory;
+    }
+  }
+
+  return nullptr;
+}
+
 }  // namespace flow_document

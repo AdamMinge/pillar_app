@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/flow_scene.h"
 
+#include "flow_document/component/scene/item/flow_graphics_item.h"
 #include "flow_document/component/scene/item/graphics_item.h"
 #include "flow_document/component/scene/tool/abstract_tool.h"
 #include "flow_document/flow_document.h"
@@ -21,6 +22,7 @@ FlowScene::~FlowScene() = default;
 
 void FlowScene::setDocument(FlowDocument *flow_document) {
   if (m_flow_document == flow_document) return;
+
   m_flow_document = flow_document;
 }
 

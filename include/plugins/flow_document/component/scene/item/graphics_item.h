@@ -35,32 +35,11 @@ class FLOW_DOCUMENT_API GraphicsItem : public QGraphicsObject {
  protected Q_SLOTS:
   virtual void onEvent(const ChangeEvent& event);
 
- protected:
-  template <typename GRAPHICS_ITEM>
-  [[nodiscard]] static GRAPHICS_ITEM* creatItem(Object* object,
-                                                FlowDocument* document,
-                                                QGraphicsItem* parent);
-  [[nodiscard]] static GraphicsItem* creatItem(Object* object,
-                                               FlowDocument* document,
-                                               QGraphicsItem* parent);
-  [[nodiscard]] static GraphicsItemFactory* getFactoryByObject(Object* object);
-
  private:
   Object* m_object;
   FlowDocument* m_document;
   bool m_hovered;
 };
-
-template <typename GRAPHICS_ITEM>
-[[nodiscard]] GRAPHICS_ITEM* GraphicsItem::creatItem(Object* object,
-                                                     FlowDocument* document,
-                                                     QGraphicsItem* parent) {
-  auto item = creatItem(object, document, parent);
-  auto casted_item = qobject_cast<GRAPHICS_ITEM*>(item);
-  Q_ASSERT(casted_item);
-
-  return casted_item;
-}
 
 }  // namespace flow_document
 

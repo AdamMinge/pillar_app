@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/layer_graphics_item.h"
 
+#include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 #include "flow_document/component/scene/item/node_graphics_item.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
@@ -49,8 +50,9 @@ void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
       if (getGroupLayer() == e.getGroupLayer()) {
         auto layer = e.getGroupLayer()->at(e.getIndex());
 
-        m_layer_items.insert(e.getIndex(), creatItem<LayerGraphicsItem>(
-                                               layer, getDocument(), this));
+        m_layer_items.insert(
+            e.getIndex(),
+            createGraphicsItem<LayerGraphicsItem>(layer, getDocument(), this));
       }
 
       break;
@@ -88,7 +90,7 @@ void NodeLayerGraphicsItem::onEvent(const ChangeEvent& event) {
       if (getNodeLayer() == e.getNodeLayer()) {
         auto node = e.getNodeLayer()->at(e.getIndex());
 
-        m_node_items.insert(e.getIndex(), creatItem<NodeGraphicsItem>(
+        m_node_items.insert(e.getIndex(), createGraphicsItem<NodeGraphicsItem>(
                                               node, getDocument(), this));
       }
 

@@ -16,6 +16,8 @@ class GraphicsItem;
 class FlowDocument;
 class AbstractTool;
 
+class FlowGraphicsItem;
+
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   Q_OBJECT
 
@@ -57,6 +59,8 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
 
   QPainterPath m_hovered_area;
   QList<GraphicsItem *> m_hovered_items;
+
+  FlowGraphicsItem *m_flow_item;
 };
 
 }  // namespace flow_document

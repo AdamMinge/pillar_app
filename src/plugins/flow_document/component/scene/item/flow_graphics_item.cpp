@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/flow_graphics_item.h"
 
+#include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 #include "flow_document/component/scene/item/layer_graphics_item.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
@@ -12,8 +13,8 @@ namespace flow_document {
 FlowGraphicsItem::FlowGraphicsItem(Flow* flow, FlowDocument* document,
                                    QGraphicsItem* parent)
     : GraphicsItem(flow, document, parent),
-      m_root_layer_item(
-          creatItem<LayerGraphicsItem>(flow->getRootLayer(), document, this)) {}
+      m_root_layer_item(createGraphicsItem<LayerGraphicsItem>(
+          flow->getRootLayer(), document, this)) {}
 
 FlowGraphicsItem::~FlowGraphicsItem() = default;
 

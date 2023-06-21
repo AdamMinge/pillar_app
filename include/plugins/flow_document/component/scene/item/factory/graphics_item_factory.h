@@ -100,6 +100,26 @@ class FLOW_DOCUMENT_API NodeItemFactory : public GraphicsItemFactory {
       QGraphicsItem* parent = nullptr) const override;
 };
 
+/* ----------------------------------- Utils -------------------------------- */
+
+[[nodiscard]] GraphicsItem* createGraphicsItem(Object* object,
+                                               FlowDocument* document,
+                                               QGraphicsItem* parent);
+
+[[nodiscard]] GraphicsItemFactory* getGraphicsItemFactoryByObject(
+    Object* object);
+
+template <typename GRAPHICS_ITEM>
+[[nodiscard]] GRAPHICS_ITEM* createGraphicsItem(Object* object,
+                                                FlowDocument* document,
+                                                QGraphicsItem* parent) {
+  auto item = createGraphicsItem(object, document, parent);
+  auto casted_item = qobject_cast<GRAPHICS_ITEM*>(item);
+  Q_ASSERT(casted_item);
+
+  return casted_item;
+}
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_GRAPHICS_ITEM_FACTORY_H

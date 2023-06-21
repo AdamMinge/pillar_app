@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/properties/object_properties_factory.h"
+#include "flow_document/component/properties/factory/object_properties_factory.h"
 
 #include "flow_document/component/properties/object_properties.h"
 #include "flow_document/flow/layer.h"
