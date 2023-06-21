@@ -25,7 +25,7 @@ FlowItemFactory::FlowItemFactory(QObject* parent)
 
 FlowItemFactory::~FlowItemFactory() = default;
 
-QString FlowItemFactory::getObjectClass() const {
+QString FlowItemFactory::getObjectClassName() const {
   return Flow::getStaticClassName();
 }
 
@@ -41,7 +41,7 @@ GroupLayerItemFactory::GroupLayerItemFactory(QObject* parent)
 
 GroupLayerItemFactory::~GroupLayerItemFactory() = default;
 
-QString GroupLayerItemFactory::getObjectClass() const {
+QString GroupLayerItemFactory::getObjectClassName() const {
   return GroupLayer::getStaticClassName();
 }
 
@@ -59,7 +59,7 @@ NodeLayerItemFactory::NodeLayerItemFactory(QObject* parent)
 
 NodeLayerItemFactory::~NodeLayerItemFactory() = default;
 
-QString NodeLayerItemFactory::getObjectClass() const {
+QString NodeLayerItemFactory::getObjectClassName() const {
   return NodeLayer::getStaticClassName();
 }
 
@@ -77,7 +77,7 @@ NodeItemFactory::NodeItemFactory(QObject* parent)
 
 NodeItemFactory::~NodeItemFactory() = default;
 
-QString NodeItemFactory::getObjectClass() const {
+QString NodeItemFactory::getObjectClassName() const {
   return Node::getStaticClassName();
 }
 

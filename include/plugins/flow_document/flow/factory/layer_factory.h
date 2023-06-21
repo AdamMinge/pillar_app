@@ -25,7 +25,7 @@ class FLOW_DOCUMENT_API LayerFactory : public ObjectFactory {
                         QObject* parent = nullptr);
   ~LayerFactory() override;
 
-  [[nodiscard]] QString getObjectClass() const = 0;
+  [[nodiscard]] QString getObjectClassName() const = 0;
   [[nodiscard]] std::unique_ptr<Object> create() const = 0;
 };
 
@@ -45,7 +45,7 @@ class FLOW_DOCUMENT_API GroupLayerFactory : public LayerFactory {
   explicit GroupLayerFactory(QObject* parent = nullptr);
   ~GroupLayerFactory() override;
 
-  [[nodiscard]] QString getObjectClass() const override;
+  [[nodiscard]] QString getObjectClassName() const override;
   [[nodiscard]] std::unique_ptr<Object> create() const override;
 };
 
@@ -59,7 +59,7 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
   explicit NodeLayerFactory(QObject* parent = nullptr);
   ~NodeLayerFactory() override;
 
-  [[nodiscard]] QString getObjectClass() const override;
+  [[nodiscard]] QString getObjectClassName() const override;
   [[nodiscard]] std::unique_ptr<Object> create() const override;
 };
 
@@ -79,7 +79,7 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
             flow_document::LayerFactory(std::move(name), std::move(section),            \
                                         std::move(icon), parent){}                      \
                                                                                         \
-      [[nodiscard]] QString getObjectClass() const override {                           \
+      [[nodiscard]] QString getObjectClassName() const override {                           \
         return layer::getStaticClassName();                                             \
       }                                                                                 \
       [[nodiscard]] std::unique_ptr<flow_document::Object> create() const override {    \

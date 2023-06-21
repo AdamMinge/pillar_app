@@ -53,9 +53,9 @@ QString Object::getStaticParentClassName() { return ""; }
 
 QString Object::getParentClassName() const { return ""; }
 
-QStringList Object::getStaticInheritedClasses() { return {}; }
+QStringList Object::getStaticInheritedClassNames() { return {}; }
 
-QStringList Object::getInheritedClasses() const { return {}; }
+QStringList Object::getInheritedClassNames() const { return {}; }
 
 bool Object::isClass(const QString &className) const {
   return Object::getClassName() == className;

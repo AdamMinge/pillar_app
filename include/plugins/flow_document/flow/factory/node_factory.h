@@ -27,7 +27,7 @@ class FLOW_DOCUMENT_API NodeFactory : public ObjectFactory {
                        QObject* parent = nullptr);
   ~NodeFactory() override;
 
-  [[nodiscard]] QString getObjectClass() const = 0;
+  [[nodiscard]] QString getObjectClassName() const = 0;
   [[nodiscard]] std::unique_ptr<Object> create() const = 0;
 };
 
@@ -54,7 +54,7 @@ namespace flow_document {
             flow_document::NodeFactory(std::move(name), std::move(section),             \
                                         std::move(icon), parent){}                      \
                                                                                         \
-      [[nodiscard]] QString getObjectClass() const override {                           \
+      [[nodiscard]] QString getObjectClassName() const override {                           \
         return node::getStaticClassName();                                              \
       }                                                                                 \
       [[nodiscard]] std::unique_ptr<flow_document::Object> create() const override {    \

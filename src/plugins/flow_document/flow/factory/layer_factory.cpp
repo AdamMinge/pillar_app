@@ -30,7 +30,7 @@ GroupLayerFactory::GroupLayerFactory(QObject* parent)
 
 GroupLayerFactory::~GroupLayerFactory() = default;
 
-QString GroupLayerFactory::getObjectClass() const {
+QString GroupLayerFactory::getObjectClassName() const {
   return GroupLayer::getStaticClassName();
 }
 
@@ -46,7 +46,7 @@ NodeLayerFactory::NodeLayerFactory(QObject* parent)
 
 NodeLayerFactory::~NodeLayerFactory() = default;
 
-QString NodeLayerFactory::getObjectClass() const {
+QString NodeLayerFactory::getObjectClassName() const {
   return NodeLayer::getStaticClassName();
 }
 

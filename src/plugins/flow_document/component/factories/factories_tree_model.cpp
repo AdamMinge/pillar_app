@@ -91,7 +91,7 @@ QMimeData *FactoriesTreeModel::mimeData(const QModelIndexList &indexes) const {
   }
 
   for (auto factory : factories) {
-    stream << factory->getObjectClass();
+    stream << factory->getObjectClassName();
   }
 
   mime_data->setData(mimetype::Factories, encoded_data);

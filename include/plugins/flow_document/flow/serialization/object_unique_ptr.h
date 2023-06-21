@@ -133,7 +133,7 @@ void ObjectUniquePtr<TYPE>::deserialize(utils::IArchive& archive) {
 
   auto object_factory = static_cast<ObjectFactory*>(nullptr);
   for (auto factory : factories) {
-    if (object_class == factory->getObjectClass()) {
+    if (object_class == factory->getObjectClassName()) {
       object_factory = factory;
       break;
     }

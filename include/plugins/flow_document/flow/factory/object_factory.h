@@ -27,7 +27,7 @@ class FLOW_DOCUMENT_API ObjectFactory : public QObject {
                          QObject* parent = nullptr);
   ~ObjectFactory() override;
 
-  [[nodiscard]] virtual QString getObjectClass() const = 0;
+  [[nodiscard]] virtual QString getObjectClassName() const = 0;
   [[nodiscard]] virtual std::unique_ptr<Object> create() const = 0;
 
   [[nodiscard]] Type getType() const;
