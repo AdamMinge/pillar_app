@@ -21,28 +21,23 @@ class FLOW_DOCUMENT_API NodeGraphicsItem : public GraphicsItem {
   Q_OBJECT
 
  public:
-  explicit NodeGraphicsItem(FlowDocument *document, Node *node,
+  explicit NodeGraphicsItem(Node *node, FlowDocument *document,
                             QGraphicsItem *parent);
   ~NodeGraphicsItem() override;
 
   [[nodiscard]] Node *getNode() const;
-  [[nodiscard]] FlowDocument *getDocument() const;
-
-  [[nodiscard]] QRectF boundingRect() const override;
 
   [[nodiscard]] const NodePainter *getPainter() const;
   [[nodiscard]] const NodeGeometry *getGeometry() const;
 
- protected:
+  [[nodiscard]] QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
 
- private:
-  void onEvent(const ChangeEvent &event);
+ private Q_SLOTS:
+  void onEvent(const ChangeEvent &event) override;
 
  private:
-  FlowDocument *m_document;
-  Node *m_node;
   std::unique_ptr<NodePainter> m_node_painter;
   std::unique_ptr<NodeGeometry> m_node_geometry;
 };

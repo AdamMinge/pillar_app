@@ -65,6 +65,7 @@ set(sources
     ${source_root}/component/scene/item/layer_graphics_item.cpp
     ${source_root}/component/scene/item/node_graphics_item.cpp
     ${source_root}/component/scene/item/selection_rectangle.cpp
+    ${source_root}/component/scene/item/factory/graphics_item_factory.cpp
     ${source_root}/component/scene/style/style_manager.cpp
     ${source_root}/component/scene/style/style_writer.cpp
     ${source_root}/component/scene/style/style_reader.cpp
@@ -72,11 +73,10 @@ set(sources
     ${source_root}/component/scene/tool/tools_bar.cpp
     ${source_root}/component/scene/tool/abstract_tool.cpp
     ${source_root}/component/scene/tool/selection_tool.cpp
-    ${source_root}/component/scene/tool/abstract_tool_factory.cpp)
+    ${source_root}/component/scene/tool/factory/abstract_tool_factory.cpp)
 
 set(includes
     ${include_root}/export.h
-    ${include_root}/global.h
     ${include_root}/concept.h
     ${include_root}/resources.h
     ${include_root}/flow_document.h
@@ -135,6 +135,7 @@ set(includes
     ${include_root}/component/scene/item/layer_graphics_item.h
     ${include_root}/component/scene/item/node_graphics_item.h
     ${include_root}/component/scene/item/selection_rectangle.h
+    ${include_root}/component/scene/item/factory/graphics_item_factory.h
     ${include_root}/component/scene/style/style_manager.h
     ${include_root}/component/scene/style/style_writer.h
     ${include_root}/component/scene/style/style_reader.h
@@ -142,7 +143,7 @@ set(includes
     ${include_root}/component/scene/tool/tools_bar.h
     ${include_root}/component/scene/tool/abstract_tool.h
     ${include_root}/component/scene/tool/selection_tool.h
-    ${include_root}/component/scene/tool/abstract_tool_factory.h)
+    ${include_root}/component/scene/tool/factory/abstract_tool_factory.h)
 
 set(resources ${resources_root}/flow_document.qrc)
 

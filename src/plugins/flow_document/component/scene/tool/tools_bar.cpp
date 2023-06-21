@@ -2,7 +2,7 @@
 #include "flow_document/component/scene/tool/tools_bar.h"
 
 #include "flow_document/component/scene/tool/abstract_tool.h"
-#include "flow_document/component/scene/tool/abstract_tool_factory.h"
+#include "flow_document/component/scene/tool/factory/abstract_tool_factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {

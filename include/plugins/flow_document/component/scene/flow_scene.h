@@ -13,12 +13,8 @@
 namespace flow_document {
 
 class GraphicsItem;
-
 class FlowDocument;
-
 class AbstractTool;
-
-class ChangeEvent;
 
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   Q_OBJECT
@@ -51,9 +47,6 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
   void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
   void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
-
- private Q_SLOTS:
-  void onEvent(const ChangeEvent &event);
 
  private:
   bool isAcceptable(const QMimeData *mime_data) const;

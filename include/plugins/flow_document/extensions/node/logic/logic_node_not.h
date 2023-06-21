@@ -7,6 +7,8 @@
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodeNot : public LogicNodeWithOneParam {
+  FLOW_OBJECT_CLASS(LogicNodeNot, LogicNodeWithOneParam)
+
  public:
   explicit LogicNodeNot();
   ~LogicNodeNot() override;

@@ -9,12 +9,21 @@
 
 namespace flow_document {
 
+class Flow;
+class LayerGraphicsItem;
+
 class FLOW_DOCUMENT_API FlowGraphicsItem : public GraphicsItem {
   Q_OBJECT
 
  public:
-  explicit FlowGraphicsItem(QGraphicsItem *parent = nullptr);
+  explicit FlowGraphicsItem(Flow* flow, FlowDocument* document,
+                            QGraphicsItem* parent = nullptr);
   ~FlowGraphicsItem() override;
+
+  [[nodiscard]] Flow* getFlow() const;
+
+ private:
+  LayerGraphicsItem* m_root_layer_item;
 };
 
 }  // namespace flow_document

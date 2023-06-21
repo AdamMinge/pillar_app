@@ -69,6 +69,17 @@ constexpr QLatin1String TranslationsPath{
 
 }  // namespace translations
 
+/* ---------------------------------- MimeType ------------------------------ */
+
+namespace mimetype {
+
+constexpr QLatin1String Layers = QLatin1String("application/vnd.layer.list");
+
+constexpr QLatin1String Factories =
+    QLatin1String("application/vnd.factory.list");
+
+}  // namespace mimetype
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_RESOURCES_H

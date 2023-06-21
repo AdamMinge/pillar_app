@@ -17,8 +17,6 @@ GroupLayer* LayerEvent::getGroupLayer() const { return m_group_layer; }
 
 qsizetype LayerEvent::getIndex() const { return m_index; }
 
-Layer* LayerEvent::getLayer() const { return m_group_layer->at(m_index); }
-
 /* ------------------------------ LayersChangeEvent ------------------------- */
 
 LayersEvent::LayersEvent(Type type, QList<Layer*> layers)

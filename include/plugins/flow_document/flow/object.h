@@ -56,6 +56,8 @@ class FLOW_DOCUMENT_API Object : public utils::Serializable {
   QVariantMap m_properties;
 };
 
+}  // namespace flow_document
+
 /* -------------------------------- Object Utils ---------------------------- */
 
 #define IMPL_FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS, CLASS_NAME)              \
@@ -97,7 +99,5 @@ class FLOW_DOCUMENT_API Object : public utils::Serializable {
 
 #define FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS) \
   IMPL_FLOW_OBJECT_CLASS(CLASS, PARENT_CLASS, #CLASS)
-
-}  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_OBJECT_H

@@ -3,7 +3,8 @@
 
 #include "flow_document/component/flow_dock_widget_factory.h"
 #include "flow_document/component/properties/object_properties_factory.h"
-#include "flow_document/component/scene/tool/abstract_tool_factory.h"
+#include "flow_document/component/scene/item/factory/graphics_item_factory.h"
+#include "flow_document/component/scene/tool/factory/abstract_tool_factory.h"
 #include "flow_document/flow/factory/layer_factory.h"
 #include "flow_document/flow_document_format_flow.h"
 #include "flow_document/flow_editor.h"
@@ -30,6 +31,10 @@ void FlowDocumentPlugin::init() {
   addObject(new LayersDockWidgetFactory(this));
   addObject(new NodesDockWidgetFactory(this));
   addObject(new PropertiesDockWidgetFactory(this));
+
+  addObject(new GroupLayerItemFactory(this));
+  addObject(new NodeLayerItemFactory(this));
+  addObject(new NodeItemFactory(this));
 
   addObject(new SelectionToolFactory(this));
 

@@ -61,6 +61,8 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
   [[nodiscard]] QStandardItem *getItem(const QModelIndex &index) const;
   [[nodiscard]] Qt::ItemFlags getFlags(const QModelIndex &index) const;
 
+  [[nodiscard]] Factory *toFactory(const QModelIndex &index) const;
+
  private:
   QScopedPointer<QStandardItem> m_root;
 };

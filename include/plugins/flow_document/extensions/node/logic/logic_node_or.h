@@ -7,6 +7,8 @@
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams {
+  FLOW_OBJECT_CLASS(LogicNodeOr, LogicNodeWithTwoParams)
+
  public:
   explicit LogicNodeOr();
   ~LogicNodeOr() override;

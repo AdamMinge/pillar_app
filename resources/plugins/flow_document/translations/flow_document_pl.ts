@@ -196,17 +196,17 @@
 <context>
     <name>LayersTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="134"/>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="133"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="136"/>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="135"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="138"/>
+        <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="137"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>

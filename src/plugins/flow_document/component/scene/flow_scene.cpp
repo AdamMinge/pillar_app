@@ -3,10 +3,11 @@
 
 #include "flow_document/component/scene/item/graphics_item.h"
 #include "flow_document/component/scene/tool/abstract_tool.h"
-#include "flow_document/event/change_event.h"
 #include "flow_document/flow_document.h"
+#include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsSceneDragDropEvent>
+#include <QIODevice>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -20,20 +21,7 @@ FlowScene::~FlowScene() = default;
 
 void FlowScene::setDocument(FlowDocument *flow_document) {
   if (m_flow_document == flow_document) return;
-
-  if (m_flow_document) {
-    disconnect(m_flow_document,
-               qOverload<const ChangeEvent &>(&FlowDocument::event), this,
-               qOverload<const ChangeEvent &>(&FlowScene::onEvent));
-  }
-
   m_flow_document = flow_document;
-
-  if (m_flow_document) {
-    connect(m_flow_document,
-            qOverload<const ChangeEvent &>(&FlowDocument::event), this,
-            qOverload<const ChangeEvent &>(&FlowScene::onEvent));
-  }
 }
 
 FlowDocument *FlowScene::getDocument() const { return m_flow_document; }
@@ -99,7 +87,18 @@ void FlowScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
 
 void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
   auto mime_data = event->mimeData();
-  // TODO
+
+  if (mime_data->hasFormat(mimetype::Factories)) {
+    auto encoded_data = mime_data->data(mimetype::Factories);
+    QDataStream stream(&encoded_data, QIODevice::ReadOnly);
+
+    while (!stream.atEnd()) {
+      auto objectClass = QString{};
+      stream >> objectClass;
+
+      // TODO
+    }
+  }
 }
 
 void FlowScene::keyPressEvent(QKeyEvent *event) {
@@ -133,13 +132,10 @@ void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
   }
 }
 
-void FlowScene::onEvent(const ChangeEvent &event) {
-  switch (event.getType()) {}
-  // TODO
-}
-
 bool FlowScene::isAcceptable(const QMimeData *mime_data) const {
-  // TODO
+  auto formats = mime_data->formats();
+  if (formats.contains(mimetype::Factories)) return true;
+
   return false;
 }
 

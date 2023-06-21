@@ -77,14 +77,29 @@ int FactoriesTreeModel::columnCount(const QModelIndex &parent) const {
 }
 
 QMimeData *FactoriesTreeModel::mimeData(const QModelIndexList &indexes) const {
-  // TODO
+  if (indexes.isEmpty()) return nullptr;
+
   auto mime_data = new QMimeData;
+  QByteArray encoded_data;
+  QDataStream stream(&encoded_data, QDataStream::WriteOnly);
+
+  auto factories = QList<Factory *>{};
+  for (const auto &index : indexes) {
+    auto factory = toFactory(index);
+    if (factories.contains(factory)) continue;
+    factories.append(factory);
+  }
+
+  for (auto factory : factories) {
+    stream << factory->getObjectClass();
+  }
+
+  mime_data->setData(mimetype::Factories, encoded_data);
   return mime_data;
 }
 
 QStringList FactoriesTreeModel::mimeTypes() const {
-  // TODO
-  return QStringList{};
+  return QStringList{} << mimetype::Factories;
 }
 
 void FactoriesTreeModel::addedObject(Factory *factory) {
@@ -195,6 +210,13 @@ Qt::ItemFlags FactoriesTreeModel::getFlags(const QModelIndex &index) const {
   }
 
   return flags;
+}
+
+Factory *FactoriesTreeModel::toFactory(const QModelIndex &index) const {
+  auto item = getItem(index);
+  if (!item) return nullptr;
+
+  return item->data(Qt::UserRole).value<Factory *>();
 }
 
 }  // namespace flow_document

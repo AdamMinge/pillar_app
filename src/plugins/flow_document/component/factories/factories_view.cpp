@@ -5,7 +5,10 @@
 namespace flow_document {
 
 FactoriesView::FactoriesView(QWidget* parent)
-    : utils::QtUnselectableTreeView(parent) {}
+    : utils::QtUnselectableTreeView(parent) {
+  setSelectionMode(QAbstractItemView::ExtendedSelection);
+  setDragDropMode(QAbstractItemView::DragOnly);
+}
 
 FactoriesView::~FactoriesView() = default;
 

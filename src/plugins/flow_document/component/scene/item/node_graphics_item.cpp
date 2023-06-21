@@ -3,6 +3,7 @@
 
 #include "flow_document/component/scene/style/style.h"
 #include "flow_document/component/scene/style/style_manager.h"
+#include "flow_document/event/change_event.h"
 #include "flow_document/flow/node.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -40,26 +41,18 @@ const PinStyleViewer &getPinStyle(const NodeGraphicsItem &item) {
 
 /* --------------------------- NodeGraphicsItem ------------------------- */
 
-NodeGraphicsItem::NodeGraphicsItem(FlowDocument *document, Node *node,
+NodeGraphicsItem::NodeGraphicsItem(Node *node, FlowDocument *document,
                                    QGraphicsItem *parent)
-    : GraphicsItem(parent),
+    : GraphicsItem(node, document, parent),
       m_node_painter(std::make_unique<NodePainter>(*this)),
-      m_node_geometry(std::make_unique<NodeGeometry>(*this)),
-      m_document(document),
-      m_node(node) {
-  setPos(m_node->getPosition());
-
-  connect(m_document, &FlowDocument::event, this, &NodeGraphicsItem::onEvent);
+      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {
+  setPos(node->getPosition());
 }
 
 NodeGraphicsItem::~NodeGraphicsItem() = default;
 
-Node *NodeGraphicsItem::getNode() const { return m_node; }
-
-FlowDocument *NodeGraphicsItem::getDocument() const { return m_document; }
-
-QRectF NodeGraphicsItem::boundingRect() const {
-  return m_node_geometry->getBoundingRect();
+Node *NodeGraphicsItem::getNode() const {
+  return static_cast<Node *>(getObject());
 }
 
 const NodePainter *NodeGraphicsItem::getPainter() const {
@@ -70,6 +63,10 @@ const NodeGeometry *NodeGraphicsItem::getGeometry() const {
   return m_node_geometry.get();
 }
 
+QRectF NodeGraphicsItem::boundingRect() const {
+  return m_node_geometry->getBoundingRect();
+}
+
 void NodeGraphicsItem::paint(QPainter *painter,
                              const QStyleOptionGraphicsItem *option,
                              QWidget *widget) {
@@ -78,7 +75,7 @@ void NodeGraphicsItem::paint(QPainter *painter,
 }
 
 void NodeGraphicsItem::onEvent(const ChangeEvent &event) {
-  // TODO
+  switch (event.getType()) {}
 }
 
 /* ----------------------------- NodeGeometry --------------------------- */

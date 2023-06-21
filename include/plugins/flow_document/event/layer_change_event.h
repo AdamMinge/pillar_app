@@ -22,7 +22,6 @@ class FLOW_DOCUMENT_API LayerEvent : public ChangeEvent {
 
   [[nodiscard]] GroupLayer* getGroupLayer() const;
   [[nodiscard]] qsizetype getIndex() const;
-  [[nodiscard]] Layer* getLayer() const;
 
  private:
   GroupLayer* m_group_layer;

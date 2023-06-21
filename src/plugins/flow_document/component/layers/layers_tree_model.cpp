@@ -11,7 +11,6 @@
 #include "flow_document/flow/layer_iterator.h"
 #include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
-#include "flow_document/global.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>

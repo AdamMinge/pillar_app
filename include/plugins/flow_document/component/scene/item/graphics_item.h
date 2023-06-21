@@ -9,19 +9,55 @@
 
 namespace flow_document {
 
+class Object;
+class ChangeEvent;
+class FlowDocument;
+
+class GraphicsItemFactory;
+
 class FLOW_DOCUMENT_API GraphicsItem : public QGraphicsObject {
   Q_OBJECT
 
  public:
-  explicit GraphicsItem(QGraphicsItem *parent = nullptr);
+  explicit GraphicsItem(Object* object, FlowDocument* document,
+                        QGraphicsItem* parent = nullptr);
   ~GraphicsItem() override;
 
   void setHovered(bool hovered);
   [[nodiscard]] bool isHovered() const;
 
+  [[nodiscard]] Object* getObject() const;
+  [[nodiscard]] FlowDocument* getDocument() const;
+
+  QRectF boundingRect() const override;
+  void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
+
+ protected Q_SLOTS:
+  virtual void onEvent(const ChangeEvent& event);
+
+ protected:
+  template <typename GRAPHICS_ITEM>
+  [[nodiscard]] GRAPHICS_ITEM* creatItem(Object* object,
+                                         FlowDocument* document);
+
+  [[nodiscard]] GraphicsItem* creatItem(Object* object, FlowDocument* document);
+  [[nodiscard]] GraphicsItemFactory* getFactoryByObject(Object* object) const;
+
  private:
+  Object* m_object;
+  FlowDocument* m_document;
   bool m_hovered;
 };
+
+template <typename GRAPHICS_ITEM>
+[[nodiscard]] GRAPHICS_ITEM* GraphicsItem::creatItem(Object* object,
+                                                     FlowDocument* document) {
+  auto item = creatItem(object, document);
+  auto casted_item = qobject_cast<GRAPHICS_ITEM*>(item);
+  Q_ASSERT(casted_item);
+
+  return casted_item;
+}
 
 }  // namespace flow_document
 
