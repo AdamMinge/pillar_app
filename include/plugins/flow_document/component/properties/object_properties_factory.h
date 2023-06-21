@@ -25,7 +25,7 @@ class FLOW_DOCUMENT_API ObjectPropertiesFactory : public QObject {
   [[nodiscard]] virtual ObjectProperties* create(
       QObject* parent = nullptr) const = 0;
 
-  [[nodiscard]] virtual QString supportedClass() const = 0;
+  [[nodiscard]] virtual QString getObjectClass() const = 0;
 };
 
 }  // namespace flow_document
@@ -47,7 +47,7 @@ class LayerPropertiesFactory : public ObjectPropertiesFactory {
   [[nodiscard]] ObjectProperties* create(
       QObject* parent = nullptr) const override;
 
-  [[nodiscard]] QString supportedClass() const override;
+  [[nodiscard]] QString getObjectClass() const override;
 };
 
 /* --------------------------- NodePropertiesFactory ------------------------ */
@@ -62,7 +62,7 @@ class NodePropertiesFactory : public ObjectPropertiesFactory {
   [[nodiscard]] ObjectProperties* create(
       QObject* parent = nullptr) const override;
 
-  [[nodiscard]] QString supportedClass() const override;
+  [[nodiscard]] QString getObjectClass() const override;
 };
 
 }  // namespace flow_document

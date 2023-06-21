@@ -12,7 +12,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/concept.h"
 #include "flow_document/export.h"
-#include "flow_document/flow/factory/factory.h"
+#include "flow_document/flow/factory/object_factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -129,9 +129,9 @@ void ObjectUniquePtr<TYPE>::deserialize(utils::IArchive& archive) {
   archive >> utils::ArchiveProperty("class", object_class);
 
   auto& manager = egnite::PluginManager::getInstance();
-  auto factories = manager.getObjects<Factory>();
+  auto factories = manager.getObjects<ObjectFactory>();
 
-  auto object_factory = static_cast<Factory*>(nullptr);
+  auto object_factory = static_cast<ObjectFactory*>(nullptr);
   for (auto factory : factories) {
     if (object_class == factory->getObjectClass()) {
       object_factory = factory;

@@ -215,17 +215,17 @@ bool PropertiesBrowser::filterProperty(utils::QtBrowserItem *item) {
 
 ObjectPropertiesFactory *PropertiesBrowser::getFactoryByObject(Object *object) {
   if (object) {
+    auto &manager = egnite::PluginManager::getInstance();
     auto inherited_classes = object->getInheritedClasses();
     inherited_classes.prepend(object->getClassName());
 
     for (const auto &inherited_class : inherited_classes) {
-      auto found_factory = std::find_if(
-          m_properties_factories.cbegin(), m_properties_factories.cend(),
-          [&inherited_class](const auto &factory) {
-            return factory->supportedClass() == inherited_class;
+      auto factory = manager.findIf<ObjectPropertiesFactory>(
+          [inherited_class](auto factory) {
+            return factory->getObjectClass() == inherited_class;
           });
 
-      if (found_factory != m_properties_factories.cend()) return *found_factory;
+      if (factory) return factory;
     }
   }
 

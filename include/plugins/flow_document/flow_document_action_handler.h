@@ -15,13 +15,13 @@ namespace flow_document {
 
 class FlowDocument;
 class ChangeEvent;
-class Factory;
+class ObjectFactory;
 class Layer;
 class Node;
 
 class FLOW_DOCUMENT_API FlowDocumentActionHandler
     : public QObject,
-      public egnite::PluginListener<Factory> {
+      public egnite::PluginListener<ObjectFactory> {
   Q_OBJECT
 
  public:
@@ -49,11 +49,12 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   [[nodiscard]] QAction* getDuplicateNodeAction() const;
 
  protected:
-  void addedObject(Factory* factory) override;
-  void removedObject(Factory* factory) override;
+  void addedObject(ObjectFactory* factory) override;
+  void removedObject(ObjectFactory* factory) override;
 
-  [[nodiscard]] std::function<void()> methodForFactory(Factory* factory) const;
-  [[nodiscard]] QMenu* menuForFactory(Factory* factory) const;
+  [[nodiscard]] std::function<void()> methodForFactory(
+      ObjectFactory* factory) const;
+  [[nodiscard]] QMenu* menuForFactory(ObjectFactory* factory) const;
 
  private Q_SLOTS:
   void onRemoveLayer() const;

@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_FACTORY_H
-#define FLOW_DOCUMENT_FACTORY_H
+#ifndef FLOW_DOCUMENT_OBJECT_FACTORY_H
+#define FLOW_DOCUMENT_OBJECT_FACTORY_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIcon>
@@ -13,7 +13,7 @@ namespace flow_document {
 
 class Object;
 
-class FLOW_DOCUMENT_API Factory : public QObject {
+class FLOW_DOCUMENT_API ObjectFactory : public QObject {
   Q_OBJECT
 
  public:
@@ -23,9 +23,9 @@ class FLOW_DOCUMENT_API Factory : public QObject {
   };
 
  public:
-  explicit Factory(Type type, QString name, QString section, QIcon icon,
-                   QObject* parent = nullptr);
-  ~Factory() override;
+  explicit ObjectFactory(Type type, QString name, QString section, QIcon icon,
+                         QObject* parent = nullptr);
+  ~ObjectFactory() override;
 
   [[nodiscard]] virtual QString getObjectClass() const = 0;
   [[nodiscard]] virtual std::unique_ptr<Object> create() const = 0;
@@ -44,6 +44,6 @@ class FLOW_DOCUMENT_API Factory : public QObject {
 
 }  // namespace flow_document
 
-Q_DECLARE_INTERFACE(flow_document::Factory, "org.flow.Factory")
+Q_DECLARE_INTERFACE(flow_document::ObjectFactory, "org.flow.ObjectFactory")
 
-#endif  // FLOW_DOCUMENT_FACTORY_H
+#endif  // FLOW_DOCUMENT_OBJECT_FACTORY_H

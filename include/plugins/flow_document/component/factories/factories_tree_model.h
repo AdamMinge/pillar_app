@@ -12,11 +12,11 @@
 
 namespace flow_document {
 
-class Factory;
+class ObjectFactory;
 
 class FLOW_DOCUMENT_API FactoriesTreeModel
     : public QAbstractItemModel,
-      public egnite::PluginListener<Factory> {
+      public egnite::PluginListener<ObjectFactory> {
   Q_OBJECT
 
  public:
@@ -46,22 +46,23 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
   [[nodiscard]] QStringList mimeTypes() const override;
 
  protected:
-  void addedObject(Factory *factory) override;
-  void removedObject(Factory *factory) override;
+  void addedObject(ObjectFactory *factory) override;
+  void removedObject(ObjectFactory *factory) override;
 
  private:
-  [[nodiscard]] QStandardItem *getOrCreateFactorySection(Factory *factory);
-  [[nodiscard]] QStandardItem *createFactory(Factory *factory);
+  [[nodiscard]] QStandardItem *getOrCreateFactorySection(
+      ObjectFactory *factory);
+  [[nodiscard]] QStandardItem *createFactory(ObjectFactory *factory);
   [[nodiscard]] QStandardItem *createSection(const QString &name);
 
-  [[nodiscard]] QStandardItem *findTypeSection(Factory *factory) const;
+  [[nodiscard]] QStandardItem *findTypeSection(ObjectFactory *factory) const;
   [[nodiscard]] QStandardItem *findFactory(QStandardItem *section,
-                                           Factory *factory) const;
+                                           ObjectFactory *factory) const;
 
   [[nodiscard]] QStandardItem *getItem(const QModelIndex &index) const;
   [[nodiscard]] Qt::ItemFlags getFlags(const QModelIndex &index) const;
 
-  [[nodiscard]] Factory *toFactory(const QModelIndex &index) const;
+  [[nodiscard]] ObjectFactory *toFactory(const QModelIndex &index) const;
 
  private:
   QScopedPointer<QStandardItem> m_root;

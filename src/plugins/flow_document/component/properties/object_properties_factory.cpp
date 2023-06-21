@@ -24,7 +24,7 @@ ObjectProperties* LayerPropertiesFactory::create(QObject* parent) const {
   return new LayerProperties(parent);
 }
 
-QString LayerPropertiesFactory::supportedClass() const {
+QString LayerPropertiesFactory::getObjectClass() const {
   return Layer::getStaticClassName();
 }
 
@@ -37,7 +37,7 @@ ObjectProperties* NodePropertiesFactory::create(QObject* parent) const {
   return new NodeProperties(parent);
 }
 
-QString NodePropertiesFactory::supportedClass() const {
+QString NodePropertiesFactory::getObjectClass() const {
   return Node::getStaticClassName();
 }
 

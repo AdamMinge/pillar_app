@@ -38,6 +38,8 @@ class LIB_EGNITE_API PluginManager : public QObject {
   template <typename TYPE>
   TYPE *forOne(const std::function<bool(TYPE *)> &function);
   template <typename TYPE>
+  TYPE *findIf(const std::function<bool(const TYPE *)> &function);
+  template <typename TYPE>
   [[nodiscard]] QList<TYPE *> getObjects();
 
  Q_SIGNALS:
@@ -64,6 +66,17 @@ void PluginManager::forEach(const std::function<void(TYPE *)> &function) {
 
 template <typename TYPE>
 TYPE *PluginManager::forOne(const std::function<bool(TYPE *)> &function) {
+  for (auto object : m_objects) {
+    if (auto result = qobject_cast<TYPE *>(object); result) {
+      if (function(result)) return result;
+    }
+  }
+
+  return nullptr;
+}
+
+template <typename TYPE>
+TYPE *PluginManager::findIf(const std::function<bool(const TYPE *)> &function) {
   for (auto object : m_objects) {
     if (auto result = qobject_cast<TYPE *>(object); result) {
       if (function(result)) return result;

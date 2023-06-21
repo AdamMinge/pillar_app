@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/factories/factories_tree_model.h"
 
-#include "flow_document/flow/factory/factory.h"
+#include "flow_document/flow/factory/object_factory.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
@@ -83,7 +83,7 @@ QMimeData *FactoriesTreeModel::mimeData(const QModelIndexList &indexes) const {
   QByteArray encoded_data;
   QDataStream stream(&encoded_data, QDataStream::WriteOnly);
 
-  auto factories = QList<Factory *>{};
+  auto factories = QList<ObjectFactory *>{};
   for (const auto &index : indexes) {
     auto factory = toFactory(index);
     if (factories.contains(factory)) continue;
@@ -102,7 +102,7 @@ QStringList FactoriesTreeModel::mimeTypes() const {
   return QStringList{} << mimetype::Factories;
 }
 
-void FactoriesTreeModel::addedObject(Factory *factory) {
+void FactoriesTreeModel::addedObject(ObjectFactory *factory) {
   beginResetModel();
 
   auto factory_section = getOrCreateFactorySection(factory);
@@ -114,7 +114,7 @@ void FactoriesTreeModel::addedObject(Factory *factory) {
   endResetModel();
 }
 
-void FactoriesTreeModel::removedObject(Factory *factory) {
+void FactoriesTreeModel::removedObject(ObjectFactory *factory) {
   beginResetModel();
 
   auto factory_section = getOrCreateFactorySection(factory);
@@ -132,7 +132,8 @@ void FactoriesTreeModel::removedObject(Factory *factory) {
   endResetModel();
 }
 
-QStandardItem *FactoriesTreeModel::getOrCreateFactorySection(Factory *factory) {
+QStandardItem *FactoriesTreeModel::getOrCreateFactorySection(
+    ObjectFactory *factory) {
   auto type_section = findTypeSection(factory);
   if (!type_section) return nullptr;
 
@@ -150,7 +151,7 @@ QStandardItem *FactoriesTreeModel::getOrCreateFactorySection(Factory *factory) {
   return section_item;
 }
 
-QStandardItem *FactoriesTreeModel::createFactory(Factory *factory) {
+QStandardItem *FactoriesTreeModel::createFactory(ObjectFactory *factory) {
   auto item = new QStandardItem(factory->getName());
   item->setData(QVariant::fromValue(factory), Qt::UserRole);
   item->setData(factory->getIcon(), Qt::DecorationRole);
@@ -166,9 +167,10 @@ QStandardItem *FactoriesTreeModel::createSection(const QString &name) {
   return item;
 }
 
-QStandardItem *FactoriesTreeModel::findTypeSection(Factory *factory) const {
+QStandardItem *FactoriesTreeModel::findTypeSection(
+    ObjectFactory *factory) const {
   switch (factory->getType()) {
-    case Factory::Type::NodeFactory:
+    case ObjectFactory::Type::NodeFactory:
       return m_root->child(Section::Nodes);
   }
 
@@ -176,11 +178,12 @@ QStandardItem *FactoriesTreeModel::findTypeSection(Factory *factory) const {
 }
 
 QStandardItem *FactoriesTreeModel::findFactory(QStandardItem *section,
-                                               Factory *factory) const {
+                                               ObjectFactory *factory) const {
   Q_ASSERT(section);
   for (auto row = 0; row < section->rowCount(); ++row) {
     auto child_item = section->child(row);
-    auto child_item_factory = child_item->data(Qt::UserRole).value<Factory *>();
+    auto child_item_factory =
+        child_item->data(Qt::UserRole).value<ObjectFactory *>();
 
     if (child_item_factory == factory) return child_item;
   }
@@ -199,12 +202,12 @@ QStandardItem *FactoriesTreeModel::getItem(const QModelIndex &index) const {
 
 Qt::ItemFlags FactoriesTreeModel::getFlags(const QModelIndex &index) const {
   auto item = static_cast<QStandardItem *>(index.internalPointer());
-  auto factory = item->data(Qt::UserRole).value<Factory *>();
+  auto factory = item->data(Qt::UserRole).value<ObjectFactory *>();
   if (!factory) return Qt::NoItemFlags;
 
   auto flags = Qt::ItemFlags{};
   switch (factory->getType()) {
-    case Factory::Type::NodeFactory:
+    case ObjectFactory::Type::NodeFactory:
       flags |= Qt::ItemIsDragEnabled;
       break;
   }
@@ -212,11 +215,11 @@ Qt::ItemFlags FactoriesTreeModel::getFlags(const QModelIndex &index) const {
   return flags;
 }
 
-Factory *FactoriesTreeModel::toFactory(const QModelIndex &index) const {
+ObjectFactory *FactoriesTreeModel::toFactory(const QModelIndex &index) const {
   auto item = getItem(index);
   if (!item) return nullptr;
 
-  return item->data(Qt::UserRole).value<Factory *>();
+  return item->data(Qt::UserRole).value<ObjectFactory *>();
 }
 
 }  // namespace flow_document

@@ -54,19 +54,16 @@ GraphicsItem* GraphicsItem::creatItem(Object* object, FlowDocument* document) {
 GraphicsItemFactory* GraphicsItem::getFactoryByObject(Object* object) const {
   if (object) {
     auto& manager = egnite::PluginManager::getInstance();
-    auto factories = manager.getObjects<GraphicsItemFactory>();
-
     auto inherited_classes = object->getInheritedClasses();
     inherited_classes.prepend(object->getClassName());
 
     for (const auto& inherited_class : inherited_classes) {
-      auto found_factory =
-          std::find_if(factories.cbegin(), factories.cend(),
-                       [&inherited_class](const auto& factory) {
-                         return factory->getObjectClass() == inherited_class;
-                       });
+      auto factory =
+          manager.findIf<GraphicsItemFactory>([inherited_class](auto factory) {
+            return factory->getObjectClass() == inherited_class;
+          });
 
-      if (found_factory != factories.cend()) return *found_factory;
+      if (factory) return factory;
     }
   }
 

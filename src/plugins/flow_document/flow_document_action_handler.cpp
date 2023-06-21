@@ -6,9 +6,9 @@
 #include "flow_document/command/duplicate_layer.h"
 #include "flow_document/command/raise_lower_layer.h"
 #include "flow_document/event/change_event.h"
-#include "flow_document/flow/factory/factory.h"
 #include "flow_document/flow/factory/layer_factory.h"
 #include "flow_document/flow/factory/node_factory.h"
+#include "flow_document/flow/factory/object_factory.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer_iterator.h"
@@ -124,16 +124,16 @@ namespace {
 }
 
 [[nodiscard]] QString getNewDefaultName(FlowDocument* document,
-                                        Factory* factory) {
+                                        ObjectFactory* factory) {
   auto name_template = factory->getName() + " %1";
 
   auto names = QSet<QString>{};
   switch (factory->getType()) {
-    case Factory::Type::NodeFactory:
+    case ObjectFactory::Type::NodeFactory:
       names = getAllNodeNames(document, factory->getName());
       break;
 
-    case Factory::Type::LayerFactory:
+    case ObjectFactory::Type::LayerFactory:
       names = getAllLayerNames(document, factory->getName());
       break;
   }
@@ -250,7 +250,7 @@ QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
   return m_duplicate_node;
 }
 
-void FlowDocumentActionHandler::addedObject(Factory* factory) {
+void FlowDocumentActionHandler::addedObject(ObjectFactory* factory) {
   auto menu = menuForFactory(factory);
   Q_ASSERT(menu);
 
@@ -265,12 +265,12 @@ void FlowDocumentActionHandler::addedObject(Factory* factory) {
   menu->addAction(factory_action);
 }
 
-void FlowDocumentActionHandler::removedObject(Factory* factory) {
+void FlowDocumentActionHandler::removedObject(ObjectFactory* factory) {
   auto menu = menuForFactory(factory);
   Q_ASSERT(menu);
 
   for (auto action : menu->actions()) {
-    auto action_factory = action->data().value<Factory*>();
+    auto action_factory = action->data().value<ObjectFactory*>();
     if (action_factory == factory) {
       menu->removeAction(action);
       action->deleteLater();
@@ -279,9 +279,9 @@ void FlowDocumentActionHandler::removedObject(Factory* factory) {
 }
 
 std::function<void()> FlowDocumentActionHandler::methodForFactory(
-    Factory* factory) const {
+    ObjectFactory* factory) const {
   switch (factory->getType()) {
-    case Factory::Type::NodeFactory:
+    case ObjectFactory::Type::NodeFactory:
       return [this, factory]() {
         auto node_factory = static_cast<NodeFactory*>(factory);
 
@@ -292,7 +292,7 @@ std::function<void()> FlowDocumentActionHandler::methodForFactory(
 
         addNode(std::move(node));
       };
-    case Factory::Type::LayerFactory:
+    case ObjectFactory::Type::LayerFactory:
       return [this, factory]() {
         auto layer_factory = static_cast<LayerFactory*>(factory);
 
@@ -308,11 +308,11 @@ std::function<void()> FlowDocumentActionHandler::methodForFactory(
   return []() {};
 }
 
-QMenu* FlowDocumentActionHandler::menuForFactory(Factory* factory) const {
+QMenu* FlowDocumentActionHandler::menuForFactory(ObjectFactory* factory) const {
   switch (factory->getType()) {
-    case Factory::Type::NodeFactory:
+    case ObjectFactory::Type::NodeFactory:
       return m_add_node_menu.get();
-    case Factory::Type::LayerFactory:
+    case ObjectFactory::Type::LayerFactory:
       return m_add_layer_menu.get();
   }
 

@@ -7,16 +7,16 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/concept.h"
 #include "flow_document/export.h"
-#include "flow_document/flow/factory/factory.h"
+#include "flow_document/flow/factory/object_factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
 /* -------------------------------- LayerFactory ---------------------------- */
 
-class FLOW_DOCUMENT_API LayerFactory : public Factory {
+class FLOW_DOCUMENT_API LayerFactory : public ObjectFactory {
   Q_OBJECT
-  Q_INTERFACES(flow_document::Factory)
+  Q_INTERFACES(flow_document::ObjectFactory)
 
  public:
   explicit LayerFactory(QString name, QString section,
