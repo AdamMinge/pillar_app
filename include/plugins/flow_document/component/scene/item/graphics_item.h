@@ -37,11 +37,13 @@ class FLOW_DOCUMENT_API GraphicsItem : public QGraphicsObject {
 
  protected:
   template <typename GRAPHICS_ITEM>
-  [[nodiscard]] GRAPHICS_ITEM* creatItem(Object* object,
-                                         FlowDocument* document);
-
-  [[nodiscard]] GraphicsItem* creatItem(Object* object, FlowDocument* document);
-  [[nodiscard]] GraphicsItemFactory* getFactoryByObject(Object* object) const;
+  [[nodiscard]] static GRAPHICS_ITEM* creatItem(Object* object,
+                                                FlowDocument* document,
+                                                QGraphicsItem* parent);
+  [[nodiscard]] static GraphicsItem* creatItem(Object* object,
+                                               FlowDocument* document,
+                                               QGraphicsItem* parent);
+  [[nodiscard]] static GraphicsItemFactory* getFactoryByObject(Object* object);
 
  private:
   Object* m_object;
@@ -51,8 +53,9 @@ class FLOW_DOCUMENT_API GraphicsItem : public QGraphicsObject {
 
 template <typename GRAPHICS_ITEM>
 [[nodiscard]] GRAPHICS_ITEM* GraphicsItem::creatItem(Object* object,
-                                                     FlowDocument* document) {
-  auto item = creatItem(object, document);
+                                                     FlowDocument* document,
+                                                     QGraphicsItem* parent) {
+  auto item = creatItem(object, document, parent);
   auto casted_item = qobject_cast<GRAPHICS_ITEM*>(item);
   Q_ASSERT(casted_item);
 

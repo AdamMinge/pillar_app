@@ -44,14 +44,15 @@ void GraphicsItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {
 
 void GraphicsItem::onEvent(const ChangeEvent& event) {}
 
-GraphicsItem* GraphicsItem::creatItem(Object* object, FlowDocument* document) {
+GraphicsItem* GraphicsItem::creatItem(Object* object, FlowDocument* document,
+                                      QGraphicsItem* parent) {
   auto factory = getFactoryByObject(object);
   Q_ASSERT(factory);
 
-  return factory->create(object, document, this);
+  return factory->create(object, document, parent);
 }
 
-GraphicsItemFactory* GraphicsItem::getFactoryByObject(Object* object) const {
+GraphicsItemFactory* GraphicsItem::getFactoryByObject(Object* object) {
   if (object) {
     auto& manager = egnite::PluginManager::getInstance();
     auto inherited_classes = object->getInheritedClassNames();

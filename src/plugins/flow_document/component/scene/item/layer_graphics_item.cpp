@@ -49,8 +49,8 @@ void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
       if (getGroupLayer() == e.getGroupLayer()) {
         auto layer = e.getGroupLayer()->at(e.getIndex());
 
-        m_layer_items.insert(
-            e.getIndex(), creatItem<LayerGraphicsItem>(layer, getDocument()));
+        m_layer_items.insert(e.getIndex(), creatItem<LayerGraphicsItem>(
+                                               layer, getDocument(), this));
       }
 
       break;
@@ -88,8 +88,8 @@ void NodeLayerGraphicsItem::onEvent(const ChangeEvent& event) {
       if (getNodeLayer() == e.getNodeLayer()) {
         auto node = e.getNodeLayer()->at(e.getIndex());
 
-        m_node_items.insert(e.getIndex(),
-                            creatItem<NodeGraphicsItem>(node, getDocument()));
+        m_node_items.insert(e.getIndex(), creatItem<NodeGraphicsItem>(
+                                              node, getDocument(), this));
       }
 
       break;

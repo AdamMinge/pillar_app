@@ -13,7 +13,7 @@ FlowGraphicsItem::FlowGraphicsItem(Flow* flow, FlowDocument* document,
                                    QGraphicsItem* parent)
     : GraphicsItem(flow, document, parent),
       m_root_layer_item(
-          creatItem<LayerGraphicsItem>(flow->getRootLayer(), document)) {}
+          creatItem<LayerGraphicsItem>(flow->getRootLayer(), document, this)) {}
 
 FlowGraphicsItem::~FlowGraphicsItem() = default;
 
