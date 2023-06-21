@@ -32,6 +32,7 @@ void FlowDocumentPlugin::init() {
   addObject(new NodesDockWidgetFactory(this));
   addObject(new PropertiesDockWidgetFactory(this));
 
+  addObject(new FlowItemFactory(this));
   addObject(new GroupLayerItemFactory(this));
   addObject(new NodeLayerItemFactory(this));
   addObject(new NodeItemFactory(this));

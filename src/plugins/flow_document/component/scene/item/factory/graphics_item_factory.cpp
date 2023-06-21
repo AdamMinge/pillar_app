@@ -1,8 +1,10 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 
+#include "flow_document/component/scene/item/flow_graphics_item.h"
 #include "flow_document/component/scene/item/layer_graphics_item.h"
 #include "flow_document/component/scene/item/node_graphics_item.h"
+#include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/node.h"
 #include "flow_document/flow/node_layer.h"
@@ -15,6 +17,22 @@ namespace flow_document {
 GraphicsItemFactory::GraphicsItemFactory(QObject* parent) : QObject(parent) {}
 
 GraphicsItemFactory::~GraphicsItemFactory() = default;
+
+/* ------------------------------- FlowItemFactory -------------------------- */
+
+FlowItemFactory::FlowItemFactory(QObject* parent)
+    : GraphicsItemFactory(parent) {}
+
+FlowItemFactory::~FlowItemFactory() = default;
+
+QString FlowItemFactory::getObjectClass() const {
+  return Flow::getStaticClassName();
+}
+
+GraphicsItem* FlowItemFactory::create(Object* object, FlowDocument* document,
+                                      QGraphicsItem* parent) const {
+  return new FlowGraphicsItem(static_cast<Flow*>(object), document, parent);
+}
 
 /* ---------------------------- GroupLayerItemFactory ----------------------- */
 

@@ -36,6 +36,22 @@ Q_DECLARE_INTERFACE(flow_document::GraphicsItemFactory,
 
 namespace flow_document {
 
+/* ------------------------------- FlowItemFactory -------------------------- */
+
+class FLOW_DOCUMENT_API FlowItemFactory : public GraphicsItemFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::GraphicsItemFactory)
+
+ public:
+  explicit FlowItemFactory(QObject* parent = nullptr);
+  ~FlowItemFactory() override;
+
+  [[nodiscard]] QString getObjectClass() const override;
+  [[nodiscard]] GraphicsItem* create(
+      Object* object, FlowDocument* document,
+      QGraphicsItem* parent = nullptr) const override;
+};
+
 /* ---------------------------- GroupLayerItemFactory ----------------------- */
 
 class FLOW_DOCUMENT_API GroupLayerItemFactory : public GraphicsItemFactory {
