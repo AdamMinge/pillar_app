@@ -27,8 +27,6 @@ PropertiesBrowser::PropertiesBrowser(QWidget *parent)
   initBrowser();
   initConnections();
   retranslateUi();
-
-  loadObjects();
 }
 
 PropertiesBrowser::~PropertiesBrowser() = default;
@@ -89,14 +87,6 @@ void PropertiesBrowser::changeEvent(QEvent *event) {
     default:
       break;
   }
-}
-
-void PropertiesBrowser::addedObject(ObjectPropertiesFactory *factory) {
-  m_properties_factories.append(factory);
-}
-
-void PropertiesBrowser::removedObject(ObjectPropertiesFactory *factory) {
-  m_properties_factories.removeOne(factory);
 }
 
 void PropertiesBrowser::onCurrentObjectChanged(Object *object) {
@@ -213,34 +203,16 @@ bool PropertiesBrowser::filterProperty(utils::QtBrowserItem *item) {
   return visible;
 }
 
-ObjectPropertiesFactory *PropertiesBrowser::getFactoryByObject(Object *object) {
-  if (object) {
-    auto &manager = egnite::PluginManager::getInstance();
-    auto inherited_classes = object->getInheritedClassNames();
-    inherited_classes.prepend(object->getClassName());
-
-    for (const auto &inherited_class : inherited_classes) {
-      auto factory = manager.findIf<ObjectPropertiesFactory>(
-          [inherited_class](auto factory) {
-            return factory->getObjectClassName() == inherited_class;
-          });
-
-      if (factory) return factory;
-    }
-  }
-
-  return nullptr;
-}
-
 ObjectProperties *PropertiesBrowser::getPropertiesByObject(Object *object) {
-  auto factory = getFactoryByObject(object);
-  if (!factory) return nullptr;
+  if (!object) return nullptr;
 
-  if (!m_factories_to_properties.contains(factory)) {
-    m_factories_to_properties.insert(factory, factory->create(this));
+  auto const className = object->getClassName();
+  if (!m_factories_to_properties.contains(className)) {
+    m_factories_to_properties.insert(className,
+                                     createObjectProperties(object, this));
   }
 
-  return m_factories_to_properties[factory];
+  return m_factories_to_properties[className];
 }
 
 }  // namespace flow_document

@@ -8,6 +8,8 @@
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/node.h"
 #include "flow_document/flow/node_layer.h"
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {

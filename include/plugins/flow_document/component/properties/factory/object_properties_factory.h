@@ -13,6 +13,8 @@ class ObjectProperties;
 class LayerProperties;
 class NodeProperties;
 
+class Object;
+
 /* -------------------------- ObjectPropertiesFactory ----------------------- */
 
 class FLOW_DOCUMENT_API ObjectPropertiesFactory : public QObject {
@@ -64,6 +66,14 @@ class NodePropertiesFactory : public ObjectPropertiesFactory {
 
   [[nodiscard]] QString getObjectClassName() const override;
 };
+
+/* ----------------------------------- Utils -------------------------------- */
+
+[[nodiscard]] ObjectProperties* createObjectProperties(Object* object,
+                                                       QObject* parent);
+
+[[nodiscard]] ObjectPropertiesFactory* getObjectPropertiesFactoryObject(
+    Object* object);
 
 }  // namespace flow_document
 

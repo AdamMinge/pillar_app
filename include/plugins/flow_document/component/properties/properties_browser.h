@@ -3,8 +3,6 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/plugin_listener.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/property_browser/tree_property_browser.h>
 /* ----------------------------------- Local -------------------------------- */
@@ -17,12 +15,10 @@ class FlowDocument;
 class ChangeEvent;
 class Object;
 
-class ObjectPropertiesFactory;
 class ObjectProperties;
 
 class FLOW_DOCUMENT_API PropertiesBrowser
-    : public utils::QtTreePropertyBrowser,
-      public egnite::PluginListener<ObjectPropertiesFactory> {
+    : public utils::QtTreePropertyBrowser {
   Q_OBJECT
 
  public:
@@ -42,9 +38,6 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void contextMenuEvent(QContextMenuEvent* event) override;
   void changeEvent(QEvent* event) override;
 
-  void addedObject(ObjectPropertiesFactory* factory) override;
-  void removedObject(ObjectPropertiesFactory* factory) override;
-
  private Q_SLOTS:
   void onCurrentObjectChanged(Object* object);
 
@@ -61,7 +54,6 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   void filterProperties();
   bool filterProperty(utils::QtBrowserItem* item);
 
-  [[nodiscard]] ObjectPropertiesFactory* getFactoryByObject(Object* object);
   [[nodiscard]] ObjectProperties* getPropertiesByObject(Object* object);
 
  private:
@@ -69,8 +61,7 @@ class FLOW_DOCUMENT_API PropertiesBrowser
   QString m_filter;
 
   ObjectProperties* m_current_properties;
-  QList<ObjectPropertiesFactory*> m_properties_factories;
-  QHash<ObjectPropertiesFactory*, ObjectProperties*> m_factories_to_properties;
+  QHash<QString, ObjectProperties*> m_factories_to_properties;
 
   QAction* m_add_property;
   QAction* m_remove_property;
