@@ -35,7 +35,12 @@ void LayerGraphicsItem::onEvent(const ChangeEvent& event) {
 GroupLayerGraphicsItem::GroupLayerGraphicsItem(GroupLayer* layer,
                                                FlowDocument* document,
                                                QGraphicsItem* parent)
-    : LayerGraphicsItem(layer, document, parent) {}
+    : LayerGraphicsItem(layer, document, parent) {
+  for (auto& layer : *getGroupLayer()) {
+    m_layer_items.append(createGraphicsItem<LayerGraphicsItem>(
+        layer.get(), getDocument(), this));
+  }
+}
 
 GroupLayerGraphicsItem::~GroupLayerGraphicsItem() = default;
 
@@ -75,7 +80,12 @@ void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
 NodeLayerGraphicsItem::NodeLayerGraphicsItem(NodeLayer* layer,
                                              FlowDocument* document,
                                              QGraphicsItem* parent)
-    : LayerGraphicsItem(layer, document, parent) {}
+    : LayerGraphicsItem(layer, document, parent) {
+  for (auto& node : *getNodeLayer()) {
+    m_node_items.append(
+        createGraphicsItem<NodeGraphicsItem>(node.get(), getDocument(), this));
+  }
+}
 
 NodeLayerGraphicsItem::~NodeLayerGraphicsItem() = default;
 

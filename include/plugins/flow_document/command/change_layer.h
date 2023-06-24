@@ -1,6 +1,8 @@
 #ifndef FLOW_DOCUMENT_CHANGE_LAYER_H
 #define FLOW_DOCUMENT_CHANGE_LAYER_H
 
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QVariantMap>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/command/change_value.h"
 #include "flow_document/export.h"

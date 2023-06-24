@@ -13,8 +13,7 @@ FlowView::FlowView(QWidget *parent)
     : QGraphicsView(parent),
       m_background_color(53, 53, 53),
       m_small_grid_color(60, 60, 60),
-      m_grid_color(25, 25, 25),
-      m_scene_max_size(32767) {
+      m_grid_color(25, 25, 25) {
   setRenderHint(QPainter::Antialiasing);
   setMouseTracking(true);
 
@@ -29,9 +28,6 @@ FlowView::FlowView(QWidget *parent)
   setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
   setScaleRange(0.3, 2);
-
-  setSceneRect(-m_scene_max_size, -m_scene_max_size, (m_scene_max_size * 2),
-               (m_scene_max_size * 2));
 }
 
 FlowView::~FlowView() = default;
@@ -157,20 +153,6 @@ void FlowView::setupScale(double scale) {
   setTransform(matrix, false);
 }
 
-void FlowView::centerScene() {
-  if (auto scene = getScene(); scene) {
-    scene->setSceneRect(QRectF());
-
-    QRectF scene_rect = scene->sceneRect();
-    if (scene_rect.width() > rect().width() ||
-        scene_rect.height() > rect().height()) {
-      fitInView(scene_rect, Qt::KeepAspectRatio);
-    }
-
-    centerOn(scene_rect.center());
-  }
-}
-
 void FlowView::wheelEvent(QWheelEvent *event) {
   QPoint delta = event->angleDelta();
   if (delta.y() == 0) {
@@ -187,7 +169,7 @@ void FlowView::wheelEvent(QWheelEvent *event) {
 
 void FlowView::showEvent(QShowEvent *event) {
   QGraphicsView::showEvent(event);
-  centerScene();
+  QGraphicsView::centerOn(sceneRect().center());
 }
 
 }  // namespace flow_document

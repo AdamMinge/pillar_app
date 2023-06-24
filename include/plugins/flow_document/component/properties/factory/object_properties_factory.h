@@ -69,8 +69,8 @@ class NodePropertiesFactory : public ObjectPropertiesFactory {
 
 /* ----------------------------------- Utils -------------------------------- */
 
-[[nodiscard]] ObjectProperties* createObjectProperties(Object* object,
-                                                       QObject* parent);
+[[nodiscard]] ObjectProperties* createObjectProperties(
+    Object* object, QObject* parent = nullptr);
 
 [[nodiscard]] ObjectPropertiesFactory* getObjectPropertiesFactoryObject(
     Object* object);

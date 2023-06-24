@@ -3,6 +3,8 @@
 
 #include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 #include "flow_document/flow_document.h"
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QGraphicsScene>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
@@ -18,6 +20,7 @@ GraphicsItem::GraphicsItem(Object* object, FlowDocument* document,
   setAcceptedMouseButtons(Qt::MouseButton{});
   setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemIsSelectable);
+  setAcceptDrops(true);
 
   connect(m_document, &FlowDocument::event, this, &GraphicsItem::onEvent);
 }
@@ -37,9 +40,10 @@ Object* GraphicsItem::getObject() const { return m_object; }
 
 FlowDocument* GraphicsItem::getDocument() const { return m_document; }
 
-QRectF GraphicsItem::boundingRect() const { return QRectF(); }
+QRectF GraphicsItem::boundingRect() const { return QRectF{}; }
 
 void GraphicsItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {
+
 }
 
 void GraphicsItem::onEvent(const ChangeEvent& event) {}

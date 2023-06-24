@@ -104,15 +104,14 @@ class FLOW_DOCUMENT_API NodeItemFactory : public GraphicsItemFactory {
 
 [[nodiscard]] GraphicsItem* createGraphicsItem(Object* object,
                                                FlowDocument* document,
-                                               QGraphicsItem* parent);
+                                               QGraphicsItem* parent = nullptr);
 
 [[nodiscard]] GraphicsItemFactory* getGraphicsItemFactoryByObject(
     Object* object);
 
 template <typename GRAPHICS_ITEM>
-[[nodiscard]] GRAPHICS_ITEM* createGraphicsItem(Object* object,
-                                                FlowDocument* document,
-                                                QGraphicsItem* parent) {
+[[nodiscard]] GRAPHICS_ITEM* createGraphicsItem(
+    Object* object, FlowDocument* document, QGraphicsItem* parent = nullptr) {
   auto item = createGraphicsItem(object, document, parent);
   auto casted_item = qobject_cast<GRAPHICS_ITEM*>(item);
   Q_ASSERT(casted_item);

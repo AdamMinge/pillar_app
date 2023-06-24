@@ -90,8 +90,12 @@ void SelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
 
       if (getScene()) {
         auto item = getScene()->itemAt(m_mouse_clicked_pos, QTransform{});
-        if (auto flow_item = dynamic_cast<GraphicsItem *>(item); flow_item)
-          m_clicked_item = flow_item;
+
+        auto flow_item = dynamic_cast<GraphicsItem *>(item);
+        auto is_selectable =
+            flow_item && flow_item->flags() & QGraphicsItem::ItemIsSelectable;
+
+        if (flow_item && is_selectable) m_clicked_item = flow_item;
       }
 
       break;

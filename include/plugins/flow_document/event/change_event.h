@@ -9,7 +9,7 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API ChangeEvent {
  public:
-  enum class Type {
+  enum Type {
     LayersChanged,
     LayerAboutToBeAdded,
     LayerAdded,

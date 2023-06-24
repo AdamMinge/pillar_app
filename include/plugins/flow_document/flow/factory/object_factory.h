@@ -13,6 +13,8 @@ namespace flow_document {
 
 class Object;
 
+/* ------------------------------- ObjectFactory ---------------------------- */
+
 class FLOW_DOCUMENT_API ObjectFactory : public QObject {
   Q_OBJECT
 
@@ -41,6 +43,11 @@ class FLOW_DOCUMENT_API ObjectFactory : public QObject {
   QString m_section;
   QIcon m_icon;
 };
+
+/* ----------------------------------- Utils -------------------------------- */
+
+[[nodiscard]] ObjectFactory* getObjectFactoryByClassName(
+    const QString& class_name);
 
 }  // namespace flow_document
 

@@ -6,7 +6,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
-#include <QDebug>
+
 namespace flow_document {
 
 class FlowDocument;

@@ -1,9 +1,12 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/flow_scene.h"
 
+#include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 #include "flow_document/component/scene/item/flow_graphics_item.h"
 #include "flow_document/component/scene/item/graphics_item.h"
 #include "flow_document/component/scene/tool/abstract_tool.h"
+#include "flow_document/flow/factory/object_factory.h"
+#include "flow_document/flow/flow.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -14,8 +17,13 @@
 namespace flow_document {
 
 FlowScene::FlowScene(QObject *parent)
-    : QGraphicsScene(parent), m_flow_document(nullptr), m_tool(nullptr) {
+    : QGraphicsScene(parent),
+      m_flow_document(nullptr),
+      m_tool(nullptr),
+      m_scene_max_size(32767) {
   setItemIndexMethod(QGraphicsScene::NoIndex);
+  setSceneRect(-m_scene_max_size, -m_scene_max_size, m_scene_max_size * 2,
+               m_scene_max_size * 2);
 }
 
 FlowScene::~FlowScene() = default;
@@ -24,6 +32,12 @@ void FlowScene::setDocument(FlowDocument *flow_document) {
   if (m_flow_document == flow_document) return;
 
   m_flow_document = flow_document;
+
+  clear();
+  if (m_flow_document) {
+    addItem(createGraphicsItem<FlowGraphicsItem>(m_flow_document->getFlow(),
+                                                 m_flow_document));
+  }
 }
 
 FlowDocument *FlowScene::getDocument() const { return m_flow_document; }
@@ -48,8 +62,12 @@ void FlowScene::setHoveredArea(const QPainterPath &path,
   auto hovered_items = QList<GraphicsItem *>{};
   auto items_in_area = items(path, mode);
   for (auto item : items_in_area) {
-    if (auto hovered_item = dynamic_cast<GraphicsItem *>(item); hovered_item)
+    auto hovered_item = dynamic_cast<GraphicsItem *>(item);
+
+    if (hovered_item &&
+        hovered_item->flags() & QGraphicsItem::ItemIsSelectable) {
       hovered_items.append(hovered_item);
+    }
   }
 
   switch (selectionOperation) {
@@ -94,10 +112,15 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
     auto encoded_data = mime_data->data(mimetype::Factories);
     QDataStream stream(&encoded_data, QIODevice::ReadOnly);
 
+    QList<ObjectFactory *> factories;
     while (!stream.atEnd()) {
-      auto objectClass = QString{};
-      stream >> objectClass;
+      auto object_class = QString{};
+      stream >> object_class;
 
+      auto factory = getObjectFactoryByClassName(object_class);
+      Q_ASSERT(factory);
+
+      factories.append(factory);
       // TODO
     }
   }

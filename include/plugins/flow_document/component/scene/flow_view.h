@@ -34,7 +34,6 @@ class FLOW_DOCUMENT_API FlowView : public QGraphicsView {
   void scaleUp();
   void scaleDown();
   void setupScale(double scale);
-  void centerScene();
 
  protected:
   void drawBackground(QPainter *painter, const QRectF &rect) override;
@@ -47,7 +46,6 @@ class FLOW_DOCUMENT_API FlowView : public QGraphicsView {
   const QColor m_background_color;
   const QColor m_small_grid_color;
   const QColor m_grid_color;
-  const int m_scene_max_size;
 
   ScaleRange m_scale_range;
   QPointF m_mouse_clicked_pos;

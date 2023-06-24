@@ -59,8 +59,7 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
 
   QPainterPath m_hovered_area;
   QList<GraphicsItem *> m_hovered_items;
-
-  FlowGraphicsItem *m_flow_item;
+  const int m_scene_max_size;
 };
 
 }  // namespace flow_document
