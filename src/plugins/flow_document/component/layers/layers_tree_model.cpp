@@ -318,11 +318,8 @@ QString LayersTreeModel::getName(const QModelIndex &index) const {
 
 QIcon LayersTreeModel::getIcon(const QModelIndex &index) const {
   auto layer = static_cast<Layer *>(index.internalPointer());
-
-  if (layer->isClassOrChild(GroupLayer::getStaticClassName()))
-    return QIcon(icons::x32::Group);
-  if (layer->isClassOrChild(NodeLayer::getStaticClassName()))
-    return QIcon(icons::x32::NodeLayer);
+  auto factory = getObjectFactoryByClassName(layer->getClassName());
+  if (factory) return factory->getIcon();
 
   return QIcon{};
 }

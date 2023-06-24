@@ -9,8 +9,8 @@
 
 namespace icons {
 
-#define _DEFINE_ICON(name, size, icon) \
-  constexpr QLatin1String name{":/editor/images/" size "/" icon};
+#define _DEFINE_ICON(NAME, SIZE, ICON) \
+  constexpr QLatin1String NAME{":/editor/images/" SIZE "/" ICON};
 
 namespace x16 {
 

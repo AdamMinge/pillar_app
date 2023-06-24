@@ -121,4 +121,24 @@ template <typename GRAPHICS_ITEM>
 
 }  // namespace flow_document
 
+/* ----------------------- Helper macro to create factory ------------------- */
+
+#define DECLARE_GRAPHICS_ITEM_FACTORY(EXPORT_API, ITEM, OBJECT)                \
+  class EXPORT_API ITEM##Factory : public flow_document::GraphicsItemFactory { \
+    Q_OBJECT                                                                   \
+    Q_INTERFACES(flow_document::GraphicsItemFactory)                           \
+   public:                                                                     \
+    explicit ITEM##Factory(QObject* parent = nullptr)                          \
+        : flow_document::GraphicsItemFactory(parent) {}                        \
+                                                                               \
+    [[nodiscard]] QString getObjectClassName() const override {                \
+      return OBJECT::getStaticClassName();                                     \
+    }                                                                          \
+    [[nodiscard]] flow_document::GraphicsItem* create(                         \
+        flow_document::Object* object, flow_document::FlowDocument* document,  \
+        QGraphicsItem* parent = nullptr) const override {                      \
+      return new ITEM(static_cast<OBJECT*>(object), document, parent);         \
+    }                                                                          \
+  };
+
 #endif  // FLOW_DOCUMENT_GRAPHICS_ITEM_FACTORY_H

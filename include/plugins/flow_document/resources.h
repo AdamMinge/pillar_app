@@ -13,8 +13,8 @@ namespace flow_document {
 
 namespace icons {
 
-#define _DEFINE_ICON(name, size, icon) \
-  constexpr QLatin1String name{":/plugins/flow_document/images/" size "/" icon};
+#define _DEFINE_ICON(NAME, SIZE, ICON) \
+  constexpr QLatin1String NAME{":/plugins/flow_document/images/" SIZE "/" ICON};
 
 namespace x16 {
 
@@ -53,8 +53,8 @@ _DEFINE_ICON(FlowDocument, "64x64", "flow_document.png")
 
 namespace styles {
 
-#define _DEFINE_STYLE(name, style) \
-  constexpr QLatin1String name{":/plugins/flow_document/styles/" style};
+#define _DEFINE_STYLE(NAME, STYLE) \
+  constexpr QLatin1String NAME{":/plugins/flow_document/styles/" STYLE};
 
 _DEFINE_STYLE(Default, "default.png")
 

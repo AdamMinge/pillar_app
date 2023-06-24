@@ -10,9 +10,20 @@ set(source_root
 set(include_root
     ${EGNITE_SOURCE_DIR}/include/plugins/flow_document/extensions/layer/shape)
 
-set(sources ${source_root}/shape_layer_plugin.cpp)
+set(sources
+    ${source_root}/shape_layer_plugin.cpp
+    ${source_root}/flow/shape_layer.cpp
+    ${source_root}/flow/shape.cpp
+    ${source_root}/component/scene/item/shape_layer_graphics_item.cpp
+    ${source_root}/component/scene/item/shape_graphics_item.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/shape_layer_plugin.h)
+set(includes
+    ${include_root}/export.h
+    ${include_root}/shape_layer_plugin.h
+    ${include_root}/flow/shape_layer.h
+    ${include_root}/flow/shape.h
+    ${include_root}/component/scene/item/shape_layer_graphics_item.h
+    ${include_root}/component/scene/item/shape_graphics_item.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

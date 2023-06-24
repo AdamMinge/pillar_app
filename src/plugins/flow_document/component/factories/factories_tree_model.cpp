@@ -206,11 +206,7 @@ Qt::ItemFlags FactoriesTreeModel::getFlags(const QModelIndex &index) const {
   if (!factory) return Qt::NoItemFlags;
 
   auto flags = Qt::ItemFlags{};
-  switch (factory->getType()) {
-    case ObjectFactory::Type::NodeFactory:
-      flags |= Qt::ItemIsDragEnabled;
-      break;
-  }
+  flags |= Qt::ItemIsDragEnabled;
 
   return flags;
 }

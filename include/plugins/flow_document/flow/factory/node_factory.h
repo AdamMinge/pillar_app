@@ -35,34 +35,27 @@ class FLOW_DOCUMENT_API NodeFactory : public ObjectFactory {
 
 Q_DECLARE_INTERFACE(flow_document::NodeFactory, "org.flow.NodeFactory")
 
-namespace flow_document {
-
-/* ----------------------- Helper macro to create factory ------------------- */
-
-// clang-format off
-#define DECLARE_NODE_FACTORY(export_api, node)                                          \
-  class export_api node##Factory : public flow_document::NodeFactory{                   \
-    Q_OBJECT                                                                            \
-    Q_INTERFACES(flow_document::NodeFactory)                                            \
-    public :                                                                            \
-      explicit node##Factory(QString name, QString section,                             \
-                                QObject* parent = nullptr) :                            \
-            flow_document::NodeFactory(std::move(name), std::move(section),             \
-                                        parent){}                                       \
-      explicit node##Factory(QString name, QString section, QIcon icon,                 \
-                                QObject* parent = nullptr) :                            \
-            flow_document::NodeFactory(std::move(name), std::move(section),             \
-                                        std::move(icon), parent){}                      \
-                                                                                        \
-      [[nodiscard]] QString getObjectClassName() const override {                           \
-        return node::getStaticClassName();                                              \
-      }                                                                                 \
-      [[nodiscard]] std::unique_ptr<flow_document::Object> create() const override {    \
-        return std::make_unique<node>();                                                \
-      }                                                                                 \
+#define DECLARE_NODE_FACTORY(EXPORT_API, NODE)                            \
+  class EXPORT_API NODE##Factory : public flow_document::NodeFactory {    \
+    Q_OBJECT                                                              \
+    Q_INTERFACES(flow_document::NodeFactory)                              \
+   public:                                                                \
+    explicit NODE##Factory(QString name, QString section,                 \
+                           QObject* parent = nullptr)                     \
+        : flow_document::NodeFactory(std::move(name), std::move(section), \
+                                     parent) {}                           \
+    explicit NODE##Factory(QString name, QString section, QIcon icon,     \
+                           QObject* parent = nullptr)                     \
+        : flow_document::NodeFactory(std::move(name), std::move(section), \
+                                     std::move(icon), parent) {}          \
+                                                                          \
+    [[nodiscard]] QString getObjectClassName() const override {           \
+      return NODE::getStaticClassName();                                  \
+    }                                                                     \
+    [[nodiscard]] std::unique_ptr<flow_document::Object> create()         \
+        const override {                                                  \
+      return std::make_unique<NODE>();                                    \
+    }                                                                     \
   };
-// clang-format on
-
-}  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_NODE_FACTORY_H

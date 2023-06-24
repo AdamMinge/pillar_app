@@ -327,15 +327,8 @@ QString NodesTreeModel::getName(const QModelIndex &index) const {
 
 QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
-  const auto type = object->getClassName();
-
-  if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
-    return QIcon(icons::x32::Group);
-  } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
-    return QIcon(icons::x32::NodeLayer);
-  } else if (object->isClassOrChild(Node::getStaticClassName())) {
-    return QIcon(icons::x32::Node);
-  }
+  auto factory = getObjectFactoryByClassName(object->getClassName());
+  if (factory) return factory->getIcon();
 
   return QIcon{};
 }

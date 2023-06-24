@@ -63,31 +63,31 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
   [[nodiscard]] std::unique_ptr<Object> create() const override;
 };
 
-/* ----------------------- Helper macro to create factory ------------------- */
-// clang-format off
-#define DECLARE_LAYER_FACTORY(export_api, layer)                                        \
-  class export_api layer##Factory : public flow_document::LayerFactory{                 \
-    Q_OBJECT                                                                            \
-    Q_INTERFACES(flow_document::LayerFactory)                                           \
-    public :                                                                            \
-      explicit layer##Factory(QString name, QString section,                            \
-                                QObject* parent = nullptr) :                            \
-            flow_document::LayerFactory(std::move(name), std::move(section),            \
-                                        parent){}                                       \
-      explicit layer##Factory(QString name, QString section, QIcon icon,                \
-                                QObject* parent = nullptr) :                            \
-            flow_document::LayerFactory(std::move(name), std::move(section),            \
-                                        std::move(icon), parent){}                      \
-                                                                                        \
-      [[nodiscard]] QString getObjectClassName() const override {                           \
-        return layer::getStaticClassName();                                             \
-      }                                                                                 \
-      [[nodiscard]] std::unique_ptr<flow_document::Object> create() const override {    \
-        return std::make_unique<layer>();                                               \
-      }                                                                                 \
-  };
-// clang-format on
-
 }  // namespace flow_document
+
+/* ----------------------- Helper macro to create factory ------------------- */
+
+#define DECLARE_LAYER_FACTORY(EXPORT_API, LAYER)                           \
+  class EXPORT_API LAYER##Factory : public flow_document::LayerFactory {   \
+    Q_OBJECT                                                               \
+    Q_INTERFACES(flow_document::LayerFactory)                              \
+   public:                                                                 \
+    explicit LAYER##Factory(QString name, QString section,                 \
+                            QObject* parent = nullptr)                     \
+        : flow_document::LayerFactory(std::move(name), std::move(section), \
+                                      parent) {}                           \
+    explicit LAYER##Factory(QString name, QString section, QIcon icon,     \
+                            QObject* parent = nullptr)                     \
+        : flow_document::LayerFactory(std::move(name), std::move(section), \
+                                      std::move(icon), parent) {}          \
+                                                                           \
+    [[nodiscard]] QString getObjectClassName() const override {            \
+      return LAYER::getStaticClassName();                                  \
+    }                                                                      \
+    [[nodiscard]] std::unique_ptr<flow_document::Object> create()          \
+        const override {                                                   \
+      return std::make_unique<LAYER>();                                    \
+    }                                                                      \
+  };
 
 #endif  // FLOW_DOCUMENT_LAYER_FACTORY_H

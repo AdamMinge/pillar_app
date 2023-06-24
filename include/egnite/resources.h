@@ -11,8 +11,8 @@ namespace egnite {
 
 namespace icons {
 
-#define _DEFINE_ICON(name, size, icon) \
-  constexpr QLatin1String name{":/egnite/images/" size "/" icon};
+#define _DEFINE_ICON(NAME, SIZE, ICON) \
+  constexpr QLatin1String NAME{":/egnite/images/" SIZE "/" ICON};
 
 namespace x16 {
 
