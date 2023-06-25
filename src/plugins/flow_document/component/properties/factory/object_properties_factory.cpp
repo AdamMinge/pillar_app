@@ -27,7 +27,7 @@ ObjectProperties* LayerPropertiesFactory::create(QObject* parent) const {
 }
 
 QString LayerPropertiesFactory::getObjectClassName() const {
-  return Layer::getStaticClassName();
+  return Layer::sGetClassName();
 }
 
 /* --------------------------- NodePropertiesFactory ------------------------ */
@@ -40,7 +40,7 @@ ObjectProperties* NodePropertiesFactory::create(QObject* parent) const {
 }
 
 QString NodePropertiesFactory::getObjectClassName() const {
-  return Node::getStaticClassName();
+  return Node::sGetClassName();
 }
 
 /* ----------------------------------- Utils -------------------------------- */

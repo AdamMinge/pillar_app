@@ -33,7 +33,7 @@ void RaiseLowerLayers::moveLayers(bool raise) {
   auto current_layer = m_document->getCurrentLayer();
   auto selected_layers = m_document->getSelectedLayers();
 
-  auto process_layer = [this, raise](auto layer) {
+  auto process_layer = [this, raise](Layer* layer) {
     const auto step = raise ? 1 : -1;
     const auto parent = layer->getParent();
     const auto index = parent->indexOf(layer);
@@ -44,7 +44,7 @@ void RaiseLowerLayers::moveLayers(bool raise) {
 
     if (can_move) {
       auto next_layer = parent->at(index + step);
-      if (next_layer->isClass(GroupLayer::getStaticClassName())) {
+      if (next_layer->isClassOrChild<GroupLayer>()) {
         new_parent = static_cast<GroupLayer*>(next_layer);
         new_index = raise ? 0 : new_parent->size();
       } else {

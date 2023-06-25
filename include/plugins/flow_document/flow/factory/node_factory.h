@@ -50,7 +50,7 @@ Q_DECLARE_INTERFACE(flow_document::NodeFactory, "org.flow.NodeFactory")
                                      std::move(icon), parent) {}          \
                                                                           \
     [[nodiscard]] QString getObjectClassName() const override {           \
-      return NODE::getStaticClassName();                                  \
+      return NODE::sGetClassName();                                       \
     }                                                                     \
     [[nodiscard]] std::unique_ptr<flow_document::Object> create()         \
         const override {                                                  \

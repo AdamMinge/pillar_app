@@ -64,7 +64,7 @@ Qt::ItemFlags LayersTreeModel::flags(const QModelIndex &index) const {
 
   auto layer = index.isValid() ? toLayer(index) : m_flow->getRootLayer();
   if (layer) flags |= Qt::ItemIsDragEnabled;
-  if (layer && layer->isClassOrChild(GroupLayer::getStaticClassName()))
+  if (layer && layer->isClassOrChild<GroupLayer>())
     flags |= Qt::ItemIsDropEnabled;
 
   return flags;
@@ -224,9 +224,7 @@ bool LayersTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
 
   auto parent_layer =
       parent.isValid() ? toLayer(parent) : m_flow->getRootLayer();
-  if (parent_layer &&
-      !parent_layer->isClassOrChild(GroupLayer::getStaticClassName()))
-    return false;
+  if (parent_layer && !parent_layer->isClassOrChild<GroupLayer>()) return false;
 
   auto group_layer = static_cast<GroupLayer *>(parent_layer);
 

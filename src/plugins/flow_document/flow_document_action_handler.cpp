@@ -49,7 +49,7 @@ namespace {
   auto nodes = QList<Node*>{};
 
   for (auto layer : layers) {
-    if (layer->isClassOrChild(NodeLayer::getStaticClassName())) {
+    if (layer->isClassOrChild<NodeLayer>()) {
       auto node_layer = static_cast<NodeLayer*>(layer);
       for (auto& node : *node_layer) {
         if (!except.contains(node.get())) nodes.append(node.get());
@@ -128,6 +128,7 @@ namespace {
   auto name_template = factory->getName() + " %1";
 
   auto names = QSet<QString>{};
+
   switch (factory->getType()) {
     case ObjectFactory::Type::NodeFactory:
       names = getAllNodeNames(document, factory->getName());

@@ -143,11 +143,11 @@ QModelIndex NodesTreeModel::index(int row, int column,
   if (parent.isValid())
     object = static_cast<Object *>(parent.internalPointer());
 
-  if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
+  if (object->isClassOrChild<GroupLayer>()) {
     auto group_layer = static_cast<GroupLayer *>(object);
     if (group_layer->size() > row)
       return createIndex(row, column, group_layer->at(row));
-  } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
+  } else if (object->isClassOrChild<NodeLayer>()) {
     auto node_layer = static_cast<NodeLayer *>(object);
     if (node_layer->size() > row)
       return createIndex(row, column, node_layer->at(row));
@@ -162,10 +162,10 @@ QModelIndex NodesTreeModel::parent(const QModelIndex &index) const {
   auto object = static_cast<Object *>(index.internalPointer());
   const auto type = object->getClassName();
 
-  if (object->isClassOrChild(Layer::getStaticClassName())) {
+  if (object->isClassOrChild<Layer>()) {
     auto layer = static_cast<Layer *>(object);
     return NodesTreeModel::index(layer->getParent());
-  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+  } else if (object->isClassOrChild<Node>()) {
     auto node = static_cast<Node *>(object);
     return NodesTreeModel::index(node->getParent());
   }
@@ -182,10 +182,10 @@ int NodesTreeModel::rowCount(const QModelIndex &parent) const {
   } else {
     auto object = static_cast<Object *>(parent.internalPointer());
 
-    if (object->isClassOrChild(GroupLayer::getStaticClassName())) {
+    if (object->isClassOrChild<GroupLayer>()) {
       auto group_layer = static_cast<GroupLayer *>(object);
       return group_layer->size();
-    } else if (object->isClassOrChild(NodeLayer::getStaticClassName())) {
+    } else if (object->isClassOrChild<NodeLayer>()) {
       auto node_layer = static_cast<NodeLayer *>(object);
       return node_layer->size();
     }
@@ -200,7 +200,7 @@ Layer *NodesTreeModel::toLayer(const QModelIndex &index) const {
   if (!index.isValid()) return nullptr;
 
   auto object = static_cast<Object *>(index.internalPointer());
-  if (object->isClassOrChild(Layer::getStaticClassName())) {
+  if (object->isClassOrChild<Layer>()) {
     return static_cast<Layer *>(object);
   }
 
@@ -211,7 +211,7 @@ Node *NodesTreeModel::toNode(const QModelIndex &index) const {
   if (!index.isValid()) return nullptr;
 
   auto object = static_cast<Object *>(index.internalPointer());
-  if (object->isClassOrChild(Node::getStaticClassName())) {
+  if (object->isClassOrChild<Node>()) {
     return static_cast<Node *>(object);
   }
 
@@ -316,10 +316,10 @@ QString NodesTreeModel::getName(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
   const auto type = object->getClassName();
 
-  if (object->isClassOrChild(Layer::getStaticClassName())) {
+  if (object->isClassOrChild<Layer>()) {
     auto layer = static_cast<Layer *>(object);
     return layer->getName();
-  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+  } else if (object->isClassOrChild<Node>()) {
     auto node = static_cast<Node *>(object);
     return node->getName();
   }
@@ -340,10 +340,10 @@ Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
   const auto type = object->getClassName();
   auto visible = true;
 
-  if (object->isClassOrChild(Layer::getStaticClassName())) {
+  if (object->isClassOrChild<Layer>()) {
     auto layer = static_cast<Layer *>(object);
     visible = layer->isVisible();
-  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+  } else if (object->isClassOrChild<Node>()) {
     auto node = static_cast<Node *>(object);
     visible = node->isVisible();
   }
@@ -355,11 +355,11 @@ void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
   const auto object = static_cast<Object *>(index.internalPointer());
   const auto type = object->getClassName();
 
-  if (object->isClassOrChild(Layer::getStaticClassName())) {
+  if (object->isClassOrChild<Layer>()) {
     auto layer = static_cast<Layer *>(object);
     m_document->getUndoStack()->push(
         new SetLayersName(m_document, {layer}, name));
-  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+  } else if (object->isClassOrChild<Node>()) {
     auto node = static_cast<Node *>(object);
     m_document->getUndoStack()->push(
         new SetNodesName(m_document, {node}, name));
@@ -372,11 +372,11 @@ void NodesTreeModel::setVisible(const QModelIndex &index,
   const auto type = object->getClassName();
   const auto visible = state == Qt::Checked;
 
-  if (object->isClassOrChild(Layer::getStaticClassName())) {
+  if (object->isClassOrChild<Layer>()) {
     auto layer = static_cast<Layer *>(object);
     m_document->getUndoStack()->push(
         new SetLayersVisible(m_document, {layer}, visible));
-  } else if (object->isClassOrChild(Node::getStaticClassName())) {
+  } else if (object->isClassOrChild<Node>()) {
     auto node = static_cast<Node *>(object);
     m_document->getUndoStack()->push(
         new SetNodesVisible(m_document, {node}, visible));
@@ -395,9 +395,8 @@ bool OnlyNodesFilterProxyModel::filterAcceptsRow(
   const auto index = sourceModel()->index(source_row, 0, source_parent);
   const auto object = static_cast<Object *>(index.internalPointer());
 
-  const auto is_node_layer =
-      object->isClassOrChild(NodeLayer::getStaticClassName());
-  const auto is_node = object->isClassOrChild(Node::getStaticClassName());
+  const auto is_node_layer = object->isClassOrChild<NodeLayer>();
+  const auto is_node = object->isClassOrChild<Node>();
 
   return is_node_layer || is_node;
 }

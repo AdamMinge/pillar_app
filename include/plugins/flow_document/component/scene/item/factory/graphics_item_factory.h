@@ -132,7 +132,7 @@ template <typename GRAPHICS_ITEM>
         : flow_document::GraphicsItemFactory(parent) {}                        \
                                                                                \
     [[nodiscard]] QString getObjectClassName() const override {                \
-      return OBJECT::getStaticClassName();                                     \
+      return OBJECT::sGetClassName();                                          \
     }                                                                          \
     [[nodiscard]] flow_document::GraphicsItem* create(                         \
         flow_document::Object* object, flow_document::FlowDocument* document,  \

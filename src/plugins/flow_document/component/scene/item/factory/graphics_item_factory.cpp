@@ -28,7 +28,7 @@ FlowItemFactory::FlowItemFactory(QObject* parent)
 FlowItemFactory::~FlowItemFactory() = default;
 
 QString FlowItemFactory::getObjectClassName() const {
-  return Flow::getStaticClassName();
+  return Flow::sGetClassName();
 }
 
 GraphicsItem* FlowItemFactory::create(Object* object, FlowDocument* document,
@@ -44,7 +44,7 @@ GroupLayerItemFactory::GroupLayerItemFactory(QObject* parent)
 GroupLayerItemFactory::~GroupLayerItemFactory() = default;
 
 QString GroupLayerItemFactory::getObjectClassName() const {
-  return GroupLayer::getStaticClassName();
+  return GroupLayer::sGetClassName();
 }
 
 GraphicsItem* GroupLayerItemFactory::create(Object* object,
@@ -62,7 +62,7 @@ NodeLayerItemFactory::NodeLayerItemFactory(QObject* parent)
 NodeLayerItemFactory::~NodeLayerItemFactory() = default;
 
 QString NodeLayerItemFactory::getObjectClassName() const {
-  return NodeLayer::getStaticClassName();
+  return NodeLayer::sGetClassName();
 }
 
 GraphicsItem* NodeLayerItemFactory::create(Object* object,
@@ -80,7 +80,7 @@ NodeItemFactory::NodeItemFactory(QObject* parent)
 NodeItemFactory::~NodeItemFactory() = default;
 
 QString NodeItemFactory::getObjectClassName() const {
-  return Node::getStaticClassName();
+  return Node::sGetClassName();
 }
 
 GraphicsItem* NodeItemFactory::create(Object* object, FlowDocument* document,

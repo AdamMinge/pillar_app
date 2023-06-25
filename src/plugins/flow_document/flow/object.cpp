@@ -45,20 +45,28 @@ void Object::deserialize(utils::IArchive &archive) {
   archive >> utils::ArchiveProperty("properties", m_properties);
 }
 
-QString Object::getStaticClassName() { return "Object"; }
+QString Object::sGetClassName() { return "Object"; }
 
 QString Object::getClassName() const { return "Object"; }
 
-QString Object::getStaticParentClassName() { return ""; }
+QString Object::sGetParentClassName() { return ""; }
 
 QString Object::getParentClassName() const { return ""; }
 
-QStringList Object::getStaticInheritedClassNames() { return {}; }
+QStringList Object::sGetInheritedClassNames() { return {}; }
 
 QStringList Object::getInheritedClassNames() const { return {}; }
 
+bool Object::sIsClass(const QString &className) {
+  return Object::sGetClassName() == className;
+}
+
 bool Object::isClass(const QString &className) const {
-  return Object::getClassName() == className;
+  return getClassName() == className;
+}
+
+bool Object::sIsClassOrChild(const QString &class_name) {
+  return Object::sIsClass(class_name);
 }
 
 bool Object::isClassOrChild(const QString &class_name) const {

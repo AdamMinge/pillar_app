@@ -82,7 +82,7 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
                                       std::move(icon), parent) {}          \
                                                                            \
     [[nodiscard]] QString getObjectClassName() const override {            \
-      return LAYER::getStaticClassName();                                  \
+      return LAYER::sGetClassName();                                       \
     }                                                                      \
     [[nodiscard]] std::unique_ptr<flow_document::Object> create()          \
         const override {                                                   \
