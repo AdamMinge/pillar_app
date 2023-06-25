@@ -17,6 +17,8 @@
 
 namespace flow_document {
 
+/* ------------------------------ NodesTreeModel ---------------------------- */
+
 NodesTreeModel::NodesTreeModel(QObject *parent)
     : QAbstractItemModel(parent), m_document(nullptr), m_flow(nullptr) {}
 
@@ -379,6 +381,25 @@ void NodesTreeModel::setVisible(const QModelIndex &index,
     m_document->getUndoStack()->push(
         new SetNodesVisible(m_document, {node}, visible));
   }
+}
+
+/* ------------------------- OnlyNodesFilterProxyModel ---------------------- */
+
+OnlyNodesFilterProxyModel::OnlyNodesFilterProxyModel(QObject *parent)
+    : utils::QtReverseProxyModel(parent) {}
+
+OnlyNodesFilterProxyModel::~OnlyNodesFilterProxyModel() = default;
+
+bool OnlyNodesFilterProxyModel::filterAcceptsRow(
+    int source_row, const QModelIndex &source_parent) const {
+  const auto index = sourceModel()->index(source_row, 0, source_parent);
+  const auto object = static_cast<Object *>(index.internalPointer());
+
+  const auto is_node_layer =
+      object->isClassOrChild(NodeLayer::getStaticClassName());
+  const auto is_node = object->isClassOrChild(Node::getStaticClassName());
+
+  return is_node_layer || is_node;
 }
 
 }  // namespace flow_document

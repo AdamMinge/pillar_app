@@ -275,12 +275,12 @@
 <context>
     <name>NodesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="108"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="110"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="110"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="112"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>

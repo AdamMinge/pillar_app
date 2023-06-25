@@ -3,6 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
+/* ----------------------------------- Utils -------------------------------- */
+#include <utils/model/reverse_proxy_model.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
@@ -14,6 +17,8 @@ class ChangeEvent;
 class Layer;
 class Node;
 class Flow;
+
+/* ------------------------------ NodesTreeModel ---------------------------- */
 
 class FLOW_DOCUMENT_API NodesTreeModel : public QAbstractItemModel {
   Q_OBJECT
@@ -64,6 +69,17 @@ class FLOW_DOCUMENT_API NodesTreeModel : public QAbstractItemModel {
  private:
   FlowDocument *m_document;
   Flow *m_flow;
+};
+
+/* ------------------------- OnlyNodesFilterProxyModel ---------------------- */
+
+class OnlyNodesFilterProxyModel : public utils::QtReverseProxyModel {
+ public:
+  explicit OnlyNodesFilterProxyModel(QObject *parent = nullptr);
+  ~OnlyNodesFilterProxyModel() override;
+
+  bool filterAcceptsRow(int source_row,
+                        const QModelIndex &source_parent) const override;
 };
 
 }  // namespace flow_document

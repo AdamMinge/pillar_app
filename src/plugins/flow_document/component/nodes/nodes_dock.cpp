@@ -8,8 +8,6 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
-/* ----------------------------------- Utils -------------------------------- */
-#include <utils/model/reverse_proxy_model.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_nodes_dock.h"
 /* -------------------------------------------------------------------------- */
@@ -20,7 +18,7 @@ NodesDock::NodesDock(QWidget *parent)
     : FlowDockWidget(parent),
       m_ui(new Ui::NodesDock()),
       m_nodes_model(new NodesTreeModel),
-      m_filter_model(new utils::QtReverseProxyModel) {
+      m_filter_model(new OnlyNodesFilterProxyModel) {
   setObjectName(QLatin1String("Nodes"));
 
   initUi();
