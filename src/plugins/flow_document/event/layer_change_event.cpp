@@ -8,10 +8,15 @@ namespace flow_document {
 
 /* --------------------------------- LayerEvent ----------------------------- */
 
-LayerEvent::LayerEvent(Type type, GroupLayer* group_layer, qsizetype index)
-    : ChangeEvent(type), m_group_layer(group_layer), m_index(index) {}
+LayerEvent::LayerEvent(Event event, GroupLayer* group_layer, qsizetype index)
+    : ChangeEvent(type),
+      m_event(event),
+      m_group_layer(group_layer),
+      m_index(index) {}
 
 LayerEvent::~LayerEvent() = default;
+
+LayerEvent::Event LayerEvent::getEvent() const { return m_event; }
 
 GroupLayer* LayerEvent::getGroupLayer() const { return m_group_layer; }
 
@@ -19,20 +24,15 @@ qsizetype LayerEvent::getIndex() const { return m_index; }
 
 /* ------------------------------ LayersChangeEvent ------------------------- */
 
-LayersEvent::LayersEvent(Type type, QList<Layer*> layers)
-    : ChangeEvent(type), m_layers(std::move(layers)) {}
-LayersEvent::~LayersEvent() = default;
-
-const QList<Layer*>& LayersEvent::getLayers() const { return m_layers; }
-
-/* ------------------------------ LayersChangeEvent ------------------------- */
-
 LayersChangeEvent::LayersChangeEvent(QList<Layer*> layers,
                                      Properties properties)
-    : LayersEvent(Type::LayersChanged, std::move(layers)),
+    : ChangeEvent(type),
+      m_layers(std::move(layers)),
       m_properties(properties) {}
 
 LayersChangeEvent::~LayersChangeEvent() = default;
+
+const QList<Layer*>& LayersChangeEvent::getLayers() const { return m_layers; }
 
 LayersChangeEvent::Properties LayersChangeEvent::getProperties() const {
   return m_properties;

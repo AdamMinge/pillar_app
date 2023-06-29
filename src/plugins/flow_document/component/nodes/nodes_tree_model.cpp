@@ -219,95 +219,106 @@ Node *NodesTreeModel::toNode(const QModelIndex &index) const {
 }
 
 void NodesTreeModel::onEvent(const ChangeEvent &event) {
-  switch (event.getType()) {
-    using enum ChangeEvent::Type;
+  if (event.getType() == NodeEvent::type) {
+    const auto node_event = static_cast<const NodeEvent &>(event);
+    switch (node_event.getEvent()) {
+      using enum NodeEvent::Event;
 
-    case NodeAboutToBeAdded: {
-      const auto &e = static_cast<const NodeEvent &>(event);
-      beginInsertRows(index(e.getNodeLayer()), e.getIndex(), e.getIndex());
-      break;
-    }
-
-    case LayerAboutToBeAdded: {
-      const auto &e = static_cast<const LayerEvent &>(event);
-      beginInsertRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
-      break;
-    }
-
-    case LayerAdded:
-    case NodeAdded: {
-      endInsertRows();
-      break;
-    }
-
-    case NodeAboutToBeRemoved: {
-      const auto &e = static_cast<const NodeEvent &>(event);
-      beginRemoveRows(index(e.getNodeLayer()), e.getIndex(), e.getIndex());
-      break;
-    }
-
-    case LayerAboutToBeRemoved: {
-      const auto &e = static_cast<const LayerEvent &>(event);
-      beginRemoveRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
-      break;
-    }
-
-    case LayerRemoved:
-    case NodeRemoved: {
-      endRemoveRows();
-      break;
-    }
-
-    case LayersChanged: {
-      const auto &e = static_cast<const LayersChangeEvent &>(event);
-      const auto &layers = e.getLayers();
-      const auto properties = e.getProperties();
-
-      auto columns = QVarLengthArray<int, 3>{};
-      if (properties & LayersChangeEvent::Property::Name)
-        columns.append(Column::NameColumn);
-      if (properties & LayersChangeEvent::Property::Visible)
-        columns.append(Column::VisibleColumn);
-
-      if (!columns.empty()) {
-        auto [col_min, col_max] =
-            std::minmax_element(columns.begin(), columns.end());
-
-        for (auto layer : layers) {
-          auto min_index = index(layer, *col_min);
-          auto max_index = index(layer, *col_max);
-
-          Q_EMIT dataChanged(min_index, max_index);
-        }
+      case AboutToBeAdded: {
+        beginInsertRows(index(node_event.getNodeLayer()), node_event.getIndex(),
+                        node_event.getIndex());
+        break;
       }
 
-      break;
-    }
-
-    case NodesChanged: {
-      const auto &e = static_cast<const NodesChangeEvent &>(event);
-      const auto &nodes = e.getNodes();
-      const auto properties = e.getProperties();
-
-      auto columns = QVarLengthArray<int, 3>{};
-      if (properties & NodesChangeEvent::Property::Name)
-        columns.append(Column::NameColumn);
-      if (properties & NodesChangeEvent::Property::Visible)
-        columns.append(Column::VisibleColumn);
-
-      if (!columns.empty()) {
-        auto [col_min, col_max] =
-            std::minmax_element(columns.begin(), columns.end());
-
-        for (auto node : nodes) {
-          auto min_index = index(node, *col_min);
-          auto max_index = index(node, *col_max);
-
-          Q_EMIT dataChanged(min_index, max_index);
-        }
+      case Added: {
+        endInsertRows();
+        break;
       }
 
-      break;
+      case AboutToBeRemoved: {
+        beginRemoveRows(index(node_event.getNodeLayer()), node_event.getIndex(),
+                        node_event.getIndex());
+        break;
+      }
+
+      case Removed: {
+        endRemoveRows();
+        break;
+      }
+    }
+
+  } else if (event.getType() == LayerEvent::type) {
+    const auto layer_event = static_cast<const LayerEvent &>(event);
+    switch (layer_event.getEvent()) {
+      using enum LayerEvent::Event;
+
+      case AboutToBeAdded: {
+        beginInsertRows(index(layer_event.getGroupLayer()),
+                        layer_event.getIndex(), layer_event.getIndex());
+        break;
+      }
+
+      case Added: {
+        endInsertRows();
+        break;
+      }
+
+      case AboutToBeRemoved: {
+        beginRemoveRows(index(layer_event.getGroupLayer()),
+                        layer_event.getIndex(), layer_event.getIndex());
+        break;
+      }
+
+      case Removed: {
+        endRemoveRows();
+        break;
+      }
+    }
+
+  } else if (event.getType() == NodesChangeEvent::type) {
+    const auto nodes_event = static_cast<const NodesChangeEvent &>(event);
+    const auto &nodes = nodes_event.getNodes();
+    const auto properties = nodes_event.getProperties();
+
+    auto columns = QVarLengthArray<int, 3>{};
+    if (properties & NodesChangeEvent::Property::Name)
+      columns.append(Column::NameColumn);
+    if (properties & NodesChangeEvent::Property::Visible)
+      columns.append(Column::VisibleColumn);
+
+    if (!columns.empty()) {
+      auto [col_min, col_max] =
+          std::minmax_element(columns.begin(), columns.end());
+
+      for (auto node : nodes) {
+        auto min_index = index(node, *col_min);
+        auto max_index = index(node, *col_max);
+
+        Q_EMIT dataChanged(min_index, max_index);
+      }
+    }
+
+  } else if (event.getType() == LayersChangeEvent::type) {
+    const auto layers_event = static_cast<const LayersChangeEvent &>(event);
+    const auto &layers = layers_event.getLayers();
+    const auto properties = layers_event.getProperties();
+
+    auto columns = QVarLengthArray<int, 3>{};
+    if (properties & LayersChangeEvent::Property::Name)
+      columns.append(Column::NameColumn);
+    if (properties & LayersChangeEvent::Property::Visible)
+      columns.append(Column::VisibleColumn);
+
+    if (!columns.empty()) {
+      auto [col_min, col_max] =
+          std::minmax_element(columns.begin(), columns.end());
+
+      for (auto layer : layers) {
+        auto min_index = index(layer, *col_min);
+        auto max_index = index(layer, *col_max);
+
+        Q_EMIT dataChanged(min_index, max_index);
+      }
     }
   }
 }

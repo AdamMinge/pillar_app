@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/factories/factories_tree_model.h"
 
-#include "flow_document/flow/factory/object_factory.h"
+#include "flow_document/flow/factory/node_factory.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
@@ -169,9 +169,8 @@ QStandardItem *FactoriesTreeModel::createSection(const QString &name) {
 
 QStandardItem *FactoriesTreeModel::findTypeSection(
     ObjectFactory *factory) const {
-  switch (factory->getType()) {
-    case ObjectFactory::Type::NodeFactory:
-      return m_root->child(Section::Nodes);
+  if (factory->getType() == NodeFactory::type) {
+    return m_root->child(Section::Nodes);
   }
 
   return nullptr;

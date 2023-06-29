@@ -17,35 +17,36 @@ class Node;
 
 class FLOW_DOCUMENT_API NodeEvent : public ChangeEvent {
  public:
-  explicit NodeEvent(Type type, NodeLayer* node_layer, qsizetype index);
+  static constexpr QLatin1String type = QLatin1String("NodeEvent");
+
+  enum class Event {
+    AboutToBeAdded,
+    Added,
+    Removed,
+    AboutToBeRemoved,
+  };
+
+ public:
+  explicit NodeEvent(Event event, NodeLayer* node_layer, qsizetype index);
   ~NodeEvent() override;
 
+  [[nodiscard]] Event getEvent() const;
   [[nodiscard]] NodeLayer* getNodeLayer() const;
   [[nodiscard]] qsizetype getIndex() const;
   [[nodiscard]] Node* getNode() const;
 
  private:
+  Event m_event;
   NodeLayer* m_node_layer;
   qsizetype m_index;
 };
 
-/* ---------------------------------- NodesEvent ---------------------------- */
-
-class FLOW_DOCUMENT_API NodesEvent : public ChangeEvent {
- public:
-  explicit NodesEvent(Type type, QList<Node*> nodes);
-  ~NodesEvent() override;
-
-  [[nodiscard]] const QList<Node*>& getNodes() const;
-
- private:
-  QList<Node*> m_nodes;
-};
-
 /* ------------------------------ NodesChangeEvent -------------------------- */
 
-class FLOW_DOCUMENT_API NodesChangeEvent : public NodesEvent {
+class FLOW_DOCUMENT_API NodesChangeEvent : public ChangeEvent {
  public:
+  static constexpr QLatin1String type = QLatin1String("NodesChangeEvent");
+
   enum class Property {
     Name = 1 << 0,
     Visible = 1 << 1,
@@ -58,9 +59,11 @@ class FLOW_DOCUMENT_API NodesChangeEvent : public NodesEvent {
   explicit NodesChangeEvent(QList<Node*> nodes, Properties properties);
   ~NodesChangeEvent() override;
 
+  [[nodiscard]] const QList<Node*>& getNodes() const;
   [[nodiscard]] Properties getProperties() const;
 
  private:
+  QList<Node*> m_nodes;
   Properties m_properties;
 };
 

@@ -5,7 +5,8 @@
 #include "flow_document/command/change_layer.h"
 #include "flow_document/command/duplicate_layer.h"
 #include "flow_document/command/raise_lower_layer.h"
-#include "flow_document/event/change_event.h"
+#include "flow_document/event/layer_change_event.h"
+#include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/factory/layer_factory.h"
 #include "flow_document/flow/factory/node_factory.h"
 #include "flow_document/flow/factory/object_factory.h"
@@ -129,14 +130,10 @@ namespace {
 
   auto names = QSet<QString>{};
 
-  switch (factory->getType()) {
-    case ObjectFactory::Type::NodeFactory:
-      names = getAllNodeNames(document, factory->getName());
-      break;
-
-    case ObjectFactory::Type::LayerFactory:
-      names = getAllLayerNames(document, factory->getName());
-      break;
+  if (factory->getType() == NodeFactory::type) {
+    names = getAllNodeNames(document, factory->getName());
+  } else if (factory->getType() == LayerFactory::type) {
+    names = getAllLayerNames(document, factory->getName());
   }
 
   auto index = 1;
@@ -281,40 +278,38 @@ void FlowDocumentActionHandler::removedObject(ObjectFactory* factory) {
 
 std::function<void()> FlowDocumentActionHandler::methodForFactory(
     ObjectFactory* factory) const {
-  switch (factory->getType()) {
-    case ObjectFactory::Type::NodeFactory:
-      return [this, factory]() {
-        auto node_factory = static_cast<NodeFactory*>(factory);
+  if (factory->getType() == NodeFactory::type) {
+    return [this, factory]() {
+      auto node_factory = static_cast<NodeFactory*>(factory);
 
-        auto node = utils::cast_unique_ptr<Node>(node_factory->create());
-        Q_ASSERT(node);
+      auto node = utils::cast_unique_ptr<Node>(node_factory->create());
+      Q_ASSERT(node);
 
-        node->setName(getNewDefaultName(m_document, factory));
+      node->setName(getNewDefaultName(m_document, factory));
 
-        addNode(std::move(node));
-      };
-    case ObjectFactory::Type::LayerFactory:
-      return [this, factory]() {
-        auto layer_factory = static_cast<LayerFactory*>(factory);
+      addNode(std::move(node));
+    };
+  } else if (factory->getType() == LayerFactory::type) {
+    return [this, factory]() {
+      auto layer_factory = static_cast<LayerFactory*>(factory);
 
-        auto layer = utils::cast_unique_ptr<Layer>(layer_factory->create());
-        Q_ASSERT(layer);
+      auto layer = utils::cast_unique_ptr<Layer>(layer_factory->create());
+      Q_ASSERT(layer);
 
-        layer->setName(getNewDefaultName(m_document, factory));
+      layer->setName(getNewDefaultName(m_document, factory));
 
-        addLayer(std::move(layer));
-      };
+      addLayer(std::move(layer));
+    };
   }
 
   return []() {};
 }
 
 QMenu* FlowDocumentActionHandler::menuForFactory(ObjectFactory* factory) const {
-  switch (factory->getType()) {
-    case ObjectFactory::Type::NodeFactory:
-      return m_add_node_menu.get();
-    case ObjectFactory::Type::LayerFactory:
-      return m_add_layer_menu.get();
+  if (factory->getType() == NodeFactory::type) {
+    return m_add_node_menu.get();
+  } else if (factory->getType() == LayerFactory::type) {
+    return m_add_layer_menu.get();
   }
 
   return nullptr;
@@ -432,14 +427,9 @@ void FlowDocumentActionHandler::onDuplicateNode() const {
 }
 
 void FlowDocumentActionHandler::onEvent(const ChangeEvent& event) {
-  switch (event.getType()) {
-    using enum ChangeEvent::Type;
-
-    case LayerRemoved:
-    case LayerAdded: {
-      updateActions();
-      break;
-    }
+  if (event.getType() == LayerEvent::type ||
+      event.getType() == NodeEvent::type) {
+    updateActions();
   }
 }
 

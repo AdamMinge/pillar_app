@@ -13,8 +13,8 @@ NodeFactory::NodeFactory(QString name, QString section, QObject* parent)
 
 NodeFactory::NodeFactory(QString name, QString section, QIcon icon,
                          QObject* parent)
-    : ObjectFactory(Type::NodeFactory, std::move(name), std::move(section),
-                    std::move(icon), parent) {}
+    : ObjectFactory(type, std::move(name), std::move(section), std::move(icon),
+                    parent) {}
 
 NodeFactory::~NodeFactory() = default;
 

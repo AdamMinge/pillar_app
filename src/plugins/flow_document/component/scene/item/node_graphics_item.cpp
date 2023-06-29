@@ -74,9 +74,7 @@ void NodeGraphicsItem::paint(QPainter *painter,
   m_node_painter->paint(painter, option);
 }
 
-void NodeGraphicsItem::onEvent(const ChangeEvent &event) {
-  switch (event.getType()) {}
-}
+void NodeGraphicsItem::onEvent(const ChangeEvent &event) {}
 
 /* ----------------------------- NodeGeometry --------------------------- */
 

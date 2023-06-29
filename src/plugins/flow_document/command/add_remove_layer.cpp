@@ -47,11 +47,11 @@ void AddRemoveLayers::addLayer() {
     auto& entry = *iter;
     Q_ASSERT(entry.new_layer);
 
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
+    Q_EMIT m_document->event(LayerEvent(LayerEvent::Event::AboutToBeAdded,
                                         entry.group_layer, entry.index));
     entry.group_layer->insert(entry.index, std::move(entry.new_layer));
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAdded,
-                                        entry.group_layer, entry.index));
+    Q_EMIT m_document->event(
+        LayerEvent(LayerEvent::Event::Added, entry.group_layer, entry.index));
   }
 }
 
@@ -60,11 +60,11 @@ void AddRemoveLayers::removeLayer() {
     auto& entry = *iter;
     Q_ASSERT(!entry.new_layer);
 
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
+    Q_EMIT m_document->event(LayerEvent(LayerEvent::Event::AboutToBeRemoved,
                                         entry.group_layer, entry.index));
     entry.new_layer = entry.group_layer->take(entry.index);
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerRemoved,
-                                        entry.group_layer, entry.index));
+    Q_EMIT m_document->event(
+        LayerEvent(LayerEvent::Event::Removed, entry.group_layer, entry.index));
   }
 }
 

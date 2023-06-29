@@ -14,6 +14,7 @@ set(sources
     ${source_root}/shape_layer_plugin.cpp
     ${source_root}/flow/shape_layer.cpp
     ${source_root}/flow/shape.cpp
+    ${source_root}/flow/factory/shape_factory.cpp
     ${source_root}/component/scene/item/shape_layer_graphics_item.cpp
     ${source_root}/component/scene/item/shape_graphics_item.cpp)
 
@@ -22,6 +23,7 @@ set(includes
     ${include_root}/shape_layer_plugin.h
     ${include_root}/flow/shape_layer.h
     ${include_root}/flow/shape.h
+    ${include_root}/flow/factory/shape_factory.h
     ${include_root}/component/scene/item/shape_layer_graphics_item.h
     ${include_root}/component/scene/item/shape_graphics_item.h)
 # ----------------------------------------------------------------------- #

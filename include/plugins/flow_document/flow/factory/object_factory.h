@@ -19,26 +19,20 @@ class FLOW_DOCUMENT_API ObjectFactory : public QObject {
   Q_OBJECT
 
  public:
-  enum class Type {
-    NodeFactory,
-    LayerFactory,
-  };
-
- public:
-  explicit ObjectFactory(Type type, QString name, QString section, QIcon icon,
-                         QObject* parent = nullptr);
+  explicit ObjectFactory(QString type, QString name, QString section,
+                         QIcon icon, QObject* parent = nullptr);
   ~ObjectFactory() override;
 
   [[nodiscard]] virtual QString getObjectClassName() const = 0;
   [[nodiscard]] virtual std::unique_ptr<Object> create() const = 0;
 
-  [[nodiscard]] Type getType() const;
+  [[nodiscard]] QString getType() const;
   [[nodiscard]] QString getName() const;
   [[nodiscard]] QString getSection() const;
   [[nodiscard]] QIcon getIcon() const;
 
  private:
-  Type m_type;
+  QString m_type;
   QString m_name;
   QString m_section;
   QIcon m_icon;

@@ -17,34 +17,35 @@ class Layer;
 
 class FLOW_DOCUMENT_API LayerEvent : public ChangeEvent {
  public:
-  explicit LayerEvent(Type type, GroupLayer* group_layer, qsizetype index);
+  static constexpr QLatin1String type = QLatin1String("LayerEvent");
+
+  enum class Event {
+    AboutToBeAdded,
+    Added,
+    Removed,
+    AboutToBeRemoved,
+  };
+
+ public:
+  explicit LayerEvent(Event event, GroupLayer* group_layer, qsizetype index);
   ~LayerEvent() override;
 
+  [[nodiscard]] Event getEvent() const;
   [[nodiscard]] GroupLayer* getGroupLayer() const;
   [[nodiscard]] qsizetype getIndex() const;
 
  private:
+  Event m_event;
   GroupLayer* m_group_layer;
   qsizetype m_index;
 };
 
-/* --------------------------------- LayersEvent ---------------------------- */
-
-class FLOW_DOCUMENT_API LayersEvent : public ChangeEvent {
- public:
-  explicit LayersEvent(Type type, QList<Layer*> layers);
-  ~LayersEvent() override;
-
-  [[nodiscard]] const QList<Layer*>& getLayers() const;
-
- private:
-  QList<Layer*> m_layers;
-};
-
 /* ------------------------------ LayersChangeEvent ------------------------- */
 
-class FLOW_DOCUMENT_API LayersChangeEvent : public LayersEvent {
+class FLOW_DOCUMENT_API LayersChangeEvent : public ChangeEvent {
  public:
+  static constexpr QLatin1String type = QLatin1String("LayersChangeEvent");
+
   enum class Property {
     Name = 1 << 0,
     Visible = 1 << 1,
@@ -59,9 +60,11 @@ class FLOW_DOCUMENT_API LayersChangeEvent : public LayersEvent {
   explicit LayersChangeEvent(QList<Layer*> layers, Properties properties);
   ~LayersChangeEvent() override;
 
+  [[nodiscard]] const QList<Layer*>& getLayers() const;
   [[nodiscard]] Properties getProperties() const;
 
  private:
+  QList<Layer*> m_layers;
   Properties m_properties;
 };
 

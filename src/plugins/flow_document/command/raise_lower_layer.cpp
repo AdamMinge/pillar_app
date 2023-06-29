@@ -74,18 +74,17 @@ void RaiseLowerLayers::moveLayer(Layer* layer, GroupLayer* parent,
   auto from_parent = layer->getParent();
   auto from_index = from_parent->indexOf(layer);
 
-  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
-                                      from_parent, from_index));
+  Q_EMIT m_document->event(
+      LayerEvent(LayerEvent::Event::AboutToBeRemoved, from_parent, from_index));
   auto reparent_layer = from_parent->take(from_index);
   Q_ASSERT(reparent_layer);
   Q_EMIT m_document->event(
-      LayerEvent(LayerEvent::Type::LayerRemoved, from_parent, from_index));
+      LayerEvent(LayerEvent::Event::Removed, from_parent, from_index));
 
   Q_EMIT m_document->event(
-      LayerEvent(LayerEvent::Type::LayerAboutToBeAdded, parent, index));
+      LayerEvent(LayerEvent::Event::AboutToBeAdded, parent, index));
   parent->insert(index, std::move(reparent_layer));
-  Q_EMIT m_document->event(
-      LayerEvent(LayerEvent::Type::LayerAdded, parent, index));
+  Q_EMIT m_document->event(LayerEvent(LayerEvent::Event::Added, parent, index));
 }
 
 /* -------------------------------- RaiseLayers ----------------------------- */

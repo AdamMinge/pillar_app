@@ -8,17 +8,17 @@ namespace flow_document {
 
 /* ------------------------------- ObjectFactory ---------------------------- */
 
-ObjectFactory::ObjectFactory(Type type, QString name, QString section,
+ObjectFactory::ObjectFactory(QString type, QString name, QString section,
                              QIcon icon, QObject* parent)
     : QObject(parent),
-      m_type(type),
+      m_type(std::move(type)),
       m_name(std::move(name)),
       m_section(std::move(section)),
       m_icon(std::move(icon)) {}
 
 ObjectFactory::~ObjectFactory() = default;
 
-ObjectFactory::Type ObjectFactory::getType() const { return m_type; }
+QString ObjectFactory::getType() const { return m_type; }
 
 QString ObjectFactory::getName() const { return m_name; }
 

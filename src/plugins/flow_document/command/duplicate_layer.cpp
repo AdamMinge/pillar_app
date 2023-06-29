@@ -58,11 +58,11 @@ void DuplicateLayers::undo() {
     Q_ASSERT(data.group_layer);
     Q_ASSERT(!data.copy_layer);
 
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
+    Q_EMIT m_document->event(LayerEvent(LayerEvent::Event::AboutToBeRemoved,
                                         data.group_layer, data.index));
     data.copy_layer = data.group_layer->take(data.index);
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerRemoved,
-                                        data.group_layer, data.index));
+    Q_EMIT m_document->event(
+        LayerEvent(LayerEvent::Event::Removed, data.group_layer, data.index));
   }
 }
 
@@ -73,11 +73,11 @@ void DuplicateLayers::redo() {
     Q_ASSERT(data.group_layer);
     Q_ASSERT(data.copy_layer);
 
-    Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
+    Q_EMIT m_document->event(LayerEvent(LayerEvent::Event::AboutToBeAdded,
                                         data.group_layer, data.index));
     data.group_layer->insert(data.index, std::move(data.copy_layer));
     Q_EMIT m_document->event(
-        LayerEvent(LayerEvent::Type::LayerAdded, data.group_layer, data.index));
+        LayerEvent(LayerEvent::Event::Added, data.group_layer, data.index));
   }
 }
 

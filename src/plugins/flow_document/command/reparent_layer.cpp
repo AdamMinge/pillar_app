@@ -59,12 +59,12 @@ void ReparentLayers::reparentLayer(ReparentData& data) {
   auto current_index = current_parent->indexOf(data.layer);
   Q_ASSERT(current_index >= 0);
 
-  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeRemoved,
+  Q_EMIT m_document->event(LayerEvent(LayerEvent::Event::AboutToBeRemoved,
                                       current_parent, current_index));
   auto reparent_layer = current_parent->take(current_index);
   Q_ASSERT(reparent_layer);
-  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerRemoved,
-                                      current_parent, current_index));
+  Q_EMIT m_document->event(
+      LayerEvent(LayerEvent::Event::Removed, current_parent, current_index));
 
   auto same_parent = current_parent == data.parent;
   if (same_parent && current_index < data.index) {
@@ -73,11 +73,11 @@ void ReparentLayers::reparentLayer(ReparentData& data) {
     current_index += 1;
   }
 
-  Q_EMIT m_document->event(LayerEvent(LayerEvent::Type::LayerAboutToBeAdded,
-                                      data.parent, data.index));
+  Q_EMIT m_document->event(
+      LayerEvent(LayerEvent::Event::AboutToBeAdded, data.parent, data.index));
   data.parent->insert(data.index, std::move(reparent_layer));
   Q_EMIT m_document->event(
-      LayerEvent(LayerEvent::Type::LayerAdded, data.parent, data.index));
+      LayerEvent(LayerEvent::Event::Added, data.parent, data.index));
 
   data.parent = current_parent;
   data.index =

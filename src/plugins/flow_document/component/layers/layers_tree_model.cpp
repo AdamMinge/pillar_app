@@ -254,57 +254,57 @@ Layer *LayersTreeModel::toLayer(const QModelIndex &index) const {
 }
 
 void LayersTreeModel::onEvent(const ChangeEvent &event) {
-  switch (event.getType()) {
-    using enum ChangeEvent::Type;
+  if (event.getType() == LayerEvent::type) {
+    const auto &layer_event = static_cast<const LayerEvent &>(event);
 
-    case LayerAboutToBeAdded: {
-      const auto &e = static_cast<const LayerEvent &>(event);
-      beginInsertRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
-      break;
-    }
+    switch (layer_event.getEvent()) {
+      using enum LayerEvent::Event;
 
-    case LayerAdded: {
-      endInsertRows();
-      break;
-    }
-
-    case LayerAboutToBeRemoved: {
-      const auto &e = static_cast<const LayerEvent &>(event);
-      beginRemoveRows(index(e.getGroupLayer()), e.getIndex(), e.getIndex());
-      break;
-    }
-
-    case LayerRemoved: {
-      endRemoveRows();
-      break;
-    }
-
-    case LayersChanged: {
-      const auto &e = static_cast<const LayersChangeEvent &>(event);
-      const auto &layers = e.getLayers();
-      const auto properties = e.getProperties();
-
-      auto columns = QVarLengthArray<int, 3>{};
-      if (properties & LayersChangeEvent::Property::Name)
-        columns.append(Column::NameColumn);
-      if (properties & LayersChangeEvent::Property::Visible)
-        columns.append(Column::VisibleColumn);
-      if (properties & LayersChangeEvent::Property::Locked)
-        columns.append(Column::LockedColumn);
-
-      if (!columns.empty()) {
-        auto [col_min, col_max] =
-            std::minmax_element(columns.begin(), columns.end());
-
-        for (auto layer : layers) {
-          auto min_index = index(layer, *col_min);
-          auto max_index = index(layer, *col_max);
-
-          Q_EMIT dataChanged(min_index, max_index);
-        }
+      case AboutToBeAdded: {
+        beginInsertRows(index(layer_event.getGroupLayer()),
+                        layer_event.getIndex(), layer_event.getIndex());
+        break;
       }
 
-      break;
+      case Added: {
+        endInsertRows();
+        break;
+      }
+
+      case AboutToBeRemoved: {
+        beginRemoveRows(index(layer_event.getGroupLayer()),
+                        layer_event.getIndex(), layer_event.getIndex());
+        break;
+      }
+
+      case Removed: {
+        endRemoveRows();
+        break;
+      }
+    }
+  } else if (event.getType() == LayersChangeEvent::type) {
+    const auto &layers_event = static_cast<const LayersChangeEvent &>(event);
+    const auto &layers = layers_event.getLayers();
+    const auto properties = layers_event.getProperties();
+
+    auto columns = QVarLengthArray<int, 3>{};
+    if (properties & LayersChangeEvent::Property::Name)
+      columns.append(Column::NameColumn);
+    if (properties & LayersChangeEvent::Property::Visible)
+      columns.append(Column::VisibleColumn);
+    if (properties & LayersChangeEvent::Property::Locked)
+      columns.append(Column::LockedColumn);
+
+    if (!columns.empty()) {
+      auto [col_min, col_max] =
+          std::minmax_element(columns.begin(), columns.end());
+
+      for (auto layer : layers) {
+        auto min_index = index(layer, *col_min);
+        auto max_index = index(layer, *col_max);
+
+        Q_EMIT dataChanged(min_index, max_index);
+      }
     }
   }
 }

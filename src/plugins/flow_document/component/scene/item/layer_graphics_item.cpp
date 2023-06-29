@@ -26,9 +26,7 @@ Layer* LayerGraphicsItem::getLayer() const {
   return static_cast<Layer*>(getObject());
 }
 
-void LayerGraphicsItem::onEvent(const ChangeEvent& event) {
-  switch (event.getType()) {}
-}
+void LayerGraphicsItem::onEvent(const ChangeEvent& event) {}
 
 /* -------------------------- GroupLayerGraphicsItem ------------------------ */
 
@@ -49,28 +47,31 @@ GroupLayer* GroupLayerGraphicsItem::getGroupLayer() const {
 }
 
 void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
-  switch (event.getType()) {
-    case ChangeEvent::Type::LayerAdded: {
-      const auto& e = static_cast<const LayerEvent&>(event);
-      if (getGroupLayer() == e.getGroupLayer()) {
-        auto layer = e.getGroupLayer()->at(e.getIndex());
+  if (event.getType() == LayerEvent::type) {
+    const auto& layer_event = static_cast<const LayerEvent&>(event);
+    switch (layer_event.getEvent()) {
+      using enum LayerEvent::Event;
 
-        m_layer_items.insert(
-            e.getIndex(),
-            createGraphicsItem<LayerGraphicsItem>(layer, getDocument(), this));
+      case Added: {
+        if (getGroupLayer() == layer_event.getGroupLayer()) {
+          auto layer = layer_event.getGroupLayer()->at(layer_event.getIndex());
+
+          m_layer_items.insert(layer_event.getIndex(),
+                               createGraphicsItem<LayerGraphicsItem>(
+                                   layer, getDocument(), this));
+        }
+
+        break;
       }
 
-      break;
-    }
+      case Removed: {
+        if (getGroupLayer() == layer_event.getGroupLayer()) {
+          auto item = m_layer_items.takeAt(layer_event.getIndex());
+          item->deleteLater();
+        }
 
-    case ChangeEvent::Type::LayerRemoved: {
-      const auto& e = static_cast<const LayerEvent&>(event);
-      if (getGroupLayer() == e.getGroupLayer()) {
-        auto item = m_layer_items.takeAt(e.getIndex());
-        item->deleteLater();
+        break;
       }
-
-      break;
     }
   }
 }
@@ -94,27 +95,31 @@ NodeLayer* NodeLayerGraphicsItem::getNodeLayer() const {
 }
 
 void NodeLayerGraphicsItem::onEvent(const ChangeEvent& event) {
-  switch (event.getType()) {
-    case ChangeEvent::Type::NodeAdded: {
-      const auto& e = static_cast<const NodeEvent&>(event);
-      if (getNodeLayer() == e.getNodeLayer()) {
-        auto node = e.getNodeLayer()->at(e.getIndex());
+  if (event.getType() == NodeEvent::type) {
+    const auto& node_event = static_cast<const NodeEvent&>(event);
+    switch (node_event.getEvent()) {
+      using enum NodeEvent::Event;
 
-        m_node_items.insert(e.getIndex(), createGraphicsItem<NodeGraphicsItem>(
-                                              node, getDocument(), this));
+      case Added: {
+        if (getNodeLayer() == node_event.getNodeLayer()) {
+          auto node = node_event.getNodeLayer()->at(node_event.getIndex());
+
+          m_node_items.insert(
+              node_event.getIndex(),
+              createGraphicsItem<NodeGraphicsItem>(node, getDocument(), this));
+        }
+
+        break;
       }
 
-      break;
-    }
+      case Removed: {
+        if (getNodeLayer() == node_event.getNodeLayer()) {
+          auto item = m_node_items.takeAt(node_event.getIndex());
+          item->deleteLater();
+        }
 
-    case ChangeEvent::Type::NodeRemoved: {
-      const auto& e = static_cast<const NodeEvent&>(event);
-      if (getNodeLayer() == e.getNodeLayer()) {
-        auto item = m_node_items.takeAt(e.getIndex());
-        item->deleteLater();
+        break;
       }
-
-      break;
     }
   }
 }

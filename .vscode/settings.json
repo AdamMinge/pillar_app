@@ -108,7 +108,8 @@
         "qfile": "cpp",
         "qjsonvalue": "cpp",
         "qstandarditemmodel": "cpp",
-        "qgraphicsobject": "cpp"
+        "qgraphicsobject": "cpp",
+        "qlist": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

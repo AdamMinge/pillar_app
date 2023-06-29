@@ -248,7 +248,7 @@ void LayerProperties::removeProperty(const QString& name) {
 }
 
 void LayerProperties::onEvent(const ChangeEvent& event) {
-  if (event.getType() == ChangeEvent::Type::LayersChanged) {
+  if (event.getType() == LayersChangeEvent::type) {
     const auto& e = static_cast<const LayersChangeEvent&>(event);
     if (e.getLayers().contains(getLayer())) update();
   }
@@ -337,7 +337,7 @@ void NodeProperties::removeProperty(const QString& name) {
 }
 
 void NodeProperties::onEvent(const ChangeEvent& event) {
-  if (event.getType() == ChangeEvent::Type::NodesChanged) {
+  if (event.getType() == NodesChangeEvent::type) {
     auto& e = static_cast<const NodesChangeEvent&>(event);
     if (e.getNodes().contains(getNode())) update();
   }

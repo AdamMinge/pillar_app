@@ -35,7 +35,7 @@ egnite_set_option(EGNITE_BUILD_DEPS FALSE BOOL
                   "TRUE to build dependecies , FALSE to ignore them")
 egnite_set_option(EGNITE_BUILD_TEST TRUE BOOL
                   "TRUE to build the egnite-tests, FALSE to ignore them")
-egnite_set_option(EGNITE_BUILD_DOCUMENTATION TRUE BOOL
+egnite_set_option(EGNITE_BUILD_DOCUMENTATION FALSE BOOL
                   "TRUE to build the documentation, FALSE to ignore them")
 egnite_set_option(EGNITE_ENABLE_CLANG_TIDY TRUE BOOL
                   "TRUE to enable clang tidy, FALSE to ignore them")

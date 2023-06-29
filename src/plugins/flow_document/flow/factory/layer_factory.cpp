@@ -17,8 +17,8 @@ LayerFactory::LayerFactory(QString name, QString section, QObject* parent)
 
 LayerFactory::LayerFactory(QString name, QString section, QIcon icon,
                            QObject* parent)
-    : ObjectFactory(Type::LayerFactory, std::move(name), std::move(section),
-                    std::move(icon), parent) {}
+    : ObjectFactory(type, std::move(name), std::move(section), std::move(icon),
+                    parent) {}
 
 LayerFactory::~LayerFactory() = default;
 
