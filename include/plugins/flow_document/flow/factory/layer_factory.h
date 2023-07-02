@@ -19,7 +19,7 @@ class FLOW_DOCUMENT_API LayerFactory : public ObjectFactory {
   Q_INTERFACES(flow_document::ObjectFactory)
 
  public:
-  static constexpr QLatin1String type = QLatin1String("LayerFactory");
+  static constexpr QLatin1String type = QLatin1String("Layers");
 
  public:
   explicit LayerFactory(QString name, QString section,

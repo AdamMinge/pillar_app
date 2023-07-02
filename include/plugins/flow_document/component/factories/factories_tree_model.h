@@ -21,7 +21,6 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
 
  public:
   enum Column { NameColumn };
-  enum Section { Nodes };
 
  public:
   explicit FactoriesTreeModel(QObject *parent = nullptr);
@@ -55,7 +54,7 @@ class FLOW_DOCUMENT_API FactoriesTreeModel
   [[nodiscard]] QStandardItem *createFactory(ObjectFactory *factory);
   [[nodiscard]] QStandardItem *createSection(const QString &name);
 
-  [[nodiscard]] QStandardItem *findTypeSection(ObjectFactory *factory) const;
+  [[nodiscard]] QStandardItem *getOrCreateTypeSection(ObjectFactory *factory);
   [[nodiscard]] QStandardItem *findFactory(QStandardItem *section,
                                            ObjectFactory *factory) const;
 

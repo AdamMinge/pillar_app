@@ -21,7 +21,7 @@ class FLOW_DOCUMENT_API NodeFactory : public ObjectFactory {
   Q_INTERFACES(flow_document::ObjectFactory)
 
  public:
-  static constexpr QLatin1String type = QLatin1String("NodeFactory");
+  static constexpr QLatin1String type = QLatin1String("Nodes");
 
  public:
   explicit NodeFactory(QString name, QString section,

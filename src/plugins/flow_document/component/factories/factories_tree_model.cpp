@@ -11,8 +11,6 @@ namespace flow_document {
 
 FactoriesTreeModel::FactoriesTreeModel(QObject *parent)
     : QAbstractItemModel(parent), m_root(new QStandardItem()) {
-  m_root->insertRow(Section::Nodes, createSection(tr("Nodes")));
-
   loadObjects();
 }
 
@@ -124,7 +122,7 @@ void FactoriesTreeModel::removedObject(ObjectFactory *factory) {
 
     factory_section->removeRow(factory_item->row());
     if (factory_section->rowCount() == 0) {
-      auto type_section = findTypeSection(factory);
+      auto type_section = getOrCreateTypeSection(factory);
       type_section->removeRow(factory_section->row());
     }
   }
@@ -134,9 +132,7 @@ void FactoriesTreeModel::removedObject(ObjectFactory *factory) {
 
 QStandardItem *FactoriesTreeModel::getOrCreateFactorySection(
     ObjectFactory *factory) {
-  auto type_section = findTypeSection(factory);
-  if (!type_section) return nullptr;
-
+  auto type_section = getOrCreateTypeSection(factory);
   const auto section_name = factory->getSection();
   for (auto row = 0; row < type_section->rowCount(); ++row) {
     auto child_item = type_section->child(row);
@@ -167,13 +163,17 @@ QStandardItem *FactoriesTreeModel::createSection(const QString &name) {
   return item;
 }
 
-QStandardItem *FactoriesTreeModel::findTypeSection(
-    ObjectFactory *factory) const {
-  if (factory->getType() == NodeFactory::type) {
-    return m_root->child(Section::Nodes);
+QStandardItem *FactoriesTreeModel::getOrCreateTypeSection(
+    ObjectFactory *factory) {
+  for (auto row = 0; row < m_root->rowCount(); ++row) {
+    auto child = m_root->child(row);
+    if (child->text() == factory->getType()) return child;
   }
 
-  return nullptr;
+  auto type_section = createSection(factory->getType());
+  m_root->appendRow(type_section);
+
+  return type_section;
 }
 
 QStandardItem *FactoriesTreeModel::findFactory(QStandardItem *section,

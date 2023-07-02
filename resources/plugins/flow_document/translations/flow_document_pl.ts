@@ -4,12 +4,7 @@
 <context>
     <name>FactoriesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/factories/factories_tree_model.cpp" line="14"/>
-        <source>Nodes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/component/factories/factories_tree_model.cpp" line="40"/>
+        <location filename="../../../../src/plugins/flow_document/component/factories/factories_tree_model.cpp" line="38"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
