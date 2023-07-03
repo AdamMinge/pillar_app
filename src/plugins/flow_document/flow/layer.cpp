@@ -12,7 +12,7 @@ namespace flow_document {
 
 /* ----------------------------------- Layer -------------------------------- */
 
-Layer::Layer() : m_parent(nullptr), m_opacity(0), m_locked(false) {}
+Layer::Layer() : m_parent(nullptr), m_opacity(1), m_locked(false) {}
 
 Layer::~Layer() = default;
 

@@ -19,8 +19,10 @@ GraphicsItem::GraphicsItem(Object* object, FlowDocument* document,
       m_hovered(false) {
   setAcceptedMouseButtons(Qt::MouseButton{});
   setAcceptHoverEvents(true);
-  setFlag(QGraphicsItem::ItemIsSelectable);
   setAcceptDrops(true);
+  setFlag(QGraphicsItem::ItemIsSelectable);
+  setPos(m_object->getPosition());
+  setVisible(m_object->isVisible());
 
   connect(m_document, &FlowDocument::event, this, &GraphicsItem::onEvent);
 }

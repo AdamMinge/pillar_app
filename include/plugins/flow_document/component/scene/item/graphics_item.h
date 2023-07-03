@@ -29,7 +29,7 @@ class FLOW_DOCUMENT_API GraphicsItem : public QGraphicsObject {
   [[nodiscard]] Object* getObject() const;
   [[nodiscard]] FlowDocument* getDocument() const;
 
-  QRectF boundingRect() const override;
+  [[nodiscard]] QRectF boundingRect() const override;
   void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
 
  protected Q_SLOTS:

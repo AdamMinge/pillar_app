@@ -12,8 +12,8 @@ namespace flow_document {
 class Layer;
 class GroupLayer;
 class NodeLayer;
-
 class NodeGraphicsItem;
+class LayersChangeEvent;
 
 /* ----------------------------- LayerGraphicsItem -------------------------- */
 
@@ -27,8 +27,9 @@ class FLOW_DOCUMENT_API LayerGraphicsItem : public GraphicsItem {
 
   [[nodiscard]] Layer* getLayer() const;
 
- private Q_SLOTS:
+ protected Q_SLOTS:
   void onEvent(const ChangeEvent& event) override;
+  void onUpdate(const LayersChangeEvent& event);
 };
 
 /* -------------------------- GroupLayerGraphicsItem ------------------------ */
@@ -43,7 +44,7 @@ class FLOW_DOCUMENT_API GroupLayerGraphicsItem : public LayerGraphicsItem {
 
   [[nodiscard]] GroupLayer* getGroupLayer() const;
 
- private Q_SLOTS:
+ protected Q_SLOTS:
   void onEvent(const ChangeEvent& event) override;
 
  private:
@@ -62,7 +63,7 @@ class FLOW_DOCUMENT_API NodeLayerGraphicsItem : public LayerGraphicsItem {
 
   [[nodiscard]] NodeLayer* getNodeLayer() const;
 
- private Q_SLOTS:
+ protected Q_SLOTS:
   void onEvent(const ChangeEvent& event) override;
 
  private:

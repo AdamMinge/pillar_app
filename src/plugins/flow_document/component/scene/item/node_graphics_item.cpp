@@ -4,6 +4,7 @@
 #include "flow_document/component/scene/style/style.h"
 #include "flow_document/component/scene/style/style_manager.h"
 #include "flow_document/event/change_event.h"
+#include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/node.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -45,9 +46,7 @@ NodeGraphicsItem::NodeGraphicsItem(Node *node, FlowDocument *document,
                                    QGraphicsItem *parent)
     : GraphicsItem(node, document, parent),
       m_node_painter(std::make_unique<NodePainter>(*this)),
-      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {
-  setPos(node->getPosition());
-}
+      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {}
 
 NodeGraphicsItem::~NodeGraphicsItem() = default;
 
@@ -74,7 +73,25 @@ void NodeGraphicsItem::paint(QPainter *painter,
   m_node_painter->paint(painter, option);
 }
 
-void NodeGraphicsItem::onEvent(const ChangeEvent &event) {}
+void NodeGraphicsItem::onEvent(const ChangeEvent &event) {
+  if (event.getType() == NodesChangeEvent::type) {
+    const auto &node_event = static_cast<const NodesChangeEvent &>(event);
+    if (node_event.contains(getNode())) onUpdate(node_event);
+  }
+}
+
+void NodeGraphicsItem::onUpdate(const NodesChangeEvent &event) {
+  const auto node = getNode();
+  const auto properties = event.getProperties();
+
+  using enum NodesChangeEvent::Property;
+  if (properties & Visible) {
+    setVisible(node->isVisible());
+  }
+  if (properties & Position) {
+    setPos(node->getPosition());
+  }
+}
 
 /* ----------------------------- NodeGeometry --------------------------- */
 

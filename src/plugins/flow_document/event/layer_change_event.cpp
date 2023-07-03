@@ -38,4 +38,8 @@ LayersChangeEvent::Properties LayersChangeEvent::getProperties() const {
   return m_properties;
 }
 
+bool LayersChangeEvent::contains(Layer* layer) const {
+  return m_layers.contains(layer);
+}
+
 }  // namespace flow_document

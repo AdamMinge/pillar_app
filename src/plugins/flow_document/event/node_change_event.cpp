@@ -37,4 +37,8 @@ NodesChangeEvent::Properties NodesChangeEvent::getProperties() const {
   return m_properties;
 }
 
+bool NodesChangeEvent::contains(Node* node) const {
+  return m_nodes.contains(node);
+}
+
 }  // namespace flow_document

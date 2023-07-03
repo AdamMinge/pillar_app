@@ -63,6 +63,8 @@ class FLOW_DOCUMENT_API LayersChangeEvent : public ChangeEvent {
   [[nodiscard]] const QList<Layer*>& getLayers() const;
   [[nodiscard]] Properties getProperties() const;
 
+  [[nodiscard]] bool contains(Layer* layer) const;
+
  private:
   QList<Layer*> m_layers;
   Properties m_properties;

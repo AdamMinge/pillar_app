@@ -26,7 +26,31 @@ Layer* LayerGraphicsItem::getLayer() const {
   return static_cast<Layer*>(getObject());
 }
 
-void LayerGraphicsItem::onEvent(const ChangeEvent& event) {}
+void LayerGraphicsItem::onEvent(const ChangeEvent& event) {
+  if (event.getType() == LayersChangeEvent::type) {
+    const auto& layer_event = static_cast<const LayersChangeEvent&>(event);
+    if (layer_event.contains(getLayer())) onUpdate(layer_event);
+  }
+}
+
+void LayerGraphicsItem::onUpdate(const LayersChangeEvent& event) {
+  const auto layer = getLayer();
+  const auto properties = event.getProperties();
+
+  using enum LayersChangeEvent::Property;
+  if (properties & Visible) {
+    setVisible(layer->isVisible());
+  }
+  if (properties & Locked) {
+    // TODO
+  }
+  if (properties & Opacity) {
+    setOpacity(layer->getOpacity());
+  }
+  if (properties & Position) {
+    setPos(layer->getPosition());
+  }
+}
 
 /* -------------------------- GroupLayerGraphicsItem ------------------------ */
 
@@ -47,6 +71,8 @@ GroupLayer* GroupLayerGraphicsItem::getGroupLayer() const {
 }
 
 void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
+  LayerGraphicsItem::onEvent(event);
+
   if (event.getType() == LayerEvent::type) {
     const auto& layer_event = static_cast<const LayerEvent&>(event);
     switch (layer_event.getEvent()) {
@@ -95,6 +121,8 @@ NodeLayer* NodeLayerGraphicsItem::getNodeLayer() const {
 }
 
 void NodeLayerGraphicsItem::onEvent(const ChangeEvent& event) {
+  LayerGraphicsItem::onEvent(event);
+
   if (event.getType() == NodeEvent::type) {
     const auto& node_event = static_cast<const NodeEvent&>(event);
     switch (node_event.getEvent()) {

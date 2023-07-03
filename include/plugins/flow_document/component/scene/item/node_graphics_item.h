@@ -9,6 +9,7 @@
 
 namespace flow_document {
 
+class NodesChangeEvent;
 class FlowDocument;
 class ChangeEvent;
 class NodePainter;
@@ -36,6 +37,7 @@ class FLOW_DOCUMENT_API NodeGraphicsItem : public GraphicsItem {
 
  private Q_SLOTS:
   void onEvent(const ChangeEvent &event) override;
+  void onUpdate(const NodesChangeEvent &event);
 
  private:
   std::unique_ptr<NodePainter> m_node_painter;
