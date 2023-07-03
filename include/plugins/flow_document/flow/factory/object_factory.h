@@ -11,6 +11,7 @@
 
 namespace flow_document {
 
+class FlowDocument;
 class Object;
 
 /* ------------------------------- ObjectFactory ---------------------------- */
@@ -19,12 +20,20 @@ class FLOW_DOCUMENT_API ObjectFactory : public QObject {
   Q_OBJECT
 
  public:
+  using InitMethod = std::function<void(Object*)>;
+  static constexpr auto empty_init = [](Object*) {};
+
+ public:
   explicit ObjectFactory(QString type, QString name, QString section,
                          QIcon icon, QObject* parent = nullptr);
   ~ObjectFactory() override;
 
   [[nodiscard]] virtual QString getObjectClassName() const = 0;
-  [[nodiscard]] virtual std::unique_ptr<Object> create() const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Object> createObject() const = 0;
+
+  [[nodiscard]] virtual bool addObject(FlowDocument* document,
+                                       InitMethod init = empty_init) const = 0;
+  [[nodiscard]] virtual bool canAddObject(FlowDocument* document) const = 0;
 
   [[nodiscard]] QString getType() const;
   [[nodiscard]] QString getName() const;

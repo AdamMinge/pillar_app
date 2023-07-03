@@ -29,38 +29,6 @@ namespace flow_document {
 
 namespace {
 
-[[nodiscard]] QList<Layer*> getAllLayers(FlowDocument* document,
-                                         const QList<Layer*>& except = {}) {
-  auto root = document ? document->getFlow()->getRootLayer() : nullptr;
-  if (!root) return {};
-
-  auto layers = QList<Layer*>{};
-  auto iter = LayerPreOrderIterator(root);
-  while (iter.hasNext()) {
-    if (auto layer = iter.next(); !except.contains(layer) && layer != root)
-      layers.append(layer);
-  }
-
-  return layers;
-}
-
-[[nodiscard]] QList<Node*> getAllNodes(FlowDocument* document,
-                                       const QList<Node*>& except = {}) {
-  auto layers = getAllLayers(document, {});
-  auto nodes = QList<Node*>{};
-
-  for (auto layer : layers) {
-    if (layer->isClassOrChild<NodeLayer>()) {
-      auto node_layer = static_cast<NodeLayer*>(layer);
-      for (auto& node : *node_layer) {
-        if (!except.contains(node.get())) nodes.append(node.get());
-      }
-    }
-  }
-
-  return nodes;
-}
-
 [[nodiscard]] bool moreVisible(const QList<Layer*> layers) {
   auto count_of_visible =
       std::count_if(layers.cbegin(), layers.cend(),
@@ -100,50 +68,6 @@ namespace {
                      [most_bottom_layer](const auto layer) {
                        return layer != most_bottom_layer;
                      });
-}
-
-[[nodiscard]] QSet<QString> getAllLayerNames(FlowDocument* document,
-                                             const QString& prefix) {
-  auto names = QSet<QString>{};
-  const auto layers = getAllLayers(document);
-  for (const auto layer : layers) {
-    if (layer->getName().startsWith(prefix)) names.insert(layer->getName());
-  }
-
-  return names;
-}
-
-[[nodiscard]] QSet<QString> getAllNodeNames(FlowDocument* document,
-                                            const QString& prefix) {
-  auto names = QSet<QString>{};
-  const auto nodes = getAllNodes(document);
-  for (const auto node : nodes) {
-    if (node->getName().startsWith(prefix)) names.insert(node->getName());
-  }
-
-  return names;
-}
-
-[[nodiscard]] QString getNewDefaultName(FlowDocument* document,
-                                        ObjectFactory* factory) {
-  auto name_template = factory->getName() + " %1";
-
-  auto names = QSet<QString>{};
-
-  if (factory->getType() == NodeFactory::type) {
-    names = getAllNodeNames(document, factory->getName());
-  } else if (factory->getType() == LayerFactory::type) {
-    names = getAllLayerNames(document, factory->getName());
-  }
-
-  auto index = 1;
-  auto name = QString{};
-  do {
-    name = name_template.arg(index);
-    ++index;
-  } while (names.contains(name));
-
-  return name;
 }
 
 }  // namespace
@@ -250,7 +174,7 @@ QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
 
 void FlowDocumentActionHandler::addedObject(ObjectFactory* factory) {
   auto menu = menuForFactory(factory);
-  Q_ASSERT(menu);
+  if (!menu) return;
 
   auto factory_action = utils::createActionWithShortcut(QKeySequence{}, this);
   factory_action->setIcon(factory->getIcon());
@@ -258,14 +182,15 @@ void FlowDocumentActionHandler::addedObject(ObjectFactory* factory) {
   factory_action->setWhatsThis(tr("Create %1").arg(factory->getName()));
   factory_action->setData(QVariant::fromValue(factory));
 
-  connect(factory_action, &QAction::triggered, methodForFactory(factory));
+  connect(factory_action, &QAction::triggered,
+          [this, factory]() { factory->addObject(m_document); });
 
   menu->addAction(factory_action);
 }
 
 void FlowDocumentActionHandler::removedObject(ObjectFactory* factory) {
   auto menu = menuForFactory(factory);
-  Q_ASSERT(menu);
+  if (!menu) return;
 
   for (auto action : menu->actions()) {
     auto action_factory = action->data().value<ObjectFactory*>();
@@ -274,35 +199,6 @@ void FlowDocumentActionHandler::removedObject(ObjectFactory* factory) {
       action->deleteLater();
     }
   }
-}
-
-std::function<void()> FlowDocumentActionHandler::methodForFactory(
-    ObjectFactory* factory) const {
-  if (factory->getType() == NodeFactory::type) {
-    return [this, factory]() {
-      auto node_factory = static_cast<NodeFactory*>(factory);
-
-      auto node = utils::cast_unique_ptr<Node>(node_factory->create());
-      Q_ASSERT(node);
-
-      node->setName(getNewDefaultName(m_document, factory));
-
-      addNode(std::move(node));
-    };
-  } else if (factory->getType() == LayerFactory::type) {
-    return [this, factory]() {
-      auto layer_factory = static_cast<LayerFactory*>(factory);
-
-      auto layer = utils::cast_unique_ptr<Layer>(layer_factory->create());
-      Q_ASSERT(layer);
-
-      layer->setName(getNewDefaultName(m_document, factory));
-
-      addLayer(std::move(layer));
-    };
-  }
-
-  return []() {};
 }
 
 QMenu* FlowDocumentActionHandler::menuForFactory(ObjectFactory* factory) const {
@@ -592,31 +488,6 @@ void FlowDocumentActionHandler::unregisterActions() {
   action_manager.unregisterAction(m_move_up_node, "move_up_node");
   action_manager.unregisterAction(m_move_down_node, "move_down_node");
   action_manager.unregisterAction(m_duplicate_node, "duplicate_node");
-}
-
-void FlowDocumentActionHandler::addLayer(std::unique_ptr<Layer> layer) const {
-  Q_ASSERT(m_document);
-
-  auto group_layer = m_document->getFlow()->getRootLayer();
-  auto index = group_layer->size();
-
-  const auto& selected_layers = m_document->getSelectedLayers();
-  if (selected_layers.size() > 0) {
-    auto selected_layer = selected_layers.at(0);
-
-    group_layer = selected_layer->getParent();
-    index = group_layer->indexOf(selected_layer) + 1;
-  }
-
-  auto entires = std::list<LayerEntry>{};
-  entires.emplace_back(LayerEntry{group_layer, std::move(layer), index});
-
-  m_document->getUndoStack()->push(
-      new AddLayers(m_document, std::move(entires)));
-}
-
-void FlowDocumentActionHandler::addNode(std::unique_ptr<Node> node) const {
-  Q_ASSERT(m_document);
 }
 
 }  // namespace flow_document

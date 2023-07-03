@@ -107,12 +107,12 @@ void FlowScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
 
 void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
   auto mime_data = event->mimeData();
+  auto drop_position = event->scenePos();
 
   if (mime_data->hasFormat(mimetype::Factories)) {
     auto encoded_data = mime_data->data(mimetype::Factories);
     QDataStream stream(&encoded_data, QIODevice::ReadOnly);
 
-    QList<ObjectFactory *> factories;
     while (!stream.atEnd()) {
       auto object_class = QString{};
       stream >> object_class;
@@ -120,8 +120,9 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
       auto factory = getObjectFactoryByClassName(object_class);
       Q_ASSERT(factory);
 
-      factories.append(factory);
-      // TODO
+      factory->addObject(m_flow_document, [&drop_position](auto object) {
+        object->setPosition(drop_position);
+      });
     }
   }
 }
@@ -158,8 +159,22 @@ void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
 }
 
 bool FlowScene::isAcceptable(const QMimeData *mime_data) const {
-  auto formats = mime_data->formats();
-  if (formats.contains(mimetype::Factories)) return true;
+  if (mime_data->hasFormat(mimetype::Factories)) {
+    auto encoded_data = mime_data->data(mimetype::Factories);
+    QDataStream stream(&encoded_data, QIODevice::ReadOnly);
+
+    while (!stream.atEnd()) {
+      auto object_class = QString{};
+      stream >> object_class;
+
+      auto factory = getObjectFactoryByClassName(object_class);
+      Q_ASSERT(factory);
+
+      if (!factory->canAddObject(m_flow_document)) return false;
+    }
+
+    return true;
+  }
 
   return false;
 }

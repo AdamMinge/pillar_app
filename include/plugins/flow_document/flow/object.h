@@ -25,6 +25,12 @@ class FLOW_DOCUMENT_API Object : public utils::Serializable {
   void setName(const QString &name);
   [[nodiscard]] QString getName() const;
 
+  void setVisible(bool visible);
+  [[nodiscard]] bool isVisible() const;
+
+  void setPosition(const QPointF &position);
+  [[nodiscard]] QPointF getPosition() const;
+
   void setProperty(const QString &name, const QVariant &value);
   [[nodiscard]] QVariant getProperty(const QString &name) const;
   void removeProperty(const QString &name);
@@ -67,6 +73,8 @@ class FLOW_DOCUMENT_API Object : public utils::Serializable {
   QUuid m_id;
   QString m_name;
   QVariantMap m_properties;
+  QPointF m_position;
+  bool m_visible;
 };
 
 template <typename OBJECT>

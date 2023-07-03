@@ -29,7 +29,11 @@ class FLOW_DOCUMENT_API LayerFactory : public ObjectFactory {
   ~LayerFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const = 0;
-  [[nodiscard]] std::unique_ptr<Object> create() const = 0;
+  [[nodiscard]] std::unique_ptr<Object> createObject() const = 0;
+
+  [[nodiscard]] bool addObject(FlowDocument* document,
+                               InitMethod init = empty_init) const override;
+  [[nodiscard]] bool canAddObject(FlowDocument* document) const override;
 };
 
 }  // namespace flow_document
@@ -49,7 +53,7 @@ class FLOW_DOCUMENT_API GroupLayerFactory : public LayerFactory {
   ~GroupLayerFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] std::unique_ptr<Object> create() const override;
+  [[nodiscard]] std::unique_ptr<Object> createObject() const override;
 };
 
 /* ------------------------------ NodeLayerFactory -------------------------- */
@@ -63,7 +67,7 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
   ~NodeLayerFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] std::unique_ptr<Object> create() const override;
+  [[nodiscard]] std::unique_ptr<Object> createObject() const override;
 };
 
 }  // namespace flow_document
@@ -87,7 +91,7 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
     [[nodiscard]] QString getObjectClassName() const override {            \
       return LAYER::sGetClassName();                                       \
     }                                                                      \
-    [[nodiscard]] std::unique_ptr<flow_document::Object> create()          \
+    [[nodiscard]] std::unique_ptr<flow_document::Object> createObject()    \
         const override {                                                   \
       return std::make_unique<LAYER>();                                    \
     }                                                                      \

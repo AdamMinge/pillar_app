@@ -20,17 +20,11 @@ class FLOW_DOCUMENT_API Layer : public Object {
   explicit Layer();
   ~Layer() override;
 
-  void setPosition(const QPointF& position);
-  [[nodiscard]] QPointF getPosition() const;
-
   void setOpacity(qreal opacity);
   [[nodiscard]] qreal getOpacity() const;
 
   void setLocked(bool locked);
   [[nodiscard]] bool isLocked() const;
-
-  void setVisible(bool visible);
-  [[nodiscard]] bool isVisible() const;
 
   [[nodiscard]] GroupLayer* getParent() const;
   [[nodiscard]] GroupLayer* getRoot() const;
@@ -49,10 +43,8 @@ class FLOW_DOCUMENT_API Layer : public Object {
 
  private:
   GroupLayer* m_parent;
-  QPointF m_position;
   qreal m_opacity;
   bool m_locked;
-  bool m_visible;
 };
 
 /* -------------------------------- Layer Utils ----------------------------- */

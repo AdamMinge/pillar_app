@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/factories/factories_tree_model.h"
 
-#include "flow_document/flow/factory/node_factory.h"
+#include "flow_document/flow/factory/layer_factory.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMimeData>
@@ -133,6 +133,8 @@ void FactoriesTreeModel::removedObject(ObjectFactory *factory) {
 QStandardItem *FactoriesTreeModel::getOrCreateFactorySection(
     ObjectFactory *factory) {
   auto type_section = getOrCreateTypeSection(factory);
+  if (!type_section) return nullptr;
+
   const auto section_name = factory->getSection();
   for (auto row = 0; row < type_section->rowCount(); ++row) {
     auto child_item = type_section->child(row);
@@ -165,6 +167,8 @@ QStandardItem *FactoriesTreeModel::createSection(const QString &name) {
 
 QStandardItem *FactoriesTreeModel::getOrCreateTypeSection(
     ObjectFactory *factory) {
+  if (factory->getType() == LayerFactory::type) return nullptr;
+
   for (auto row = 0; row < m_root->rowCount(); ++row) {
     auto child = m_root->child(row);
     if (child->text() == factory->getType()) return child;

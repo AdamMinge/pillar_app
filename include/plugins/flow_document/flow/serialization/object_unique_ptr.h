@@ -139,7 +139,7 @@ void ObjectUniquePtr<TYPE>::deserialize(utils::IArchive& archive) {
     }
   }
 
-  m_ptr = utils::cast_unique_ptr<TYPE>(object_factory->create());
+  m_ptr = utils::cast_unique_ptr<TYPE>(object_factory->createObject());
   m_ptr->deserialize(archive);
 }
 

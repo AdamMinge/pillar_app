@@ -17,6 +17,10 @@ namespace flow_document {
 
 class ChangeEvent;
 class Flow;
+class Layer;
+class Node;
+
+/* ------------------------------- FlowDocument ----------------------------- */
 
 class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   Q_OBJECT
@@ -76,6 +80,14 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   QList<Layer *> m_selected_layers;
   QList<Node *> m_selected_nodes;
 };
+
+/* ----------------------------------- Utils -------------------------------- */
+
+[[nodiscard]] QList<Layer *> getAllLayers(FlowDocument *document,
+                                          const QList<Layer *> &except = {});
+
+[[nodiscard]] QList<Node *> getAllNodes(FlowDocument *document,
+                                        const QList<Node *> &except = {});
 
 }  // namespace flow_document
 

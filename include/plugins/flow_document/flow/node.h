@@ -20,12 +20,6 @@ class FLOW_DOCUMENT_API Node : public Object {
   explicit Node();
   ~Node() override;
 
-  void setVisible(bool visible);
-  [[nodiscard]] bool isVisible() const;
-
-  void setPosition(const QPointF &position);
-  [[nodiscard]] QPointF getPosition() const;
-
   [[nodiscard]] size_t getPinsCounts(Pin::Type type) const;
 
   [[nodiscard]] const Pin &getPin(Pin::Type type, size_t index) const;
@@ -53,8 +47,6 @@ class FLOW_DOCUMENT_API Node : public Object {
 
  private:
   NodeLayer *m_parent;
-  QPointF m_position;
-  bool m_visible;
 
   QVector<Pin> m_out_pins;
   QVector<Pin> m_in_pins;

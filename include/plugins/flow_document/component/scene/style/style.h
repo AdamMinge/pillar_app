@@ -51,7 +51,7 @@ TYPE ObjectStyle::getProperty(const QString &key, States states) const {
       return m_state_data[state][key].template value<TYPE>();
   }
 
-  Q_ASSERT_X(!m_state_data[State::Normal].contains(key),
+  Q_ASSERT_X(m_state_data[State::Normal].contains(key),
              "ObjectStyle::getProperty",
              "The property must be set for at least for normal state");
   return m_state_data[State::Normal][key].value<TYPE>();

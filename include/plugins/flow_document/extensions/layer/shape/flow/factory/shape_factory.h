@@ -24,7 +24,7 @@ class SHAPE_API ShapeFactory : public flow_document::ObjectFactory {
   ~ShapeFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const = 0;
-  [[nodiscard]] std::unique_ptr<flow_document::Object> create() const = 0;
+  [[nodiscard]] std::unique_ptr<flow_document::Object> createObject() const = 0;
 };
 
 #endif  // SHAPE_FACTORY_H

@@ -52,8 +52,6 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   void addedObject(ObjectFactory* factory) override;
   void removedObject(ObjectFactory* factory) override;
 
-  [[nodiscard]] std::function<void()> methodForFactory(
-      ObjectFactory* factory) const;
   [[nodiscard]] QMenu* menuForFactory(ObjectFactory* factory) const;
 
  private Q_SLOTS:
@@ -81,9 +79,6 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
 
   void registerActions();
   void unregisterActions();
-
-  void addLayer(std::unique_ptr<Layer> layer) const;
-  void addNode(std::unique_ptr<Node> node) const;
 
  private:
   static std::unique_ptr<FlowDocumentActionHandler> m_instance;

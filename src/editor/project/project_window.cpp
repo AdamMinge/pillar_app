@@ -587,7 +587,7 @@ void ProjectWindow::initConnections() {
           &ProjectWindow::documentChanged);
   connect(&egnite::DocumentManager::getInstance(),
           &egnite::DocumentManager::documentCloseRequested, this,
-          qOverload<>(&ProjectWindow::closeDocument));
+          qOverload<int>(&ProjectWindow::closeDocument));
   connect(&egnite::DocumentManager::getInstance(),
           &egnite::DocumentManager::enabledStandardActionsChanged, this,
           &ProjectWindow::updateActions);

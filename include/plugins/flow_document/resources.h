@@ -56,7 +56,7 @@ namespace styles {
 #define _DEFINE_STYLE(NAME, STYLE) \
   constexpr QLatin1String NAME{":/plugins/flow_document/styles/" STYLE};
 
-_DEFINE_STYLE(Default, "default.png")
+_DEFINE_STYLE(Default, "default.json")
 
 }  // namespace styles
 

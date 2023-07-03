@@ -7,17 +7,9 @@
 
 namespace flow_document {
 
-Node::Node() : m_visible(true) {}
+Node::Node() {}
 
 Node::~Node() = default;
-
-void Node::setVisible(bool visible) { m_visible = visible; }
-
-bool Node::isVisible() const { return m_visible; }
-
-void Node::setPosition(const QPointF &position) { m_position = position; }
-
-QPointF Node::getPosition() const { return m_position; }
 
 size_t Node::getPinsCounts(Pin::Type type) const {
   return getPins(type).size();
@@ -52,16 +44,10 @@ NodeLayer *Node::getParent() const { return m_parent; }
 
 void Node::serialize(utils::OArchive &archive) const {
   Object::serialize(archive);
-
-  archive << utils::ArchiveProperty("position", m_position);
-  archive << utils::ArchiveProperty("visible", m_visible);
 }
 
 void Node::deserialize(utils::IArchive &archive) {
   Object::deserialize(archive);
-
-  archive >> utils::ArchiveProperty("position", m_position);
-  archive >> utils::ArchiveProperty("visible", m_visible);
 }
 
 void Node::setParent(NodeLayer *parent) { m_parent = parent; }
@@ -69,7 +55,6 @@ void Node::setParent(NodeLayer *parent) { m_parent = parent; }
 void Node::init(const Node *node) {
   Object::init(node);
 
-  m_position = node->m_position;
   m_out_pins = node->m_out_pins;
   m_in_pins = node->m_in_pins;
 }

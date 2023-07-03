@@ -3,6 +3,8 @@
 
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"
+#include "flow_document/flow/group_layer.h"
+#include "flow_document/flow/layer_iterator.h"
 #include "flow_document/flow/node_layer.h"
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/serializer/archive.h>
@@ -10,6 +12,8 @@
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
+
+/* ------------------------------- FlowDocument ----------------------------- */
 
 std::unique_ptr<egnite::Document> FlowDocument::create() {
   auto document = std::unique_ptr<FlowDocument>(new FlowDocument());
@@ -122,6 +126,40 @@ void FlowDocument::switchSelectedNodes(const QList<Node *> &nodes) {
 
   if (nodes.contains(m_current_node))
     setCurrentNode(nodes.isEmpty() ? nullptr : nodes.first());
+}
+
+/* ----------------------------------- Utils -------------------------------- */
+
+[[nodiscard]] QList<Layer *> getAllLayers(FlowDocument *document,
+                                          const QList<Layer *> &except) {
+  auto root = document ? document->getFlow()->getRootLayer() : nullptr;
+  if (!root) return {};
+
+  auto layers = QList<Layer *>{};
+  auto iter = LayerPreOrderIterator(root);
+  while (iter.hasNext()) {
+    if (auto layer = iter.next(); !except.contains(layer) && layer != root)
+      layers.append(layer);
+  }
+
+  return layers;
+}
+
+[[nodiscard]] QList<Node *> getAllNodes(FlowDocument *document,
+                                        const QList<Node *> &except) {
+  auto layers = getAllLayers(document, {});
+  auto nodes = QList<Node *>{};
+
+  for (auto layer : layers) {
+    if (layer->isClassOrChild<NodeLayer>()) {
+      auto node_layer = static_cast<NodeLayer *>(layer);
+      for (auto &node : *node_layer) {
+        if (!except.contains(node.get())) nodes.append(node.get());
+      }
+    }
+  }
+
+  return nodes;
 }
 
 }  // namespace flow_document

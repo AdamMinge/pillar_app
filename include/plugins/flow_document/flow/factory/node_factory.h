@@ -31,7 +31,11 @@ class FLOW_DOCUMENT_API NodeFactory : public ObjectFactory {
   ~NodeFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const = 0;
-  [[nodiscard]] std::unique_ptr<Object> create() const = 0;
+  [[nodiscard]] std::unique_ptr<Object> createObject() const = 0;
+
+  [[nodiscard]] bool addObject(FlowDocument* document,
+                               InitMethod init = empty_init) const override;
+  [[nodiscard]] bool canAddObject(FlowDocument* document) const override;
 };
 
 }  // namespace flow_document
@@ -55,7 +59,7 @@ Q_DECLARE_INTERFACE(flow_document::NodeFactory, "org.flow.NodeFactory")
     [[nodiscard]] QString getObjectClassName() const override {           \
       return NODE::sGetClassName();                                       \
     }                                                                     \
-    [[nodiscard]] std::unique_ptr<flow_document::Object> create()         \
+    [[nodiscard]] std::unique_ptr<flow_document::Object> createObject()   \
         const override {                                                  \
       return std::make_unique<NODE>();                                    \
     }                                                                     \

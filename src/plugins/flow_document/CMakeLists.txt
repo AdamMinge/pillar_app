@@ -35,6 +35,7 @@ set(sources
     ${source_root}/flow/factory/object_factory.cpp
     ${source_root}/flow/factory/node_factory.cpp
     ${source_root}/flow/factory/layer_factory.cpp
+    ${source_root}/command/add_remove_node.cpp
     ${source_root}/command/add_remove_layer.cpp
     ${source_root}/command/change_layer.cpp
     ${source_root}/command/change_node.cpp
@@ -104,6 +105,7 @@ set(includes
     ${include_root}/flow/factory/node_factory.h
     ${include_root}/flow/factory/layer_factory.h
     ${include_root}/flow/serialization/object_unique_ptr.h
+    ${include_root}/command/add_remove_node.h
     ${include_root}/command/add_remove_layer.h
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h
