@@ -163,27 +163,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="309"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="315"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="310"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="316"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="311"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="317"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="312"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="318"/>
         <source>Opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="313"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="319"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -247,22 +247,22 @@
 <context>
     <name>NodeProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="319"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="325"/>
         <source>Node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="384"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="396"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="385"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="397"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="386"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="398"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>

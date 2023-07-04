@@ -368,12 +368,18 @@ void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
 
   if (object->isClassOrChild<Layer>()) {
     auto layer = static_cast<Layer *>(object);
-    m_document->getUndoStack()->push(
-        new SetLayersName(m_document, {layer}, name));
+
+    if (layer->getName() != name) {
+      m_document->getUndoStack()->push(
+          new SetLayersName(m_document, {layer}, name));
+    }
   } else if (object->isClassOrChild<Node>()) {
     auto node = static_cast<Node *>(object);
-    m_document->getUndoStack()->push(
-        new SetNodesName(m_document, {node}, name));
+
+    if (node->getName() != name) {
+      m_document->getUndoStack()->push(
+          new SetNodesName(m_document, {node}, name));
+    }
   }
 }
 

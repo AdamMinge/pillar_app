@@ -39,9 +39,13 @@ class FLOW_DOCUMENT_API NodeGraphicsItem : public GraphicsItem {
   void onEvent(const ChangeEvent &event) override;
   void onUpdate(const NodesChangeEvent &event);
 
+  [[nodiscard]] QVariant itemChange(GraphicsItemChange change,
+                                    const QVariant &value) override;
+
  private:
   std::unique_ptr<NodePainter> m_node_painter;
   std::unique_ptr<NodeGeometry> m_node_geometry;
+  bool m_updating;
 };
 
 /* ----------------------------- NodeGeometry --------------------------- */

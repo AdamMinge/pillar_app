@@ -271,34 +271,40 @@ void LayerProperties::applyCustom(const QString& name, const QVariant& value) {
 }
 
 void LayerProperties::applyObject(size_t id, const QVariant& value) {
+  auto layer = getLayer();
+
   switch (id) {
     case Property::Name: {
-      getDocument()->getUndoStack()->push(
-          new SetLayersName(getDocument(), {getLayer()}, value.toString()));
+      auto name = value.toString();
+      if (layer->getName() != name) {
+        getDocument()->getUndoStack()->push(
+            new SetLayersName(getDocument(), {layer}, name));
+      }
+
       break;
     }
 
     case Property::Visible: {
       getDocument()->getUndoStack()->push(
-          new SetLayersVisible(getDocument(), {getLayer()}, value.toBool()));
+          new SetLayersVisible(getDocument(), {layer}, value.toBool()));
       break;
     }
 
     case Property::Locked: {
       getDocument()->getUndoStack()->push(
-          new SetLayersLocked(getDocument(), {getLayer()}, value.toBool()));
+          new SetLayersLocked(getDocument(), {layer}, value.toBool()));
       break;
     }
 
     case Property::Opacity: {
       getDocument()->getUndoStack()->push(
-          new SetLayersOpacity(getDocument(), {getLayer()}, value.toReal()));
+          new SetLayersOpacity(getDocument(), {layer}, value.toReal()));
       break;
     }
 
     case Property::Position: {
       getDocument()->getUndoStack()->push(
-          new SetLayersPosition(getDocument(), {getLayer()}, value.toPointF()));
+          new SetLayersPosition(getDocument(), {layer}, value.toPointF()));
       break;
     }
   }
@@ -358,22 +364,28 @@ void NodeProperties::applyCustom(const QString& name, const QVariant& value) {
 }
 
 void NodeProperties::applyObject(size_t id, const QVariant& value) {
+  auto node = getNode();
+
   switch (id) {
     case Property::Name: {
-      getDocument()->getUndoStack()->push(
-          new SetNodesName(getDocument(), {getNode()}, value.toString()));
+      auto name = value.toString();
+      if (node->getName() != name) {
+        getDocument()->getUndoStack()->push(
+            new SetNodesName(getDocument(), {node}, name));
+      }
+
       break;
     }
 
     case Property::Visible: {
       getDocument()->getUndoStack()->push(
-          new SetNodesVisible(getDocument(), {getNode()}, value.toBool()));
+          new SetNodesVisible(getDocument(), {node}, value.toBool()));
       break;
     }
 
     case Property::Position: {
       getDocument()->getUndoStack()->push(
-          new SetNodesPosition(getDocument(), {getNode()}, value.toPointF()));
+          new SetNodesPosition(getDocument(), {node}, value.toPointF()));
       break;
     }
   }
