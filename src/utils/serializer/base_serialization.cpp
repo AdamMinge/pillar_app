@@ -154,17 +154,13 @@ void serialize(OArchive& archive, const QPointF& point) {
 }
 
 void deserialize(IArchive& archive, QPoint& point) {
-  int x, y;
-
-  archive >> ArchiveProperty("x", x);
-  archive >> ArchiveProperty("y", y);
+  archive >> ArchiveProperty("x", point.rx());
+  archive >> ArchiveProperty("y", point.ry());
 }
 
 void deserialize(IArchive& archive, QPointF& point) {
-  qreal x, y;
-
-  archive >> ArchiveProperty("x", x);
-  archive >> ArchiveProperty("y", y);
+  archive >> ArchiveProperty("x", point.rx());
+  archive >> ArchiveProperty("y", point.ry());
 }
 
 /* ----------------------------------- QSize -------------------------------- */
@@ -186,17 +182,15 @@ void serialize(OArchive& archive, const QSizeF& size) {
 }
 
 void deserialize(IArchive& archive, QSize& size) {
-  int width, height;
-
-  archive >> ArchiveProperty("width", width);
-  archive >> ArchiveProperty("height", height);
+  archive >> ArchiveProperty("width", size.rwidth());
+  archive >> ArchiveProperty("height", size.rheight());
 }
 
 void deserialize(IArchive& archive, QSizeF& size) {
   qreal width, height;
 
-  archive >> ArchiveProperty("width", width);
-  archive >> ArchiveProperty("height", height);
+  archive >> ArchiveProperty("width", size.rwidth());
+  archive >> ArchiveProperty("height", size.rheight());
 }
 
 }  // namespace utils

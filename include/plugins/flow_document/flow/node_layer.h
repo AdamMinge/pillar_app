@@ -4,17 +4,17 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
 #include "flow_document/flow/layer.h"
+#include "flow_document/flow/node.h"
+#include "flow_document/flow/serialization/object_unique_ptr.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
-
-class Node;
 
 class FLOW_DOCUMENT_API NodeLayer : public Layer {
   FLOW_OBJECT_CLASS(NodeLayer, Layer)
 
  public:
-  using Nodes = std::vector<std::unique_ptr<Node>>;
+  using Nodes = std::vector<ObjectUniquePtr<Node>>;
 
  public:
   explicit NodeLayer();

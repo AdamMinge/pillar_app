@@ -82,6 +82,7 @@ void NodeLayer::deserialize(utils::IArchive& archive) {
   Layer::deserialize(archive);
 
   archive >> utils::ArchiveProperty("nodes", m_nodes);
+  for (auto& node : m_nodes) node->setParent(this);
 }
 
 void NodeLayer::init(const NodeLayer* node_layer) {

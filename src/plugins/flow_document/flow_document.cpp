@@ -104,7 +104,7 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   }
 
   if (node_layer) {
-    switchCurrentLayer(node_layer);
+    // switchCurrentLayer(node_layer); / /TO FIX
   }
 }
 

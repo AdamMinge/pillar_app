@@ -176,6 +176,8 @@ int LayersTreeModel::rowCount(const QModelIndex &parent) const {
     return static_cast<int>(root_layer->size());
   } else {
     auto layer = static_cast<Layer *>(parent.internalPointer());
+    if (!layer->isClassOrChild<GroupLayer>()) return 0;
+
     auto group_layer = static_cast<GroupLayer *>(layer);
     return group_layer->size();
   }
