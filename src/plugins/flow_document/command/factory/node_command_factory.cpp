@@ -35,42 +35,42 @@ QString NodeCommandFactory::getObjectClassName() const {
   return Node::sGetClassName();
 }
 
-egnite::Command* NodeCommandFactory::createSetVisible(QList<Object*> objects,
-                                                      FlowDocument* document,
+egnite::Command* NodeCommandFactory::createSetVisible(FlowDocument* document,
+                                                      QList<Object*> objects,
                                                       bool visible) const {
   return new SetNodesVisible(document, toNodes(std::move(objects)), visible);
 }
 
-egnite::Command* NodeCommandFactory::createSetName(QList<Object*> objects,
-                                                   FlowDocument* document,
+egnite::Command* NodeCommandFactory::createSetName(FlowDocument* document,
+                                                   QList<Object*> objects,
                                                    QString name) const {
   return new SetNodesName(document, toNodes(std::move(objects)),
                           std::move(name));
 }
 
-egnite::Command* NodeCommandFactory::createSetPosition(QList<Object*> objects,
-                                                       FlowDocument* document,
+egnite::Command* NodeCommandFactory::createSetPosition(FlowDocument* document,
+                                                       QList<Object*> objects,
                                                        QPointF position) const {
   return new SetNodesPosition(document, toNodes(std::move(objects)),
                               std::move(position));
 }
 
 egnite::Command* NodeCommandFactory::createAddCustomProperties(
-    QList<Object*> objects, FlowDocument* document,
+    FlowDocument* document, QList<Object*> objects,
     QVariantMap properties) const {
   return new AddNodesProperties(document, toNodes(std::move(objects)),
                                 std::move(properties));
 }
 
 egnite::Command* NodeCommandFactory::createRemoveCustomProperties(
-    QList<Object*> objects, FlowDocument* document,
+    FlowDocument* document, QList<Object*> objects,
     QStringList properties) const {
   return new RemoveNodesProperties(document, toNodes(std::move(objects)),
                                    std::move(properties));
 }
 
 egnite::Command* NodeCommandFactory::createSetCustomProperty(
-    QList<Object*> objects, FlowDocument* document, QString property,
+    FlowDocument* document, QList<Object*> objects, QString property,
     QVariant value) const {
   return new SetNodesCustomProperty(document, toNodes(std::move(objects)),
                                     std::move(property), std::move(value));

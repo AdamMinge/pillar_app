@@ -36,41 +36,41 @@ QString LayerCommandFactory::getObjectClassName() const {
   return Layer::sGetClassName();
 }
 
-egnite::Command* LayerCommandFactory::createSetVisible(QList<Object*> objects,
-                                                       FlowDocument* document,
+egnite::Command* LayerCommandFactory::createSetVisible(FlowDocument* document,
+                                                       QList<Object*> objects,
                                                        bool visible) const {
   return new SetLayersVisible(document, toLayers(std::move(objects)), visible);
 }
 
-egnite::Command* LayerCommandFactory::createSetName(QList<Object*> objects,
-                                                    FlowDocument* document,
+egnite::Command* LayerCommandFactory::createSetName(FlowDocument* document,
+                                                    QList<Object*> objects,
                                                     QString name) const {
   return new SetLayersName(document, toLayers(std::move(objects)),
                            std::move(name));
 }
 
 egnite::Command* LayerCommandFactory::createSetPosition(
-    QList<Object*> objects, FlowDocument* document, QPointF position) const {
+    FlowDocument* document, QList<Object*> objects, QPointF position) const {
   return new SetLayersPosition(document, toLayers(std::move(objects)),
                                std::move(position));
 }
 
 egnite::Command* LayerCommandFactory::createAddCustomProperties(
-    QList<Object*> objects, FlowDocument* document,
+    FlowDocument* document, QList<Object*> objects,
     QVariantMap properties) const {
   return new AddLayersProperties(document, toLayers(std::move(objects)),
                                  std::move(properties));
 }
 
 egnite::Command* LayerCommandFactory::createRemoveCustomProperties(
-    QList<Object*> objects, FlowDocument* document,
+    FlowDocument* document, QList<Object*> objects,
     QStringList properties) const {
   return new RemoveLayersProperties(document, toLayers(std::move(objects)),
                                     std::move(properties));
 }
 
 egnite::Command* LayerCommandFactory::createSetCustomProperty(
-    QList<Object*> objects, FlowDocument* document, QString property,
+    FlowDocument* document, QList<Object*> objects, QString property,
     QVariant value) const {
   return new SetLayersCustomProperty(document, toLayers(std::move(objects)),
                                      std::move(property), std::move(value));

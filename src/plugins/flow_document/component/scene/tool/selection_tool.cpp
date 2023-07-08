@@ -210,7 +210,7 @@ void SelectionTool::endItemMoving() {
     Q_ASSERT(command_factory);
 
     group_move_command->addCommand(command_factory->createSetPosition(
-        {object}, getDocument(), new_position));
+        getDocument(), {object}, new_position));
   }
 
   getDocument()->getUndoStack()->push(group_move_command);

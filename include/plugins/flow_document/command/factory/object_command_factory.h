@@ -29,22 +29,22 @@ class FLOW_DOCUMENT_API ObjectCommandFactory : public QObject {
   [[nodiscard]] virtual QString getObjectClassName() const = 0;
 
   [[nodiscard]] virtual egnite::Command* createSetVisible(
-      QList<Object*> objects, FlowDocument* document, bool visible) const = 0;
-  [[nodiscard]] virtual egnite::Command* createSetName(QList<Object*> objects,
-                                                       FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects, bool visible) const = 0;
+  [[nodiscard]] virtual egnite::Command* createSetName(FlowDocument* document,
+                                                       QList<Object*> objects,
                                                        QString name) const = 0;
   [[nodiscard]] virtual egnite::Command* createSetPosition(
-      QList<Object*> objects, FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects,
       QPointF position) const = 0;
 
   [[nodiscard]] virtual egnite::Command* createAddCustomProperties(
-      QList<Object*> objects, FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects,
       QVariantMap properties) const = 0;
   [[nodiscard]] virtual egnite::Command* createRemoveCustomProperties(
-      QList<Object*> objects, FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects,
       QStringList properties) const = 0;
   [[nodiscard]] virtual egnite::Command* createSetCustomProperty(
-      QList<Object*> objects, FlowDocument* document, QString property,
+      FlowDocument* document, QList<Object*> objects, QString property,
       QVariant value) const = 0;
 };
 

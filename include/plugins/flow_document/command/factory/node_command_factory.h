@@ -17,24 +17,25 @@ class FLOW_DOCUMENT_API NodeCommandFactory : public ObjectCommandFactory {
 
   [[nodiscard]] QString getObjectClassName() const override;
 
-  [[nodiscard]] egnite::Command* createSetVisible(QList<Object*> objects,
-                                                  FlowDocument* document,
+  [[nodiscard]] egnite::Command* createSetVisible(FlowDocument* document,
+                                                  QList<Object*> objects,
+
                                                   bool visible) const override;
-  [[nodiscard]] egnite::Command* createSetName(QList<Object*> objects,
-                                               FlowDocument* document,
+  [[nodiscard]] egnite::Command* createSetName(FlowDocument* document,
+                                               QList<Object*> objects,
                                                QString name) const override;
   [[nodiscard]] egnite::Command* createSetPosition(
-      QList<Object*> objects, FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects,
       QPointF position) const override;
 
   [[nodiscard]] egnite::Command* createAddCustomProperties(
-      QList<Object*> objects, FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects,
       QVariantMap properties) const override;
   [[nodiscard]] egnite::Command* createRemoveCustomProperties(
-      QList<Object*> objects, FlowDocument* document,
+      FlowDocument* document, QList<Object*> objects,
       QStringList properties) const override;
   [[nodiscard]] egnite::Command* createSetCustomProperty(
-      QList<Object*> objects, FlowDocument* document, QString property,
+      FlowDocument* document, QList<Object*> objects, QString property,
       QVariant value) const override;
 };
 

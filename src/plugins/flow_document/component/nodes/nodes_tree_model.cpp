@@ -347,7 +347,7 @@ void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
   Q_ASSERT(command_factory);
 
   m_document->getUndoStack()->push(
-      command_factory->createSetName({object}, m_document, name));
+      command_factory->createSetName(m_document, {object}, name));
 }
 
 void NodesTreeModel::setVisible(const QModelIndex &index,
@@ -359,7 +359,7 @@ void NodesTreeModel::setVisible(const QModelIndex &index,
   Q_ASSERT(command_factory);
 
   m_document->getUndoStack()->push(
-      command_factory->createSetVisible({object}, m_document, visible));
+      command_factory->createSetVisible(m_document, {object}, visible));
 }
 
 /* ------------------------- OnlyNodesFilterProxyModel ---------------------- */
