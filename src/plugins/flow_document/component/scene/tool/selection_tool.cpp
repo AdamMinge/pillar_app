@@ -1,11 +1,14 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/selection_tool.h"
 
+#include "flow_document/command/factory/object_command_factory.h"
 #include "flow_document/component/scene/flow_scene.h"
-#include "flow_document/component/scene/item/graphics_item.h"
+#include "flow_document/component/scene/item/object_graphics_item.h"
 #include "flow_document/component/scene/item/selection_rectangle.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/command/group_command.h>
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QKeyEvent>
@@ -91,7 +94,7 @@ void SelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
       if (getScene()) {
         auto item = getScene()->itemAt(m_mouse_clicked_pos, QTransform{});
 
-        auto flow_item = dynamic_cast<GraphicsItem *>(item);
+        auto flow_item = dynamic_cast<ObjectGraphicsItem *>(item);
         auto is_selectable =
             flow_item && flow_item->flags() & QGraphicsItem::ItemIsSelectable;
 
@@ -158,7 +161,7 @@ void SelectionTool::startItemMoving() {
     }
 
     for (auto item : getScene()->selectedItems()) {
-      if (auto flow_item = dynamic_cast<GraphicsItem *>(item); flow_item)
+      if (auto flow_item = dynamic_cast<ObjectGraphicsItem *>(item); flow_item)
         m_moving_items.append(std::make_pair(flow_item, flow_item->pos()));
     }
   }
@@ -198,15 +201,19 @@ void SelectionTool::endItemMoving() {
   auto &[first_item, first_item_old_pos] = m_moving_items.front();
   auto move = first_item->pos() - first_item_old_pos;
 
-  /*
-  auto objects = QList<Object *>{};
-  GraphicsItem
-    for (auto &[moving_item, _] : m_moving_items)
-      objects.append(moving_item->getObject());
+  auto group_move_command = new egnite::GroupCommand(tr("Move objects"));
+  for (auto &[moving_item, _] : m_moving_items) {
+    auto object = moving_item->getObject();
+    auto new_position = object->getPosition() + move;
 
-    getDocument()->getUndoStack()->push(
-        new MoveObject(getDocument(), objects, move));
-  */
+    auto command_factory = getObjectCommandFactoryByObject(object);
+    Q_ASSERT(command_factory);
+
+    group_move_command->addCommand(command_factory->createSetPosition(
+        {object}, getDocument(), new_position));
+  }
+
+  getDocument()->getUndoStack()->push(group_move_command);
 
   m_moving_items.clear();
 }

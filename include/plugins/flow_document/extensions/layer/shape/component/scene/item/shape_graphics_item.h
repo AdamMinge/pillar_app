@@ -2,14 +2,14 @@
 #define SHAPE_GRAPHICS_ITEM_H
 
 /* ----------------------------- PluginFlowDocument ------------------------- */
-#include <flow_document/component/scene/item/graphics_item.h>
+#include <flow_document/component/scene/item/object_graphics_item.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
 class Shape;
 
-class SHAPE_API ShapeGraphicsItem : public flow_document::GraphicsItem {
+class SHAPE_API ShapeGraphicsItem : public flow_document::ObjectGraphicsItem {
   Q_OBJECT
 
  public:

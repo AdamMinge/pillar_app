@@ -2,7 +2,7 @@
 #define FLOW_DOCUMENT_NODE_GRAPHICS_ITEM_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/item/graphics_item.h"
+#include "flow_document/component/scene/item/object_graphics_item.h"
 #include "flow_document/export.h"
 #include "flow_document/flow/pin.h"
 /* -------------------------------------------------------------------------- */
@@ -18,7 +18,7 @@ class Node;
 
 /* --------------------------- NodeGraphicsItem ------------------------- */
 
-class FLOW_DOCUMENT_API NodeGraphicsItem : public GraphicsItem {
+class FLOW_DOCUMENT_API NodeGraphicsItem : public ObjectGraphicsItem {
   Q_OBJECT
 
  public:
@@ -39,13 +39,9 @@ class FLOW_DOCUMENT_API NodeGraphicsItem : public GraphicsItem {
   void onEvent(const ChangeEvent &event) override;
   void onUpdate(const NodesChangeEvent &event);
 
-  [[nodiscard]] QVariant itemChange(GraphicsItemChange change,
-                                    const QVariant &value) override;
-
  private:
   std::unique_ptr<NodePainter> m_node_painter;
   std::unique_ptr<NodeGeometry> m_node_geometry;
-  bool m_updating;
 };
 
 /* ----------------------------- NodeGeometry --------------------------- */

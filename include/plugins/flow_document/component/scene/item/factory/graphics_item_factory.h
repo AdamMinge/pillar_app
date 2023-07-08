@@ -10,7 +10,7 @@
 
 namespace flow_document {
 
-class GraphicsItem;
+class ObjectGraphicsItem;
 class FlowDocument;
 class Object;
 
@@ -24,7 +24,7 @@ class FLOW_DOCUMENT_API GraphicsItemFactory : public QObject {
   ~GraphicsItemFactory() override;
 
   [[nodiscard]] virtual QString getObjectClassName() const = 0;
-  [[nodiscard]] virtual GraphicsItem* create(
+  [[nodiscard]] virtual ObjectGraphicsItem* create(
       Object* object, FlowDocument* document,
       QGraphicsItem* parent = nullptr) const = 0;
 };
@@ -47,7 +47,7 @@ class FLOW_DOCUMENT_API FlowItemFactory : public GraphicsItemFactory {
   ~FlowItemFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] GraphicsItem* create(
+  [[nodiscard]] ObjectGraphicsItem* create(
       Object* object, FlowDocument* document,
       QGraphicsItem* parent = nullptr) const override;
 };
@@ -63,7 +63,7 @@ class FLOW_DOCUMENT_API GroupLayerItemFactory : public GraphicsItemFactory {
   ~GroupLayerItemFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] GraphicsItem* create(
+  [[nodiscard]] ObjectGraphicsItem* create(
       Object* object, FlowDocument* document,
       QGraphicsItem* parent = nullptr) const override;
 };
@@ -79,7 +79,7 @@ class FLOW_DOCUMENT_API NodeLayerItemFactory : public GraphicsItemFactory {
   ~NodeLayerItemFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] GraphicsItem* create(
+  [[nodiscard]] ObjectGraphicsItem* create(
       Object* object, FlowDocument* document,
       QGraphicsItem* parent = nullptr) const override;
 };
@@ -95,16 +95,15 @@ class FLOW_DOCUMENT_API NodeItemFactory : public GraphicsItemFactory {
   ~NodeItemFactory() override;
 
   [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] GraphicsItem* create(
+  [[nodiscard]] ObjectGraphicsItem* create(
       Object* object, FlowDocument* document,
       QGraphicsItem* parent = nullptr) const override;
 };
 
 /* ----------------------------------- Utils -------------------------------- */
 
-[[nodiscard]] GraphicsItem* createGraphicsItem(Object* object,
-                                               FlowDocument* document,
-                                               QGraphicsItem* parent = nullptr);
+[[nodiscard]] ObjectGraphicsItem* createGraphicsItem(
+    Object* object, FlowDocument* document, QGraphicsItem* parent = nullptr);
 
 [[nodiscard]] GraphicsItemFactory* getGraphicsItemFactoryByObject(
     Object* object);
@@ -134,7 +133,7 @@ template <typename GRAPHICS_ITEM>
     [[nodiscard]] QString getObjectClassName() const override {                \
       return OBJECT::sGetClassName();                                          \
     }                                                                          \
-    [[nodiscard]] flow_document::GraphicsItem* create(                         \
+    [[nodiscard]] flow_document::ObjectGraphicsItem* create(                   \
         flow_document::Object* object, flow_document::FlowDocument* document,  \
         QGraphicsItem* parent = nullptr) const override {                      \
       return new ITEM(static_cast<OBJECT*>(object), document, parent);         \

@@ -10,7 +10,7 @@ namespace egnite {
 
 class LIB_EGNITE_API GroupCommand : public Command {
  public:
-  explicit GroupCommand(QString name, Command *parent = nullptr);
+  explicit GroupCommand(QString text, Command *parent = nullptr);
   ~GroupCommand() override;
 
   void undo() override;

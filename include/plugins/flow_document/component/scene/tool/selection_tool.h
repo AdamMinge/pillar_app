@@ -9,7 +9,7 @@
 namespace flow_document {
 
 class SelectionRectangle;
-class GraphicsItem;
+class ObjectGraphicsItem;
 
 class FLOW_DOCUMENT_API SelectionTool : public AbstractTool {
   Q_OBJECT
@@ -51,10 +51,10 @@ class FLOW_DOCUMENT_API SelectionTool : public AbstractTool {
   QPointF m_mouse_clicked_pos;
   Qt::MouseButton m_mouse_clicked_button;
   Qt::KeyboardModifiers m_modifiers;
-  GraphicsItem *m_clicked_item;
+  ObjectGraphicsItem *m_clicked_item;
 
   std::unique_ptr<SelectionRectangle> m_selection_rect;
-  QList<std::pair<GraphicsItem *, QPointF>> m_moving_items;
+  QList<std::pair<ObjectGraphicsItem *, QPointF>> m_moving_items;
 };
 
 enum class SelectionTool::Action { NoAction, ItemMoving, ItemSelection };

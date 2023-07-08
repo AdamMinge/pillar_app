@@ -42,6 +42,9 @@ set(sources
     ${source_root}/command/reparent_layer.cpp
     ${source_root}/command/raise_lower_layer.cpp
     ${source_root}/command/duplicate_layer.cpp
+    ${source_root}/command/factory/object_command_factory.cpp
+    ${source_root}/command/factory/layer_command_factory.cpp
+    ${source_root}/command/factory/node_command_factory.cpp
     ${source_root}/component/flow_dock_widget.cpp
     ${source_root}/component/flow_dock_widget_factory.cpp
     ${source_root}/component/factories/factories_dock.cpp
@@ -61,7 +64,7 @@ set(sources
     ${source_root}/component/layers/layers_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
-    ${source_root}/component/scene/item/graphics_item.cpp
+    ${source_root}/component/scene/item/object_graphics_item.cpp
     ${source_root}/component/scene/item/flow_graphics_item.cpp
     ${source_root}/component/scene/item/layer_graphics_item.cpp
     ${source_root}/component/scene/item/node_graphics_item.cpp
@@ -113,6 +116,9 @@ set(includes
     ${include_root}/command/reparent_layer.h
     ${include_root}/command/raise_lower_layer.h
     ${include_root}/command/duplicate_layer.h
+    ${include_root}/command/factory/object_command_factory.h
+    ${include_root}/command/factory/layer_command_factory.h
+    ${include_root}/command/factory/node_command_factory.h
     ${include_root}/component/flow_dock_widget.h
     ${include_root}/component/flow_dock_widget_factory.h
     ${include_root}/component/factories/factories_dock.h
@@ -132,7 +138,7 @@ set(includes
     ${include_root}/component/layers/layers_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
-    ${include_root}/component/scene/item/graphics_item.h
+    ${include_root}/component/scene/item/object_graphics_item.h
     ${include_root}/component/scene/item/flow_graphics_item.h
     ${include_root}/component/scene/item/layer_graphics_item.h
     ${include_root}/component/scene/item/node_graphics_item.h

@@ -3,7 +3,7 @@
 
 #include "flow_document/component/scene/item/factory/graphics_item_factory.h"
 #include "flow_document/component/scene/item/flow_graphics_item.h"
-#include "flow_document/component/scene/item/graphics_item.h"
+#include "flow_document/component/scene/item/object_graphics_item.h"
 #include "flow_document/component/scene/tool/abstract_tool.h"
 #include "flow_document/flow/factory/object_factory.h"
 #include "flow_document/flow/flow.h"
@@ -52,17 +52,19 @@ void FlowScene::setTool(AbstractTool *tool) {
 
 AbstractTool *FlowScene::getTool() const { return m_tool; }
 
-QList<GraphicsItem *> FlowScene::hoveredItems() { return m_hovered_items; }
+QList<ObjectGraphicsItem *> FlowScene::hoveredItems() {
+  return m_hovered_items;
+}
 
 QPainterPath FlowScene::hoveredArea() const { return m_hovered_area; }
 
 void FlowScene::setHoveredArea(const QPainterPath &path,
                                Qt::ItemSelectionOperation selectionOperation,
                                Qt::ItemSelectionMode mode) {
-  auto hovered_items = QList<GraphicsItem *>{};
+  auto hovered_items = QList<ObjectGraphicsItem *>{};
   auto items_in_area = items(path, mode);
   for (auto item : items_in_area) {
-    auto hovered_item = dynamic_cast<GraphicsItem *>(item);
+    auto hovered_item = dynamic_cast<ObjectGraphicsItem *>(item);
 
     if (hovered_item &&
         hovered_item->flags() & QGraphicsItem::ItemIsSelectable) {
@@ -74,7 +76,7 @@ void FlowScene::setHoveredArea(const QPainterPath &path,
     case Qt::ReplaceSelection: {
       auto hover_items = [](auto &items, auto hovered) {
         for (auto item : items) {
-          if (auto hovered_item = dynamic_cast<GraphicsItem *>(item);
+          if (auto hovered_item = dynamic_cast<ObjectGraphicsItem *>(item);
               hovered_item)
             hovered_item->setHovered(hovered);
         }

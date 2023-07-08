@@ -270,12 +270,12 @@
 <context>
     <name>NodesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="110"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="109"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="112"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="111"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -503,8 +503,13 @@
 <context>
     <name>SelectionTool</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="17"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="20"/>
         <source>Selection Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="204"/>
+        <source>Move objects</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

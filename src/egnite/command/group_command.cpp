@@ -4,8 +4,10 @@
 
 namespace egnite {
 
-GroupCommand::GroupCommand(QString name, Command *parent)
-    : Command(std::move(name), parent) {}
+GroupCommand::GroupCommand(QString text, Command *parent)
+    : Command(QLatin1String("GroupCommand"), parent) {
+  setText(text);
+}
 
 GroupCommand::~GroupCommand() { qDeleteAll(m_commands); }
 
@@ -23,7 +25,6 @@ void GroupCommand::redo() {
 
 bool GroupCommand::canMergeWith(const Command &other) const {
   auto &group_command = dynamic_cast<const GroupCommand &>(other);
-  if (text() != group_command.text()) return false;
   if (getCommands().count() != group_command.getCommands().count())
     return false;
 

@@ -4,7 +4,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QGraphicsObject>
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/item/graphics_item.h"
+#include "flow_document/component/scene/item/object_graphics_item.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -12,7 +12,7 @@ namespace flow_document {
 class Flow;
 class LayerGraphicsItem;
 
-class FLOW_DOCUMENT_API FlowGraphicsItem : public GraphicsItem {
+class FLOW_DOCUMENT_API FlowGraphicsItem : public ObjectGraphicsItem {
   Q_OBJECT
 
  public:

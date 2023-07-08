@@ -15,13 +15,13 @@ class FlowDocument;
 
 class GraphicsItemFactory;
 
-class FLOW_DOCUMENT_API GraphicsItem : public QGraphicsObject {
+class FLOW_DOCUMENT_API ObjectGraphicsItem : public QGraphicsObject {
   Q_OBJECT
 
  public:
-  explicit GraphicsItem(Object* object, FlowDocument* document,
-                        QGraphicsItem* parent = nullptr);
-  ~GraphicsItem() override;
+  explicit ObjectGraphicsItem(Object* object, FlowDocument* document,
+                              QGraphicsItem* parent = nullptr);
+  ~ObjectGraphicsItem() override;
 
   void setHovered(bool hovered);
   [[nodiscard]] bool isHovered() const;

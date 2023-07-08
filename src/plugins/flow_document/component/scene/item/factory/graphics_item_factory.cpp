@@ -31,8 +31,9 @@ QString FlowItemFactory::getObjectClassName() const {
   return Flow::sGetClassName();
 }
 
-GraphicsItem* FlowItemFactory::create(Object* object, FlowDocument* document,
-                                      QGraphicsItem* parent) const {
+ObjectGraphicsItem* FlowItemFactory::create(Object* object,
+                                            FlowDocument* document,
+                                            QGraphicsItem* parent) const {
   return new FlowGraphicsItem(static_cast<Flow*>(object), document, parent);
 }
 
@@ -47,9 +48,9 @@ QString GroupLayerItemFactory::getObjectClassName() const {
   return GroupLayer::sGetClassName();
 }
 
-GraphicsItem* GroupLayerItemFactory::create(Object* object,
-                                            FlowDocument* document,
-                                            QGraphicsItem* parent) const {
+ObjectGraphicsItem* GroupLayerItemFactory::create(Object* object,
+                                                  FlowDocument* document,
+                                                  QGraphicsItem* parent) const {
   return new GroupLayerGraphicsItem(static_cast<GroupLayer*>(object), document,
                                     parent);
 }
@@ -65,9 +66,9 @@ QString NodeLayerItemFactory::getObjectClassName() const {
   return NodeLayer::sGetClassName();
 }
 
-GraphicsItem* NodeLayerItemFactory::create(Object* object,
-                                           FlowDocument* document,
-                                           QGraphicsItem* parent) const {
+ObjectGraphicsItem* NodeLayerItemFactory::create(Object* object,
+                                                 FlowDocument* document,
+                                                 QGraphicsItem* parent) const {
   return new NodeLayerGraphicsItem(static_cast<NodeLayer*>(object), document,
                                    parent);
 }
@@ -83,15 +84,16 @@ QString NodeItemFactory::getObjectClassName() const {
   return Node::sGetClassName();
 }
 
-GraphicsItem* NodeItemFactory::create(Object* object, FlowDocument* document,
-                                      QGraphicsItem* parent) const {
+ObjectGraphicsItem* NodeItemFactory::create(Object* object,
+                                            FlowDocument* document,
+                                            QGraphicsItem* parent) const {
   return new NodeGraphicsItem(static_cast<Node*>(object), document, parent);
 }
 
 /* ----------------------------------- Utils -------------------------------- */
 
-GraphicsItem* createGraphicsItem(Object* object, FlowDocument* document,
-                                 QGraphicsItem* parent) {
+ObjectGraphicsItem* createGraphicsItem(Object* object, FlowDocument* document,
+                                       QGraphicsItem* parent) {
   auto factory = getGraphicsItemFactoryByObject(object);
   if (!factory) return nullptr;
 

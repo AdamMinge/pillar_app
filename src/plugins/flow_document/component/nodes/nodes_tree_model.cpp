@@ -1,8 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/nodes/nodes_tree_model.h"
 
-#include "flow_document/command/change_layer.h"
-#include "flow_document/command/change_node.h"
+#include "flow_document/command/factory/object_command_factory.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
@@ -325,17 +324,7 @@ void NodesTreeModel::onEvent(const ChangeEvent &event) {
 
 QString NodesTreeModel::getName(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
-  const auto type = object->getClassName();
-
-  if (object->isClassOrChild<Layer>()) {
-    auto layer = static_cast<Layer *>(object);
-    return layer->getName();
-  } else if (object->isClassOrChild<Node>()) {
-    auto node = static_cast<Node *>(object);
-    return node->getName();
-  }
-
-  return QString{};
+  return object->getName();
 }
 
 QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
@@ -348,56 +337,29 @@ QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
 
 Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
-  const auto type = object->getClassName();
-  auto visible = true;
-
-  if (object->isClassOrChild<Layer>()) {
-    auto layer = static_cast<Layer *>(object);
-    visible = layer->isVisible();
-  } else if (object->isClassOrChild<Node>()) {
-    auto node = static_cast<Node *>(object);
-    visible = node->isVisible();
-  }
-
-  return visible ? Qt::Checked : Qt::Unchecked;
+  return object->isVisible() ? Qt::Checked : Qt::Unchecked;
 }
 
 void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
   const auto object = static_cast<Object *>(index.internalPointer());
-  const auto type = object->getClassName();
 
-  if (object->isClassOrChild<Layer>()) {
-    auto layer = static_cast<Layer *>(object);
+  auto command_factory = getObjectCommandFactoryByObject(object);
+  Q_ASSERT(command_factory);
 
-    if (layer->getName() != name) {
-      m_document->getUndoStack()->push(
-          new SetLayersName(m_document, {layer}, name));
-    }
-  } else if (object->isClassOrChild<Node>()) {
-    auto node = static_cast<Node *>(object);
-
-    if (node->getName() != name) {
-      m_document->getUndoStack()->push(
-          new SetNodesName(m_document, {node}, name));
-    }
-  }
+  m_document->getUndoStack()->push(
+      command_factory->createSetName({object}, m_document, name));
 }
 
 void NodesTreeModel::setVisible(const QModelIndex &index,
                                 Qt::CheckState state) {
   const auto object = static_cast<Object *>(index.internalPointer());
-  const auto type = object->getClassName();
   const auto visible = state == Qt::Checked;
 
-  if (object->isClassOrChild<Layer>()) {
-    auto layer = static_cast<Layer *>(object);
-    m_document->getUndoStack()->push(
-        new SetLayersVisible(m_document, {layer}, visible));
-  } else if (object->isClassOrChild<Node>()) {
-    auto node = static_cast<Node *>(object);
-    m_document->getUndoStack()->push(
-        new SetNodesVisible(m_document, {node}, visible));
-  }
+  auto command_factory = getObjectCommandFactoryByObject(object);
+  Q_ASSERT(command_factory);
+
+  m_document->getUndoStack()->push(
+      command_factory->createSetVisible({object}, m_document, visible));
 }
 
 /* ------------------------- OnlyNodesFilterProxyModel ---------------------- */

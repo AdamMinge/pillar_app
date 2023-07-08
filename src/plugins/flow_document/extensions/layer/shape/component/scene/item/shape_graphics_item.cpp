@@ -7,7 +7,7 @@
 ShapeGraphicsItem::ShapeGraphicsItem(Shape* shape,
                                      flow_document::FlowDocument* document,
                                      QGraphicsItem* parent)
-    : flow_document::GraphicsItem(shape, document, parent) {}
+    : flow_document::ObjectGraphicsItem(shape, document, parent) {}
 
 ShapeGraphicsItem::~ShapeGraphicsItem() = default;
 

@@ -1,6 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_document_plugin.h"
 
+#include "flow_document/command/factory/layer_command_factory.h"
+#include "flow_document/command/factory/node_command_factory.h"
 #include "flow_document/component/flow_dock_widget_factory.h"
 #include "flow_document/component/properties/factory/object_properties_factory.h"
 #include "flow_document/component/scene/item/factory/graphics_item_factory.h"
@@ -44,6 +46,9 @@ void FlowDocumentPlugin::init() {
 
   addObject(new GroupLayerFactory(this));
   addObject(new NodeLayerFactory(this));
+
+  addObject(new NodeCommandFactory(this));
+  addObject(new LayerCommandFactory(this));
 
   addObject(
       new egnite::BaseLanguageTranslator(translations::TranslationsPath, this));

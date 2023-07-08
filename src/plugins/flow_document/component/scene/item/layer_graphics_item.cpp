@@ -18,7 +18,7 @@ namespace flow_document {
 
 LayerGraphicsItem::LayerGraphicsItem(Layer* layer, FlowDocument* document,
                                      QGraphicsItem* parent)
-    : GraphicsItem(layer, document, parent) {}
+    : ObjectGraphicsItem(layer, document, parent) {}
 
 LayerGraphicsItem::~LayerGraphicsItem() = default;
 

@@ -46,12 +46,9 @@ const PinStyleViewer &getPinStyle(const NodeGraphicsItem &item) {
 
 NodeGraphicsItem::NodeGraphicsItem(Node *node, FlowDocument *document,
                                    QGraphicsItem *parent)
-    : GraphicsItem(node, document, parent),
+    : ObjectGraphicsItem(node, document, parent),
       m_node_painter(std::make_unique<NodePainter>(*this)),
-      m_node_geometry(std::make_unique<NodeGeometry>(*this)),
-      m_updating(false) {
-  setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
-}
+      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {}
 
 NodeGraphicsItem::~NodeGraphicsItem() = default;
 
@@ -86,8 +83,6 @@ void NodeGraphicsItem::onEvent(const ChangeEvent &event) {
 }
 
 void NodeGraphicsItem::onUpdate(const NodesChangeEvent &event) {
-  QScopedValueRollback<bool> updating(m_updating, true);
-
   const auto node = getNode();
   const auto properties = event.getProperties();
 
@@ -98,21 +93,6 @@ void NodeGraphicsItem::onUpdate(const NodesChangeEvent &event) {
   if (properties & Position) {
     setPos(node->getPosition());
   }
-}
-
-QVariant NodeGraphicsItem::itemChange(GraphicsItemChange change,
-                                      const QVariant &value) {
-  if (!m_updating) {
-    QScopedValueRollback<bool> updating(m_updating, true);
-
-    if (change == ItemPositionChange && scene()) {
-      auto new_pos = value.toPointF();
-      getDocument()->getUndoStack()->push(
-          new SetNodesPosition(getDocument(), {getNode()}, new_pos));
-    }
-  }
-
-  return QGraphicsItem::itemChange(change, value);
 }
 
 /* ----------------------------- NodeGeometry --------------------------- */
