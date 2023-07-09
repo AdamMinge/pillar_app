@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/item/layer_graphics_item.h"
+#include "flow_document/component/scene/item/layer_item.h"
 
-#include "flow_document/component/scene/item/factory/graphics_item_factory.h"
-#include "flow_document/component/scene/item/node_graphics_item.h"
+#include "flow_document/component/scene/item/factory/item_factory.h"
+#include "flow_document/component/scene/item/node_item.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
@@ -14,26 +14,24 @@
 
 namespace flow_document {
 
-/* ----------------------------- LayerGraphicsItem -------------------------- */
+/* --------------------------------- LayerItem ------------------------------ */
 
-LayerGraphicsItem::LayerGraphicsItem(Layer* layer, FlowDocument* document,
-                                     QGraphicsItem* parent)
-    : ObjectGraphicsItem(layer, document, parent) {}
+LayerItem::LayerItem(Layer* layer, FlowDocument* document,
+                     QGraphicsItem* parent)
+    : ObjectItem(layer, document, parent) {}
 
-LayerGraphicsItem::~LayerGraphicsItem() = default;
+LayerItem::~LayerItem() = default;
 
-Layer* LayerGraphicsItem::getLayer() const {
-  return static_cast<Layer*>(getObject());
-}
+Layer* LayerItem::getLayer() const { return static_cast<Layer*>(getObject()); }
 
-void LayerGraphicsItem::onEvent(const ChangeEvent& event) {
+void LayerItem::onEvent(const ChangeEvent& event) {
   if (event.getType() == LayersChangeEvent::type) {
     const auto& layer_event = static_cast<const LayersChangeEvent&>(event);
     if (layer_event.contains(getLayer())) onUpdate(layer_event);
   }
 }
 
-void LayerGraphicsItem::onUpdate(const LayersChangeEvent& event) {
+void LayerItem::onUpdate(const LayersChangeEvent& event) {
   const auto layer = getLayer();
   const auto properties = event.getProperties();
 
@@ -52,26 +50,25 @@ void LayerGraphicsItem::onUpdate(const LayersChangeEvent& event) {
   }
 }
 
-/* -------------------------- GroupLayerGraphicsItem ------------------------ */
+/* -------------------------- GroupLayerItem ------------------------ */
 
-GroupLayerGraphicsItem::GroupLayerGraphicsItem(GroupLayer* layer,
-                                               FlowDocument* document,
-                                               QGraphicsItem* parent)
-    : LayerGraphicsItem(layer, document, parent) {
+GroupLayerItem::GroupLayerItem(GroupLayer* layer, FlowDocument* document,
+                               QGraphicsItem* parent)
+    : LayerItem(layer, document, parent) {
   for (auto& layer : *getGroupLayer()) {
-    m_layer_items.append(createGraphicsItem<LayerGraphicsItem>(
-        layer.get(), getDocument(), this));
+    m_layer_items.append(
+        createItem<LayerItem>(layer.get(), getDocument(), this));
   }
 }
 
-GroupLayerGraphicsItem::~GroupLayerGraphicsItem() = default;
+GroupLayerItem::~GroupLayerItem() = default;
 
-GroupLayer* GroupLayerGraphicsItem::getGroupLayer() const {
+GroupLayer* GroupLayerItem::getGroupLayer() const {
   return static_cast<GroupLayer*>(getObject());
 }
 
-void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
-  LayerGraphicsItem::onEvent(event);
+void GroupLayerItem::onEvent(const ChangeEvent& event) {
+  LayerItem::onEvent(event);
 
   if (event.getType() == LayerEvent::type) {
     const auto& layer_event = static_cast<const LayerEvent&>(event);
@@ -82,9 +79,9 @@ void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
         if (getGroupLayer() == layer_event.getGroupLayer()) {
           auto layer = layer_event.getGroupLayer()->at(layer_event.getIndex());
 
-          m_layer_items.insert(layer_event.getIndex(),
-                               createGraphicsItem<LayerGraphicsItem>(
-                                   layer, getDocument(), this));
+          m_layer_items.insert(
+              layer_event.getIndex(),
+              createItem<LayerItem>(layer, getDocument(), this));
         }
 
         break;
@@ -102,26 +99,24 @@ void GroupLayerGraphicsItem::onEvent(const ChangeEvent& event) {
   }
 }
 
-/* --------------------------- NodeLayerGraphicsItem ------------------------ */
+/* --------------------------- NodeLayerItem ------------------------ */
 
-NodeLayerGraphicsItem::NodeLayerGraphicsItem(NodeLayer* layer,
-                                             FlowDocument* document,
-                                             QGraphicsItem* parent)
-    : LayerGraphicsItem(layer, document, parent) {
+NodeLayerItem::NodeLayerItem(NodeLayer* layer, FlowDocument* document,
+                             QGraphicsItem* parent)
+    : LayerItem(layer, document, parent) {
   for (auto& node : *getNodeLayer()) {
-    m_node_items.append(
-        createGraphicsItem<NodeGraphicsItem>(node.get(), getDocument(), this));
+    m_node_items.append(createItem<NodeItem>(node.get(), getDocument(), this));
   }
 }
 
-NodeLayerGraphicsItem::~NodeLayerGraphicsItem() = default;
+NodeLayerItem::~NodeLayerItem() = default;
 
-NodeLayer* NodeLayerGraphicsItem::getNodeLayer() const {
+NodeLayer* NodeLayerItem::getNodeLayer() const {
   return static_cast<NodeLayer*>(getObject());
 }
 
-void NodeLayerGraphicsItem::onEvent(const ChangeEvent& event) {
-  LayerGraphicsItem::onEvent(event);
+void NodeLayerItem::onEvent(const ChangeEvent& event) {
+  LayerItem::onEvent(event);
 
   if (event.getType() == NodeEvent::type) {
     const auto& node_event = static_cast<const NodeEvent&>(event);
@@ -132,9 +127,8 @@ void NodeLayerGraphicsItem::onEvent(const ChangeEvent& event) {
         if (getNodeLayer() == node_event.getNodeLayer()) {
           auto node = node_event.getNodeLayer()->at(node_event.getIndex());
 
-          m_node_items.insert(
-              node_event.getIndex(),
-              createGraphicsItem<NodeGraphicsItem>(node, getDocument(), this));
+          m_node_items.insert(node_event.getIndex(),
+                              createItem<NodeItem>(node, getDocument(), this));
         }
 
         break;

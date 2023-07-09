@@ -15,12 +15,11 @@ namespace flow_document {
 
 class FlowDocument;
 
-class AbstractTool;
-class AbstractToolFactory;
+class Tool;
+class ToolFactory;
 
-class FLOW_DOCUMENT_API ToolsBar
-    : public QToolBar,
-      public egnite::PluginListener<AbstractToolFactory> {
+class FLOW_DOCUMENT_API ToolsBar : public QToolBar,
+                                   public egnite::PluginListener<ToolFactory> {
   Q_OBJECT
 
  public:
@@ -30,22 +29,22 @@ class FLOW_DOCUMENT_API ToolsBar
   void setDocument(FlowDocument *document);
   [[nodiscard]] FlowDocument *getDocument() const;
 
-  [[nodiscard]] QAction *registerTool(AbstractTool *tool);
-  void unregisterTool(AbstractTool *tool);
+  [[nodiscard]] QAction *registerTool(Tool *tool);
+  void unregisterTool(Tool *tool);
 
-  bool selectTool(AbstractTool *tool);
-  [[nodiscard]] AbstractTool *getSelectedTool() const;
+  bool selectTool(Tool *tool);
+  [[nodiscard]] Tool *getSelectedTool() const;
 
-  QAction *findAction(AbstractTool *tool);
+  QAction *findAction(Tool *tool);
 
  Q_SIGNALS:
-  void toolSelected(AbstractTool *tool);
+  void toolSelected(Tool *tool);
 
  protected:
   void changeEvent(QEvent *event) override;
 
-  void addedObject(AbstractToolFactory *factory) override;
-  void removedObject(AbstractToolFactory *factory) override;
+  void addedObject(ToolFactory *factory) override;
+  void removedObject(ToolFactory *factory) override;
 
  private Q_SLOTS:
   void toolActivate(QAction *action);
@@ -61,9 +60,9 @@ class FLOW_DOCUMENT_API ToolsBar
  private:
   FlowDocument *m_document;
   QActionGroup *m_action_group;
-  AbstractTool *m_selected_tool;
+  Tool *m_selected_tool;
 
-  QHash<AbstractToolFactory *, AbstractTool *> m_tool_for_factory;
+  QHash<ToolFactory *, Tool *> m_tool_for_factory;
 };
 
 }  // namespace flow_document

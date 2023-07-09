@@ -4,11 +4,11 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
-#include <flow_document/component/scene/item/factory/graphics_item_factory.h>
+#include <flow_document/component/scene/item/factory/item_factory.h>
 #include <flow_document/flow/factory/layer_factory.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "component/scene/item/shape_graphics_item.h"
-#include "component/scene/item/shape_layer_graphics_item.h"
+#include "component/scene/item/shape_item.h"
+#include "component/scene/item/shape_layer_item.h"
 #include "export.h"
 #include "flow/shape.h"
 #include "flow/shape_layer.h"
@@ -28,7 +28,7 @@ class SHAPE_API ShapeLayerPlugin : public egnite::PluginInterface {
 
 DECLARE_LAYER_FACTORY(SHAPE_API, ShapeLayer)
 
-DECLARE_GRAPHICS_ITEM_FACTORY(SHAPE_API, ShapeLayerGraphicsItem, ShapeLayer)
-DECLARE_GRAPHICS_ITEM_FACTORY(SHAPE_API, ShapeGraphicsItem, Shape)
+DECLARE_GRAPHICS_ITEM_FACTORY(SHAPE_API, ShapeLayerItem, ShapeLayer)
+DECLARE_GRAPHICS_ITEM_FACTORY(SHAPE_API, ShapeItem, Shape)
 
 #endif  // SHAPE_LAYER_PLUGIN_H

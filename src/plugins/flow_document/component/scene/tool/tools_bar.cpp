@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/tools_bar.h"
 
-#include "flow_document/component/scene/tool/abstract_tool.h"
-#include "flow_document/component/scene/tool/factory/abstract_tool_factory.h"
+#include "flow_document/component/scene/tool/factory/tool_factory.h"
+#include "flow_document/component/scene/tool/tool.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -29,19 +29,19 @@ void ToolsBar::setDocument(FlowDocument *document) {
 
   auto actions = m_action_group->actions();
   for (auto action : actions) {
-    auto tool = action->data().value<AbstractTool *>();
+    auto tool = action->data().value<Tool *>();
     tool->setDocument(m_document);
   }
 }
 
 FlowDocument *ToolsBar::getDocument() const { return m_document; }
 
-QAction *ToolsBar::registerTool(AbstractTool *tool) {
+QAction *ToolsBar::registerTool(Tool *tool) {
   tool->setDocument(m_document);
 
   auto action = new QAction(tool->getIcon(), tool->getName(), this);
   action->setShortcut(tool->getShortcut());
-  action->setData(QVariant::fromValue<AbstractTool *>(tool));
+  action->setData(QVariant::fromValue<Tool *>(tool));
   action->setCheckable(true);
   action->setText(tool->getName());
   action->setEnabled(tool->isEnabled());
@@ -49,15 +49,13 @@ QAction *ToolsBar::registerTool(AbstractTool *tool) {
 
   m_action_group->addAction(action);
 
-  connect(tool, &AbstractTool::enabledChanged, this,
-          &ToolsBar::toolEnabledChanged);
-  connect(tool, &AbstractTool::visibleChanged, this,
-          &ToolsBar::toolVisibleChanged);
+  connect(tool, &Tool::enabledChanged, this, &ToolsBar::toolEnabledChanged);
+  connect(tool, &Tool::visibleChanged, this, &ToolsBar::toolVisibleChanged);
 
   return action;
 }
 
-void ToolsBar::unregisterTool(AbstractTool *tool) {
+void ToolsBar::unregisterTool(Tool *tool) {
   auto action = findAction(tool);
   Q_ASSERT(action);
 
@@ -67,7 +65,7 @@ void ToolsBar::unregisterTool(AbstractTool *tool) {
   if (m_selected_tool == tool) m_selected_tool = nullptr;
 }
 
-bool ToolsBar::selectTool(AbstractTool *tool) {
+bool ToolsBar::selectTool(Tool *tool) {
   if (m_selected_tool == tool) return true;
   if (tool && !tool->isEnabled()) return false;
 
@@ -79,12 +77,12 @@ bool ToolsBar::selectTool(AbstractTool *tool) {
   return false;
 }
 
-AbstractTool *ToolsBar::getSelectedTool() const { return m_selected_tool; }
+Tool *ToolsBar::getSelectedTool() const { return m_selected_tool; }
 
-QAction *ToolsBar::findAction(AbstractTool *tool) {
+QAction *ToolsBar::findAction(Tool *tool) {
   auto actions = m_action_group->actions();
   for (auto action : actions) {
-    auto action_tool = action->data().value<AbstractTool *>();
+    auto action_tool = action->data().value<Tool *>();
     if (tool == action_tool) return action;
   }
 
@@ -103,7 +101,7 @@ void ToolsBar::changeEvent(QEvent *event) {
   }
 }
 
-void ToolsBar::addedObject(AbstractToolFactory *factory) {
+void ToolsBar::addedObject(ToolFactory *factory) {
   auto tool = factory->create(this);
   m_tool_for_factory[factory] = tool;
   addAction(registerTool(tool));
@@ -111,7 +109,7 @@ void ToolsBar::addedObject(AbstractToolFactory *factory) {
   if (!getSelectedTool()) selectTool(tool);
 }
 
-void ToolsBar::removedObject(AbstractToolFactory *factory) {
+void ToolsBar::removedObject(ToolFactory *factory) {
   if (m_tool_for_factory.contains(factory)) {
     auto tool = m_tool_for_factory[factory];
     m_tool_for_factory.remove(factory);
@@ -122,7 +120,7 @@ void ToolsBar::removedObject(AbstractToolFactory *factory) {
 }
 
 void ToolsBar::toolActivate(QAction *action) {
-  auto tool = action->data().value<AbstractTool *>();
+  auto tool = action->data().value<Tool *>();
   Q_ASSERT(tool);
 
   if (m_selected_tool == tool) return;

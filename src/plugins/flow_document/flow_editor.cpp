@@ -5,7 +5,7 @@
 #include "flow_document/component/flow_dock_widget_factory.h"
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/flow_view.h"
-#include "flow_document/component/scene/tool/abstract_tool.h"
+#include "flow_document/component/scene/tool/tool.h"
 #include "flow_document/component/scene/tool/tools_bar.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/flow_document_action_handler.h"
@@ -159,7 +159,7 @@ void FlowEditor::removedObject(FlowDockWidgetFactory *factory) {
   }
 }
 
-void FlowEditor::toolSelected(AbstractTool *tool) {
+void FlowEditor::toolSelected(Tool *tool) {
   auto flow_view = m_view_for_document[m_current_document];
   if (!flow_view) return;
 
@@ -167,7 +167,7 @@ void FlowEditor::toolSelected(AbstractTool *tool) {
   auto prev_tool = flow_scene->getTool();
 
   if (prev_tool) {
-    disconnect(prev_tool, &AbstractTool::cursorChanged, this,
+    disconnect(prev_tool, &Tool::cursorChanged, this,
                &FlowEditor::cursorChanged);
   }
 
@@ -175,8 +175,7 @@ void FlowEditor::toolSelected(AbstractTool *tool) {
   flow_view->viewport()->setCursor(tool ? tool->getCursor() : Qt::ArrowCursor);
 
   if (tool) {
-    connect(tool, &AbstractTool::cursorChanged, this,
-            &FlowEditor::cursorChanged);
+    connect(tool, &Tool::cursorChanged, this, &FlowEditor::cursorChanged);
   }
 }
 

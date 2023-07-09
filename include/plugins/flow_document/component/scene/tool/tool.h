@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_ABSTRACT_TOOL_H
-#define FLOW_DOCUMENT_ABSTRACT_TOOL_H
+#ifndef FLOW_DOCUMENT_TOOL_H
+#define FLOW_DOCUMENT_TOOL_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAction>
@@ -20,13 +20,13 @@ class FlowDocument;
 class FlowScene;
 class FlowView;
 
-class FLOW_DOCUMENT_API AbstractTool : public QObject {
+class FLOW_DOCUMENT_API Tool : public QObject {
   Q_OBJECT
 
  public:
-  explicit AbstractTool(QString name, QIcon icon, const QKeySequence &shortcut,
-                        QObject *parent = nullptr);
-  ~AbstractTool() override;
+  explicit Tool(QString name, QIcon icon, const QKeySequence &shortcut,
+                QObject *parent = nullptr);
+  ~Tool() override;
 
   void setDocument(FlowDocument *document);
   [[nodiscard]] FlowDocument *getDocument() const;
@@ -77,4 +77,4 @@ class FLOW_DOCUMENT_API AbstractTool : public QObject {
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_ABSTRACT_TOOL_H
+#endif  // FLOW_DOCUMENT_TOOL_H

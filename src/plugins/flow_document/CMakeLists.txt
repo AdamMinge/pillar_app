@@ -64,20 +64,21 @@ set(sources
     ${source_root}/component/layers/layers_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
-    ${source_root}/component/scene/item/object_graphics_item.cpp
-    ${source_root}/component/scene/item/flow_graphics_item.cpp
-    ${source_root}/component/scene/item/layer_graphics_item.cpp
-    ${source_root}/component/scene/item/node_graphics_item.cpp
+    ${source_root}/component/scene/item/object_item.cpp
+    ${source_root}/component/scene/item/flow_item.cpp
+    ${source_root}/component/scene/item/layer_item.cpp
+    ${source_root}/component/scene/item/node_item.cpp
     ${source_root}/component/scene/item/selection_rectangle.cpp
-    ${source_root}/component/scene/item/factory/graphics_item_factory.cpp
+    ${source_root}/component/scene/item/object_selection_item.cpp
+    ${source_root}/component/scene/item/factory/item_factory.cpp
     ${source_root}/component/scene/style/style_manager.cpp
     ${source_root}/component/scene/style/style_writer.cpp
     ${source_root}/component/scene/style/style_reader.cpp
     ${source_root}/component/scene/style/style.cpp
     ${source_root}/component/scene/tool/tools_bar.cpp
-    ${source_root}/component/scene/tool/abstract_tool.cpp
+    ${source_root}/component/scene/tool/tool.cpp
     ${source_root}/component/scene/tool/selection_tool.cpp
-    ${source_root}/component/scene/tool/factory/abstract_tool_factory.cpp)
+    ${source_root}/component/scene/tool/factory/tool_factory.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -138,20 +139,21 @@ set(includes
     ${include_root}/component/layers/layers_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
-    ${include_root}/component/scene/item/object_graphics_item.h
-    ${include_root}/component/scene/item/flow_graphics_item.h
-    ${include_root}/component/scene/item/layer_graphics_item.h
-    ${include_root}/component/scene/item/node_graphics_item.h
+    ${include_root}/component/scene/item/object_item.h
+    ${include_root}/component/scene/item/flow_item.h
+    ${include_root}/component/scene/item/layer_item.h
+    ${include_root}/component/scene/item/node_item.h
     ${include_root}/component/scene/item/selection_rectangle.h
-    ${include_root}/component/scene/item/factory/graphics_item_factory.h
+    ${include_root}/component/scene/item/object_selection_item.h
+    ${include_root}/component/scene/item/factory/item_factory.h
     ${include_root}/component/scene/style/style_manager.h
     ${include_root}/component/scene/style/style_writer.h
     ${include_root}/component/scene/style/style_reader.h
     ${include_root}/component/scene/style/style.h
     ${include_root}/component/scene/tool/tools_bar.h
-    ${include_root}/component/scene/tool/abstract_tool.h
+    ${include_root}/component/scene/tool/tool.h
     ${include_root}/component/scene/tool/selection_tool.h
-    ${include_root}/component/scene/tool/factory/abstract_tool_factory.h)
+    ${include_root}/component/scene/tool/factory/tool_factory.h)
 
 set(resources ${resources_root}/flow_document.qrc)
 

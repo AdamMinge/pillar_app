@@ -12,11 +12,11 @@
 
 namespace flow_document {
 
-class ObjectGraphicsItem;
+class ObjectItem;
 class FlowDocument;
-class AbstractTool;
+class Tool;
 
-class FlowGraphicsItem;
+class FlowItem;
 
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   Q_OBJECT
@@ -28,10 +28,10 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   void setDocument(FlowDocument *flow_document);
   [[nodiscard]] FlowDocument *getDocument() const;
 
-  void setTool(AbstractTool *tool);
-  [[nodiscard]] AbstractTool *getTool() const;
+  void setTool(Tool *tool);
+  [[nodiscard]] Tool *getTool() const;
 
-  [[nodiscard]] QList<ObjectGraphicsItem *> hoveredItems();
+  [[nodiscard]] QList<ObjectItem *> hoveredItems();
   [[nodiscard]] QPainterPath hoveredArea() const;
   void setHoveredArea(
       const QPainterPath &path,
@@ -55,10 +55,10 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
 
  private:
   FlowDocument *m_flow_document;
-  AbstractTool *m_tool;
+  Tool *m_tool;
 
   QPainterPath m_hovered_area;
-  QList<ObjectGraphicsItem *> m_hovered_items;
+  QList<ObjectItem *> m_hovered_items;
   const int m_scene_max_size;
 };
 

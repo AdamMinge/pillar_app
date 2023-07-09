@@ -9,6 +9,6 @@ ShapeLayerPlugin::~ShapeLayerPlugin() = default;
 void ShapeLayerPlugin::init() {
   addObject(new ShapeLayerFactory(tr("Shape Layer"), tr("Shape"), this));
 
-  addObject(new ShapeLayerGraphicsItemFactory(this));
-  addObject(new ShapeGraphicsItemFactory(this));
+  addObject(new ShapeLayerItemFactory(this));
+  addObject(new ShapeItemFactory(this));
 }

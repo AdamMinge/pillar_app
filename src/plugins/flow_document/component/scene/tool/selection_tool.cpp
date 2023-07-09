@@ -3,7 +3,7 @@
 
 #include "flow_document/command/factory/object_command_factory.h"
 #include "flow_document/component/scene/flow_scene.h"
-#include "flow_document/component/scene/item/object_graphics_item.h"
+#include "flow_document/component/scene/item/object_item.h"
 #include "flow_document/component/scene/item/selection_rectangle.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
@@ -17,8 +17,8 @@
 namespace flow_document {
 
 SelectionTool::SelectionTool(QObject *parent)
-    : AbstractTool(tr("Selection Tool"), QIcon(icons::x32::SelectionTool),
-                   QKeySequence(Qt::Key_S), parent),
+    : Tool(tr("Selection Tool"), QIcon(icons::x32::SelectionTool),
+           QKeySequence(Qt::Key_S), parent),
       m_action(Action::NoAction),
       m_mouse_clicked_button(Qt::MouseButton{}),
       m_selection_rect(std::make_unique<SelectionRectangle>()),
@@ -26,11 +26,9 @@ SelectionTool::SelectionTool(QObject *parent)
 
 SelectionTool::~SelectionTool() = default;
 
-void SelectionTool::activate(FlowScene *scene) {
-  AbstractTool::activate(scene);
-}
+void SelectionTool::activate(FlowScene *scene) { Tool::activate(scene); }
 
-void SelectionTool::deactivate() { AbstractTool::deactivate(); }
+void SelectionTool::deactivate() { Tool::deactivate(); }
 
 void SelectionTool::keyPressEvent(QKeyEvent *event) {
   m_modifiers = event->modifiers();
@@ -43,7 +41,7 @@ void SelectionTool::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void SelectionTool::mouseMoved(QGraphicsSceneMouseEvent *event) {
-  AbstractTool::mouseMoved(event);
+  Tool::mouseMoved(event);
 
   const auto mouse_pos = event->scenePos();
   updateHover(mouse_pos);
@@ -82,7 +80,7 @@ void SelectionTool::mouseMoved(QGraphicsSceneMouseEvent *event) {
 }
 
 void SelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
-  AbstractTool::mousePressed(event);
+  Tool::mousePressed(event);
 
   if (m_action != Action::NoAction) return;
 
@@ -94,7 +92,7 @@ void SelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
       if (getScene()) {
         auto item = getScene()->itemAt(m_mouse_clicked_pos, QTransform{});
 
-        auto flow_item = dynamic_cast<ObjectGraphicsItem *>(item);
+        auto flow_item = dynamic_cast<ObjectItem *>(item);
         auto is_selectable =
             flow_item && flow_item->flags() & QGraphicsItem::ItemIsSelectable;
 
@@ -110,7 +108,7 @@ void SelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
 }
 
 void SelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
-  AbstractTool::mouseReleased(event);
+  Tool::mouseReleased(event);
 
   switch (m_action) {
     case Action::ItemMoving:
@@ -161,7 +159,7 @@ void SelectionTool::startItemMoving() {
     }
 
     for (auto item : getScene()->selectedItems()) {
-      if (auto flow_item = dynamic_cast<ObjectGraphicsItem *>(item); flow_item)
+      if (auto flow_item = dynamic_cast<ObjectItem *>(item); flow_item)
         m_moving_items.append(std::make_pair(flow_item, flow_item->pos()));
     }
   }

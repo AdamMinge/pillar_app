@@ -1,8 +1,8 @@
-#ifndef FLOW_DOCUMENT_NODE_GRAPHICS_ITEM_H
-#define FLOW_DOCUMENT_NODE_GRAPHICS_ITEM_H
+#ifndef FLOW_DOCUMENT_NODE_ITEM_H
+#define FLOW_DOCUMENT_NODE_ITEM_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/item/object_graphics_item.h"
+#include "flow_document/component/scene/item/object_item.h"
 #include "flow_document/export.h"
 #include "flow_document/flow/pin.h"
 /* -------------------------------------------------------------------------- */
@@ -16,15 +16,14 @@ class NodePainter;
 class NodeGeometry;
 class Node;
 
-/* --------------------------- NodeGraphicsItem ------------------------- */
+/* ------------------------------- NodeItem ----------------------------- */
 
-class FLOW_DOCUMENT_API NodeGraphicsItem : public ObjectGraphicsItem {
+class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
   Q_OBJECT
 
  public:
-  explicit NodeGraphicsItem(Node *node, FlowDocument *document,
-                            QGraphicsItem *parent);
-  ~NodeGraphicsItem() override;
+  explicit NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent);
+  ~NodeItem() override;
 
   [[nodiscard]] Node *getNode() const;
 
@@ -50,7 +49,7 @@ class FLOW_DOCUMENT_API NodeGeometry {
   using PinToPos = QMap<std::pair<Pin::Type, int>, QPointF>;
 
  public:
-  explicit NodeGeometry(const NodeGraphicsItem &node_item);
+  explicit NodeGeometry(const NodeItem &node_item);
   virtual ~NodeGeometry();
 
   void recalculate();
@@ -72,7 +71,7 @@ class FLOW_DOCUMENT_API NodeGeometry {
   [[nodiscard]] QPointF calculateWidgetPosition() const;
 
  private:
-  const NodeGraphicsItem &m_node_item;
+  const NodeItem &m_node_item;
   QSizeF m_size;
   QPointF m_label_position;
   PinToPos m_pin_positions;
@@ -83,7 +82,7 @@ class FLOW_DOCUMENT_API NodeGeometry {
 
 class FLOW_DOCUMENT_API NodePainter {
  public:
-  explicit NodePainter(const NodeGraphicsItem &node_item);
+  explicit NodePainter(const NodeItem &node_item);
   virtual ~NodePainter();
 
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option);
@@ -97,9 +96,9 @@ class FLOW_DOCUMENT_API NodePainter {
                           const QStyleOptionGraphicsItem *option);
 
  private:
-  const NodeGraphicsItem &m_node_item;
+  const NodeItem &m_node_item;
 };
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_NODE_GRAPHICS_ITEM_H
+#endif  // FLOW_DOCUMENT_NODE_ITEM_H

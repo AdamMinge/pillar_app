@@ -15,8 +15,8 @@ set(sources
     ${source_root}/flow/shape_layer.cpp
     ${source_root}/flow/shape.cpp
     ${source_root}/flow/factory/shape_factory.cpp
-    ${source_root}/component/scene/item/shape_layer_graphics_item.cpp
-    ${source_root}/component/scene/item/shape_graphics_item.cpp)
+    ${source_root}/component/scene/item/shape_layer_item.cpp
+    ${source_root}/component/scene/item/shape_item.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -24,8 +24,8 @@ set(includes
     ${include_root}/flow/shape_layer.h
     ${include_root}/flow/shape.h
     ${include_root}/flow/factory/shape_factory.h
-    ${include_root}/component/scene/item/shape_layer_graphics_item.h
-    ${include_root}/component/scene/item/shape_graphics_item.h)
+    ${include_root}/component/scene/item/shape_layer_item.h
+    ${include_root}/component/scene/item/shape_item.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

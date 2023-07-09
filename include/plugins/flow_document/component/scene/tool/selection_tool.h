@@ -2,16 +2,16 @@
 #define FLOW_DOCUMENT_SELECTION_TOOL_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/tool/abstract_tool.h"
+#include "flow_document/component/scene/tool/tool.h"
 #include "flow_document/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
 class SelectionRectangle;
-class ObjectGraphicsItem;
+class ObjectItem;
 
-class FLOW_DOCUMENT_API SelectionTool : public AbstractTool {
+class FLOW_DOCUMENT_API SelectionTool : public Tool {
   Q_OBJECT
 
  public:
@@ -51,10 +51,10 @@ class FLOW_DOCUMENT_API SelectionTool : public AbstractTool {
   QPointF m_mouse_clicked_pos;
   Qt::MouseButton m_mouse_clicked_button;
   Qt::KeyboardModifiers m_modifiers;
-  ObjectGraphicsItem *m_clicked_item;
+  ObjectItem *m_clicked_item;
 
   std::unique_ptr<SelectionRectangle> m_selection_rect;
-  QList<std::pair<ObjectGraphicsItem *, QPointF>> m_moving_items;
+  QList<std::pair<ObjectItem *, QPointF>> m_moving_items;
 };
 
 enum class SelectionTool::Action { NoAction, ItemMoving, ItemSelection };

@@ -508,7 +508,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="204"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="202"/>
         <source>Move objects</source>
         <translation type="unfinished"></translation>
     </message>
@@ -529,7 +529,7 @@
 <context>
     <name>ToolsBar</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="156"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/tools_bar.cpp" line="154"/>
         <source>ToolsBar</source>
         <translation type="unfinished"></translation>
     </message>

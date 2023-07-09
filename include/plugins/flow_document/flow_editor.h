@@ -22,7 +22,7 @@ namespace flow_document {
 class FlowDocument;
 class FlowView;
 
-class AbstractTool;
+class Tool;
 class ToolsBar;
 
 class FactoriesDock;
@@ -73,7 +73,7 @@ class FLOW_DOCUMENT_API FlowEditor
   void removedObject(FlowDockWidgetFactory *factory) override;
 
  private Q_SLOTS:
-  void toolSelected(AbstractTool *tool);
+  void toolSelected(Tool *tool);
   void cursorChanged(const QCursor &cursor);
 
  private:

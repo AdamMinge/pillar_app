@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/item/node_graphics_item.h"
+#include "flow_document/component/scene/item/node_item.h"
 
 #include "flow_document/command/change_node.h"
 #include "flow_document/component/scene/style/style.h"
@@ -18,7 +18,9 @@ namespace flow_document {
 
 namespace {
 
-ObjectStyle::States getStyleState(const NodeGraphicsItem &item) {
+/* -------------------------------- Utils ------------------------------- */
+
+ObjectStyle::States getStyleState(const NodeItem &item) {
   auto state = ObjectStyle::States{ObjectStyle::State::Normal};
   if (item.isSelected()) state |= ObjectStyle::State::Selected;
   if (item.isHovered()) state |= ObjectStyle::State::Hovered;
@@ -26,14 +28,14 @@ ObjectStyle::States getStyleState(const NodeGraphicsItem &item) {
   return state;
 }
 
-const NodeStyleViewer &getNodeStyle(const NodeGraphicsItem &item) {
+const NodeStyleViewer &getNodeStyle(const NodeItem &item) {
   const auto state = getStyleState(item);
   const auto &node_style =
       StyleManager::getInstance().getStyle().getNodeStyleViewer(state);
   return node_style;
 }
 
-const PinStyleViewer &getPinStyle(const NodeGraphicsItem &item) {
+const PinStyleViewer &getPinStyle(const NodeItem &item) {
   const auto state = getStyleState(item);
   const auto &pin_style =
       StyleManager::getInstance().getStyle().getPinStyleViewer(state);
@@ -42,47 +44,41 @@ const PinStyleViewer &getPinStyle(const NodeGraphicsItem &item) {
 
 }  // namespace
 
-/* --------------------------- NodeGraphicsItem ------------------------- */
+/* ------------------------------- NodeItem ----------------------------- */
 
-NodeGraphicsItem::NodeGraphicsItem(Node *node, FlowDocument *document,
-                                   QGraphicsItem *parent)
-    : ObjectGraphicsItem(node, document, parent),
+NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
+    : ObjectItem(node, document, parent),
       m_node_painter(std::make_unique<NodePainter>(*this)),
       m_node_geometry(std::make_unique<NodeGeometry>(*this)) {}
 
-NodeGraphicsItem::~NodeGraphicsItem() = default;
+NodeItem::~NodeItem() = default;
 
-Node *NodeGraphicsItem::getNode() const {
-  return static_cast<Node *>(getObject());
-}
+Node *NodeItem::getNode() const { return static_cast<Node *>(getObject()); }
 
-const NodePainter *NodeGraphicsItem::getPainter() const {
-  return m_node_painter.get();
-}
+const NodePainter *NodeItem::getPainter() const { return m_node_painter.get(); }
 
-const NodeGeometry *NodeGraphicsItem::getGeometry() const {
+const NodeGeometry *NodeItem::getGeometry() const {
   return m_node_geometry.get();
 }
 
-QRectF NodeGraphicsItem::boundingRect() const {
+QRectF NodeItem::boundingRect() const {
   return m_node_geometry->getBoundingRect();
 }
 
-void NodeGraphicsItem::paint(QPainter *painter,
-                             const QStyleOptionGraphicsItem *option,
-                             QWidget *widget) {
+void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget) {
   painter->setClipRect(option->exposedRect);
   m_node_painter->paint(painter, option);
 }
 
-void NodeGraphicsItem::onEvent(const ChangeEvent &event) {
+void NodeItem::onEvent(const ChangeEvent &event) {
   if (event.getType() == NodesChangeEvent::type) {
     const auto &node_event = static_cast<const NodesChangeEvent &>(event);
     if (node_event.contains(getNode())) onUpdate(node_event);
   }
 }
 
-void NodeGraphicsItem::onUpdate(const NodesChangeEvent &event) {
+void NodeItem::onUpdate(const NodesChangeEvent &event) {
   const auto node = getNode();
   const auto properties = event.getProperties();
 
@@ -97,8 +93,7 @@ void NodeGraphicsItem::onUpdate(const NodesChangeEvent &event) {
 
 /* ----------------------------- NodeGeometry --------------------------- */
 
-NodeGeometry::NodeGeometry(const NodeGraphicsItem &node_item)
-    : m_node_item(node_item) {
+NodeGeometry::NodeGeometry(const NodeItem &node_item) : m_node_item(node_item) {
   recalculate();
 }
 
@@ -234,8 +229,7 @@ QPointF NodeGeometry::calculateWidgetPosition() const { return QPointF{}; }
 
 /* ------------------------------ NodePainter --------------------------- */
 
-NodePainter::NodePainter(const NodeGraphicsItem &node_item)
-    : m_node_item(node_item) {}
+NodePainter::NodePainter(const NodeItem &node_item) : m_node_item(node_item) {}
 
 NodePainter::~NodePainter() = default;
 

@@ -46,21 +46,21 @@ const QList<Node *> &FlowDocument::getSelectedNodes() const {
 }
 
 void FlowDocument::setCurrentLayer(Layer *layer) {
-  if (m_current_layer == layer) return;
+  if (m_current_layer != layer) {
+    m_current_layer = layer;
+    Q_EMIT currentLayerChanged(m_current_layer);
+  }
 
-  m_current_layer = layer;
-  Q_EMIT currentLayerChanged(m_current_layer);
-
-  setCurrentObject(layer);  // TO REMOVE ?
+  setCurrentObject(layer);
 }
 
 void FlowDocument::setCurrentNode(Node *node) {
-  if (m_current_node == node) return;
+  if (m_current_node != node) {
+    m_current_node = node;
+    Q_EMIT currentNodeChanged(m_current_node);
+  }
 
-  m_current_node = node;
-  Q_EMIT currentNodeChanged(m_current_node);
-
-  setCurrentObject(node);  // TO REMOVE ?
+  setCurrentObject(node);
 }
 
 void FlowDocument::setCurrentObject(Object *object) {
@@ -71,13 +71,13 @@ void FlowDocument::setCurrentObject(Object *object) {
 }
 
 void FlowDocument::switchCurrentLayer(Layer *layer) {
-  setCurrentLayer(layer);
   if (layer && !m_selected_layers.contains(layer)) setSelectedLayers({layer});
+  setCurrentLayer(layer);
 }
 
 void FlowDocument::switchCurrentNode(Node *node) {
-  setCurrentNode(node);
   if (node && !m_selected_nodes.contains(node)) setSelectedNodes({node});
+  setCurrentNode(node);
 }
 
 void FlowDocument::setSelectedLayers(const QList<Layer *> &layers) {
@@ -104,7 +104,7 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   }
 
   if (node_layer) {
-    // switchCurrentLayer(node_layer); / /TO FIX
+    switchCurrentLayer(node_layer);
   }
 }
 

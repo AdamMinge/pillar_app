@@ -1,25 +1,25 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "flow_document/component/scene/tool/factory/abstract_tool_factory.h"
+#include "flow_document/component/scene/tool/factory/tool_factory.h"
 
 #include "flow_document/component/scene/tool/selection_tool.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
 
-/* ---------------------------- AbstractToolFactory ------------------------- */
+/* -------------------------------- ToolFactory ----------------------------- */
 
-AbstractToolFactory::AbstractToolFactory(QObject* parent) : QObject(parent) {}
+ToolFactory::ToolFactory(QObject* parent) : QObject(parent) {}
 
-AbstractToolFactory::~AbstractToolFactory() = default;
+ToolFactory::~ToolFactory() = default;
 
 /* ---------------------------- SelectionToolFactory ------------------------ */
 
 SelectionToolFactory::SelectionToolFactory(QObject* parent)
-    : AbstractToolFactory(parent) {}
+    : ToolFactory(parent) {}
 
 SelectionToolFactory::~SelectionToolFactory() = default;
 
-AbstractTool* SelectionToolFactory::create(QObject* parent) const {
+Tool* SelectionToolFactory::create(QObject* parent) const {
   return new SelectionTool(parent);
 }
 
