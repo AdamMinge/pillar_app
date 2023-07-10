@@ -109,7 +109,8 @@
         "qjsonvalue": "cpp",
         "qstandarditemmodel": "cpp",
         "qgraphicsobject": "cpp",
-        "qlist": "cpp"
+        "qlist": "cpp",
+        "qpainter": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -29,6 +29,8 @@ namespace flow_document {
 
 namespace {
 
+/* ----------------------------------- Utils -------------------------------- */
+
 [[nodiscard]] bool moreVisible(const QList<Layer*> layers) {
   auto count_of_visible =
       std::count_if(layers.cbegin(), layers.cend(),
@@ -72,6 +74,8 @@ namespace {
 
 }  // namespace
 
+/* -------------------------- FlowDocumentActionHandler --------------------- */
+
 std::unique_ptr<FlowDocumentActionHandler>
     FlowDocumentActionHandler::m_instance =
         std::unique_ptr<FlowDocumentActionHandler>(nullptr);
@@ -102,6 +106,10 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
                &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::selectedNodesChanged, this,
                &FlowDocumentActionHandler::updateActions);
+    disconnect(m_document, &FlowDocument::currentLayerChanged, this,
+               &FlowDocumentActionHandler::updateActions);
+    disconnect(m_document, &FlowDocument::currentNodeChanged, this,
+               &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::event, this,
                &FlowDocumentActionHandler::onEvent);
   }
@@ -112,6 +120,10 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
     connect(m_document, &FlowDocument::selectedLayersChanged, this,
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::selectedNodesChanged, this,
+            &FlowDocumentActionHandler::updateActions);
+    connect(m_document, &FlowDocument::currentLayerChanged, this,
+            &FlowDocumentActionHandler::updateActions);
+    connect(m_document, &FlowDocument::currentNodeChanged, this,
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::event, this,
             &FlowDocumentActionHandler::onEvent);
@@ -170,6 +182,36 @@ QAction* FlowDocumentActionHandler::getMoveDownNodeAction() const {
 
 QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
   return m_duplicate_node;
+}
+
+QToolButton* FlowDocumentActionHandler::createAddLayerButton() const {
+  auto new_layer_button = new QToolButton();
+  new_layer_button->setPopupMode(QToolButton::InstantPopup);
+  new_layer_button->setMenu(getAddLayerMenu());
+  new_layer_button->setIcon(getAddLayerMenu()->icon());
+
+  connect(this, &FlowDocumentActionHandler::onUpdateActions,
+          [new_layer_button]() {
+            auto menu = new_layer_button->menu();
+            new_layer_button->setEnabled(menu->isEnabled());
+          });
+
+  return new_layer_button;
+}
+
+QToolButton* FlowDocumentActionHandler::createAddNodeButton() const {
+  auto new_node_button = new QToolButton();
+  new_node_button->setPopupMode(QToolButton::InstantPopup);
+  new_node_button->setMenu(getAddNodeMenu());
+  new_node_button->setIcon(getAddNodeMenu()->icon());
+
+  connect(this, &FlowDocumentActionHandler::onUpdateActions,
+          [new_node_button]() {
+            auto menu = new_node_button->menu();
+            new_node_button->setEnabled(menu->isEnabled());
+          });
+
+  return new_node_button;
 }
 
 void FlowDocumentActionHandler::addedObject(ObjectFactory* factory) {
@@ -391,11 +433,13 @@ void FlowDocumentActionHandler::updateActions() {
   auto any_selected_nodes = false;
   auto can_raise_layers = false;
   auto can_lower_layers = false;
+  auto can_add_node = false;
 
   if (has_document) {
     const auto& selected_layers = m_document->getSelectedLayers();
     const auto& selected_nodes = m_document->getSelectedNodes();
     const auto& not_selected_layers = getAllLayers(m_document, selected_layers);
+    const auto current_layer = m_document->getCurrentLayer();
 
     any_selected_layers = selected_layers.size() > 0;
     any_selected_nodes = selected_nodes.size() > 0;
@@ -403,6 +447,8 @@ void FlowDocumentActionHandler::updateActions() {
 
     can_raise_layers = canRaiseLayers(m_document, selected_layers);
     can_lower_layers = canLowerLayers(m_document, selected_layers);
+
+    can_add_node = current_layer && current_layer->isClassOrChild<NodeLayer>();
   }
 
   m_remove_layer->setEnabled(any_selected_layers);
@@ -414,10 +460,13 @@ void FlowDocumentActionHandler::updateActions() {
   m_lock_unlock_other_layers->setEnabled(any_selected_layers &&
                                          any_not_selected_layers);
 
+  m_add_node_menu->setEnabled(can_add_node);
   m_remove_node->setEnabled(any_selected_nodes);
   m_move_up_node->setEnabled(any_selected_nodes);
   m_move_down_node->setEnabled(any_selected_nodes);
   m_duplicate_node->setEnabled(any_selected_nodes);
+
+  Q_EMIT onUpdateActions();
 }
 
 void FlowDocumentActionHandler::retranslateUi() {

@@ -6,7 +6,6 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QToolBar>
-#include <QToolButton>
 #include <QVBoxLayout>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "flow_document/ui_nodes_dock.h"
@@ -73,6 +72,7 @@ void NodesDock::initUi() {
   buttons_container->setMovable(false);
   buttons_container->setIconSize(QSize(16, 16));
 
+  buttons_container->addWidget(handler.createAddNodeButton());
   buttons_container->addAction(handler.getRemoveNodeAction());
   buttons_container->addAction(handler.getMoveUpNodeAction());
   buttons_container->addAction(handler.getMoveDownNodeAction());

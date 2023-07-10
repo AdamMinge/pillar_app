@@ -68,6 +68,7 @@ void NodesView::contextMenuEvent(QContextMenuEvent *event) {
   const auto &handler = FlowDocumentActionHandler::getInstance();
 
   QMenu menu;
+  menu.addMenu(handler.getAddNodeMenu());
   menu.addAction(handler.getRemoveNodeAction());
   menu.addAction(handler.getMoveUpNodeAction());
   menu.addAction(handler.getMoveDownNodeAction());

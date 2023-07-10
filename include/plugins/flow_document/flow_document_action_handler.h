@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QObject>
+#include <QToolButton>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_listener.h>
 /* ----------------------------------- Local -------------------------------- */
@@ -48,6 +49,9 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   [[nodiscard]] QAction* getMoveDownNodeAction() const;
   [[nodiscard]] QAction* getDuplicateNodeAction() const;
 
+  [[nodiscard]] QToolButton* createAddLayerButton() const;
+  [[nodiscard]] QToolButton* createAddNodeButton() const;
+
  protected:
   void addedObject(ObjectFactory* factory) override;
   void removedObject(ObjectFactory* factory) override;
@@ -68,6 +72,9 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   void onDuplicateNode() const;
 
   void onEvent(const ChangeEvent& event);
+
+ Q_SIGNALS:
+  void onUpdateActions();
 
  private:
   explicit FlowDocumentActionHandler();
