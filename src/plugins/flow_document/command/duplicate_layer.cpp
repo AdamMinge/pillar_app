@@ -8,21 +8,21 @@
 
 namespace flow_document {
 
-/* ------------------------------- DuplicateData ---------------------------- */
+/* ----------------------------- DuplicateLayerData ------------------------- */
 
-DuplicateData::DuplicateData(DuplicateData&& other)
+DuplicateLayerData::DuplicateLayerData(DuplicateLayerData&& other)
     : group_layer(other.group_layer),
       copy_layer(std::move(other.copy_layer)),
       index(other.index) {}
 
-DuplicateData::DuplicateData(Layer* layer)
+DuplicateLayerData::DuplicateLayerData(Layer* layer)
     : group_layer(layer->getParent()),
       copy_layer(layer->clone()),
       index(group_layer->indexOf(layer) + 1) {
   copy_layer->setName(QString("%1 Copy").arg(copy_layer->getName()));
 }
 
-DuplicateData::~DuplicateData() = default;
+DuplicateLayerData::~DuplicateLayerData() = default;
 
 /* ------------------------------ DuplicateLayers --------------------------- */
 
@@ -31,7 +31,7 @@ DuplicateLayers::DuplicateLayers(FlowDocument* document, QList<Layer*> layers,
     : egnite::Command(QLatin1String("DuplicateLayers"), parent),
       m_document(document) {
   for (auto layer : layers) {
-    m_duplicate_data.push_back(DuplicateData(layer));
+    m_duplicate_data.push_back(DuplicateLayerData(layer));
   }
 
   m_duplicate_data.sort([](const auto& left, const auto& right) {

@@ -13,13 +13,13 @@ class FlowDocument;
 class GroupLayer;
 class Layer;
 
-/* ------------------------------- DuplicateData ---------------------------- */
+/* ---------------------------- DuplicateLayerData -------------------------- */
 
-struct DuplicateData {
+struct DuplicateLayerData {
  public:
-  explicit DuplicateData(DuplicateData&& other);
-  explicit DuplicateData(Layer* layer);
-  ~DuplicateData();
+  explicit DuplicateLayerData(DuplicateLayerData&& other);
+  explicit DuplicateLayerData(Layer* layer);
+  ~DuplicateLayerData();
 
  public:
   GroupLayer* group_layer;
@@ -40,7 +40,7 @@ class FLOW_DOCUMENT_API DuplicateLayers : public egnite::Command {
 
  protected:
   FlowDocument* m_document;
-  std::list<DuplicateData> m_duplicate_data;
+  std::list<DuplicateLayerData> m_duplicate_data;
 };
 
 }  // namespace flow_document

@@ -12,124 +12,124 @@
 <context>
     <name>FlowDocumentActionHandler</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="223"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="248"/>
         <source>&amp;%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="224"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="249"/>
         <source>Create %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="473"/>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="494"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="516"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="537"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="474"/>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="495"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="517"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="538"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="476"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="519"/>
         <source>&amp;Remove Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="477"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="520"/>
         <source>Remove Selected Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="479"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="522"/>
         <source>&amp;Raise Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="480"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="523"/>
         <source>Raise Selected Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="482"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="525"/>
         <source>&amp;Lower Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="483"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="526"/>
         <source>Lower Selected Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="485"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="528"/>
         <source>&amp;Duplicate Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="486"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="529"/>
         <source>Duplicate Selected Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="488"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="531"/>
         <source>Show/&amp;Hide Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="489"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="532"/>
         <source>Show/Hide Selected Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="491"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="534"/>
         <source>Lock/&amp;Unlock Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="492"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="535"/>
         <source>Lock/Unlock Selected Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="497"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="540"/>
         <source>&amp;Remove Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="498"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="541"/>
         <source>Remove Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="500"/>
-        <source>&amp;Move Up Nodes</source>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="543"/>
+        <source>&amp;Raise Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="501"/>
-        <source>Move Up Selected Nodes</source>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="544"/>
+        <source>Raise Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="503"/>
-        <source>&amp;Move Down Nodes</source>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="546"/>
+        <source>&amp;Lower Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="504"/>
-        <source>Move Down Selected Nodes</source>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="547"/>
+        <source>Lower Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="506"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="549"/>
         <source>&amp;Duplicate Nodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="507"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="550"/>
         <source>Duplicate Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -494,6 +494,30 @@
     <message numerus="yes">
         <location filename="../../../../src/plugins/flow_document/command/add_remove_node.cpp" line="95"/>
         <source>Remove Node(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/duplicate_node.cpp" line="48"/>
+        <source>Duplicate Node(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/raise_lower_node.cpp" line="79"/>
+        <source>Raise Node(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/raise_lower_node.cpp" line="96"/>
+        <source>Lower Node(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>

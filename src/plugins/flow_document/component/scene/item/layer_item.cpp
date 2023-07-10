@@ -144,6 +144,10 @@ void NodeLayerItem::onEvent(const ChangeEvent& event) {
       }
     }
   }
+
+  for (auto i = 0; i < m_node_items.size(); ++i) {
+    m_node_items[i]->setZValue(i);
+  }
 }
 
 }  // namespace flow_document

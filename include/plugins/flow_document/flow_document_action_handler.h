@@ -45,8 +45,8 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
 
   [[nodiscard]] QMenu* getAddNodeMenu() const;
   [[nodiscard]] QAction* getRemoveNodeAction() const;
-  [[nodiscard]] QAction* getMoveUpNodeAction() const;
-  [[nodiscard]] QAction* getMoveDownNodeAction() const;
+  [[nodiscard]] QAction* getRaiseNodeAction() const;
+  [[nodiscard]] QAction* getLowerNodeAction() const;
   [[nodiscard]] QAction* getDuplicateNodeAction() const;
 
   [[nodiscard]] QToolButton* createAddLayerButton() const;
@@ -67,8 +67,8 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   void onLockUnlockOtherLayers() const;
 
   void onRemoveNode() const;
-  void onMoveUpNode() const;
-  void onMoveDownNode() const;
+  void onRaiseNode() const;
+  void onLowerNode() const;
   void onDuplicateNode() const;
 
   void onEvent(const ChangeEvent& event);
@@ -103,8 +103,8 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
 
   QScopedPointer<QMenu> m_add_node_menu;
   QAction* m_remove_node;
-  QAction* m_move_up_node;
-  QAction* m_move_down_node;
+  QAction* m_raise_node;
+  QAction* m_lower_node;
   QAction* m_duplicate_node;
 };
 

@@ -2,9 +2,12 @@
 #include "flow_document/flow_document_action_handler.h"
 
 #include "flow_document/command/add_remove_layer.h"
+#include "flow_document/command/add_remove_node.h"
 #include "flow_document/command/change_layer.h"
 #include "flow_document/command/duplicate_layer.h"
+#include "flow_document/command/duplicate_node.h"
 #include "flow_document/command/raise_lower_layer.h"
+#include "flow_document/command/raise_lower_node.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/factory/layer_factory.h"
@@ -70,6 +73,28 @@ namespace {
                      [most_bottom_layer](const auto layer) {
                        return layer != most_bottom_layer;
                      });
+}
+
+[[nodiscard]] bool canRaiseNodes(FlowDocument* document,
+                                 const QList<Node*> nodes) {
+  if (nodes.empty()) return false;
+
+  return std::all_of(nodes.cbegin(), nodes.cend(), [](const auto node) {
+    auto node_layer = node->getParent();
+    auto most_top_node = node_layer->at(node_layer->size() - 1);
+    return node != most_top_node;
+  });
+}
+
+[[nodiscard]] bool canLowerNodes(FlowDocument* document,
+                                 const QList<Node*> nodes) {
+  if (nodes.empty()) return false;
+
+  return std::all_of(nodes.cbegin(), nodes.cend(), [](const auto node) {
+    auto node_layer = node->getParent();
+    auto most_bottom_node = node_layer->at(0);
+    return node != most_bottom_node;
+  });
 }
 
 }  // namespace
@@ -172,12 +197,12 @@ QAction* FlowDocumentActionHandler::getRemoveNodeAction() const {
   return m_remove_node;
 }
 
-QAction* FlowDocumentActionHandler::getMoveUpNodeAction() const {
-  return m_move_up_node;
+QAction* FlowDocumentActionHandler::getRaiseNodeAction() const {
+  return m_raise_node;
 }
 
-QAction* FlowDocumentActionHandler::getMoveDownNodeAction() const {
-  return m_move_down_node;
+QAction* FlowDocumentActionHandler::getLowerNodeAction() const {
+  return m_lower_node;
 }
 
 QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
@@ -334,25 +359,37 @@ void FlowDocumentActionHandler::onRemoveNode() const {
   const auto selected_nodes = m_document->getSelectedNodes();
   Q_ASSERT(selected_nodes.size() > 0);
 
-  // TODO
+  auto entires = std::list<NodeEntry>{};
+  for (auto selected_node : selected_nodes) {
+    auto node_layer = selected_node->getParent();
+    entires.emplace_back(
+        NodeEntry(node_layer, node_layer->indexOf(selected_node)));
+  }
+
+  m_document->getUndoStack()->push(
+      new RemoveNodes(m_document, std::move(entires)));
 }
 
-void FlowDocumentActionHandler::onMoveUpNode() const {
+void FlowDocumentActionHandler::onRaiseNode() const {
   Q_ASSERT(m_document);
 
   const auto selected_nodes = m_document->getSelectedNodes();
   Q_ASSERT(selected_nodes.size() > 0);
+  Q_ASSERT(canRaiseNodes(m_document, selected_nodes));
 
-  // TODO
+  m_document->getUndoStack()->push(
+      new RaiseNodes(m_document, std::move(selected_nodes)));
 }
 
-void FlowDocumentActionHandler::onMoveDownNode() const {
+void FlowDocumentActionHandler::onLowerNode() const {
   Q_ASSERT(m_document);
 
   const auto selected_nodes = m_document->getSelectedNodes();
   Q_ASSERT(selected_nodes.size() > 0);
+  Q_ASSERT(canLowerNodes(m_document, selected_nodes));
 
-  // TODO
+  m_document->getUndoStack()->push(
+      new LowerNodes(m_document, std::move(selected_nodes)));
 }
 
 void FlowDocumentActionHandler::onDuplicateNode() const {
@@ -361,7 +398,8 @@ void FlowDocumentActionHandler::onDuplicateNode() const {
   const auto selected_nodes = m_document->getSelectedNodes();
   Q_ASSERT(selected_nodes.size() > 0);
 
-  // TODO
+  m_document->getUndoStack()->push(
+      new DuplicateNodes(m_document, selected_nodes));
 }
 
 void FlowDocumentActionHandler::onEvent(const ChangeEvent& event) {
@@ -384,8 +422,8 @@ void FlowDocumentActionHandler::initActions() {
 
   m_add_node_menu.reset(new QMenu());
   m_remove_node = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_move_up_node = utils::createActionWithShortcut(QKeySequence{}, this);
-  m_move_down_node = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_raise_node = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_lower_node = utils::createActionWithShortcut(QKeySequence{}, this);
   m_duplicate_node = utils::createActionWithShortcut(QKeySequence{}, this);
 
   m_add_layer_menu->setIcon(QIcon(icons::x16::Add));
@@ -398,8 +436,8 @@ void FlowDocumentActionHandler::initActions() {
 
   m_add_node_menu->setIcon(QIcon(icons::x16::Add));
   m_remove_node->setIcon(QIcon(icons::x16::Remove));
-  m_move_up_node->setIcon(QIcon(icons::x16::Up));
-  m_move_down_node->setIcon(QIcon(icons::x16::Down));
+  m_raise_node->setIcon(QIcon(icons::x16::Up));
+  m_lower_node->setIcon(QIcon(icons::x16::Down));
   m_duplicate_node->setIcon(QIcon(icons::x16::Duplicate));
 }
 
@@ -418,10 +456,10 @@ void FlowDocumentActionHandler::connectActions() {
           &FlowDocumentActionHandler::onLockUnlockOtherLayers);
   connect(m_remove_node, &QAction::triggered, this,
           &FlowDocumentActionHandler::onRemoveNode);
-  connect(m_move_up_node, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onMoveUpNode);
-  connect(m_move_down_node, &QAction::triggered, this,
-          &FlowDocumentActionHandler::onMoveDownNode);
+  connect(m_raise_node, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onRaiseNode);
+  connect(m_lower_node, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onLowerNode);
   connect(m_duplicate_node, &QAction::triggered, this,
           &FlowDocumentActionHandler::onDuplicateNode);
 }
@@ -434,6 +472,8 @@ void FlowDocumentActionHandler::updateActions() {
   auto can_raise_layers = false;
   auto can_lower_layers = false;
   auto can_add_node = false;
+  auto can_raise_nodes = false;
+  auto can_lower_nodes = false;
 
   if (has_document) {
     const auto& selected_layers = m_document->getSelectedLayers();
@@ -442,13 +482,16 @@ void FlowDocumentActionHandler::updateActions() {
     const auto current_layer = m_document->getCurrentLayer();
 
     any_selected_layers = selected_layers.size() > 0;
-    any_selected_nodes = selected_nodes.size() > 0;
     any_not_selected_layers = not_selected_layers.size() > 0;
 
     can_raise_layers = canRaiseLayers(m_document, selected_layers);
     can_lower_layers = canLowerLayers(m_document, selected_layers);
 
     can_add_node = current_layer && current_layer->isClassOrChild<NodeLayer>();
+    any_selected_nodes = selected_nodes.size() > 0;
+
+    can_raise_nodes = canRaiseNodes(m_document, selected_nodes);
+    can_lower_nodes = canLowerNodes(m_document, selected_nodes);
   }
 
   m_remove_layer->setEnabled(any_selected_layers);
@@ -462,8 +505,8 @@ void FlowDocumentActionHandler::updateActions() {
 
   m_add_node_menu->setEnabled(can_add_node);
   m_remove_node->setEnabled(any_selected_nodes);
-  m_move_up_node->setEnabled(any_selected_nodes);
-  m_move_down_node->setEnabled(any_selected_nodes);
+  m_raise_node->setEnabled(can_raise_nodes);
+  m_lower_node->setEnabled(can_lower_nodes);
   m_duplicate_node->setEnabled(any_selected_nodes);
 
   Q_EMIT onUpdateActions();
@@ -497,11 +540,11 @@ void FlowDocumentActionHandler::retranslateUi() {
   m_remove_node->setText(tr("&Remove Nodes"));
   m_remove_node->setWhatsThis(tr("Remove Selected Nodes"));
 
-  m_move_up_node->setText(tr("&Move Up Nodes"));
-  m_move_up_node->setWhatsThis(tr("Move Up Selected Nodes"));
+  m_raise_node->setText(tr("&Raise Nodes"));
+  m_raise_node->setWhatsThis(tr("Raise Selected Nodes"));
 
-  m_move_down_node->setText(tr("&Move Down Nodes"));
-  m_move_down_node->setWhatsThis(tr("Move Down Selected Nodes"));
+  m_lower_node->setText(tr("&Lower Nodes"));
+  m_lower_node->setWhatsThis(tr("Lower Selected Nodes"));
 
   m_duplicate_node->setText(tr("&Duplicate Nodes"));
   m_duplicate_node->setWhatsThis(tr("Duplicate Selected Nodes"));
@@ -518,8 +561,8 @@ void FlowDocumentActionHandler::registerActions() {
   action_manager.registerAction(m_lock_unlock_other_layers,
                                 "lock_unlock_other_layers");
   action_manager.registerAction(m_remove_node, "remove_node");
-  action_manager.registerAction(m_move_up_node, "move_up_node");
-  action_manager.registerAction(m_move_down_node, "move_down_node");
+  action_manager.registerAction(m_raise_node, "raise_node");
+  action_manager.registerAction(m_lower_node, "lower_node");
   action_manager.registerAction(m_duplicate_node, "duplicate_node");
 }
 
@@ -534,8 +577,8 @@ void FlowDocumentActionHandler::unregisterActions() {
   action_manager.unregisterAction(m_lock_unlock_other_layers,
                                   "lock_unlock_other_layers");
   action_manager.unregisterAction(m_remove_node, "remove_node");
-  action_manager.unregisterAction(m_move_up_node, "move_up_node");
-  action_manager.unregisterAction(m_move_down_node, "move_down_node");
+  action_manager.unregisterAction(m_raise_node, "raise_node");
+  action_manager.unregisterAction(m_lower_node, "lower_node");
   action_manager.unregisterAction(m_duplicate_node, "duplicate_node");
 }
 

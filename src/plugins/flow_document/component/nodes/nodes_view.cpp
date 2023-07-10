@@ -70,8 +70,8 @@ void NodesView::contextMenuEvent(QContextMenuEvent *event) {
   QMenu menu;
   menu.addMenu(handler.getAddNodeMenu());
   menu.addAction(handler.getRemoveNodeAction());
-  menu.addAction(handler.getMoveUpNodeAction());
-  menu.addAction(handler.getMoveDownNodeAction());
+  menu.addAction(handler.getRaiseNodeAction());
+  menu.addAction(handler.getLowerNodeAction());
   menu.addAction(handler.getDuplicateNodeAction());
 
   menu.exec(event->globalPos());

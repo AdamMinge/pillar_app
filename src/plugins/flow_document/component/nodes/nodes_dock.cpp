@@ -74,8 +74,8 @@ void NodesDock::initUi() {
 
   buttons_container->addWidget(handler.createAddNodeButton());
   buttons_container->addAction(handler.getRemoveNodeAction());
-  buttons_container->addAction(handler.getMoveUpNodeAction());
-  buttons_container->addAction(handler.getMoveDownNodeAction());
+  buttons_container->addAction(handler.getRaiseNodeAction());
+  buttons_container->addAction(handler.getLowerNodeAction());
   buttons_container->addAction(handler.getDuplicateNodeAction());
 
   m_ui->m_toolbar_layout->addWidget(buttons_container);

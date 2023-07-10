@@ -41,7 +41,9 @@ set(sources
     ${source_root}/command/change_node.cpp
     ${source_root}/command/reparent_layer.cpp
     ${source_root}/command/raise_lower_layer.cpp
+    ${source_root}/command/raise_lower_node.cpp
     ${source_root}/command/duplicate_layer.cpp
+    ${source_root}/command/duplicate_node.cpp
     ${source_root}/command/factory/object_command_factory.cpp
     ${source_root}/command/factory/layer_command_factory.cpp
     ${source_root}/command/factory/node_command_factory.cpp
@@ -116,7 +118,9 @@ set(includes
     ${include_root}/command/change_node.h
     ${include_root}/command/reparent_layer.h
     ${include_root}/command/raise_lower_layer.h
+    ${include_root}/command/raise_lower_node.h
     ${include_root}/command/duplicate_layer.h
+    ${include_root}/command/duplicate_node.h
     ${include_root}/command/factory/object_command_factory.h
     ${include_root}/command/factory/layer_command_factory.h
     ${include_root}/command/factory/node_command_factory.h
