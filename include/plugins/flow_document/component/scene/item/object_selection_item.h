@@ -13,10 +13,14 @@ namespace flow_document {
 
 class FLOW_DOCUMENT_API ObjectOutlineItem : public QGraphicsItem {
  public:
-  explicit ObjectSelectionItem(QGraphicsItem *parent = nullptr);
-  ~ObjectSelectionItem() override;
+  enum class Role { Hover, Selection };
+
+ public:
+  explicit ObjectOutlineItem(Role role, QGraphicsItem *parent = nullptr);
+  ~ObjectOutlineItem() override;
 
   [[nodiscard]] QRectF boundingRect() const override;
+  [[nodiscard]] QPainterPath shape() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
 };
@@ -29,8 +33,13 @@ class FLOW_DOCUMENT_API ObjectSelectionItem : public QGraphicsItem {
   ~ObjectSelectionItem() override;
 
   [[nodiscard]] QRectF boundingRect() const override;
+  [[nodiscard]] QPainterPath shape() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
+
+ private:
+  ObjectOutlineItem *m_hover;
+  ObjectOutlineItem *m_selection;
 };
 
 }  // namespace flow_document
