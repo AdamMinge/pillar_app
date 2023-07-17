@@ -41,6 +41,7 @@ class FLOW_DOCUMENT_API FlowView : public QGraphicsView {
   void mouseMoveEvent(QMouseEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
   void showEvent(QShowEvent *event) override;
+  void enterEvent(QEnterEvent *event) override;
 
  private:
   const QColor m_background_color;
