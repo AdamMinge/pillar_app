@@ -31,7 +31,6 @@ void NodeSelectionTool::activate(FlowScene *scene) { Tool::activate(scene); }
 void NodeSelectionTool::deactivate() { Tool::deactivate(); }
 
 void NodeSelectionTool::keyPressEvent(QKeyEvent *event) {
-  qDebug() << "keyPressEvent = " << event->modifiers();
   m_modifiers = event->modifiers();
   refreshCursor();
 }
