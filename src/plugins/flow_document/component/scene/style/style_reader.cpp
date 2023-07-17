@@ -23,22 +23,16 @@ class FlowStyleReader::FlowStyleReaderImpl {
  private:
   std::unique_ptr<FlowStyle> readStyle(const QJsonDocument &document);
 
-  void readNodeStyle(NodeStyle &styles, ObjectStyle::State state,
-                     const QJsonObject &object);
-  void readPinStyle(PinStyle &styles, ObjectStyle::State state,
-                    const QJsonObject &object);
+  [[nodiscard]] NodeStyle readNodeStyle(const QJsonObject &object);
+  [[nodiscard]] PinStyle readPinStyle(const QJsonObject &object);
 
-  [[nodiscard]] static QString toString(ObjectStyle::State state);
-  [[nodiscard]] static std::optional<QFont> toFont(const QJsonValue &value);
-  [[nodiscard]] static std::optional<QColor> toColor(const QJsonValue &value);
-  [[nodiscard]] static std::optional<QSizeF> toSize(const QJsonValue &value);
-  [[nodiscard]] static std::optional<QMarginsF> toMargins(
-      const QJsonValue &value);
-  [[nodiscard]] static std::optional<std::array<QColor, 4>> toColors(
-      const QJsonValue &value);
-  [[nodiscard]] static std::optional<std::array<float, 4>> toScales(
-      const QJsonValue &value);
-  [[nodiscard]] static std::optional<float> toFloat(const QJsonValue &value);
+  [[nodiscard]] static QFont toFont(const QJsonValue &value);
+  [[nodiscard]] static QColor toColor(const QJsonValue &value);
+  [[nodiscard]] static QSizeF toSize(const QJsonValue &value);
+  [[nodiscard]] static QMarginsF toMargins(const QJsonValue &value);
+  [[nodiscard]] static std::array<QColor, 4> toColors(const QJsonValue &value);
+  [[nodiscard]] static std::array<float, 4> toScales(const QJsonValue &value);
+  [[nodiscard]] static float toFloat(const QJsonValue &value);
 };
 
 std::unique_ptr<FlowStyle> FlowStyleReader::FlowStyleReaderImpl::readStyle(
@@ -57,70 +51,44 @@ std::unique_ptr<FlowStyle> FlowStyleReader::FlowStyleReaderImpl::readStyle(
   const auto nodes = main[QLatin1String("nodes")].toObject();
   const auto pins = main[QLatin1String("pins")].toObject();
 
-  auto node_style = NodeStyle{};
-  for (auto state : {ObjectStyle::State::Normal, ObjectStyle::State::Selected,
-                     ObjectStyle::State::Hovered}) {
-    const auto state_name = toString(state);
-    if (!nodes.contains(state_name)) return nullptr;
-    readNodeStyle(node_style, state, nodes[state_name].toObject());
-  }
-  flow_style->setNodeStyle(node_style);
+  auto node_style = readNodeStyle(nodes);
+  auto pin_style = readPinStyle(pins);
 
-  auto pin_style = PinStyle{};
-  for (auto state : {ObjectStyle::State::Normal, ObjectStyle::State::Selected,
-                     ObjectStyle::State::Hovered}) {
-    const auto state_name = toString(state);
-    if (!pins.contains(state_name)) return nullptr;
-    readPinStyle(pin_style, state, pins[state_name].toObject());
-  }
+  flow_style->setNodeStyle(node_style);
   flow_style->setPinStyle(pin_style);
 
   return flow_style;
 }
 
-void FlowStyleReader::FlowStyleReaderImpl::readNodeStyle(
-    NodeStyle &styles, ObjectStyle::State state, const QJsonObject &object) {
-  styles.setFont(toFont(object[QLatin1String("font")]), state);
-  styles.setFontColor(toColor(object[QLatin1String("font_color")]), state);
-  styles.setMargins(toMargins(object[QLatin1String("margins")]), state);
-  styles.setGradient(toColors(object[QLatin1String("gradient")]), state);
-  styles.setGradientScale(toScales(object[QLatin1String("gradient_scale")]),
-                          state);
-  styles.setBorderColor(toColor(object[QLatin1String("border_color")]), state);
-  styles.setBorderRadius(toFloat(object[QLatin1String("border_radius")]),
-                         state);
-  styles.setBorderSize(toFloat(object[QLatin1String("border_size")]), state);
+NodeStyle FlowStyleReader::FlowStyleReaderImpl::readNodeStyle(
+    const QJsonObject &object) {
+  auto style = NodeStyle{};
+  style.setFont(toFont(object[QLatin1String("font")]));
+  style.setFontColor(toColor(object[QLatin1String("font_color")]));
+  style.setMargins(toMargins(object[QLatin1String("margins")]));
+  style.setGradient(toColors(object[QLatin1String("gradient")]));
+  style.setGradientScale(toScales(object[QLatin1String("gradient_scale")]));
+  style.setBorderColor(toColor(object[QLatin1String("border_color")]));
+  style.setBorderRadius(toFloat(object[QLatin1String("border_radius")]));
+  style.setBorderSize(toFloat(object[QLatin1String("border_size")]));
+
+  return style;
 }
 
-void FlowStyleReader::FlowStyleReaderImpl::readPinStyle(
-    PinStyle &styles, ObjectStyle::State state, const QJsonObject &object) {
-  styles.setFont(toFont(object[QLatin1String("font")]), state);
-  styles.setFontColor(toColor(object[QLatin1String("font_color")]), state);
-  styles.setSize(toSize(object[QLatin1String("size")]), state);
-  styles.setMargins(toMargins(object[QLatin1String("margins")]), state);
-  styles.setColor(toColor(object[QLatin1String("color")]), state);
-  styles.setBorderColor(toColor(object[QLatin1String("border_color")]), state);
+PinStyle FlowStyleReader::FlowStyleReaderImpl::readPinStyle(
+    const QJsonObject &object) {
+  auto style = PinStyle{};
+  style.setFont(toFont(object[QLatin1String("font")]));
+  style.setFontColor(toColor(object[QLatin1String("font_color")]));
+  style.setSize(toSize(object[QLatin1String("size")]));
+  style.setMargins(toMargins(object[QLatin1String("margins")]));
+  style.setColor(toColor(object[QLatin1String("color")]));
+  style.setBorderColor(toColor(object[QLatin1String("border_color")]));
+
+  return style;
 }
 
-QString FlowStyleReader::FlowStyleReaderImpl::toString(
-    ObjectStyle::State state) {
-  switch (state) {
-    case ObjectStyle::State::Normal:
-      return QLatin1String("normal");
-
-    case ObjectStyle::State::Selected:
-      return QLatin1String("selected");
-
-    case ObjectStyle::State::Hovered:
-      return QLatin1String("hovered");
-
-    default:
-      return {};
-  }
-}
-
-std::optional<QFont> FlowStyleReader::FlowStyleReaderImpl::toFont(
-    const QJsonValue &value) {
+QFont FlowStyleReader::FlowStyleReaderImpl::toFont(const QJsonValue &value) {
   auto font = QFont();
   const auto str = value.toString();
   if (!str.isEmpty() && font.fromString(str)) return font;
@@ -128,25 +96,23 @@ std::optional<QFont> FlowStyleReader::FlowStyleReaderImpl::toFont(
   return {};
 }
 
-std::optional<QColor> FlowStyleReader::FlowStyleReaderImpl::toColor(
-    const QJsonValue &value) {
+QColor FlowStyleReader::FlowStyleReaderImpl::toColor(const QJsonValue &value) {
   if (auto color = QColor(value.toString()); color.isValid()) return color;
   return {};
 }
 
-std::optional<QSizeF> FlowStyleReader::FlowStyleReaderImpl::toSize(
-    const QJsonValue &value) {
+QSizeF FlowStyleReader::FlowStyleReaderImpl::toSize(const QJsonValue &value) {
   auto split = value.toString().split(';');
   if (split.size() == 2) {
     auto width = toFloat(split[0]);
     auto height = toFloat(split[1]);
-    if (width && height) return QSizeF(*width, *height);
+    if (width && height) return QSizeF(width, height);
   }
 
   return {};
 }
 
-std::optional<QMarginsF> FlowStyleReader::FlowStyleReaderImpl::toMargins(
+QMarginsF FlowStyleReader::FlowStyleReaderImpl::toMargins(
     const QJsonValue &value) {
   auto split = value.toString().split(';');
   if (split.size() == 4) {
@@ -156,50 +122,35 @@ std::optional<QMarginsF> FlowStyleReader::FlowStyleReaderImpl::toMargins(
     auto bottom = toFloat(split[3]);
 
     if (left && top && right && bottom)
-      return QMarginsF(*left, *top, *right, *bottom);
+      return QMarginsF(left, top, right, bottom);
   }
 
   return {};
 }
 
-std::optional<std::array<QColor, 4>>
-FlowStyleReader::FlowStyleReaderImpl::toColors(const QJsonValue &value) {
-  auto split = value.toString().split(';');
-  if (split.size() == 4) {
-    auto c1 = toColor(split[0]);
-    auto c2 = toColor(split[1]);
-    auto c3 = toColor(split[2]);
-    auto c4 = toColor(split[3]);
-
-    if (c1 && c2 && c3 && c4) {
-      return std::array<QColor, 4>{c1.value(), c2.value(), c3.value(),
-                                   c4.value()};
-    }
-  }
-
-  return {};
-}
-
-std::optional<std::array<float, 4>>
-FlowStyleReader::FlowStyleReaderImpl::toScales(const QJsonValue &value) {
-  auto split = value.toString().split(';');
-  if (split.size() == 4) {
-    auto s1 = toFloat(split[0]);
-    auto s2 = toFloat(split[1]);
-    auto s3 = toFloat(split[2]);
-    auto s4 = toFloat(split[3]);
-
-    if (s1 && s2 && s3 && s4) {
-      return std::array<float, 4>{s1.value(), s2.value(), s3.value(),
-                                  s4.value()};
-    }
-  }
-
-  return {};
-}
-
-std::optional<float> FlowStyleReader::FlowStyleReaderImpl::toFloat(
+std::array<QColor, 4> FlowStyleReader::FlowStyleReaderImpl::toColors(
     const QJsonValue &value) {
+  auto split = value.toString().split(';');
+  if (split.size() == 4) {
+    return std::array<QColor, 4>{toColor(split[0]), toColor(split[1]),
+                                 toColor(split[2]), toColor(split[3])};
+  }
+
+  return {};
+}
+
+std::array<float, 4> FlowStyleReader::FlowStyleReaderImpl::toScales(
+    const QJsonValue &value) {
+  auto split = value.toString().split(';');
+  if (split.size() == 4) {
+    return std::array<float, 4>{toFloat(split[0]), toFloat(split[1]),
+                                toFloat(split[2]), toFloat(split[3])};
+  }
+
+  return {};
+}
+
+float FlowStyleReader::FlowStyleReaderImpl::toFloat(const QJsonValue &value) {
   if (value.isString()) {
     bool ok;
     auto width = value.toString().toDouble(&ok);

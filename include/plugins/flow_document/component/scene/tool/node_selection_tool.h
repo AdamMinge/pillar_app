@@ -1,5 +1,5 @@
-#ifndef FLOW_DOCUMENT_SELECTION_TOOL_H
-#define FLOW_DOCUMENT_SELECTION_TOOL_H
+#ifndef FLOW_DOCUMENT_NODE_SELECTION_TOOL_H
+#define FLOW_DOCUMENT_NODE_SELECTION_TOOL_H
 
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/tool.h"
@@ -9,14 +9,15 @@
 namespace flow_document {
 
 class SelectionRectangle;
-class ObjectItem;
+class NodeItem;
+class Node;
 
-class FLOW_DOCUMENT_API SelectionTool : public Tool {
+class FLOW_DOCUMENT_API NodeSelectionTool : public Tool {
   Q_OBJECT
 
  public:
-  explicit SelectionTool(QObject *parent = nullptr);
-  ~SelectionTool() override;
+  explicit NodeSelectionTool(QObject *parent = nullptr);
+  ~NodeSelectionTool() override;
 
   void activate(FlowScene *scene) override;
   void deactivate() override;
@@ -46,19 +47,29 @@ class FLOW_DOCUMENT_API SelectionTool : public Tool {
   enum class Action;
 
  private:
+  void selectNodes(const QList<QGraphicsItem *> items, bool extend = true);
+  void unselectNodes(const QList<QGraphicsItem *> items);
+
+  [[nodiscard]] QList<Node *> getNodes(
+      const QList<QGraphicsItem *> items) const;
+
+  [[nodiscard]] bool isAnyNodeSelected() const;
+  [[nodiscard]] bool isAnyNodeHovered() const;
+
+ private:
   Action m_action;
 
   QPointF m_mouse_clicked_pos;
   Qt::MouseButton m_mouse_clicked_button;
   Qt::KeyboardModifiers m_modifiers;
-  ObjectItem *m_clicked_item;
+  NodeItem *m_clicked_item;
 
   std::unique_ptr<SelectionRectangle> m_selection_rect;
-  QList<std::pair<ObjectItem *, QPointF>> m_moving_items;
+  QList<std::pair<Node *, QPointF>> m_moving_nodes;
 };
 
-enum class SelectionTool::Action { NoAction, ItemMoving, ItemSelection };
+enum class NodeSelectionTool::Action { NoAction, ItemMoving, ItemSelection };
 
 }  // namespace flow_document
 
-#endif  // FLOW_DOCUMENT_SELECTION_TOOL_H
+#endif  // FLOW_DOCUMENT_NODE_SELECTION_TOOL_H

@@ -21,9 +21,6 @@ class FLOW_DOCUMENT_API ObjectItem : public QGraphicsObject {
                       QGraphicsItem* parent = nullptr);
   ~ObjectItem() override;
 
-  void setHovered(bool hovered);
-  [[nodiscard]] bool isHovered() const;
-
   [[nodiscard]] Object* getObject() const;
   [[nodiscard]] FlowDocument* getDocument() const;
 
@@ -36,7 +33,6 @@ class FLOW_DOCUMENT_API ObjectItem : public QGraphicsObject {
  private:
   Object* m_object;
   FlowDocument* m_document;
-  bool m_hovered;
 };
 
 }  // namespace flow_document

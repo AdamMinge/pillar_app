@@ -59,6 +59,7 @@ class FLOW_DOCUMENT_API NodesTreeModel : public QAbstractItemModel {
  private:
   void onEvent(const ChangeEvent &event);
 
+  [[nodiscard]] Qt::ItemFlags getFlags(const QModelIndex &index) const;
   [[nodiscard]] QString getName(const QModelIndex &index) const;
   [[nodiscard]] QIcon getIcon(const QModelIndex &index) const;
   [[nodiscard]] Qt::CheckState isVisible(const QModelIndex &index) const;

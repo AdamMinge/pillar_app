@@ -28,15 +28,15 @@ Q_DECLARE_INTERFACE(flow_document::ToolFactory, "org.flow.ToolFactory")
 
 namespace flow_document {
 
-/* ---------------------------- SelectionToolFactory ------------------------ */
+/* -------------------------- NodeSelectionToolFactory ---------------------- */
 
-class FLOW_DOCUMENT_API SelectionToolFactory : public ToolFactory {
+class FLOW_DOCUMENT_API NodeSelectionToolFactory : public ToolFactory {
   Q_OBJECT
   Q_INTERFACES(flow_document::ToolFactory)
 
  public:
-  explicit SelectionToolFactory(QObject* parent = nullptr);
-  ~SelectionToolFactory() override;
+  explicit NodeSelectionToolFactory(QObject* parent = nullptr);
+  ~NodeSelectionToolFactory() override;
 
   [[nodiscard]] Tool* create(QObject* parent = nullptr) const override;
 };

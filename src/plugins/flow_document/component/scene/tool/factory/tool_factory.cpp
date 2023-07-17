@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/factory/tool_factory.h"
 
-#include "flow_document/component/scene/tool/selection_tool.h"
+#include "flow_document/component/scene/tool/node_selection_tool.h"
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -12,15 +12,15 @@ ToolFactory::ToolFactory(QObject* parent) : QObject(parent) {}
 
 ToolFactory::~ToolFactory() = default;
 
-/* ---------------------------- SelectionToolFactory ------------------------ */
+/* -------------------------- NodeSelectionToolFactory ---------------------- */
 
-SelectionToolFactory::SelectionToolFactory(QObject* parent)
+NodeSelectionToolFactory::NodeSelectionToolFactory(QObject* parent)
     : ToolFactory(parent) {}
 
-SelectionToolFactory::~SelectionToolFactory() = default;
+NodeSelectionToolFactory::~NodeSelectionToolFactory() = default;
 
-Tool* SelectionToolFactory::create(QObject* parent) const {
-  return new SelectionTool(parent);
+Tool* NodeSelectionToolFactory::create(QObject* parent) const {
+  return new NodeSelectionTool(parent);
 }
 
 }  // namespace flow_document

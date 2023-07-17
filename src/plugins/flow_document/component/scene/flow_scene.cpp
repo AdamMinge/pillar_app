@@ -51,49 +51,6 @@ void FlowScene::setTool(Tool *tool) {
 
 Tool *FlowScene::getTool() const { return m_tool; }
 
-QList<ObjectItem *> FlowScene::hoveredItems() { return m_hovered_items; }
-
-QPainterPath FlowScene::hoveredArea() const { return m_hovered_area; }
-
-void FlowScene::setHoveredArea(const QPainterPath &path,
-                               Qt::ItemSelectionOperation selectionOperation,
-                               Qt::ItemSelectionMode mode) {
-  auto hovered_items = QList<ObjectItem *>{};
-  auto items_in_area = items(path, mode);
-  for (auto item : items_in_area) {
-    auto hovered_item = dynamic_cast<ObjectItem *>(item);
-
-    if (hovered_item &&
-        hovered_item->flags() & QGraphicsItem::ItemIsSelectable) {
-      hovered_items.append(hovered_item);
-    }
-  }
-
-  switch (selectionOperation) {
-    case Qt::ReplaceSelection: {
-      auto hover_items = [](auto &items, auto hovered) {
-        for (auto item : items) {
-          if (auto hovered_item = dynamic_cast<ObjectItem *>(item);
-              hovered_item)
-            hovered_item->setHovered(hovered);
-        }
-      };
-
-      hover_items(m_hovered_items, false);
-
-      m_hovered_area = path;
-      m_hovered_items = std::move(hovered_items);
-
-      hover_items(m_hovered_items, true);
-    } break;
-
-    case Qt::AddToSelection: {
-      m_hovered_area.addPath(path);
-      m_hovered_items.append(std::move(hovered_items));
-    } break;
-  }
-}
-
 void FlowScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
   auto mime_data = event->mimeData();
   event->setAccepted(isAcceptable(mime_data));

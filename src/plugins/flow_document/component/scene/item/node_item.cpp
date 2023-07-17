@@ -2,6 +2,7 @@
 #include "flow_document/component/scene/item/node_item.h"
 
 #include "flow_document/command/change_node.h"
+#include "flow_document/component/scene/item/object_selection_item.h"
 #include "flow_document/component/scene/style/style.h"
 #include "flow_document/component/scene/style/style_manager.h"
 #include "flow_document/event/change_event.h"
@@ -20,26 +21,12 @@ namespace {
 
 /* -------------------------------- Utils ------------------------------- */
 
-ObjectStyle::States getStyleState(const NodeItem &item) {
-  auto state = ObjectStyle::States{ObjectStyle::State::Normal};
-  if (item.isSelected()) state |= ObjectStyle::State::Selected;
-  if (item.isHovered()) state |= ObjectStyle::State::Hovered;
-
-  return state;
+const NodeStyle &getNodeStyle(const NodeItem &item) {
+  return StyleManager::getInstance().getStyle().getNodeStyle();
 }
 
-const NodeStyleViewer &getNodeStyle(const NodeItem &item) {
-  const auto state = getStyleState(item);
-  const auto &node_style =
-      StyleManager::getInstance().getStyle().getNodeStyleViewer(state);
-  return node_style;
-}
-
-const PinStyleViewer &getPinStyle(const NodeItem &item) {
-  const auto state = getStyleState(item);
-  const auto &pin_style =
-      StyleManager::getInstance().getStyle().getPinStyleViewer(state);
-  return pin_style;
+const PinStyle &getPinStyle(const NodeItem &item) {
+  return StyleManager::getInstance().getStyle().getPinStyle();
 }
 
 }  // namespace
@@ -48,6 +35,7 @@ const PinStyleViewer &getPinStyle(const NodeItem &item) {
 
 NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
     : ObjectItem(node, document, parent),
+      m_selection_item(new NodeSelectionItem(node, document, this)),
       m_node_painter(std::make_unique<NodePainter>(*this)),
       m_node_geometry(std::make_unique<NodeGeometry>(*this)) {}
 

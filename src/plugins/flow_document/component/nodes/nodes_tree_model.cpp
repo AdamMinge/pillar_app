@@ -1,7 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/nodes/nodes_tree_model.h"
 
-#include "flow_document/command/factory/object_command_factory.h"
+#include "flow_document/command/change_layer.h"
+#include "flow_document/command/change_node.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
@@ -44,12 +45,7 @@ void NodesTreeModel::setDocument(FlowDocument *flow_document) {
 FlowDocument *NodesTreeModel::getDocument() const { return m_document; }
 
 Qt::ItemFlags NodesTreeModel::flags(const QModelIndex &index) const {
-  auto flags = QAbstractItemModel::flags(index);
-
-  if (index.column() == Column::VisibleColumn) flags |= Qt::ItemIsUserCheckable;
-  if (index.column() == Column::NameColumn) flags |= Qt::ItemIsEditable;
-
-  return flags;
+  return getFlags(index);
 }
 
 QVariant NodesTreeModel::data(const QModelIndex &index, int role) const {
@@ -322,6 +318,21 @@ void NodesTreeModel::onEvent(const ChangeEvent &event) {
   }
 }
 
+Qt::ItemFlags NodesTreeModel::getFlags(const QModelIndex &index) const {
+  auto flags = QAbstractItemModel::flags(index);
+
+  if (index.column() == Column::VisibleColumn) flags |= Qt::ItemIsUserCheckable;
+  if (index.column() == Column::NameColumn) flags |= Qt::ItemIsEditable;
+
+  const auto object = static_cast<Object *>(index.internalPointer());
+  if (object->isClassOrChild<Node>())
+    flags |= Qt::ItemIsSelectable;
+  else
+    flags &= ~Qt::ItemIsSelectable;
+
+  return flags;
+}
+
 QString NodesTreeModel::getName(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
   return object->getName();
@@ -343,11 +354,13 @@ Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
 void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
   const auto object = static_cast<Object *>(index.internalPointer());
 
-  auto command_factory = getObjectCommandFactoryByObject(object);
-  Q_ASSERT(command_factory);
-
-  m_document->getUndoStack()->push(
-      command_factory->createSetName(m_document, {object}, name));
+  if (object->isClassOrChild<Node>()) {
+    m_document->getUndoStack()->push(
+        new SetNodesName(m_document, {static_cast<Node *>(object)}, name));
+  } else if (object->isClassOrChild<Layer>()) {
+    m_document->getUndoStack()->push(
+        new SetLayersName(m_document, {static_cast<Layer *>(object)}, name));
+  }
 }
 
 void NodesTreeModel::setVisible(const QModelIndex &index,
@@ -355,11 +368,13 @@ void NodesTreeModel::setVisible(const QModelIndex &index,
   const auto object = static_cast<Object *>(index.internalPointer());
   const auto visible = state == Qt::Checked;
 
-  auto command_factory = getObjectCommandFactoryByObject(object);
-  Q_ASSERT(command_factory);
-
-  m_document->getUndoStack()->push(
-      command_factory->createSetVisible(m_document, {object}, visible));
+  if (object->isClassOrChild<Node>()) {
+    m_document->getUndoStack()->push(new SetNodesVisible(
+        m_document, {static_cast<Node *>(object)}, visible));
+  } else if (object->isClassOrChild<Layer>()) {
+    m_document->getUndoStack()->push(new SetLayersVisible(
+        m_document, {static_cast<Layer *>(object)}, visible));
+  }
 }
 
 /* ------------------------- OnlyNodesFilterProxyModel ---------------------- */

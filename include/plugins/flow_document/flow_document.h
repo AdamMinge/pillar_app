@@ -57,6 +57,8 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
   void switchSelectedLayers(const QList<Layer *> &layers);
   void switchSelectedNodes(const QList<Node *> &nodes);
 
+  void setHoveredNodes(const QList<Node *> &nodes);
+
  Q_SIGNALS:
   void event(const ChangeEvent &event);
 
@@ -66,6 +68,8 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   void selectedLayersChanged(const QList<Layer *> &layers);
   void selectedNodesChanged(const QList<Node *> &nodes);
+
+  void hoveredNodesChanged(const QList<Node *> &nodes);
 
  protected:
   explicit FlowDocument(QObject *parent = nullptr);
@@ -79,6 +83,7 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   QList<Layer *> m_selected_layers;
   QList<Node *> m_selected_nodes;
+  QList<Node *> m_hovered_nodes;
 };
 
 /* ----------------------------------- Utils -------------------------------- */

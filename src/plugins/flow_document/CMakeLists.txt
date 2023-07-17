@@ -44,9 +44,6 @@ set(sources
     ${source_root}/command/raise_lower_node.cpp
     ${source_root}/command/duplicate_layer.cpp
     ${source_root}/command/duplicate_node.cpp
-    ${source_root}/command/factory/object_command_factory.cpp
-    ${source_root}/command/factory/layer_command_factory.cpp
-    ${source_root}/command/factory/node_command_factory.cpp
     ${source_root}/component/flow_dock_widget.cpp
     ${source_root}/component/flow_dock_widget_factory.cpp
     ${source_root}/component/factories/factories_dock.cpp
@@ -79,7 +76,7 @@ set(sources
     ${source_root}/component/scene/style/style.cpp
     ${source_root}/component/scene/tool/tools_bar.cpp
     ${source_root}/component/scene/tool/tool.cpp
-    ${source_root}/component/scene/tool/selection_tool.cpp
+    ${source_root}/component/scene/tool/node_selection_tool.cpp
     ${source_root}/component/scene/tool/factory/tool_factory.cpp)
 
 set(includes
@@ -121,9 +118,6 @@ set(includes
     ${include_root}/command/raise_lower_node.h
     ${include_root}/command/duplicate_layer.h
     ${include_root}/command/duplicate_node.h
-    ${include_root}/command/factory/object_command_factory.h
-    ${include_root}/command/factory/layer_command_factory.h
-    ${include_root}/command/factory/node_command_factory.h
     ${include_root}/component/flow_dock_widget.h
     ${include_root}/component/flow_dock_widget_factory.h
     ${include_root}/component/factories/factories_dock.h
@@ -156,7 +150,7 @@ set(includes
     ${include_root}/component/scene/style/style.h
     ${include_root}/component/scene/tool/tools_bar.h
     ${include_root}/component/scene/tool/tool.h
-    ${include_root}/component/scene/tool/selection_tool.h
+    ${include_root}/component/scene/tool/node_selection_tool.h
     ${include_root}/component/scene/tool/factory/tool_factory.h)
 
 set(resources ${resources_root}/flow_document.qrc)

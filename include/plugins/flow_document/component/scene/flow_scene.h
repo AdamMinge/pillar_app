@@ -31,13 +31,6 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   void setTool(Tool *tool);
   [[nodiscard]] Tool *getTool() const;
 
-  [[nodiscard]] QList<ObjectItem *> hoveredItems();
-  [[nodiscard]] QPainterPath hoveredArea() const;
-  void setHoveredArea(
-      const QPainterPath &path,
-      Qt::ItemSelectionOperation selectionOperation = Qt::ReplaceSelection,
-      Qt::ItemSelectionMode mode = Qt::IntersectsItemShape);
-
  protected:
   void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
   void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
@@ -56,9 +49,6 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
  private:
   FlowDocument *m_flow_document;
   Tool *m_tool;
-
-  QPainterPath m_hovered_area;
-  QList<ObjectItem *> m_hovered_items;
   const int m_scene_max_size;
 };
 

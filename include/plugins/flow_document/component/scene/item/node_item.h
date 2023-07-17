@@ -9,6 +9,7 @@
 
 namespace flow_document {
 
+class NodeSelectionItem;
 class NodesChangeEvent;
 class FlowDocument;
 class ChangeEvent;
@@ -39,6 +40,8 @@ class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
   void onUpdate(const NodesChangeEvent &event);
 
  private:
+  NodeSelectionItem *m_selection_item;
+
   std::unique_ptr<NodePainter> m_node_painter;
   std::unique_ptr<NodeGeometry> m_node_geometry;
 };

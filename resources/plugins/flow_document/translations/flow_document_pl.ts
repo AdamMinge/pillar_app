@@ -268,14 +268,27 @@
     </message>
 </context>
 <context>
+    <name>NodeSelectionTool</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="20"/>
+        <source>Node Selection Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="172"/>
+        <source>Move nodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NodesTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="109"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="105"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="111"/>
+        <location filename="../../../../src/plugins/flow_document/component/nodes/nodes_tree_model.cpp" line="107"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -314,14 +327,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="224"/>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="237"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="175"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="188"/>
         <source>Failed to load flow style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="232"/>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_writer.cpp" line="186"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="183"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_writer.cpp" line="123"/>
         <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="58"/>
         <location filename="../../../../src/plugins/flow_document/flow_document_writer.cpp" line="45"/>
         <source>Failed to open file = %1</source>
@@ -537,19 +550,6 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
-    </message>
-</context>
-<context>
-    <name>SelectionTool</name>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="20"/>
-        <source>Selection Tool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/selection_tool.cpp" line="202"/>
-        <source>Move objects</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

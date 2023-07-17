@@ -13,14 +13,7 @@ namespace flow_document {
 
 ObjectItem::ObjectItem(Object* object, FlowDocument* document,
                        QGraphicsItem* parent)
-    : QGraphicsObject(parent),
-      m_object(object),
-      m_document(document),
-      m_hovered(false) {
-  setAcceptedMouseButtons(Qt::MouseButton{});
-  setAcceptHoverEvents(true);
-  setAcceptDrops(true);
-  setFlag(QGraphicsItem::ItemIsSelectable);
+    : QGraphicsObject(parent), m_object(object), m_document(document) {
   setPos(m_object->getPosition());
   setVisible(m_object->isVisible());
 
@@ -28,15 +21,6 @@ ObjectItem::ObjectItem(Object* object, FlowDocument* document,
 }
 
 ObjectItem::~ObjectItem() = default;
-
-void ObjectItem::setHovered(bool hovered) {
-  if (m_hovered == hovered) return;
-
-  m_hovered = hovered;
-  update();
-}
-
-bool ObjectItem::isHovered() const { return m_hovered; }
 
 Object* ObjectItem::getObject() const { return m_object; }
 

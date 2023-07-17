@@ -119,15 +119,22 @@ void FlowDocument::deserialize(utils::IArchive &archive) {
 void FlowDocument::switchSelectedLayers(const QList<Layer *> &layers) {
   setSelectedLayers(layers);
 
-  if (layers.contains(m_current_layer))
+  if (!layers.contains(m_current_layer))
     setCurrentLayer(layers.isEmpty() ? nullptr : layers.first());
 }
 
 void FlowDocument::switchSelectedNodes(const QList<Node *> &nodes) {
   setSelectedNodes(nodes);
 
-  if (nodes.contains(m_current_node))
+  if (!nodes.contains(m_current_node))
     setCurrentNode(nodes.isEmpty() ? nullptr : nodes.first());
+}
+
+void FlowDocument::setHoveredNodes(const QList<Node *> &nodes) {
+  if (m_hovered_nodes == nodes) return;
+
+  m_hovered_nodes = nodes;
+  Q_EMIT hoveredNodesChanged(m_hovered_nodes);
 }
 
 /* ----------------------------------- Utils -------------------------------- */

@@ -23,25 +23,13 @@ class FlowStyleWriter::FlowStyleWriterImpl {
  private:
   void writeStyle(QJsonDocument &document, const FlowStyle &style);
 
-  [[nodiscard]] QJsonObject writeNodeStyle(const NodeStyle &style,
-                                           ObjectStyle::State state);
-  [[nodiscard]] QJsonObject writePinStyle(const PinStyle &style,
-                                          ObjectStyle::State state);
+  [[nodiscard]] QJsonObject writeNodeStyle(const NodeStyle &style);
+  [[nodiscard]] QJsonObject writePinStyle(const PinStyle &style);
 
-  [[nodiscard]] static QString convert(ObjectStyle::State state);
   [[nodiscard]] static QString convert(const QSizeF &size);
   [[nodiscard]] static QString convert(const QMarginsF &margins);
   [[nodiscard]] static QString convert(const Gradient &colors);
   [[nodiscard]] static QString convert(const GradientScale &scales);
-
-  template <typename STYLE, typename PROPERTY>
-  [[nodiscard]] bool stylePropIsOverridden(
-      const STYLE &style, PROPERTY (STYLE::*getter)(ObjectStyle::States) const,
-      ObjectStyle::State state) {
-    return state == ObjectStyle::State::Normal ||
-           (style.*getter)(ObjectStyle::State::Normal) !=
-               (style.*getter)(state);
-  }
 };
 
 void FlowStyleWriter::FlowStyleWriterImpl::writeStyle(const FlowStyle &style,
@@ -54,92 +42,41 @@ void FlowStyleWriter::FlowStyleWriterImpl::writeStyle(const FlowStyle &style,
 void FlowStyleWriter::FlowStyleWriterImpl::writeStyle(QJsonDocument &document,
                                                       const FlowStyle &style) {
   auto main = QJsonObject{};
+  auto nodes = writeNodeStyle(style.getNodeStyle());
+  auto pins = writePinStyle(style.getPinStyle());
 
-  auto nodes = QJsonObject{};
-  for (auto state : {ObjectStyle::State::Normal, ObjectStyle::State::Selected,
-                     ObjectStyle::State::Hovered}) {
-    nodes[convert(state)] = writeNodeStyle(style.getNodeStyle(), state);
-  }
   main[QLatin1String("nodes")] = nodes;
-
-  auto pins = QJsonObject{};
-  for (auto state : {ObjectStyle::State::Normal, ObjectStyle::State::Selected,
-                     ObjectStyle::State::Hovered}) {
-    pins[convert(state)] = writePinStyle(style.getPinStyle(), state);
-  }
   main[QLatin1String("pins")] = pins;
 
   document.setObject(main);
 }
 
 QJsonObject FlowStyleWriter::FlowStyleWriterImpl::writeNodeStyle(
-    const NodeStyle &style, ObjectStyle::State state) {
-  auto propIsOverridden = [&](auto prop_getter) {
-    return stylePropIsOverridden(style, prop_getter, state);
-  };
-
+    const NodeStyle &style) {
   auto object = QJsonObject{};
-
-  if (propIsOverridden(&NodeStyle::getFont))
-    object[QLatin1String("font")] = style.getFont(state).toString();
-  if (propIsOverridden(&NodeStyle::getFontColor))
-    object[QLatin1String("font_color")] = style.getFontColor(state).name();
-  if (propIsOverridden(&NodeStyle::getMargins))
-    object[QLatin1String("margins")] = convert(style.getMargins(state));
-  if (propIsOverridden(&NodeStyle::getGradient))
-    object[QLatin1String("gradient")] = convert(style.getGradient(state));
-  if (propIsOverridden(&NodeStyle::getGradientScale))
-    object[QLatin1String("gradient_scale")] =
-        convert(style.getGradientScale(state));
-  if (propIsOverridden(&NodeStyle::getBorderColor))
-    object[QLatin1String("border_color")] = style.getBorderColor(state).name();
-  if (propIsOverridden(&NodeStyle::getBorderRadius))
-    object[QLatin1String("border_radius")] = style.getBorderRadius(state);
-  if (propIsOverridden(&NodeStyle::getBorderSize))
-    object[QLatin1String("border_size")] = style.getBorderSize(state);
+  object[QLatin1String("font")] = style.getFont().toString();
+  object[QLatin1String("font_color")] = style.getFontColor().name();
+  object[QLatin1String("margins")] = convert(style.getMargins());
+  object[QLatin1String("gradient")] = convert(style.getGradient());
+  object[QLatin1String("gradient_scale")] = convert(style.getGradientScale());
+  object[QLatin1String("border_color")] = style.getBorderColor().name();
+  object[QLatin1String("border_radius")] = style.getBorderRadius();
+  object[QLatin1String("border_size")] = style.getBorderSize();
 
   return object;
 }
 
 QJsonObject FlowStyleWriter::FlowStyleWriterImpl::writePinStyle(
-    const PinStyle &style, ObjectStyle::State state) {
-  auto propIsOverridden = [&](auto prop_getter) {
-    return stylePropIsOverridden(style, prop_getter, state);
-  };
-
+    const PinStyle &style) {
   auto object = QJsonObject{};
-
-  if (propIsOverridden(&PinStyle::getFont))
-    object[QLatin1String("font")] = style.getFont(state).toString();
-  if (propIsOverridden(&PinStyle::getFontColor))
-    object[QLatin1String("font_color")] = style.getFontColor(state).name();
-  if (propIsOverridden(&PinStyle::getSize))
-    object[QLatin1String("size")] = convert(style.getSize(state));
-  if (propIsOverridden(&PinStyle::getMargins))
-    object[QLatin1String("margins")] = convert(style.getMargins(state));
-  if (propIsOverridden(&PinStyle::getColor))
-    object[QLatin1String("color")] = style.getColor(state).name();
-  if (propIsOverridden(&PinStyle::getBorderColor))
-    object[QLatin1String("border_color")] = style.getBorderColor(state).name();
+  object[QLatin1String("font")] = style.getFont().toString();
+  object[QLatin1String("font_color")] = style.getFontColor().name();
+  object[QLatin1String("size")] = convert(style.getSize());
+  object[QLatin1String("margins")] = convert(style.getMargins());
+  object[QLatin1String("color")] = style.getColor().name();
+  object[QLatin1String("border_color")] = style.getBorderColor().name();
 
   return object;
-}
-
-QString FlowStyleWriter::FlowStyleWriterImpl::convert(
-    ObjectStyle::State state) {
-  switch (state) {
-    case ObjectStyle::State::Normal:
-      return QLatin1String("normal");
-
-    case ObjectStyle::State::Selected:
-      return QLatin1String("selected");
-
-    case ObjectStyle::State::Hovered:
-      return QLatin1String("hovered");
-
-    default:
-      return {};
-  }
 }
 
 QString FlowStyleWriter::FlowStyleWriterImpl::convert(const QSizeF &size) {
