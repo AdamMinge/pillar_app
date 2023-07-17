@@ -151,7 +151,7 @@ void LayersView::onCurrentRowChanged(const QModelIndex &index) {
   const auto layers_model = utils::toSourceModel<LayersTreeModel>(model());
   auto current_layer = layers_model->toLayer(source_index);
 
-  m_document->switchCurrentLayer(current_layer);
+  m_document->setCurrentLayer(current_layer);
 }
 
 void LayersView::onCurrentLayerChanged(Layer *layer) {

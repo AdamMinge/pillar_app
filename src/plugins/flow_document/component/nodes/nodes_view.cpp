@@ -113,7 +113,7 @@ void NodesView::onCurrentRowChanged(const QModelIndex &index) {
   const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
 
   if (auto current_node = nodes_model->toNode(source_index); current_node) {
-    m_document->switchCurrentNode(current_node);
+    m_document->setCurrentNode(current_node);
   } else if (auto current_layer = nodes_model->toLayer(source_index);
              current_layer) {
     m_document->switchCurrentLayer(current_layer);
