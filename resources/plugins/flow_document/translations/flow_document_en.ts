@@ -275,7 +275,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="173"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="172"/>
         <source>Move nodes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -535,19 +535,6 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
-    </message>
-</context>
-<context>
-    <name>ShapeLayerPlugin</name>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/layer/shape/shape_layer_plugin.cpp" line="10"/>
-        <source>Shape Layer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/layer/shape/shape_layer_plugin.cpp" line="10"/>
-        <source>Shape</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

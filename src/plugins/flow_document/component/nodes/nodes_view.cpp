@@ -64,6 +64,24 @@ void NodesView::setDocument(FlowDocument *document) {
 
 FlowDocument *NodesView::getDocument() const { return m_document; }
 
+void NodesView::setModel(QAbstractItemModel *model) {
+  if (auto current_model = QTreeView::model()) {
+    disconnect(current_model, &QAbstractItemModel::rowsInserted, this,
+               &NodesView::onRowsInserted);
+    disconnect(current_model, &QAbstractItemModel::rowsRemoved, this,
+               &NodesView::onRowsRemoved);
+  }
+
+  QTreeView::setModel(model);
+
+  if (auto current_model = QTreeView::model()) {
+    connect(current_model, &QAbstractItemModel::rowsInserted, this,
+            &NodesView::onRowsInserted);
+    connect(current_model, &QAbstractItemModel::rowsRemoved, this,
+            &NodesView::onRowsRemoved);
+  }
+}
+
 void NodesView::contextMenuEvent(QContextMenuEvent *event) {
   const auto &handler = FlowDocumentActionHandler::getInstance();
 
@@ -163,6 +181,15 @@ void NodesView::onRowsInserted(const QModelIndex &parent, int first, int last) {
   auto node = nodes_model->toNode(source_index);
 
   m_document->switchCurrentNode(node);
+}
+
+void NodesView::onRowsRemoved(const QModelIndex &parent, int first, int last) {
+  const auto &selected_nodes = m_document->getSelectedNodes();
+  const auto current_node = m_document->getCurrentNode();
+
+  if (selected_nodes.empty() && current_node) {
+    m_document->setSelectedNodes({current_node});
+  }
 }
 
 }  // namespace flow_document
