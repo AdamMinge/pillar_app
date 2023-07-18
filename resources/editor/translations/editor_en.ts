@@ -25,12 +25,12 @@
     </message>
     <message>
         <location filename="../../../src/editor/about_dialog.cpp" line="56"/>
-        <source>https://github.com/AdamMinge/flow</source>
+        <source>https://github.com/AdamMinge/flow_app</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/editor/about_dialog.cpp" line="57"/>
-        <source>GitHub/AdamMinge/flow</source>
+        <source>GitHub/AdamMinge/flow_app</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

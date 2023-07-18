@@ -53,8 +53,8 @@ void AboutDialog::retranslateUi() {
           .arg(tr("Version %1").arg(EGNITE_VERSION_STR),
                tr("This Project is open source and <br/> contributions are "
                   "welcomed."),
-               tr("Visit"), tr("https://github.com/AdamMinge/flow"),
-               tr("GitHub/AdamMinge/flow"),
+               tr("Visit"), tr("https://github.com/AdamMinge/flow_app"),
+               tr("GitHub/AdamMinge/flow_app"),
                tr("for more information or to report a bug <br> or to suggest "
                   "a new "
                   "feature."),
