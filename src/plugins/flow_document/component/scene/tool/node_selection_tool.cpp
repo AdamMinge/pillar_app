@@ -117,9 +117,14 @@ void NodeSelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
 
     case Action::NoAction: {
       if (m_clicked_item) {
+        auto node = m_clicked_item->getNode();
+        auto document = getDocument();
+
+        document->setCurrentObject(node);
+
         if (m_modifiers & Qt::ControlModifier) {
-          const auto &nodes = getDocument()->getSelectedNodes();
-          if (nodes.contains(m_clicked_item->getNode())) {
+          const auto &nodes = document->getSelectedNodes();
+          if (nodes.contains(node)) {
             unselectNodes({m_clicked_item});
           } else {
             selectNodes({m_clicked_item});
@@ -235,7 +240,7 @@ void NodeSelectionTool::selectNodes(const QList<QGraphicsItem *> items,
   auto nodes = getNodes(items);
   if (extend) nodes << document->getSelectedNodes();
 
-  document->switchSelectedNodes(nodes);
+  document->setSelectedNodes(nodes);
 }
 
 void NodeSelectionTool::unselectNodes(const QList<QGraphicsItem *> items) {
@@ -248,7 +253,7 @@ void NodeSelectionTool::unselectNodes(const QList<QGraphicsItem *> items) {
   for (auto node_to_unselect : nodes_to_unselect)
     nodes.removeAll(node_to_unselect);
 
-  document->switchSelectedNodes(nodes);
+  document->setSelectedNodes(nodes);
 }
 
 QList<Node *> NodeSelectionTool::getNodes(

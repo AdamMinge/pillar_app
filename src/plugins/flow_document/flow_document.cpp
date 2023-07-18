@@ -13,6 +13,26 @@
 
 namespace flow_document {
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+[[nodiscard]] NodeLayer *getNodeLayer(const QList<Node *> &nodes) {
+  auto node_layer = static_cast<NodeLayer *>(nullptr);
+  for (auto node : nodes) {
+    if (!node_layer) {
+      node_layer = node->getParent();
+    } else if (node_layer != node->getParent()) {
+      node_layer = nullptr;
+      break;
+    }
+  }
+
+  return node_layer;
+}
+
+}  // namespace
+
 /* ------------------------------- FlowDocument ----------------------------- */
 
 std::unique_ptr<egnite::Document> FlowDocument::create() {
@@ -45,13 +65,19 @@ const QList<Node *> &FlowDocument::getSelectedNodes() const {
   return m_selected_nodes;
 }
 
+const QList<Node *> &FlowDocument::getHoveredNodes() const {
+  return m_hovered_nodes;
+}
+
 void FlowDocument::setCurrentLayer(Layer *layer) {
   if (m_current_layer != layer) {
     m_current_layer = layer;
     Q_EMIT currentLayerChanged(m_current_layer);
   }
 
-  setCurrentObject(layer);
+  auto object = getCurrentObject();
+  if (!object || object->isClassOrChild<Layer>())
+    setCurrentObject(m_current_layer);
 }
 
 void FlowDocument::setCurrentNode(Node *node) {
@@ -60,7 +86,9 @@ void FlowDocument::setCurrentNode(Node *node) {
     Q_EMIT currentNodeChanged(m_current_node);
   }
 
-  setCurrentObject(node);
+  auto object = getCurrentObject();
+  if (!object || object->isClassOrChild<Node>())
+    setCurrentObject(m_current_node);
 }
 
 void FlowDocument::setCurrentObject(Object *object) {
@@ -93,17 +121,7 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   m_selected_nodes = nodes;
   Q_EMIT selectedNodesChanged(m_selected_nodes);
 
-  auto node_layer = static_cast<NodeLayer *>(nullptr);
-  for (auto node : m_selected_nodes) {
-    if (!node_layer) {
-      node_layer = node->getParent();
-    } else if (node_layer != node->getParent()) {
-      node_layer = nullptr;
-      break;
-    }
-  }
-
-  if (node_layer) {
+  if (auto node_layer = getNodeLayer(nodes); node_layer) {
     switchCurrentLayer(node_layer);
   }
 }

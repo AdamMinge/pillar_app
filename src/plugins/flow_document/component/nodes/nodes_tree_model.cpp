@@ -134,9 +134,8 @@ QModelIndex NodesTreeModel::index(Node *node, int column) const {
 
 QModelIndex NodesTreeModel::index(int row, int column,
                                   const QModelIndex &parent) const {
-  auto object = static_cast<Object *>(m_flow->getRootLayer());
-  if (parent.isValid())
-    object = static_cast<Object *>(parent.internalPointer());
+  auto object = static_cast<Layer *>(m_flow->getRootLayer());
+  if (parent.isValid()) object = static_cast<Layer *>(parent.internalPointer());
 
   if (object->isClassOrChild<GroupLayer>()) {
     auto group_layer = static_cast<GroupLayer *>(object);

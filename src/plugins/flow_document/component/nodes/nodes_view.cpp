@@ -10,6 +10,7 @@
 #include <QHeaderView>
 #include <QScopedValueRollback>
 /* ----------------------------------- Utils -------------------------------- */
+#include <utils/delegate/conditional_bold_delegate.h>
 #include <utils/delegate/icon_check_delegate.h>
 #include <utils/dpi/dpi.h>
 #include <utils/model/cast.h>
@@ -19,6 +20,7 @@ namespace flow_document {
 
 NodesView::NodesView(QWidget *parent)
     : QTreeView(parent), m_document(nullptr), m_updating_selection(false) {
+  setMouseTracking(true);
   setHeaderHidden(true);
   setUniformRowHeights(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -113,6 +115,7 @@ void NodesView::selectionChanged(const QItemSelection &selected,
     if (node) nodes.append(node);
   }
 
+  QScopedValueRollback<bool> updating(m_updating_selection, true);
   m_document->setSelectedNodes(nodes);
 }
 
@@ -123,19 +126,28 @@ QItemSelectionModel::SelectionFlags NodesView::selectionCommand(
   return QTreeView::selectionCommand(index, event);
 }
 
-void NodesView::onCurrentRowChanged(const QModelIndex &index) {
+void NodesView::mouseMoveEvent(QMouseEvent *event) {
+  QTreeView::mouseMoveEvent(event);
+
   if (!m_document) return;
-  if (m_updating_selection) return;
 
-  const auto source_index = utils::mapToSourceIndex(index, model());
+  const auto index = indexAt(event->pos());
   const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
+  const auto source_index = utils::mapToSourceIndex(index, model());
+  auto node = nodes_model->toNode(source_index);
 
-  if (auto current_node = nodes_model->toNode(source_index); current_node) {
-    m_document->setCurrentNode(current_node);
-  } else if (auto current_layer = nodes_model->toLayer(source_index);
-             current_layer) {
-    m_document->switchCurrentLayer(current_layer);
+  auto hovered = QList<Node *>{};
+  if (node) hovered.append(node);
+
+  m_document->setHoveredNodes(hovered);
+}
+
+bool NodesView::viewportEvent(QEvent *event) {
+  if (event->type() == QEvent::Leave) {
+    if (m_document) m_document->setHoveredNodes({});
   }
+
+  return QTreeView::viewportEvent(event);
 }
 
 void NodesView::onCurrentNodeChanged(Node *node) {
@@ -151,6 +163,23 @@ void NodesView::onCurrentNodeChanged(Node *node) {
                                       QItemSelectionModel::ClearAndSelect |
                                           QItemSelectionModel::SelectCurrent |
                                           QItemSelectionModel::Rows);
+  }
+}
+
+void NodesView::onCurrentRowChanged(const QModelIndex &index) {
+  if (!m_document) return;
+  if (m_updating_selection) return;
+
+  const auto source_index = utils::mapToSourceIndex(index, model());
+  const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
+
+  if (auto current_node = nodes_model->toNode(source_index); current_node) {
+    m_document->setCurrentObject(current_node);
+    m_document->setCurrentNode(current_node);
+  } else if (auto current_layer = nodes_model->toLayer(source_index);
+             current_layer) {
+    m_document->setCurrentObject(current_layer);
+    m_document->switchSelectedLayers({current_layer});
   }
 }
 
@@ -184,11 +213,19 @@ void NodesView::onRowsInserted(const QModelIndex &parent, int first, int last) {
 }
 
 void NodesView::onRowsRemoved(const QModelIndex &parent, int first, int last) {
-  const auto &selected_nodes = m_document->getSelectedNodes();
-  const auto current_node = m_document->getCurrentNode();
+  const auto index =
+      model()->index(last, NodesTreeModel::Column::NameColumn, parent);
+  const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
+  const auto source_index = utils::mapToSourceIndex(index, model());
+  auto node = nodes_model->toNode(source_index);
 
-  if (selected_nodes.empty() && current_node) {
-    m_document->setSelectedNodes({current_node});
+  if (node) {
+    const auto &selected_nodes = m_document->getSelectedNodes();
+    const auto current_node = m_document->getCurrentNode();
+
+    if (selected_nodes.empty() && current_node) {
+      m_document->setSelectedNodes({current_node});
+    }
   }
 }
 

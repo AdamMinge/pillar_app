@@ -28,12 +28,15 @@ LayersView::LayersView(QWidget *parent)
   setItemDelegateForColumn(
       LayersTreeModel::Column::NameColumn,
       new utils::QtConditionalBoldDelegate([this](const auto &index) {
-        auto selection_model = this->selectionModel();
-        Q_ASSERT(selection_model);
-        auto current_index = selection_model->currentIndex();
+        const auto layers_model =
+            utils::toSourceModel<LayersTreeModel>(model());
+        const auto source_index = utils::mapToSourceIndex(index, model());
 
-        return index.parent() == current_index.parent() &&
-               index.row() == current_index.row();
+        auto current_layer =
+            m_document ? m_document->getCurrentLayer() : nullptr;
+        auto layer = layers_model->toLayer(source_index);
+
+        return current_layer && current_layer == layer;
       }));
   setItemDelegateForColumn(
       LayersTreeModel::Column::VisibleColumn,
@@ -133,6 +136,7 @@ void LayersView::selectionChanged(const QItemSelection &selected,
     layers.append(layer);
   }
 
+  QScopedValueRollback<bool> updating(m_updating_selection, true);
   m_document->setSelectedLayers(layers);
 }
 
@@ -151,6 +155,7 @@ void LayersView::onCurrentRowChanged(const QModelIndex &index) {
   const auto layers_model = utils::toSourceModel<LayersTreeModel>(model());
   auto current_layer = layers_model->toLayer(source_index);
 
+  m_document->setCurrentObject(current_layer);
   m_document->setCurrentLayer(current_layer);
 }
 
