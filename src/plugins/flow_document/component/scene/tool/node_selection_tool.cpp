@@ -110,7 +110,11 @@ void NodeSelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
       if (auto scene = getScene(); scene) {
         auto item = scene->itemAt(m_mouse_clicked_pos, QTransform{});
         auto node_item = dynamic_cast<NodeItem *>(item);
-        if (node_item) m_clicked_item = node_item;
+
+        if (node_item) {
+          auto node = node_item->getNode();
+          if (isMoveable(node)) m_clicked_item = node_item;
+        }
       }
 
       break;
@@ -169,7 +173,10 @@ void NodeSelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
 void NodeSelectionTool::updateHover(const QPointF &mouse_pos) {
   if (auto scene = getScene(); scene) {
     auto item = scene->itemAt(mouse_pos, QTransform{});
-    getDocument()->setHoveredNodes(getNodes({item}));
+    auto nodes = getNodes({item});
+    nodes.removeIf([](auto node) { return !isMoveable(node); });
+
+    getDocument()->setHoveredNodes(nodes);
   }
 }
 

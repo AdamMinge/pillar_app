@@ -275,7 +275,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="200"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="204"/>
         <source>Move nodes</source>
         <translation type="unfinished"></translation>
     </message>
