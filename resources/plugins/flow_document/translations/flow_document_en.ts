@@ -270,12 +270,12 @@
 <context>
     <name>NodeSelectionTool</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="39"/>
         <source>Node Selection Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="177"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_selection_tool.cpp" line="200"/>
         <source>Move nodes</source>
         <translation type="unfinished"></translation>
     </message>

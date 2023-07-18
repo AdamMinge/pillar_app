@@ -5,6 +5,8 @@
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/item/node_item.h"
 #include "flow_document/component/scene/item/selection_rectangle.h"
+#include "flow_document/flow/group_layer.h"
+#include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
 /* ---------------------------------- Egnite -------------------------------- */
@@ -15,6 +17,23 @@
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
+
+/* -------------------------------- isMoveable ------------------------------ */
+
+namespace {
+
+[[nodiscard]] bool isMoveable(Node *node) {
+  auto layer = static_cast<Layer *>(node->getParent());
+  do {
+    if (layer->isLocked()) return false;
+  } while (layer = layer->getParent());
+
+  return true;
+}
+
+}  // namespace
+
+/* ---------------------------- NodeSelectionTool --------------------------- */
 
 NodeSelectionTool::NodeSelectionTool(QObject *parent)
     : Tool(tr("Node Selection Tool"), QIcon(icons::x32::SelectionTool),
@@ -90,7 +109,6 @@ void NodeSelectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
 
       if (auto scene = getScene(); scene) {
         auto item = scene->itemAt(m_mouse_clicked_pos, QTransform{});
-
         auto node_item = dynamic_cast<NodeItem *>(item);
         if (node_item) m_clicked_item = node_item;
       }
@@ -163,7 +181,9 @@ void NodeSelectionTool::startItemMoving() {
   }
 
   for (auto node : getDocument()->getSelectedNodes()) {
-    m_moving_nodes.append(std::make_pair(node, node->getPosition()));
+    if (isMoveable(node)) {
+      m_moving_nodes.append(std::make_pair(node, node->getPosition()));
+    }
   }
 }
 
@@ -240,6 +260,7 @@ void NodeSelectionTool::selectNodes(const QList<QGraphicsItem *> items,
   auto nodes = getNodes(items);
   if (extend) nodes << document->getSelectedNodes();
 
+  nodes.removeIf([](auto node) { return !isMoveable(node); });
   document->setSelectedNodes(nodes);
 }
 
@@ -253,6 +274,7 @@ void NodeSelectionTool::unselectNodes(const QList<QGraphicsItem *> items) {
   for (auto node_to_unselect : nodes_to_unselect)
     nodes.removeAll(node_to_unselect);
 
+  nodes.removeIf([](auto node) { return !isMoveable(node); });
   document->setSelectedNodes(nodes);
 }
 
