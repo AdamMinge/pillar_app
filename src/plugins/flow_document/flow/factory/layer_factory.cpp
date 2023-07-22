@@ -2,6 +2,7 @@
 #include "flow_document/flow/factory/layer_factory.h"
 
 #include "flow_document/command/add_remove_layer.h"
+#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
@@ -120,6 +121,22 @@ QString NodeLayerFactory::getObjectClassName() const {
 
 std::unique_ptr<Object> NodeLayerFactory::createObject() const {
   return std::make_unique<NodeLayer>();
+}
+
+/* --------------------------- ConnectionLayerFactory ----------------------- */
+
+ConnectionLayerFactory::ConnectionLayerFactory(QObject* parent)
+    : LayerFactory(tr("Connection Layer"), tr("Base"),
+                   QIcon(icons::x32::ConnectionLayer), parent) {}
+
+ConnectionLayerFactory::~ConnectionLayerFactory() = default;
+
+QString ConnectionLayerFactory::getObjectClassName() const {
+  return ConnectionLayer::sGetClassName();
+}
+
+std::unique_ptr<Object> ConnectionLayerFactory::createObject() const {
+  return std::make_unique<ConnectionLayer>();
 }
 
 }  // namespace flow_document

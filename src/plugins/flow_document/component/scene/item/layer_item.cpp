@@ -6,6 +6,7 @@
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
+#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/node.h"
@@ -151,6 +152,23 @@ void NodeLayerItem::onEvent(const ChangeEvent& event) {
   for (auto i = 0; i < m_node_items.size(); ++i) {
     m_node_items[i]->setZValue(i);
   }
+}
+
+/* --------------------------- ConnectionLayerItem -------------------------- */
+
+ConnectionLayerItem::ConnectionLayerItem(ConnectionLayer* layer,
+                                         FlowDocument* document,
+                                         QGraphicsItem* parent)
+    : LayerItem(layer, document, parent) {}
+
+ConnectionLayerItem::~ConnectionLayerItem() = default;
+
+ConnectionLayer* ConnectionLayerItem::getConnectionLayer() const {
+  return static_cast<ConnectionLayer*>(getObject());
+}
+
+void ConnectionLayerItem::onEvent(const ChangeEvent& event) {
+  LayerItem::onEvent(event);
 }
 
 }  // namespace flow_document

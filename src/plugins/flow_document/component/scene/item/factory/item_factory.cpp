@@ -1,9 +1,12 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/factory/item_factory.h"
 
+#include "flow_document/component/scene/item/connection_item.h"
 #include "flow_document/component/scene/item/flow_item.h"
 #include "flow_document/component/scene/item/layer_item.h"
 #include "flow_document/component/scene/item/node_item.h"
+#include "flow_document/flow/connection.h"
+#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/node.h"
@@ -68,6 +71,24 @@ ObjectItem* NodeLayerItemFactory::create(Object* object, FlowDocument* document,
   return new NodeLayerItem(static_cast<NodeLayer*>(object), document, parent);
 }
 
+/* ------------------------- ConnectionLayerItemFactory --------------------- */
+
+ConnectionLayerItemFactory::ConnectionLayerItemFactory(QObject* parent)
+    : ItemFactory(parent) {}
+
+ConnectionLayerItemFactory::~ConnectionLayerItemFactory() = default;
+
+QString ConnectionLayerItemFactory::getObjectClassName() const {
+  return ConnectionLayer::sGetClassName();
+}
+
+ObjectItem* ConnectionLayerItemFactory::create(Object* object,
+                                               FlowDocument* document,
+                                               QGraphicsItem* parent) const {
+  return new ConnectionLayerItem(static_cast<ConnectionLayer*>(object),
+                                 document, parent);
+}
+
 /* ------------------------------- NodeItemFactory -------------------------- */
 
 NodeItemFactory::NodeItemFactory(QObject* parent) : ItemFactory(parent) {}
@@ -81,6 +102,23 @@ QString NodeItemFactory::getObjectClassName() const {
 ObjectItem* NodeItemFactory::create(Object* object, FlowDocument* document,
                                     QGraphicsItem* parent) const {
   return new NodeItem(static_cast<Node*>(object), document, parent);
+}
+
+/* ---------------------------- ConnectionItemFactory ----------------------- */
+
+ConnectionItemFactory::ConnectionItemFactory(QObject* parent)
+    : ItemFactory(parent) {}
+
+ConnectionItemFactory::~ConnectionItemFactory() = default;
+
+QString ConnectionItemFactory::getObjectClassName() const {
+  return Connection::sGetClassName();
+}
+
+ObjectItem* ConnectionItemFactory::create(Object* object,
+                                          FlowDocument* document,
+                                          QGraphicsItem* parent) const {
+  return new ConnectionItem(static_cast<Connection*>(object), document, parent);
 }
 
 /* ----------------------------------- Utils -------------------------------- */

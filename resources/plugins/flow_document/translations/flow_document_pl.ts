@@ -2,6 +2,27 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL">
 <context>
+    <name>ConnectionLayerFactory</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="129"/>
+        <source>Connection Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="129"/>
+        <source>Base</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionsTreeModel</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/connections/connections_tree_model.cpp" line="89"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FactoriesTreeModel</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/component/factories/factories_tree_model.cpp" line="38"/>
@@ -145,12 +166,12 @@
 <context>
     <name>GroupLayerFactory</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="96"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="97"/>
         <source>Group Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="96"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="97"/>
         <source>Base</source>
         <translation type="unfinished"></translation>
     </message>
@@ -234,12 +255,12 @@
 <context>
     <name>NodeLayerFactory</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="112"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="113"/>
         <source>Node Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="112"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="113"/>
         <source>Base</source>
         <translation type="unfinished"></translation>
     </message>

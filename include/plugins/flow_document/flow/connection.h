@@ -8,15 +8,30 @@
 
 namespace flow_document {
 
+class ConnectionLayer;
+
 class FLOW_DOCUMENT_API Connection : public Object {
+  friend ConnectionLayer;
+
   FLOW_OBJECT_CLASS(Connection, Object)
 
  public:
   explicit Connection();
   ~Connection() override;
 
+  [[nodiscard]] ConnectionLayer *getParent() const;
+
+  [[nodiscard]] std::unique_ptr<Connection> clone() const;
+
   void serialize(utils::OArchive &archive) const override;
   void deserialize(utils::IArchive &archive) override;
+
+ protected:
+  void init(const Connection *connection);
+  void setParent(ConnectionLayer *parent);
+
+ private:
+  ConnectionLayer *m_parent;
 };
 
 }  // namespace flow_document

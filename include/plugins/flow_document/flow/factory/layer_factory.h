@@ -70,6 +70,20 @@ class FLOW_DOCUMENT_API NodeLayerFactory : public LayerFactory {
   [[nodiscard]] std::unique_ptr<Object> createObject() const override;
 };
 
+/* --------------------------- ConnectionLayerFactory ----------------------- */
+
+class FLOW_DOCUMENT_API ConnectionLayerFactory : public LayerFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::LayerFactory)
+
+ public:
+  explicit ConnectionLayerFactory(QObject* parent = nullptr);
+  ~ConnectionLayerFactory() override;
+
+  [[nodiscard]] QString getObjectClassName() const override;
+  [[nodiscard]] std::unique_ptr<Object> createObject() const override;
+};
+
 }  // namespace flow_document
 
 /* ----------------------- Helper macro to create factory ------------------- */

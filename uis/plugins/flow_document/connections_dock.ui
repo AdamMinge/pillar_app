@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConnectionsDock</class>
+ <widget class="QDockWidget" name="ConnectionsDock">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>274</width>
+    <height>232</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Connections</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLineEdit" name="m_search_connections_edit">
+        <property name="placeholderText">
+         <string>Search connections</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="flow_document::ConnectionsView" name="m_connections_view"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="m_toolbar_layout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
+         <number>2</number>
+        </property>
+        <property name="rightMargin">
+         <number>2</number>
+        </property>
+        <property name="bottomMargin">
+         <number>2</number>
+        </property>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>flow_document::ConnectionsView</class>
+   <extends>QTreeView</extends>
+   <header>flow_document/component/connections/connections_view.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../resources/plugins/flow_document/flow_document.qrc"/>
+ </resources>
+ <connections/>
+</ui>

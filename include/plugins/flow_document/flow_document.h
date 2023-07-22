@@ -9,6 +9,7 @@
 #include <egnite/document/document.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/export.h"
+#include "flow_document/flow/connection.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/node.h"
 /* -------------------------------------------------------------------------- */
@@ -17,8 +18,6 @@ namespace flow_document {
 
 class ChangeEvent;
 class Flow;
-class Layer;
-class Node;
 
 /* ------------------------------- FlowDocument ----------------------------- */
 
@@ -35,10 +34,13 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   [[nodiscard]] Layer *getCurrentLayer() const;
   [[nodiscard]] Node *getCurrentNode() const;
+  [[nodiscard]] Connection *getCurrentConnection() const;
   [[nodiscard]] Object *getCurrentObject() const;
 
   [[nodiscard]] const QList<Layer *> &getSelectedLayers() const;
   [[nodiscard]] const QList<Node *> &getSelectedNodes() const;
+  [[nodiscard]] const QList<Connection *> &getSelectedConnections() const;
+
   [[nodiscard]] const QList<Node *> &getHoveredNodes() const;
 
   void serialize(utils::OArchive &archive) const override;
@@ -47,16 +49,20 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
  public Q_SLOTS:
   void setCurrentLayer(Layer *layer);
   void setCurrentNode(Node *node);
+  void setCurrentConnection(Connection *connection);
   void setCurrentObject(Object *object);
 
   void switchCurrentLayer(Layer *layer);
   void switchCurrentNode(Node *node);
+  void switchCurrentConnection(Connection *connection);
 
   void setSelectedLayers(const QList<Layer *> &layers);
   void setSelectedNodes(const QList<Node *> &nodes);
+  void setSelectedConnections(const QList<Connection *> &connections);
 
   void switchSelectedLayers(const QList<Layer *> &layers);
   void switchSelectedNodes(const QList<Node *> &nodes);
+  void switchSelectedConnections(const QList<Connection *> &connections);
 
   void setHoveredNodes(const QList<Node *> &nodes);
 
@@ -65,10 +71,12 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   void currentLayerChanged(Layer *layer);
   void currentNodeChanged(Node *node);
+  void currentConnectionChanged(Connection *connection);
   void currentObjectChanged(Object *object);
 
   void selectedLayersChanged(const QList<Layer *> &layers);
   void selectedNodesChanged(const QList<Node *> &nodes);
+  void selectedConnectionsChanged(const QList<Connection *> &connections);
 
   void hoveredNodesChanged(const QList<Node *> &nodes);
 
@@ -80,10 +88,13 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
   Layer *m_current_layer;
   Node *m_current_node;
+  Connection *m_current_connection;
   Object *m_current_object;
 
   QList<Layer *> m_selected_layers;
   QList<Node *> m_selected_nodes;
+  QList<Connection *> m_selected_connections;
+
   QList<Node *> m_hovered_nodes;
 };
 

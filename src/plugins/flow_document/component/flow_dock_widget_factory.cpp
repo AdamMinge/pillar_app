@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/flow_dock_widget_factory.h"
 
+#include "flow_document/component/connections/connections_dock.h"
 #include "flow_document/component/factories/factories_dock.h"
 #include "flow_document/component/layers/layers_dock.h"
 #include "flow_document/component/nodes/nodes_dock.h"
@@ -75,6 +76,21 @@ Qt::DockWidgetArea PropertiesDockWidgetFactory::getDockWidgetArea() const {
 
 FlowDockWidget* PropertiesDockWidgetFactory::create(QWidget* parent) const {
   return new PropertiesDock(parent);
+}
+
+/* ------------------------ ConnectionsDockWidgetFactory -------------------- */
+
+ConnectionsDockWidgetFactory::ConnectionsDockWidgetFactory(QObject* parent)
+    : FlowDockWidgetFactory(parent) {}
+
+ConnectionsDockWidgetFactory::~ConnectionsDockWidgetFactory() = default;
+
+Qt::DockWidgetArea ConnectionsDockWidgetFactory::getDockWidgetArea() const {
+  return Qt::RightDockWidgetArea;
+}
+
+FlowDockWidget* ConnectionsDockWidgetFactory::create(QWidget* parent) const {
+  return new ConnectionsDock(parent);
 }
 
 }  // namespace flow_document

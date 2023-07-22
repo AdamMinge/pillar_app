@@ -45,6 +45,7 @@ FlowDocument::FlowDocument(QObject *parent)
       m_flow(std::make_unique<Flow>()),
       m_current_layer(nullptr),
       m_current_node(nullptr),
+      m_current_connection(nullptr),
       m_current_object(nullptr) {}
 
 FlowDocument::~FlowDocument() = default;
@@ -55,6 +56,10 @@ Layer *FlowDocument::getCurrentLayer() const { return m_current_layer; }
 
 Node *FlowDocument::getCurrentNode() const { return m_current_node; }
 
+Connection *FlowDocument::getCurrentConnection() const {
+  return m_current_connection;
+}
+
 Object *FlowDocument::getCurrentObject() const { return m_current_object; }
 
 const QList<Layer *> &FlowDocument::getSelectedLayers() const {
@@ -63,6 +68,10 @@ const QList<Layer *> &FlowDocument::getSelectedLayers() const {
 
 const QList<Node *> &FlowDocument::getSelectedNodes() const {
   return m_selected_nodes;
+}
+
+const QList<Connection *> &FlowDocument::getSelectedConnections() const {
+  return m_selected_connections;
 }
 
 const QList<Node *> &FlowDocument::getHoveredNodes() const {
@@ -91,6 +100,17 @@ void FlowDocument::setCurrentNode(Node *node) {
     setCurrentObject(m_current_node);
 }
 
+void FlowDocument::setCurrentConnection(Connection *connection) {
+  if (m_current_connection != connection) {
+    m_current_connection = connection;
+    Q_EMIT currentConnectionChanged(m_current_connection);
+  }
+
+  auto object = getCurrentObject();
+  if (!object || object->isClassOrChild<Connection>())
+    setCurrentObject(m_current_connection);
+}
+
 void FlowDocument::setCurrentObject(Object *object) {
   if (m_current_object == object) return;
 
@@ -106,6 +126,12 @@ void FlowDocument::switchCurrentLayer(Layer *layer) {
 void FlowDocument::switchCurrentNode(Node *node) {
   if (node && !m_selected_nodes.contains(node)) setSelectedNodes({node});
   setCurrentNode(node);
+}
+
+void FlowDocument::switchCurrentConnection(Connection *connection) {
+  if (connection && !m_selected_connections.contains(connection))
+    setSelectedConnections({connection});
+  setCurrentConnection(connection);
 }
 
 void FlowDocument::setSelectedLayers(const QList<Layer *> &layers) {
@@ -124,6 +150,14 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   if (auto node_layer = getNodeLayer(nodes); node_layer) {
     switchCurrentLayer(node_layer);
   }
+}
+
+void FlowDocument::setSelectedConnections(
+    const QList<Connection *> &connections) {
+  if (m_selected_connections == connections) return;
+
+  m_selected_connections = connections;
+  Q_EMIT selectedConnectionsChanged(m_selected_connections);
 }
 
 void FlowDocument::serialize(utils::OArchive &archive) const {
@@ -146,6 +180,14 @@ void FlowDocument::switchSelectedNodes(const QList<Node *> &nodes) {
 
   if (!nodes.contains(m_current_node))
     setCurrentNode(nodes.isEmpty() ? nullptr : nodes.first());
+}
+
+void FlowDocument::switchSelectedConnections(
+    const QList<Connection *> &connections) {
+  setSelectedConnections(connections);
+
+  if (!connections.contains(m_current_connection))
+    setCurrentConnection(connections.isEmpty() ? nullptr : connections.first());
 }
 
 void FlowDocument::setHoveredNodes(const QList<Node *> &nodes) {

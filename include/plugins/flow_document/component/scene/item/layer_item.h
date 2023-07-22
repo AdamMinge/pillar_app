@@ -12,6 +12,7 @@ namespace flow_document {
 class Layer;
 class GroupLayer;
 class NodeLayer;
+class ConnectionLayer;
 class LayersChangeEvent;
 class NodeItem;
 
@@ -68,6 +69,22 @@ class FLOW_DOCUMENT_API NodeLayerItem : public LayerItem {
 
  private:
   QList<NodeItem*> m_node_items;
+};
+
+/* --------------------------- ConnectionLayerItem -------------------------- */
+
+class FLOW_DOCUMENT_API ConnectionLayerItem : public LayerItem {
+  Q_OBJECT
+
+ public:
+  explicit ConnectionLayerItem(ConnectionLayer* layer, FlowDocument* document,
+                               QGraphicsItem* parent = nullptr);
+  ~ConnectionLayerItem() override;
+
+  [[nodiscard]] ConnectionLayer* getConnectionLayer() const;
+
+ protected Q_SLOTS:
+  void onEvent(const ChangeEvent& event) override;
 };
 
 }  // namespace flow_document

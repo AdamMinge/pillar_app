@@ -32,6 +32,7 @@ set(sources
     ${source_root}/flow/connection.cpp
     ${source_root}/flow/group_layer.cpp
     ${source_root}/flow/node_layer.cpp
+    ${source_root}/flow/connection_layer.cpp
     ${source_root}/flow/layer_iterator.cpp
     ${source_root}/flow/factory/object_factory.cpp
     ${source_root}/flow/factory/node_factory.cpp
@@ -62,12 +63,16 @@ set(sources
     ${source_root}/component/layers/layers_dock.cpp
     ${source_root}/component/layers/layers_view.cpp
     ${source_root}/component/layers/layers_tree_model.cpp
+    ${source_root}/component/connections/connections_dock.cpp
+    ${source_root}/component/connections/connections_view.cpp
+    ${source_root}/component/connections/connections_tree_model.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/item/object_item.cpp
     ${source_root}/component/scene/item/flow_item.cpp
     ${source_root}/component/scene/item/layer_item.cpp
     ${source_root}/component/scene/item/node_item.cpp
+    ${source_root}/component/scene/item/connection_item.cpp
     ${source_root}/component/scene/item/selection_rectangle.cpp
     ${source_root}/component/scene/item/object_selection_item.cpp
     ${source_root}/component/scene/item/factory/item_factory.cpp
@@ -105,6 +110,7 @@ set(includes
     ${include_root}/flow/connection.h
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
+    ${include_root}/flow/connection_layer.h
     ${include_root}/flow/layer_iterator.h
     ${include_root}/flow/factory/object_factory.h
     ${include_root}/flow/factory/node_factory.h
@@ -137,12 +143,16 @@ set(includes
     ${include_root}/component/layers/layers_dock.h
     ${include_root}/component/layers/layers_view.h
     ${include_root}/component/layers/layers_tree_model.h
+    ${include_root}/component/connections/connections_dock.h
+    ${include_root}/component/connections/connections_view.h
+    ${include_root}/component/connections/connections_tree_model.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/item/object_item.h
     ${include_root}/component/scene/item/flow_item.h
     ${include_root}/component/scene/item/layer_item.h
     ${include_root}/component/scene/item/node_item.h
+    ${include_root}/component/scene/item/connection_item.h
     ${include_root}/component/scene/item/selection_rectangle.h
     ${include_root}/component/scene/item/object_selection_item.h
     ${include_root}/component/scene/item/factory/item_factory.h
@@ -160,7 +170,7 @@ set(resources ${resources_root}/flow_document.qrc)
 set(uis
     ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui
     ${uis_root}/properties_dock.ui ${uis_root}/layers_dock.ui
-    ${uis_root}/nodes_dock.ui)
+    ${uis_root}/connections_dock.ui ${uis_root}/nodes_dock.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

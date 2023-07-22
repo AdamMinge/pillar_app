@@ -95,6 +95,22 @@ class FLOW_DOCUMENT_API PropertiesDockWidgetFactory
       QWidget* parent = nullptr) const override;
 };
 
+/* ------------------------ ConnectionsDockWidgetFactory -------------------- */
+
+class FLOW_DOCUMENT_API ConnectionsDockWidgetFactory
+    : public FlowDockWidgetFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::FlowDockWidgetFactory)
+
+ public:
+  explicit ConnectionsDockWidgetFactory(QObject* parent = nullptr);
+  ~ConnectionsDockWidgetFactory() override;
+
+  [[nodiscard]] Qt::DockWidgetArea getDockWidgetArea() const override;
+  [[nodiscard]] FlowDockWidget* create(
+      QWidget* parent = nullptr) const override;
+};
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_FLOW_DOCK_WIDGET_FACTORY_H

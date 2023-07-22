@@ -31,11 +31,14 @@ void FlowDocumentPlugin::init() {
   addObject(new LayersDockWidgetFactory(this));
   addObject(new NodesDockWidgetFactory(this));
   addObject(new PropertiesDockWidgetFactory(this));
+  addObject(new ConnectionsDockWidgetFactory(this));
 
   addObject(new FlowItemFactory(this));
   addObject(new GroupLayerItemFactory(this));
   addObject(new NodeLayerItemFactory(this));
+  addObject(new ConnectionLayerItemFactory(this));
   addObject(new NodeItemFactory(this));
+  addObject(new ConnectionItemFactory(this));
 
   addObject(new NodeSelectionToolFactory(this));
 
@@ -44,6 +47,7 @@ void FlowDocumentPlugin::init() {
 
   addObject(new GroupLayerFactory(this));
   addObject(new NodeLayerFactory(this));
+  addObject(new ConnectionLayerFactory(this));
 
   addObject(
       new egnite::BaseLanguageTranslator(translations::TranslationsPath, this));
