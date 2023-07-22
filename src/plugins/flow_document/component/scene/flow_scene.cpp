@@ -76,8 +76,11 @@ void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
       auto factory = getObjectFactoryByClassName(object_class);
       Q_ASSERT(factory);
 
-      factory->addObject(m_flow_document, [&drop_position](auto object) {
-        object->setPosition(drop_position);
+      factory->addObject(m_flow_document, [&drop_position](Object *object) {
+        if (object->isClassOrChild<MoveableObject>()) {
+          auto moveable_object = static_cast<MoveableObject *>(object);
+          moveable_object->setPosition(drop_position);
+        }
       });
     }
   }

@@ -37,7 +37,10 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
     : ObjectItem(node, document, parent),
       m_selection_item(new NodeSelectionItem(node, document, this)),
       m_node_painter(std::make_unique<NodePainter>(*this)),
-      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {}
+      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {
+  setPos(getNode()->getPosition());
+  setVisible(getNode()->isVisible());
+}
 
 NodeItem::~NodeItem() = default;
 

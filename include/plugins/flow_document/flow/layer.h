@@ -12,9 +12,9 @@ class GroupLayer;
 
 /* ----------------------------------- Layer -------------------------------- */
 
-class FLOW_DOCUMENT_API Layer : public Object {
+class FLOW_DOCUMENT_API Layer : public MoveableObject {
   friend GroupLayer;
-  FLOW_OBJECT_CLASS(Layer, Object)
+  FLOW_OBJECT_CLASS(Layer, MoveableObject)
 
  public:
   explicit Layer();
@@ -22,6 +22,9 @@ class FLOW_DOCUMENT_API Layer : public Object {
 
   void setOpacity(qreal opacity);
   [[nodiscard]] qreal getOpacity() const;
+
+  void setVisible(bool visible);
+  [[nodiscard]] bool isVisible() const;
 
   void setLocked(bool locked);
   [[nodiscard]] bool isLocked() const;
@@ -44,6 +47,7 @@ class FLOW_DOCUMENT_API Layer : public Object {
  private:
   GroupLayer* m_parent;
   qreal m_opacity;
+  bool m_visible;
   bool m_locked;
 };
 

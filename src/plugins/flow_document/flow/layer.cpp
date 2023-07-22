@@ -12,13 +12,18 @@ namespace flow_document {
 
 /* ----------------------------------- Layer -------------------------------- */
 
-Layer::Layer() : m_parent(nullptr), m_opacity(1), m_locked(false) {}
+Layer::Layer()
+    : m_parent(nullptr), m_opacity(1), m_visible(true), m_locked(false) {}
 
 Layer::~Layer() = default;
 
 qreal Layer::getOpacity() const { return m_opacity; }
 
 void Layer::setOpacity(qreal opacity) { m_opacity = opacity; }
+
+void Layer::setVisible(bool visible) { m_visible = visible; }
+
+bool Layer::isVisible() const { return m_visible; }
 
 void Layer::setLocked(bool locked) { m_locked = locked; }
 
@@ -50,25 +55,28 @@ bool Layer::isParentOrSelf(Layer* layer) const {
 }
 
 void Layer::init(const Layer* layer) {
-  Object::init(layer);
+  MoveableObject::init(layer);
 
   m_opacity = layer->m_opacity;
+  m_visible = layer->m_visible;
   m_locked = layer->m_locked;
 }
 
 void Layer::setParent(GroupLayer* parent) { m_parent = parent; }
 
 void Layer::serialize(utils::OArchive& archive) const {
-  Object::serialize(archive);
+  MoveableObject::serialize(archive);
 
   archive << utils::ArchiveProperty("opacity", m_opacity);
+  archive << utils::ArchiveProperty("visible", m_visible);
   archive << utils::ArchiveProperty("locked", m_locked);
 }
 
 void Layer::deserialize(utils::IArchive& archive) {
-  Object::deserialize(archive);
+  MoveableObject::deserialize(archive);
 
   archive >> utils::ArchiveProperty("opacity", m_opacity);
+  archive >> utils::ArchiveProperty("visible", m_visible);
   archive >> utils::ArchiveProperty("locked", m_locked);
 }
 

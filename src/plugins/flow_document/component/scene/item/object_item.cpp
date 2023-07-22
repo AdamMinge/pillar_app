@@ -14,9 +14,6 @@ namespace flow_document {
 ObjectItem::ObjectItem(Object* object, FlowDocument* document,
                        QGraphicsItem* parent)
     : QGraphicsObject(parent), m_object(object), m_document(document) {
-  setPos(m_object->getPosition());
-  setVisible(m_object->isVisible());
-
   connect(m_document, &FlowDocument::event, this, &ObjectItem::onEvent);
 }
 

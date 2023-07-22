@@ -347,7 +347,17 @@ QIcon NodesTreeModel::getIcon(const QModelIndex &index) const {
 
 Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
-  return object->isVisible() ? Qt::Checked : Qt::Unchecked;
+
+  auto is_visible = false;
+  if (object->isClassOrChild<Node>()) {
+    auto node = static_cast<Node *>(object);
+    is_visible = node->isVisible();
+  } else if (object->isClassOrChild<Layer>()) {
+    auto layer = static_cast<Layer *>(object);
+    is_visible = layer->isVisible();
+  }
+
+  return is_visible ? Qt::Checked : Qt::Unchecked;
 }
 
 void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {

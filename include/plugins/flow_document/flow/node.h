@@ -11,14 +11,17 @@ namespace flow_document {
 
 class NodeLayer;
 
-class FLOW_DOCUMENT_API Node : public Object {
+class FLOW_DOCUMENT_API Node : public MoveableObject {
   friend NodeLayer;
 
-  FLOW_OBJECT_CLASS(Node, Object)
+  FLOW_OBJECT_CLASS(Node, MoveableObject)
 
  public:
   explicit Node();
   ~Node() override;
+
+  void setVisible(bool visible);
+  [[nodiscard]] bool isVisible() const;
 
   [[nodiscard]] size_t getPinsCounts(Pin::Type type) const;
 
@@ -47,6 +50,7 @@ class FLOW_DOCUMENT_API Node : public Object {
 
  private:
   NodeLayer *m_parent;
+  bool m_visible;
 
   QVector<Pin> m_out_pins;
   QVector<Pin> m_in_pins;

@@ -7,7 +7,9 @@
 
 namespace flow_document {
 
-Object::Object() : m_id(QUuid::createUuid()), m_visible(true) {}
+/* ----------------------------------- Object ------------------------------- */
+
+Object::Object() : m_id(QUuid::createUuid()) {}
 
 Object::~Object() = default;
 
@@ -16,14 +18,6 @@ QUuid Object::getId() const { return m_id; }
 void Object::setName(const QString &name) { m_name = name; }
 
 QString Object::getName() const { return m_name; }
-
-void Object::setVisible(bool visible) { m_visible = visible; }
-
-bool Object::isVisible() const { return m_visible; }
-
-void Object::setPosition(const QPointF &position) { m_position = position; }
-
-QPointF Object::getPosition() const { return m_position; }
 
 void Object::setProperty(const QString &name, const QVariant &value) {
   m_properties[name] = value;
@@ -44,16 +38,12 @@ const QVariantMap &Object::getProperties() const { return m_properties; }
 void Object::serialize(utils::OArchive &archive) const {
   archive << utils::ArchiveProperty("id", m_id);
   archive << utils::ArchiveProperty("name", m_name);
-  archive << utils::ArchiveProperty("position", m_position);
-  archive << utils::ArchiveProperty("visible", m_visible);
   archive << utils::ArchiveProperty("properties", m_properties);
 }
 
 void Object::deserialize(utils::IArchive &archive) {
   archive >> utils::ArchiveProperty("id", m_id);
   archive >> utils::ArchiveProperty("name", m_name);
-  archive >> utils::ArchiveProperty("position", m_position);
-  archive >> utils::ArchiveProperty("visible", m_visible);
   archive >> utils::ArchiveProperty("properties", m_properties);
 }
 
@@ -88,8 +78,36 @@ bool Object::isClassOrChild(const QString &class_name) const {
 void Object::init(const Object *object) {
   m_name = object->m_name;
   m_properties = object->m_properties;
+}
+
+/* ------------------------------- MoveableObject --------------------------- */
+
+MoveableObject::MoveableObject() = default;
+
+MoveableObject::~MoveableObject() = default;
+
+void MoveableObject::setPosition(const QPointF &position) {
+  m_position = position;
+}
+
+QPointF MoveableObject::getPosition() const { return m_position; }
+
+void MoveableObject::serialize(utils::OArchive &archive) const {
+  Object::serialize(archive);
+
+  archive << utils::ArchiveProperty("position", m_position);
+}
+
+void MoveableObject::deserialize(utils::IArchive &archive) {
+  Object::deserialize(archive);
+
+  archive >> utils::ArchiveProperty("position", m_position);
+}
+
+void MoveableObject::init(const MoveableObject *object) {
+  Object::init(object);
+
   m_position = object->m_position;
-  m_visible = object->m_visible;
 }
 
 }  // namespace flow_document

@@ -29,6 +29,7 @@ set(sources
     ${source_root}/flow/pin.cpp
     ${source_root}/flow/flow.cpp
     ${source_root}/flow/layer.cpp
+    ${source_root}/flow/connection.cpp
     ${source_root}/flow/group_layer.cpp
     ${source_root}/flow/node_layer.cpp
     ${source_root}/flow/layer_iterator.cpp
@@ -101,6 +102,7 @@ set(includes
     ${include_root}/flow/pin.h
     ${include_root}/flow/flow.h
     ${include_root}/flow/layer.h
+    ${include_root}/flow/connection.h
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
     ${include_root}/flow/layer_iterator.h

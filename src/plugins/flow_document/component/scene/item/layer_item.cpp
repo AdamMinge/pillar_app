@@ -18,7 +18,10 @@ namespace flow_document {
 
 LayerItem::LayerItem(Layer* layer, FlowDocument* document,
                      QGraphicsItem* parent)
-    : ObjectItem(layer, document, parent) {}
+    : ObjectItem(layer, document, parent) {
+  setPos(getLayer()->getPosition());
+  setVisible(getLayer()->isVisible());
+}
 
 LayerItem::~LayerItem() = default;
 
