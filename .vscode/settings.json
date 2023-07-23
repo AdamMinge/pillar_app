@@ -110,7 +110,8 @@
         "qstandarditemmodel": "cpp",
         "qgraphicsobject": "cpp",
         "qlist": "cpp",
-        "qpainter": "cpp"
+        "qpainter": "cpp",
+        "qscopedvaluerollback": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

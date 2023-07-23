@@ -362,6 +362,7 @@ Qt::CheckState NodesTreeModel::isVisible(const QModelIndex &index) const {
 
 void NodesTreeModel::setName(const QModelIndex &index, const QString &name) {
   const auto object = static_cast<Object *>(index.internalPointer());
+  if (object->getName() == name) return;
 
   if (object->isClassOrChild<Node>()) {
     m_document->getUndoStack()->push(

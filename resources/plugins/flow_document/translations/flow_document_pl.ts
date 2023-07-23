@@ -17,8 +17,13 @@
 <context>
     <name>ConnectionsTreeModel</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/connections/connections_tree_model.cpp" line="89"/>
+        <location filename="../../../../src/plugins/flow_document/component/connections/connections_tree_model.cpp" line="109"/>
         <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/connections/connections_tree_model.cpp" line="111"/>
+        <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -397,12 +402,14 @@
         </translation>
     </message>
     <message>
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="24"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="21"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="21"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="24"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="21"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="21"/>
         <source>Invisible</source>
@@ -419,6 +426,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="52"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="69"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="45"/>
         <source>Name</source>
@@ -435,13 +443,26 @@
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="22"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="51"/>
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="78"/>
+        <source>Set Connection(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
     <message>
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="79"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="144"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="95"/>
         <source>Custom Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="153"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="218"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="168"/>
         <source>Add Custom Property(s)</source>
@@ -452,6 +473,7 @@
         </translation>
     </message>
     <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/change_connection.cpp" line="172"/>
         <location filename="../../../../src/plugins/flow_document/command/change_layer.cpp" line="238"/>
         <location filename="../../../../src/plugins/flow_document/command/change_node.cpp" line="188"/>
         <source>Remove Custom Property(s)</source>

@@ -10,7 +10,6 @@
 #include <QHeaderView>
 #include <QScopedValueRollback>
 /* ----------------------------------- Utils -------------------------------- */
-#include <utils/delegate/conditional_bold_delegate.h>
 #include <utils/delegate/icon_check_delegate.h>
 #include <utils/dpi/dpi.h>
 #include <utils/model/cast.h>
@@ -44,8 +43,6 @@ void NodesView::setDocument(FlowDocument *document) {
                &NodesView::onCurrentNodeChanged);
     disconnect(m_document, &FlowDocument::selectedNodesChanged, this,
                &NodesView::onSelectedNodesChanged);
-    disconnect(selectionModel(), &QItemSelectionModel::currentRowChanged, this,
-               &NodesView::onCurrentRowChanged);
   }
 
   m_document = document;
@@ -55,8 +52,6 @@ void NodesView::setDocument(FlowDocument *document) {
             &NodesView::onCurrentNodeChanged);
     connect(m_document, &FlowDocument::selectedNodesChanged, this,
             &NodesView::onSelectedNodesChanged);
-    connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this,
-            &NodesView::onCurrentRowChanged);
   }
 
   onCurrentNodeChanged(m_document ? m_document->getCurrentNode() : nullptr);
@@ -128,7 +123,6 @@ QItemSelectionModel::SelectionFlags NodesView::selectionCommand(
 
 void NodesView::mouseMoveEvent(QMouseEvent *event) {
   QTreeView::mouseMoveEvent(event);
-
   if (!m_document) return;
 
   const auto index = indexAt(event->pos());
@@ -140,6 +134,25 @@ void NodesView::mouseMoveEvent(QMouseEvent *event) {
   if (node) hovered.append(node);
 
   m_document->setHoveredNodes(hovered);
+}
+
+void NodesView::mousePressEvent(QMouseEvent *event) {
+  QTreeView::mousePressEvent(event);
+  if (!m_document) return;
+  if (event->button() != Qt::LeftButton) return;
+
+  const auto index = indexAt(event->pos());
+  const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
+  const auto source_index = utils::mapToSourceIndex(index, model());
+
+  if (auto current_node = nodes_model->toNode(source_index); current_node) {
+    m_document->setCurrentObject(current_node);
+    m_document->setCurrentNode(current_node);
+  } else if (auto current_layer = nodes_model->toLayer(source_index);
+             current_layer) {
+    m_document->setCurrentObject(current_layer);
+    m_document->switchSelectedLayers({current_layer});
+  }
 }
 
 bool NodesView::viewportEvent(QEvent *event) {
@@ -163,23 +176,6 @@ void NodesView::onCurrentNodeChanged(Node *node) {
                                       QItemSelectionModel::ClearAndSelect |
                                           QItemSelectionModel::SelectCurrent |
                                           QItemSelectionModel::Rows);
-  }
-}
-
-void NodesView::onCurrentRowChanged(const QModelIndex &index) {
-  if (!m_document) return;
-  if (m_updating_selection) return;
-
-  const auto source_index = utils::mapToSourceIndex(index, model());
-  const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());
-
-  if (auto current_node = nodes_model->toNode(source_index); current_node) {
-    m_document->setCurrentObject(current_node);
-    m_document->setCurrentNode(current_node);
-  } else if (auto current_layer = nodes_model->toLayer(source_index);
-             current_layer) {
-    m_document->setCurrentObject(current_layer);
-    m_document->switchSelectedLayers({current_layer});
   }
 }
 
@@ -227,6 +223,18 @@ void NodesView::onRowsRemoved(const QModelIndex &parent, int first, int last) {
       m_document->setSelectedNodes({current_node});
     }
   }
+}
+
+QModelIndex NodesView::indexAt(const QPoint &position) const {
+  auto index = QTreeView::indexAt(position);
+  if (index.isValid()) {
+    auto expandIconRect = visualRect(index).adjusted(0, 0, indentation(), 0);
+    if (!expandIconRect.contains(position)) {
+      index = QModelIndex{};
+    }
+  }
+
+  return index;
 }
 
 }  // namespace flow_document

@@ -3,12 +3,14 @@
 
 #include "flow_document/component/connections/connections_tree_model.h"
 #include "flow_document/flow_document.h"
+#include "flow_document/flow_document_action_handler.h"
+#include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QContextMenuEvent>
 #include <QHeaderView>
-#include <QMenu>
 #include <QScopedValueRollback>
 /* ----------------------------------- Utils -------------------------------- */
+#include <utils/delegate/icon_check_delegate.h>
 #include <utils/dpi/dpi.h>
 #include <utils/model/cast.h>
 /* -------------------------------------------------------------------------- */
@@ -21,6 +23,11 @@ ConnectionsView::ConnectionsView(QWidget *parent)
   setUniformRowHeights(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   setDragDropMode(QAbstractItemView::InternalMove);
+
+  setItemDelegateForColumn(
+      ConnectionsTreeModel::Column::VisibleColumn,
+      new utils::QtIconCheckDelegate(QIcon(icons::x16::Visible),
+                                     QIcon(icons::x16::Hidden), true, this));
 
   header()->setStretchLastSection(false);
 }
@@ -35,8 +42,6 @@ void ConnectionsView::setDocument(FlowDocument *document) {
                &ConnectionsView::onCurrentConnectionChanged);
     disconnect(m_document, &FlowDocument::selectedConnectionsChanged, this,
                &ConnectionsView::onSelectedConnectionsChanged);
-    disconnect(selectionModel(), &QItemSelectionModel::currentRowChanged, this,
-               &ConnectionsView::onCurrentRowChanged);
   }
 
   m_document = document;
@@ -46,8 +51,6 @@ void ConnectionsView::setDocument(FlowDocument *document) {
             &ConnectionsView::onCurrentConnectionChanged);
     connect(m_document, &FlowDocument::selectedConnectionsChanged, this,
             &ConnectionsView::onSelectedConnectionsChanged);
-    connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this,
-            &ConnectionsView::onCurrentRowChanged);
   }
 
   onCurrentConnectionChanged(m_document ? m_document->getCurrentConnection()
@@ -77,6 +80,8 @@ void ConnectionsView::setModel(QAbstractItemModel *model) {
 }
 
 void ConnectionsView::contextMenuEvent(QContextMenuEvent *event) {
+  const auto &handler = FlowDocumentActionHandler::getInstance();
+
   QMenu menu;
 
   menu.exec(event->globalPos());
@@ -97,13 +102,32 @@ void ConnectionsView::selectionChanged(const QItemSelection &selected,
   for (const auto &index : indexes) {
     auto source_index = utils::mapToSourceIndex(index, model());
     auto connection = connections_model->toConnection(source_index);
-    Q_ASSERT(connection);
-
-    connections.append(connection);
+    if (connection) connections.append(connection);
   }
 
   QScopedValueRollback<bool> updating(m_updating_selection, true);
   m_document->setSelectedConnections(connections);
+}
+
+void ConnectionsView::mousePressEvent(QMouseEvent *event) {
+  QTreeView::mousePressEvent(event);
+  if (!m_document) return;
+  if (event->button() != Qt::LeftButton) return;
+
+  const auto index = indexAt(event->pos());
+  const auto source_index = utils::mapToSourceIndex(index, model());
+  const auto connections_model =
+      utils::toSourceModel<ConnectionsTreeModel>(model());
+
+  if (auto current_connection = connections_model->toConnection(source_index);
+      current_connection) {
+    m_document->setCurrentObject(current_connection);
+    m_document->setCurrentConnection(current_connection);
+  } else if (auto current_layer = connections_model->toLayer(source_index);
+             current_layer) {
+    m_document->setCurrentObject(current_layer);
+    m_document->switchSelectedLayers({current_layer});
+  }
 }
 
 QItemSelectionModel::SelectionFlags ConnectionsView::selectionCommand(
@@ -111,19 +135,6 @@ QItemSelectionModel::SelectionFlags ConnectionsView::selectionCommand(
   if (!index.isValid() && event && event->type() == QEvent::MouseButtonRelease)
     return QItemSelectionModel::NoUpdate;
   return QTreeView::selectionCommand(index, event);
-}
-
-void ConnectionsView::onCurrentRowChanged(const QModelIndex &index) {
-  if (!m_document) return;
-  if (m_updating_selection) return;
-
-  const auto source_index = utils::mapToSourceIndex(index, model());
-  const auto connections_model =
-      utils::toSourceModel<ConnectionsTreeModel>(model());
-  auto current_connection = connections_model->toConnection(source_index);
-
-  m_document->setCurrentObject(current_connection);
-  m_document->setCurrentConnection(current_connection);
 }
 
 void ConnectionsView::onCurrentConnectionChanged(Connection *connection) {
@@ -177,12 +188,33 @@ void ConnectionsView::onRowsInserted(const QModelIndex &parent, int first,
 
 void ConnectionsView::onRowsRemoved(const QModelIndex &parent, int first,
                                     int last) {
-  const auto &selected_connections = m_document->getSelectedConnections();
-  const auto current_connection = m_document->getCurrentConnection();
+  const auto index =
+      model()->index(last, ConnectionsTreeModel::Column::NameColumn, parent);
+  const auto connections_model =
+      utils::toSourceModel<ConnectionsTreeModel>(model());
+  const auto source_index = utils::mapToSourceIndex(index, model());
+  auto connection = connections_model->toConnection(source_index);
 
-  if (selected_connections.empty() && current_connection) {
-    m_document->setSelectedConnections({current_connection});
+  if (connection) {
+    const auto &selected_connections = m_document->getSelectedConnections();
+    const auto current_connection = m_document->getCurrentConnection();
+
+    if (selected_connections.empty() && current_connection) {
+      m_document->setSelectedConnections({current_connection});
+    }
   }
+}
+
+QModelIndex ConnectionsView::indexAt(const QPoint &position) const {
+  auto index = QTreeView::indexAt(position);
+  if (index.isValid()) {
+    auto expandIconRect = visualRect(index).adjusted(0, 0, indentation(), 0);
+    if (!expandIconRect.contains(position)) {
+      index = QModelIndex{};
+    }
+  }
+
+  return index;
 }
 
 }  // namespace flow_document

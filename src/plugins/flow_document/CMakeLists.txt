@@ -24,6 +24,7 @@ set(sources
     ${source_root}/event/change_event.cpp
     ${source_root}/event/layer_change_event.cpp
     ${source_root}/event/node_change_event.cpp
+    ${source_root}/event/connection_change_event.cpp
     ${source_root}/flow/node.cpp
     ${source_root}/flow/object.cpp
     ${source_root}/flow/pin.cpp
@@ -41,6 +42,7 @@ set(sources
     ${source_root}/command/add_remove_layer.cpp
     ${source_root}/command/change_layer.cpp
     ${source_root}/command/change_node.cpp
+    ${source_root}/command/change_connection.cpp
     ${source_root}/command/reparent_layer.cpp
     ${source_root}/command/raise_lower_layer.cpp
     ${source_root}/command/raise_lower_node.cpp
@@ -102,6 +104,7 @@ set(includes
     ${include_root}/event/change_event.h
     ${include_root}/event/layer_change_event.h
     ${include_root}/event/node_change_event.h
+    ${include_root}/event/connection_change_event.h
     ${include_root}/flow/node.h
     ${include_root}/flow/object.h
     ${include_root}/flow/pin.h
@@ -121,6 +124,7 @@ set(includes
     ${include_root}/command/change_value.h
     ${include_root}/command/change_layer.h
     ${include_root}/command/change_node.h
+    ${include_root}/command/change_connection.h
     ${include_root}/command/reparent_layer.h
     ${include_root}/command/raise_lower_layer.h
     ${include_root}/command/raise_lower_node.h

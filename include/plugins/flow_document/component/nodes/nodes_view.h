@@ -32,15 +32,19 @@ class FLOW_DOCUMENT_API NodesView : public QTreeView {
       const QModelIndex &index, const QEvent *event = nullptr) const override;
 
   void mouseMoveEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+
   [[nodiscard]] bool viewportEvent(QEvent *event) override;
 
  private Q_SLOTS:
   void onCurrentNodeChanged(Node *node);
-  void onCurrentRowChanged(const QModelIndex &index);
   void onSelectedNodesChanged(const QList<Node *> &nodes);
 
   void onRowsInserted(const QModelIndex &parent, int first, int last);
   void onRowsRemoved(const QModelIndex &parent, int first, int last);
+
+ private:
+  [[nodiscard]] QModelIndex indexAt(const QPoint &position) const;
 
  private:
   FlowDocument *m_document;

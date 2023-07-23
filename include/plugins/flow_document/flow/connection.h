@@ -19,6 +19,9 @@ class FLOW_DOCUMENT_API Connection : public Object {
   explicit Connection();
   ~Connection() override;
 
+  void setVisible(bool visible);
+  [[nodiscard]] bool isVisible() const;
+
   [[nodiscard]] ConnectionLayer *getParent() const;
 
   [[nodiscard]] std::unique_ptr<Connection> clone() const;
@@ -32,6 +35,7 @@ class FLOW_DOCUMENT_API Connection : public Object {
 
  private:
   ConnectionLayer *m_parent;
+  bool m_visible;
 };
 
 }  // namespace flow_document

@@ -17,7 +17,7 @@ ConnectionsDock::ConnectionsDock(QWidget *parent)
     : FlowDockWidget(parent),
       m_ui(new Ui::ConnectionsDock()),
       m_connections_model(new ConnectionsTreeModel),
-      m_filter_model(new QSortFilterProxyModel) {
+      m_filter_model(new OnlyConnectionsFilterProxyModel) {
   setObjectName(QLatin1String("Connections"));
 
   initUi();
