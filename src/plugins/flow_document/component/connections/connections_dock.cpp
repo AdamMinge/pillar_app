@@ -2,6 +2,7 @@
 #include "flow_document/component/connections/connections_dock.h"
 
 #include "flow_document/component/connections/connections_tree_model.h"
+#include "flow_document/flow_document_action_handler.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QToolBar>
@@ -62,6 +63,18 @@ void ConnectionsDock::initUi() {
 
   m_filter_model->setFilterKeyColumn(ConnectionsTreeModel::Column::NameColumn);
   m_filter_model->setRecursiveFilteringEnabled(true);
+
+  const auto &handler = FlowDocumentActionHandler::getInstance();
+
+  auto buttons_container = new QToolBar();
+  buttons_container->setFloatable(false);
+  buttons_container->setMovable(false);
+  buttons_container->setIconSize(QSize(16, 16));
+
+  buttons_container->addAction(handler.getAddConnectionAction());
+  buttons_container->addAction(handler.getRemoveConnectionAction());
+
+  m_ui->m_toolbar_layout->addWidget(buttons_container);
 }
 
 void ConnectionsDock::initConnections() {

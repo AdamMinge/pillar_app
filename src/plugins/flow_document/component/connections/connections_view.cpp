@@ -83,6 +83,8 @@ void ConnectionsView::contextMenuEvent(QContextMenuEvent *event) {
   const auto &handler = FlowDocumentActionHandler::getInstance();
 
   QMenu menu;
+  menu.addAction(handler.getAddConnectionAction());
+  menu.addAction(handler.getRemoveConnectionAction());
 
   menu.exec(event->globalPos());
 }

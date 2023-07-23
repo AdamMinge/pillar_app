@@ -49,6 +49,9 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   [[nodiscard]] QAction* getLowerNodeAction() const;
   [[nodiscard]] QAction* getDuplicateNodeAction() const;
 
+  [[nodiscard]] QAction* getAddConnectionAction() const;
+  [[nodiscard]] QAction* getRemoveConnectionAction() const;
+
   [[nodiscard]] QToolButton* createAddLayerButton() const;
   [[nodiscard]] QToolButton* createAddNodeButton() const;
 
@@ -70,6 +73,9 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   void onRaiseNode() const;
   void onLowerNode() const;
   void onDuplicateNode() const;
+
+  void onAddConnection() const;
+  void onRemoveConnection() const;
 
   void onEvent(const ChangeEvent& event);
 
@@ -106,6 +112,9 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
   QAction* m_raise_node;
   QAction* m_lower_node;
   QAction* m_duplicate_node;
+
+  QAction* m_add_connection;
+  QAction* m_remove_connection;
 };
 
 }  // namespace flow_document

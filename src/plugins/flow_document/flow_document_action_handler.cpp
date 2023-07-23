@@ -10,6 +10,7 @@
 #include "flow_document/command/raise_lower_node.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
+#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/factory/layer_factory.h"
 #include "flow_document/flow/factory/node_factory.h"
 #include "flow_document/flow/factory/object_factory.h"
@@ -209,6 +210,14 @@ QAction* FlowDocumentActionHandler::getDuplicateNodeAction() const {
   return m_duplicate_node;
 }
 
+QAction* FlowDocumentActionHandler::getAddConnectionAction() const {
+  return m_add_connection;
+}
+
+QAction* FlowDocumentActionHandler::getRemoveConnectionAction() const {
+  return m_remove_connection;
+}
+
 QToolButton* FlowDocumentActionHandler::createAddLayerButton() const {
   auto new_layer_button = new QToolButton();
   new_layer_button->setPopupMode(QToolButton::InstantPopup);
@@ -402,6 +411,14 @@ void FlowDocumentActionHandler::onDuplicateNode() const {
       new DuplicateNodes(m_document, selected_nodes));
 }
 
+void FlowDocumentActionHandler::onAddConnection() const {
+  Q_ASSERT(m_document);
+}
+
+void FlowDocumentActionHandler::onRemoveConnection() const {
+  Q_ASSERT(m_document);
+}
+
 void FlowDocumentActionHandler::onEvent(const ChangeEvent& event) {
   if (event.getType() == LayerEvent::type ||
       event.getType() == NodeEvent::type) {
@@ -426,6 +443,9 @@ void FlowDocumentActionHandler::initActions() {
   m_lower_node = utils::createActionWithShortcut(QKeySequence{}, this);
   m_duplicate_node = utils::createActionWithShortcut(QKeySequence{}, this);
 
+  m_add_connection = utils::createActionWithShortcut(QKeySequence{}, this);
+  m_remove_connection = utils::createActionWithShortcut(QKeySequence{}, this);
+
   m_add_layer_menu->setIcon(QIcon(icons::x16::Add));
   m_remove_layer->setIcon(QIcon(icons::x16::Remove));
   m_raise_layer->setIcon(QIcon(icons::x16::Up));
@@ -439,6 +459,9 @@ void FlowDocumentActionHandler::initActions() {
   m_raise_node->setIcon(QIcon(icons::x16::Up));
   m_lower_node->setIcon(QIcon(icons::x16::Down));
   m_duplicate_node->setIcon(QIcon(icons::x16::Duplicate));
+
+  m_add_connection->setIcon(QIcon(icons::x16::Add));
+  m_remove_connection->setIcon(QIcon(icons::x16::Remove));
 }
 
 void FlowDocumentActionHandler::connectActions() {
@@ -454,6 +477,7 @@ void FlowDocumentActionHandler::connectActions() {
           &FlowDocumentActionHandler::onShowHideOtherLayers);
   connect(m_lock_unlock_other_layers, &QAction::triggered, this,
           &FlowDocumentActionHandler::onLockUnlockOtherLayers);
+
   connect(m_remove_node, &QAction::triggered, this,
           &FlowDocumentActionHandler::onRemoveNode);
   connect(m_raise_node, &QAction::triggered, this,
@@ -462,6 +486,11 @@ void FlowDocumentActionHandler::connectActions() {
           &FlowDocumentActionHandler::onLowerNode);
   connect(m_duplicate_node, &QAction::triggered, this,
           &FlowDocumentActionHandler::onDuplicateNode);
+
+  connect(m_add_connection, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onAddConnection);
+  connect(m_remove_connection, &QAction::triggered, this,
+          &FlowDocumentActionHandler::onRemoveConnection);
 }
 
 void FlowDocumentActionHandler::updateActions() {
@@ -474,10 +503,13 @@ void FlowDocumentActionHandler::updateActions() {
   auto can_add_node = false;
   auto can_raise_nodes = false;
   auto can_lower_nodes = false;
+  auto any_selected_connections = false;
+  auto can_add_connection = false;
 
   if (has_document) {
     const auto& selected_layers = m_document->getSelectedLayers();
     const auto& selected_nodes = m_document->getSelectedNodes();
+    const auto& selected_connections = m_document->getSelectedConnections();
     const auto& not_selected_layers = getAllLayers(m_document, selected_layers);
     const auto current_layer = m_document->getCurrentLayer();
 
@@ -492,6 +524,10 @@ void FlowDocumentActionHandler::updateActions() {
 
     can_raise_nodes = canRaiseNodes(m_document, selected_nodes);
     can_lower_nodes = canLowerNodes(m_document, selected_nodes);
+
+    can_add_connection =
+        current_layer && current_layer->isClassOrChild<ConnectionLayer>();
+    any_selected_connections = selected_connections.size() > 0;
   }
 
   m_remove_layer->setEnabled(any_selected_layers);
@@ -508,6 +544,9 @@ void FlowDocumentActionHandler::updateActions() {
   m_raise_node->setEnabled(can_raise_nodes);
   m_lower_node->setEnabled(can_lower_nodes);
   m_duplicate_node->setEnabled(any_selected_nodes);
+
+  m_add_connection->setEnabled(can_add_connection);
+  m_remove_connection->setEnabled(any_selected_connections);
 
   Q_EMIT onUpdateActions();
 }
