@@ -159,6 +159,26 @@
         <source>Duplicate Selected Nodes</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="591"/>
+        <source>&amp;New Connection...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="592"/>
+        <source>New Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="594"/>
+        <source>&amp;Remove Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="595"/>
+        <source>Remove Selected Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FlowDocumentFormatFlow</name>

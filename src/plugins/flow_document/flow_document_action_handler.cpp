@@ -587,6 +587,12 @@ void FlowDocumentActionHandler::retranslateUi() {
 
   m_duplicate_node->setText(tr("&Duplicate Nodes"));
   m_duplicate_node->setWhatsThis(tr("Duplicate Selected Nodes"));
+
+  m_add_connection->setText(tr("&New Connection..."));
+  m_add_connection->setWhatsThis(tr("New Connection"));
+
+  m_remove_connection->setText(tr("&Remove Connection"));
+  m_remove_connection->setWhatsThis(tr("Remove Selected Connection"));
 }
 
 void FlowDocumentActionHandler::registerActions() {
@@ -599,10 +605,13 @@ void FlowDocumentActionHandler::registerActions() {
                                 "show_hide_other_layers");
   action_manager.registerAction(m_lock_unlock_other_layers,
                                 "lock_unlock_other_layers");
+
   action_manager.registerAction(m_remove_node, "remove_node");
   action_manager.registerAction(m_raise_node, "raise_node");
   action_manager.registerAction(m_lower_node, "lower_node");
   action_manager.registerAction(m_duplicate_node, "duplicate_node");
+
+  action_manager.registerAction(m_remove_connection, "remove_connection");
 }
 
 void FlowDocumentActionHandler::unregisterActions() {
@@ -615,10 +624,13 @@ void FlowDocumentActionHandler::unregisterActions() {
                                   "show_hide_other_layers");
   action_manager.unregisterAction(m_lock_unlock_other_layers,
                                   "lock_unlock_other_layers");
+
   action_manager.unregisterAction(m_remove_node, "remove_node");
   action_manager.unregisterAction(m_raise_node, "raise_node");
   action_manager.unregisterAction(m_lower_node, "lower_node");
   action_manager.unregisterAction(m_duplicate_node, "duplicate_node");
+
+  action_manager.unregisterAction(m_remove_connection, "remove_connection");
 }
 
 }  // namespace flow_document
