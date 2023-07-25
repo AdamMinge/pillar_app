@@ -114,7 +114,6 @@ void ConnectionsView::selectionChanged(const QItemSelection &selected,
 void ConnectionsView::mousePressEvent(QMouseEvent *event) {
   QTreeView::mousePressEvent(event);
   if (!m_document) return;
-  if (event->button() != Qt::LeftButton) return;
 
   const auto index = indexAt(event->pos());
   const auto source_index = utils::mapToSourceIndex(index, model());

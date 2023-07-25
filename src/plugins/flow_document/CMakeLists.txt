@@ -68,6 +68,7 @@ set(sources
     ${source_root}/component/connections/connections_dock.cpp
     ${source_root}/component/connections/connections_view.cpp
     ${source_root}/component/connections/connections_tree_model.cpp
+    ${source_root}/component/connections/new_connections_dialog.cpp
     ${source_root}/component/scene/flow_scene.cpp
     ${source_root}/component/scene/flow_view.cpp
     ${source_root}/component/scene/item/object_item.cpp
@@ -150,6 +151,7 @@ set(includes
     ${include_root}/component/connections/connections_dock.h
     ${include_root}/component/connections/connections_view.h
     ${include_root}/component/connections/connections_tree_model.h
+    ${include_root}/component/connections/new_connections_dialog.h
     ${include_root}/component/scene/flow_scene.h
     ${include_root}/component/scene/flow_view.h
     ${include_root}/component/scene/item/object_item.h
@@ -172,9 +174,13 @@ set(includes
 set(resources ${resources_root}/flow_document.qrc)
 
 set(uis
-    ${uis_root}/new_flow_document_widget.ui ${uis_root}/factories_dock.ui
-    ${uis_root}/properties_dock.ui ${uis_root}/layers_dock.ui
-    ${uis_root}/connections_dock.ui ${uis_root}/nodes_dock.ui)
+    ${uis_root}/new_flow_document_widget.ui
+    ${uis_root}/factories_dock.ui
+    ${uis_root}/properties_dock.ui
+    ${uis_root}/layers_dock.ui
+    ${uis_root}/connections_dock.ui
+    ${uis_root}/new_connections_dialog.ui
+    ${uis_root}/nodes_dock.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #
@@ -203,6 +209,7 @@ egnite_add_plugins(
   utils::pointer_cast
   DEPENDS_PRIVATE
   utils::model
+  utils::dialog
   utils::delegate
   utils::serializer
   utils::property_browser)

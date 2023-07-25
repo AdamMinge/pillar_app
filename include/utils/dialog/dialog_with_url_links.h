@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QDialog>
+#include <QPointer>
 #include <QUrl>
 /* ----------------------------------- Local -------------------------------- */
 #include "utils/dialog/export.h"
@@ -44,6 +45,8 @@ void QtDialogWithUrlLinks<TYPE>::exec(const QUrl &url, QWidget *parent) {
 
   if (!dialog) {
     dialog = new TYPE(parent);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    QObject::connect(dialog, &QDialog::destroyed, []() { dialog = nullptr; });
   }
 
   dialog->setUrl(url);

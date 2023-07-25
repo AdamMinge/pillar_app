@@ -3,8 +3,10 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAction>
+#include <QDialog>
 #include <QMenu>
 #include <QObject>
+#include <QPointer>
 #include <QToolButton>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_listener.h>
@@ -19,6 +21,8 @@ class ChangeEvent;
 class ObjectFactory;
 class Layer;
 class Node;
+
+class NewConnectionsDialog;
 
 class FLOW_DOCUMENT_API FlowDocumentActionHandler
     : public QObject,
@@ -98,6 +102,8 @@ class FLOW_DOCUMENT_API FlowDocumentActionHandler
 
  private:
   FlowDocument* m_document;
+
+  mutable QPointer<NewConnectionsDialog> m_new_connections_dialog;
 
   QScopedPointer<QMenu> m_add_layer_menu;
   QAction* m_remove_layer;

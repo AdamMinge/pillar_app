@@ -139,7 +139,6 @@ void NodesView::mouseMoveEvent(QMouseEvent *event) {
 void NodesView::mousePressEvent(QMouseEvent *event) {
   QTreeView::mousePressEvent(event);
   if (!m_document) return;
-  if (event->button() != Qt::LeftButton) return;
 
   const auto index = indexAt(event->pos());
   const auto nodes_model = utils::toSourceModel<NodesTreeModel>(model());

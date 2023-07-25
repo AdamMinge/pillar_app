@@ -542,22 +542,22 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="47"/>
+        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="50"/>
         <source>Apply Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="48"/>
+        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="51"/>
         <source>Are you sure that you want to discard changes settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="111"/>
+        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="114"/>
         <source>Select configuration element in the tree to edit its settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="149"/>
+        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="150"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>

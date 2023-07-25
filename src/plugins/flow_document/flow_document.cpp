@@ -2,6 +2,7 @@
 #include "flow_document/flow_document.h"
 
 #include "flow_document/event/change_event.h"
+#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer_iterator.h"
@@ -199,6 +200,7 @@ void FlowDocument::setHoveredNodes(const QList<Node *> &nodes) {
 
 /* ----------------------------------- Utils -------------------------------- */
 
+template <>
 [[nodiscard]] QList<Layer *> getAllLayers(FlowDocument *document,
                                           const QList<Layer *> &except) {
   auto root = document ? document->getFlow()->getRootLayer() : nullptr;
@@ -229,6 +231,24 @@ void FlowDocument::setHoveredNodes(const QList<Node *> &nodes) {
   }
 
   return nodes;
+}
+
+[[nodiscard]] QList<Connection *> getAllNodes(
+    FlowDocument *document, const QList<Connection *> &except) {
+  auto layers = getAllLayers(document, {});
+  auto connections = QList<Connection *>{};
+
+  for (auto layer : layers) {
+    if (layer->isClassOrChild<ConnectionLayer>()) {
+      auto connection_layer = static_cast<ConnectionLayer *>(layer);
+      for (auto &connection : *connection_layer) {
+        if (!except.contains(connection.get()))
+          connections.append(connection.get());
+      }
+    }
+  }
+
+  return connections;
 }
 
 }  // namespace flow_document

@@ -100,11 +100,28 @@ class FLOW_DOCUMENT_API FlowDocument : public egnite::Document {
 
 /* ----------------------------------- Utils -------------------------------- */
 
+template <typename LAYER = Layer>
+[[nodiscard]] QList<LAYER *> getAllLayers(FlowDocument *document,
+                                          const QList<LAYER *> &except = {}) {
+  auto layers = QList<LAYER *>{};
+  for (Layer *layer : getAllLayers<Layer>(document)) {
+    if (layer->isClassOrChild<LAYER>()) {
+      layers.append(static_cast<LAYER *>(layer));
+    }
+  }
+
+  return layers;
+}
+
+template <>
 [[nodiscard]] QList<Layer *> getAllLayers(FlowDocument *document,
-                                          const QList<Layer *> &except = {});
+                                          const QList<Layer *> &except);
 
 [[nodiscard]] QList<Node *> getAllNodes(FlowDocument *document,
                                         const QList<Node *> &except = {});
+
+[[nodiscard]] QList<Connection *> getAllConnections(
+    FlowDocument *document, const QList<Connection *> &except = {});
 
 }  // namespace flow_document
 

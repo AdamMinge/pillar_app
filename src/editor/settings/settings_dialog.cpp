@@ -19,13 +19,16 @@ SettingsDialog::SettingsDialog(QWidget *parent)
       m_ui(new Ui::SettingsDialog()),
       m_settings_widget_model(new SettingsWidgetTreeModel),
       m_settings_widget_filter_model(new QSortFilterProxyModel) {
+  QDesktopServices::setUrlHandler("settings", this, "setUrl");
+
   initUi();
   initConnections();
-
   retranslateUi();
 }
 
-SettingsDialog::~SettingsDialog() = default;
+SettingsDialog::~SettingsDialog() {
+  QDesktopServices::unsetUrlHandler("settings");
+}
 
 void SettingsDialog::setUrl(const QUrl &url) {
   if (url.scheme() != QLatin1String("settings")) return;
@@ -139,8 +142,6 @@ void SettingsDialog::initConnections() {
 
   connect(m_ui->m_setting_label, &utils::QtStackedWidgetLabel::currentChanged,
           this, &SettingsDialog::currentChanged);
-
-  QDesktopServices::setUrlHandler("settings", this, "setUrl");
 }
 
 void SettingsDialog::retranslateUi() {

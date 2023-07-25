@@ -8,6 +8,7 @@
 #include "flow_document/command/duplicate_node.h"
 #include "flow_document/command/raise_lower_layer.h"
 #include "flow_document/command/raise_lower_node.h"
+#include "flow_document/component/connections/new_connections_dialog.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/connection_layer.h"
@@ -413,6 +414,25 @@ void FlowDocumentActionHandler::onDuplicateNode() const {
 
 void FlowDocumentActionHandler::onAddConnection() const {
   Q_ASSERT(m_document);
+
+  if (!m_new_connections_dialog) {
+    m_new_connections_dialog = new NewConnectionsDialog(m_document);
+  }
+
+  m_new_connections_dialog->setAttribute(Qt::WA_DeleteOnClose);
+  m_new_connections_dialog->exec();
+
+  /*
+  auto connection_layer =
+      static_cast<ConnectionLayer*>(document->getCurrentLayer());
+  auto index = connection_layer->size();
+
+  const auto& selected_connection = document->getSelectedConnections();
+  if (selected_connection.size() > 0) {
+    auto selected_connection = selected_connection.at(0);
+    index = connection_layer->indexOf(selected_connection) + 1;
+  }
+  */
 }
 
 void FlowDocumentActionHandler::onRemoveConnection() const {

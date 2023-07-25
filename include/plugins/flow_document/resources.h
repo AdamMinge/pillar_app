@@ -39,6 +39,7 @@ _DEFINE_ICON(NodeLayer, "32x32", "node_layer.png")
 _DEFINE_ICON(ConnectionLayer, "32x32", "connection_layer.png")
 _DEFINE_ICON(Node, "32x32", "node.png")
 _DEFINE_ICON(SelectionTool, "32x32", "selection_tool.png")
+_DEFINE_ICON(Connect, "32x32", "connect.png")
 
 }  // namespace x32
 
