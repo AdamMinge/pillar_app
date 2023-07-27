@@ -226,8 +226,33 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>m_layers</tabstop>
+  <tabstop>m_output_nodes</tabstop>
+  <tabstop>m_output_pins</tabstop>
+  <tabstop>m_input_nodes</tabstop>
+  <tabstop>m_input_pins</tabstop>
+  <tabstop>m_connect_button</tabstop>
+ </tabstops>
  <resources>
   <include location="../../../resources/plugins/flow_document/flow_document.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>m_connect_button</sender>
+   <signal>pressed()</signal>
+   <receiver>NewConnectionsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>492</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

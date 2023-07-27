@@ -598,6 +598,22 @@
             <numerusform></numerusform>
         </translation>
     </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_connection.cpp" line="91"/>
+        <source>Add Connection(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_connection.cpp" line="109"/>
+        <source>Remove Connection(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>ToolsBar</name>

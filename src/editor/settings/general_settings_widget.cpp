@@ -39,10 +39,13 @@ void GeneralSettingsWidget::initConnections() {}
 void GeneralSettingsWidget::retranslateUi() {
   m_ui->retranslateUi(this);
 
-  const auto link_text = QString{
-      "<li style=\" margin-bottom:5px \"><a href=\"%2\"><span "
-      "style=\" text-decoration: none; "
-      "color:#0000ff;\">%3</span></a></li>"};
+  const auto link_color = palette().color(QPalette::Link).name(QColor::HexRgb);
+  const auto link_text =
+      QString(
+          "<li style=\" margin-bottom:5px \"><a href=\"%2\"><span "
+          "style=\" text-decoration: none; "
+          "color:%1;\">%3</span></a></li>")
+          .arg(link_color);
 
   auto label_text =
       QString(

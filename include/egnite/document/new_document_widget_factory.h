@@ -1,8 +1,9 @@
-#ifndef EGNITE_new_DOCUMENT_WIDGET_FACTORY_H
-#define EGNITE_new_DOCUMENT_WIDGET_FACTORY_H
+#ifndef EGNITE_NEW_DOCUMENT_WIDGET_FACTORY_H
+#define EGNITE_NEW_DOCUMENT_WIDGET_FACTORY_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QIcon>
+#include <QObject>
 #include <QString>
 /* ----------------------------------- Local -------------------------------- */
 #include "egnite/export.h"
@@ -35,4 +36,4 @@ class LIB_EGNITE_API NewDocumentWidgetFactory : public QObject {
 Q_DECLARE_INTERFACE(egnite::NewDocumentWidgetFactory,
                     "org.egnite.NewDocumentWidgetFactory")
 
-#endif  // EGNITE_new_DOCUMENT_WIDGET_FACTORY_H
+#endif  // EGNITE_NEW_DOCUMENT_WIDGET_FACTORY_H

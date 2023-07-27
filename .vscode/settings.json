@@ -111,7 +111,8 @@
         "qgraphicsobject": "cpp",
         "qlist": "cpp",
         "qpainter": "cpp",
-        "qscopedvaluerollback": "cpp"
+        "qscopedvaluerollback": "cpp",
+        "qstring": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

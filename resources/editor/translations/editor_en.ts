@@ -9,37 +9,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="53"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="57"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="54"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="58"/>
         <source>This Project is open source and &lt;br/&gt; contributions are welcomed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="56"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="60"/>
         <source>Visit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="56"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="60"/>
         <source>https://github.com/AdamMinge/flow_app</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="57"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="61"/>
         <source>GitHub/AdamMinge/flow_app</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="58"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="62"/>
         <source>for more information or to report a bug &lt;br&gt; or to suggest a new feature.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/about_dialog.cpp" line="61"/>
+        <location filename="../../../src/editor/about_dialog.cpp" line="65"/>
         <source>Copyright © 2023 Adam Minge. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>

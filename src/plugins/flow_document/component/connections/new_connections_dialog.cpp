@@ -25,6 +25,8 @@ NewConnectionsDialog::NewConnectionsDialog(FlowDocument *document,
 
 NewConnectionsDialog::~NewConnectionsDialog() = default;
 
+void NewConnectionsDialog::accept() { QDialog::accept(); }
+
 void NewConnectionsDialog::changeEvent(QEvent *event) {
   QDialog::changeEvent(event);
 

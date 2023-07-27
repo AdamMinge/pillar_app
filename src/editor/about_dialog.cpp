@@ -33,6 +33,10 @@ void AboutDialog::retranslateUi() {
 
   setWindowTitle(tr("About"));
 
+  const auto link_color = palette().color(QPalette::Link).name(QColor::HexRgb);
+  const auto button_text_color =
+      palette().color(QPalette::ButtonText).name(QColor::HexRgb);
+
   auto about_text =
       QString{
           "<html>"
@@ -40,21 +44,21 @@ void AboutDialog::retranslateUi() {
           "<body>"
           "<p align=\"center\"><span style=\" font-size:48pt; "
           "font-weight:700;\">Egnite</span></p>"
-          "<p align=\"center\"><span style=\" color:#555753;\">%1</span></p>"
-          "<p align=\"center\"><span style=\" font-size:12pt;\">%2</span></p>"
-          "<p align=\"center\"><span style=\" font-size:12pt;\">%3 </span><a "
-          "href=\"%4\"><span style=\" font-size:12pt; "
-          "text-decoration: underline; color:#0000ff;\">%5</span></a> <span "
-          "style=\" font-size:12pt;\"><br/> %6</span></p>"
+          "<p align=\"center\"><span style=\" color:#%1;\">%2</span></p>"
+          "<p align=\"center\"><span style=\" font-size:12pt;\">%3</span></p>"
+          "<p align=\"center\"><span style=\" font-size:12pt;\">%4 </span><a "
+          "href=\"%5\"><span style=\" font-size:12pt; "
+          "text-decoration: underline; color:#%6;\">%7</span></a> <span "
+          "style=\" font-size:12pt;\"><br/> %8</span></p>"
           "<p align=\"center\"><span style=\" "
-          "color:#555753;\">%7</span><br/></p>"
+          "color:#%1;\">%9</span><br/></p>"
           "</body>"
           "</html>"}
-          .arg(tr("Version %1").arg(EGNITE_VERSION_STR),
+          .arg(button_text_color, tr("Version %1").arg(EGNITE_VERSION_STR),
                tr("This Project is open source and <br/> contributions are "
                   "welcomed."),
                tr("Visit"), tr("https://github.com/AdamMinge/flow_app"),
-               tr("GitHub/AdamMinge/flow_app"),
+               link_color, tr("GitHub/AdamMinge/flow_app"),
                tr("for more information or to report a bug <br> or to suggest "
                   "a new "
                   "feature."),

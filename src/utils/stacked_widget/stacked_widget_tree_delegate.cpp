@@ -32,7 +32,7 @@ void StackedWidgetTreeDelegate::paint(QPainter *painter,
   painter->setFont(opt.font);
 
   auto color = opt.state & QStyle::State_Selected ? palette.highlight().color()
-                                                  : palette.light().color();
+                                                  : palette.base().color();
 
   painter->fillRect(0, rect.top(), rect.width() + rect.left(), rect.height(),
                     color);

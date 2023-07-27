@@ -22,6 +22,9 @@ class FLOW_DOCUMENT_API NewConnectionsDialog : public QDialog {
   NewConnectionsDialog(FlowDocument *document, QWidget *parent = nullptr);
   ~NewConnectionsDialog() override;
 
+ public Q_SLOTS:
+  void accept() override;
+
  protected Q_SLOTS:
   void changeEvent(QEvent *event) override;
 

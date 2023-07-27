@@ -96,7 +96,7 @@ void PluginListDelegate::paint(QPainter *painter,
 
   painter->fillRect(rect, opt.state & QStyle::State_Selected
                               ? palette.highlight().color()
-                              : palette.light().color());
+                              : palette.base().color());
 
   painter->drawLine(is_last_index ? rect.left() : content_rect.left(),
                     rect.bottom(), rect.right(), rect.bottom());
