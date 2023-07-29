@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/connections/new_connections_dialog.h"
 
+#include "flow_document/command/add_remove_connection.h"
 #include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -25,7 +26,50 @@ NewConnectionsDialog::NewConnectionsDialog(FlowDocument *document,
 
 NewConnectionsDialog::~NewConnectionsDialog() = default;
 
-void NewConnectionsDialog::accept() { QDialog::accept(); }
+void NewConnectionsDialog::setConnectionLayer(ConnectionLayer *layer) {
+  for (auto i = 0; i < m_ui->m_layers->count(); ++i) {
+    auto connection_layer =
+        m_ui->m_layers->itemData(i).value<ConnectionLayer *>();
+    if (connection_layer == layer) {
+      m_ui->m_layers->setCurrentIndex(i);
+      break;
+    }
+  }
+}
+
+void NewConnectionsDialog::accept() {
+  auto connection_layer =
+      m_ui->m_layers->currentData().value<ConnectionLayer *>();
+
+  auto entires = std::list<ConnectionEntry>{};
+  entires.emplace_back(ConnectionEntry{connection_layer,
+                                       std::move(createConnection()),
+                                       connection_layer->size()});
+  m_document->getUndoStack()->push(
+      new AddConnections(m_document, std::move(entires)));
+
+  QDialog::accept();
+}
+
+std::unique_ptr<Connection> NewConnectionsDialog::createConnection() const {
+  const auto output_node = m_ui->m_output_nodes->currentData().value<Node *>();
+  const auto output_pin = m_ui->m_output_pins->currentData().value<size_t>();
+
+  const auto input_node = m_ui->m_input_nodes->currentData().value<Node *>();
+  const auto input_pin = m_ui->m_input_pins->currentData().value<size_t>();
+
+  auto connection = std::make_unique<Connection>();
+  connection->setOutputSide(ConnectionSide(output_node->getId(), output_pin));
+  connection->setInputSide(ConnectionSide(input_node->getId(), input_pin));
+  connection->setName(
+      QString("%1[%2] -> %3[%4]")
+          .arg(output_node->getName(),
+               output_node->getPin(Pin::Type::Out, output_pin).getCaption(),
+               input_node->getName(),
+               input_node->getPin(Pin::Type::In, input_pin).getCaption()));
+
+  return connection;
+}
 
 void NewConnectionsDialog::changeEvent(QEvent *event) {
   QDialog::changeEvent(event);
@@ -105,28 +149,26 @@ void NewConnectionsDialog::fillOutputNodes() {
 }
 
 void NewConnectionsDialog::fillInputPins() {
-  const auto current_index = m_ui->m_input_nodes->currentIndex();
-  const auto node =
-      m_ui->m_input_nodes->itemData(current_index).value<Node *>();
+  const auto node = m_ui->m_input_nodes->currentData().value<Node *>();
   const auto pins_counts = node->getPinsCounts(Pin::Type::In);
 
   m_ui->m_input_pins->clear();
-  for (auto pin_index = 0; pin_index < pins_counts; ++pin_index) {
+  for (size_t pin_index = 0; pin_index < pins_counts; ++pin_index) {
     const auto &pin = node->getPin(Pin::Type::In, pin_index);
-    m_ui->m_input_pins->addItem(pin.getCaption(), pin_index);
+    m_ui->m_input_pins->addItem(pin.getCaption(),
+                                QVariant::fromValue(pin_index));
   }
 }
 
 void NewConnectionsDialog::fillOutputPins() {
-  const auto current_index = m_ui->m_output_nodes->currentIndex();
-  const auto node =
-      m_ui->m_output_nodes->itemData(current_index).value<Node *>();
+  const auto node = m_ui->m_output_nodes->currentData().value<Node *>();
   const auto pins_counts = node->getPinsCounts(Pin::Type::Out);
 
   m_ui->m_output_pins->clear();
-  for (auto pin_index = 0; pin_index < pins_counts; ++pin_index) {
+  for (size_t pin_index = 0; pin_index < pins_counts; ++pin_index) {
     const auto &pin = node->getPin(Pin::Type::Out, pin_index);
-    m_ui->m_output_pins->addItem(pin.getCaption(), pin_index);
+    m_ui->m_output_pins->addItem(pin.getCaption(),
+                                 QVariant::fromValue(pin_index));
   }
 }
 

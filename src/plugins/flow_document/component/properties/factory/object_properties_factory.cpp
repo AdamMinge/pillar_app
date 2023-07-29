@@ -2,6 +2,7 @@
 #include "flow_document/component/properties/factory/object_properties_factory.h"
 
 #include "flow_document/component/properties/object_properties.h"
+#include "flow_document/flow/connection.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/node.h"
 /* ---------------------------------- Egnite -------------------------------- */
@@ -41,6 +42,19 @@ ObjectProperties* NodePropertiesFactory::create(QObject* parent) const {
 
 QString NodePropertiesFactory::getObjectClassName() const {
   return Node::sGetClassName();
+}
+
+/* ------------------------ ConnectionPropertiesFactory --------------------- */
+
+ConnectionPropertiesFactory::ConnectionPropertiesFactory(QObject* parent)
+    : ObjectPropertiesFactory(parent) {}
+
+ObjectProperties* ConnectionPropertiesFactory::create(QObject* parent) const {
+  return new ConnectionProperties(parent);
+}
+
+QString ConnectionPropertiesFactory::getObjectClassName() const {
+  return Connection::sGetClassName();
 }
 
 /* ----------------------------------- Utils -------------------------------- */

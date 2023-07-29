@@ -202,6 +202,7 @@ void LayersView::onRowsInserted(const QModelIndex &parent, int first,
   const auto source_index = utils::mapToSourceIndex(index, model());
   auto layer = layers_model->toLayer(source_index);
 
+  m_document->setCurrentObject(layer);
   m_document->switchCurrentLayer(layer);
 }
 

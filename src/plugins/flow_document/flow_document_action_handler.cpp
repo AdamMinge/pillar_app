@@ -83,6 +83,8 @@ namespace {
 
   return std::all_of(nodes.cbegin(), nodes.cend(), [](const auto node) {
     auto node_layer = node->getParent();
+    if (!node_layer) return false;
+
     auto most_top_node = node_layer->at(node_layer->size() - 1);
     return node != most_top_node;
   });
@@ -94,6 +96,8 @@ namespace {
 
   return std::all_of(nodes.cbegin(), nodes.cend(), [](const auto node) {
     auto node_layer = node->getParent();
+    if (!node_layer) return false;
+
     auto most_bottom_node = node_layer->at(0);
     return node != most_bottom_node;
   });
@@ -420,19 +424,9 @@ void FlowDocumentActionHandler::onAddConnection() const {
   }
 
   m_new_connections_dialog->setAttribute(Qt::WA_DeleteOnClose);
+  m_new_connections_dialog->setConnectionLayer(
+      static_cast<ConnectionLayer*>(m_document->getCurrentLayer()));
   m_new_connections_dialog->exec();
-
-  /*
-  auto connection_layer =
-      static_cast<ConnectionLayer*>(document->getCurrentLayer());
-  auto index = connection_layer->size();
-
-  const auto& selected_connection = document->getSelectedConnections();
-  if (selected_connection.size() > 0) {
-    auto selected_connection = selected_connection.at(0);
-    index = connection_layer->indexOf(selected_connection) + 1;
-  }
-  */
 }
 
 void FlowDocumentActionHandler::onRemoveConnection() const {

@@ -9,6 +9,24 @@
 namespace flow_document {
 
 class ConnectionLayer;
+class Node;
+
+/* ------------------------------ ConnectionSide ---------------------------- */
+
+class FLOW_DOCUMENT_API ConnectionSide {
+ public:
+  ConnectionSide(QUuid node_id = {}, size_t pin_id = 0);
+  ~ConnectionSide();
+
+  void serialize(utils::OArchive &archive) const;
+  void deserialize(utils::IArchive &archive);
+
+ private:
+  QUuid m_node_id;
+  size_t m_pin_id;
+};
+
+/* --------------------------------- Connection ----------------------------- */
 
 class FLOW_DOCUMENT_API Connection : public Object {
   friend ConnectionLayer;
@@ -18,6 +36,12 @@ class FLOW_DOCUMENT_API Connection : public Object {
  public:
   explicit Connection();
   ~Connection() override;
+
+  void setOutputSide(ConnectionSide connection_side);
+  void setInputSide(ConnectionSide connection_side);
+
+  const ConnectionSide &getOutputSide() const;
+  const ConnectionSide &getInputSide() const;
 
   void setVisible(bool visible);
   [[nodiscard]] bool isVisible() const;
@@ -36,6 +60,9 @@ class FLOW_DOCUMENT_API Connection : public Object {
  private:
   ConnectionLayer *m_parent;
   bool m_visible;
+
+  ConnectionSide m_output_side;
+  ConnectionSide m_input_side;
 };
 
 }  // namespace flow_document

@@ -15,6 +15,7 @@ class NodeLayer;
 class ConnectionLayer;
 class LayersChangeEvent;
 class NodeItem;
+class ConnectionItem;
 
 /* --------------------------------- LayerItem ------------------------------ */
 
@@ -85,6 +86,9 @@ class FLOW_DOCUMENT_API ConnectionLayerItem : public LayerItem {
 
  protected Q_SLOTS:
   void onEvent(const ChangeEvent& event) override;
+
+ private:
+  QList<ConnectionItem*> m_connection_items;
 };
 
 }  // namespace flow_document

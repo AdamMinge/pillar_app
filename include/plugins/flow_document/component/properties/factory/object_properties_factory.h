@@ -67,6 +67,21 @@ class NodePropertiesFactory : public ObjectPropertiesFactory {
   [[nodiscard]] QString getObjectClassName() const override;
 };
 
+/* ------------------------ ConnectionPropertiesFactory --------------------- */
+
+class ConnectionPropertiesFactory : public ObjectPropertiesFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::ObjectPropertiesFactory)
+
+ public:
+  explicit ConnectionPropertiesFactory(QObject* parent = nullptr);
+
+  [[nodiscard]] ObjectProperties* create(
+      QObject* parent = nullptr) const override;
+
+  [[nodiscard]] QString getObjectClassName() const override;
+};
+
 /* ----------------------------------- Utils -------------------------------- */
 
 [[nodiscard]] ObjectProperties* createObjectProperties(

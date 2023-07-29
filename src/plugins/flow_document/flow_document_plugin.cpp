@@ -44,6 +44,7 @@ void FlowDocumentPlugin::init() {
 
   addObject(new LayerPropertiesFactory(this));
   addObject(new NodePropertiesFactory(this));
+  addObject(new ConnectionPropertiesFactory(this));
 
   addObject(new GroupLayerFactory(this));
   addObject(new NodeLayerFactory(this));

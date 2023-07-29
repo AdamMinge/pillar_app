@@ -18,18 +18,19 @@ namespace flow_document {
 
 namespace {
 
-[[nodiscard]] NodeLayer *getNodeLayer(const QList<Node *> &nodes) {
-  auto node_layer = static_cast<NodeLayer *>(nullptr);
-  for (auto node : nodes) {
-    if (!node_layer) {
-      node_layer = node->getParent();
-    } else if (node_layer != node->getParent()) {
-      node_layer = nullptr;
+template <typename LAYER, typename OBJECT>
+[[nodiscard]] LAYER *getLayerByObjects(const QList<OBJECT *> &objects) {
+  auto layer = static_cast<LAYER *>(nullptr);
+  for (auto object : objects) {
+    if (!layer) {
+      layer = object->getParent();
+    } else if (layer != object->getParent()) {
+      layer = nullptr;
       break;
     }
   }
 
-  return node_layer;
+  return layer;
 }
 
 }  // namespace
@@ -148,7 +149,7 @@ void FlowDocument::setSelectedNodes(const QList<Node *> &nodes) {
   m_selected_nodes = nodes;
   Q_EMIT selectedNodesChanged(m_selected_nodes);
 
-  if (auto node_layer = getNodeLayer(nodes); node_layer) {
+  if (auto node_layer = getLayerByObjects<NodeLayer>(nodes); node_layer) {
     switchCurrentLayer(node_layer);
   }
 }
@@ -159,6 +160,11 @@ void FlowDocument::setSelectedConnections(
 
   m_selected_connections = connections;
   Q_EMIT selectedConnectionsChanged(m_selected_connections);
+
+  if (auto connection_layer = getLayerByObjects<ConnectionLayer>(connections);
+      connection_layer) {
+    switchCurrentLayer(connection_layer);
+  }
 }
 
 void FlowDocument::serialize(utils::OArchive &archive) const {

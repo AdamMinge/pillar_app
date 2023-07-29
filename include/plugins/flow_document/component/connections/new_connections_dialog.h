@@ -14,6 +14,8 @@ class NewConnectionsDialog;
 namespace flow_document {
 
 class FlowDocument;
+class Connection;
+class ConnectionLayer;
 
 class FLOW_DOCUMENT_API NewConnectionsDialog : public QDialog {
   Q_OBJECT
@@ -21,6 +23,8 @@ class FLOW_DOCUMENT_API NewConnectionsDialog : public QDialog {
  public:
   NewConnectionsDialog(FlowDocument *document, QWidget *parent = nullptr);
   ~NewConnectionsDialog() override;
+
+  void setConnectionLayer(ConnectionLayer *layer);
 
  public Q_SLOTS:
   void accept() override;
@@ -42,6 +46,8 @@ class FLOW_DOCUMENT_API NewConnectionsDialog : public QDialog {
   void initUi();
   void initConnections();
   void retranslateUi();
+
+  [[nodiscard]] std::unique_ptr<Connection> createConnection() const;
 
  private:
   QScopedPointer<Ui::NewConnectionsDialog> m_ui;

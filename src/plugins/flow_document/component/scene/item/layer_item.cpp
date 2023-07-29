@@ -1,9 +1,11 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/layer_item.h"
 
+#include "flow_document/component/scene/item/connection_item.h"
 #include "flow_document/component/scene/item/factory/item_factory.h"
 #include "flow_document/component/scene/item/node_item.h"
 #include "flow_document/event/change_event.h"
+#include "flow_document/event/connection_change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/connection_layer.h"
@@ -169,6 +171,39 @@ ConnectionLayer* ConnectionLayerItem::getConnectionLayer() const {
 
 void ConnectionLayerItem::onEvent(const ChangeEvent& event) {
   LayerItem::onEvent(event);
+
+  if (event.getType() == ConnectionEvent::type) {
+    const auto& connection_event = static_cast<const ConnectionEvent&>(event);
+    switch (connection_event.getEvent()) {
+      using enum ConnectionEvent::Event;
+
+      case Added: {
+        if (getConnectionLayer() == connection_event.getConnectionLayer()) {
+          auto node = connection_event.getConnectionLayer()->at(
+              connection_event.getIndex());
+
+          m_connection_items.insert(
+              connection_event.getIndex(),
+              createItem<ConnectionItem>(node, getDocument(), this));
+        }
+
+        break;
+      }
+
+      case Removed: {
+        if (getConnectionLayer() == connection_event.getConnectionLayer()) {
+          auto item = m_connection_items.takeAt(connection_event.getIndex());
+          item->deleteLater();
+        }
+
+        break;
+      }
+    }
+  }
+
+  for (auto i = 0; i < m_connection_items.size(); ++i) {
+    m_connection_items[i]->setZValue(i);
+  }
 }
 
 }  // namespace flow_document

@@ -349,8 +349,13 @@ QString ConnectionsTreeModel::getName(const QModelIndex &index) const {
 
 QIcon ConnectionsTreeModel::getIcon(const QModelIndex &index) const {
   const auto object = static_cast<Object *>(index.internalPointer());
-  auto factory = getObjectFactoryByClassName(object->getClassName());
-  if (factory) return factory->getIcon();
+
+  if (object->isClassOrChild<Layer>()) {
+    auto factory = getObjectFactoryByClassName(object->getClassName());
+    if (factory) return factory->getIcon();
+  } else {
+    return QIcon(icons::x32::Connection);
+  }
 
   return QIcon{};
 }

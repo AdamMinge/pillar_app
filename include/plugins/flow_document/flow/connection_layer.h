@@ -14,7 +14,7 @@ class FLOW_DOCUMENT_API ConnectionLayer : public Layer {
   FLOW_OBJECT_CLASS(ConnectionLayer, Layer)
 
  public:
-  using Connections = std::vector<ObjectUniquePtr<Connection>>;
+  using Connections = std::vector<std::unique_ptr<Connection>>;
 
  public:
   explicit ConnectionLayer();

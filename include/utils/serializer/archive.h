@@ -112,7 +112,7 @@ void OArchive::serializeMappingContainer(const TYPE& container) {
 
 template <IsBase TYPE>
 void OArchive::serializeBase(const TYPE& value) {
-  save(value);
+  save(QVariant::fromValue<TYPE>(value));
 }
 
 /* --------------------------------- IArchive ------------------------------- */

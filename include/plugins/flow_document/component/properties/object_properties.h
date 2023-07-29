@@ -27,6 +27,7 @@ class ChangeEvent;
 class FlowDocument;
 class Node;
 class Layer;
+class Connection;
 
 /* -------------------------------- Properties ------------------------------ */
 
@@ -181,6 +182,36 @@ class FLOW_DOCUMENT_API NodeProperties : public ObjectProperties {
 
  private:
   void initNodeProperty();
+};
+
+/* --------------------------- ConnectionProperties ------------------------- */
+
+class FLOW_DOCUMENT_API ConnectionProperties : public ObjectProperties {
+  Q_OBJECT
+
+ public:
+  enum Property { Name, Visible };
+
+ public:
+  explicit ConnectionProperties(QObject* parent = nullptr);
+  ~ConnectionProperties() override;
+
+  [[nodiscard]] Connection* getConnection() const;
+
+  void addProperty(const QString& name, const QVariant& value) override;
+  void removeProperty(const QString& name) override;
+
+ protected Q_SLOTS:
+  void onEvent(const ChangeEvent& event) override;
+
+ protected:
+  void updateObject() override;
+
+  void applyCustom(const QString& name, const QVariant& value) override;
+  void applyObject(size_t id, const QVariant& value) override;
+
+ private:
+  void initConnectionProperty();
 };
 
 }  // namespace flow_document
