@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/flow_document_action_handler.h"
 
+#include "flow_document/command/add_remove_connection.h"
 #include "flow_document/command/add_remove_layer.h"
 #include "flow_document/command/add_remove_node.h"
 #include "flow_document/command/change_layer.h"
@@ -9,6 +10,7 @@
 #include "flow_document/command/raise_lower_layer.h"
 #include "flow_document/command/raise_lower_node.h"
 #include "flow_document/component/connections/new_connections_dialog.h"
+#include "flow_document/event/connection_change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/connection_layer.h"
@@ -137,9 +139,13 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
                &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::selectedNodesChanged, this,
                &FlowDocumentActionHandler::updateActions);
+    disconnect(m_document, &FlowDocument::selectedConnectionsChanged, this,
+               &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::currentLayerChanged, this,
                &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::currentNodeChanged, this,
+               &FlowDocumentActionHandler::updateActions);
+    disconnect(m_document, &FlowDocument::currentConnectionChanged, this,
                &FlowDocumentActionHandler::updateActions);
     disconnect(m_document, &FlowDocument::event, this,
                &FlowDocumentActionHandler::onEvent);
@@ -152,9 +158,13 @@ void FlowDocumentActionHandler::setDocument(FlowDocument* document) {
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::selectedNodesChanged, this,
             &FlowDocumentActionHandler::updateActions);
+    connect(m_document, &FlowDocument::selectedConnectionsChanged, this,
+            &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::currentLayerChanged, this,
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::currentNodeChanged, this,
+            &FlowDocumentActionHandler::updateActions);
+    connect(m_document, &FlowDocument::currentConnectionChanged, this,
             &FlowDocumentActionHandler::updateActions);
     connect(m_document, &FlowDocument::event, this,
             &FlowDocumentActionHandler::onEvent);
@@ -431,11 +441,25 @@ void FlowDocumentActionHandler::onAddConnection() const {
 
 void FlowDocumentActionHandler::onRemoveConnection() const {
   Q_ASSERT(m_document);
+
+  const auto selected_connections = m_document->getSelectedConnections();
+  Q_ASSERT(selected_connections.size() > 0);
+
+  auto entires = std::list<ConnectionEntry>{};
+  for (auto selected_connection : selected_connections) {
+    auto connection_layer = selected_connection->getParent();
+    entires.emplace_back(ConnectionEntry(
+        connection_layer, connection_layer->indexOf(selected_connection)));
+  }
+
+  m_document->getUndoStack()->push(
+      new RemoveConnections(m_document, std::move(entires)));
 }
 
 void FlowDocumentActionHandler::onEvent(const ChangeEvent& event) {
   if (event.getType() == LayerEvent::type ||
-      event.getType() == NodeEvent::type) {
+      event.getType() == NodeEvent::type ||
+      event.getType() == ConnectionEvent::type) {
     updateActions();
   }
 }
