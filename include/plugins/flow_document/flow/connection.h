@@ -18,6 +18,12 @@ class FLOW_DOCUMENT_API ConnectionSide {
   ConnectionSide(QUuid node_id = {}, size_t pin_id = 0);
   ~ConnectionSide();
 
+  void setNodeId(const QUuid &id);
+  [[nodiscard]] QUuid getNodeId() const;
+
+  void setPinId(size_t id);
+  [[nodiscard]] size_t getPinId() const;
+
   void serialize(utils::OArchive &archive) const;
   void deserialize(utils::IArchive &archive);
 

@@ -16,5 +16,9 @@
     "font_color": "#ffffff",
     "margins": "8;4;8;4",
     "size": "2;2"
+  },
+  "connections": {
+    "color": "#008b8b",
+    "thickness": 3.0
   }
 }

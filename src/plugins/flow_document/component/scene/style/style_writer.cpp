@@ -25,6 +25,7 @@ class FlowStyleWriter::FlowStyleWriterImpl {
 
   [[nodiscard]] QJsonObject writeNodeStyle(const NodeStyle &style);
   [[nodiscard]] QJsonObject writePinStyle(const PinStyle &style);
+  [[nodiscard]] QJsonObject writeConnectionStyle(const ConnectionStyle &style);
 
   [[nodiscard]] static QString convert(const QSizeF &size);
   [[nodiscard]] static QString convert(const QMarginsF &margins);
@@ -44,9 +45,11 @@ void FlowStyleWriter::FlowStyleWriterImpl::writeStyle(QJsonDocument &document,
   auto main = QJsonObject{};
   auto nodes = writeNodeStyle(style.getNodeStyle());
   auto pins = writePinStyle(style.getPinStyle());
+  auto connections = writeConnectionStyle(style.getConnectionStyle());
 
   main[QLatin1String("nodes")] = nodes;
   main[QLatin1String("pins")] = pins;
+  main[QLatin1String("connections")] = connections;
 
   document.setObject(main);
 }
@@ -75,6 +78,15 @@ QJsonObject FlowStyleWriter::FlowStyleWriterImpl::writePinStyle(
   object[QLatin1String("margins")] = convert(style.getMargins());
   object[QLatin1String("color")] = style.getColor().name();
   object[QLatin1String("border_color")] = style.getBorderColor().name();
+
+  return object;
+}
+
+QJsonObject FlowStyleWriter::FlowStyleWriterImpl::writeConnectionStyle(
+    const ConnectionStyle &style) {
+  auto object = QJsonObject{};
+  object[QLatin1String("color")] = style.getColor().name();
+  object[QLatin1String("thickness")] = style.getThickness();
 
   return object;
 }

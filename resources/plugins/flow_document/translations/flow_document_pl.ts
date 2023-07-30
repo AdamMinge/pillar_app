@@ -391,14 +391,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="175"/>
         <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="188"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="201"/>
         <source>Failed to load flow style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="183"/>
-        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_writer.cpp" line="123"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_reader.cpp" line="196"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/style/style_writer.cpp" line="135"/>
         <location filename="../../../../src/plugins/flow_document/flow_document_reader.cpp" line="58"/>
         <location filename="../../../../src/plugins/flow_document/flow_document_writer.cpp" line="45"/>
         <source>Failed to open file = %1</source>

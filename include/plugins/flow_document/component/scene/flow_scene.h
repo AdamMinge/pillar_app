@@ -12,11 +12,11 @@
 
 namespace flow_document {
 
+class Object;
+class FlowItem;
 class ObjectItem;
 class FlowDocument;
 class Tool;
-
-class FlowItem;
 
 class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
   Q_OBJECT
@@ -30,6 +30,9 @@ class FLOW_DOCUMENT_API FlowScene : public QGraphicsScene {
 
   void setTool(Tool *tool);
   [[nodiscard]] Tool *getTool() const;
+
+  [[nodiscard]] ObjectItem *findItem(const QUuid &id) const;
+  [[nodiscard]] ObjectItem *findItem(Object *object) const;
 
  protected:
   void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;

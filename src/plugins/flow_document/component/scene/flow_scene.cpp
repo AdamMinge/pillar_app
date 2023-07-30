@@ -51,6 +51,21 @@ void FlowScene::setTool(Tool *tool) {
 
 Tool *FlowScene::getTool() const { return m_tool; }
 
+ObjectItem *FlowScene::findItem(const QUuid &id) const {
+  auto scene_items = items();
+  for (auto scene_item : scene_items) {
+    auto object_item = dynamic_cast<ObjectItem *>(scene_item);
+    if (object_item && object_item->getObject()->getId() == id)
+      return object_item;
+  }
+
+  return nullptr;
+}
+
+ObjectItem *FlowScene::findItem(Object *object) const {
+  return findItem(object->getId());
+}
+
 void FlowScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
   auto mime_data = event->mimeData();
   event->setAccepted(isAcceptable(mime_data));

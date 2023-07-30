@@ -84,6 +84,20 @@ float NodeStyle::getBorderRadius() const { return m_border_radius; }
 
 float NodeStyle::getBorderSize() const { return m_border_size; }
 
+/* ------------------------------ ConnectionStyle --------------------------- */
+
+ConnectionStyle::ConnectionStyle() = default;
+
+ConnectionStyle::~ConnectionStyle() = default;
+
+void ConnectionStyle::setColor(QColor color) { m_color = std::move(color); }
+
+void ConnectionStyle::setThickness(float thickness) { m_thickness = thickness; }
+
+const QColor& ConnectionStyle::getColor() const { return m_color; }
+
+float ConnectionStyle::getThickness() const { return m_thickness; }
+
 /* --------------------------------- FlowStyle ------------------------------ */
 
 FlowStyle::FlowStyle() = default;
@@ -97,5 +111,13 @@ const NodeStyle& FlowStyle::getNodeStyle() const { return m_node_style; }
 void FlowStyle::setPinStyle(const PinStyle& style) { m_pin_style = style; }
 
 const PinStyle& FlowStyle::getPinStyle() const { return m_pin_style; }
+
+void FlowStyle::setConnectionStyle(const ConnectionStyle& style) {
+  m_connection_style = style;
+}
+
+const ConnectionStyle& FlowStyle::getConnectionStyle() const {
+  return m_connection_style;
+}
 
 }  // namespace flow_document

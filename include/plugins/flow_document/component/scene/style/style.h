@@ -82,6 +82,24 @@ class NodeStyle {
   float m_border_size;
 };
 
+/* ------------------------------ ConnectionStyle --------------------------- */
+
+class ConnectionStyle {
+ public:
+  explicit ConnectionStyle();
+  ~ConnectionStyle();
+
+  void setColor(QColor color);
+  void setThickness(float thickness);
+
+  [[nodiscard]] const QColor& getColor() const;
+  [[nodiscard]] float getThickness() const;
+
+ private:
+  QColor m_color;
+  float m_thickness;
+};
+
 /* --------------------------------- FlowStyle ------------------------------ */
 
 class FlowStyle {
@@ -95,9 +113,13 @@ class FlowStyle {
   void setPinStyle(const PinStyle& style);
   [[nodiscard]] const PinStyle& getPinStyle() const;
 
+  void setConnectionStyle(const ConnectionStyle& style);
+  [[nodiscard]] const ConnectionStyle& getConnectionStyle() const;
+
  private:
   NodeStyle m_node_style;
   PinStyle m_pin_style;
+  ConnectionStyle m_connection_style;
 };
 
 }  // namespace flow_document

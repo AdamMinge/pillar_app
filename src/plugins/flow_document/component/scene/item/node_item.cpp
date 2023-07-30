@@ -21,66 +21,15 @@ namespace {
 
 /* -------------------------------- Utils ------------------------------- */
 
-const NodeStyle &getNodeStyle(const NodeItem &item) {
+const NodeStyle &getNodeStyle() {
   return StyleManager::getInstance().getStyle().getNodeStyle();
 }
 
-const PinStyle &getPinStyle(const NodeItem &item) {
+const PinStyle &getPinStyle() {
   return StyleManager::getInstance().getStyle().getPinStyle();
 }
 
 }  // namespace
-
-/* ------------------------------- NodeItem ----------------------------- */
-
-NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
-    : ObjectItem(node, document, parent),
-      m_selection_item(new NodeSelectionItem(node, document, this)),
-      m_node_painter(std::make_unique<NodePainter>(*this)),
-      m_node_geometry(std::make_unique<NodeGeometry>(*this)) {
-  setPos(getNode()->getPosition());
-  setVisible(getNode()->isVisible());
-}
-
-NodeItem::~NodeItem() = default;
-
-Node *NodeItem::getNode() const { return static_cast<Node *>(getObject()); }
-
-const NodePainter *NodeItem::getPainter() const { return m_node_painter.get(); }
-
-const NodeGeometry *NodeItem::getGeometry() const {
-  return m_node_geometry.get();
-}
-
-QRectF NodeItem::boundingRect() const {
-  return m_node_geometry->getBoundingRect();
-}
-
-void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                     QWidget *widget) {
-  painter->setClipRect(option->exposedRect);
-  m_node_painter->paint(painter, option);
-}
-
-void NodeItem::onEvent(const ChangeEvent &event) {
-  if (event.getType() == NodesChangeEvent::type) {
-    const auto &node_event = static_cast<const NodesChangeEvent &>(event);
-    if (node_event.contains(getNode())) onUpdate(node_event);
-  }
-}
-
-void NodeItem::onUpdate(const NodesChangeEvent &event) {
-  const auto node = getNode();
-  const auto properties = event.getProperties();
-
-  using enum NodesChangeEvent::Property;
-  if (properties & Visible) {
-    setVisible(node->isVisible());
-  }
-  if (properties & Position) {
-    setPos(node->getPosition());
-  }
-}
 
 /* ----------------------------- NodeGeometry --------------------------- */
 
@@ -91,7 +40,7 @@ NodeGeometry::NodeGeometry(const NodeItem &node_item) : m_node_item(node_item) {
 NodeGeometry::~NodeGeometry() = default;
 
 void NodeGeometry::recalculate() {
-  const auto node_style = getNodeStyle(m_node_item);
+  const auto &node_style = getNodeStyle();
   const auto label_size = calculateLabelSize();
   const auto pins_size = calculatePinsSize();
   const auto widget_size = calculateWidgetSize();
@@ -119,7 +68,7 @@ QPointF NodeGeometry::getPinPosition(Pin::Type type, int index) const {
 }
 
 QPointF NodeGeometry::getPinLabelPosition(Pin::Type type, int index) const {
-  const auto pin_style = getPinStyle(m_node_item);
+  const auto &pin_style = getPinStyle();
   const auto font_metrics = QFontMetricsF(pin_style.getFont());
   const auto label = m_node_item.getNode()->getPin(type, index).getCaption();
 
@@ -133,7 +82,7 @@ QPointF NodeGeometry::getPinLabelPosition(Pin::Type type, int index) const {
 QPointF NodeGeometry::getWidgetPosition() const { return m_widget_position; }
 
 QSizeF NodeGeometry::calculateLabelSize() const {
-  const auto node_style = getNodeStyle(m_node_item);
+  const auto &node_style = getNodeStyle();
   const auto font_metrics = QFontMetricsF(node_style.getFont());
   const auto label = m_node_item.getNode()->getName();
   const auto label_size =
@@ -145,7 +94,7 @@ QSizeF NodeGeometry::calculateLabelSize() const {
 QSizeF NodeGeometry::calculateWidgetSize() const { return QSizeF{}; }
 
 QSizeF NodeGeometry::calculatePinsSize() const {
-  const auto pin_style = getPinStyle(m_node_item);
+  const auto &pin_style = getPinStyle();
   const auto font_metrics = QFontMetricsF(pin_style.getFont());
 
   auto max_pins =
@@ -162,7 +111,7 @@ QSizeF NodeGeometry::calculatePinsSize() const {
 }
 
 float NodeGeometry::calculatePinsWidth(Pin::Type type) const {
-  const auto pin_style = getPinStyle(m_node_item);
+  const auto &pin_style = getPinStyle();
   const auto font_metrics = QFontMetricsF(pin_style.getFont());
 
   auto width = pin_style.getMargins().left() + pin_style.getMargins().right();
@@ -175,7 +124,7 @@ float NodeGeometry::calculatePinsWidth(Pin::Type type) const {
 }
 
 QPointF NodeGeometry::calculateLabelPosition() const {
-  const auto node_style = getNodeStyle(m_node_item);
+  const auto &node_style = getNodeStyle();
   const auto rect = getBoundingRect();
   const auto font_metrics = QFontMetricsF(node_style.getFont());
   const auto label = m_node_item.getNode()->getName();
@@ -188,8 +137,8 @@ QPointF NodeGeometry::calculateLabelPosition() const {
 }
 
 NodeGeometry::PinToPos NodeGeometry::calculatePinPositions() const {
-  const auto node_style = getNodeStyle(m_node_item);
-  const auto pin_style = getPinStyle(m_node_item);
+  const auto &node_style = getNodeStyle();
+  const auto &pin_style = getPinStyle();
   const auto node = m_node_item.getNode();
   const auto rect = getBoundingRect();
   const auto label_size = calculateLabelSize();
@@ -234,7 +183,7 @@ void NodePainter::paint(QPainter *painter,
 
 void NodePainter::paintNodeRect(QPainter *painter,
                                 const QStyleOptionGraphicsItem *option) {
-  const auto node_style = getNodeStyle(m_node_item);
+  const auto &node_style = getNodeStyle();
   const auto rect = m_node_item.boundingRect();
 
   QLinearGradient linear_gradient(rect.bottomLeft(), rect.topRight());
@@ -258,12 +207,12 @@ void NodePainter::paintNodeRect(QPainter *painter,
 
 void NodePainter::paintNodeLabel(QPainter *painter,
                                  const QStyleOptionGraphicsItem *option) {
-  const auto node_style = getNodeStyle(m_node_item);
+  const auto &node_style = getNodeStyle();
   const auto node = m_node_item.getNode();
-  const auto geometry = m_node_item.getGeometry();
+  const auto &geometry = m_node_item.getGeometry();
 
   const auto label = node->getName();
-  const auto label_pos = geometry->getLabelPosition();
+  const auto label_pos = geometry.getLabelPosition();
 
   painter->save();
   painter->setFont(node_style.getFont());
@@ -274,13 +223,13 @@ void NodePainter::paintNodeLabel(QPainter *painter,
 
 void NodePainter::paintNodePins(QPainter *painter,
                                 const QStyleOptionGraphicsItem *option) {
-  const auto pin_style = getPinStyle(m_node_item);
+  const auto &pin_style = getPinStyle();
   const auto node = m_node_item.getNode();
-  const auto geometry = m_node_item.getGeometry();
+  const auto &geometry = m_node_item.getGeometry();
 
   for (auto type : {Pin::Type::In, Pin::Type::Out}) {
     for (auto index = 0; index < node->getPinsCounts(type); ++index) {
-      const auto pin_pos = geometry->getPinPosition(type, index);
+      const auto pin_pos = geometry.getPinPosition(type, index);
 
       painter->save();
       painter->setBrush(pin_style.getColor());
@@ -294,13 +243,13 @@ void NodePainter::paintNodePins(QPainter *painter,
 
 void NodePainter::paintNodePinLabels(QPainter *painter,
                                      const QStyleOptionGraphicsItem *option) {
-  const auto pin_style = getPinStyle(m_node_item);
+  const auto &pin_style = getPinStyle();
   const auto node = m_node_item.getNode();
-  const auto geometry = m_node_item.getGeometry();
+  const auto &geometry = m_node_item.getGeometry();
 
   for (auto type : {Pin::Type::In, Pin::Type::Out}) {
     for (auto index = 0; index < node->getPinsCounts(type); ++index) {
-      const auto pin_label_pos = geometry->getPinLabelPosition(type, index);
+      const auto pin_label_pos = geometry.getPinLabelPosition(type, index);
       const auto pin_label = node->getPin(type, index).getCaption();
 
       painter->save();
@@ -309,6 +258,55 @@ void NodePainter::paintNodePinLabels(QPainter *painter,
       painter->drawText(pin_label_pos, pin_label);
       painter->restore();
     }
+  }
+}
+
+/* ------------------------------- NodeItem ----------------------------- */
+
+NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
+    : ObjectItem(node, document, parent),
+      m_selection_item(new NodeSelectionItem(node, document, this)),
+      m_node_painter(*this),
+      m_node_geometry(*this) {
+  setPos(getNode()->getPosition());
+  setVisible(getNode()->isVisible());
+}
+
+NodeItem::~NodeItem() = default;
+
+Node *NodeItem::getNode() const { return static_cast<Node *>(getObject()); }
+
+const NodePainter &NodeItem::getPainter() const { return m_node_painter; }
+
+const NodeGeometry &NodeItem::getGeometry() const { return m_node_geometry; }
+
+QRectF NodeItem::boundingRect() const {
+  return m_node_geometry.getBoundingRect();
+}
+
+void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget) {
+  painter->setClipRect(option->exposedRect);
+  m_node_painter.paint(painter, option);
+}
+
+void NodeItem::onEvent(const ChangeEvent &event) {
+  if (event.getType() == NodesChangeEvent::type) {
+    const auto &node_event = static_cast<const NodesChangeEvent &>(event);
+    if (node_event.contains(getNode())) onUpdate(node_event);
+  }
+}
+
+void NodeItem::onUpdate(const NodesChangeEvent &event) {
+  const auto node = getNode();
+  const auto properties = event.getProperties();
+
+  using enum NodesChangeEvent::Property;
+  if (properties & Visible) {
+    setVisible(node->isVisible());
+  }
+  if (properties & Position) {
+    setPos(node->getPosition());
   }
 }
 

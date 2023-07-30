@@ -25,6 +25,7 @@ class FlowStyleReader::FlowStyleReaderImpl {
 
   [[nodiscard]] NodeStyle readNodeStyle(const QJsonObject &object);
   [[nodiscard]] PinStyle readPinStyle(const QJsonObject &object);
+  [[nodiscard]] ConnectionStyle readConnectionStyle(const QJsonObject &object);
 
   [[nodiscard]] static QFont toFont(const QJsonValue &value);
   [[nodiscard]] static QColor toColor(const QJsonValue &value);
@@ -50,12 +51,15 @@ std::unique_ptr<FlowStyle> FlowStyleReader::FlowStyleReaderImpl::readStyle(
   auto flow_style = std::make_unique<FlowStyle>();
   const auto nodes = main[QLatin1String("nodes")].toObject();
   const auto pins = main[QLatin1String("pins")].toObject();
+  const auto connections = main[QLatin1String("connections")].toObject();
 
   auto node_style = readNodeStyle(nodes);
   auto pin_style = readPinStyle(pins);
+  auto connection_style = readConnectionStyle(connections);
 
   flow_style->setNodeStyle(node_style);
   flow_style->setPinStyle(pin_style);
+  flow_style->setConnectionStyle(connection_style);
 
   return flow_style;
 }
@@ -84,6 +88,15 @@ PinStyle FlowStyleReader::FlowStyleReaderImpl::readPinStyle(
   style.setMargins(toMargins(object[QLatin1String("margins")]));
   style.setColor(toColor(object[QLatin1String("color")]));
   style.setBorderColor(toColor(object[QLatin1String("border_color")]));
+
+  return style;
+}
+
+ConnectionStyle FlowStyleReader::FlowStyleReaderImpl::readConnectionStyle(
+    const QJsonObject &object) {
+  auto style = ConnectionStyle{};
+  style.setColor(toColor(object[QLatin1String("color")]));
+  style.setThickness(toFloat(object[QLatin1String("thickness")]));
 
   return style;
 }

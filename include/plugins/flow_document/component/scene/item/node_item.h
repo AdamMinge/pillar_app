@@ -13,38 +13,8 @@ class NodeSelectionItem;
 class NodesChangeEvent;
 class FlowDocument;
 class ChangeEvent;
-class NodePainter;
-class NodeGeometry;
+class NodeItem;
 class Node;
-
-/* ------------------------------- NodeItem ----------------------------- */
-
-class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
-  Q_OBJECT
-
- public:
-  explicit NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent);
-  ~NodeItem() override;
-
-  [[nodiscard]] Node *getNode() const;
-
-  [[nodiscard]] const NodePainter *getPainter() const;
-  [[nodiscard]] const NodeGeometry *getGeometry() const;
-
-  [[nodiscard]] QRectF boundingRect() const override;
-  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-             QWidget *widget) override;
-
- private Q_SLOTS:
-  void onEvent(const ChangeEvent &event) override;
-  void onUpdate(const NodesChangeEvent &event);
-
- private:
-  NodeSelectionItem *m_selection_item;
-
-  std::unique_ptr<NodePainter> m_node_painter;
-  std::unique_ptr<NodeGeometry> m_node_geometry;
-};
 
 /* ----------------------------- NodeGeometry --------------------------- */
 
@@ -53,7 +23,7 @@ class FLOW_DOCUMENT_API NodeGeometry {
 
  public:
   explicit NodeGeometry(const NodeItem &node_item);
-  virtual ~NodeGeometry();
+  ~NodeGeometry();
 
   void recalculate();
 
@@ -86,7 +56,7 @@ class FLOW_DOCUMENT_API NodeGeometry {
 class FLOW_DOCUMENT_API NodePainter {
  public:
   explicit NodePainter(const NodeItem &node_item);
-  virtual ~NodePainter();
+  ~NodePainter();
 
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
@@ -100,6 +70,34 @@ class FLOW_DOCUMENT_API NodePainter {
 
  private:
   const NodeItem &m_node_item;
+};
+
+/* ------------------------------- NodeItem ----------------------------- */
+
+class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
+  Q_OBJECT
+
+ public:
+  explicit NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent);
+  ~NodeItem() override;
+
+  [[nodiscard]] Node *getNode() const;
+
+  [[nodiscard]] const NodePainter &getPainter() const;
+  [[nodiscard]] const NodeGeometry &getGeometry() const;
+
+  [[nodiscard]] QRectF boundingRect() const override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
+
+ private Q_SLOTS:
+  void onEvent(const ChangeEvent &event) override;
+  void onUpdate(const NodesChangeEvent &event);
+
+ private:
+  NodeSelectionItem *m_selection_item;
+  NodePainter m_node_painter;
+  NodeGeometry m_node_geometry;
 };
 
 }  // namespace flow_document

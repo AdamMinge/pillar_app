@@ -239,6 +239,15 @@ template <>
   return nodes;
 }
 
+[[nodiscard]] Node *findNodeById(FlowDocument *document, const QUuid &id) {
+  auto nodes = getAllNodes(document);
+  for (auto node : nodes) {
+    if (node->getId() == id) return node;
+  }
+
+  return nullptr;
+}
+
 [[nodiscard]] QList<Connection *> getAllNodes(
     FlowDocument *document, const QList<Connection *> &except) {
   auto layers = getAllLayers(document, {});

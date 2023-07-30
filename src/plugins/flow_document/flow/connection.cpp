@@ -14,6 +14,14 @@ ConnectionSide::ConnectionSide(QUuid node_id, size_t pin_id)
 
 ConnectionSide::~ConnectionSide() = default;
 
+void ConnectionSide::setNodeId(const QUuid &id) { m_node_id = id; }
+
+QUuid ConnectionSide::getNodeId() const { return m_node_id; }
+
+void ConnectionSide::setPinId(size_t id) { m_pin_id = id; }
+
+size_t ConnectionSide::getPinId() const { return m_pin_id; }
+
 void ConnectionSide::serialize(utils::OArchive &archive) const {
   archive << utils::ArchiveProperty("node", m_node_id);
   archive << utils::ArchiveProperty("pin", m_pin_id);

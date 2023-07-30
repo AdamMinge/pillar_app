@@ -120,6 +120,8 @@ template <>
 [[nodiscard]] QList<Node *> getAllNodes(FlowDocument *document,
                                         const QList<Node *> &except = {});
 
+[[nodiscard]] Node *findNodeById(FlowDocument *document, const QUuid &id);
+
 [[nodiscard]] QList<Connection *> getAllConnections(
     FlowDocument *document, const QList<Connection *> &except = {});
 
