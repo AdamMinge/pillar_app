@@ -33,9 +33,8 @@ const PinStyle &getPinStyle() {
 
 /* ----------------------------- NodeGeometry --------------------------- */
 
-NodeGeometry::NodeGeometry(const NodeItem &node_item) : m_node_item(node_item) {
-  recalculate();
-}
+NodeGeometry::NodeGeometry(const NodeItem &node_item)
+    : m_node_item(node_item) {}
 
 NodeGeometry::~NodeGeometry() = default;
 
@@ -270,6 +269,8 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
       m_node_geometry(*this) {
   setPos(getNode()->getPosition());
   setVisible(getNode()->isVisible());
+
+  onSceneChanged();
 }
 
 NodeItem::~NodeItem() = default;
@@ -290,6 +291,8 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   m_node_painter.paint(painter, option);
 }
 
+void NodeItem::onSceneChanged() { updateGeometry(); }
+
 void NodeItem::onEvent(const ChangeEvent &event) {
   if (event.getType() == NodesChangeEvent::type) {
     const auto &node_event = static_cast<const NodesChangeEvent &>(event);
@@ -308,6 +311,15 @@ void NodeItem::onUpdate(const NodesChangeEvent &event) {
   if (properties & Position) {
     setPos(node->getPosition());
   }
+  if (properties & Name) {
+    updateGeometry();
+  }
+}
+
+void NodeItem::updateGeometry() {
+  m_node_geometry.recalculate();
+
+  update();
 }
 
 }  // namespace flow_document

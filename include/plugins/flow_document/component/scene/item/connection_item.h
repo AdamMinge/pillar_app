@@ -77,6 +77,8 @@ class FLOW_DOCUMENT_API ConnectionItem : public ObjectItem {
              QWidget* widget) override;
 
  private Q_SLOTS:
+  void onSceneChanged() override;
+
   void updateConnection();
   void updateGeometry();
 

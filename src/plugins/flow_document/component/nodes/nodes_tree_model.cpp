@@ -126,7 +126,7 @@ QModelIndex NodesTreeModel::index(Node *node, int column) const {
   const auto node_layer = node->getParent();
   if (!node_layer) return QModelIndex{};
 
-  const auto row = node_layer->indexOf(node);
+  const auto row = node_layer->indexOfNode(node);
   Q_ASSERT(row >= 0);
 
   return createIndex(row, column, node);
@@ -139,12 +139,12 @@ QModelIndex NodesTreeModel::index(int row, int column,
 
   if (object->isClassOrChild<GroupLayer>()) {
     auto group_layer = static_cast<GroupLayer *>(object);
-    if (group_layer->size() > row)
+    if (group_layer->count() > row)
       return createIndex(row, column, group_layer->at(row));
   } else if (object->isClassOrChild<NodeLayer>()) {
     auto node_layer = static_cast<NodeLayer *>(object);
-    if (node_layer->size() > row)
-      return createIndex(row, column, node_layer->at(row));
+    if (node_layer->nodesCount() > row)
+      return createIndex(row, column, node_layer->nodeAt(row));
   }
 
   return QModelIndex{};
@@ -172,16 +172,16 @@ int NodesTreeModel::rowCount(const QModelIndex &parent) const {
 
   if (!parent.isValid()) {
     auto root_layer = m_flow->getRootLayer();
-    return static_cast<int>(root_layer->size());
+    return static_cast<int>(root_layer->count());
   } else {
     auto object = static_cast<Object *>(parent.internalPointer());
 
     if (object->isClassOrChild<GroupLayer>()) {
       auto group_layer = static_cast<GroupLayer *>(object);
-      return group_layer->size();
+      return group_layer->count();
     } else if (object->isClassOrChild<NodeLayer>()) {
       auto node_layer = static_cast<NodeLayer *>(object);
-      return node_layer->size();
+      return node_layer->nodesCount();
     }
   }
 

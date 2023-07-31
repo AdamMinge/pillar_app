@@ -37,7 +37,7 @@ void RaiseLowerLayers::moveLayers(bool raise) {
     const auto step = raise ? 1 : -1;
     const auto parent = layer->getParent();
     const auto index = parent->indexOf(layer);
-    const auto can_move = raise ? index < parent->size() - 1 : index > 0;
+    const auto can_move = raise ? index < parent->count() - 1 : index > 0;
 
     auto new_parent = static_cast<GroupLayer*>(nullptr);
     auto new_index = 0;
@@ -46,7 +46,7 @@ void RaiseLowerLayers::moveLayers(bool raise) {
       auto next_layer = parent->at(index + step);
       if (next_layer->isClassOrChild<GroupLayer>()) {
         new_parent = static_cast<GroupLayer*>(next_layer);
-        new_index = raise ? 0 : new_parent->size();
+        new_index = raise ? 0 : new_parent->count();
       } else {
         new_parent = parent;
         new_index = index + step;

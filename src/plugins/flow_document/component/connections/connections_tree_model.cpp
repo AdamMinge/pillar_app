@@ -7,10 +7,10 @@
 #include "flow_document/event/connection_change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/flow/connection.h"
-#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
+#include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -128,10 +128,10 @@ QModelIndex ConnectionsTreeModel::index(Layer *layer, int column) const {
 QModelIndex ConnectionsTreeModel::index(Connection *connection,
                                         int column) const {
   Q_ASSERT(connection);
-  const auto connection_layer = connection->getParent();
-  if (!connection_layer) return QModelIndex{};
+  const auto node_layer = connection->getParent();
+  if (!node_layer) return QModelIndex{};
 
-  const auto row = connection_layer->indexOf(connection);
+  const auto row = node_layer->indexOfConnection(connection);
   Q_ASSERT(row >= 0);
 
   return createIndex(row, column, connection);
@@ -144,12 +144,12 @@ QModelIndex ConnectionsTreeModel::index(int row, int column,
 
   if (object->isClassOrChild<GroupLayer>()) {
     auto group_layer = static_cast<GroupLayer *>(object);
-    if (group_layer->size() > row)
+    if (group_layer->count() > row)
       return createIndex(row, column, group_layer->at(row));
-  } else if (object->isClassOrChild<ConnectionLayer>()) {
-    auto connection_layer = static_cast<ConnectionLayer *>(object);
-    if (connection_layer->size() > row)
-      return createIndex(row, column, connection_layer->at(row));
+  } else if (object->isClassOrChild<NodeLayer>()) {
+    auto node_layer = static_cast<NodeLayer *>(object);
+    if (node_layer->connectionsCount() > row)
+      return createIndex(row, column, node_layer->connectionAt(row));
   }
 
   return QModelIndex{};
@@ -161,8 +161,8 @@ QModelIndex ConnectionsTreeModel::parent(const QModelIndex &index) const {
   auto object = static_cast<Object *>(index.internalPointer());
   const auto type = object->getClassName();
 
-  if (object->isClassOrChild<ConnectionLayer>()) {
-    auto layer = static_cast<ConnectionLayer *>(object);
+  if (object->isClassOrChild<NodeLayer>()) {
+    auto layer = static_cast<NodeLayer *>(object);
     return ConnectionsTreeModel::index(layer->getParent());
   } else if (object->isClassOrChild<Connection>()) {
     auto connection = static_cast<Connection *>(object);
@@ -177,16 +177,16 @@ int ConnectionsTreeModel::rowCount(const QModelIndex &parent) const {
 
   if (!parent.isValid()) {
     auto root_layer = m_flow->getRootLayer();
-    return static_cast<int>(root_layer->size());
+    return static_cast<int>(root_layer->count());
   } else {
     auto object = static_cast<Object *>(parent.internalPointer());
 
     if (object->isClassOrChild<GroupLayer>()) {
       auto group_layer = static_cast<GroupLayer *>(object);
-      return group_layer->size();
-    } else if (object->isClassOrChild<ConnectionLayer>()) {
-      auto connection_layer = static_cast<ConnectionLayer *>(object);
-      return connection_layer->size();
+      return group_layer->count();
+    } else if (object->isClassOrChild<NodeLayer>()) {
+      auto node_layer = static_cast<NodeLayer *>(object);
+      return node_layer->connectionsCount();
     }
   }
 
@@ -226,7 +226,7 @@ void ConnectionsTreeModel::onEvent(const ChangeEvent &event) {
       using enum ConnectionEvent::Event;
 
       case AboutToBeAdded: {
-        beginInsertRows(index(connection_event.getConnectionLayer()),
+        beginInsertRows(index(connection_event.getNodeLayer()),
                         connection_event.getIndex(),
                         connection_event.getIndex());
         break;
@@ -238,7 +238,7 @@ void ConnectionsTreeModel::onEvent(const ChangeEvent &event) {
       }
 
       case AboutToBeRemoved: {
-        beginRemoveRows(index(connection_event.getConnectionLayer()),
+        beginRemoveRows(index(connection_event.getNodeLayer()),
                         connection_event.getIndex(),
                         connection_event.getIndex());
         break;
@@ -416,10 +416,10 @@ bool OnlyConnectionsFilterProxyModel::filterAcceptsRow(
   const auto index = sourceModel()->index(source_row, 0, source_parent);
   const auto object = static_cast<Object *>(index.internalPointer());
 
-  const auto is_connection_layer = object->isClassOrChild<ConnectionLayer>();
+  const auto is_node_layer = object->isClassOrChild<NodeLayer>();
   const auto is_connection = object->isClassOrChild<Connection>();
 
-  return is_connection_layer || is_connection;
+  return is_node_layer || is_connection;
 }
 
 }  // namespace flow_document

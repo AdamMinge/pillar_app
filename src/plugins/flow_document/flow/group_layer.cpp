@@ -50,7 +50,7 @@ qsizetype GroupLayer::indexOf(Layer* layer) const {
   return -1;
 }
 
-qsizetype GroupLayer::size() const { return m_layers.size(); }
+qsizetype GroupLayer::count() const { return m_layers.size(); }
 
 GroupLayer::Layers::iterator GroupLayer::begin() { return m_layers.begin(); }
 

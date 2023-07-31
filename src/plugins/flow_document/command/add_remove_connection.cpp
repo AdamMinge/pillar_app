@@ -2,7 +2,7 @@
 #include "flow_document/command/add_remove_connection.h"
 
 #include "flow_document/event/connection_change_event.h"
-#include "flow_document/flow/connection_layer.h"
+#include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 /* -------------------------------------------------------------------------- */
 
@@ -11,19 +11,16 @@ namespace flow_document {
 /* ------------------------------ ConnectionEntry --------------------------- */
 
 ConnectionEntry::ConnectionEntry(ConnectionEntry&& other)
-    : ConnectionEntry(other.connection_layer, std::move(other.new_connection),
+    : ConnectionEntry(other.node_layer, std::move(other.new_connection),
                       other.index) {}
 
-ConnectionEntry::ConnectionEntry(ConnectionLayer* connection_layer,
-                                 qsizetype index)
-    : connection_layer(connection_layer),
-      new_connection(nullptr),
-      index(index) {}
+ConnectionEntry::ConnectionEntry(NodeLayer* node_layer, qsizetype index)
+    : node_layer(node_layer), new_connection(nullptr), index(index) {}
 
-ConnectionEntry::ConnectionEntry(ConnectionLayer* connection_layer,
+ConnectionEntry::ConnectionEntry(NodeLayer* node_layer,
                                  std::unique_ptr<Connection> new_connection,
                                  qsizetype index)
-    : connection_layer(connection_layer),
+    : node_layer(node_layer),
       new_connection(std::move(new_connection)),
       index(index) {}
 
@@ -39,8 +36,8 @@ AddRemoveConnections::AddRemoveConnections(const QString& name,
       m_document(document),
       m_entries(std::move(entries)) {
   m_entries.sort([](const auto& left, const auto& right) {
-    auto left_id = getLayerHierarchicalId(left.connection_layer);
-    auto right_id = getLayerHierarchicalId(right.connection_layer);
+    auto left_id = getLayerHierarchicalId(left.node_layer);
+    auto right_id = getLayerHierarchicalId(right.node_layer);
 
     if (left_id > right_id) return true;
     if (left_id == right_id && left.index > right.index) return true;
@@ -56,13 +53,12 @@ void AddRemoveConnections::addConnection() {
     auto& entry = *iter;
     Q_ASSERT(entry.new_connection);
 
-    Q_EMIT m_document->event(
-        ConnectionEvent(ConnectionEvent::Event::AboutToBeAdded,
-                        entry.connection_layer, entry.index));
-    entry.connection_layer->insert(entry.index,
-                                   std::move(entry.new_connection));
     Q_EMIT m_document->event(ConnectionEvent(
-        ConnectionEvent::Event::Added, entry.connection_layer, entry.index));
+        ConnectionEvent::Event::AboutToBeAdded, entry.node_layer, entry.index));
+    entry.node_layer->insertConnection(entry.index,
+                                       std::move(entry.new_connection));
+    Q_EMIT m_document->event(ConnectionEvent(ConnectionEvent::Event::Added,
+                                             entry.node_layer, entry.index));
   }
 }
 
@@ -73,10 +69,10 @@ void AddRemoveConnections::removeConnection() {
 
     Q_EMIT m_document->event(
         ConnectionEvent(ConnectionEvent::Event::AboutToBeRemoved,
-                        entry.connection_layer, entry.index));
-    entry.new_connection = entry.connection_layer->take(entry.index);
-    Q_EMIT m_document->event(ConnectionEvent(
-        ConnectionEvent::Event::Removed, entry.connection_layer, entry.index));
+                        entry.node_layer, entry.index));
+    entry.new_connection = entry.node_layer->takeConnection(entry.index);
+    Q_EMIT m_document->event(ConnectionEvent(ConnectionEvent::Event::Removed,
+                                             entry.node_layer, entry.index));
   }
 }
 

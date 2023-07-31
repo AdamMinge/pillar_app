@@ -2,7 +2,7 @@
 #include "flow_document/component/connections/new_connections_dialog.h"
 
 #include "flow_document/command/add_remove_connection.h"
-#include "flow_document/flow/connection_layer.h"
+#include "flow_document/flow/node_layer.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
@@ -26,11 +26,10 @@ NewConnectionsDialog::NewConnectionsDialog(FlowDocument *document,
 
 NewConnectionsDialog::~NewConnectionsDialog() = default;
 
-void NewConnectionsDialog::setConnectionLayer(ConnectionLayer *layer) {
+void NewConnectionsDialog::setNodeLayer(NodeLayer *layer) {
   for (auto i = 0; i < m_ui->m_layers->count(); ++i) {
-    auto connection_layer =
-        m_ui->m_layers->itemData(i).value<ConnectionLayer *>();
-    if (connection_layer == layer) {
+    auto node_layer = m_ui->m_layers->itemData(i).value<NodeLayer *>();
+    if (node_layer == layer) {
       m_ui->m_layers->setCurrentIndex(i);
       break;
     }
@@ -38,13 +37,12 @@ void NewConnectionsDialog::setConnectionLayer(ConnectionLayer *layer) {
 }
 
 void NewConnectionsDialog::accept() {
-  auto connection_layer =
-      m_ui->m_layers->currentData().value<ConnectionLayer *>();
+  auto node_layer = m_ui->m_layers->currentData().value<NodeLayer *>();
 
   auto entires = std::list<ConnectionEntry>{};
-  entires.emplace_back(ConnectionEntry{connection_layer,
+  entires.emplace_back(ConnectionEntry{node_layer,
                                        std::move(createConnection()),
-                                       connection_layer->size()});
+                                       node_layer->connectionsCount()});
   m_document->getUndoStack()->push(
       new AddConnections(m_document, std::move(entires)));
 
@@ -108,7 +106,7 @@ void NewConnectionsDialog::initConnections() {
 void NewConnectionsDialog::retranslateUi() { m_ui->retranslateUi(this); }
 
 void NewConnectionsDialog::fillLayers() {
-  auto layers = getAllLayers<ConnectionLayer>(m_document);
+  auto layers = getAllLayers<NodeLayer>(m_document);
 
   m_ui->m_layers->clear();
   for (auto layer : layers) {
@@ -173,9 +171,8 @@ void NewConnectionsDialog::fillOutputPins() {
 }
 
 void NewConnectionsDialog::validate() {
-  auto connection_layer =
-      m_ui->m_layers->itemData(m_ui->m_layers->currentIndex())
-          .value<ConnectionLayer *>();
+  auto node_layer = m_ui->m_layers->itemData(m_ui->m_layers->currentIndex())
+                        .value<NodeLayer *>();
 
   auto outut_node =
       m_ui->m_output_nodes->itemData(m_ui->m_output_nodes->currentIndex())
@@ -184,8 +181,7 @@ void NewConnectionsDialog::validate() {
       m_ui->m_input_nodes->itemData(m_ui->m_input_nodes->currentIndex())
           .value<Node *>();
 
-  m_ui->m_connect_button->setEnabled(connection_layer && outut_node &&
-                                     input_node);
+  m_ui->m_connect_button->setEnabled(node_layer && outut_node && input_node);
 }
 
 }  // namespace flow_document

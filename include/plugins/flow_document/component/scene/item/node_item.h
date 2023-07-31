@@ -91,8 +91,11 @@ class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
              QWidget *widget) override;
 
  private Q_SLOTS:
+  void onSceneChanged() override;
   void onEvent(const ChangeEvent &event) override;
   void onUpdate(const NodesChangeEvent &event);
+
+  void updateGeometry();
 
  private:
   NodeSelectionItem *m_selection_item;

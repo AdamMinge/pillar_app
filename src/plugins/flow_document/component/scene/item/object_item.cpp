@@ -27,6 +27,17 @@ QRectF ObjectItem::boundingRect() const { return QRectF{}; }
 
 void ObjectItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {}
 
+QVariant ObjectItem::itemChange(QGraphicsItem::GraphicsItemChange change,
+                                const QVariant& value) {
+  if (change == QGraphicsItem::ItemSceneHasChanged) {
+    onSceneChanged();
+  }
+
+  return QGraphicsObject::itemChange(change, value);
+}
+
 void ObjectItem::onEvent(const ChangeEvent& event) {}
+
+void ObjectItem::onSceneChanged() {}
 
 }  // namespace flow_document

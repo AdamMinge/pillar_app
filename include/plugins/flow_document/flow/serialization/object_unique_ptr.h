@@ -17,7 +17,44 @@
 
 namespace flow_document {
 
+/* ------------------------ DeserializeByObjectFactory ---------------------- */
+
 template <IsObject TYPE>
+struct DeserializeByObjectFactory {
+  [[nodiscard]] std::unique_ptr<TYPE> operator()(
+      utils::IArchive& archive) const {
+    auto object_class = QString{};
+    archive >> utils::ArchiveProperty("class", object_class);
+
+    auto& manager = egnite::PluginManager::getInstance();
+    auto factories = manager.getObjects<ObjectFactory>();
+
+    auto object_factory = static_cast<ObjectFactory*>(nullptr);
+    for (auto factory : factories) {
+      if (object_class == factory->getObjectClassName()) {
+        object_factory = factory;
+        break;
+      }
+    }
+
+    return utils::cast_unique_ptr<TYPE>(object_factory->createObject());
+  }
+};
+
+/* ------------------------ DeserializeByDefaultFactory --------------------- */
+
+template <IsObject TYPE>
+struct DeserializeByDefaultFactory {
+  [[nodiscard]] std::unique_ptr<TYPE> operator()(
+      utils::IArchive& archive) const {
+    return std::make_unique<TYPE>();
+  }
+};
+
+/* ------------------------------ ObjectUniquePtr --------------------------- */
+
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY =
+                             DeserializeByObjectFactory>
 class ObjectUniquePtr : public utils::Serializable {
  public:
   ObjectUniquePtr();
@@ -46,32 +83,37 @@ class ObjectUniquePtr : public utils::Serializable {
   void deserialize(utils::IArchive& archive) override;
 
  private:
+  DESERIALIZATION_STRATEGY<TYPE> m_deserialization_strategy;
   std::unique_ptr<TYPE> m_ptr;
 };
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::ObjectUniquePtr() = default;
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::ObjectUniquePtr() = default;
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::ObjectUniquePtr(std::unique_ptr<TYPE> ptr)
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::ObjectUniquePtr(
+    std::unique_ptr<TYPE> ptr)
     : m_ptr(std::move(ptr)) {}
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::ObjectUniquePtr(TYPE* ptr) : m_ptr(ptr) {}
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::ObjectUniquePtr(TYPE* ptr)
+    : m_ptr(ptr) {}
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::~ObjectUniquePtr() {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::~ObjectUniquePtr() {
   reset();
 }
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::ObjectUniquePtr(ObjectUniquePtr&& other) noexcept
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::ObjectUniquePtr(
+    ObjectUniquePtr&& other) noexcept
     : m_ptr(std::move(other.m_ptr)) {
   other.m_ptr = nullptr;
 }
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>& ObjectUniquePtr<TYPE>::operator=(
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>&
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::operator=(
     ObjectUniquePtr&& other) noexcept {
   if (this != &other) {
     reset();
@@ -81,65 +123,54 @@ ObjectUniquePtr<TYPE>& ObjectUniquePtr<TYPE>::operator=(
   return *this;
 }
 
-template <IsObject TYPE>
-TYPE* ObjectUniquePtr<TYPE>::get() const {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+TYPE* ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::get() const {
   return m_ptr.get();
 }
 
-template <IsObject TYPE>
-TYPE* ObjectUniquePtr<TYPE>::operator->() const {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+TYPE* ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::operator->() const {
   return m_ptr.get();
 }
 
-template <IsObject TYPE>
-TYPE& ObjectUniquePtr<TYPE>::operator*() const {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+TYPE& ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::operator*() const {
   return *m_ptr;
 }
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::operator bool() const {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::operator bool() const {
   return m_ptr != nullptr;
 }
 
-template <IsObject TYPE>
-ObjectUniquePtr<TYPE>::operator std::unique_ptr<TYPE>() {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+ObjectUniquePtr<TYPE,
+                DESERIALIZATION_STRATEGY>::operator std::unique_ptr<TYPE>() {
   return std::unique_ptr<TYPE>(m_ptr.release());
 }
 
-template <IsObject TYPE>
-void ObjectUniquePtr<TYPE>::reset() {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+void ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::reset() {
   m_ptr.reset();
 }
 
-template <IsObject TYPE>
-void ObjectUniquePtr<TYPE>::reset(TYPE* ptr) {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+void ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::reset(TYPE* ptr) {
   m_ptr.reset(ptr);
 }
 
-template <IsObject TYPE>
-void ObjectUniquePtr<TYPE>::serialize(utils::OArchive& archive) const {
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+void ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::serialize(
+    utils::OArchive& archive) const {
   auto object_class = m_ptr->getClassName();
   archive << utils::ArchiveProperty("class", object_class);
   m_ptr->serialize(archive);
 }
 
-template <IsObject TYPE>
-void ObjectUniquePtr<TYPE>::deserialize(utils::IArchive& archive) {
-  auto object_class = QString{};
-  archive >> utils::ArchiveProperty("class", object_class);
-
-  auto& manager = egnite::PluginManager::getInstance();
-  auto factories = manager.getObjects<ObjectFactory>();
-
-  auto object_factory = static_cast<ObjectFactory*>(nullptr);
-  for (auto factory : factories) {
-    if (object_class == factory->getObjectClassName()) {
-      object_factory = factory;
-      break;
-    }
-  }
-
-  m_ptr = utils::cast_unique_ptr<TYPE>(object_factory->createObject());
+template <IsObject TYPE, template <typename> class DESERIALIZATION_STRATEGY>
+void ObjectUniquePtr<TYPE, DESERIALIZATION_STRATEGY>::deserialize(
+    utils::IArchive& archive) {
+  m_ptr = m_deserialization_strategy(archive);
   m_ptr->deserialize(archive);
 }
 

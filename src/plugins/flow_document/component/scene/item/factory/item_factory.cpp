@@ -6,7 +6,6 @@
 #include "flow_document/component/scene/item/layer_item.h"
 #include "flow_document/component/scene/item/node_item.h"
 #include "flow_document/flow/connection.h"
-#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/node.h"
@@ -69,24 +68,6 @@ QString NodeLayerItemFactory::getObjectClassName() const {
 ObjectItem* NodeLayerItemFactory::create(Object* object, FlowDocument* document,
                                          QGraphicsItem* parent) const {
   return new NodeLayerItem(static_cast<NodeLayer*>(object), document, parent);
-}
-
-/* ------------------------- ConnectionLayerItemFactory --------------------- */
-
-ConnectionLayerItemFactory::ConnectionLayerItemFactory(QObject* parent)
-    : ItemFactory(parent) {}
-
-ConnectionLayerItemFactory::~ConnectionLayerItemFactory() = default;
-
-QString ConnectionLayerItemFactory::getObjectClassName() const {
-  return ConnectionLayer::sGetClassName();
-}
-
-ObjectItem* ConnectionLayerItemFactory::create(Object* object,
-                                               FlowDocument* document,
-                                               QGraphicsItem* parent) const {
-  return new ConnectionLayerItem(static_cast<ConnectionLayer*>(object),
-                                 document, parent);
 }
 
 /* ------------------------------- NodeItemFactory -------------------------- */

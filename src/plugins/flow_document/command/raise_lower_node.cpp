@@ -36,8 +36,8 @@ void RaiseLowerNodes::moveNodes(bool raise) {
   auto process_layer = [this, raise](Node* node) {
     const auto step = raise ? 1 : -1;
     const auto parent = node->getParent();
-    const auto index = parent->indexOf(node);
-    const auto can_move = raise ? index < parent->size() - 1 : index > 0;
+    const auto index = parent->indexOfNode(node);
+    const auto can_move = raise ? index < parent->nodesCount() - 1 : index > 0;
 
     this->moveNode(node, parent, index + step);
   };
@@ -54,18 +54,18 @@ void RaiseLowerNodes::moveNodes(bool raise) {
 
 void RaiseLowerNodes::moveNode(Node* node, NodeLayer* parent, qsizetype index) {
   auto from_parent = node->getParent();
-  auto from_index = from_parent->indexOf(node);
+  auto from_index = from_parent->indexOfNode(node);
 
   Q_EMIT m_document->event(
       NodeEvent(NodeEvent::Event::AboutToBeRemoved, from_parent, from_index));
-  auto reparent_layer = from_parent->take(from_index);
+  auto reparent_layer = from_parent->takeNode(from_index);
   Q_ASSERT(reparent_layer);
   Q_EMIT m_document->event(
       NodeEvent(NodeEvent::Event::Removed, from_parent, from_index));
 
   Q_EMIT m_document->event(
       NodeEvent(NodeEvent::Event::AboutToBeAdded, parent, index));
-  parent->insert(index, std::move(reparent_layer));
+  parent->insertNode(index, std::move(reparent_layer));
   Q_EMIT m_document->event(NodeEvent(NodeEvent::Event::Added, parent, index));
 }
 

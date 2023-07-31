@@ -49,7 +49,7 @@ void AddRemoveNodes::addNode() {
 
     Q_EMIT m_document->event(NodeEvent(NodeEvent::Event::AboutToBeAdded,
                                        entry.node_layer, entry.index));
-    entry.node_layer->insert(entry.index, std::move(entry.new_node));
+    entry.node_layer->insertNode(entry.index, std::move(entry.new_node));
     Q_EMIT m_document->event(
         NodeEvent(NodeEvent::Event::Added, entry.node_layer, entry.index));
   }
@@ -62,7 +62,7 @@ void AddRemoveNodes::removeNode() {
 
     Q_EMIT m_document->event(NodeEvent(NodeEvent::Event::AboutToBeRemoved,
                                        entry.node_layer, entry.index));
-    entry.new_node = entry.node_layer->take(entry.index);
+    entry.new_node = entry.node_layer->takeNode(entry.index);
     Q_EMIT m_document->event(
         NodeEvent(NodeEvent::Event::Removed, entry.node_layer, entry.index));
   }

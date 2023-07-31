@@ -33,7 +33,6 @@ set(sources
     ${source_root}/flow/connection.cpp
     ${source_root}/flow/group_layer.cpp
     ${source_root}/flow/node_layer.cpp
-    ${source_root}/flow/connection_layer.cpp
     ${source_root}/flow/layer_iterator.cpp
     ${source_root}/flow/factory/object_factory.cpp
     ${source_root}/flow/factory/node_factory.cpp
@@ -115,7 +114,6 @@ set(includes
     ${include_root}/flow/connection.h
     ${include_root}/flow/group_layer.h
     ${include_root}/flow/node_layer.h
-    ${include_root}/flow/connection_layer.h
     ${include_root}/flow/layer_iterator.h
     ${include_root}/flow/factory/object_factory.h
     ${include_root}/flow/factory/node_factory.h

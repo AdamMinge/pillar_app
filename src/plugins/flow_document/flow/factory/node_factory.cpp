@@ -65,12 +65,12 @@ bool NodeFactory::addObject(FlowDocument* document, InitMethod init) const {
   init(node.get());
 
   auto node_layer = static_cast<NodeLayer*>(document->getCurrentLayer());
-  auto index = node_layer->size();
+  auto index = node_layer->nodesCount();
 
   const auto& selected_nodes = document->getSelectedNodes();
   if (selected_nodes.size() > 0) {
     auto selected_node = selected_nodes.at(0);
-    index = node_layer->indexOf(selected_node) + 1;
+    index = node_layer->indexOfNode(selected_node) + 1;
   }
 
   auto entires = std::list<NodeEntry>{};

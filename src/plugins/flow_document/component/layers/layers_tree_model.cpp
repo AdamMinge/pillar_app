@@ -157,7 +157,7 @@ QModelIndex LayersTreeModel::index(int row, int column,
   if (parent.isValid())
     parent_layer = static_cast<GroupLayer *>(parent.internalPointer());
 
-  if (parent_layer->size() <= row) return QModelIndex{};
+  if (parent_layer->count() <= row) return QModelIndex{};
   return createIndex(row, column, parent_layer->at(row));
 }
 
@@ -173,13 +173,13 @@ int LayersTreeModel::rowCount(const QModelIndex &parent) const {
 
   if (!parent.isValid()) {
     auto root_layer = m_flow->getRootLayer();
-    return static_cast<int>(root_layer->size());
+    return static_cast<int>(root_layer->count());
   } else {
     auto layer = static_cast<Layer *>(parent.internalPointer());
     if (!layer->isClassOrChild<GroupLayer>()) return 0;
 
     auto group_layer = static_cast<GroupLayer *>(layer);
-    return group_layer->size();
+    return group_layer->count();
   }
 }
 

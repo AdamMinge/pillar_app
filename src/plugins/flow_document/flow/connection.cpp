@@ -56,7 +56,7 @@ void Connection::setVisible(bool visible) { m_visible = visible; }
 
 bool Connection::isVisible() const { return m_visible; }
 
-ConnectionLayer *Connection::getParent() const { return m_parent; }
+NodeLayer *Connection::getParent() const { return m_parent; }
 
 std::unique_ptr<Connection> Connection::clone() const {
   auto connection = std::make_unique<Connection>();
@@ -88,6 +88,6 @@ void Connection::init(const Connection *connection) {
   m_output_side = connection->m_output_side;
 }
 
-void Connection::setParent(ConnectionLayer *parent) { m_parent = parent; }
+void Connection::setParent(NodeLayer *parent) { m_parent = parent; }
 
 }  // namespace flow_document

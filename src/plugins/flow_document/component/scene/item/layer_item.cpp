@@ -8,7 +8,6 @@
 #include "flow_document/event/connection_change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
-#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/node.h"
@@ -110,8 +109,17 @@ void GroupLayerItem::onEvent(const ChangeEvent& event) {
 NodeLayerItem::NodeLayerItem(NodeLayer* layer, FlowDocument* document,
                              QGraphicsItem* parent)
     : LayerItem(layer, document, parent) {
-  for (auto& node : *getNodeLayer()) {
-    m_node_items.append(createItem<NodeItem>(node.get(), getDocument(), this));
+  auto node_layer = getNodeLayer();
+
+  for (auto i = 0; i < node_layer->nodesCount(); ++i) {
+    auto node = node_layer->nodeAt(i);
+    m_node_items.append(createItem<NodeItem>(node, getDocument(), this));
+  }
+
+  for (auto i = 0; i < node_layer->connectionsCount(); ++i) {
+    auto connection = node_layer->connectionAt(i);
+    m_connection_items.append(
+        createItem<ConnectionItem>(connection, getDocument(), this));
   }
 }
 
@@ -131,7 +139,7 @@ void NodeLayerItem::onEvent(const ChangeEvent& event) {
 
       case Added: {
         if (getNodeLayer() == node_event.getNodeLayer()) {
-          auto node = node_event.getNodeLayer()->at(node_event.getIndex());
+          auto node = node_event.getNodeLayer()->nodeAt(node_event.getIndex());
 
           m_node_items.insert(node_event.getIndex(),
                               createItem<NodeItem>(node, getDocument(), this));
@@ -149,37 +157,14 @@ void NodeLayerItem::onEvent(const ChangeEvent& event) {
         break;
       }
     }
-  }
-
-  for (auto i = 0; i < m_node_items.size(); ++i) {
-    m_node_items[i]->setZValue(i);
-  }
-}
-
-/* --------------------------- ConnectionLayerItem -------------------------- */
-
-ConnectionLayerItem::ConnectionLayerItem(ConnectionLayer* layer,
-                                         FlowDocument* document,
-                                         QGraphicsItem* parent)
-    : LayerItem(layer, document, parent) {}
-
-ConnectionLayerItem::~ConnectionLayerItem() = default;
-
-ConnectionLayer* ConnectionLayerItem::getConnectionLayer() const {
-  return static_cast<ConnectionLayer*>(getObject());
-}
-
-void ConnectionLayerItem::onEvent(const ChangeEvent& event) {
-  LayerItem::onEvent(event);
-
-  if (event.getType() == ConnectionEvent::type) {
+  } else if (event.getType() == ConnectionEvent::type) {
     const auto& connection_event = static_cast<const ConnectionEvent&>(event);
     switch (connection_event.getEvent()) {
       using enum ConnectionEvent::Event;
 
       case Added: {
-        if (getConnectionLayer() == connection_event.getConnectionLayer()) {
-          auto node = connection_event.getConnectionLayer()->at(
+        if (getNodeLayer() == connection_event.getNodeLayer()) {
+          auto node = connection_event.getNodeLayer()->connectionAt(
               connection_event.getIndex());
 
           m_connection_items.insert(
@@ -191,7 +176,7 @@ void ConnectionLayerItem::onEvent(const ChangeEvent& event) {
       }
 
       case Removed: {
-        if (getConnectionLayer() == connection_event.getConnectionLayer()) {
+        if (getNodeLayer() == connection_event.getNodeLayer()) {
           auto item = m_connection_items.takeAt(connection_event.getIndex());
           item->deleteLater();
         }
@@ -201,9 +186,9 @@ void ConnectionLayerItem::onEvent(const ChangeEvent& event) {
     }
   }
 
-  for (auto i = 0; i < m_connection_items.size(); ++i) {
-    m_connection_items[i]->setZValue(i);
-  }
+  auto z = 0;
+  for (auto item : m_node_items) item->setZValue(z++);
+  for (auto item : m_connection_items) item->setZValue(z++);
 }
 
 }  // namespace flow_document

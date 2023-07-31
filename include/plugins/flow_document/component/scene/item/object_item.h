@@ -28,7 +28,11 @@ class FLOW_DOCUMENT_API ObjectItem : public QGraphicsObject {
   void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
 
  protected Q_SLOTS:
+  [[nodiscard]] QVariant itemChange(QGraphicsItem::GraphicsItemChange change,
+                                    const QVariant& value) override;
+
   virtual void onEvent(const ChangeEvent& event);
+  virtual void onSceneChanged();
 
  private:
   Object* m_object;

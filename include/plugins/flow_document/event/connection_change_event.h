@@ -10,7 +10,7 @@
 
 namespace flow_document {
 
-class ConnectionLayer;
+class NodeLayer;
 class Connection;
 
 /* ------------------------------ ConnectionEvent --------------------------- */
@@ -27,18 +27,17 @@ class FLOW_DOCUMENT_API ConnectionEvent : public ChangeEvent {
   };
 
  public:
-  explicit ConnectionEvent(Event event, ConnectionLayer* connection_layer,
-                           qsizetype index);
+  explicit ConnectionEvent(Event event, NodeLayer* node_layer, qsizetype index);
   ~ConnectionEvent() override;
 
   [[nodiscard]] Event getEvent() const;
-  [[nodiscard]] ConnectionLayer* getConnectionLayer() const;
+  [[nodiscard]] NodeLayer* getNodeLayer() const;
   [[nodiscard]] qsizetype getIndex() const;
   [[nodiscard]] Connection* getConnection() const;
 
  private:
   Event m_event;
-  ConnectionLayer* m_connection_layer;
+  NodeLayer* m_node_layer;
   qsizetype m_index;
 };
 

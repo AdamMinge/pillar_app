@@ -18,7 +18,7 @@ DuplicateNodeData::DuplicateNodeData(DuplicateNodeData&& other)
 DuplicateNodeData::DuplicateNodeData(Node* node)
     : node_layer(node->getParent()),
       copy_node(node->clone()),
-      index(node_layer->indexOf(node) + 1) {
+      index(node_layer->indexOfNode(node) + 1) {
   copy_node->setName(QString("%1 Copy").arg(copy_node->getName()));
 }
 
@@ -60,7 +60,7 @@ void DuplicateNodes::undo() {
 
     Q_EMIT m_document->event(NodeEvent(NodeEvent::Event::AboutToBeRemoved,
                                        data.node_layer, data.index));
-    data.copy_node = data.node_layer->take(data.index);
+    data.copy_node = data.node_layer->takeNode(data.index);
     Q_EMIT m_document->event(
         NodeEvent(NodeEvent::Event::Removed, data.node_layer, data.index));
   }
@@ -75,7 +75,7 @@ void DuplicateNodes::redo() {
 
     Q_EMIT m_document->event(NodeEvent(NodeEvent::Event::AboutToBeAdded,
                                        data.node_layer, data.index));
-    data.node_layer->insert(data.index, std::move(data.copy_node));
+    data.node_layer->insertNode(data.index, std::move(data.copy_node));
     Q_EMIT m_document->event(
         NodeEvent(NodeEvent::Event::Added, data.node_layer, data.index));
   }

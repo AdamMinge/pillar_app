@@ -22,7 +22,7 @@ NodeLayer* NodeEvent::getNodeLayer() const { return m_node_layer; }
 
 qsizetype NodeEvent::getIndex() const { return m_index; }
 
-Node* NodeEvent::getNode() const { return m_node_layer->at(m_index); }
+Node* NodeEvent::getNode() const { return m_node_layer->nodeAt(m_index); }
 
 /* ------------------------------ NodesChangeEvent -------------------------- */
 

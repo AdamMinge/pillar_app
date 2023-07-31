@@ -8,7 +8,7 @@
 
 namespace flow_document {
 
-class ConnectionLayer;
+class NodeLayer;
 class Node;
 
 /* ------------------------------ ConnectionSide ---------------------------- */
@@ -35,7 +35,7 @@ class FLOW_DOCUMENT_API ConnectionSide {
 /* --------------------------------- Connection ----------------------------- */
 
 class FLOW_DOCUMENT_API Connection : public Object {
-  friend ConnectionLayer;
+  friend NodeLayer;
 
   FLOW_OBJECT_CLASS(Connection, Object)
 
@@ -52,7 +52,7 @@ class FLOW_DOCUMENT_API Connection : public Object {
   void setVisible(bool visible);
   [[nodiscard]] bool isVisible() const;
 
-  [[nodiscard]] ConnectionLayer *getParent() const;
+  [[nodiscard]] NodeLayer *getParent() const;
 
   [[nodiscard]] std::unique_ptr<Connection> clone() const;
 
@@ -61,10 +61,10 @@ class FLOW_DOCUMENT_API Connection : public Object {
 
  protected:
   void init(const Connection *connection);
-  void setParent(ConnectionLayer *parent);
+  void setParent(NodeLayer *parent);
 
  private:
-  ConnectionLayer *m_parent;
+  NodeLayer *m_parent;
   bool m_visible;
 
   ConnectionSide m_output_side;

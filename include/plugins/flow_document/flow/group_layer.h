@@ -27,7 +27,7 @@ class FLOW_DOCUMENT_API GroupLayer : public Layer {
   [[nodiscard]] Layer* at(qsizetype index) const;
   [[nodiscard]] qsizetype indexOf(Layer* layer) const;
 
-  [[nodiscard]] qsizetype size() const;
+  [[nodiscard]] qsizetype count() const;
 
   Layers::iterator begin();
   Layers::iterator end();

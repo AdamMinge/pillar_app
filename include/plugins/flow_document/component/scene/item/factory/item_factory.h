@@ -83,22 +83,6 @@ class FLOW_DOCUMENT_API NodeLayerItemFactory : public ItemFactory {
       QGraphicsItem* parent = nullptr) const override;
 };
 
-/* ------------------------- ConnectionLayerItemFactory --------------------- */
-
-class FLOW_DOCUMENT_API ConnectionLayerItemFactory : public ItemFactory {
-  Q_OBJECT
-  Q_INTERFACES(flow_document::ItemFactory)
-
- public:
-  explicit ConnectionLayerItemFactory(QObject* parent = nullptr);
-  ~ConnectionLayerItemFactory() override;
-
-  [[nodiscard]] QString getObjectClassName() const override;
-  [[nodiscard]] ObjectItem* create(
-      Object* object, FlowDocument* document,
-      QGraphicsItem* parent = nullptr) const override;
-};
-
 /* ------------------------------- NodeItemFactory -------------------------- */
 
 class FLOW_DOCUMENT_API NodeItemFactory : public ItemFactory {

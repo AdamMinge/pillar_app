@@ -13,7 +13,6 @@
 #include "flow_document/event/connection_change_event.h"
 #include "flow_document/event/layer_change_event.h"
 #include "flow_document/event/node_change_event.h"
-#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/factory/layer_factory.h"
 #include "flow_document/flow/factory/node_factory.h"
 #include "flow_document/flow/factory/object_factory.h"
@@ -59,7 +58,7 @@ namespace {
   if (layers.empty()) return false;
 
   auto root = document->getFlow()->getRootLayer();
-  auto most_top_layer = root->at(root->size() - 1);
+  auto most_top_layer = root->at(root->count() - 1);
 
   return std::all_of(
       layers.cbegin(), layers.cend(),
@@ -87,7 +86,7 @@ namespace {
     auto node_layer = node->getParent();
     if (!node_layer) return false;
 
-    auto most_top_node = node_layer->at(node_layer->size() - 1);
+    auto most_top_node = node_layer->nodeAt(node_layer->nodesCount() - 1);
     return node != most_top_node;
   });
 }
@@ -100,7 +99,7 @@ namespace {
     auto node_layer = node->getParent();
     if (!node_layer) return false;
 
-    auto most_bottom_node = node_layer->at(0);
+    auto most_bottom_node = node_layer->nodeAt(0);
     return node != most_bottom_node;
   });
 }
@@ -387,7 +386,7 @@ void FlowDocumentActionHandler::onRemoveNode() const {
   for (auto selected_node : selected_nodes) {
     auto node_layer = selected_node->getParent();
     entires.emplace_back(
-        NodeEntry(node_layer, node_layer->indexOf(selected_node)));
+        NodeEntry(node_layer, node_layer->indexOfNode(selected_node)));
   }
 
   m_document->getUndoStack()->push(
@@ -434,8 +433,8 @@ void FlowDocumentActionHandler::onAddConnection() const {
   }
 
   m_new_connections_dialog->setAttribute(Qt::WA_DeleteOnClose);
-  m_new_connections_dialog->setConnectionLayer(
-      static_cast<ConnectionLayer*>(m_document->getCurrentLayer()));
+  m_new_connections_dialog->setNodeLayer(
+      static_cast<NodeLayer*>(m_document->getCurrentLayer()));
   m_new_connections_dialog->exec();
 }
 
@@ -449,7 +448,8 @@ void FlowDocumentActionHandler::onRemoveConnection() const {
   for (auto selected_connection : selected_connections) {
     auto connection_layer = selected_connection->getParent();
     entires.emplace_back(ConnectionEntry(
-        connection_layer, connection_layer->indexOf(selected_connection)));
+        connection_layer,
+        connection_layer->indexOfConnection(selected_connection)));
   }
 
   m_document->getUndoStack()->push(
@@ -564,7 +564,7 @@ void FlowDocumentActionHandler::updateActions() {
     can_lower_nodes = canLowerNodes(m_document, selected_nodes);
 
     can_add_connection =
-        current_layer && current_layer->isClassOrChild<ConnectionLayer>();
+        current_layer && current_layer->isClassOrChild<NodeLayer>();
     any_selected_connections = selected_connections.size() > 0;
   }
 

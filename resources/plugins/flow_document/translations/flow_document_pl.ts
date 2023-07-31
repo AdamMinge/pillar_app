@@ -2,19 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL">
 <context>
-    <name>ConnectionLayerFactory</name>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="129"/>
-        <source>Connection Layer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="129"/>
-        <source>Base</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ConnectionProperties</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="406"/>
@@ -56,12 +43,12 @@
 <context>
     <name>FlowDocumentActionHandler</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="272"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="271"/>
         <source>&amp;%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="273"/>
+        <location filename="../../../../src/plugins/flow_document/flow_document_action_handler.cpp" line="272"/>
         <source>Create %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -209,12 +196,12 @@
 <context>
     <name>GroupLayerFactory</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="97"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="96"/>
         <source>Group Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="97"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="96"/>
         <source>Base</source>
         <translation type="unfinished"></translation>
     </message>
@@ -298,12 +285,12 @@
 <context>
     <name>NodeLayerFactory</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="113"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="112"/>
         <source>Node Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="113"/>
+        <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="112"/>
         <source>Base</source>
         <translation type="unfinished"></translation>
     </message>
@@ -633,7 +620,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_connection.cpp" line="91"/>
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_connection.cpp" line="87"/>
         <source>Add Connection(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -642,7 +629,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../../../src/plugins/flow_document/command/add_remove_connection.cpp" line="109"/>
+        <location filename="../../../../src/plugins/flow_document/command/add_remove_connection.cpp" line="105"/>
         <source>Remove Connection(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>

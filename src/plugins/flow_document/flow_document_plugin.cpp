@@ -36,7 +36,6 @@ void FlowDocumentPlugin::init() {
   addObject(new FlowItemFactory(this));
   addObject(new GroupLayerItemFactory(this));
   addObject(new NodeLayerItemFactory(this));
-  addObject(new ConnectionLayerItemFactory(this));
   addObject(new NodeItemFactory(this));
   addObject(new ConnectionItemFactory(this));
 
@@ -48,7 +47,6 @@ void FlowDocumentPlugin::init() {
 
   addObject(new GroupLayerFactory(this));
   addObject(new NodeLayerFactory(this));
-  addObject(new ConnectionLayerFactory(this));
 
   addObject(
       new egnite::BaseLanguageTranslator(translations::TranslationsPath, this));

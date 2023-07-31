@@ -28,9 +28,7 @@ const ConnectionStyle& getConnectionStyle() {
 /* -------------------------- ConnectionGeometry ------------------------ */
 
 ConnectionGeometry::ConnectionGeometry(const ConnectionItem& connection_item)
-    : m_connection_item(connection_item) {
-  recalculate();
-}
+    : m_connection_item(connection_item) {}
 
 ConnectionGeometry::~ConnectionGeometry() = default;
 
@@ -145,8 +143,7 @@ ConnectionItem::ConnectionItem(Connection* connection, FlowDocument* document,
       m_connection_geometry(*this),
       m_out_node_item(nullptr),
       m_in_node_item(nullptr) {
-  updateConnection();
-  updateGeometry();
+  onSceneChanged();
 }
 
 ConnectionItem::~ConnectionItem() = default;
@@ -182,8 +179,15 @@ void ConnectionItem::paint(QPainter* painter,
   m_connection_painter.paint(painter, option);
 }
 
+void ConnectionItem::onSceneChanged() {
+  updateConnection();
+  updateGeometry();
+}
+
 void ConnectionItem::updateConnection() {
   auto flow_scene = static_cast<FlowScene*>(scene());
+  if (!flow_scene) return;
+
   auto connection = getConnection();
 
   const auto output = connection->getOutputSide();

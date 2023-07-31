@@ -2,7 +2,6 @@
 #include "flow_document/flow_document.h"
 
 #include "flow_document/event/change_event.h"
-#include "flow_document/flow/connection_layer.h"
 #include "flow_document/flow/flow.h"
 #include "flow_document/flow/group_layer.h"
 #include "flow_document/flow/layer_iterator.h"
@@ -161,9 +160,8 @@ void FlowDocument::setSelectedConnections(
   m_selected_connections = connections;
   Q_EMIT selectedConnectionsChanged(m_selected_connections);
 
-  if (auto connection_layer = getLayerByObjects<ConnectionLayer>(connections);
-      connection_layer) {
-    switchCurrentLayer(connection_layer);
+  if (auto node_layer = getLayerByObjects<NodeLayer>(connections); node_layer) {
+    switchCurrentLayer(node_layer);
   }
 }
 
@@ -230,8 +228,10 @@ template <>
   for (auto layer : layers) {
     if (layer->isClassOrChild<NodeLayer>()) {
       auto node_layer = static_cast<NodeLayer *>(layer);
-      for (auto &node : *node_layer) {
-        if (!except.contains(node.get())) nodes.append(node.get());
+
+      for (auto index = 0; index < node_layer->nodesCount(); ++index) {
+        auto node = node_layer->nodeAt(index);
+        if (!except.contains(node)) nodes.append(node);
       }
     }
   }
@@ -248,17 +248,18 @@ template <>
   return nullptr;
 }
 
-[[nodiscard]] QList<Connection *> getAllNodes(
+[[nodiscard]] QList<Connection *> getAllConnections(
     FlowDocument *document, const QList<Connection *> &except) {
   auto layers = getAllLayers(document, {});
   auto connections = QList<Connection *>{};
 
   for (auto layer : layers) {
-    if (layer->isClassOrChild<ConnectionLayer>()) {
-      auto connection_layer = static_cast<ConnectionLayer *>(layer);
-      for (auto &connection : *connection_layer) {
-        if (!except.contains(connection.get()))
-          connections.append(connection.get());
+    if (layer->isClassOrChild<NodeLayer>()) {
+      auto node_layer = static_cast<NodeLayer *>(layer);
+
+      for (auto index = 0; index < node_layer->connectionsCount(); ++index) {
+        auto connection = node_layer->connectionAt(index);
+        if (!except.contains(connection)) connections.append(connection);
       }
     }
   }

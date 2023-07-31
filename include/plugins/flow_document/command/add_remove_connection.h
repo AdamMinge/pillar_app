@@ -13,7 +13,7 @@
 namespace flow_document {
 
 class FlowDocument;
-class ConnectionLayer;
+class NodeLayer;
 class Connection;
 
 /* ------------------------------ ConnectionEntry --------------------------- */
@@ -21,14 +21,14 @@ class Connection;
 struct FLOW_DOCUMENT_API ConnectionEntry {
  public:
   explicit ConnectionEntry(ConnectionEntry&& other);
-  explicit ConnectionEntry(ConnectionLayer* connection_layer, qsizetype index);
-  explicit ConnectionEntry(ConnectionLayer* connection_layer,
+  explicit ConnectionEntry(NodeLayer* node_layer, qsizetype index);
+  explicit ConnectionEntry(NodeLayer* node_layer,
                            std::unique_ptr<Connection> new_connection,
                            qsizetype index);
   ~ConnectionEntry();
 
  public:
-  ConnectionLayer* connection_layer;
+  NodeLayer* node_layer;
   std::unique_ptr<Connection> new_connection;
   qsizetype index;
 };

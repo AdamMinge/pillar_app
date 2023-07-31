@@ -70,24 +70,6 @@ class FLOW_DOCUMENT_API NodeLayerItem : public LayerItem {
 
  private:
   QList<NodeItem*> m_node_items;
-};
-
-/* --------------------------- ConnectionLayerItem -------------------------- */
-
-class FLOW_DOCUMENT_API ConnectionLayerItem : public LayerItem {
-  Q_OBJECT
-
- public:
-  explicit ConnectionLayerItem(ConnectionLayer* layer, FlowDocument* document,
-                               QGraphicsItem* parent = nullptr);
-  ~ConnectionLayerItem() override;
-
-  [[nodiscard]] ConnectionLayer* getConnectionLayer() const;
-
- protected Q_SLOTS:
-  void onEvent(const ChangeEvent& event) override;
-
- private:
   QList<ConnectionItem*> m_connection_items;
 };
 

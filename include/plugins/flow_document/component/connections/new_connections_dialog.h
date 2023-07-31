@@ -15,7 +15,7 @@ namespace flow_document {
 
 class FlowDocument;
 class Connection;
-class ConnectionLayer;
+class NodeLayer;
 
 class FLOW_DOCUMENT_API NewConnectionsDialog : public QDialog {
   Q_OBJECT
@@ -24,7 +24,7 @@ class FLOW_DOCUMENT_API NewConnectionsDialog : public QDialog {
   NewConnectionsDialog(FlowDocument *document, QWidget *parent = nullptr);
   ~NewConnectionsDialog() override;
 
-  void setConnectionLayer(ConnectionLayer *layer);
+  void setNodeLayer(NodeLayer *layer);
 
  public Q_SLOTS:
   void accept() override;
