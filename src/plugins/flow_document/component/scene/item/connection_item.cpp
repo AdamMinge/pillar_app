@@ -5,6 +5,8 @@
 #include "flow_document/component/scene/item/node_item.h"
 #include "flow_document/component/scene/style/style.h"
 #include "flow_document/component/scene/style/style_manager.h"
+#include "flow_document/event/connection_change_event.h"
+#include "flow_document/event/node_change_event.h"
 #include "flow_document/flow/connection.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -184,6 +186,35 @@ void ConnectionItem::onSceneChanged() {
   updateGeometry();
 }
 
+void ConnectionItem::onEvent(const ChangeEvent& event) {
+  if (event.getType() == ConnectionsChangeEvent::type) {
+    const auto& connection_event =
+        static_cast<const ConnectionsChangeEvent&>(event);
+    if (connection_event.contains(getConnection())) onUpdate(connection_event);
+  } else if (event.getType() == NodesChangeEvent::type) {
+    const auto& node_event = static_cast<const NodesChangeEvent&>(event);
+
+    auto out_node = m_out_node_item ? m_out_node_item->getNode() : nullptr;
+    auto in_node = m_in_node_item ? m_in_node_item->getNode() : nullptr;
+
+    if (node_event.contains(out_node) || node_event.contains(in_node)) {
+      onUpdate(node_event);
+    }
+  }
+}
+
+void ConnectionItem::onUpdate(const ConnectionsChangeEvent& event) {
+  const auto properties = event.getProperties();
+  using enum ConnectionsChangeEvent::Property;
+  if (properties & Visible) updateVisibility();
+}
+
+void ConnectionItem::onUpdate(const NodesChangeEvent& event) {
+  const auto properties = event.getProperties();
+  using enum NodesChangeEvent::Property;
+  if (properties & Visible) updateVisibility();
+}
+
 void ConnectionItem::updateConnection() {
   auto flow_scene = static_cast<FlowScene*>(scene());
   if (!flow_scene) return;
@@ -230,6 +261,18 @@ void ConnectionItem::updateGeometry() {
   m_connection_geometry.recalculate();
 
   update();
+}
+
+void ConnectionItem::updateVisibility() {
+  auto out_node = m_out_node_item->getNode();
+  auto in_node = m_in_node_item->getNode();
+  auto connection = getConnection();
+
+  auto out_node_visible = out_node->isVisible();
+  auto in_node_visible = in_node->isVisible();
+  auto connection_visible = connection->isVisible();
+
+  setVisible(out_node_visible && in_node_visible && connection_visible);
 }
 
 }  // namespace flow_document

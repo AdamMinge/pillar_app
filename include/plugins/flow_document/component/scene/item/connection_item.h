@@ -12,6 +12,8 @@ namespace flow_document {
 class NodeItem;
 class Connection;
 class ConnectionItem;
+class NodesChangeEvent;
+class ConnectionsChangeEvent;
 
 /* -------------------------- ConnectionGeometry ------------------------ */
 
@@ -78,9 +80,13 @@ class FLOW_DOCUMENT_API ConnectionItem : public ObjectItem {
 
  private Q_SLOTS:
   void onSceneChanged() override;
+  void onEvent(const ChangeEvent& event) override;
+  void onUpdate(const ConnectionsChangeEvent& event);
+  void onUpdate(const NodesChangeEvent& event);
 
   void updateConnection();
   void updateGeometry();
+  void updateVisibility();
 
  private:
   ConnectionPainter m_connection_painter;
