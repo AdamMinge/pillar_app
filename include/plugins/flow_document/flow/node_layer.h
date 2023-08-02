@@ -15,9 +15,8 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
   FLOW_OBJECT_CLASS(NodeLayer, Layer)
 
  public:
-  using Nodes = std::vector<ObjectUniquePtr<Node>>;
-  using Connections =
-      std::vector<ObjectUniquePtr<Connection, DeserializeByDefaultFactory>>;
+  using Nodes = std::vector<DynamicObjectUniquePtr<Node>>;
+  using Connections = std::vector<StaticObjectUniquePtr<Connection>>;
 
  public:
   explicit NodeLayer();

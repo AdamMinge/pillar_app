@@ -13,7 +13,7 @@ class FLOW_DOCUMENT_API GroupLayer : public Layer {
   FLOW_OBJECT_CLASS(GroupLayer, Layer)
 
  public:
-  using Layers = std::vector<ObjectUniquePtr<Layer>>;
+  using Layers = std::vector<DynamicObjectUniquePtr<Layer>>;
 
  public:
   explicit GroupLayer();
