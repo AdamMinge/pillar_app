@@ -20,7 +20,7 @@ void GroupCommand::undo() {
 void GroupCommand::redo() {
   for (auto command_iter = m_commands.begin(); command_iter != m_commands.end();
        ++command_iter)
-    (*command_iter)->undo();
+    (*command_iter)->redo();
 }
 
 bool GroupCommand::canMergeWith(const Command &other) const {

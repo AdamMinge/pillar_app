@@ -39,6 +39,9 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
   [[nodiscard]] qsizetype indexOfConnection(Connection* connection) const;
   [[nodiscard]] qsizetype connectionsCount() const;
 
+  [[nodiscard]] QList<Connection*> getNodeConnections(Node* node) const;
+  [[nodiscard]] QList<Node*> getConnectionNodes(Connection* connection) const;
+
   [[nodiscard]] std::unique_ptr<Layer> clone() const override;
 
   void serialize(utils::OArchive& archive) const override;

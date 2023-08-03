@@ -101,6 +101,42 @@ qsizetype NodeLayer::indexOfConnection(Connection* connection) const {
 
 qsizetype NodeLayer::connectionsCount() const { return m_connections.size(); }
 
+QList<Connection*> NodeLayer::getNodeConnections(Node* node) const {
+  if (!node) return {};
+
+  auto connections = QList<Connection*>{};
+  for (auto& connection : m_connections) {
+    auto output_connected =
+        connection->getOutputSide().getNodeId() == node->getId();
+    auto input_connected =
+        connection->getInputSide().getNodeId() == node->getId();
+
+    if (output_connected || input_connected) {
+      connections.append(connection.get());
+    }
+  }
+
+  return connections;
+}
+
+QList<Node*> NodeLayer::getConnectionNodes(Connection* connection) const {
+  if (!connection) return {};
+
+  auto nodes = QList<Node*>{};
+  for (auto& node : m_nodes) {
+    auto output_connected =
+        connection->getOutputSide().getNodeId() == node->getId();
+    auto input_connected =
+        connection->getInputSide().getNodeId() == node->getId();
+
+    if (output_connected || input_connected) {
+      nodes.append(node.get());
+    }
+  }
+
+  return nodes;
+}
+
 std::unique_ptr<Layer> NodeLayer::clone() const {
   auto node_layer = std::make_unique<NodeLayer>();
   node_layer->init(this);

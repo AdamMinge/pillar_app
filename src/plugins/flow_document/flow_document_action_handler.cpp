@@ -26,6 +26,7 @@
 #include <QStack>
 /* ----------------------------------- Egnite ------------------------------- */
 #include <egnite/action_manager.h>
+#include <egnite/command/group_command.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/action/action.h>
 #include <utils/pointer_cast/unique_ptr_cast.h>
@@ -382,15 +383,33 @@ void FlowDocumentActionHandler::onRemoveNode() const {
   const auto selected_nodes = m_document->getSelectedNodes();
   Q_ASSERT(selected_nodes.size() > 0);
 
-  auto entires = std::list<NodeEntry>{};
+  auto node_entires = std::list<NodeEntry>{};
+  auto connection_entires = std::list<ConnectionEntry>{};
+
   for (auto selected_node : selected_nodes) {
     auto node_layer = selected_node->getParent();
-    entires.emplace_back(
+
+    node_entires.emplace_back(
         NodeEntry(node_layer, node_layer->indexOfNode(selected_node)));
+
+    auto node_connections = node_layer->getNodeConnections(selected_node);
+    for (auto connection : node_connections) {
+      connection_entires.emplace_back(ConnectionEntry(
+          node_layer, node_layer->indexOfConnection(connection)));
+    }
   }
 
-  m_document->getUndoStack()->push(
-      new RemoveNodes(m_document, std::move(entires)));
+  auto remove_connections_command =
+      new RemoveConnections(m_document, std::move(connection_entires));
+  auto remove_nodes_command =
+      new RemoveNodes(m_document, std::move(node_entires));
+
+  auto group_remove_nodes_command =
+      new egnite::GroupCommand(remove_nodes_command->text());
+  group_remove_nodes_command->addCommand(remove_connections_command);
+  group_remove_nodes_command->addCommand(remove_nodes_command);
+
+  m_document->getUndoStack()->push(group_remove_nodes_command);
 }
 
 void FlowDocumentActionHandler::onRaiseNode() const {
