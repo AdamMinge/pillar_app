@@ -90,6 +90,11 @@ void NewConnectionsDialog::initUi() {
 }
 
 void NewConnectionsDialog::initConnections() {
+  connect(m_ui->m_layers, &QComboBox::currentIndexChanged, this,
+          &NewConnectionsDialog::fillInputNodes);
+  connect(m_ui->m_layers, &QComboBox::currentIndexChanged, this,
+          &NewConnectionsDialog::fillOutputNodes);
+
   connect(m_ui->m_input_nodes, &QComboBox::currentIndexChanged, this,
           &NewConnectionsDialog::fillInputPins);
   connect(m_ui->m_output_nodes, &QComboBox::currentIndexChanged, this,
@@ -117,10 +122,13 @@ void NewConnectionsDialog::fillLayers() {
 }
 
 void NewConnectionsDialog::fillInputNodes() {
-  auto nodes = getAllNodes(m_document);
+  auto node_layer = m_ui->m_layers->itemData(m_ui->m_layers->currentIndex())
+                        .value<NodeLayer *>();
+  const auto nodes_count = node_layer ? node_layer->nodesCount() : 0;
 
   m_ui->m_input_nodes->clear();
-  for (auto node : nodes) {
+  for (auto i = 0; i < nodes_count; ++i) {
+    auto node = node_layer->nodeAt(i);
     const auto has_input_pins = node->getPinsCounts(Pin::Type::In) > 0;
 
     if (has_input_pins) {
@@ -132,10 +140,13 @@ void NewConnectionsDialog::fillInputNodes() {
 }
 
 void NewConnectionsDialog::fillOutputNodes() {
-  auto nodes = getAllNodes(m_document);
+  auto node_layer = m_ui->m_layers->itemData(m_ui->m_layers->currentIndex())
+                        .value<NodeLayer *>();
+  const auto nodes_count = node_layer ? node_layer->nodesCount() : 0;
 
   m_ui->m_output_nodes->clear();
-  for (auto node : nodes) {
+  for (auto i = 0; i < nodes_count; ++i) {
+    auto node = node_layer->nodeAt(i);
     const auto has_output_pins = node->getPinsCounts(Pin::Type::Out) > 0;
 
     if (has_output_pins) {
@@ -148,7 +159,7 @@ void NewConnectionsDialog::fillOutputNodes() {
 
 void NewConnectionsDialog::fillInputPins() {
   const auto node = m_ui->m_input_nodes->currentData().value<Node *>();
-  const auto pins_counts = node->getPinsCounts(Pin::Type::In);
+  const auto pins_counts = node ? node->getPinsCounts(Pin::Type::In) : 0;
 
   m_ui->m_input_pins->clear();
   for (size_t pin_index = 0; pin_index < pins_counts; ++pin_index) {
@@ -160,7 +171,7 @@ void NewConnectionsDialog::fillInputPins() {
 
 void NewConnectionsDialog::fillOutputPins() {
   const auto node = m_ui->m_output_nodes->currentData().value<Node *>();
-  const auto pins_counts = node->getPinsCounts(Pin::Type::Out);
+  const auto pins_counts = node ? node->getPinsCounts(Pin::Type::Out) : 0;
 
   m_ui->m_output_pins->clear();
   for (size_t pin_index = 0; pin_index < pins_counts; ++pin_index) {
