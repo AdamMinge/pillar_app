@@ -200,6 +200,8 @@ void NodeSelectionTool::startItemSelection() {
 }
 
 void NodeSelectionTool::updateItemMoving(const QPointF &mouse_pos) {
+  if (m_moving_nodes.empty()) return;
+
   auto difference = mouse_pos - m_mouse_clicked_pos;
   auto group_move_command = new egnite::GroupCommand(tr("Move nodes"));
 
