@@ -212,7 +212,10 @@ void ConnectionItem::onUpdate(const ConnectionsChangeEvent& event) {
 void ConnectionItem::onUpdate(const NodesChangeEvent& event) {
   const auto properties = event.getProperties();
   using enum NodesChangeEvent::Property;
+
   if (properties & Visible) updateVisibility();
+  if (properties & Position) updateGeometry();
+  if (properties & Name) updateGeometry();
 }
 
 void ConnectionItem::updateConnection() {
@@ -229,32 +232,8 @@ void ConnectionItem::updateConnection() {
   auto in_node_item =
       static_cast<NodeItem*>(flow_scene->findItem(input.getNodeId()));
 
-  if (m_out_node_item && m_in_node_item) {
-    disconnect(m_out_node_item, &NodeItem::xChanged, this,
-               &ConnectionItem::updateGeometry);
-    disconnect(m_out_node_item, &NodeItem::yChanged, this,
-               &ConnectionItem::updateGeometry);
-
-    disconnect(m_in_node_item, &NodeItem::xChanged, this,
-               &ConnectionItem::updateGeometry);
-    disconnect(m_in_node_item, &NodeItem::yChanged, this,
-               &ConnectionItem::updateGeometry);
-  }
-
   m_out_node_item = (out_node_item && in_node_item) ? out_node_item : nullptr;
   m_in_node_item = (out_node_item && in_node_item) ? in_node_item : nullptr;
-
-  if (m_out_node_item && m_in_node_item) {
-    connect(m_out_node_item, &NodeItem::xChanged, this,
-            &ConnectionItem::updateGeometry);
-    connect(m_out_node_item, &NodeItem::yChanged, this,
-            &ConnectionItem::updateGeometry);
-
-    connect(m_in_node_item, &NodeItem::xChanged, this,
-            &ConnectionItem::updateGeometry);
-    connect(m_in_node_item, &NodeItem::yChanged, this,
-            &ConnectionItem::updateGeometry);
-  }
 }
 
 void ConnectionItem::updateGeometry() {
