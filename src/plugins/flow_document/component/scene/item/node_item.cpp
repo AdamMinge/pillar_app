@@ -317,6 +317,7 @@ void NodeItem::onUpdate(const NodesChangeEvent &event) {
 }
 
 void NodeItem::updateGeometry() {
+  prepareGeometryChange();
   m_node_geometry.recalculate();
 
   update();
