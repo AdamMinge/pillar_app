@@ -112,6 +112,8 @@ void FlowScene::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void FlowScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) {
+  QGraphicsScene::mouseMoveEvent(mouseEvent);
+
   if (m_tool) {
     mouseEvent->accept();
     m_tool->mouseMoved(mouseEvent);
@@ -119,6 +121,8 @@ void FlowScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) {
 }
 
 void FlowScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
+  QGraphicsScene::mousePressEvent(mouseEvent);
+
   if (m_tool) {
     mouseEvent->accept();
     m_tool->mousePressed(mouseEvent);
@@ -126,6 +130,8 @@ void FlowScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
 }
 
 void FlowScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
+  QGraphicsScene::mouseReleaseEvent(mouseEvent);
+
   if (m_tool) {
     mouseEvent->accept();
     m_tool->mouseReleased(mouseEvent);

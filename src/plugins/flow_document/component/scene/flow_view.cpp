@@ -100,8 +100,7 @@ void FlowView::mousePressEvent(QMouseEvent *event) {
 void FlowView::mouseMoveEvent(QMouseEvent *event) {
   QGraphicsView::mouseMoveEvent(event);
 
-  if (scene()->mouseGrabberItem() == nullptr &&
-      event->buttons() == Qt::RightButton) {
+  if (event->buttons() == Qt::RightButton) {
     auto diff = m_mouse_clicked_pos - mapToScene(event->pos());
     diff *= transform().m11();
 

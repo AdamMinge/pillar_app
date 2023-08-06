@@ -1,6 +1,8 @@
 #ifndef FLOW_DOCUMENT_NODE_ITEM_H
 #define FLOW_DOCUMENT_NODE_ITEM_H
 
+/* ------------------------------------ Qt ---------------------------------- */
+#include <QGraphicsProxyWidget>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/object_item.h"
 #include "flow_document/export.h"
@@ -31,24 +33,24 @@ class FLOW_DOCUMENT_API NodeGeometry {
   [[nodiscard]] QPointF getLabelPosition() const;
   [[nodiscard]] QPointF getPinPosition(Pin::Type type, int index) const;
   [[nodiscard]] QPointF getPinLabelPosition(Pin::Type type, int index) const;
-  [[nodiscard]] QPointF getWidgetPosition() const;
+  [[nodiscard]] QPointF getEmbeddedWidgetPosition() const;
 
  private:
   [[nodiscard]] QSizeF calculateLabelSize() const;
-  [[nodiscard]] QSizeF calculateWidgetSize() const;
+  [[nodiscard]] QSizeF calculateEmbeddedWidgetSize() const;
   [[nodiscard]] QSizeF calculatePinsSize() const;
   [[nodiscard]] float calculatePinsWidth(Pin::Type type) const;
 
   [[nodiscard]] QPointF calculateLabelPosition() const;
   [[nodiscard]] PinToPos calculatePinPositions() const;
-  [[nodiscard]] QPointF calculateWidgetPosition() const;
+  [[nodiscard]] QPointF calculateEmbeddedWidgetPosition() const;
 
  private:
   const NodeItem &m_node_item;
   QSizeF m_size;
   QPointF m_label_position;
   PinToPos m_pin_positions;
-  QPointF m_widget_position;
+  QPointF m_embedded_widget_position;
 };
 
 /* ------------------------------ NodePainter --------------------------- */
@@ -95,12 +97,14 @@ class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
   void onEvent(const ChangeEvent &event) override;
   void onUpdate(const NodesChangeEvent &event);
 
+  void embedWidget();
   void updateGeometry();
 
  private:
   NodeSelectionItem *m_selection_item;
   NodePainter m_node_painter;
   NodeGeometry m_node_geometry;
+  QGraphicsProxyWidget *m_proxy_widget;
 };
 
 }  // namespace flow_document

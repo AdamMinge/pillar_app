@@ -7,6 +7,8 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
+/* --------------------------- LogicNodeWithOneParam ------------------------ */
+
 class LOGIC_NODE_API LogicNodeWithOneParam : public flow_document::Node {
   FLOW_OBJECT_CLASS(LogicNodeWithOneParam, flow_document::Node)
 
@@ -14,6 +16,8 @@ class LOGIC_NODE_API LogicNodeWithOneParam : public flow_document::Node {
   explicit LogicNodeWithOneParam();
   ~LogicNodeWithOneParam() override;
 };
+
+/* -------------------------- LogicNodeWithTwoParams ------------------------ */
 
 class LOGIC_NODE_API LogicNodeWithTwoParams : public LogicNodeWithOneParam {
   FLOW_OBJECT_CLASS(LogicNodeWithTwoParams, LogicNodeWithOneParam)

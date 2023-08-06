@@ -10,6 +10,7 @@
 #include "logic_node_and.h"
 #include "logic_node_not.h"
 #include "logic_node_or.h"
+#include "logic_node_value.h"
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodePlugin : public egnite::PluginInterface {
@@ -27,5 +28,6 @@ class LOGIC_NODE_API LogicNodePlugin : public egnite::PluginInterface {
 DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeAnd)
 DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeNot)
 DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeOr)
+DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeValue)
 
 #endif  // LOGIC_NODE_PLUGIN_H

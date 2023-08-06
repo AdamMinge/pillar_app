@@ -42,7 +42,7 @@ void NodeGeometry::recalculate() {
   const auto &node_style = getNodeStyle();
   const auto label_size = calculateLabelSize();
   const auto pins_size = calculatePinsSize();
-  const auto widget_size = calculateWidgetSize();
+  const auto widget_size = calculateEmbeddedWidgetSize();
 
   m_size.setWidth(
       std::max(pins_size.width() + widget_size.width(), label_size.width()) +
@@ -53,7 +53,7 @@ void NodeGeometry::recalculate() {
 
   m_label_position = calculateLabelPosition();
   m_pin_positions = calculatePinPositions();
-  m_widget_position = calculateWidgetPosition();
+  m_embedded_widget_position = calculateEmbeddedWidgetPosition();
 }
 
 QRectF NodeGeometry::getBoundingRect() const {
@@ -78,7 +78,9 @@ QPointF NodeGeometry::getPinLabelPosition(Pin::Type type, int index) const {
   return pin_pos;
 }
 
-QPointF NodeGeometry::getWidgetPosition() const { return m_widget_position; }
+QPointF NodeGeometry::getEmbeddedWidgetPosition() const {
+  return m_embedded_widget_position;
+}
 
 QSizeF NodeGeometry::calculateLabelSize() const {
   const auto &node_style = getNodeStyle();
@@ -90,7 +92,12 @@ QSizeF NodeGeometry::calculateLabelSize() const {
   return label_size;
 }
 
-QSizeF NodeGeometry::calculateWidgetSize() const { return QSizeF{}; }
+QSizeF NodeGeometry::calculateEmbeddedWidgetSize() const {
+  auto widget = m_node_item.getNode()->getEmbeddedWidget();
+  if (!widget) return QSizeF{};
+
+  return widget->size().toSizeF();
+}
 
 QSizeF NodeGeometry::calculatePinsSize() const {
   const auto &pin_style = getPinStyle();
@@ -164,7 +171,12 @@ NodeGeometry::PinToPos NodeGeometry::calculatePinPositions() const {
   return pin_positions;
 }
 
-QPointF NodeGeometry::calculateWidgetPosition() const { return QPointF{}; }
+QPointF NodeGeometry::calculateEmbeddedWidgetPosition() const {
+  const auto center = getBoundingRect().center();
+  const auto widget_size = calculateEmbeddedWidgetSize();
+
+  return QPointF(center.x() - widget_size.width() / 2, center.y());
+}
 
 /* ------------------------------ NodePainter --------------------------- */
 
@@ -266,10 +278,13 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
     : ObjectItem(node, document, parent),
       m_selection_item(new NodeSelectionItem(node, document, this)),
       m_node_painter(*this),
-      m_node_geometry(*this) {
+      m_node_geometry(*this),
+      m_proxy_widget(nullptr) {
   setPos(getNode()->getPosition());
   setVisible(getNode()->isVisible());
+  setAcceptHoverEvents(true);
 
+  embedWidget();
   onSceneChanged();
 }
 
@@ -316,9 +331,25 @@ void NodeItem::onUpdate(const NodesChangeEvent &event) {
   }
 }
 
+void NodeItem::embedWidget() {
+  const auto node = getNode();
+
+  if (auto widget = node->getEmbeddedWidget()) {
+    m_proxy_widget = new QGraphicsProxyWidget(this);
+    m_proxy_widget->setWidget(widget);  // TODO - it takes ownership (to fix)
+    m_proxy_widget->setOpacity(1.0);
+    m_proxy_widget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
+    m_proxy_widget->setAcceptHoverEvents(true);
+  }
+}
+
 void NodeItem::updateGeometry() {
   prepareGeometryChange();
   m_node_geometry.recalculate();
+
+  if (m_proxy_widget) {
+    m_proxy_widget->setPos(m_node_geometry.getEmbeddedWidgetPosition());
+  }
 
   update();
 }

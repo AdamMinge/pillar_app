@@ -31,6 +31,8 @@ class FLOW_DOCUMENT_API Node : public MoveableObject {
   void insertPin(Pin::Type type, Pin pin, size_t index);
   void removePin(Pin::Type type, size_t index);
 
+  [[nodiscard]] virtual QWidget *getEmbeddedWidget() const;
+
   [[nodiscard]] NodeLayer *getParent() const;
 
   [[nodiscard]] virtual std::unique_ptr<Node> clone() const = 0;
