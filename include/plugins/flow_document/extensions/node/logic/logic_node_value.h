@@ -10,12 +10,34 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-class LOGIC_NODE_API LogicNodeValue : public flow_document::Node {
-  FLOW_OBJECT_CLASS(LogicNodeValue, flow_document::Node)
+/* -------------------------- LogicNodeValueEmitter ------------------------- */
+
+class LOGIC_NODE_API LogicNodeValueEmitter : public flow_document::Node {
+  FLOW_OBJECT_CLASS(LogicNodeValueEmitter, flow_document::Node)
 
  public:
-  explicit LogicNodeValue();
-  ~LogicNodeValue() override;
+  explicit LogicNodeValueEmitter();
+  ~LogicNodeValueEmitter() override;
+
+  [[nodiscard]] QWidget *getEmbeddedWidget() const override;
+
+  [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
+
+ protected:
+  void compute() override;
+
+ private:
+  QScopedPointer<QCheckBox> m_widget;
+};
+
+/* -------------------------- LogicNodeValueReceiver ------------------------ */
+
+class LOGIC_NODE_API LogicNodeValueReceiver : public flow_document::Node {
+  FLOW_OBJECT_CLASS(LogicNodeValueReceiver, flow_document::Node)
+
+ public:
+  explicit LogicNodeValueReceiver();
+  ~LogicNodeValueReceiver() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 

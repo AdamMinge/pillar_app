@@ -269,6 +269,7 @@
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="13"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="14"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="15"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="17"/>
         <source>Logic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -284,7 +285,12 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="15"/>
-        <source>Bool</source>
+        <source>Emitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="17"/>
+        <source>Receiver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -626,13 +632,19 @@
         </translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="6"/>
-        <source>Value</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="8"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="40"/>
+        <source>Bool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="7"/>
-        <source>BOOL</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="9"/>
+        <source>BOOL_EMITTER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="41"/>
+        <source>BOOL_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
