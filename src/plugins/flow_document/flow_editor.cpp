@@ -27,7 +27,7 @@ struct FlowEditor::Preferences {
       egnite::Preference<QByteArray>(QString("flow_editor/state"));
 };
 
-/* -------------------------------- SceneEditor ----------------------------- */
+/* --------------------------------- FlowEditor ----------------------------- */
 
 FlowEditor::FlowEditor(QObject *parent)
     : egnite::DocumentEditor(parent),

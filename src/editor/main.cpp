@@ -1,6 +1,4 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "../config.h"
-#include "command_line_parser.h"
 #include "main_window.h"
 #include "project/project_format_pro.h"
 #include "resources.h"
@@ -11,6 +9,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 /* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/application.h>
 #include <egnite/language_translator.h>
 #include <egnite/plugin_manager.h>
 #include <egnite/preferences_manager.h>
@@ -44,35 +43,6 @@ static void messagesToConsole(QtMsgType type, const QMessageLogContext &context,
   (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, msg);
 }
 
-/* ----------------------------- CommandLineParser -------------------------- */
-
-class EgniteCommandLineParser : public CommandLineParser {
- public:
-  explicit EgniteCommandLineParser();
-  ~EgniteCommandLineParser() override;
-
-  [[nodiscard]] bool isWithoutSettings() const { return m_without_settings; };
-  [[nodiscard]] QStringList getPluginsPaths() const { return m_plugins_paths; };
-
- private:
-  bool m_without_settings;
-  QStringList m_plugins_paths;
-};
-
-EgniteCommandLineParser::EgniteCommandLineParser() : m_without_settings(false) {
-  registerOption(
-      {"without-preferences"},
-      QObject::tr("Execute application without loading/saving preferences"),
-      [this]() { m_without_settings = true; });
-
-  registerOption<QString>(
-      {"plugins-paths"}, QObject::tr("Specified locations of plugins to load"),
-      [this](auto &plugin_path) { m_plugins_paths = plugin_path.split(';'); },
-      QLatin1String("paths"));
-}
-
-EgniteCommandLineParser::~EgniteCommandLineParser() = default;
-
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
 static void registerDefaultFormats(QApplication &app) {
@@ -101,37 +71,17 @@ static void registerDefaultPlugins(QApplication &app) {
   registerDefaultLanguageTranslators(app);
 }
 
-/* -------------------------- RegisterDefaultPlugins ------------------------ */
-
-static void parseCommandLine(QApplication &app) {
-  EgniteCommandLineParser parser;
-  parser.process(app);
-
-  if (parser.isWithoutSettings())
-    egnite::PreferencesManager::getInstance().setSettingsType(
-        egnite::PreferencesSettings::Type::Temporary);
-
-  if (auto paths = app.libraryPaths() + parser.getPluginsPaths();
-      !paths.isEmpty())
-    egnite::PluginManager::getInstance().setDefaultPluginsPaths(paths);
-}
-
 /* ----------------------------------- main --------------------------------- */
 
 int main(int argc, char **argv) {
-  QApplication app(argc, argv);
-  QApplication::setApplicationName(QStringLiteral("Egnite-Editor"));
-  QApplication::setApplicationVersion(QLatin1String(EGNITE_VERSION_STR));
-  QApplication::setApplicationDisplayName(QStringLiteral("Egnite-Editor"));
-  QApplication::setOrganizationName(QStringLiteral("Egnite"));
+  egnite::Application app(argc, argv);
 
   qInstallMessageHandler(messagesToConsole);
 
-  parseCommandLine(app);
   registerDefaultPlugins(app);
 
   MainWindow mainWindow;
   mainWindow.show();
 
-  return QApplication::exec();
+  return app.exec();
 }

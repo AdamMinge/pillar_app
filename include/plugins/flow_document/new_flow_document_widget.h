@@ -14,6 +14,8 @@ class NewFlowDocumentWidget;
 
 namespace flow_document {
 
+/* --------------------------- NewFlowDocumentWidget ------------------------ */
+
 class FLOW_DOCUMENT_API NewFlowDocumentWidget
     : public egnite::NewDocumentWidget {
   Q_OBJECT
@@ -40,6 +42,8 @@ class FLOW_DOCUMENT_API NewFlowDocumentWidget
   QScopedPointer<Ui::NewFlowDocumentWidget> m_ui;
   QScopedPointer<Preferences> m_preferences;
 };
+
+/* ----------------------- NewFlowDocumentWidgetFactory --------------------- */
 
 class FLOW_DOCUMENT_API NewFlowDocumentWidgetFactory
     : public egnite::NewDocumentWidgetFactory {

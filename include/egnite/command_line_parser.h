@@ -1,5 +1,5 @@
-#ifndef COMMAND_LINE_PARSER_H
-#define COMMAND_LINE_PARSER_H
+#ifndef EGNITE_COMMAND_LINE_PARSER_H
+#define EGNITE_COMMAND_LINE_PARSER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
@@ -8,6 +8,8 @@
 /* ---------------------------------- Standard ------------------------------ */
 #include <list>
 /* -------------------------------------------------------------------------- */
+
+namespace egnite {
 
 class CommandLineParser {
  private:
@@ -85,4 +87,6 @@ CONVERTER_VALUE_SPEC(float, value.toFloat())
 CONVERTER_VALUE_SPEC(double, value.toDouble())
 #undef CONVERTER_VALUE_SPEC
 
-#endif  // COMMAND_LINE_PARSER_H
+}  // namespace egnite
+
+#endif  // EGNITE_COMMAND_LINE_PARSER_H

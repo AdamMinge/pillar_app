@@ -10,16 +10,9 @@
 #include <QMessageBox>
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/action_manager.h>
-#include <egnite/document/document_manager.h>
-#include <egnite/issue_manager.h>
-#include <egnite/language_manager.h>
-#include <egnite/logging_manager.h>
-#include <egnite/plugin_manager.h>
 #include <egnite/preferences_manager.h>
 #include <egnite/project/project.h>
 #include <egnite/project/project_manager.h>
-#include <egnite/script_manager.h>
-#include <egnite/style_manager.h>
 /* ----------------------------------- Utils -------------------------------- */
 #include <utils/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */
@@ -33,14 +26,6 @@ struct MainWindow::Preferences {
       egnite::Preference<QByteArray>("main_window/geometry");
   egnite::Preference<QByteArray> main_window_state =
       egnite::Preference<QByteArray>("main_window/state");
-  egnite::Preference<QLocale> application_language =
-      egnite::Preference<QLocale>("application/language");
-  egnite::Preference<QString> application_style =
-      egnite::Preference<QString>("application/style");
-  egnite::Preference<QStringList> application_enabled_plugins =
-      egnite::Preference<QStringList>("application/denabled_plugins");
-  egnite::PreferenceContainer<QKeySequence> application_shortcuts =
-      egnite::PreferenceContainer<QKeySequence>("application/shortcuts");
 };
 
 /* -------------------------------- MainWindow ------------------------------ */
@@ -66,18 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
   retranslateUi();
 }
 
-MainWindow::~MainWindow() {
-  egnite::PluginManager::deleteInstance();
-  egnite::DocumentManager::deleteInstance();
-  egnite::ProjectManager::deleteInstance();
-  egnite::ActionManager::deleteInstance();
-  egnite::IssueManager::deleteInstance();
-  egnite::LanguageManager::deleteInstance();
-  egnite::LoggingManager::deleteInstance();
-  egnite::PreferencesManager::deleteInstance();
-  egnite::ScriptManager::deleteInstance();
-  egnite::StyleManager::deleteInstance();
-}
+MainWindow::~MainWindow() = default;
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   if (auto current_widget = m_stacked_widget->currentWidget();
@@ -133,45 +107,12 @@ void MainWindow::initConnections() {
           &MainWindow::currentProjectChanged);
 }
 
-void MainWindow::writePlugins() {
-  auto enabled_plugins = QStringList{};
-  for (const auto plugin :
-       egnite::PluginManager::getInstance().getDynamicPlugins()) {
-    if (plugin->isEnabled()) enabled_plugins << plugin->getFileName();
-  }
-
-  m_preferences->application_enabled_plugins = enabled_plugins;
-}
-
 void MainWindow::writeSettings() {
   m_preferences->main_window_geometry = saveGeometry();
   m_preferences->main_window_state = saveState();
 
-  writePlugins();
-  writeLanguage();
-  writeStyle();
-  writeShortcuts();
-
   m_no_project_window->writeSettings();
   m_project_window->writeSettings();
-}
-
-void MainWindow::writeLanguage() {
-  m_preferences->application_language =
-      egnite::LanguageManager::getInstance().getCurrentLanguage();
-}
-
-void MainWindow::writeStyle() {
-  m_preferences->application_style =
-      egnite::StyleManager::getInstance().getCurrentStyle();
-}
-
-void MainWindow::writeShortcuts() {
-  const auto actions_id = egnite::ActionManager::getInstance().getActionsId();
-  for (const auto &action_id : actions_id) {
-    auto action = egnite::ActionManager::getInstance().findAction(action_id);
-    m_preferences->application_shortcuts.set(action_id, action->shortcut());
-  }
 }
 
 void MainWindow::readSettings() {
@@ -181,50 +122,8 @@ void MainWindow::readSettings() {
   if (!window_geometry.isNull()) restoreGeometry(window_geometry);
   if (!window_state.isNull()) restoreState(window_state);
 
-  readPlugins();
-  readLanguage();
-  readStyle();
-  readShortcuts();
-
   m_no_project_window->readSettings();
   m_project_window->readSettings();
-}
-
-void MainWindow::readPlugins() {
-  const auto enabled_plugins = m_preferences->application_enabled_plugins.get();
-
-  for (egnite::PluginManager::getInstance().loadPlugins();
-       auto plugin : egnite::PluginManager::getInstance().getPlugins()) {
-    if (enabled_plugins.contains(plugin->getFileName())) plugin->enable();
-  }
-}
-
-void MainWindow::readLanguage() {
-  const auto application_language = m_preferences->application_language.get();
-
-  auto languages =
-      egnite::LanguageManager::getInstance().getAvailableLanguages();
-  if (languages.contains(application_language))
-    egnite::LanguageManager::getInstance().setLanguage(application_language);
-  else if (languages.contains(QLocale::system()))
-    egnite::LanguageManager::getInstance().setLanguage(QLocale::system());
-}
-
-void MainWindow::readStyle() {
-  auto application_style = m_preferences->application_style.get();
-  if (!application_style.isEmpty())
-    egnite::StyleManager::getInstance().setStyle(application_style);
-}
-
-void MainWindow::readShortcuts() {
-  const auto actions_id = egnite::ActionManager::getInstance().getActionsId();
-  for (const auto &action_id : actions_id) {
-    if (m_preferences->application_shortcuts.contains(action_id)) {
-      auto shortcut = m_preferences->application_shortcuts.get(action_id);
-      egnite::ActionManager::getInstance().setCustomShortcut(action_id,
-                                                             shortcut);
-    }
-  }
 }
 
 void MainWindow::retranslateUi() {

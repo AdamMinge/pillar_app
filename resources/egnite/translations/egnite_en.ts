@@ -18,23 +18,23 @@
 <context>
     <name>DocumentManager</name>
     <message>
-        <location filename="../../../src/egnite/document/document_manager.cpp" line="144"/>
+        <location filename="../../../src/egnite/document/document_manager.cpp" line="146"/>
         <source>Error Reloading File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/egnite/document/document_manager.cpp" line="162"/>
+        <location filename="../../../src/egnite/document/document_manager.cpp" line="164"/>
         <source>Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/egnite/document/document_manager.cpp" line="272"/>
-        <location filename="../../../src/egnite/document/document_manager.cpp" line="303"/>
+        <location filename="../../../src/egnite/document/document_manager.cpp" line="274"/>
+        <location filename="../../../src/egnite/document/document_manager.cpp" line="305"/>
         <source>Error Saving File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/egnite/document/document_manager.cpp" line="289"/>
+        <location filename="../../../src/egnite/document/document_manager.cpp" line="291"/>
         <source>Save Document As</source>
         <translation type="unfinished"></translation>
     </message>
@@ -50,6 +50,19 @@
         <location filename="../../../src/egnite/project/project.cpp" line="62"/>
         <location filename="../../../src/egnite/project/project.cpp" line="83"/>
         <source>Wrong project format</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../../src/egnite/application.cpp" line="52"/>
+        <source>Execute application without loading/saving preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/egnite/application.cpp" line="56"/>
+        <source>Specified locations of plugins to load</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

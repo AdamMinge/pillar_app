@@ -3,7 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMainWindow>
-#include <QPointer>
+#include <QScopedPointer>
 #include <QStackedWidget>
 /* -------------------------------------------------------------------------- */
 
@@ -39,16 +39,8 @@ class MainWindow final : public QMainWindow {
   void initConnections();
 
   void writeSettings();
-  void writePlugins();
-  void writeLanguage();
-  void writeStyle();
-  void writeShortcuts();
 
   void readSettings();
-  void readPlugins();
-  void readLanguage();
-  void readStyle();
-  void readShortcuts();
 
   void retranslateUi();
 

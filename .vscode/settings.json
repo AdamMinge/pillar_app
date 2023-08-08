@@ -114,7 +114,12 @@
         "qscopedvaluerollback": "cpp",
         "qstring": "cpp",
         "qgraphicsproxywidget": "cpp",
-        "qcheckbox": "cpp"
+        "qcheckbox": "cpp",
+        "qstackedwidget": "cpp",
+        "qpointer": "cpp",
+        "qundogroup": "cpp",
+        "qstackedlayout": "cpp",
+        "qapplication": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -96,32 +96,32 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="233"/>
+        <location filename="../../../src/editor/main_window.cpp" line="132"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="234"/>
+        <location filename="../../../src/editor/main_window.cpp" line="133"/>
         <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="235"/>
+        <location filename="../../../src/editor/main_window.cpp" line="134"/>
         <source>&amp;Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="236"/>
+        <location filename="../../../src/editor/main_window.cpp" line="135"/>
         <source>Settings Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="237"/>
+        <location filename="../../../src/editor/main_window.cpp" line="136"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/main_window.cpp" line="238"/>
+        <location filename="../../../src/editor/main_window.cpp" line="137"/>
         <source>Exit Application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -516,16 +516,6 @@
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <location filename="../../../src/editor/main.cpp" line="65"/>
-        <source>Execute application without loading/saving preferences</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/editor/main.cpp" line="69"/>
-        <source>Specified locations of plugins to load</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../../../src/editor/project/project_reader.cpp" line="48"/>
         <location filename="../../../src/editor/project/project_reader.cpp" line="62"/>

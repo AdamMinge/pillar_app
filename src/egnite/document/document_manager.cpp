@@ -28,7 +28,7 @@ void DocumentManager::deleteInstance() { m_instance.reset(nullptr); }
 
 DocumentManager::DocumentManager()
     : m_widget(new QWidget()),
-      m_tab_bar(new QTabBar(m_widget.data())),
+      m_tab_bar(new QTabBar(m_widget)),
       m_editor_stack(new QStackedLayout()),
       m_no_document_widget(new QWidget(m_widget)),
       m_file_system_watcher(new utils::QtFileSystemWatcher()),
@@ -39,7 +39,7 @@ DocumentManager::DocumentManager()
   m_tab_bar->setMovable(true);
   m_tab_bar->setContextMenuPolicy(Qt::CustomContextMenu);
 
-  auto vertical_layout = new QVBoxLayout(m_widget.data());
+  auto vertical_layout = new QVBoxLayout(m_widget);
   vertical_layout->addWidget(m_tab_bar);
   vertical_layout->setContentsMargins(0, 0, 0, 0);
   vertical_layout->setSpacing(0);
@@ -63,7 +63,7 @@ DocumentManager::DocumentManager()
 
 DocumentManager::~DocumentManager() = default;
 
-QWidget *DocumentManager::getWidget() const { return m_widget.data(); }
+QWidget *DocumentManager::getWidget() const { return m_widget; }
 
 void DocumentManager::addEditor(DocumentEditor *editor) {
   Q_ASSERT(!m_editor_for_document_id.contains(editor->getDocumentId()));
@@ -84,6 +84,8 @@ void DocumentManager::removeEditor(const QString &document_id) {
   }
 
   Q_ASSERT(m_editor_for_document_id.contains(document_id));
+  auto editor = m_editor_for_document_id.at(document_id);
+  m_editor_stack->removeWidget(editor->getEditorWidget());
   m_editor_for_document_id.erase(document_id);
 }
 
@@ -141,7 +143,7 @@ bool DocumentManager::reloadDocumentAt(int index) {
   QString error;
   auto new_document = Document::load(document->getFileName(), nullptr, &error);
   if (!new_document) {
-    QMessageBox::critical(m_widget.get(), tr("Error Reloading File"), error);
+    QMessageBox::critical(m_widget, tr("Error Reloading File"), error);
 
     document->setFileName(QString{});
     return false;
@@ -159,7 +161,7 @@ bool DocumentManager::loadDocument(const QString &file_name) {
   QString error;
   auto document = Document::load(file_name, nullptr, &error);
   if (!document) {
-    QMessageBox::critical(m_widget.get(), tr("Error Opening File"), error);
+    QMessageBox::critical(m_widget, tr("Error Opening File"), error);
     return false;
   }
 

@@ -288,7 +288,11 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
   onSceneChanged();
 }
 
-NodeItem::~NodeItem() = default;
+NodeItem::~NodeItem() {
+  if (m_proxy_widget) {
+    m_proxy_widget->setWidget(nullptr);
+  }
+}
 
 Node *NodeItem::getNode() const { return static_cast<Node *>(getObject()); }
 

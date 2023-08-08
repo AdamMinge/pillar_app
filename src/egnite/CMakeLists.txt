@@ -10,6 +10,8 @@ set(include_root ${EGNITE_SOURCE_DIR}/include/egnite)
 set(resources_root ${EGNITE_SOURCE_DIR}/resources/egnite)
 
 set(sources
+    ${source_root}/application.cpp
+    ${source_root}/command_line_parser.cpp
     ${source_root}/plugin.cpp
     ${source_root}/logging_manager.cpp
     ${source_root}/script_manager.cpp
@@ -31,8 +33,8 @@ set(sources
     ${source_root}/project/project_manager.cpp
     ${source_root}/document/document.cpp
     ${source_root}/document/document_manager.cpp
-    ${source_root}/document/document_editor.cpp
     ${source_root}/document/document_format.cpp
+    ${source_root}/document/document_editor.cpp
     ${source_root}/document/new_document_widget.cpp
     ${source_root}/document/new_document_widget_factory.cpp
     ${source_root}/document/undo_dock.cpp
@@ -42,6 +44,8 @@ set(sources
 set(includes
     ${include_root}/export.h
     ${include_root}/concept.h
+    ${include_root}/application.h
+    ${include_root}/command_line_parser.h
     ${include_root}/action_manager.h
     ${include_root}/file_format.h
     ${include_root}/format_helper.h
@@ -65,8 +69,8 @@ set(includes
     ${include_root}/project/project_manager.h
     ${include_root}/document/document.h
     ${include_root}/document/document_manager.h
-    ${include_root}/document/document_editor.h
     ${include_root}/document/document_format.h
+    ${include_root}/document/document_editor.h
     ${include_root}/document/new_document_widget.h
     ${include_root}/document/new_document_widget_factory.h
     ${include_root}/document/undo_dock.h

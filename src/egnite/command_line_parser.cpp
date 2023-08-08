@@ -1,6 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "command_line_parser.h"
+#include "egnite/command_line_parser.h"
 /* -------------------------------------------------------------------------- */
+
+namespace egnite {
 
 /* ----------------------------------- Option ------------------------------- */
 
@@ -55,3 +57,5 @@ void CommandLineParser::registerOptionImpl(
 
   m_options.emplace_back(Option(cmd_option, callback));
 }
+
+}  // namespace egnite

@@ -3,7 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
-#include <QPointer>
+#include <QScopedPointer>
 #include <QStackedLayout>
 #include <QTabBar>
 #include <QUndoGroup>
@@ -74,6 +74,11 @@ class LIB_EGNITE_API DocumentManager : public QObject,
   [[nodiscard]] const std::vector<std::unique_ptr<Document>> &getDocuments()
       const;
 
+ Q_SIGNALS:
+  void currentDocumentChanged(egnite::Document *document);
+  void documentCloseRequested(int index);
+  void enabledStandardActionsChanged();
+
  protected:
   explicit DocumentManager();
 
@@ -89,18 +94,13 @@ class LIB_EGNITE_API DocumentManager : public QObject,
                        const QString &old_file_name);
   void updateDocumentTab(egnite::Document *document);
 
- Q_SIGNALS:
-  void currentDocumentChanged(egnite::Document *document);
-  void documentCloseRequested(int index);
-  void enabledStandardActionsChanged();
-
  private:
   static std::unique_ptr<DocumentManager> m_instance;
 
   std::vector<std::unique_ptr<Document>> m_documents;
   std::unordered_map<QString, DocumentEditor *> m_editor_for_document_id;
 
-  QPointer<QWidget> m_widget;
+  QWidget *m_widget;
   QWidget *m_no_document_widget;
   QTabBar *m_tab_bar;
   QStackedLayout *m_editor_stack;
