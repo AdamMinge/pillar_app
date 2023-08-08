@@ -79,8 +79,9 @@ void GroupLayer::serialize(utils::OArchive& archive) const {
 void GroupLayer::deserialize(utils::IArchive& archive) {
   Layer::deserialize(archive);
 
-  archive >> utils::ArchiveProperty("layers", m_layers);
-  for (auto& layer : m_layers) layer->setParent(this);
+  auto layers = Layers{};
+  archive >> utils::ArchiveProperty("layers", layers);
+  for (auto&& layer : layers) append(std::move(layer));
 }
 
 void GroupLayer::init(const GroupLayer* group_layer) {

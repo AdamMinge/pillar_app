@@ -153,11 +153,13 @@ void NodeLayer::serialize(utils::OArchive& archive) const {
 void NodeLayer::deserialize(utils::IArchive& archive) {
   Layer::deserialize(archive);
 
-  archive >> utils::ArchiveProperty("nodes", m_nodes);
-  archive >> utils::ArchiveProperty("connections", m_connections);
+  auto nodes = Nodes{};
+  archive >> utils::ArchiveProperty("nodes", nodes);
+  for (auto&& node : nodes) appendNode(std::move(node));
 
-  for (auto& node : m_nodes) node->setParent(this);
-  for (auto& connection : m_connections) connection->setParent(this);
+  auto connections = Connections{};
+  archive >> utils::ArchiveProperty("connections", connections);
+  for (auto&& connection : connections) appendConnection(std::move(connection));
 }
 
 void NodeLayer::init(const NodeLayer* node_layer) {
