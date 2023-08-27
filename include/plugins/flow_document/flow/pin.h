@@ -27,7 +27,8 @@ class FLOW_DOCUMENT_API Pin {
   void setData(QVariant data);
   void setCaption(QString caption);
 
-  void addListener(Listener &&listener);
+  void addListener(const size_t &id, Listener &&listener);
+  void removeListener(const size_t &id);
   void clearListeners();
 
  private:
@@ -36,7 +37,7 @@ class FLOW_DOCUMENT_API Pin {
  private:
   QVariant m_data;
   QString m_caption;
-  QList<Listener> m_listeners;
+  std::map<size_t, Listener> m_listeners;
 };
 
 }  // namespace flow_document

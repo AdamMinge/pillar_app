@@ -27,6 +27,9 @@ class FLOW_DOCUMENT_API ConnectionSide {
   void serialize(utils::OArchive &archive) const;
   void deserialize(utils::IArchive &archive);
 
+  [[nodiscard]] bool operator==(const ConnectionSide &other) const;
+  [[nodiscard]] bool operator!=(const ConnectionSide &other) const;
+
  private:
   QUuid m_node_id;
   size_t m_pin_id;

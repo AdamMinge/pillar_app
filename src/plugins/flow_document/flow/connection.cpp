@@ -32,6 +32,14 @@ void ConnectionSide::deserialize(utils::IArchive &archive) {
   archive >> utils::ArchiveProperty("pin", m_pin_id);
 }
 
+bool ConnectionSide::operator==(const ConnectionSide &other) const {
+  return m_node_id == other.m_node_id && m_pin_id == other.m_pin_id;
+}
+
+bool ConnectionSide::operator!=(const ConnectionSide &other) const {
+  return m_node_id != other.m_node_id || m_pin_id != other.m_pin_id;
+}
+
 /* --------------------------------- Connection ----------------------------- */
 
 Connection::Connection() : m_visible(true) {}

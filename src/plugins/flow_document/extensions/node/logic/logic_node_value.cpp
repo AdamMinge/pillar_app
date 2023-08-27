@@ -43,7 +43,7 @@ LogicNodeValueReceiver::LogicNodeValueReceiver()
   auto in_pin = flow_document::Pin({}, "A");
   insertPin(flow_document::Pin::Type::In, std::move(in_pin), 0);
 
-  m_widget->setCheckable(false);
+  m_widget->setDisabled(true);
 }
 
 LogicNodeValueReceiver::~LogicNodeValueReceiver() = default;

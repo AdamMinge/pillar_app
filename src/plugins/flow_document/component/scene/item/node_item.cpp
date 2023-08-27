@@ -290,7 +290,7 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
 
 NodeItem::~NodeItem() {
   if (m_proxy_widget) {
-    m_proxy_widget->setWidget(nullptr);
+    m_proxy_widget->setWidget(nullptr);  // TODO - FIX CRASH
   }
 }
 

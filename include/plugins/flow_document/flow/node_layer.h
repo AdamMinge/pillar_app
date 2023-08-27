@@ -37,6 +37,7 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
   [[nodiscard]] std::unique_ptr<Connection> takeConnection(qsizetype index);
   [[nodiscard]] Connection* connectionAt(qsizetype index) const;
   [[nodiscard]] qsizetype indexOfConnection(Connection* connection) const;
+  [[nodiscard]] bool connectionIsValid(Connection* connection) const;
   [[nodiscard]] qsizetype connectionsCount() const;
 
   [[nodiscard]] QList<Connection*> getNodeConnections(Node* node) const;
@@ -49,6 +50,10 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
 
  protected:
   void init(const NodeLayer* node_layer);
+
+ private:
+  void makeConnection(Connection* connection);
+  void terminateConnection(Connection* connection);
 
  private:
   Nodes m_nodes;

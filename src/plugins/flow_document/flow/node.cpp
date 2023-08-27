@@ -36,7 +36,7 @@ void Node::insertPin(Pin::Type type, Pin pin, size_t index) {
   auto insert_iter = pins.insert(pins.begin() + index, std::move(pin));
 
   if (type == Pin::Type::In)
-    (*insert_iter).addListener([this](auto &&data) { this->compute(); });
+    (*insert_iter).addListener(index, [this](auto &&data) { this->compute(); });
 }
 
 void Node::removePin(Pin::Type type, size_t index) {
