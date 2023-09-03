@@ -295,6 +295,26 @@
     </message>
 </context>
 <context>
+    <name>NewConnectionsDialog</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/connections/new_connections_dialog.cpp" line="119"/>
+        <source>- Select Layer -</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/connections/new_connections_dialog.cpp" line="134"/>
+        <location filename="../../../../src/plugins/flow_document/component/connections/new_connections_dialog.cpp" line="152"/>
+        <source>- Select Node -</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/connections/new_connections_dialog.cpp" line="169"/>
+        <location filename="../../../../src/plugins/flow_document/component/connections/new_connections_dialog.cpp" line="185"/>
+        <source>- Select Pin -</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NodeLayerFactory</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="112"/>

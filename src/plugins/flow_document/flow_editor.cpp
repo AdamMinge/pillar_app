@@ -92,7 +92,11 @@ void FlowEditor::removeDocument(egnite::Document *document) {
   if (flow_document == m_current_document) setCurrentDocument(nullptr);
 
   auto view = m_view_for_document.take(flow_document);
+  auto scene = view->scene();
+  Q_ASSERT(scene);
+
   m_scene_stack->removeWidget(view);
+  scene->clear();
 
   view->deleteLater();
 }

@@ -290,7 +290,7 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
 
 NodeItem::~NodeItem() {
   if (m_proxy_widget) {
-    m_proxy_widget->setWidget(nullptr);  // TODO - FIX CRASH
+    m_proxy_widget->setWidget(nullptr);
   }
 }
 
@@ -340,10 +340,9 @@ void NodeItem::embedWidget() {
 
   if (auto widget = node->getEmbeddedWidget()) {
     m_proxy_widget = new QGraphicsProxyWidget(this);
-    m_proxy_widget->setWidget(widget);  // TODO - it takes ownership (to fix)
+    m_proxy_widget->setWidget(widget);
     m_proxy_widget->setOpacity(1.0);
     m_proxy_widget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
-    m_proxy_widget->setAcceptHoverEvents(true);
   }
 }
 

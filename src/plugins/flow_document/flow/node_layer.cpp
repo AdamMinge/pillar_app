@@ -61,7 +61,7 @@ void NodeLayer::appendConnection(std::unique_ptr<Connection> connection) {
 void NodeLayer::insertConnection(qsizetype index,
                                  std::unique_ptr<Connection> connection) {
   Q_ASSERT(index >= 0 && index <= m_connections.size());
-  Q_ASSERT(connectionIsValid(connection.get()));
+  Q_ASSERT(canConnect(connection->getOutputSide(), connection->getInputSide()));
 
   auto insert_iter = m_connections.begin() + index;
   auto added_connection_iter =
@@ -106,37 +106,32 @@ qsizetype NodeLayer::indexOfConnection(Connection* connection) const {
   return -1;
 }
 
-bool NodeLayer::connectionIsValid(Connection* connection) const {
-  auto& output_side = connection->getOutputSide();
-  auto& input_side = connection->getInputSide();
+qsizetype NodeLayer::connectionsCount() const { return m_connections.size(); }
 
-  auto same_input_side_connection =
-      std::find_if(m_connections.begin(), m_connections.end(),
-                   [input_side](auto& connection) {
-                     return connection->getInputSide() == input_side;
-                   });
+bool NodeLayer::canConnect(const ConnectionSide& output,
+                           const ConnectionSide& input) const {
+  auto same_input_side_connection = std::find_if(
+      m_connections.begin(), m_connections.end(), [input](auto& connection) {
+        return connection->getInputSide() == input;
+      });
   if (same_input_side_connection != m_connections.end()) return false;
 
-  auto output_node =
-      std::find_if(m_nodes.begin(), m_nodes.end(), [output_side](auto& node) {
-        return node->getId() == output_side.getNodeId();
-      });
+  auto output_node = std::find_if(
+      m_nodes.begin(), m_nodes.end(),
+      [output](auto& node) { return node->getId() == output.getNodeId(); });
   if (output_node == m_nodes.end()) return false;
-  if ((*output_node)->getPinsCounts(Pin::Type::Out) <= output_side.getPinId())
+  if ((*output_node)->getPinsCounts(Pin::Type::Out) <= output.getPinId())
     return false;
 
-  auto input_node =
-      std::find_if(m_nodes.begin(), m_nodes.end(), [input_side](auto& node) {
-        return node->getId() == input_side.getNodeId();
-      });
+  auto input_node = std::find_if(
+      m_nodes.begin(), m_nodes.end(),
+      [input](auto& node) { return node->getId() == input.getNodeId(); });
   if (input_node == m_nodes.end()) return false;
-  if ((*input_node)->getPinsCounts(Pin::Type::In) <= input_side.getPinId())
+  if ((*input_node)->getPinsCounts(Pin::Type::In) <= input.getPinId())
     return false;
 
   return true;
 }
-
-qsizetype NodeLayer::connectionsCount() const { return m_connections.size(); }
 
 QList<Connection*> NodeLayer::getNodeConnections(Node* node) const {
   if (!node) return {};
@@ -231,6 +226,7 @@ void NodeLayer::makeConnection(Connection* connection) {
   output_pin.addListener(
       qHash(connection->getId()),
       [&input_pin](const QVariant& value) { input_pin.setData(value); });
+  input_pin.setData(output_pin.getData());
 }
 
 void NodeLayer::terminateConnection(Connection* connection) {
