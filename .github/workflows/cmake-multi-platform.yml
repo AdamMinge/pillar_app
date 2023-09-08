@@ -54,6 +54,11 @@ jobs:
         with:
           cmake-version: '3.19'
 
+      - name: Install LLVM
+        uses: actions/setup-llvm@v2
+        with:
+          llvm-version: '14' 
+
       - name: Configure CMake
         run: >
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
