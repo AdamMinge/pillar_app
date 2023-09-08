@@ -40,6 +40,7 @@ void FlowDocumentPlugin::init() {
   addObject(new ConnectionItemFactory(this));
 
   addObject(new NodeSelectionToolFactory(this));
+  addObject(new NodeConnectionToolFactory(this));
 
   addObject(new LayerPropertiesFactory(this));
   addObject(new NodePropertiesFactory(this));

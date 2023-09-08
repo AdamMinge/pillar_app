@@ -41,6 +41,19 @@ class FLOW_DOCUMENT_API NodeSelectionToolFactory : public ToolFactory {
   [[nodiscard]] Tool* create(QObject* parent = nullptr) const override;
 };
 
+/* -------------------------- NodeConnectionToolFactory --------------------- */
+
+class FLOW_DOCUMENT_API NodeConnectionToolFactory : public ToolFactory {
+  Q_OBJECT
+  Q_INTERFACES(flow_document::ToolFactory)
+
+ public:
+  explicit NodeConnectionToolFactory(QObject* parent = nullptr);
+  ~NodeConnectionToolFactory() override;
+
+  [[nodiscard]] Tool* create(QObject* parent = nullptr) const override;
+};
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_TOOL_FACTORY_H

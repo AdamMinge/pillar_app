@@ -315,6 +315,14 @@
     </message>
 </context>
 <context>
+    <name>NodeConnectionTool</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_connection_tool.cpp" line="18"/>
+        <source>Node Connection Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NodeLayerFactory</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/flow/factory/layer_factory.cpp" line="112"/>

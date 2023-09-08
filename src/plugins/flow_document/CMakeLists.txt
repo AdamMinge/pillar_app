@@ -86,6 +86,7 @@ set(sources
     ${source_root}/component/scene/tool/tools_bar.cpp
     ${source_root}/component/scene/tool/tool.cpp
     ${source_root}/component/scene/tool/node_selection_tool.cpp
+    ${source_root}/component/scene/tool/node_connection_tool.cpp
     ${source_root}/component/scene/tool/factory/tool_factory.cpp)
 
 set(includes
@@ -169,6 +170,7 @@ set(includes
     ${include_root}/component/scene/tool/tools_bar.h
     ${include_root}/component/scene/tool/tool.h
     ${include_root}/component/scene/tool/node_selection_tool.h
+    ${include_root}/component/scene/tool/node_connection_tool.h
     ${include_root}/component/scene/tool/factory/tool_factory.h)
 
 set(resources ${resources_root}/flow_document.qrc)
