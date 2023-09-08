@@ -18,7 +18,7 @@ ExternalProject_Add(
     PREFIX                      ${prefix_dir}
     BUILD_IN_SOURCE             TRUE
     DOWNLOAD_EXTRACT_TIMESTAMP  TRUE
-    CONFIGURE_COMMAND           ./configure -no-feature-accessibility -confirm-license -opensource -nomake examples -nomake tests -qpa xcb -prefix ${install_dir}
+    CONFIGURE_COMMAND           ./configure -no-feature-accessibility -confirm-license -opensource -skip qtwebengine -skip qtwebview -nomake examples -nomake tests -qpa xcb -prefix ${install_dir}
     BUILD_COMMAND               ${CMAKE_COMMAND} --build .
     INSTALL_COMMAND             ${CMAKE_COMMAND} --build . --target install
     TEST_COMMAND                "")
