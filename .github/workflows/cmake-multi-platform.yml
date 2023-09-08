@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  EGNITE_BUILD_DEPS: TRUE
-
 jobs:
   linux:
     name: Linux
@@ -63,6 +60,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DEGNITE_BUILD_DEPS=TRUE
           -S ${{ github.workspace }}
 
       - name: Build
@@ -94,6 +92,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DEGNITE_BUILD_DEPS=TRUE
           -S ${{ github.workspace }}
 
       - name: Build
