@@ -10,6 +10,12 @@ project(boost NONE)
 set(prefix_dir @EGNITE_BUILD_DEPS_DIR@/boost)
 set(install_dir ${prefix_dir}/src/boost-install)
 
+if(WIN32)
+    set(bootstrap_script ./bootstrap.bat)
+else()
+    set(bootstrap_script ./bootstrap.sh)
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(
     boost
@@ -17,7 +23,7 @@ ExternalProject_Add(
     GIT_TAG             boost-1.79.0
     PREFIX              ${prefix_dir}
     BUILD_IN_SOURCE     TRUE
-    CONFIGURE_COMMAND   ./bootstrap.sh --without-libraries=python
+    CONFIGURE_COMMAND   ${bootstrap_script} --without-libraries=python
     BUILD_COMMAND       ./b2 link=static
     INSTALL_COMMAND     ./b2 install --prefix=${install_dir}
     TEST_COMMAND        "")
