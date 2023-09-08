@@ -34,7 +34,7 @@ jobs:
             llvm \
             clang \
             clang-tools \
-            ibclang-dev \
+            libclang-dev \
             libcurl4-openssl-dev \
             libgl1-mesa-dev \
             libxcb-cursor0 \
