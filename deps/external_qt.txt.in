@@ -25,7 +25,7 @@ ExternalProject_Add(
         TRUE
     CONFIGURE_COMMAND           
         ./configure 
-        -no-feature-accessibility -confirm-license -opensource 
+        -confirm-license -opensource 
         -skip qt3d -skip qt5compat -skip qtactiveqt -skip qtcharts -skip qtcoap -skip qtconnectivity 
         -skip qtdatavis3d -skip qtdoc -skip qtlottie -skip qtmqtt -skip qtnetworkauth -skip qtopcua 
         -skip qtserialport -skip qtpositioning -skip qtquicktimeline -skip qtquick3d -skip qtremoteobjects 
