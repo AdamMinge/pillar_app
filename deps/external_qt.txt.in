@@ -13,13 +13,34 @@ set(install_dir ${prefix_dir}/src/qt-install)
 include(ExternalProject)
 ExternalProject_Add(
     qt
-    URL                         https://download.qt.io/official_releases/qt/6.5/6.5.2/single/qt-everywhere-src-6.5.2.tar.xz
-    URL_MD5                     87f56fd8aedd2e429047c40397e9be48
-    PREFIX                      ${prefix_dir}
-    BUILD_IN_SOURCE             TRUE
-    DOWNLOAD_EXTRACT_TIMESTAMP  TRUE
-    CONFIGURE_COMMAND           ./configure -no-feature-accessibility -confirm-license -opensource -skip qtwebengine -skip qtwebview -nomake examples -nomake tests -qpa xcb -prefix ${install_dir}
-    BUILD_COMMAND               ${CMAKE_COMMAND} --build .
-    INSTALL_COMMAND             ${CMAKE_COMMAND} --build . --target install
-    TEST_COMMAND                "")
+    URL                         
+        https://download.qt.io/official_releases/qt/6.5/6.5.2/single/qt-everywhere-src-6.5.2.tar.xz
+    URL_MD5                     
+        87f56fd8aedd2e429047c40397e9be48
+    PREFIX                      
+        ${prefix_dir}
+    BUILD_IN_SOURCE             
+        TRUE
+    DOWNLOAD_EXTRACT_TIMESTAMP  
+        TRUE
+    CONFIGURE_COMMAND           
+        ./configure 
+        -no-feature-accessibility -confirm-license -opensource 
+        -skip qt3d -skip qt5compat -skip qtactiveqt -skip qtcharts -skip qtcoap -skip qtconnectivity 
+        -skip qtdatavis3d -skip qtdoc -skip qtlottie -skip qtmqtt -skip qtnetworkauth -skip qtopcua 
+        -skip qtserialport -skip qtpositioning -skip qtquicktimeline -skip qtquick3d -skip qtremoteobjects 
+        -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtvirtualkeyboard -skip qtwayland 
+        -skip qtwebchannel -skip qtwebengine -skip qtwebview -skip qtquick3dphysics -skip qtspeech -skip qtlocation 
+        -skip qthttpserver
+        -nomake examples -nomake tests 
+        -qpa xcb -prefix ${install_dir}
+    BUILD_COMMAND               
+        ${CMAKE_COMMAND} 
+        --build .
+    INSTALL_COMMAND             
+        ${CMAKE_COMMAND} 
+        --build . 
+        --target install
+    TEST_COMMAND                
+        "")
 # ----------------------------------------------------------------------- #
