@@ -63,6 +63,10 @@ jobs:
             libxkbcommon-dev \
             libxkbcommon-x11-dev
 
+      - name: Memory Space
+        run: >
+          sudo df -h
+
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1
         with:
