@@ -26,12 +26,7 @@ ExternalProject_Add(
     CONFIGURE_COMMAND           
         ./configure 
         -confirm-license -opensource 
-        -skip qt3d -skip qt5compat -skip qtactiveqt -skip qtcharts -skip qtcoap -skip qtconnectivity 
-        -skip qtdatavis3d -skip qtdoc -skip qtlottie -skip qtmqtt -skip qtnetworkauth -skip qtopcua 
-        -skip qtserialport -skip qtpositioning -skip qtquicktimeline -skip qtquick3d -skip qtremoteobjects 
-        -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtvirtualkeyboard -skip qtwayland 
-        -skip qtwebchannel -skip qtwebengine -skip qtwebview -skip qtquick3dphysics -skip qtspeech -skip qtlocation 
-        -skip qthttpserver
+        -skip qtwebengine -skip qtwebview
         -nomake examples -nomake tests 
         -qpa xcb -prefix ${install_dir}
     BUILD_COMMAND               
