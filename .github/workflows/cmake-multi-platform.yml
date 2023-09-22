@@ -38,10 +38,10 @@ jobs:
         run: |
           sudo apt update
           sudo apt install \
-            llvm \
+            llvm-13 \
             clang \
             clang-tools \
-            libclang-dev \
+            libclang-13-dev \
             build-essential \
             cppcheck \
             libgl1-mesa-dev \
