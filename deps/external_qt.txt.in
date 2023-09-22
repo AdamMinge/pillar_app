@@ -20,9 +20,9 @@ include(ExternalProject)
 ExternalProject_Add(
     qt
     URL                         
-        https://download.qt.io/official_releases/qt/6.2/6.2.5/single/qt-everywhere-opensource-src-6.2.5.tar.xz
+        https://download.qt.io/official_releases/qt/6.5/6.5.2/single/qt-everywhere-src-6.5.2.tar.xz
     URL_MD5                     
-        9d6745b9b57747c054aa3d1053b76e84
+        87f56fd8aedd2e429047c40397e9be48
     PREFIX                      
         ${prefix_dir}
     BUILD_IN_SOURCE             
