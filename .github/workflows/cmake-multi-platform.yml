@@ -40,8 +40,6 @@ jobs:
           sudo apt install \
             llvm \
             llvm-dev \
-            llvm-linker-tools \
-            llvm-tools \
             llvm-runtime \
             clang \
             clang-tools \
