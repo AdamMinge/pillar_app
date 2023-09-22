@@ -115,7 +115,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          choco install -y python git
+          choco install -y python
           choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
           choco install -y jom
           choco install -y perl
