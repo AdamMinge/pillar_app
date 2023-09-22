@@ -10,6 +10,12 @@ project(qt NONE)
 set(prefix_dir @EGNITE_BUILD_DEPS_DIR@/qt)
 set(install_dir ${prefix_dir}/src/qt-install)
 
+if(WIN32)
+    set(configure_script ./configure.bat)
+else()
+    set(configure_script ./configure)
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(
     qt
@@ -28,7 +34,7 @@ ExternalProject_Add(
     DOWNLOAD_EXTRACT_TIMESTAMP  
         TRUE
     CONFIGURE_COMMAND           
-        ./configure 
+        ${configure_script} 
         -confirm-license -opensource 
         -skip qtwebengine -skip qtwebview
         -nomake examples -nomake tests 
