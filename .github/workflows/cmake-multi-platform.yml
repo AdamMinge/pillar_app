@@ -70,7 +70,6 @@ jobs:
             libxcb-xkb-dev \
             libxkbcommon-dev \
             libxkbcommon-x11-dev
-          sudo apt upgrade
           
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1
