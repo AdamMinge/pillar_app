@@ -21,6 +21,10 @@ ExternalProject_Add(
         ${prefix_dir}
     BUILD_IN_SOURCE             
         TRUE
+    LOG_BUILD 
+        TRUE
+    LOG_INSTALL 
+        TRUE
     DOWNLOAD_EXTRACT_TIMESTAMP  
         TRUE
     CONFIGURE_COMMAND           
