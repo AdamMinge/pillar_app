@@ -113,6 +113,16 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+      - name: Install Dependencies
+        run: |
+          choco install -y python git
+          choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+          choco install -y jom
+          choco install -y perl
+          choco install -y ruby
+          choco install -y 7zip
+          choco install -y zip
+
       - name: Configure CMake
         run: >
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
