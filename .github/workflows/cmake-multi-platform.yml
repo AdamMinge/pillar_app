@@ -43,6 +43,7 @@ jobs:
             clang-tools \
             libclang-dev \
             build-essential \
+            cppcheck \
             libgl1-mesa-dev \
             libfontconfig1-dev \
             libfreetype6-dev \
