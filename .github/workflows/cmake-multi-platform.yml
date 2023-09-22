@@ -38,14 +38,10 @@ jobs:
         run: |
           sudo apt update
           sudo apt install \
-            llvm \
-            llvm-dev \
-            llvm-linker-tools \
-            llvm-tools \
-            llvm-runtime \
+            llvm-13 \
             clang \
             clang-tools \
-            libclang-dev \
+            libclang-13-dev \
             build-essential \
             cppcheck \
             libgl1-mesa-dev \
@@ -116,6 +112,16 @@ jobs:
         shell: bash
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+      - name: Install Dependencies
+        run: |
+          choco install -y python git
+          choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+          choco install -y jom
+          choco install -y perl
+          choco install -y ruby
+          choco install -y 7zip
+          choco install -y zip
 
       - name: Configure CMake
         run: >
