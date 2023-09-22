@@ -38,9 +38,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install \
-            llvm-13 \
-            llvm-13-dev \
-            llvm-runtime \
+            llvm \
             clang \
             clang-tools \
             libclang-dev \
