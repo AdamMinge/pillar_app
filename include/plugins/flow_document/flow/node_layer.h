@@ -6,6 +6,7 @@
 #include "flow_document/flow/connection.h"
 #include "flow_document/flow/layer.h"
 #include "flow_document/flow/node.h"
+#include "flow_document/flow/pin.h"
 #include "flow_document/flow/serialization/object_unique_ptr.h"
 /* -------------------------------------------------------------------------- */
 
@@ -39,6 +40,8 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
   [[nodiscard]] qsizetype indexOfConnection(Connection* connection) const;
   [[nodiscard]] qsizetype connectionsCount() const;
 
+  [[nodiscard]] bool canConnect(const ConnectionSide& input,
+                                Pin::Type type) const;
   [[nodiscard]] bool canConnect(const ConnectionSide& input,
                                 const ConnectionSide& output) const;
 

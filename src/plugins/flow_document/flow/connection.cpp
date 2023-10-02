@@ -14,6 +14,10 @@ ConnectionSide::ConnectionSide(QUuid node_id, size_t pin_id)
 
 ConnectionSide::~ConnectionSide() = default;
 
+bool ConnectionSide::isNull() const {
+  return m_node_id.isNull() || m_pin_id < 0;
+}
+
 void ConnectionSide::setNodeId(const QUuid &id) { m_node_id = id; }
 
 QUuid ConnectionSide::getNodeId() const { return m_node_id; }

@@ -10,9 +10,12 @@
 #include "flow_document/flow/node.h"
 #include "flow_document/flow_document.h"
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QLineF>
 #include <QPainter>
 #include <QScopedValueRollback>
 #include <QStyleOptionGraphicsItem>
+/* --------------------------------- Standard ------------------------------- */
+#include <limits>
 /* -------------------------------------------------------------------------- */
 
 namespace flow_document {
@@ -27,6 +30,16 @@ const NodeStyle &getNodeStyle() {
 
 const PinStyle &getPinStyle() {
   return StyleManager::getInstance().getStyle().getPinStyle();
+}
+
+[[nodiscard]] QRectF scaleRect(const QRectF &rect, qreal scale) {
+  const auto w = rect.width() * scale;
+  const auto h = rect.height() * scale;
+
+  const auto x_offset = (rect.width() - w) / 2.0;
+  const auto y_offset = (rect.height() - h) / 2.0;
+
+  return QRectF(rect.x() + x_offset, rect.y() + y_offset, w, h);
 }
 
 }  // namespace
@@ -82,6 +95,38 @@ QPointF NodeGeometry::getEmbeddedWidgetPosition() const {
   return m_embedded_widget_position;
 }
 
+NodeGeometry::FoundPin NodeGeometry::findNearestPin(
+    const QPointF &search_pos, qreal search_scale,
+    std::optional<Pin::Type> type) const {
+  const auto &pin_style = getPinStyle();
+
+  auto found_pin = FoundPin{};
+  auto nearest_len = std::numeric_limits<qreal>::max();
+
+  for (auto iter = m_pin_positions.begin(); iter != m_pin_positions.end();
+       ++iter) {
+    const auto &pin_type = iter.key().first;
+    const auto &pin_index = iter.key().second;
+
+    if (type.has_value() && pin_type != type.value()) continue;
+
+    const auto &pos = iter.value();
+    const auto &size = pin_style.getSize();
+    const auto len = QLineF(search_pos, pos).length();
+
+    auto rect =
+        QRectF(pos - QPointF(size.width() / 2, size.height() / 2), size / 2);
+    rect = scaleRect(rect, search_scale);
+
+    if (!rect.contains(search_pos) || len >= nearest_len) continue;
+
+    found_pin = std::make_pair(pin_index, pin_type);
+    nearest_len = len;
+  }
+
+  return found_pin;
+}
+
 QSizeF NodeGeometry::calculateLabelSize() const {
   const auto &node_style = getNodeStyle();
   const auto font_metrics = QFontMetricsF(node_style.getFont());
@@ -116,7 +161,7 @@ QSizeF NodeGeometry::calculatePinsSize() const {
   return {width, height};
 }
 
-float NodeGeometry::calculatePinsWidth(Pin::Type type) const {
+qreal NodeGeometry::calculatePinsWidth(Pin::Type type) const {
   const auto &pin_style = getPinStyle();
   const auto font_metrics = QFontMetricsF(pin_style.getFont());
 
@@ -126,7 +171,7 @@ float NodeGeometry::calculatePinsWidth(Pin::Type type) const {
     width = std::max(width, font_metrics.horizontalAdvance(name));
   }
 
-  return static_cast<float>(width);
+  return width;
 }
 
 QPointF NodeGeometry::calculateLabelPosition() const {

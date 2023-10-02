@@ -24,6 +24,9 @@ class FLOW_DOCUMENT_API NodeGeometry {
   using PinToPos = QMap<std::pair<Pin::Type, int>, QPointF>;
 
  public:
+  using FoundPin = std::optional<std::pair<int, Pin::Type>>;
+
+ public:
   explicit NodeGeometry(const NodeItem &node_item);
   ~NodeGeometry();
 
@@ -35,11 +38,15 @@ class FLOW_DOCUMENT_API NodeGeometry {
   [[nodiscard]] QPointF getPinLabelPosition(Pin::Type type, int index) const;
   [[nodiscard]] QPointF getEmbeddedWidgetPosition() const;
 
+  [[nodiscard]] FoundPin findNearestPin(
+      const QPointF &search_pos, qreal search_scale,
+      std::optional<Pin::Type> type = {}) const;
+
  private:
   [[nodiscard]] QSizeF calculateLabelSize() const;
   [[nodiscard]] QSizeF calculateEmbeddedWidgetSize() const;
   [[nodiscard]] QSizeF calculatePinsSize() const;
-  [[nodiscard]] float calculatePinsWidth(Pin::Type type) const;
+  [[nodiscard]] qreal calculatePinsWidth(Pin::Type type) const;
 
   [[nodiscard]] QPointF calculateLabelPosition() const;
   [[nodiscard]] PinToPos calculatePinPositions() const;

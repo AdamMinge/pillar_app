@@ -18,6 +18,8 @@ class FLOW_DOCUMENT_API ConnectionSide {
   ConnectionSide(QUuid node_id = {}, size_t pin_id = 0);
   ~ConnectionSide();
 
+  [[nodiscard]] bool isNull() const;
+
   void setNodeId(const QUuid &id);
   [[nodiscard]] QUuid getNodeId() const;
 

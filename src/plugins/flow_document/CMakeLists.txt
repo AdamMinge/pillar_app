@@ -78,6 +78,7 @@ set(sources
     ${source_root}/component/scene/item/connection_item.cpp
     ${source_root}/component/scene/item/selection_rectangle.cpp
     ${source_root}/component/scene/item/object_selection_item.cpp
+    ${source_root}/component/scene/item/cubic_path_item.cpp
     ${source_root}/component/scene/item/factory/item_factory.cpp
     ${source_root}/component/scene/style/style_manager.cpp
     ${source_root}/component/scene/style/style_writer.cpp
@@ -162,6 +163,7 @@ set(includes
     ${include_root}/component/scene/item/connection_item.h
     ${include_root}/component/scene/item/selection_rectangle.h
     ${include_root}/component/scene/item/object_selection_item.h
+    ${include_root}/component/scene/item/cubic_path_item.h
     ${include_root}/component/scene/item/factory/item_factory.h
     ${include_root}/component/scene/style/style_manager.h
     ${include_root}/component/scene/style/style_writer.h
