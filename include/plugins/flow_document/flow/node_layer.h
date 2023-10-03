@@ -42,8 +42,8 @@ class FLOW_DOCUMENT_API NodeLayer : public Layer {
 
   [[nodiscard]] bool canConnect(const ConnectionSide& input,
                                 Pin::Type type) const;
-  [[nodiscard]] bool canConnect(const ConnectionSide& input,
-                                const ConnectionSide& output) const;
+  [[nodiscard]] bool canConnect(const ConnectionSide& output,
+                                const ConnectionSide& input) const;
 
   [[nodiscard]] QList<Connection*> getNodeConnections(Node* node) const;
   [[nodiscard]] QList<Node*> getConnectionNodes(Connection* connection) const;

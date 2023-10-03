@@ -31,11 +31,13 @@ class FLOW_DOCUMENT_API NodeConnectionTool : public Tool {
   void mouseReleased(QGraphicsSceneMouseEvent *event) override;
 
  protected:
-  void tryConnectionCreating(const QPointF &mouse_pos);
   void startConnectionCreating(NodeItem *node_item,
                                const std::pair<int, Pin::Type> &found_pin);
   void updateConnectionCreating(const QPointF &mouse_pos);
-  void endConnectionCreating();
+  void endConnectionCreating(const QPointF &mouse_pos);
+
+  void tryStartConnectionCreating(const QPointF &mouse_pos);
+  void tryCreateNewConnection(const QPointF &mouse_pos);
 
   void refreshCursor();
 

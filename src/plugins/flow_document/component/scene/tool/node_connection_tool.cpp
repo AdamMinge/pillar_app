@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/tool/node_connection_tool.h"
 
+#include "flow_document/command/add_remove_connection.h"
 #include "flow_document/component/scene/flow_scene.h"
 #include "flow_document/component/scene/item/cubic_path_item.h"
 #include "flow_document/component/scene/item/node_item.h"
@@ -14,14 +15,22 @@
 
 namespace flow_document {
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+constexpr qreal SEARCH_SCALE = 25.0;
+
+}
+
 /* ---------------------------- NodeConnectionTool -------------------------- */
 
 NodeConnectionTool::NodeConnectionTool(QObject *parent)
     : Tool(tr("Node Connection Tool"), QIcon(icons::x32::ConnectionTool),
            QKeySequence(Qt::Key_C), parent),
       m_action(Action::NoAction),
-      m_cubic_path(std::make_unique<CubicPathItem>()),
-      m_clicked_item(nullptr) {}
+      m_clicked_item(nullptr),
+      m_cubic_path(std::make_unique<CubicPathItem>()) {}
 
 NodeConnectionTool::~NodeConnectionTool() = default;
 
@@ -48,7 +57,7 @@ void NodeConnectionTool::mouseMoved(QGraphicsSceneMouseEvent *event) {
       m_mouse_clicked_button == Qt::LeftButton) {
     auto drag_distance = (m_mouse_clicked_pos - mouse_pos).manhattanLength();
     if (drag_distance >= QApplication::startDragDistance() / 2.0) {
-      tryConnectionCreating(mouse_pos);
+      tryStartConnectionCreating(mouse_pos);
     }
   }
 
@@ -94,9 +103,11 @@ void NodeConnectionTool::mousePressed(QGraphicsSceneMouseEvent *event) {
 void NodeConnectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
   Tool::mouseReleased(event);
 
+  const auto mouse_pos = event->scenePos();
+
   switch (m_action) {
     case Action::ConnectionCreating:
-      endConnectionCreating();
+      endConnectionCreating(mouse_pos);
       break;
   }
 
@@ -106,25 +117,6 @@ void NodeConnectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
   m_clicked_item = nullptr;
 
   refreshCursor();
-}
-
-void NodeConnectionTool::tryConnectionCreating(const QPointF &mouse_pos) {
-  if (!m_clicked_item) return;
-
-  const auto search_scale = 25;
-  const auto search_pos = mouse_pos - m_clicked_item->pos();
-
-  const auto opt_found_pin =
-      m_clicked_item->getGeometry().findNearestPin(search_pos, search_scale);
-  if (!opt_found_pin.has_value()) return;
-
-  const auto node = m_clicked_item->getNode();
-  const auto node_layer = node->getParent();
-  const auto found_pin = opt_found_pin.value();
-  const auto connection_side = ConnectionSide(node->getId(), found_pin.first);
-  if (!node_layer->canConnect(connection_side, found_pin.second)) return;
-
-  startConnectionCreating(m_clicked_item, found_pin);
 }
 
 void NodeConnectionTool::startConnectionCreating(
@@ -168,10 +160,67 @@ void NodeConnectionTool::updateConnectionCreating(const QPointF &mouse_pos) {
   }
 }
 
-void NodeConnectionTool::endConnectionCreating() {
+void NodeConnectionTool::endConnectionCreating(const QPointF &mouse_pos) {
   if (auto scene = getScene(); scene) {
+    tryCreateNewConnection(mouse_pos);
     scene->removeItem(m_cubic_path.get());
   }
+}
+
+void NodeConnectionTool::tryStartConnectionCreating(const QPointF &mouse_pos) {
+  if (!m_clicked_item) return;
+
+  const auto search_pos = mouse_pos - m_clicked_item->pos();
+  const auto opt_found_pin =
+      m_clicked_item->getGeometry().findNearestPin(search_pos, SEARCH_SCALE);
+  if (!opt_found_pin.has_value()) return;
+
+  const auto node = m_clicked_item->getNode();
+  const auto node_layer = node->getParent();
+  const auto found_pin = opt_found_pin.value();
+  const auto connection_side = ConnectionSide(node->getId(), found_pin.first);
+  if (!node_layer->canConnect(connection_side, found_pin.second)) return;
+
+  startConnectionCreating(m_clicked_item, found_pin);
+}
+
+void NodeConnectionTool::tryCreateNewConnection(const QPointF &mouse_pos) {
+  auto scene = getScene();
+  Q_ASSERT(scene);
+
+  auto item = scene->itemAt(mouse_pos, QTransform{});
+  auto node_item = dynamic_cast<NodeItem *>(item);
+  if (!node_item) return;
+
+  const auto search_pos = mouse_pos - node_item->pos();
+  const auto opt_found_pin =
+      node_item->getGeometry().findNearestPin(search_pos, SEARCH_SCALE);
+  if (!opt_found_pin.has_value()) return;
+
+  const auto node = node_item->getNode();
+  const auto node_layer = node->getParent();
+  const auto found_pin = opt_found_pin.value();
+  const auto pin_type = found_pin.second;
+  const auto pin_index = found_pin.first;
+
+  if (pin_type == Pin::Type::Out) {
+    m_new_connection.setOutputSide(ConnectionSide(node->getId(), pin_index));
+  } else {
+    m_new_connection.setInputSide(ConnectionSide(node->getId(), pin_index));
+  }
+
+  if (!node_layer->canConnect(m_new_connection.getOutputSide(),
+                              m_new_connection.getInputSide()))
+    return;
+
+  auto entires = std::list<ConnectionEntry>{};
+  entires.emplace_back(ConnectionEntry{
+      node_layer, std::make_unique<Connection>(m_new_connection),
+      node_layer->connectionsCount()});
+
+  auto document = getDocument();
+  document->getUndoStack()->push(
+      new AddConnections(document, std::move(entires)));
 }
 
 void NodeConnectionTool::refreshCursor() {

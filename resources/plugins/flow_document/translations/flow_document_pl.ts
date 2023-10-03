@@ -317,7 +317,7 @@
 <context>
     <name>NodeConnectionTool</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_connection_tool.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/component/scene/tool/node_connection_tool.cpp" line="29"/>
         <source>Node Connection Tool</source>
         <translation type="unfinished"></translation>
     </message>
