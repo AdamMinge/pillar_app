@@ -4,13 +4,13 @@
 
 /* -------------------------- MathNodeValueEmitter -------------------------- */
 
-MathNodeValueEmitter::MathNodeValueEmitter() : m_widget(new QSpinBox()) {
+MathNodeValueEmitter::MathNodeValueEmitter() : m_widget(new QDoubleSpinBox()) {
   setName(QObject::tr("MATH_EMITTER"));
 
   auto out_pin = flow_document::Pin({}, "Q");
   insertPin(flow_document::Pin::Type::Out, std::move(out_pin), 0);
 
-  m_widget->connect(m_widget.get(), &QSpinBox::valueChanged,
+  m_widget->connect(m_widget.get(), &QDoubleSpinBox::valueChanged,
                     [this]() { compute(); });
 }
 
@@ -35,7 +35,8 @@ void MathNodeValueEmitter::compute() {
 
 /* -------------------------- MathNodeValueReceiver ------------------------- */
 
-MathNodeValueReceiver::MathNodeValueReceiver() : m_widget(new QSpinBox()) {
+MathNodeValueReceiver::MathNodeValueReceiver()
+    : m_widget(new QDoubleSpinBox()) {
   setName(QObject::tr("MATH_RECEIVER"));
 
   auto in_pin = flow_document::Pin({}, "A");

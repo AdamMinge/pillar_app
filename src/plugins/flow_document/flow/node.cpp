@@ -7,6 +7,8 @@
 
 namespace flow_document {
 
+/* ----------------------------------- Node --------------------------------- */
+
 Node::Node() : m_visible(true) {}
 
 Node::~Node() = default;
@@ -77,5 +79,27 @@ QVector<Pin> &Node::getPins(Pin::Type type) {
 const QVector<Pin> &Node::getPins(Pin::Type type) const {
   return type == Pin::Type::Out ? m_out_pins : m_in_pins;
 }
+
+/* ----------------------------- NodeWithOneParam --------------------------- */
+
+NodeWithOneParam::NodeWithOneParam() {
+  auto in_pin = Pin({}, "A");
+  auto out_pin = Pin({}, "Q");
+
+  insertPin(Pin::Type::In, std::move(in_pin), 0);
+  insertPin(Pin::Type::Out, std::move(out_pin), 0);
+}
+
+NodeWithOneParam::~NodeWithOneParam() = default;
+
+/* ---------------------------- NodeWithTwoParams --------------------------- */
+
+NodeWithTwoParams::NodeWithTwoParams() {
+  auto in_pin = Pin({}, "B");
+
+  insertPin(Pin::Type::In, std::move(in_pin), 1);
+}
+
+NodeWithTwoParams::~NodeWithTwoParams() = default;
 
 }  // namespace flow_document

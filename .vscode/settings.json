@@ -119,7 +119,9 @@
         "qpointer": "cpp",
         "qundogroup": "cpp",
         "qstackedlayout": "cpp",
-        "qapplication": "cpp"
+        "qapplication": "cpp",
+        "qlineedit": "cpp",
+        "qspinbox": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

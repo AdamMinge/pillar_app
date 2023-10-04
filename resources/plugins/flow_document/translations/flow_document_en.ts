@@ -297,18 +297,48 @@
 <context>
     <name>MathNodePlugin</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="19"/>
         <source>Emitter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="13"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="14"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="16"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="18"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="19"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="20"/>
         <source>Math</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
+        <source>Addition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="13"/>
+        <source>Division</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="14"/>
+        <source>Multiplication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="16"/>
+        <source>Negation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="18"/>
+        <source>Subtraction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="20"/>
         <source>Receiver</source>
         <translation type="unfinished"></translation>
     </message>
@@ -700,7 +730,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="39"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="40"/>
         <source>MATH_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
@@ -712,6 +742,31 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_value.cpp" line="39"/>
         <source>STRING_RECEIVER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_addition.cpp" line="7"/>
+        <source>Addition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_division.cpp" line="7"/>
+        <source>Division</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_multiplication.cpp" line="8"/>
+        <source>Multiplication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_negation.cpp" line="7"/>
+        <source>Negation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_subtraction.cpp" line="8"/>
+        <source>Subtraction</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

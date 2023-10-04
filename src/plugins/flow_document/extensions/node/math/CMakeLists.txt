@@ -10,11 +10,24 @@ set(source_root
 set(include_root
     ${EGNITE_SOURCE_DIR}/include/plugins/flow_document/extensions/node/math)
 
-set(sources ${source_root}/math_node_value.cpp
-            ${source_root}/math_node_plugin.cpp)
+set(sources
+    ${source_root}/math_node_value.cpp
+    ${source_root}/math_node_addition.cpp
+    ${source_root}/math_node_division.cpp
+    ${source_root}/math_node_multiplication.cpp
+    ${source_root}/math_node_negation.cpp
+    ${source_root}/math_node_subtraction.cpp
+    ${source_root}/math_node_plugin.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/math_node_value.h
-             ${include_root}/math_node_plugin.h)
+set(includes
+    ${include_root}/export.h
+    ${include_root}/math_node_value.h
+    ${include_root}/math_node_addition.h
+    ${include_root}/math_node_division.h
+    ${include_root}/math_node_multiplication.h
+    ${include_root}/math_node_negation.h
+    ${include_root}/math_node_subtraction.h
+    ${include_root}/math_node_plugin.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

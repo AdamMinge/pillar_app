@@ -1,13 +1,14 @@
 #ifndef LOGIC_NODE_OR_H
 #define LOGIC_NODE_OR_H
 
+/* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
-#include "logic_node.h"
 /* -------------------------------------------------------------------------- */
 
-class LOGIC_NODE_API LogicNodeOr : public LogicNodeWithTwoParams {
-  FLOW_OBJECT_CLASS(LogicNodeOr, LogicNodeWithTwoParams)
+class LOGIC_NODE_API LogicNodeOr : public flow_document::NodeWithTwoParams {
+  FLOW_OBJECT_CLASS(LogicNodeOr, flow_document::NodeWithTwoParams)
 
  public:
   explicit LogicNodeOr();

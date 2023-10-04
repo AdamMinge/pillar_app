@@ -1,5 +1,5 @@
-#ifndef LOGIC_NODE_NOT_H
-#define LOGIC_NODE_NOT_H
+#ifndef MATH_NODE_SUBTRACTION_H
+#define MATH_NODE_SUBTRACTION_H
 
 /* ----------------------------- PluginFlowDocument ------------------------- */
 #include <flow_document/flow/node.h>
@@ -7,12 +7,13 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-class LOGIC_NODE_API LogicNodeNot : public flow_document::NodeWithOneParam {
-  FLOW_OBJECT_CLASS(LogicNodeNot, flow_document::NodeWithOneParam)
+class MATH_NODE_API MathNodeSubtraction
+    : public flow_document::NodeWithTwoParams {
+  FLOW_OBJECT_CLASS(MathNodeSubtraction, flow_document::NodeWithTwoParams)
 
  public:
-  explicit LogicNodeNot();
-  ~LogicNodeNot() override;
+  explicit MathNodeSubtraction();
+  ~MathNodeSubtraction() override;
 
   [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
 
@@ -20,4 +21,4 @@ class LOGIC_NODE_API LogicNodeNot : public flow_document::NodeWithOneParam {
   void compute() override;
 };
 
-#endif  // LOGIC_NODE_NOT_H
+#endif  // MATH_NODE_SUBTRACTION_H

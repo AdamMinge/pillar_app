@@ -2,8 +2,8 @@
 #define MATH_NODE_VALUE_H
 
 /* ------------------------------------- Qt --------------------------------- */
+#include <QDoubleSpinBox>
 #include <QScopedPointer>
-#include <QSpinBox>
 /* ----------------------------- PluginFlowDocument ------------------------- */
 #include <flow_document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
@@ -27,7 +27,7 @@ class MATH_NODE_API MathNodeValueEmitter : public flow_document::Node {
   void compute() override;
 
  private:
-  QScopedPointer<QSpinBox> m_widget;
+  QScopedPointer<QDoubleSpinBox> m_widget;
 };
 
 /* -------------------------- MathNodeValueReceiver ------------------------- */
@@ -47,7 +47,7 @@ class MATH_NODE_API MathNodeValueReceiver : public flow_document::Node {
   void compute() override;
 
  private:
-  QScopedPointer<QSpinBox> m_widget;
+  QScopedPointer<QDoubleSpinBox> m_widget;
 };
 
 #endif  // MATH_NODE_VALUE_H

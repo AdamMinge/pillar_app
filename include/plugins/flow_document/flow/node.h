@@ -11,6 +11,8 @@ namespace flow_document {
 
 class NodeLayer;
 
+/* ----------------------------------- Node --------------------------------- */
+
 class FLOW_DOCUMENT_API Node : public MoveableObject {
   friend NodeLayer;
 
@@ -56,6 +58,26 @@ class FLOW_DOCUMENT_API Node : public MoveableObject {
 
   QVector<Pin> m_out_pins;
   QVector<Pin> m_in_pins;
+};
+
+/* ------------------------------ NodeWithOneParam -------------------------- */
+
+class FLOW_DOCUMENT_API NodeWithOneParam : public Node {
+  FLOW_OBJECT_CLASS(NodeWithOneParam, Node)
+
+ public:
+  explicit NodeWithOneParam();
+  ~NodeWithOneParam() override;
+};
+
+/* ------------------------------ NodeWithTwoParams ------------------------- */
+
+class FLOW_DOCUMENT_API NodeWithTwoParams : public NodeWithOneParam {
+  FLOW_OBJECT_CLASS(NodeWithTwoParams, NodeWithOneParam)
+
+ public:
+  explicit NodeWithTwoParams();
+  ~NodeWithTwoParams() override;
 };
 
 }  // namespace flow_document
