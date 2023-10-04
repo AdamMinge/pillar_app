@@ -42,6 +42,11 @@ class FLOW_DOCUMENT_API NodeConnectionTool : public Tool {
   void refreshCursor();
 
  private:
+  [[nodiscard]] QString createNewConnectionName(const Connection &connection,
+                                                NodeItem *output,
+                                                NodeItem *input) const;
+
+ private:
   enum class Action;
 
  private:

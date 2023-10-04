@@ -205,8 +205,12 @@ void NodeConnectionTool::tryCreateNewConnection(const QPointF &mouse_pos) {
 
   if (pin_type == Pin::Type::Out) {
     m_new_connection.setOutputSide(ConnectionSide(node->getId(), pin_index));
+    m_new_connection.setName(
+        createNewConnectionName(m_new_connection, node_item, m_clicked_item));
   } else {
     m_new_connection.setInputSide(ConnectionSide(node->getId(), pin_index));
+    m_new_connection.setName(
+        createNewConnectionName(m_new_connection, m_clicked_item, node_item));
   }
 
   if (!node_layer->canConnect(m_new_connection.getOutputSide(),
@@ -232,6 +236,19 @@ void NodeConnectionTool::refreshCursor() {
   }
 
   setCursor(cursor_shape);
+}
+
+QString NodeConnectionTool::createNewConnectionName(
+    const Connection &connection, NodeItem *output, NodeItem *input) const {
+  return QString("%1[%2] -> %3[%4]")
+      .arg(output->getNode()->getName(),
+           output->getNode()
+               ->getPin(Pin::Type::Out, connection.getOutputSide().getPinId())
+               .getCaption(),
+           input->getNode()->getName(),
+           input->getNode()
+               ->getPin(Pin::Type::In, connection.getInputSide().getPinId())
+               .getCaption());
 }
 
 }  // namespace flow_document

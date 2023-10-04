@@ -295,6 +295,25 @@
     </message>
 </context>
 <context>
+    <name>MathNodePlugin</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
+        <source>Emitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="13"/>
+        <source>Math</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="13"/>
+        <source>Receiver</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NewConnectionsDialog</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/component/connections/new_connections_dialog.cpp" line="119"/>
@@ -673,6 +692,45 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="41"/>
         <source>BOOL_RECEIVER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="8"/>
+        <source>MATH_EMITTER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="39"/>
+        <source>MATH_RECEIVER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_value.cpp" line="8"/>
+        <source>STRING_EMITTER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_value.cpp" line="39"/>
+        <source>STRING_RECEIVER</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StringNodePlugin</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="13"/>
+        <source>Emitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="13"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="15"/>
+        <source>String</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="15"/>
+        <source>Receiver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

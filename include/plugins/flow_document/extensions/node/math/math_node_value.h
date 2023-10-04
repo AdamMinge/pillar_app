@@ -1,0 +1,53 @@
+#ifndef MATH_NODE_VALUE_H
+#define MATH_NODE_VALUE_H
+
+/* ------------------------------------- Qt --------------------------------- */
+#include <QScopedPointer>
+#include <QSpinBox>
+/* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/flow/node.h>
+/* ----------------------------------- Local -------------------------------- */
+#include "export.h"
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------- MathNodeValueEmitter -------------------------- */
+
+class MATH_NODE_API MathNodeValueEmitter : public flow_document::Node {
+  FLOW_OBJECT_CLASS(MathNodeValueEmitter, flow_document::Node)
+
+ public:
+  explicit MathNodeValueEmitter();
+  ~MathNodeValueEmitter() override;
+
+  [[nodiscard]] QWidget *getEmbeddedWidget() const override;
+
+  [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
+
+ protected:
+  void compute() override;
+
+ private:
+  QScopedPointer<QSpinBox> m_widget;
+};
+
+/* -------------------------- MathNodeValueReceiver ------------------------- */
+
+class MATH_NODE_API MathNodeValueReceiver : public flow_document::Node {
+  FLOW_OBJECT_CLASS(MathNodeValueReceiver, flow_document::Node)
+
+ public:
+  explicit MathNodeValueReceiver();
+  ~MathNodeValueReceiver() override;
+
+  [[nodiscard]] QWidget *getEmbeddedWidget() const override;
+
+  [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
+
+ protected:
+  void compute() override;
+
+ private:
+  QScopedPointer<QSpinBox> m_widget;
+};
+
+#endif  // MATH_NODE_VALUE_H
