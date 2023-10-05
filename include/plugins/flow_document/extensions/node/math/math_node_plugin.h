@@ -11,6 +11,8 @@
 #include "math_node_division.h"
 #include "math_node_multiplication.h"
 #include "math_node_negation.h"
+#include "math_node_power.h"
+#include "math_node_square_root.h"
 #include "math_node_subtraction.h"
 #include "math_node_value.h"
 /* -------------------------------------------------------------------------- */
@@ -32,7 +34,9 @@ DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeDivision)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeMultiplication)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeNegation)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeSubtraction)
-DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeValueEmitter)
-DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeValueReceiver)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodePower)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeSquareRoot)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatEmitter)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatReceiver)
 
 #endif  // MATH_NODE_PLUGIN_H

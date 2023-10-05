@@ -5,7 +5,7 @@
 /* ----------------------------- MathNodeSubtraction ------------------------ */
 
 MathNodeSubtraction::MathNodeSubtraction() {
-  setName(QObject::tr("Subtraction"));
+  setName(QObject::tr("SUBTRACTION"));
 }
 
 MathNodeSubtraction::~MathNodeSubtraction() = default;

@@ -4,7 +4,7 @@
 
 /* ------------------------------ MathNodeAddition -------------------------- */
 
-MathNodeAddition::MathNodeAddition() { setName(QObject::tr("Addition")); }
+MathNodeAddition::MathNodeAddition() { setName(QObject::tr("ADDITION")); }
 
 MathNodeAddition::~MathNodeAddition() = default;
 

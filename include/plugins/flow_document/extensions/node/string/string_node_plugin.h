@@ -22,7 +22,7 @@ class STRING_NODE_API StringNodePlugin : public egnite::PluginInterface {
   void init() override;
 };
 
-DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeValueEmitter)
-DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeValueReceiver)
+DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeStringEmitter)
+DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeStringReceiver)
 
 #endif  // STRING_NODE_PLUGIN_H

@@ -16,6 +16,10 @@ void MathNodePlugin::init() {
   addObject(new MathNodeNegationFactory(tr("Negation"), tr("Math"), this));
   addObject(
       new MathNodeSubtractionFactory(tr("Subtraction"), tr("Math"), this));
-  addObject(new MathNodeValueEmitterFactory(tr("Emitter"), tr("Math"), this));
-  addObject(new MathNodeValueReceiverFactory(tr("Receiver"), tr("Math"), this));
+  addObject(new MathNodePowerFactory(tr("Power"), tr("Math"), this));
+  addObject(new MathNodeSquareRootFactory(tr("Square Root"), tr("Math"), this));
+  addObject(
+      new MathNodeFloatEmitterFactory(tr("Float Emitter"), tr("Math"), this));
+  addObject(
+      new MathNodeFloatReceiverFactory(tr("Float Receiver"), tr("Math"), this));
 }

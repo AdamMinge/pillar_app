@@ -4,7 +4,7 @@
 
 /* ------------------------------ MathNodeNegation -------------------------- */
 
-MathNodeNegation::MathNodeNegation() { setName(QObject::tr("Negation")); }
+MathNodeNegation::MathNodeNegation() { setName(QObject::tr("NEGATION")); }
 
 MathNodeNegation::~MathNodeNegation() = default;
 

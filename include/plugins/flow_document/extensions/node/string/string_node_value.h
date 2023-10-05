@@ -10,14 +10,14 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- StringNodeValueEmitter ------------------------ */
+/* -------------------------- StringNodeStringEmitter ----------------------- */
 
-class STRING_NODE_API StringNodeValueEmitter : public flow_document::Node {
-  FLOW_OBJECT_CLASS(StringNodeValueEmitter, flow_document::Node)
+class STRING_NODE_API StringNodeStringEmitter : public flow_document::Node {
+  FLOW_OBJECT_CLASS(StringNodeStringEmitter, flow_document::Node)
 
  public:
-  explicit StringNodeValueEmitter();
-  ~StringNodeValueEmitter() override;
+  explicit StringNodeStringEmitter();
+  ~StringNodeStringEmitter() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 
@@ -30,14 +30,14 @@ class STRING_NODE_API StringNodeValueEmitter : public flow_document::Node {
   QScopedPointer<QLineEdit> m_widget;
 };
 
-/* -------------------------- StringNodeValueReceiver ----------------------- */
+/* -------------------------- StringNodeStringReceiver ---------------------- */
 
-class STRING_NODE_API StringNodeValueReceiver : public flow_document::Node {
-  FLOW_OBJECT_CLASS(StringNodeValueReceiver, flow_document::Node)
+class STRING_NODE_API StringNodeStringReceiver : public flow_document::Node {
+  FLOW_OBJECT_CLASS(StringNodeStringReceiver, flow_document::Node)
 
  public:
-  explicit StringNodeValueReceiver();
-  ~StringNodeValueReceiver() override;
+  explicit StringNodeStringReceiver();
+  ~StringNodeStringReceiver() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 

@@ -4,7 +4,7 @@
 
 /* ------------------------------ MathNodeDivision -------------------------- */
 
-MathNodeDivision::MathNodeDivision() { setName(QObject::tr("Division")); }
+MathNodeDivision::MathNodeDivision() { setName(QObject::tr("DIVISION")); }
 
 MathNodeDivision::~MathNodeDivision() = default;
 

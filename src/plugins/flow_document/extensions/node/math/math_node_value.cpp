@@ -2,10 +2,10 @@
 #include "math_node_value.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- MathNodeValueEmitter -------------------------- */
+/* -------------------------- MathNodeFloatEmitter -------------------------- */
 
-MathNodeValueEmitter::MathNodeValueEmitter() : m_widget(new QDoubleSpinBox()) {
-  setName(QObject::tr("MATH_EMITTER"));
+MathNodeFloatEmitter::MathNodeFloatEmitter() : m_widget(new QDoubleSpinBox()) {
+  setName(QObject::tr("FLOAT_EMITTER"));
 
   auto out_pin = flow_document::Pin({}, "Q");
   insertPin(flow_document::Pin::Type::Out, std::move(out_pin), 0);
@@ -14,30 +14,30 @@ MathNodeValueEmitter::MathNodeValueEmitter() : m_widget(new QDoubleSpinBox()) {
                     [this]() { compute(); });
 }
 
-MathNodeValueEmitter::~MathNodeValueEmitter() = default;
+MathNodeFloatEmitter::~MathNodeFloatEmitter() = default;
 
-QWidget *MathNodeValueEmitter::getEmbeddedWidget() const {
+QWidget *MathNodeFloatEmitter::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-std::unique_ptr<flow_document::Node> MathNodeValueEmitter::clone() const {
-  auto node = std::make_unique<MathNodeValueEmitter>();
+std::unique_ptr<flow_document::Node> MathNodeFloatEmitter::clone() const {
+  auto node = std::make_unique<MathNodeFloatEmitter>();
   node->init(this);
   return std::move(node);
 }
 
-void MathNodeValueEmitter::compute() {
+void MathNodeFloatEmitter::compute() {
   auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
   const auto value = m_widget->value();
 
   out_pin.setData(value);
 }
 
-/* -------------------------- MathNodeValueReceiver ------------------------- */
+/* -------------------------- MathNodeFloatReceiver ------------------------- */
 
-MathNodeValueReceiver::MathNodeValueReceiver()
+MathNodeFloatReceiver::MathNodeFloatReceiver()
     : m_widget(new QDoubleSpinBox()) {
-  setName(QObject::tr("MATH_RECEIVER"));
+  setName(QObject::tr("FLOAT_RECEIVER"));
 
   auto in_pin = flow_document::Pin({}, "A");
   insertPin(flow_document::Pin::Type::In, std::move(in_pin), 0);
@@ -45,19 +45,19 @@ MathNodeValueReceiver::MathNodeValueReceiver()
   m_widget->setDisabled(true);
 }
 
-MathNodeValueReceiver::~MathNodeValueReceiver() = default;
+MathNodeFloatReceiver::~MathNodeFloatReceiver() = default;
 
-QWidget *MathNodeValueReceiver::getEmbeddedWidget() const {
+QWidget *MathNodeFloatReceiver::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-std::unique_ptr<flow_document::Node> MathNodeValueReceiver::clone() const {
-  auto node = std::make_unique<MathNodeValueReceiver>();
+std::unique_ptr<flow_document::Node> MathNodeFloatReceiver::clone() const {
+  auto node = std::make_unique<MathNodeFloatReceiver>();
   node->init(this);
   return std::move(node);
 }
 
-void MathNodeValueReceiver::compute() {
+void MathNodeFloatReceiver::compute() {
   auto &in_pin = getPin(flow_document::Pin::Type::In, 0);
   const auto value = in_pin.getData().toReal();
 

@@ -10,14 +10,14 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- MathNodeValueEmitter -------------------------- */
+/* -------------------------- MathNodeFloatEmitter -------------------------- */
 
-class MATH_NODE_API MathNodeValueEmitter : public flow_document::Node {
-  FLOW_OBJECT_CLASS(MathNodeValueEmitter, flow_document::Node)
+class MATH_NODE_API MathNodeFloatEmitter : public flow_document::Node {
+  FLOW_OBJECT_CLASS(MathNodeFloatEmitter, flow_document::Node)
 
  public:
-  explicit MathNodeValueEmitter();
-  ~MathNodeValueEmitter() override;
+  explicit MathNodeFloatEmitter();
+  ~MathNodeFloatEmitter() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 
@@ -30,14 +30,14 @@ class MATH_NODE_API MathNodeValueEmitter : public flow_document::Node {
   QScopedPointer<QDoubleSpinBox> m_widget;
 };
 
-/* -------------------------- MathNodeValueReceiver ------------------------- */
+/* -------------------------- MathNodeFloatReceiver ------------------------- */
 
-class MATH_NODE_API MathNodeValueReceiver : public flow_document::Node {
-  FLOW_OBJECT_CLASS(MathNodeValueReceiver, flow_document::Node)
+class MATH_NODE_API MathNodeFloatReceiver : public flow_document::Node {
+  FLOW_OBJECT_CLASS(MathNodeFloatReceiver, flow_document::Node)
 
  public:
-  explicit MathNodeValueReceiver();
-  ~MathNodeValueReceiver() override;
+  explicit MathNodeFloatReceiver();
+  ~MathNodeFloatReceiver() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 

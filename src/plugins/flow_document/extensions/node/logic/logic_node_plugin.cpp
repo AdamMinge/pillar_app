@@ -12,7 +12,8 @@ void LogicNodePlugin::init() {
   addObject(new LogicNodeAndFactory(tr("And"), tr("Logic"), this));
   addObject(new LogicNodeNotFactory(tr("Not"), tr("Logic"), this));
   addObject(new LogicNodeOrFactory(tr("Or"), tr("Logic"), this));
-  addObject(new LogicNodeValueEmitterFactory(tr("Emitter"), tr("Logic"), this));
   addObject(
-      new LogicNodeValueReceiverFactory(tr("Receiver"), tr("Logic"), this));
+      new LogicNodeBoolEmitterFactory(tr("Bool Emitter"), tr("Logic"), this));
+  addObject(
+      new LogicNodeBoolReceiverFactory(tr("Bool Receiver"), tr("Logic"), this));
 }

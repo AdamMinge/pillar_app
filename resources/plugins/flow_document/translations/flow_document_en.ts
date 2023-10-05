@@ -268,8 +268,8 @@
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="12"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="13"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="14"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="15"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="17"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="16"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="18"/>
         <source>Logic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -284,23 +284,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="15"/>
-        <source>Emitter</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="16"/>
+        <source>Bool Emitter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="17"/>
-        <source>Receiver</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_plugin.cpp" line="18"/>
+        <source>Bool Receiver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MathNodePlugin</name>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="19"/>
-        <source>Emitter</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="13"/>
@@ -309,6 +304,8 @@
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="18"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="19"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="20"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="22"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="24"/>
         <source>Math</source>
         <translation type="unfinished"></translation>
     </message>
@@ -338,8 +335,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="19"/>
+        <source>Power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="20"/>
-        <source>Receiver</source>
+        <source>Square Root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="22"/>
+        <source>Float Emitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="24"/>
+        <source>Float Receiver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -725,56 +737,66 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="8"/>
-        <source>MATH_EMITTER</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="40"/>
-        <source>MATH_RECEIVER</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_value.cpp" line="8"/>
         <source>STRING_EMITTER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_value.cpp" line="39"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_value.cpp" line="40"/>
         <source>STRING_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_addition.cpp" line="7"/>
-        <source>Addition</source>
+        <source>ADDITION</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_division.cpp" line="7"/>
-        <source>Division</source>
+        <source>DIVISION</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_multiplication.cpp" line="8"/>
-        <source>Multiplication</source>
+        <source>MULTIPLICATION</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_negation.cpp" line="7"/>
-        <source>Negation</source>
+        <source>NEGATION</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_subtraction.cpp" line="8"/>
-        <source>Subtraction</source>
+        <source>SUBTRACTION</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="8"/>
+        <source>FLOAT_EMITTER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="40"/>
+        <source>FLOAT_RECEIVER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_power.cpp" line="7"/>
+        <source>POWER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_square_root.cpp" line="8"/>
+        <source>SQUARE_ROOT</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>StringNodePlugin</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="13"/>
-        <source>Emitter</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="12"/>
+        <source>String Emitter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -784,8 +806,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="15"/>
-        <source>Receiver</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="14"/>
+        <source>String Receiver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

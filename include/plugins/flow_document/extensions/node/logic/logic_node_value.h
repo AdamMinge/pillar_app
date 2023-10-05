@@ -10,14 +10,14 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- LogicNodeValueEmitter ------------------------- */
+/* -------------------------- LogicNodeBoolEmitter -------------------------- */
 
-class LOGIC_NODE_API LogicNodeValueEmitter : public flow_document::Node {
-  FLOW_OBJECT_CLASS(LogicNodeValueEmitter, flow_document::Node)
+class LOGIC_NODE_API LogicNodeBoolEmitter : public flow_document::Node {
+  FLOW_OBJECT_CLASS(LogicNodeBoolEmitter, flow_document::Node)
 
  public:
-  explicit LogicNodeValueEmitter();
-  ~LogicNodeValueEmitter() override;
+  explicit LogicNodeBoolEmitter();
+  ~LogicNodeBoolEmitter() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 
@@ -30,14 +30,14 @@ class LOGIC_NODE_API LogicNodeValueEmitter : public flow_document::Node {
   QScopedPointer<QCheckBox> m_widget;
 };
 
-/* -------------------------- LogicNodeValueReceiver ------------------------ */
+/* -------------------------- LogicNodeBoolReceiver ------------------------- */
 
-class LOGIC_NODE_API LogicNodeValueReceiver : public flow_document::Node {
-  FLOW_OBJECT_CLASS(LogicNodeValueReceiver, flow_document::Node)
+class LOGIC_NODE_API LogicNodeBoolReceiver : public flow_document::Node {
+  FLOW_OBJECT_CLASS(LogicNodeBoolReceiver, flow_document::Node)
 
  public:
-  explicit LogicNodeValueReceiver();
-  ~LogicNodeValueReceiver() override;
+  explicit LogicNodeBoolReceiver();
+  ~LogicNodeBoolReceiver() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 

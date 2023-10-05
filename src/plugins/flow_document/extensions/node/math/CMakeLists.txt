@@ -17,6 +17,8 @@ set(sources
     ${source_root}/math_node_multiplication.cpp
     ${source_root}/math_node_negation.cpp
     ${source_root}/math_node_subtraction.cpp
+    ${source_root}/math_node_power.cpp
+    ${source_root}/math_node_square_root.cpp
     ${source_root}/math_node_plugin.cpp)
 
 set(includes
@@ -27,6 +29,8 @@ set(includes
     ${include_root}/math_node_multiplication.h
     ${include_root}/math_node_negation.h
     ${include_root}/math_node_subtraction.h
+    ${include_root}/math_node_power.h
+    ${include_root}/math_node_square_root.h
     ${include_root}/math_node_plugin.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #

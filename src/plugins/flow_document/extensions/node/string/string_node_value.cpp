@@ -2,9 +2,9 @@
 #include "string_node_value.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- StringNodeValueEmitter ------------------------ */
+/* -------------------------- StringNodeStringEmitter ----------------------- */
 
-StringNodeValueEmitter::StringNodeValueEmitter() : m_widget(new QLineEdit()) {
+StringNodeStringEmitter::StringNodeStringEmitter() : m_widget(new QLineEdit()) {
   setName(QObject::tr("STRING_EMITTER"));
 
   auto out_pin = flow_document::Pin({}, "Q");
@@ -14,28 +14,29 @@ StringNodeValueEmitter::StringNodeValueEmitter() : m_widget(new QLineEdit()) {
                     [this]() { compute(); });
 }
 
-StringNodeValueEmitter::~StringNodeValueEmitter() = default;
+StringNodeStringEmitter::~StringNodeStringEmitter() = default;
 
-QWidget *StringNodeValueEmitter::getEmbeddedWidget() const {
+QWidget *StringNodeStringEmitter::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-std::unique_ptr<flow_document::Node> StringNodeValueEmitter::clone() const {
-  auto node = std::make_unique<StringNodeValueEmitter>();
+std::unique_ptr<flow_document::Node> StringNodeStringEmitter::clone() const {
+  auto node = std::make_unique<StringNodeStringEmitter>();
   node->init(this);
   return std::move(node);
 }
 
-void StringNodeValueEmitter::compute() {
+void StringNodeStringEmitter::compute() {
   auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
   const auto value = m_widget->text();
 
   out_pin.setData(value);
 }
 
-/* ------------------------- StringNodeValueReceiver ------------------------ */
+/* ------------------------- StringNodeStringReceiver ----------------------- */
 
-StringNodeValueReceiver::StringNodeValueReceiver() : m_widget(new QLineEdit()) {
+StringNodeStringReceiver::StringNodeStringReceiver()
+    : m_widget(new QLineEdit()) {
   setName(QObject::tr("STRING_RECEIVER"));
 
   auto in_pin = flow_document::Pin({}, "A");
@@ -44,19 +45,19 @@ StringNodeValueReceiver::StringNodeValueReceiver() : m_widget(new QLineEdit()) {
   m_widget->setDisabled(true);
 }
 
-StringNodeValueReceiver::~StringNodeValueReceiver() = default;
+StringNodeStringReceiver::~StringNodeStringReceiver() = default;
 
-QWidget *StringNodeValueReceiver::getEmbeddedWidget() const {
+QWidget *StringNodeStringReceiver::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-std::unique_ptr<flow_document::Node> StringNodeValueReceiver::clone() const {
-  auto node = std::make_unique<StringNodeValueReceiver>();
+std::unique_ptr<flow_document::Node> StringNodeStringReceiver::clone() const {
+  auto node = std::make_unique<StringNodeStringReceiver>();
   node->init(this);
   return std::move(node);
 }
 
-void StringNodeValueReceiver::compute() {
+void StringNodeStringReceiver::compute() {
   auto &in_pin = getPin(flow_document::Pin::Type::In, 0);
   const auto value = in_pin.getData().toString();
 

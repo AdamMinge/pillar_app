@@ -9,8 +9,8 @@ StringNodePlugin::StringNodePlugin() = default;
 StringNodePlugin::~StringNodePlugin() = default;
 
 void StringNodePlugin::init() {
-  addObject(
-      new StringNodeValueEmitterFactory(tr("Emitter"), tr("String"), this));
-  addObject(
-      new StringNodeValueReceiverFactory(tr("Receiver"), tr("String"), this));
+  addObject(new StringNodeStringEmitterFactory(tr("String Emitter"),
+                                               tr("String"), this));
+  addObject(new StringNodeStringReceiverFactory(tr("String Receiver"),
+                                                tr("String"), this));
 }

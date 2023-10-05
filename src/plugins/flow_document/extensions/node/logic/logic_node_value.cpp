@@ -2,9 +2,9 @@
 #include "logic_node_value.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- LogicNodeValueEmitter ------------------------- */
+/* -------------------------- LogicNodeBoolEmitter -------------------------- */
 
-LogicNodeValueEmitter::LogicNodeValueEmitter()
+LogicNodeBoolEmitter::LogicNodeBoolEmitter()
     : m_widget(new QCheckBox(QObject::tr("Bool"))) {
   setName(QObject::tr("BOOL_EMITTER"));
 
@@ -15,28 +15,28 @@ LogicNodeValueEmitter::LogicNodeValueEmitter()
                     [this]() { compute(); });
 }
 
-LogicNodeValueEmitter::~LogicNodeValueEmitter() = default;
+LogicNodeBoolEmitter::~LogicNodeBoolEmitter() = default;
 
-QWidget *LogicNodeValueEmitter::getEmbeddedWidget() const {
+QWidget *LogicNodeBoolEmitter::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-std::unique_ptr<flow_document::Node> LogicNodeValueEmitter::clone() const {
-  auto node = std::make_unique<LogicNodeValueEmitter>();
+std::unique_ptr<flow_document::Node> LogicNodeBoolEmitter::clone() const {
+  auto node = std::make_unique<LogicNodeBoolEmitter>();
   node->init(this);
   return std::move(node);
 }
 
-void LogicNodeValueEmitter::compute() {
+void LogicNodeBoolEmitter::compute() {
   auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
   const auto value = m_widget->checkState() & Qt::CheckState::Checked;
 
   out_pin.setData(value);
 }
 
-/* -------------------------- LogicNodeValueReceiver ------------------------ */
+/* -------------------------- LogicNodeBoolReceiver ------------------------- */
 
-LogicNodeValueReceiver::LogicNodeValueReceiver()
+LogicNodeBoolReceiver::LogicNodeBoolReceiver()
     : m_widget(new QCheckBox(QObject::tr("Bool"))) {
   setName(QObject::tr("BOOL_RECEIVER"));
 
@@ -46,19 +46,19 @@ LogicNodeValueReceiver::LogicNodeValueReceiver()
   m_widget->setDisabled(true);
 }
 
-LogicNodeValueReceiver::~LogicNodeValueReceiver() = default;
+LogicNodeBoolReceiver::~LogicNodeBoolReceiver() = default;
 
-QWidget *LogicNodeValueReceiver::getEmbeddedWidget() const {
+QWidget *LogicNodeBoolReceiver::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-std::unique_ptr<flow_document::Node> LogicNodeValueReceiver::clone() const {
-  auto node = std::make_unique<LogicNodeValueReceiver>();
+std::unique_ptr<flow_document::Node> LogicNodeBoolReceiver::clone() const {
+  auto node = std::make_unique<LogicNodeBoolReceiver>();
   node->init(this);
   return std::move(node);
 }
 
-void LogicNodeValueReceiver::compute() {
+void LogicNodeBoolReceiver::compute() {
   auto &in_pin = getPin(flow_document::Pin::Type::In, 0);
   const auto value = in_pin.getData().toBool();
 
