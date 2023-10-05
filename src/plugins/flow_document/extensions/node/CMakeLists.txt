@@ -9,5 +9,4 @@ add_subdirectory(logic)
 add_subdirectory(math)
 add_subdirectory(string)
 add_subdirectory(condition)
-add_subdirectory(loop)
 # ----------------------------------------------------------------------- #

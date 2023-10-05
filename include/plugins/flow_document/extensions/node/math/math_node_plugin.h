@@ -9,8 +9,14 @@
 #include "export.h"
 #include "math_node_addition.h"
 #include "math_node_division.h"
+#include "math_node_equal.h"
+#include "math_node_greater.h"
+#include "math_node_greater_equal.h"
+#include "math_node_lower.h"
+#include "math_node_lower_equal.h"
 #include "math_node_multiplication.h"
 #include "math_node_negation.h"
+#include "math_node_not_equal.h"
 #include "math_node_power.h"
 #include "math_node_square_root.h"
 #include "math_node_subtraction.h"
@@ -36,6 +42,12 @@ DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeNegation)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeSubtraction)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodePower)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeSquareRoot)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeEqual)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeGreaterEqual)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeGreater)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeLowerEqual)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeLower)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeNotEqual)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatEmitter)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatReceiver)
 

@@ -304,8 +304,14 @@
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="18"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="19"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="20"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="22"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="21"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="23"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="24"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="25"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="26"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="27"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="29"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="31"/>
         <source>Math</source>
         <translation type="unfinished"></translation>
     </message>
@@ -345,12 +351,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="22"/>
-        <source>Float Emitter</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="21"/>
+        <source>Equal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="23"/>
+        <source>Greater Equal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="24"/>
+        <source>Greater</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="25"/>
+        <source>Lower Equal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="26"/>
+        <source>Lower</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="27"/>
+        <source>Not Equal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="29"/>
+        <source>Float Emitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="31"/>
         <source>Float Receiver</source>
         <translation type="unfinished"></translation>
     </message>
@@ -789,6 +825,36 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_square_root.cpp" line="8"/>
         <source>SQUARE_ROOT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_equal.cpp" line="5"/>
+        <source>EQUAL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_greater.cpp" line="5"/>
+        <source>GREATER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_greater_equal.cpp" line="6"/>
+        <source>GREATER EQUAL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_lower.cpp" line="5"/>
+        <source>LOWER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_lower_equal.cpp" line="6"/>
+        <source>LOWER EQUAL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_not_equal.cpp" line="5"/>
+        <source>NOT EQUAL</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

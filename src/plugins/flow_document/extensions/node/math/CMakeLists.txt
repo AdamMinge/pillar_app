@@ -19,6 +19,12 @@ set(sources
     ${source_root}/math_node_subtraction.cpp
     ${source_root}/math_node_power.cpp
     ${source_root}/math_node_square_root.cpp
+    ${source_root}/math_node_equal.cpp
+    ${source_root}/math_node_greater_equal.cpp
+    ${source_root}/math_node_greater.cpp
+    ${source_root}/math_node_lower_equal.cpp
+    ${source_root}/math_node_lower.cpp
+    ${source_root}/math_node_not_equal.cpp
     ${source_root}/math_node_plugin.cpp)
 
 set(includes
@@ -31,6 +37,12 @@ set(includes
     ${include_root}/math_node_subtraction.h
     ${include_root}/math_node_power.h
     ${include_root}/math_node_square_root.h
+    ${include_root}/math_node_equal.h
+    ${include_root}/math_node_greater_equal.h
+    ${include_root}/math_node_greater.h
+    ${include_root}/math_node_lower_equal.h
+    ${include_root}/math_node_lower.h
+    ${include_root}/math_node_not_equal.h
     ${include_root}/math_node_plugin.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
