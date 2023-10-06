@@ -24,6 +24,21 @@ Available Plugins
     <td>Flow Document</td>
     <td>Adds logic nodes like Or, And, and Not.</td>
   </tr>
+  <tr>
+    <td>Math Flow</td>
+    <td>Flow Document</td>
+    <td>Adds Math nodes like Addition, Division, Negation, etc.</td>
+  </tr>
+  <tr>
+    <td>String Flow</td>
+    <td>Flow Document</td>
+    <td>Adds String nodes like Contains, Insert, Replace, etc..</td>
+  </tr>
+  <tr>
+    <td>Condition Flow</td>
+    <td>Flow Document</td>
+    <td>Adds Condition nodes</td>
+  </tr>
 </table>
 
 Others
