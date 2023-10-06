@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "math_node_negation.h"
+#include "string_node_upper.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------------- Utils -------------------------------- */
@@ -11,23 +11,23 @@ enum PinOut { Result = 0 };
 
 }  // namespace
 
-/* ------------------------------ MathNodeNegation -------------------------- */
+/* ------------------------------- StringNodeUpper -------------------------- */
 
-MathNodeNegation::MathNodeNegation() { setName(QObject::tr("NEGATION")); }
+StringNodeUpper::StringNodeUpper() { setName(QObject::tr("UPPER")); }
 
-MathNodeNegation::~MathNodeNegation() = default;
+StringNodeUpper::~StringNodeUpper() = default;
 
-std::unique_ptr<flow_document::Node> MathNodeNegation::clone() const {
-  auto node = std::make_unique<MathNodeNegation>();
+std::unique_ptr<flow_document::Node> StringNodeUpper::clone() const {
+  auto node = std::make_unique<StringNodeUpper>();
   node->init(this);
   return std::move(node);
 }
 
-void MathNodeNegation::compute() {
+void StringNodeUpper::compute() {
   const auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
   auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value = value_pin.getData().toReal();
+  const auto value = value_pin.getData().toString();
 
-  result_pin.setData(-value);
+  result_pin.setData(value.toUpper());
 }

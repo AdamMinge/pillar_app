@@ -2,6 +2,17 @@
 #include "math_node_greater_equal.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Lhs = 0, Rhs = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
+/* --------------------------- MathNodeGreaterEqual ------------------------- */
+
 MathNodeGreaterEqual::MathNodeGreaterEqual() {
   setName(QObject::tr("GREATER EQUAL"));
 }
@@ -15,12 +26,12 @@ std::unique_ptr<flow_document::Node> MathNodeGreaterEqual::clone() const {
 }
 
 void MathNodeGreaterEqual::compute() {
-  auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  auto &lhs_pin = getPin(flow_document::Pin::Type::In, Lhs);
+  auto &rhs_pin = getPin(flow_document::Pin::Type::In, Rhs);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toReal();
-  const auto value_B = in_pin_1.getData().toReal();
+  const auto lhs = lhs_pin.getData().toReal();
+  const auto rhs = rhs_pin.getData().toReal();
 
-  out_pin.setData(value_A >= value_B);
+  result_pin.setData(lhs >= rhs);
 }

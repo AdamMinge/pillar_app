@@ -2,6 +2,17 @@
 #include "logic_node_not.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Value = 0 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
+/* -------------------------------- LogicNodeNot ---------------------------- */
+
 LogicNodeNot::LogicNodeNot() { setName(QObject::tr("NOT")); }
 
 LogicNodeNot::~LogicNodeNot() = default;
@@ -13,10 +24,10 @@ std::unique_ptr<flow_document::Node> LogicNodeNot::clone() const {
 }
 
 void LogicNodeNot::compute() {
-  auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toBool();
+  const auto value = value_pin.getData().toBool();
 
-  out_pin.setData(!value_A);
+  result_pin.setData(!value);
 }

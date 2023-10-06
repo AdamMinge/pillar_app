@@ -2,9 +2,23 @@
 #include "math_node_addition.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Augend = 0, Addend = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* ------------------------------ MathNodeAddition -------------------------- */
 
-MathNodeAddition::MathNodeAddition() { setName(QObject::tr("ADDITION")); }
+MathNodeAddition::MathNodeAddition() {
+  setName(QObject::tr("ADDITION"));
+
+  getPin(flow_document::Pin::Type::In, Augend).setCaption("Augend");
+  getPin(flow_document::Pin::Type::In, Addend).setCaption("Addend");
+}
 
 MathNodeAddition::~MathNodeAddition() = default;
 
@@ -15,12 +29,12 @@ std::unique_ptr<flow_document::Node> MathNodeAddition::clone() const {
 }
 
 void MathNodeAddition::compute() {
-  const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  const auto &augend_pin = getPin(flow_document::Pin::Type::In, Augend);
+  const auto &addend_pin = getPin(flow_document::Pin::Type::In, Addend);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toReal();
-  const auto value_B = in_pin_1.getData().toReal();
+  const auto augend = augend_pin.getData().toReal();
+  const auto addend = addend_pin.getData().toReal();
 
-  out_pin.setData(value_A + value_B);
+  result_pin.setData(augend + addend);
 }

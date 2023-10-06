@@ -2,13 +2,22 @@
 #include "string_node_value.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Value = 0 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* -------------------------- StringNodeStringEmitter ----------------------- */
 
 StringNodeStringEmitter::StringNodeStringEmitter() : m_widget(new QLineEdit()) {
   setName(QObject::tr("STRING_EMITTER"));
 
   auto out_pin = flow_document::Pin({}, "Q");
-  insertPin(flow_document::Pin::Type::Out, std::move(out_pin), 0);
+  insertPin(flow_document::Pin::Type::Out, std::move(out_pin), Value);
 
   m_widget->connect(m_widget.get(), &QLineEdit::textChanged,
                     [this]() { compute(); });
@@ -27,7 +36,7 @@ std::unique_ptr<flow_document::Node> StringNodeStringEmitter::clone() const {
 }
 
 void StringNodeStringEmitter::compute() {
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  auto &out_pin = getPin(flow_document::Pin::Type::Out, Value);
   const auto value = m_widget->text();
 
   out_pin.setData(value);
@@ -40,7 +49,7 @@ StringNodeStringReceiver::StringNodeStringReceiver()
   setName(QObject::tr("STRING_RECEIVER"));
 
   auto in_pin = flow_document::Pin({}, "A");
-  insertPin(flow_document::Pin::Type::In, std::move(in_pin), 0);
+  insertPin(flow_document::Pin::Type::In, std::move(in_pin), Result);
 
   m_widget->setDisabled(true);
 }
@@ -58,7 +67,7 @@ std::unique_ptr<flow_document::Node> StringNodeStringReceiver::clone() const {
 }
 
 void StringNodeStringReceiver::compute() {
-  auto &in_pin = getPin(flow_document::Pin::Type::In, 0);
+  auto &in_pin = getPin(flow_document::Pin::Type::In, Result);
   const auto value = in_pin.getData().toString();
 
   m_widget->setText(value);

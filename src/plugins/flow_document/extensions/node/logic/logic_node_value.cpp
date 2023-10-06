@@ -2,14 +2,23 @@
 #include "logic_node_value.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Value = 0 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* -------------------------- LogicNodeBoolEmitter -------------------------- */
 
 LogicNodeBoolEmitter::LogicNodeBoolEmitter()
     : m_widget(new QCheckBox(QObject::tr("Bool"))) {
   setName(QObject::tr("BOOL_EMITTER"));
 
-  auto out_pin = flow_document::Pin({}, "Q");
-  insertPin(flow_document::Pin::Type::Out, std::move(out_pin), 0);
+  auto value_pin = flow_document::Pin({}, "Q");
+  insertPin(flow_document::Pin::Type::Out, std::move(value_pin), Value);
 
   m_widget->connect(m_widget.get(), &QCheckBox::toggled,
                     [this]() { compute(); });
@@ -28,10 +37,10 @@ std::unique_ptr<flow_document::Node> LogicNodeBoolEmitter::clone() const {
 }
 
 void LogicNodeBoolEmitter::compute() {
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  auto &value_pin = getPin(flow_document::Pin::Type::Out, Value);
   const auto value = m_widget->checkState() & Qt::CheckState::Checked;
 
-  out_pin.setData(value);
+  value_pin.setData(value);
 }
 
 /* -------------------------- LogicNodeBoolReceiver ------------------------- */
@@ -40,8 +49,8 @@ LogicNodeBoolReceiver::LogicNodeBoolReceiver()
     : m_widget(new QCheckBox(QObject::tr("Bool"))) {
   setName(QObject::tr("BOOL_RECEIVER"));
 
-  auto in_pin = flow_document::Pin({}, "A");
-  insertPin(flow_document::Pin::Type::In, std::move(in_pin), 0);
+  auto result_pin = flow_document::Pin({}, "A");
+  insertPin(flow_document::Pin::Type::In, std::move(result_pin), Result);
 
   m_widget->setDisabled(true);
 }
@@ -59,8 +68,8 @@ std::unique_ptr<flow_document::Node> LogicNodeBoolReceiver::clone() const {
 }
 
 void LogicNodeBoolReceiver::compute() {
-  auto &in_pin = getPin(flow_document::Pin::Type::In, 0);
-  const auto value = in_pin.getData().toBool();
+  auto &result_pin = getPin(flow_document::Pin::Type::In, Result);
+  const auto value = result_pin.getData().toBool();
 
   m_widget->setCheckState(value ? Qt::CheckState::Checked
                                 : Qt::CheckState::Unchecked);

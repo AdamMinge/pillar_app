@@ -2,6 +2,17 @@
 #include "logic_node_or.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Lhs = 0, Rhs = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
+/* ------------------------------- LogicNodeOr ------------------------------ */
+
 LogicNodeOr::LogicNodeOr() { setName(QObject::tr("OR")); }
 
 LogicNodeOr::~LogicNodeOr() = default;
@@ -13,12 +24,12 @@ std::unique_ptr<flow_document::Node> LogicNodeOr::clone() const {
 }
 
 void LogicNodeOr::compute() {
-  const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  auto &lhs_pin = getPin(flow_document::Pin::Type::In, Lhs);
+  auto &rhs_pin = getPin(flow_document::Pin::Type::In, Rhs);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toBool();
-  const auto value_B = in_pin_1.getData().toBool();
+  const auto lhs = lhs_pin.getData().toBool();
+  const auto rhs = rhs_pin.getData().toBool();
 
-  out_pin.setData(value_A | value_B);
+  result_pin.setData(lhs | rhs);
 }

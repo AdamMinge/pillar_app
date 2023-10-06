@@ -80,6 +80,16 @@ class FLOW_DOCUMENT_API NodeWithTwoParams : public NodeWithOneParam {
   ~NodeWithTwoParams() override;
 };
 
+/* ----------------------------- NodeWithThreeParams ------------------------ */
+
+class FLOW_DOCUMENT_API NodeWithThreeParams : public NodeWithTwoParams {
+  FLOW_OBJECT_CLASS(NodeWithThreeParams, NodeWithOneParam)
+
+ public:
+  explicit NodeWithThreeParams();
+  ~NodeWithThreeParams() override;
+};
+
 }  // namespace flow_document
 
 #endif  // FLOW_DOCUMENT_NODE_H

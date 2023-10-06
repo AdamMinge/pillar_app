@@ -102,4 +102,14 @@ NodeWithTwoParams::NodeWithTwoParams() {
 
 NodeWithTwoParams::~NodeWithTwoParams() = default;
 
+/* ----------------------------- NodeWithThreeParams ------------------------ */
+
+NodeWithThreeParams::NodeWithThreeParams() {
+  auto in_pin = Pin({}, "C");
+
+  insertPin(Pin::Type::In, std::move(in_pin), 2);
+}
+
+NodeWithThreeParams::~NodeWithThreeParams() = default;
+
 }  // namespace flow_document

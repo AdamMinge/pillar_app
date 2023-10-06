@@ -2,10 +2,22 @@
 #include "math_node_multiplication.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Multiplier = 0, Multiplicand = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* --------------------------- MathNodeMultiplication ----------------------- */
 
 MathNodeMultiplication::MathNodeMultiplication() {
   setName(QObject::tr("MULTIPLICATION"));
+
+  getPin(flow_document::Pin::Type::In, Multiplier).setCaption("Multiplier");
+  getPin(flow_document::Pin::Type::In, Multiplicand).setCaption("Multiplicand");
 }
 
 MathNodeMultiplication::~MathNodeMultiplication() = default;
@@ -17,12 +29,13 @@ std::unique_ptr<flow_document::Node> MathNodeMultiplication::clone() const {
 }
 
 void MathNodeMultiplication::compute() {
-  const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  const auto &multiplier_pin = getPin(flow_document::Pin::Type::In, Multiplier);
+  const auto &multiplicand_pin =
+      getPin(flow_document::Pin::Type::In, Multiplicand);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toReal();
-  const auto value_B = in_pin_1.getData().toReal();
+  const auto multiplier = multiplier_pin.getData().toReal();
+  const auto multiplicand = multiplicand_pin.getData().toReal();
 
-  out_pin.setData(value_A * value_B);
+  result_pin.setData(multiplier * multiplicand);
 }

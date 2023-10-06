@@ -10,11 +10,36 @@ set(source_root
 set(include_root
     ${EGNITE_SOURCE_DIR}/include/plugins/flow_document/extensions/node/string)
 
-set(sources ${source_root}/string_node_value.cpp
-            ${source_root}/string_node_plugin.cpp)
+set(sources
+    ${source_root}/string_node_value.cpp
+    ${source_root}/string_node_contains.cpp
+    ${source_root}/string_node_count.cpp
+    ${source_root}/string_node_equal.cpp
+    ${source_root}/string_node_insert.cpp
+    ${source_root}/string_node_lower.cpp
+    ${source_root}/string_node_mid.cpp
+    ${source_root}/string_node_not_equal.cpp
+    ${source_root}/string_node_remove.cpp
+    ${source_root}/string_node_replace.cpp
+    ${source_root}/string_node_reverse.cpp
+    ${source_root}/string_node_upper.cpp
+    ${source_root}/string_node_plugin.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/string_node_value.h
-             ${include_root}/string_node_plugin.h)
+set(includes
+    ${include_root}/export.h
+    ${include_root}/string_node_contains.h
+    ${include_root}/string_node_count.h
+    ${include_root}/string_node_equal.h
+    ${include_root}/string_node_insert.h
+    ${include_root}/string_node_lower.h
+    ${include_root}/string_node_mid.h
+    ${include_root}/string_node_not_equal.h
+    ${include_root}/string_node_remove.h
+    ${include_root}/string_node_replace.h
+    ${include_root}/string_node_reverse.h
+    ${include_root}/string_node_upper.h
+    ${include_root}/string_node_value.h
+    ${include_root}/string_node_plugin.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

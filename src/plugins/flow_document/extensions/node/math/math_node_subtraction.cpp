@@ -2,10 +2,22 @@
 #include "math_node_subtraction.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Minuend = 0, Subtrahend = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* ----------------------------- MathNodeSubtraction ------------------------ */
 
 MathNodeSubtraction::MathNodeSubtraction() {
   setName(QObject::tr("SUBTRACTION"));
+
+  getPin(flow_document::Pin::Type::In, Minuend).setCaption("Minuend");
+  getPin(flow_document::Pin::Type::In, Subtrahend).setCaption("Subtrahend");
 }
 
 MathNodeSubtraction::~MathNodeSubtraction() = default;
@@ -17,12 +29,12 @@ std::unique_ptr<flow_document::Node> MathNodeSubtraction::clone() const {
 }
 
 void MathNodeSubtraction::compute() {
-  const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  const auto &minuend_pin = getPin(flow_document::Pin::Type::In, Minuend);
+  const auto &subtrahend_pin = getPin(flow_document::Pin::Type::In, Subtrahend);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toReal();
-  const auto value_B = in_pin_1.getData().toReal();
+  const auto minuend = minuend_pin.getData().toReal();
+  const auto subtrahend = subtrahend_pin.getData().toReal();
 
-  out_pin.setData(value_A - value_B);
+  result_pin.setData(minuend - subtrahend);
 }

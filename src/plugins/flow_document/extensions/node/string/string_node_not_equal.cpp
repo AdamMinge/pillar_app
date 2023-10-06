@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "math_node_lower_equal.h"
+#include "string_node_not_equal.h"
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------------- Utils -------------------------------- */
@@ -11,27 +11,25 @@ enum PinOut { Result = 0 };
 
 }  // namespace
 
-/* ---------------------------- MathNodeLowerEqual -------------------------- */
+/* ------------------------------ StringNodeNotEqual ------------------------ */
 
-MathNodeLowerEqual::MathNodeLowerEqual() {
-  setName(QObject::tr("LOWER EQUAL"));
-}
+StringNodeNotEqual::StringNodeNotEqual() { setName(QObject::tr("NOT EQUAL")); }
 
-MathNodeLowerEqual::~MathNodeLowerEqual() = default;
+StringNodeNotEqual::~StringNodeNotEqual() = default;
 
-std::unique_ptr<flow_document::Node> MathNodeLowerEqual::clone() const {
-  auto node = std::make_unique<MathNodeLowerEqual>();
+std::unique_ptr<flow_document::Node> StringNodeNotEqual::clone() const {
+  auto node = std::make_unique<StringNodeNotEqual>();
   node->init(this);
   return std::move(node);
 }
 
-void MathNodeLowerEqual::compute() {
+void StringNodeNotEqual::compute() {
   auto &lhs_pin = getPin(flow_document::Pin::Type::In, Lhs);
   auto &rhs_pin = getPin(flow_document::Pin::Type::In, Rhs);
   auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto lhs = lhs_pin.getData().toReal();
-  const auto rhs = rhs_pin.getData().toReal();
+  const auto lhs = lhs_pin.getData().toString();
+  const auto rhs = rhs_pin.getData().toString();
 
-  result_pin.setData(lhs <= rhs);
+  result_pin.setData(lhs != rhs);
 }

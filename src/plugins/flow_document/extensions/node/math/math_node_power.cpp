@@ -2,9 +2,23 @@
 #include "math_node_power.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Base = 0, Exponent = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* -------------------------------- MathNodePower --------------------------- */
 
-MathNodePower::MathNodePower() { setName(QObject::tr("POWER")); }
+MathNodePower::MathNodePower() {
+  setName(QObject::tr("POWER"));
+
+  getPin(flow_document::Pin::Type::In, Base).setCaption("Base");
+  getPin(flow_document::Pin::Type::In, Exponent).setCaption("Exponent");
+}
 
 MathNodePower::~MathNodePower() = default;
 
@@ -15,12 +29,12 @@ std::unique_ptr<flow_document::Node> MathNodePower::clone() const {
 }
 
 void MathNodePower::compute() {
-  const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  const auto &base_pin = getPin(flow_document::Pin::Type::In, Base);
+  const auto &exponent_pin = getPin(flow_document::Pin::Type::In, Exponent);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toReal();
-  const auto value_B = in_pin_1.getData().toReal();
+  const auto base = base_pin.getData().toReal();
+  const auto exponent = exponent_pin.getData().toReal();
 
-  out_pin.setData(qPow(value_A, value_B));
+  result_pin.setData(qPow(base, exponent));
 }

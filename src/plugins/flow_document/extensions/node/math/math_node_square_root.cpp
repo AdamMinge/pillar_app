@@ -2,6 +2,15 @@
 #include "math_node_square_root.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Value = 0 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* ----------------------------- MathNodeSquareRoot ------------------------- */
 
 MathNodeSquareRoot::MathNodeSquareRoot() {
@@ -17,10 +26,10 @@ std::unique_ptr<flow_document::Node> MathNodeSquareRoot::clone() const {
 }
 
 void MathNodeSquareRoot::compute() {
-  const auto &in_pin = getPin(flow_document::Pin::Type::In, 0);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  const auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value = in_pin.getData().toReal();
+  const auto value = value_pin.getData().toReal();
 
-  out_pin.setData(qSqrt(value));
+  result_pin.setData(qSqrt(value));
 }

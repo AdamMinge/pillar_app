@@ -2,9 +2,23 @@
 #include "math_node_division.h"
 /* -------------------------------------------------------------------------- */
 
+/* ----------------------------------- Utils -------------------------------- */
+
+namespace {
+
+enum PinIn { Dividend = 0, Divisor = 1 };
+enum PinOut { Result = 0 };
+
+}  // namespace
+
 /* ------------------------------ MathNodeDivision -------------------------- */
 
-MathNodeDivision::MathNodeDivision() { setName(QObject::tr("DIVISION")); }
+MathNodeDivision::MathNodeDivision() {
+  setName(QObject::tr("DIVISION"));
+
+  getPin(flow_document::Pin::Type::In, Dividend).setCaption("Dividend");
+  getPin(flow_document::Pin::Type::In, Divisor).setCaption("Divisor");
+}
 
 MathNodeDivision::~MathNodeDivision() = default;
 
@@ -15,12 +29,12 @@ std::unique_ptr<flow_document::Node> MathNodeDivision::clone() const {
 }
 
 void MathNodeDivision::compute() {
-  const auto &in_pin_0 = getPin(flow_document::Pin::Type::In, 0);
-  const auto &in_pin_1 = getPin(flow_document::Pin::Type::In, 1);
-  auto &out_pin = getPin(flow_document::Pin::Type::Out, 0);
+  const auto &dividend_pin = getPin(flow_document::Pin::Type::In, Dividend);
+  const auto &divisor_pin = getPin(flow_document::Pin::Type::In, Divisor);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
 
-  const auto value_A = in_pin_0.getData().toReal();
-  const auto value_B = in_pin_1.getData().toReal();
+  const auto dividend = dividend_pin.getData().toReal();
+  const auto divisor = divisor_pin.getData().toReal();
 
-  out_pin.setData(value_A / value_B);
+  result_pin.setData(dividend / divisor);
 }
