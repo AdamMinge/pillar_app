@@ -8,4 +8,6 @@ ConditionNodePlugin::ConditionNodePlugin() = default;
 
 ConditionNodePlugin::~ConditionNodePlugin() = default;
 
-void ConditionNodePlugin::init() {}
+void ConditionNodePlugin::init() {
+  addObject(new ConditionNodeIfFactory(tr("If"), tr("Condition"), this));
+}

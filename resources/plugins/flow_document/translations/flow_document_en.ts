@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>ConditionNodePlugin</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="12"/>
+        <source>If</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="12"/>
+        <source>Condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConnectionProperties</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/component/properties/object_properties.cpp" line="406"/>
@@ -898,6 +911,11 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_upper.cpp" line="16"/>
         <source>UPPER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_if.cpp" line="17"/>
+        <source>IF</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
