@@ -9,19 +9,19 @@ StringNodePlugin::StringNodePlugin() = default;
 StringNodePlugin::~StringNodePlugin() = default;
 
 void StringNodePlugin::init() {
-  addObject(new StringNodeContainsFactory(tr("Contains"), tr("String"), this));
-  addObject(new StringNodeCountFactory(tr("Count"), tr("String"), this));
-  addObject(new StringNodeEqualFactory(tr("Equal"), tr("String"), this));
-  addObject(new StringNodeInsertFactory(tr("Insert"), tr("String"), this));
-  addObject(new StringNodeLowerFactory(tr("Lower"), tr("String"), this));
-  addObject(new StringNodeMidFactory(tr("Mid"), tr("String"), this));
-  addObject(new StringNodeNotEqualFactory(tr("Not Equal"), tr("String"), this));
-  addObject(new StringNodeRemoveFactory(tr("Remove"), tr("String"), this));
-  addObject(new StringNodeReplaceFactory(tr("Replace"), tr("String"), this));
-  addObject(new StringNodeReverseFactory(tr("Reverse"), tr("String"), this));
-  addObject(new StringNodeUpperFactory(tr("Upper"), tr("String"), this));
-  addObject(new StringNodeStringEmitterFactory(tr("String Emitter"),
+  addObject(new StringNodeContainsFactory(tr("contains"), tr("String"), this));
+  addObject(new StringNodeCountFactory(tr("count"), tr("String"), this));
+  addObject(new StringNodeEqualFactory(tr("equal"), tr("String"), this));
+  addObject(new StringNodeInsertFactory(tr("insert"), tr("String"), this));
+  addObject(new StringNodeLowerFactory(tr("lower"), tr("String"), this));
+  addObject(new StringNodeMidFactory(tr("mid"), tr("String"), this));
+  addObject(new StringNodeNotEqualFactory(tr("not equal"), tr("String"), this));
+  addObject(new StringNodeRemoveFactory(tr("remove"), tr("String"), this));
+  addObject(new StringNodeReplaceFactory(tr("replace"), tr("String"), this));
+  addObject(new StringNodeReverseFactory(tr("reverse"), tr("String"), this));
+  addObject(new StringNodeUpperFactory(tr("upper"), tr("String"), this));
+  addObject(new StringNodeStringEmitterFactory(tr("String emitter"),
                                                tr("String"), this));
-  addObject(new StringNodeStringReceiverFactory(tr("String Receiver"),
+  addObject(new StringNodeStringReceiverFactory(tr("String receiver"),
                                                 tr("String"), this));
 }

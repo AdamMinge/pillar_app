@@ -9,11 +9,13 @@ LogicNodePlugin::LogicNodePlugin() = default;
 LogicNodePlugin::~LogicNodePlugin() = default;
 
 void LogicNodePlugin::init() {
-  addObject(new LogicNodeAndFactory(tr("And"), tr("Logic"), this));
-  addObject(new LogicNodeNotFactory(tr("Not"), tr("Logic"), this));
-  addObject(new LogicNodeOrFactory(tr("Or"), tr("Logic"), this));
+  addObject(new LogicNodeAndFactory(tr("and"), tr("Logic"), this));
+  addObject(new LogicNodeNAndFactory(tr("nand"), tr("Logic"), this));
+  addObject(new LogicNodeNotFactory(tr("not"), tr("Logic"), this));
+  addObject(new LogicNodeOrFactory(tr("or"), tr("Logic"), this));
+  addObject(new LogicNodeXOrFactory(tr("xor"), tr("Logic"), this));
   addObject(
-      new LogicNodeBoolEmitterFactory(tr("Bool Emitter"), tr("Logic"), this));
+      new LogicNodeBoolEmitterFactory(tr("bool emitter"), tr("Logic"), this));
   addObject(
-      new LogicNodeBoolReceiverFactory(tr("Bool Receiver"), tr("Logic"), this));
+      new LogicNodeBoolReceiverFactory(tr("bool receiver"), tr("Logic"), this));
 }

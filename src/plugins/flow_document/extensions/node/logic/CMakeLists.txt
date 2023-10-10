@@ -11,14 +11,23 @@ set(include_root
     ${EGNITE_SOURCE_DIR}/include/plugins/flow_document/extensions/node/logic)
 
 set(sources
-    ${source_root}/logic_node_not.cpp ${source_root}/logic_node_and.cpp
-    ${source_root}/logic_node_or.cpp ${source_root}/logic_node_value.cpp
+    ${source_root}/logic_node_not.cpp
+    ${source_root}/logic_node_and.cpp
+    ${source_root}/logic_node_nand.cpp
+    ${source_root}/logic_node_or.cpp
+    ${source_root}/logic_node_xor.cpp
+    ${source_root}/logic_node_value.cpp
     ${source_root}/logic_node_plugin.cpp)
 
 set(includes
-    ${include_root}/export.h ${include_root}/logic_node_not.h
-    ${include_root}/logic_node_and.h ${include_root}/logic_node_or.h
-    ${include_root}/logic_node_value.h ${include_root}/logic_node_plugin.h)
+    ${include_root}/export.h
+    ${include_root}/logic_node_not.h
+    ${include_root}/logic_node_and.h
+    ${include_root}/logic_node_nand.h
+    ${include_root}/logic_node_or.h
+    ${include_root}/logic_node_xor.h
+    ${include_root}/logic_node_value.h
+    ${include_root}/logic_node_plugin.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

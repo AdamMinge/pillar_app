@@ -9,5 +9,5 @@ ConditionNodePlugin::ConditionNodePlugin() = default;
 ConditionNodePlugin::~ConditionNodePlugin() = default;
 
 void ConditionNodePlugin::init() {
-  addObject(new ConditionNodeIfFactory(tr("If"), tr("Condition"), this));
+  addObject(new ConditionNodeIfFactory(tr("if"), tr("Condition"), this));
 }
