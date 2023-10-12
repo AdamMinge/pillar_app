@@ -30,9 +30,6 @@ class FLOW_DOCUMENT_API Node : public MoveableObject {
   [[nodiscard]] const Pin &getPin(Pin::Type type, size_t index) const;
   [[nodiscard]] Pin &getPin(Pin::Type type, size_t index);
 
-  void insertPin(Pin::Type type, Pin pin, size_t index);
-  void removePin(Pin::Type type, size_t index);
-
   [[nodiscard]] virtual QWidget *getEmbeddedWidget() const;
 
   [[nodiscard]] NodeLayer *getParent() const;
@@ -44,6 +41,9 @@ class FLOW_DOCUMENT_API Node : public MoveableObject {
 
  protected:
   virtual void compute() = 0;
+
+  void insertPin(Pin::Type type, Pin pin, size_t index);
+  void removePin(Pin::Type type, size_t index);
 
   void init(const Node *node);
   void setParent(NodeLayer *parent);

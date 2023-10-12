@@ -21,6 +21,12 @@ class FLOW_DOCUMENT_API Pin {
   explicit Pin(QVariant data, QString caption);
   ~Pin();
 
+  Pin(const Pin &other);
+  Pin(Pin &&other);
+
+  Pin &operator=(const Pin &other);
+  Pin &operator=(Pin &&other);
+
   [[nodiscard]] const QVariant &getData() const;
   [[nodiscard]] const QString &getCaption() const;
 

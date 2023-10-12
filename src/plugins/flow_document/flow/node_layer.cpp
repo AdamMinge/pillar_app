@@ -200,11 +200,29 @@ void NodeLayer::deserialize(utils::IArchive& archive) {
 void NodeLayer::init(const NodeLayer* node_layer) {
   Layer::init(node_layer);
 
+  QHash<QUuid, QUuid> node_to_clone_node;
+
   for (const auto& node : node_layer->m_nodes) {
-    appendNode(node->clone());
+    auto clone_node = node->clone();
+    node_to_clone_node.insert(node->getId(), clone_node->getId());
+
+    appendNode(std::move(clone_node));
   }
+
   for (const auto& connection : node_layer->m_connections) {
-    appendConnection(connection->clone());
+    auto clone_connection = connection->clone();
+    auto clone_input_side = clone_connection->getInputSide();
+    auto clone_output_side = clone_connection->getOutputSide();
+
+    clone_input_side.setNodeId(
+        node_to_clone_node[clone_input_side.getNodeId()]);
+    clone_output_side.setNodeId(
+        node_to_clone_node[clone_output_side.getNodeId()]);
+
+    clone_connection->setInputSide(std::move(clone_input_side));
+    clone_connection->setOutputSide(std::move(clone_output_side));
+
+    appendConnection(std::move(clone_connection));
   }
 }
 

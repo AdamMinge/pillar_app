@@ -9,6 +9,32 @@ Pin::Pin(QVariant data, QString caption)
 
 Pin::~Pin() = default;
 
+Pin::Pin(const Pin &other) {
+  m_data = other.m_data;
+  m_caption = other.m_caption;
+}
+
+Pin::Pin(Pin &&other) {
+  m_data = std::move(other.m_data);
+  m_caption = std::move(other.m_caption);
+  m_listeners = std::move(other.m_listeners);
+}
+
+Pin &Pin::operator=(const Pin &other) {
+  m_data = other.m_data;
+  m_caption = other.m_caption;
+
+  return *this;
+}
+
+Pin &Pin::operator=(Pin &&other) {
+  m_data = std::move(other.m_data);
+  m_caption = std::move(other.m_caption);
+  m_listeners = std::move(other.m_listeners);
+
+  return *this;
+}
+
 const QVariant &Pin::getData() const { return m_data; }
 
 const QString &Pin::getCaption() const { return m_caption; }

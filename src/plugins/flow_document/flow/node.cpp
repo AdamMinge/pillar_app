@@ -68,8 +68,6 @@ void Node::init(const Node *node) {
   MoveableObject::init(node);
 
   m_visible = node->m_visible;
-  m_out_pins = node->m_out_pins;
-  m_in_pins = node->m_in_pins;
 }
 
 QVector<Pin> &Node::getPins(Pin::Type type) {

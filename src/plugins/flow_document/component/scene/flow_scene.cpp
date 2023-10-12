@@ -7,6 +7,7 @@
 #include "flow_document/component/scene/tool/tool.h"
 #include "flow_document/flow/factory/object_factory.h"
 #include "flow_document/flow/flow.h"
+#include "flow_document/flow/layer.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -79,6 +80,9 @@ void FlowScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
 void FlowScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
   auto mime_data = event->mimeData();
   auto drop_position = event->scenePos();
+
+  const auto layer = m_flow_document->getCurrentLayer();
+  drop_position -= layer->getPosition();
 
   if (mime_data->hasFormat(mimetype::Factories)) {
     auto encoded_data = mime_data->data(mimetype::Factories);

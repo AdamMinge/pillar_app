@@ -31,5 +31,5 @@ void LogicNodeOr::compute() {
   const auto lhs = lhs_pin.getData().toBool();
   const auto rhs = rhs_pin.getData().toBool();
 
-  result_pin.setData(lhs | rhs);
+  result_pin.setData(static_cast<bool>(lhs | rhs));
 }

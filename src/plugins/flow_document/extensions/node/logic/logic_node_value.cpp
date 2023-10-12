@@ -38,7 +38,8 @@ std::unique_ptr<flow_document::Node> LogicNodeBoolEmitter::clone() const {
 
 void LogicNodeBoolEmitter::compute() {
   auto &value_pin = getPin(flow_document::Pin::Type::Out, Value);
-  const auto value = m_widget->checkState() & Qt::CheckState::Checked;
+  const auto value =
+      static_cast<bool>(m_widget->checkState() & Qt::CheckState::Checked);
 
   value_pin.setData(value);
 }

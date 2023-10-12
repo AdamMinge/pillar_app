@@ -801,7 +801,7 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="17"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="49"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="50"/>
         <source>Bool</source>
         <translation type="unfinished"></translation>
     </message>
@@ -811,7 +811,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="50"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="51"/>
         <source>BOOL_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
