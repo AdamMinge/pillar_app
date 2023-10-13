@@ -46,7 +46,7 @@ bool ConnectionSide::operator!=(const ConnectionSide &other) const {
 
 /* --------------------------------- Connection ----------------------------- */
 
-Connection::Connection() : m_visible(true) {}
+Connection::Connection() : m_parent(nullptr), m_visible(true) {}
 
 Connection::~Connection() = default;
 

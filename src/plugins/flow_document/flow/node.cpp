@@ -9,7 +9,7 @@ namespace flow_document {
 
 /* ----------------------------------- Node --------------------------------- */
 
-Node::Node() : m_visible(true) {}
+Node::Node() : m_parent(nullptr), m_visible(true) {}
 
 Node::~Node() = default;
 
