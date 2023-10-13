@@ -184,8 +184,10 @@ void ConnectionsView::onRowsInserted(const QModelIndex &parent, int first,
   const auto source_index = utils::mapToSourceIndex(index, model());
   auto connection = connections_model->toConnection(source_index);
 
-  m_document->setCurrentObject(connection);
-  m_document->switchCurrentConnection(connection);
+  if (connection) {
+    m_document->setCurrentObject(connection);
+    m_document->switchCurrentConnection(connection);
+  }
 }
 
 void ConnectionsView::onRowsRemoved(const QModelIndex &parent, int first,

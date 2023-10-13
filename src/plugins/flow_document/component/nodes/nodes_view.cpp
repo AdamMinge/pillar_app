@@ -204,8 +204,10 @@ void NodesView::onRowsInserted(const QModelIndex &parent, int first, int last) {
   const auto source_index = utils::mapToSourceIndex(index, model());
   auto node = nodes_model->toNode(source_index);
 
-  m_document->setCurrentObject(node);
-  m_document->switchCurrentNode(node);
+  if (node) {
+    m_document->setCurrentObject(node);
+    m_document->switchCurrentNode(node);
+  }
 }
 
 void NodesView::onRowsRemoved(const QModelIndex &parent, int first, int last) {
