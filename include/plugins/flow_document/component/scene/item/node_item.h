@@ -48,13 +48,16 @@ class FLOW_DOCUMENT_API NodeGeometry {
   [[nodiscard]] QSizeF calculatePinsSize() const;
   [[nodiscard]] qreal calculatePinsWidth(Pin::Type type) const;
 
-  [[nodiscard]] QPointF calculateLabelPosition() const;
-  [[nodiscard]] PinToPos calculatePinPositions() const;
-  [[nodiscard]] QPointF calculateEmbeddedWidgetPosition() const;
+  [[nodiscard]] QPointF calculateLabelPosition(const QRectF &rect,
+                                               const QSizeF &label) const;
+  [[nodiscard]] PinToPos calculatePinPositions(const QRectF &rect,
+                                               const QSizeF &label) const;
+  [[nodiscard]] QPointF calculateEmbeddedWidgetPosition(
+      const QRectF &rect, const QSizeF &size) const;
 
  private:
   const NodeItem &m_node_item;
-  QSizeF m_size;
+  QRectF m_rect;
   QPointF m_label_position;
   PinToPos m_pin_positions;
   QPointF m_embedded_widget_position;
