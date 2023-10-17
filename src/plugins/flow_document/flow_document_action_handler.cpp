@@ -24,6 +24,8 @@
 #include "flow_document/resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QStack>
+/* --------------------------------- Standard ------------------------------- */
+#include <set>
 /* ----------------------------------- Egnite ------------------------------- */
 #include <egnite/action_manager.h>
 #include <egnite/command/group_command.h>
@@ -385,6 +387,7 @@ void FlowDocumentActionHandler::onRemoveNode() const {
 
   auto node_entires = std::list<NodeEntry>{};
   auto connection_entires = std::list<ConnectionEntry>{};
+  auto selected_connections = std::set<Connection*>{};
 
   for (auto selected_node : selected_nodes) {
     auto node_layer = selected_node->getParent();
@@ -394,6 +397,8 @@ void FlowDocumentActionHandler::onRemoveNode() const {
 
     auto node_connections = node_layer->getNodeConnections(selected_node);
     for (auto connection : node_connections) {
+      if (!selected_connections.insert(connection).second) continue;
+
       connection_entires.emplace_back(ConnectionEntry(
           node_layer, node_layer->indexOfConnection(connection)));
     }
