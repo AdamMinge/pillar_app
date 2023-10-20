@@ -86,7 +86,7 @@ void LayersView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     disconnect(current_model, &QAbstractItemModel::rowsInserted, this,
                &LayersView::onRowsInserted);
-    disconnect(current_model, &QAbstractItemModel::rowsRemoved, this,
+    disconnect(current_model, &QAbstractItemModel::rowsAboutToBeRemoved, this,
                &LayersView::onRowsRemoved);
   }
 
@@ -95,7 +95,7 @@ void LayersView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     connect(current_model, &QAbstractItemModel::rowsInserted, this,
             &LayersView::onRowsInserted);
-    connect(current_model, &QAbstractItemModel::rowsRemoved, this,
+    connect(current_model, &QAbstractItemModel::rowsAboutToBeRemoved, this,
             &LayersView::onRowsRemoved);
   }
 }

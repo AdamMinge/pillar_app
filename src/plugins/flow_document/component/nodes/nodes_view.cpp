@@ -65,7 +65,7 @@ void NodesView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     disconnect(current_model, &QAbstractItemModel::rowsInserted, this,
                &NodesView::onRowsInserted);
-    disconnect(current_model, &QAbstractItemModel::rowsRemoved, this,
+    disconnect(current_model, &QAbstractItemModel::rowsAboutToBeRemoved, this,
                &NodesView::onRowsRemoved);
   }
 
@@ -74,7 +74,7 @@ void NodesView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     connect(current_model, &QAbstractItemModel::rowsInserted, this,
             &NodesView::onRowsInserted);
-    connect(current_model, &QAbstractItemModel::rowsRemoved, this,
+    connect(current_model, &QAbstractItemModel::rowsAboutToBeRemoved, this,
             &NodesView::onRowsRemoved);
   }
 }
@@ -223,6 +223,10 @@ void NodesView::onRowsRemoved(const QModelIndex &parent, int first, int last) {
 
     if (selected_nodes.empty() && current_node) {
       m_document->setSelectedNodes({current_node});
+    }
+
+    if (node == current_node) {
+      m_document->setCurrentNode(nullptr);
     }
   }
 }

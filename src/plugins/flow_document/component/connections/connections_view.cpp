@@ -65,7 +65,7 @@ void ConnectionsView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     disconnect(current_model, &QAbstractItemModel::rowsInserted, this,
                &ConnectionsView::onRowsInserted);
-    disconnect(current_model, &QAbstractItemModel::rowsRemoved, this,
+    disconnect(current_model, &QAbstractItemModel::rowsAboutToBeRemoved, this,
                &ConnectionsView::onRowsRemoved);
   }
 
@@ -74,7 +74,7 @@ void ConnectionsView::setModel(QAbstractItemModel *model) {
   if (auto current_model = QTreeView::model()) {
     connect(current_model, &QAbstractItemModel::rowsInserted, this,
             &ConnectionsView::onRowsInserted);
-    connect(current_model, &QAbstractItemModel::rowsRemoved, this,
+    connect(current_model, &QAbstractItemModel::rowsAboutToBeRemoved, this,
             &ConnectionsView::onRowsRemoved);
   }
 }
@@ -205,6 +205,10 @@ void ConnectionsView::onRowsRemoved(const QModelIndex &parent, int first,
 
     if (selected_connections.empty() && current_connection) {
       m_document->setSelectedConnections({current_connection});
+    }
+
+    if (connection == current_connection) {
+      m_document->setCurrentConnection(nullptr);
     }
   }
 }

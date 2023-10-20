@@ -142,7 +142,7 @@ void NodeSelectionTool::mouseReleased(QGraphicsSceneMouseEvent *event) {
         auto node = m_clicked_item->getNode();
         auto document = getDocument();
 
-        document->setCurrentObject(node);
+        document->setCurrentNode(node);
 
         if (m_modifiers & Qt::ControlModifier) {
           const auto &nodes = document->getSelectedNodes();
