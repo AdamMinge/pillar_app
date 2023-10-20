@@ -11,11 +11,15 @@ set(include_root
     ${EGNITE_SOURCE_DIR}/include/plugins/flow_document/extensions/node/condition
 )
 
-set(sources ${source_root}/condition_node_if.cpp
-            ${source_root}/condition_node_plugin.cpp)
+set(sources
+    ${source_root}/condition_node_switcher.cpp
+    ${source_root}/condition_node_dispatcher.cpp
+    ${source_root}/condition_node_plugin.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/condition_node_if.h
-             ${include_root}/condition_node_plugin.h)
+set(includes
+    ${include_root}/export.h ${include_root}/condition_node_switcher.h
+    ${include_root}/condition_node_dispatcher.h
+    ${include_root}/condition_node_plugin.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

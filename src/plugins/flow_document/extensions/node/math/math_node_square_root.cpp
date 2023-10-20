@@ -26,8 +26,8 @@ std::unique_ptr<flow_document::Node> MathNodeSquareRoot::clone() const {
 }
 
 void MathNodeSquareRoot::compute() {
-  const auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &value_pin = getPin(flow_document::Pin::Type::In, PinIn::Value);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   const auto value = value_pin.getData().toReal();
 

@@ -16,8 +16,8 @@ enum PinOut { Result = 0 };
 MathNodeAddition::MathNodeAddition() {
   setName(QObject::tr("ADDITION"));
 
-  getPin(flow_document::Pin::Type::In, Augend).setCaption("Augend");
-  getPin(flow_document::Pin::Type::In, Addend).setCaption("Addend");
+  getPin(flow_document::Pin::Type::In, PinIn::Augend).setCaption("Augend");
+  getPin(flow_document::Pin::Type::In, PinIn::Addend).setCaption("Addend");
 }
 
 MathNodeAddition::~MathNodeAddition() = default;
@@ -29,9 +29,9 @@ std::unique_ptr<flow_document::Node> MathNodeAddition::clone() const {
 }
 
 void MathNodeAddition::compute() {
-  const auto &augend_pin = getPin(flow_document::Pin::Type::In, Augend);
-  const auto &addend_pin = getPin(flow_document::Pin::Type::In, Addend);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &augend_pin = getPin(flow_document::Pin::Type::In, PinIn::Augend);
+  const auto &addend_pin = getPin(flow_document::Pin::Type::In, PinIn::Addend);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   const auto augend = augend_pin.getData().toReal();
   const auto addend = addend_pin.getData().toReal();

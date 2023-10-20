@@ -16,8 +16,9 @@ enum PinOut { Result = 0 };
 MathNodeSubtraction::MathNodeSubtraction() {
   setName(QObject::tr("SUBTRACTION"));
 
-  getPin(flow_document::Pin::Type::In, Minuend).setCaption("Minuend");
-  getPin(flow_document::Pin::Type::In, Subtrahend).setCaption("Subtrahend");
+  getPin(flow_document::Pin::Type::In, PinIn::Minuend).setCaption("Minuend");
+  getPin(flow_document::Pin::Type::In, PinIn::Subtrahend)
+      .setCaption("Subtrahend");
 }
 
 MathNodeSubtraction::~MathNodeSubtraction() = default;
@@ -29,9 +30,11 @@ std::unique_ptr<flow_document::Node> MathNodeSubtraction::clone() const {
 }
 
 void MathNodeSubtraction::compute() {
-  const auto &minuend_pin = getPin(flow_document::Pin::Type::In, Minuend);
-  const auto &subtrahend_pin = getPin(flow_document::Pin::Type::In, Subtrahend);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &minuend_pin =
+      getPin(flow_document::Pin::Type::In, PinIn::Minuend);
+  const auto &subtrahend_pin =
+      getPin(flow_document::Pin::Type::In, PinIn::Subtrahend);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   const auto minuend = minuend_pin.getData().toReal();
   const auto subtrahend = subtrahend_pin.getData().toReal();

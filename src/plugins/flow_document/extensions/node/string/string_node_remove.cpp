@@ -16,8 +16,8 @@ enum PinOut { Result = 0 };
 StringNodeRemove::StringNodeRemove() {
   setName(QObject::tr("REMOVE"));
 
-  getPin(flow_document::Pin::Type::In, Value).setCaption("Value");
-  getPin(flow_document::Pin::Type::In, Remove).setCaption("Remove");
+  getPin(flow_document::Pin::Type::In, PinIn::Value).setCaption("Value");
+  getPin(flow_document::Pin::Type::In, PinIn::Remove).setCaption("Remove");
 }
 
 StringNodeRemove::~StringNodeRemove() = default;
@@ -29,9 +29,9 @@ std::unique_ptr<flow_document::Node> StringNodeRemove::clone() const {
 }
 
 void StringNodeRemove::compute() {
-  const auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
-  const auto &remove_pin = getPin(flow_document::Pin::Type::In, Remove);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &value_pin = getPin(flow_document::Pin::Type::In, PinIn::Value);
+  const auto &remove_pin = getPin(flow_document::Pin::Type::In, PinIn::Remove);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   auto value = value_pin.getData().toString();
   const auto remove = remove_pin.getData().toString();

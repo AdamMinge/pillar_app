@@ -4,13 +4,19 @@
 <context>
     <name>ConditionNodePlugin</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="12"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="13"/>
+        <source>switcher</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="13"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="15"/>
         <source>Condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="12"/>
-        <source>if</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_plugin.cpp" line="14"/>
+        <source>dispatcher</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -372,7 +378,7 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="20"/>
-        <source>square Root</source>
+        <source>square root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -783,7 +789,7 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="17"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="50"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="51"/>
         <source>Bool</source>
         <translation type="unfinished"></translation>
     </message>
@@ -793,7 +799,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="51"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/logic_node_value.cpp" line="52"/>
         <source>BOOL_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
@@ -838,7 +844,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="49"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_value.cpp" line="50"/>
         <source>FLOAT_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
@@ -926,7 +932,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_if.cpp" line="17"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_dispatcher.cpp" line="17"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/condition/condition_node_switcher.cpp" line="17"/>
         <source>IF</source>
         <translation type="unfinished"></translation>
     </message>

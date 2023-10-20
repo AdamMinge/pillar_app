@@ -18,7 +18,8 @@ LogicNodeBoolEmitter::LogicNodeBoolEmitter()
   setName(QObject::tr("BOOL_EMITTER"));
 
   auto value_pin = flow_document::Pin({}, "Q");
-  insertPin(flow_document::Pin::Type::Out, std::move(value_pin), Value);
+  insertPin(flow_document::Pin::Type::Out, std::move(value_pin),
+            PinOut::Result);
 
   m_widget->connect(m_widget.get(), &QCheckBox::toggled,
                     [this]() { compute(); });
@@ -37,7 +38,7 @@ std::unique_ptr<flow_document::Node> LogicNodeBoolEmitter::clone() const {
 }
 
 void LogicNodeBoolEmitter::compute() {
-  auto &value_pin = getPin(flow_document::Pin::Type::Out, Value);
+  auto &value_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
   const auto value =
       static_cast<bool>(m_widget->checkState() & Qt::CheckState::Checked);
 
@@ -51,7 +52,7 @@ LogicNodeBoolReceiver::LogicNodeBoolReceiver()
   setName(QObject::tr("BOOL_RECEIVER"));
 
   auto result_pin = flow_document::Pin({}, "A");
-  insertPin(flow_document::Pin::Type::In, std::move(result_pin), Result);
+  insertPin(flow_document::Pin::Type::In, std::move(result_pin), PinIn::Value);
 
   m_widget->setDisabled(true);
 }
@@ -69,7 +70,7 @@ std::unique_ptr<flow_document::Node> LogicNodeBoolReceiver::clone() const {
 }
 
 void LogicNodeBoolReceiver::compute() {
-  auto &result_pin = getPin(flow_document::Pin::Type::In, Result);
+  auto &result_pin = getPin(flow_document::Pin::Type::In, PinIn::Value);
   const auto value = result_pin.getData().toBool();
 
   m_widget->setCheckState(value ? Qt::CheckState::Checked

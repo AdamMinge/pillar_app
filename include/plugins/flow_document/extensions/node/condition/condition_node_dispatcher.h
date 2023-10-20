@@ -1,5 +1,5 @@
-#ifndef CONDITION_NODE_IF_H
-#define CONDITION_NODE_IF_H
+#ifndef CONDITION_NODE_DISPATCHER_H
+#define CONDITION_NODE_DISPATCHER_H
 
 /* ----------------------------- PluginFlowDocument ------------------------- */
 #include <flow_document/flow/node.h>
@@ -7,12 +7,12 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-class CONDITION_NODE_API ConditionNodeIf : public flow_document::Node {
-  FLOW_OBJECT_CLASS(ConditionNodeIf, flow_document::Node)
+class CONDITION_NODE_API ConditionNodeDispatcher : public flow_document::Node {
+  FLOW_OBJECT_CLASS(ConditionNodeDispatcher, flow_document::Node)
 
  public:
-  explicit ConditionNodeIf();
-  ~ConditionNodeIf() override;
+  explicit ConditionNodeDispatcher();
+  ~ConditionNodeDispatcher() override;
 
   [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
 
@@ -20,4 +20,4 @@ class CONDITION_NODE_API ConditionNodeIf : public flow_document::Node {
   void compute() override;
 };
 
-#endif  // CONDITION_NODE_IF_H
+#endif  // CONDITION_NODE_DISPATCHER_H

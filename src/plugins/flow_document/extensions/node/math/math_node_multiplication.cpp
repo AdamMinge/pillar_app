@@ -16,8 +16,10 @@ enum PinOut { Result = 0 };
 MathNodeMultiplication::MathNodeMultiplication() {
   setName(QObject::tr("MULTIPLICATION"));
 
-  getPin(flow_document::Pin::Type::In, Multiplier).setCaption("Multiplier");
-  getPin(flow_document::Pin::Type::In, Multiplicand).setCaption("Multiplicand");
+  getPin(flow_document::Pin::Type::In, PinIn::Multiplier)
+      .setCaption("Multiplier");
+  getPin(flow_document::Pin::Type::In, PinIn::Multiplicand)
+      .setCaption("Multiplicand");
 }
 
 MathNodeMultiplication::~MathNodeMultiplication() = default;
@@ -29,10 +31,11 @@ std::unique_ptr<flow_document::Node> MathNodeMultiplication::clone() const {
 }
 
 void MathNodeMultiplication::compute() {
-  const auto &multiplier_pin = getPin(flow_document::Pin::Type::In, Multiplier);
+  const auto &multiplier_pin =
+      getPin(flow_document::Pin::Type::In, PinIn::Multiplier);
   const auto &multiplicand_pin =
-      getPin(flow_document::Pin::Type::In, Multiplicand);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+      getPin(flow_document::Pin::Type::In, PinIn::Multiplicand);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   const auto multiplier = multiplier_pin.getData().toReal();
   const auto multiplicand = multiplicand_pin.getData().toReal();

@@ -26,9 +26,9 @@ std::unique_ptr<flow_document::Node> MathNodeLowerEqual::clone() const {
 }
 
 void MathNodeLowerEqual::compute() {
-  auto &lhs_pin = getPin(flow_document::Pin::Type::In, Lhs);
-  auto &rhs_pin = getPin(flow_document::Pin::Type::In, Rhs);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  auto &lhs_pin = getPin(flow_document::Pin::Type::In, PinIn::Lhs);
+  auto &rhs_pin = getPin(flow_document::Pin::Type::In, PinIn::Rhs);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   const auto lhs = lhs_pin.getData().toReal();
   const auto rhs = rhs_pin.getData().toReal();

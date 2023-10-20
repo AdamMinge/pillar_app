@@ -16,9 +16,9 @@ enum PinOut { Result = 0 };
 StringNodeMid::StringNodeMid() {
   setName(QObject::tr("MID"));
 
-  getPin(flow_document::Pin::Type::In, Value).setCaption("Value");
-  getPin(flow_document::Pin::Type::In, Position).setCaption("Position");
-  getPin(flow_document::Pin::Type::In, Length).setCaption("Length");
+  getPin(flow_document::Pin::Type::In, PinIn::Value).setCaption("Value");
+  getPin(flow_document::Pin::Type::In, PinIn::Position).setCaption("Position");
+  getPin(flow_document::Pin::Type::In, PinIn::Length).setCaption("Length");
 }
 
 StringNodeMid::~StringNodeMid() = default;
@@ -30,10 +30,11 @@ std::unique_ptr<flow_document::Node> StringNodeMid::clone() const {
 }
 
 void StringNodeMid::compute() {
-  const auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
-  const auto &position_pin = getPin(flow_document::Pin::Type::In, Position);
-  const auto &length_pin = getPin(flow_document::Pin::Type::In, Length);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &value_pin = getPin(flow_document::Pin::Type::In, PinIn::Value);
+  const auto &position_pin =
+      getPin(flow_document::Pin::Type::In, PinIn::Position);
+  const auto &length_pin = getPin(flow_document::Pin::Type::In, PinIn::Length);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   auto value = value_pin.getData().toString();
   const auto position = position_pin.getData().toInt();

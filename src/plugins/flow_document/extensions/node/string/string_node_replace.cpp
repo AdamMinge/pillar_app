@@ -16,9 +16,9 @@ enum PinOut { Result = 0 };
 StringNodeReplace::StringNodeReplace() {
   setName(QObject::tr("REPLACE"));
 
-  getPin(flow_document::Pin::Type::In, Value).setCaption("Value");
-  getPin(flow_document::Pin::Type::In, Before).setCaption("Before");
-  getPin(flow_document::Pin::Type::In, After).setCaption("After");
+  getPin(flow_document::Pin::Type::In, PinIn::Value).setCaption("Value");
+  getPin(flow_document::Pin::Type::In, PinIn::Before).setCaption("Before");
+  getPin(flow_document::Pin::Type::In, PinIn::After).setCaption("After");
 }
 
 StringNodeReplace::~StringNodeReplace() = default;
@@ -30,10 +30,10 @@ std::unique_ptr<flow_document::Node> StringNodeReplace::clone() const {
 }
 
 void StringNodeReplace::compute() {
-  const auto &value_pin = getPin(flow_document::Pin::Type::In, Value);
-  const auto &before_pin = getPin(flow_document::Pin::Type::In, Before);
-  const auto &after_pin = getPin(flow_document::Pin::Type::In, After);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &value_pin = getPin(flow_document::Pin::Type::In, PinIn::Value);
+  const auto &before_pin = getPin(flow_document::Pin::Type::In, PinIn::Before);
+  const auto &after_pin = getPin(flow_document::Pin::Type::In, PinIn::After);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   auto value = value_pin.getData().toString();
   const auto before = before_pin.getData().toString();

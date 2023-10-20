@@ -16,8 +16,8 @@ enum PinOut { Result = 0 };
 MathNodeDivision::MathNodeDivision() {
   setName(QObject::tr("DIVISION"));
 
-  getPin(flow_document::Pin::Type::In, Dividend).setCaption("Dividend");
-  getPin(flow_document::Pin::Type::In, Divisor).setCaption("Divisor");
+  getPin(flow_document::Pin::Type::In, PinIn::Dividend).setCaption("Dividend");
+  getPin(flow_document::Pin::Type::In, PinIn::Divisor).setCaption("Divisor");
 }
 
 MathNodeDivision::~MathNodeDivision() = default;
@@ -29,9 +29,11 @@ std::unique_ptr<flow_document::Node> MathNodeDivision::clone() const {
 }
 
 void MathNodeDivision::compute() {
-  const auto &dividend_pin = getPin(flow_document::Pin::Type::In, Dividend);
-  const auto &divisor_pin = getPin(flow_document::Pin::Type::In, Divisor);
-  auto &result_pin = getPin(flow_document::Pin::Type::Out, Result);
+  const auto &dividend_pin =
+      getPin(flow_document::Pin::Type::In, PinIn::Dividend);
+  const auto &divisor_pin =
+      getPin(flow_document::Pin::Type::In, PinIn::Divisor);
+  auto &result_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
 
   const auto dividend = dividend_pin.getData().toReal();
   const auto divisor = divisor_pin.getData().toReal();

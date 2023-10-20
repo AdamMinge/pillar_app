@@ -17,7 +17,7 @@ void MathNodePlugin::init() {
   addObject(
       new MathNodeSubtractionFactory(tr("subtraction"), tr("Math"), this));
   addObject(new MathNodePowerFactory(tr("power"), tr("Math"), this));
-  addObject(new MathNodeSquareRootFactory(tr("square Root"), tr("Math"), this));
+  addObject(new MathNodeSquareRootFactory(tr("square root"), tr("Math"), this));
   addObject(new MathNodeEqualFactory(tr("equal"), tr("Math"), this));
   addObject(
       new MathNodeGreaterEqualFactory(tr("greater equal"), tr("Math"), this));

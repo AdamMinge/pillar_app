@@ -37,7 +37,7 @@ Available Plugins
   <tr>
     <td>Condition Flow</td>
     <td>Flow Document</td>
-    <td>Adds Condition nodes</td>
+    <td>Adds Condition nodes like Switcher, Dispatcher</td>
   </tr>
 </table>
 
