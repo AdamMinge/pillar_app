@@ -17,7 +17,7 @@ macro(egnite_setup_dependency directory dependency)
     message(FATAL_ERROR "CMake step for ${dependency} failed: ${result}")
   endif()
 
-  if(EGNITE_BUILD_DEPS)
+  IF(NOT EXISTS ${directory}/${dependency}/src/${dependency}-install)
     execute_process(
       COMMAND ${CMAKE_COMMAND} --build .
       RESULT_VARIABLE result
@@ -33,7 +33,9 @@ macro(egnite_setup_dependency directory dependency)
       ${CMAKE_PREFIX_PATH}
       PARENT_SCOPE)
 endmacro()
-
+# ----------------------------------------------------------------------- #
+# ------------------------ Set Dependency Directory --------------------- #
+# ----------------------------------------------------------------------- #
 if(NOT EGNITE_BUILD_DEPS_DIR)
   set(EGNITE_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
 endif()
