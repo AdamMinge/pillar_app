@@ -129,7 +129,7 @@
 <context>
     <name>NewDocumentDialog</name>
     <message>
-        <location filename="../../../src/editor/document/new_document_dialog.cpp" line="113"/>
+        <location filename="../../../src/editor/document/new_document_dialog.cpp" line="115"/>
         <source>New Document</source>
         <translation type="unfinished"></translation>
     </message>

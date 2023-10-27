@@ -31,9 +31,11 @@ NewDocumentDialog::NewDocumentDialog(QWidget *parent)
   initUi();
   initConnections();
 
-  m_ui->m_new_document_widget_list->selectionModel()->select(
-      m_new_document_widget_model->index(0, 0, QModelIndex{}),
-      QItemSelectionModel::ClearAndSelect);
+  if (m_new_document_widget_model->rowCount(QModelIndex{}) > 0) {
+    m_ui->m_new_document_widget_list->selectionModel()->select(
+        m_new_document_widget_model->index(0, 0, QModelIndex{}),
+        QItemSelectionModel::ClearAndSelect);
+  }
 
   readSettings();
   retranslateUi();
