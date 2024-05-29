@@ -60,7 +60,7 @@ class FLOW_DOCUMENT_API NodesChangeEvent : public ChangeEvent {
   ~NodesChangeEvent() override;
 
   [[nodiscard]] const QList<Node*>& getNodes() const;
-  [[nodiscard]] Properties getProperties() const;
+  [[nodiscard]] Property getProperties() const;
 
   [[nodiscard]] bool contains(Node* node) const;
 
