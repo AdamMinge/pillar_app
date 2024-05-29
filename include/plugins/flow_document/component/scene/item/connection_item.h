@@ -65,6 +65,8 @@ class FLOW_DOCUMENT_API ConnectionItem : public ObjectItem {
                           QGraphicsItem* parent = nullptr);
   ~ConnectionItem() override;
 
+  void init() override;
+
   [[nodiscard]] Connection* getConnection() const;
 
   [[nodiscard]] NodeItem* getOutNodeItem() const;

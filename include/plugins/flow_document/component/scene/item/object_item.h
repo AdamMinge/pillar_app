@@ -21,6 +21,8 @@ class FLOW_DOCUMENT_API ObjectItem : public QGraphicsObject {
                       QGraphicsItem* parent = nullptr);
   ~ObjectItem() override;
 
+  virtual void init();
+
   [[nodiscard]] Object* getObject() const;
   [[nodiscard]] FlowDocument* getDocument() const;
 

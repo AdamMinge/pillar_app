@@ -18,4 +18,7 @@ void LogicNodePlugin::init() {
       new LogicNodeBoolEmitterFactory(tr("bool emitter"), tr("Logic"), this));
   addObject(
       new LogicNodeBoolReceiverFactory(tr("bool receiver"), tr("Logic"), this));
+
+  addObject(new LogicNodeBoolReceiverItemFactory(this));
+  addObject(new LogicNodeBoolEmitterItemFactory(this));
 }

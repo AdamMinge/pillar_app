@@ -57,8 +57,15 @@ set(sources
     ${source_root}/component/properties/properties_browser.cpp
     ${source_root}/component/properties/variant_property_manager.cpp
     ${source_root}/component/properties/object_properties.cpp
+    ${source_root}/component/properties/layer_properties.cpp
+    ${source_root}/component/properties/node_properties.cpp
+    ${source_root}/component/properties/connection_properties.cpp
     ${source_root}/component/properties/create_property.cpp
     ${source_root}/component/properties/factory/object_properties_factory.cpp
+    ${source_root}/component/properties/factory/layer_properties_factory.cpp
+    ${source_root}/component/properties/factory/node_properties_factory.cpp
+    ${source_root}/component/properties/factory/connection_properties_factory.cpp
+    ${source_root}/component/properties/factory/utils.cpp
     ${source_root}/component/nodes/nodes_dock.cpp
     ${source_root}/component/nodes/nodes_view.cpp
     ${source_root}/component/nodes/nodes_tree_model.cpp
@@ -80,6 +87,11 @@ set(sources
     ${source_root}/component/scene/item/object_selection_item.cpp
     ${source_root}/component/scene/item/cubic_path_item.cpp
     ${source_root}/component/scene/item/factory/item_factory.cpp
+    ${source_root}/component/scene/item/factory/connection_item_factory.cpp
+    ${source_root}/component/scene/item/factory/flow_item_factory.cpp
+    ${source_root}/component/scene/item/factory/layer_item_factory.cpp
+    ${source_root}/component/scene/item/factory/node_item_factory.cpp
+    ${source_root}/component/scene/item/factory/utils.cpp
     ${source_root}/component/scene/style/style_manager.cpp
     ${source_root}/component/scene/style/style_writer.cpp
     ${source_root}/component/scene/style/style_reader.cpp
@@ -88,7 +100,9 @@ set(sources
     ${source_root}/component/scene/tool/tool.cpp
     ${source_root}/component/scene/tool/node_selection_tool.cpp
     ${source_root}/component/scene/tool/node_connection_tool.cpp
-    ${source_root}/component/scene/tool/factory/tool_factory.cpp)
+    ${source_root}/component/scene/tool/factory/tool_factory.cpp
+    ${source_root}/component/scene/tool/factory/node_connection_tool_factory.cpp
+    ${source_root}/component/scene/tool/factory/node_selection_tool_factory.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -142,8 +156,15 @@ set(includes
     ${include_root}/component/properties/properties_browser.h
     ${include_root}/component/properties/variant_property_manager.h
     ${include_root}/component/properties/object_properties.h
+    ${include_root}/component/properties/layer_properties.h
+    ${include_root}/component/properties/node_properties.h
+    ${include_root}/component/properties/connection_properties.h
     ${include_root}/component/properties/create_property.h
     ${include_root}/component/properties/factory/object_properties_factory.h
+    ${include_root}/component/properties/factory/layer_properties_factory.h
+    ${include_root}/component/properties/factory/node_properties_factory.h
+    ${include_root}/component/properties/factory/connection_properties_factory.h
+    ${include_root}/component/properties/factory/utils.h
     ${include_root}/component/nodes/nodes_dock.h
     ${include_root}/component/nodes/nodes_view.h
     ${include_root}/component/nodes/nodes_tree_model.h
@@ -165,6 +186,11 @@ set(includes
     ${include_root}/component/scene/item/object_selection_item.h
     ${include_root}/component/scene/item/cubic_path_item.h
     ${include_root}/component/scene/item/factory/item_factory.h
+    ${include_root}/component/scene/item/factory/connection_item_factory.h
+    ${include_root}/component/scene/item/factory/flow_item_factory.h
+    ${include_root}/component/scene/item/factory/layer_item_factory.h
+    ${include_root}/component/scene/item/factory/node_item_factory.h
+    ${include_root}/component/scene/item/factory/utils.h
     ${include_root}/component/scene/style/style_manager.h
     ${include_root}/component/scene/style/style_writer.h
     ${include_root}/component/scene/style/style_reader.h
@@ -173,7 +199,9 @@ set(includes
     ${include_root}/component/scene/tool/tool.h
     ${include_root}/component/scene/tool/node_selection_tool.h
     ${include_root}/component/scene/tool/node_connection_tool.h
-    ${include_root}/component/scene/tool/factory/tool_factory.h)
+    ${include_root}/component/scene/tool/factory/tool_factory.h
+    ${include_root}/component/scene/tool/factory/node_connection_tool_factory.h
+    ${include_root}/component/scene/tool/factory/node_selection_tool_factory.h)
 
 set(resources ${resources_root}/flow_document.qrc)
 

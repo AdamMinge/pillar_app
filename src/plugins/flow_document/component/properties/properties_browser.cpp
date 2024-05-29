@@ -4,7 +4,7 @@
 #include "flow_document/command/change_layer.h"
 #include "flow_document/command/change_node.h"
 #include "flow_document/component/properties/create_property.h"
-#include "flow_document/component/properties/factory/object_properties_factory.h"
+#include "flow_document/component/properties/factory/utils.h"
 #include "flow_document/component/properties/object_properties.h"
 #include "flow_document/flow_document.h"
 #include "flow_document/resources.h"

@@ -4,21 +4,22 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
-#include "string_node_contains.h"
-#include "string_node_count.h"
-#include "string_node_equal.h"
-#include "string_node_insert.h"
-#include "string_node_lower.h"
-#include "string_node_mid.h"
-#include "string_node_not_equal.h"
-#include "string_node_remove.h"
-#include "string_node_replace.h"
-#include "string_node_reverse.h"
-#include "string_node_upper.h"
-#include "string_node_value.h"
+#include "flow/string_node_contains.h"
+#include "flow/string_node_count.h"
+#include "flow/string_node_equal.h"
+#include "flow/string_node_insert.h"
+#include "flow/string_node_lower.h"
+#include "flow/string_node_mid.h"
+#include "flow/string_node_not_equal.h"
+#include "flow/string_node_remove.h"
+#include "flow/string_node_replace.h"
+#include "flow/string_node_reverse.h"
+#include "flow/string_node_upper.h"
+#include "flow/string_node_value.h"
 /* -------------------------------------------------------------------------- */
 
 class STRING_NODE_API StringNodePlugin : public egnite::PluginInterface {
@@ -46,5 +47,10 @@ DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeReverse)
 DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeUpper)
 DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeStringEmitter)
 DECLARE_NODE_FACTORY(STRING_NODE_API, StringNodeStringReceiver)
+
+DECLARE_GRAPHICS_ITEM_FACTORY(STRING_NODE_API, StringNodeStringEmitterItem,
+                              StringNodeStringEmitter);
+DECLARE_GRAPHICS_ITEM_FACTORY(STRING_NODE_API, StringNodeStringReceiverItem,
+                              StringNodeStringReceiver);
 
 #endif  // STRING_NODE_PLUGIN_H

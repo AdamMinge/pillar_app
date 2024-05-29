@@ -144,11 +144,11 @@ ConnectionItem::ConnectionItem(Connection* connection, FlowDocument* document,
       m_connection_painter(*this),
       m_connection_geometry(*this),
       m_out_node_item(nullptr),
-      m_in_node_item(nullptr) {
-  onSceneChanged();
-}
+      m_in_node_item(nullptr) {}
 
 ConnectionItem::~ConnectionItem() = default;
+
+void ConnectionItem::init() { onSceneChanged(); }
 
 Connection* ConnectionItem::getConnection() const {
   return static_cast<Connection*>(getObject());

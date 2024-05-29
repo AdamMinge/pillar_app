@@ -2,7 +2,7 @@
 #include "flow_document/component/scene/item/layer_item.h"
 
 #include "flow_document/component/scene/item/connection_item.h"
-#include "flow_document/component/scene/item/factory/item_factory.h"
+#include "flow_document/component/scene/item/factory/utils.h"
 #include "flow_document/component/scene/item/node_item.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/event/connection_change_event.h"
@@ -20,12 +20,14 @@ namespace flow_document {
 
 LayerItem::LayerItem(Layer* layer, FlowDocument* document,
                      QGraphicsItem* parent)
-    : ObjectItem(layer, document, parent) {
+    : ObjectItem(layer, document, parent) {}
+
+LayerItem::~LayerItem() = default;
+
+void LayerItem::init() {
   setPos(getLayer()->getPosition());
   setVisible(getLayer()->isVisible());
 }
-
-LayerItem::~LayerItem() = default;
 
 Layer* LayerItem::getLayer() const { return static_cast<Layer*>(getObject()); }
 
@@ -68,6 +70,15 @@ GroupLayerItem::GroupLayerItem(GroupLayer* layer, FlowDocument* document,
 
 GroupLayerItem::~GroupLayerItem() = default;
 
+void GroupLayerItem::init() {
+  LayerItem::init();
+
+  for (auto& layer : *getGroupLayer()) {
+    m_layer_items.append(
+        createItem<LayerItem>(layer.get(), getDocument(), this));
+  }
+}
+
 GroupLayer* GroupLayerItem::getGroupLayer() const {
   return static_cast<GroupLayer*>(getObject());
 }
@@ -108,7 +119,13 @@ void GroupLayerItem::onEvent(const ChangeEvent& event) {
 
 NodeLayerItem::NodeLayerItem(NodeLayer* layer, FlowDocument* document,
                              QGraphicsItem* parent)
-    : LayerItem(layer, document, parent) {
+    : LayerItem(layer, document, parent) {}
+
+NodeLayerItem::~NodeLayerItem() = default;
+
+void NodeLayerItem::init() {
+  LayerItem::init();
+
   auto node_layer = getNodeLayer();
 
   for (auto i = 0; i < node_layer->nodesCount(); ++i) {
@@ -122,8 +139,6 @@ NodeLayerItem::NodeLayerItem(NodeLayer* layer, FlowDocument* document,
         createItem<ConnectionItem>(connection, getDocument(), this));
   }
 }
-
-NodeLayerItem::~NodeLayerItem() = default;
 
 NodeLayer* NodeLayerItem::getNodeLayer() const {
   return static_cast<NodeLayer*>(getObject());

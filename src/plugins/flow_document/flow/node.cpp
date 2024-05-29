@@ -46,8 +46,6 @@ void Node::removePin(Pin::Type type, size_t index) {
   pins.erase(pins.begin() + index);
 }
 
-QWidget *Node::getEmbeddedWidget() const { return nullptr; }
-
 NodeLayer *Node::getParent() const { return m_parent; }
 
 void Node::serialize(utils::OArchive &archive) const {

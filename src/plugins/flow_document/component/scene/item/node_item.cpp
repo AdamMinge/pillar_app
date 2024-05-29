@@ -153,7 +153,7 @@ QSizeF NodeGeometry::calculateEmbeddedWidgetSize() const {
   const auto &node_style = getNodeStyle();
   const auto &pin_style = getPinStyle();
   const auto font_metrics = QFontMetricsF(node_style.getFont());
-  const auto widget = m_node_item.getNode()->getEmbeddedWidget();
+  const auto widget = m_node_item.getEmbeddedWidget();
 
   auto size = QSizeF(font_metrics.height() * 2, 0);
   if (widget) {
@@ -342,19 +342,21 @@ NodeItem::NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent)
       m_selection_item(new NodeSelectionItem(node, document, this)),
       m_node_painter(*this),
       m_node_geometry(*this),
-      m_proxy_widget(nullptr) {
+      m_proxy_widget(nullptr) {}
+
+NodeItem::~NodeItem() {
+  if (m_proxy_widget) {
+    m_proxy_widget->setWidget(nullptr);
+  }
+}
+
+void NodeItem::init() {
   setPos(getNode()->getPosition());
   setVisible(getNode()->isVisible());
   setAcceptHoverEvents(true);
 
   embedWidget();
   onSceneChanged();
-}
-
-NodeItem::~NodeItem() {
-  if (m_proxy_widget) {
-    m_proxy_widget->setWidget(nullptr);
-  }
 }
 
 Node *NodeItem::getNode() const { return static_cast<Node *>(getObject()); }
@@ -372,6 +374,8 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   painter->setClipRect(option->exposedRect);
   m_node_painter.paint(painter, option);
 }
+
+QWidget *NodeItem::getEmbeddedWidget() const { return nullptr; }
 
 void NodeItem::onSceneChanged() { updateGeometry(); }
 
@@ -399,9 +403,7 @@ void NodeItem::onUpdate(const NodesChangeEvent &event) {
 }
 
 void NodeItem::embedWidget() {
-  const auto node = getNode();
-
-  if (auto widget = node->getEmbeddedWidget()) {
+  if (auto widget = getEmbeddedWidget()) {
     m_proxy_widget = new QGraphicsProxyWidget(this);
     m_proxy_widget->setWidget(widget);
     m_proxy_widget->setOpacity(1.0);

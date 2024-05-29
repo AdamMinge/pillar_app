@@ -19,6 +19,8 @@ ObjectItem::ObjectItem(Object* object, FlowDocument* document,
 
 ObjectItem::~ObjectItem() = default;
 
+void ObjectItem::init() {}
+
 Object* ObjectItem::getObject() const { return m_object; }
 
 FlowDocument* ObjectItem::getDocument() const { return m_document; }

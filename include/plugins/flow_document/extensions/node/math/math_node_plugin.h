@@ -4,23 +4,24 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
-#include "math_node_addition.h"
-#include "math_node_division.h"
-#include "math_node_equal.h"
-#include "math_node_greater.h"
-#include "math_node_greater_equal.h"
-#include "math_node_lower.h"
-#include "math_node_lower_equal.h"
-#include "math_node_multiplication.h"
-#include "math_node_negation.h"
-#include "math_node_not_equal.h"
-#include "math_node_power.h"
-#include "math_node_square_root.h"
-#include "math_node_subtraction.h"
-#include "math_node_value.h"
+#include "flow/math_node_addition.h"
+#include "flow/math_node_division.h"
+#include "flow/math_node_equal.h"
+#include "flow/math_node_greater.h"
+#include "flow/math_node_greater_equal.h"
+#include "flow/math_node_lower.h"
+#include "flow/math_node_lower_equal.h"
+#include "flow/math_node_multiplication.h"
+#include "flow/math_node_negation.h"
+#include "flow/math_node_not_equal.h"
+#include "flow/math_node_power.h"
+#include "flow/math_node_square_root.h"
+#include "flow/math_node_subtraction.h"
+#include "flow/math_node_value.h"
 /* -------------------------------------------------------------------------- */
 
 class MATH_NODE_API MathNodePlugin : public egnite::PluginInterface {
@@ -50,5 +51,10 @@ DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeLower)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeNotEqual)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatEmitter)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatReceiver)
+
+DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeFloatEmitterItem,
+                              MathNodeFloatEmitter);
+DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeFloatReceiverItem,
+                              MathNodeFloatReceiver);
 
 #endif  // MATH_NODE_PLUGIN_H

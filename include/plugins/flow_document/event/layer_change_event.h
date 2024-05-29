@@ -46,7 +46,7 @@ class FLOW_DOCUMENT_API LayersChangeEvent : public ChangeEvent {
  public:
   static constexpr QLatin1String type = QLatin1String("LayersChangeEvent");
 
-  enum class Property {
+  enum Property : int64_t {
     Name = 1 << 0,
     Visible = 1 << 1,
     Locked = 1 << 2,
@@ -54,20 +54,19 @@ class FLOW_DOCUMENT_API LayersChangeEvent : public ChangeEvent {
     Position = 1 << 4,
     Custom = 1 << 5,
   };
-  Q_DECLARE_FLAGS(Properties, Property)
 
  public:
-  explicit LayersChangeEvent(QList<Layer*> layers, Properties properties);
+  explicit LayersChangeEvent(QList<Layer*> layers, Property properties);
   ~LayersChangeEvent() override;
 
   [[nodiscard]] const QList<Layer*>& getLayers() const;
-  [[nodiscard]] Properties getProperties() const;
+  [[nodiscard]] Property getProperties() const;
 
   [[nodiscard]] bool contains(Layer* layer) const;
 
  private:
   QList<Layer*> m_layers;
-  Properties m_properties;
+  Property m_properties;
 };
 
 }  // namespace flow_document

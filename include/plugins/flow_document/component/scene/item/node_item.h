@@ -93,6 +93,8 @@ class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
   explicit NodeItem(Node *node, FlowDocument *document, QGraphicsItem *parent);
   ~NodeItem() override;
 
+  void init() override;
+
   [[nodiscard]] Node *getNode() const;
 
   [[nodiscard]] const NodePainter &getPainter() const;
@@ -102,13 +104,15 @@ class FLOW_DOCUMENT_API NodeItem : public ObjectItem {
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
 
- private Q_SLOTS:
+  [[nodiscard]] virtual QWidget *getEmbeddedWidget() const;
+
+ protected Q_SLOTS:
   void onSceneChanged() override;
   void onEvent(const ChangeEvent &event) override;
   void onUpdate(const NodesChangeEvent &event);
 
-  void embedWidget();
   void updateGeometry();
+  void embedWidget();
 
  private:
   NodeSelectionItem *m_selection_item;

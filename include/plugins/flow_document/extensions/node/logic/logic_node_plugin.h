@@ -4,15 +4,16 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "export.h"
-#include "logic_node_and.h"
-#include "logic_node_nand.h"
-#include "logic_node_not.h"
-#include "logic_node_or.h"
-#include "logic_node_value.h"
-#include "logic_node_xor.h"
+#include "flow/logic_node_and.h"
+#include "flow/logic_node_nand.h"
+#include "flow/logic_node_not.h"
+#include "flow/logic_node_or.h"
+#include "flow/logic_node_value.h"
+#include "flow/logic_node_xor.h"
 /* -------------------------------------------------------------------------- */
 
 class LOGIC_NODE_API LogicNodePlugin : public egnite::PluginInterface {
@@ -34,5 +35,10 @@ DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeOr)
 DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeXOr)
 DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeBoolEmitter)
 DECLARE_NODE_FACTORY(LOGIC_NODE_API, LogicNodeBoolReceiver)
+
+DECLARE_GRAPHICS_ITEM_FACTORY(LOGIC_NODE_API, LogicNodeBoolReceiverItem,
+                              LogicNodeBoolReceiver);
+DECLARE_GRAPHICS_ITEM_FACTORY(LOGIC_NODE_API, LogicNodeBoolEmitterItem,
+                              LogicNodeBoolEmitter);
 
 #endif  // LOGIC_NODE_PLUGIN_H

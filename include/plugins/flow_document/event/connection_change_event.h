@@ -47,26 +47,25 @@ class FLOW_DOCUMENT_API ConnectionsChangeEvent : public ChangeEvent {
  public:
   static constexpr QLatin1String type = QLatin1String("ConnectionsChangeEvent");
 
-  enum class Property {
+  enum Property : int64_t {
     Name = 1 << 0,
     Visible = 1 << 1,
     Custom = 1 << 5,
   };
-  Q_DECLARE_FLAGS(Properties, Property)
 
  public:
   explicit ConnectionsChangeEvent(QList<Connection*> connections,
-                                  Properties properties);
+                                  Property properties);
   ~ConnectionsChangeEvent() override;
 
   [[nodiscard]] const QList<Connection*>& getConnections() const;
-  [[nodiscard]] Properties getProperties() const;
+  [[nodiscard]] Property getProperties() const;
 
   [[nodiscard]] bool contains(Connection* connection) const;
 
  private:
   QList<Connection*> m_connections;
-  Properties m_properties;
+  Property m_properties;
 };
 
 }  // namespace flow_document

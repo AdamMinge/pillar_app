@@ -30,7 +30,7 @@ Connection* ConnectionEvent::getConnection() const {
 /* --------------------------- ConnectionsChangeEvent ----------------------- */
 
 ConnectionsChangeEvent::ConnectionsChangeEvent(QList<Connection*> connections,
-                                               Properties properties)
+                                               Property properties)
     : ChangeEvent(type),
       m_connections(std::move(connections)),
       m_properties(properties) {}
@@ -41,8 +41,7 @@ const QList<Connection*>& ConnectionsChangeEvent::getConnections() const {
   return m_connections;
 }
 
-ConnectionsChangeEvent::Properties ConnectionsChangeEvent::getProperties()
-    const {
+ConnectionsChangeEvent::Property ConnectionsChangeEvent::getProperties() const {
   return m_properties;
 }
 

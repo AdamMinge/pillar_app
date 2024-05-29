@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "flow_document/component/scene/item/flow_item.h"
 
-#include "flow_document/component/scene/item/factory/item_factory.h"
+#include "flow_document/component/scene/item/factory/utils.h"
 #include "flow_document/component/scene/item/layer_item.h"
 #include "flow_document/event/change_event.h"
 #include "flow_document/flow/flow.h"

@@ -24,8 +24,7 @@ qsizetype LayerEvent::getIndex() const { return m_index; }
 
 /* ------------------------------ LayersChangeEvent ------------------------- */
 
-LayersChangeEvent::LayersChangeEvent(QList<Layer*> layers,
-                                     Properties properties)
+LayersChangeEvent::LayersChangeEvent(QList<Layer*> layers, Property properties)
     : ChangeEvent(type),
       m_layers(std::move(layers)),
       m_properties(properties) {}
@@ -34,7 +33,7 @@ LayersChangeEvent::~LayersChangeEvent() = default;
 
 const QList<Layer*>& LayersChangeEvent::getLayers() const { return m_layers; }
 
-LayersChangeEvent::Properties LayersChangeEvent::getProperties() const {
+LayersChangeEvent::Property LayersChangeEvent::getProperties() const {
   return m_properties;
 }
 

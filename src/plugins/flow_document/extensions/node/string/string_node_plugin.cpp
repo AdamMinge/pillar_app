@@ -24,4 +24,7 @@ void StringNodePlugin::init() {
                                                tr("String"), this));
   addObject(new StringNodeStringReceiverFactory(tr("String receiver"),
                                                 tr("String"), this));
+
+  addObject(new StringNodeStringEmitterItemFactory(this));
+  addObject(new StringNodeStringReceiverItemFactory(this));
 }

@@ -27,6 +27,8 @@ class FLOW_DOCUMENT_API LayerItem : public ObjectItem {
                      QGraphicsItem* parent = nullptr);
   ~LayerItem() override;
 
+  void init() override;
+
   [[nodiscard]] Layer* getLayer() const;
 
  protected Q_SLOTS:
@@ -43,6 +45,8 @@ class FLOW_DOCUMENT_API GroupLayerItem : public LayerItem {
   explicit GroupLayerItem(GroupLayer* layer, FlowDocument* document,
                           QGraphicsItem* parent = nullptr);
   ~GroupLayerItem() override;
+
+  void init() override;
 
   [[nodiscard]] GroupLayer* getGroupLayer() const;
 
@@ -62,6 +66,8 @@ class FLOW_DOCUMENT_API NodeLayerItem : public LayerItem {
   explicit NodeLayerItem(NodeLayer* layer, FlowDocument* document,
                          QGraphicsItem* parent = nullptr);
   ~NodeLayerItem() override;
+
+  void init() override;
 
   [[nodiscard]] NodeLayer* getNodeLayer() const;
 
