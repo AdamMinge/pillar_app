@@ -809,28 +809,28 @@
         </translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/flow/logic_node_value.cpp" line="56"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/flow/logic_node_value.cpp" line="133"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/component/scene/item/logic_node_value_item.cpp" line="19"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/component/scene/item/logic_node_value_item.cpp" line="70"/>
         <source>Bool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/flow/logic_node_value.cpp" line="24"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/flow/logic_node_value.cpp" line="17"/>
         <source>BOOL_EMITTER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/flow/logic_node_value.cpp" line="104"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/flow/logic_node_value.cpp" line="46"/>
         <source>BOOL_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/string/flow/string_node_value.cpp" line="24"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/flow/string_node_value.cpp" line="17"/>
         <source>STRING_EMITTER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/string/flow/string_node_value.cpp" line="103"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/flow/string_node_value.cpp" line="45"/>
         <source>STRING_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
@@ -860,12 +860,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="24"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="17"/>
         <source>FLOAT_EMITTER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="104"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="46"/>
         <source>FLOAT_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>

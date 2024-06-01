@@ -7,6 +7,7 @@
 #include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "component/scene/item/logic_node_value_item.h"
 #include "export.h"
 #include "flow/logic_node_and.h"
 #include "flow/logic_node_nand.h"

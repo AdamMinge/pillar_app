@@ -19,7 +19,8 @@ set(sources
     ${source_root}/flow/logic_node_nand.cpp
     ${source_root}/flow/logic_node_or.cpp
     ${source_root}/flow/logic_node_xor.cpp
-    ${source_root}/flow/logic_node_value.cpp)
+    ${source_root}/flow/logic_node_value.cpp
+    ${source_root}/component/scene/item/logic_node_value_item.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -31,7 +32,8 @@ set(includes
     ${include_root}/flow/logic_node_nand.h
     ${include_root}/flow/logic_node_or.h
     ${include_root}/flow/logic_node_xor.h
-    ${include_root}/flow/logic_node_value.h)
+    ${include_root}/flow/logic_node_value.h
+    ${include_root}/component/scene/item/logic_node_value_item.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

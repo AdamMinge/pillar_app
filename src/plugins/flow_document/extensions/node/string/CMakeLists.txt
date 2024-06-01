@@ -25,7 +25,8 @@ set(sources
     ${source_root}/flow/string_node_remove.cpp
     ${source_root}/flow/string_node_replace.cpp
     ${source_root}/flow/string_node_reverse.cpp
-    ${source_root}/flow/string_node_upper.cpp)
+    ${source_root}/flow/string_node_upper.cpp
+    ${source_root}/component/scene/item/string_node_value_item.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -43,7 +44,8 @@ set(includes
     ${include_root}/flow/string_node_replace.h
     ${include_root}/flow/string_node_reverse.h
     ${include_root}/flow/string_node_upper.h
-    ${include_root}/flow/string_node_value.h)
+    ${include_root}/flow/string_node_value.h
+    ${include_root}/component/scene/item/string_node_value_item.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

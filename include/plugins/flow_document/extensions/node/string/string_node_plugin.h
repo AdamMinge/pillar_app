@@ -7,6 +7,7 @@
 #include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "component/scene/item/string_node_value_item.h"
 #include "export.h"
 #include "flow/string_node_contains.h"
 #include "flow/string_node_count.h"
