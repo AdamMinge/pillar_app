@@ -32,4 +32,6 @@ void MathNodePlugin::init() {
 
   addObject(new MathNodeFloatEmitterItemFactory(this));
   addObject(new MathNodeFloatReceiverItemFactory(this));
+
+  addObject(new MathNodeFloatEmitterPropertiesFactory(this));
 }

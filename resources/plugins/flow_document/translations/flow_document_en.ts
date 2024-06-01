@@ -334,6 +334,14 @@
     </message>
 </context>
 <context>
+    <name>MathNodeFloatEmitterProperties</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/component/properties/math_node_value_properties.cpp" line="23"/>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MathNodePlugin</name>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="12"/>
@@ -1048,6 +1056,14 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/string/string_node_plugin.cpp" line="25"/>
         <source>String receiver</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StringNodeStringEmitterProperties</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/string/component/properties/string_node_value_properties.cpp" line="25"/>
+        <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

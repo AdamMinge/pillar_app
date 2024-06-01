@@ -28,7 +28,8 @@ set(sources
     ${source_root}/flow/math_node_lower_equal.cpp
     ${source_root}/flow/math_node_lower.cpp
     ${source_root}/flow/math_node_not_equal.cpp
-    ${source_root}/component/scene/item/math_node_value_item.cpp)
+    ${source_root}/component/scene/item/math_node_value_item.cpp
+    ${source_root}/component/properties/math_node_value_properties.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -49,7 +50,8 @@ set(includes
     ${include_root}/flow/math_node_lower_equal.h
     ${include_root}/flow/math_node_lower.h
     ${include_root}/flow/math_node_not_equal.h
-    ${include_root}/component/scene/item/math_node_value_item.h)
+    ${include_root}/component/scene/item/math_node_value_item.h
+    ${include_root}/component/properties/math_node_value_properties.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

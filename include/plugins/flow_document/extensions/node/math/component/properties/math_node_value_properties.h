@@ -1,5 +1,5 @@
-#ifndef LOGIC_NODE_VALUE_PROPERTIES_H
-#define LOGIC_NODE_VALUE_PROPERTIES_H
+#ifndef MATH_NODE_VALUE_PROPERTIES_H
+#define MATH_NODE_VALUE_PROPERTIES_H
 
 /* ------------------------------------- Qt --------------------------------- */
 #include <QCheckBox>
@@ -10,9 +10,9 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-/* ---------------------- LogicNodeBoolEmitterProperties -------------------- */
+/* ---------------------- MathNodeFloatEmitterProperties -------------------- */
 
-class LOGIC_NODE_API LogicNodeBoolEmitterProperties
+class MATH_NODE_API MathNodeFloatEmitterProperties
     : public flow_document::NodeProperties {
   Q_OBJECT
 
@@ -20,8 +20,8 @@ class LOGIC_NODE_API LogicNodeBoolEmitterProperties
   enum Property { Value = PropertiesCount };
 
  public:
-  explicit LogicNodeBoolEmitterProperties(QObject* parent = nullptr);
-  ~LogicNodeBoolEmitterProperties() override;
+  explicit MathNodeFloatEmitterProperties(QObject* parent = nullptr);
+  ~MathNodeFloatEmitterProperties() override;
 
   void init() override;
 
@@ -32,4 +32,4 @@ class LOGIC_NODE_API LogicNodeBoolEmitterProperties
   void applyObject(size_t id, const QVariant& value) override;
 };
 
-#endif  // LOGIC_NODE_VALUE_PROPERTIES_H
+#endif  // MATH_NODE_VALUE_PROPERTIES_H

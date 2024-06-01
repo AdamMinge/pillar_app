@@ -4,9 +4,11 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/component/properties/factory/utils.h>
 #include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "component/properties/string_node_value_properties.h"
 #include "component/scene/item/string_node_value_item.h"
 #include "export.h"
 #include "flow/string_node_contains.h"
@@ -53,5 +55,9 @@ DECLARE_GRAPHICS_ITEM_FACTORY(STRING_NODE_API, StringNodeStringEmitterItem,
                               StringNodeStringEmitter);
 DECLARE_GRAPHICS_ITEM_FACTORY(STRING_NODE_API, StringNodeStringReceiverItem,
                               StringNodeStringReceiver);
+
+DECLARE_OBJECT_PROPERTIES_FACTORY(STRING_NODE_API,
+                                  StringNodeStringEmitterProperties,
+                                  StringNodeStringEmitter);
 
 #endif  // STRING_NODE_PLUGIN_H

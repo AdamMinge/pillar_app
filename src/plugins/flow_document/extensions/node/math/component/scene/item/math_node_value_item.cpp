@@ -18,6 +18,9 @@ MathNodeFloatEmitterItem::MathNodeFloatEmitterItem(
     : flow_document::NodeItem(node, document, parent),
       m_widget(new QDoubleSpinBox()),
       m_updating(false) {
+  m_widget->setRange(std::numeric_limits<float>::lowest(),
+                     std::numeric_limits<float>::max());
+
   connect(m_widget.get(), &QDoubleSpinBox::valueChanged, [this]() {
     if (!m_updating) apply();
   });

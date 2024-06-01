@@ -4,9 +4,11 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/component/properties/factory/utils.h>
 #include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "component/properties/math_node_value_properties.h"
 #include "component/scene/item/math_node_value_item.h"
 #include "export.h"
 #include "flow/math_node_addition.h"
@@ -57,5 +59,8 @@ DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeFloatEmitterItem,
                               MathNodeFloatEmitter);
 DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeFloatReceiverItem,
                               MathNodeFloatReceiver);
+
+DECLARE_OBJECT_PROPERTIES_FACTORY(MATH_NODE_API, MathNodeFloatEmitterProperties,
+                                  MathNodeFloatEmitter);
 
 #endif  // MATH_NODE_PLUGIN_H
