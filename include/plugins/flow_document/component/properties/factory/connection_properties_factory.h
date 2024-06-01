@@ -9,7 +9,8 @@ namespace flow_document {
 
 /* ------------------------ ConnectionPropertiesFactory --------------------- */
 
-class ConnectionPropertiesFactory : public ObjectPropertiesFactory {
+class FLOW_DOCUMENT_API ConnectionPropertiesFactory
+    : public ObjectPropertiesFactory {
   Q_OBJECT
   Q_INTERFACES(flow_document::ObjectPropertiesFactory)
 

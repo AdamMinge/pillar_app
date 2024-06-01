@@ -13,11 +13,18 @@ namespace flow_document {
 /* ------------------------------ LayerProperties --------------------------- */
 
 LayerProperties::LayerProperties(QObject* parent)
-    : ObjectProperties(tr("Layer"), parent) {
-  initLayerProperty();
-}
+    : ObjectProperties(tr("Layer"), parent) {}
 
 LayerProperties::~LayerProperties() = default;
+
+void LayerProperties::init() {
+  auto prop = getObjectProperties();
+  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
+  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
+  prop->createProperty(Property::Locked, QMetaType::Bool, tr("Locked"));
+  prop->createProperty(Property::Opacity, QMetaType::QReal, tr("Opacity"));
+  prop->createProperty(Property::Position, QMetaType::QPointF, tr("Position"));
+}
 
 Layer* LayerProperties::getLayer() const {
   return static_cast<Layer*>(getObject());
@@ -94,15 +101,6 @@ void LayerProperties::applyObject(size_t id, const QVariant& value) {
       break;
     }
   }
-}
-
-void LayerProperties::initLayerProperty() {
-  auto prop = getObjectProperties();
-  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
-  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
-  prop->createProperty(Property::Locked, QMetaType::Bool, tr("Locked"));
-  prop->createProperty(Property::Opacity, QMetaType::QReal, tr("Opacity"));
-  prop->createProperty(Property::Position, QMetaType::QPointF, tr("Position"));
 }
 
 }  // namespace flow_document

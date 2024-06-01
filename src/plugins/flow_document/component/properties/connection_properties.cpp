@@ -13,11 +13,15 @@ namespace flow_document {
 /* --------------------------- ConnectionProperties ------------------------- */
 
 ConnectionProperties::ConnectionProperties(QObject* parent)
-    : ObjectProperties(tr("Connection"), parent) {
-  initConnectionProperty();
-}
+    : ObjectProperties(tr("Connection"), parent) {}
 
 ConnectionProperties::~ConnectionProperties() = default;
+
+void ConnectionProperties::init() {
+  auto prop = getObjectProperties();
+  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
+  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
+}
 
 Connection* ConnectionProperties::getConnection() const {
   return static_cast<Connection*>(getObject());
@@ -75,12 +79,6 @@ void ConnectionProperties::applyObject(size_t id, const QVariant& value) {
       break;
     }
   }
-}
-
-void ConnectionProperties::initConnectionProperty() {
-  auto prop = getObjectProperties();
-  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
-  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
 }
 
 }  // namespace flow_document

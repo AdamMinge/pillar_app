@@ -81,6 +81,8 @@ class FLOW_DOCUMENT_API ObjectProperties : public QObject {
   explicit ObjectProperties(const QString& name, QObject* parent = nullptr);
   ~ObjectProperties() override;
 
+  virtual void init();
+
   [[nodiscard]] QList<utils::QtProperty*> getProperties() const;
 
   void setDocument(FlowDocument* document);

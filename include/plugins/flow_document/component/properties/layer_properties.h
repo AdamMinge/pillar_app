@@ -15,11 +15,13 @@ class FLOW_DOCUMENT_API LayerProperties : public ObjectProperties {
   Q_OBJECT
 
  public:
-  enum Property { Name, Visible, Locked, Opacity, Position };
+  enum Property { Name, Visible, Locked, Opacity, Position, PropertiesCount };
 
  public:
   explicit LayerProperties(QObject* parent = nullptr);
   ~LayerProperties() override;
+
+  void init() override;
 
   [[nodiscard]] Layer* getLayer() const;
 
@@ -34,9 +36,6 @@ class FLOW_DOCUMENT_API LayerProperties : public ObjectProperties {
 
   void applyCustom(const QString& name, const QVariant& value) override;
   void applyObject(size_t id, const QVariant& value) override;
-
- private:
-  void initLayerProperty();
 };
 
 }  // namespace flow_document

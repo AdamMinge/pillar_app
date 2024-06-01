@@ -15,11 +15,13 @@ class FLOW_DOCUMENT_API NodeProperties : public ObjectProperties {
   Q_OBJECT
 
  public:
-  enum Property { Name, Visible, Position };
+  enum Property { Name, Visible, Position, PropertiesCount };
 
  public:
   explicit NodeProperties(QObject* parent = nullptr);
   ~NodeProperties() override;
+
+  void init() override;
 
   [[nodiscard]] Node* getNode() const;
 
@@ -34,9 +36,6 @@ class FLOW_DOCUMENT_API NodeProperties : public ObjectProperties {
 
   void applyCustom(const QString& name, const QVariant& value) override;
   void applyObject(size_t id, const QVariant& value) override;
-
- private:
-  void initNodeProperty();
 };
 
 }  // namespace flow_document

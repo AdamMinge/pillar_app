@@ -9,7 +9,8 @@ namespace flow_document {
 
 /* --------------------------- LayerPropertiesFactory ----------------------- */
 
-class LayerPropertiesFactory : public ObjectPropertiesFactory {
+class FLOW_DOCUMENT_API LayerPropertiesFactory
+    : public ObjectPropertiesFactory {
   Q_OBJECT
   Q_INTERFACES(flow_document::ObjectPropertiesFactory)
 

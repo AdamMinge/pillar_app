@@ -15,11 +15,13 @@ class FLOW_DOCUMENT_API ConnectionProperties : public ObjectProperties {
   Q_OBJECT
 
  public:
-  enum Property { Name, Visible };
+  enum Property { Name, Visible, PropertiesCount };
 
  public:
   explicit ConnectionProperties(QObject* parent = nullptr);
   ~ConnectionProperties() override;
+
+  void init() override;
 
   [[nodiscard]] Connection* getConnection() const;
 
@@ -34,9 +36,6 @@ class FLOW_DOCUMENT_API ConnectionProperties : public ObjectProperties {
 
   void applyCustom(const QString& name, const QVariant& value) override;
   void applyObject(size_t id, const QVariant& value) override;
-
- private:
-  void initConnectionProperty();
 };
 
 }  // namespace flow_document

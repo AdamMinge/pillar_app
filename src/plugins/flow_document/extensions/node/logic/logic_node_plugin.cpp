@@ -21,4 +21,6 @@ void LogicNodePlugin::init() {
 
   addObject(new LogicNodeBoolReceiverItemFactory(this));
   addObject(new LogicNodeBoolEmitterItemFactory(this));
+
+  addObject(new LogicNodeBoolEmitterPropertiesFactory(this));
 }

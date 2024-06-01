@@ -13,11 +13,16 @@ namespace flow_document {
 /* ------------------------------ NodeProperties ---------------------------- */
 
 NodeProperties::NodeProperties(QObject* parent)
-    : ObjectProperties(tr("Node"), parent) {
-  initNodeProperty();
-}
+    : ObjectProperties(tr("Node"), parent) {}
 
 NodeProperties::~NodeProperties() = default;
+
+void NodeProperties::init() {
+  auto prop = getObjectProperties();
+  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
+  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
+  prop->createProperty(Property::Position, QMetaType::QPointF, tr("Position"));
+}
 
 Node* NodeProperties::getNode() const {
   return static_cast<Node*>(getObject());
@@ -80,13 +85,6 @@ void NodeProperties::applyObject(size_t id, const QVariant& value) {
       break;
     }
   }
-}
-
-void NodeProperties::initNodeProperty() {
-  auto prop = getObjectProperties();
-  prop->createProperty(Property::Name, QMetaType::QString, tr("Name"));
-  prop->createProperty(Property::Visible, QMetaType::Bool, tr("Visible"));
-  prop->createProperty(Property::Position, QMetaType::QPointF, tr("Position"));
 }
 
 }  // namespace flow_document

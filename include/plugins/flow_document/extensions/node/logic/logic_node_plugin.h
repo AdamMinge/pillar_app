@@ -4,9 +4,11 @@
 /* ---------------------------------- Egnite -------------------------------- */
 #include <egnite/plugin_interface.h>
 /* ----------------------------- PluginFlowDocument ------------------------- */
+#include <flow_document/component/properties/factory/utils.h>
 #include <flow_document/component/scene/item/factory/utils.h>
 #include <flow_document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "component/properties/logic_node_value_properties.h"
 #include "component/scene/item/logic_node_value_item.h"
 #include "export.h"
 #include "flow/logic_node_and.h"
@@ -41,5 +43,9 @@ DECLARE_GRAPHICS_ITEM_FACTORY(LOGIC_NODE_API, LogicNodeBoolReceiverItem,
                               LogicNodeBoolReceiver);
 DECLARE_GRAPHICS_ITEM_FACTORY(LOGIC_NODE_API, LogicNodeBoolEmitterItem,
                               LogicNodeBoolEmitter);
+
+DECLARE_OBJECT_PROPERTIES_FACTORY(LOGIC_NODE_API,
+                                  LogicNodeBoolEmitterProperties,
+                                  LogicNodeBoolEmitter);
 
 #endif  // LOGIC_NODE_PLUGIN_H

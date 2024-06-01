@@ -28,12 +28,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/connection_properties.cpp" line="82"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/connection_properties.cpp" line="22"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/connection_properties.cpp" line="83"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/connection_properties.cpp" line="23"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -233,27 +233,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="101"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="22"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="102"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="23"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="103"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="24"/>
         <source>Locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="104"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="25"/>
         <source>Opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="105"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/layer_properties.cpp" line="26"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -273,6 +273,14 @@
     <message>
         <location filename="../../../../src/plugins/flow_document/component/layers/layers_tree_model.cpp" line="137"/>
         <source>Locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogicNodeBoolEmitterProperties</name>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/logic/component/properties/logic_node_value_properties.cpp" line="23"/>
+        <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -471,17 +479,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/node_properties.cpp" line="87"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/node_properties.cpp" line="22"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/node_properties.cpp" line="88"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/node_properties.cpp" line="23"/>
         <source>Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/component/properties/node_properties.cpp" line="89"/>
+        <location filename="../../../../src/plugins/flow_document/component/properties/node_properties.cpp" line="24"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>

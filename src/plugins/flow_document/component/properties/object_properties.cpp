@@ -119,6 +119,8 @@ ObjectProperties::ObjectProperties(const QString& name, QObject* parent)
 
 ObjectProperties::~ObjectProperties() = default;
 
+void ObjectProperties::init() {}
+
 QList<utils::QtProperty*> ObjectProperties::getProperties() const {
   return {m_object_properties->getRoot(), m_custom_properties->getRoot()};
 }
