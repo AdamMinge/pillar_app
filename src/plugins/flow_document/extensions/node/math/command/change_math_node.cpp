@@ -6,13 +6,13 @@
 #include <flow_document/flow_document.h>
 /* -------------------------------------------------------------------------- */
 
-/* ----------------------- SetMathNodeFloatEmitterValue --------------------- */
+/* ----------------------- SetMathNodeDoubleEmitterValue -------------------- */
 
-SetMathNodeFloatEmitterValue::SetMathNodeFloatEmitterValue(
-    flow_document::FlowDocument* document, QList<MathNodeFloatEmitter*> nodes,
-    float value, egnite::Command* parent)
-    : ChangeValue<MathNodeFloatEmitter, float>(
-          QLatin1String("SetMathNodeFloatEmitterValue"), document,
+SetMathNodeDoubleEmitterValue::SetMathNodeDoubleEmitterValue(
+    flow_document::FlowDocument* document, QList<MathNodeDoubleEmitter*> nodes,
+    double value, egnite::Command* parent)
+    : ChangeValue<MathNodeDoubleEmitter, double>(
+          QLatin1String("SetMathNodeDoubleEmitterValue"), document,
           std::move(nodes), value, parent) {
   const auto what = QObject::tr("Set Node(s)", nullptr, getObjects().size());
   const auto action = QObject::tr("Emiter Value");
@@ -20,16 +20,16 @@ SetMathNodeFloatEmitterValue::SetMathNodeFloatEmitterValue(
   setText(QString("%1 %2").arg(what, action));
 }
 
-SetMathNodeFloatEmitterValue::~SetMathNodeFloatEmitterValue() = default;
+SetMathNodeDoubleEmitterValue::~SetMathNodeDoubleEmitterValue() = default;
 
-float SetMathNodeFloatEmitterValue::getValue(
-    const MathNodeFloatEmitter* node) const {
+double SetMathNodeDoubleEmitterValue::getValue(
+    const MathNodeDoubleEmitter* node) const {
   return node->getValue();
 }
 
-void SetMathNodeFloatEmitterValue::setValue(MathNodeFloatEmitter* node,
-                                            const float& value) {
+void SetMathNodeDoubleEmitterValue::setValue(MathNodeDoubleEmitter* node,
+                                             const double& value) {
   node->setValue(value);
-  getDocument()->event(MathNodeFloatEmittersChangeEvent(
-      {node}, MathNodeFloatEmittersChangeEvent::Property::Value));
+  getDocument()->event(MathNodeDoubleEmittersChangeEvent(
+      {node}, MathNodeDoubleEmittersChangeEvent::Property::Value));
 }

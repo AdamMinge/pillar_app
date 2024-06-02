@@ -10,9 +10,9 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-/* ---------------------- MathNodeFloatEmitterProperties -------------------- */
+/* ---------------------- MathNodeDoubleEmitterProperties ------------------- */
 
-class MATH_NODE_API MathNodeFloatEmitterProperties
+class MATH_NODE_API MathNodeDoubleEmitterProperties
     : public flow_document::NodeProperties {
   Q_OBJECT
 
@@ -20,8 +20,8 @@ class MATH_NODE_API MathNodeFloatEmitterProperties
   enum Property { Value = PropertiesCount };
 
  public:
-  explicit MathNodeFloatEmitterProperties(QObject* parent = nullptr);
-  ~MathNodeFloatEmitterProperties() override;
+  explicit MathNodeDoubleEmitterProperties(QObject* parent = nullptr);
+  ~MathNodeDoubleEmitterProperties() override;
 
   void init() override;
 

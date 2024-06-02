@@ -26,12 +26,12 @@ void MathNodePlugin::init() {
   addObject(new MathNodeLowerFactory(tr("lower"), tr("Math"), this));
   addObject(new MathNodeNotEqualFactory(tr("not equal"), tr("Math"), this));
   addObject(
-      new MathNodeFloatEmitterFactory(tr("float emitter"), tr("Math"), this));
-  addObject(
-      new MathNodeFloatReceiverFactory(tr("float receiver"), tr("Math"), this));
+      new MathNodeDoubleEmitterFactory(tr("double emitter"), tr("Math"), this));
+  addObject(new MathNodeDoubleReceiverFactory(tr("double receiver"), tr("Math"),
+                                              this));
 
-  addObject(new MathNodeFloatEmitterItemFactory(this));
-  addObject(new MathNodeFloatReceiverItemFactory(this));
+  addObject(new MathNodeDoubleEmitterItemFactory(this));
+  addObject(new MathNodeDoubleReceiverItemFactory(this));
 
-  addObject(new MathNodeFloatEmitterPropertiesFactory(this));
+  addObject(new MathNodeDoubleEmitterPropertiesFactory(this));
 }

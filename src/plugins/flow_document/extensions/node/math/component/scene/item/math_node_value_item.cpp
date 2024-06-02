@@ -10,72 +10,72 @@
 #include <flow_document/flow_document.h>
 /* -------------------------------------------------------------------------- */
 
-/* ------------------------ MathNodeFloatEmitterItem ------------------------ */
+/* ------------------------ MathNodeDoubleEmitterItem ----------------------- */
 
-MathNodeFloatEmitterItem::MathNodeFloatEmitterItem(
-    MathNodeFloatEmitter *node, flow_document::FlowDocument *document,
+MathNodeDoubleEmitterItem::MathNodeDoubleEmitterItem(
+    MathNodeDoubleEmitter *node, flow_document::FlowDocument *document,
     QGraphicsItem *parent)
     : flow_document::NodeItem(node, document, parent),
       m_widget(new QDoubleSpinBox()),
       m_updating(false) {
-  m_widget->setRange(std::numeric_limits<float>::lowest(),
-                     std::numeric_limits<float>::max());
+  m_widget->setRange(std::numeric_limits<double>::lowest(),
+                     std::numeric_limits<double>::max());
 
   connect(m_widget.get(), &QDoubleSpinBox::valueChanged, [this]() {
     if (!m_updating) apply();
   });
 
   connect(getDocument(), &flow_document::FlowDocument::event, this,
-          &MathNodeFloatEmitterItem::onEvent);
+          &MathNodeDoubleEmitterItem::onEvent);
 }
 
-MathNodeFloatEmitterItem::~MathNodeFloatEmitterItem() = default;
+MathNodeDoubleEmitterItem::~MathNodeDoubleEmitterItem() = default;
 
-QWidget *MathNodeFloatEmitterItem::getEmbeddedWidget() const {
+QWidget *MathNodeDoubleEmitterItem::getEmbeddedWidget() const {
   return m_widget.get();
 }
 
-void MathNodeFloatEmitterItem::onEvent(
+void MathNodeDoubleEmitterItem::onEvent(
     const flow_document::ChangeEvent &event) {
   flow_document::NodeItem::onEvent(event);
 
-  if (event.getType() == MathNodeFloatEmittersChangeEvent::type) {
-    auto &e = static_cast<const MathNodeFloatEmittersChangeEvent &>(event);
+  if (event.getType() == MathNodeDoubleEmittersChangeEvent::type) {
+    auto &e = static_cast<const MathNodeDoubleEmittersChangeEvent &>(event);
     if (e.getNodes().contains(getNode())) onUpdate(e);
   }
 }
 
-void MathNodeFloatEmitterItem::onUpdate(
-    const MathNodeFloatEmittersChangeEvent &event) {
+void MathNodeDoubleEmitterItem::onUpdate(
+    const MathNodeDoubleEmittersChangeEvent &event) {
   QScopedValueRollback<bool> updating(m_updating, true);
 
-  const auto node = static_cast<MathNodeFloatEmitter *>(getNode());
+  const auto node = static_cast<MathNodeDoubleEmitter *>(getNode());
   const auto properties = event.getProperties();
 
-  using enum MathNodeFloatEmittersChangeEvent::Property;
+  using enum MathNodeDoubleEmittersChangeEvent::Property;
   if (properties & Value) {
     m_widget->setValue(node->getValue());
   }
 }
 
-void MathNodeFloatEmitterItem::apply() {
-  getDocument()->getUndoStack()->push(new SetMathNodeFloatEmitterValue(
-      getDocument(), {static_cast<MathNodeFloatEmitter *>(getNode())},
+void MathNodeDoubleEmitterItem::apply() {
+  getDocument()->getUndoStack()->push(new SetMathNodeDoubleEmitterValue(
+      getDocument(), {static_cast<MathNodeDoubleEmitter *>(getNode())},
       m_widget->value()));
 }
 
-/* ----------------------- MathNodeFloatReceiverItem ------------------------ */
+/* ----------------------- MathNodeDoubleReceiverItem ----------------------- */
 
-MathNodeFloatReceiverItem::MathNodeFloatReceiverItem(
-    MathNodeFloatReceiver *node, flow_document::FlowDocument *document,
+MathNodeDoubleReceiverItem::MathNodeDoubleReceiverItem(
+    MathNodeDoubleReceiver *node, flow_document::FlowDocument *document,
     QGraphicsItem *parent)
     : flow_document::NodeItem(node, document, parent),
       m_widget(new QDoubleSpinBox()) {
   m_widget->setDisabled(true);
 }
 
-MathNodeFloatReceiverItem::~MathNodeFloatReceiverItem() = default;
+MathNodeDoubleReceiverItem::~MathNodeDoubleReceiverItem() = default;
 
-QWidget *MathNodeFloatReceiverItem::getEmbeddedWidget() const {
+QWidget *MathNodeDoubleReceiverItem::getEmbeddedWidget() const {
   return m_widget.get();
 }

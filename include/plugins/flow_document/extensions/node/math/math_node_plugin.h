@@ -52,15 +52,16 @@ DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeGreater)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeLowerEqual)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeLower)
 DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeNotEqual)
-DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatEmitter)
-DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeFloatReceiver)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeDoubleEmitter)
+DECLARE_NODE_FACTORY(MATH_NODE_API, MathNodeDoubleReceiver)
 
-DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeFloatEmitterItem,
-                              MathNodeFloatEmitter);
-DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeFloatReceiverItem,
-                              MathNodeFloatReceiver);
+DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeDoubleEmitterItem,
+                              MathNodeDoubleEmitter);
+DECLARE_GRAPHICS_ITEM_FACTORY(MATH_NODE_API, MathNodeDoubleReceiverItem,
+                              MathNodeDoubleReceiver);
 
-DECLARE_OBJECT_PROPERTIES_FACTORY(MATH_NODE_API, MathNodeFloatEmitterProperties,
-                                  MathNodeFloatEmitter);
+DECLARE_OBJECT_PROPERTIES_FACTORY(MATH_NODE_API,
+                                  MathNodeDoubleEmitterProperties,
+                                  MathNodeDoubleEmitter);
 
 #endif  // MATH_NODE_PLUGIN_H

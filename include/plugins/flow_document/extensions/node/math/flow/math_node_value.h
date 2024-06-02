@@ -7,14 +7,14 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------- MathNodeFloatEmitter -------------------------- */
+/* -------------------------- MathNodeDoubleEmitter ------------------------- */
 
-class MATH_NODE_API MathNodeFloatEmitter : public flow_document::Node {
-  FLOW_OBJECT_CLASS(MathNodeFloatEmitter, flow_document::Node)
+class MATH_NODE_API MathNodeDoubleEmitter : public flow_document::Node {
+  FLOW_OBJECT_CLASS(MathNodeDoubleEmitter, flow_document::Node)
 
  public:
-  explicit MathNodeFloatEmitter();
-  ~MathNodeFloatEmitter() override;
+  explicit MathNodeDoubleEmitter();
+  ~MathNodeDoubleEmitter() override;
 
   [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
 
@@ -28,14 +28,14 @@ class MATH_NODE_API MathNodeFloatEmitter : public flow_document::Node {
   double m_value;
 };
 
-/* -------------------------- MathNodeFloatReceiver ------------------------- */
+/* -------------------------- MathNodeDoubleReceiver ------------------------ */
 
-class MATH_NODE_API MathNodeFloatReceiver : public flow_document::Node {
-  FLOW_OBJECT_CLASS(MathNodeFloatReceiver, flow_document::Node)
+class MATH_NODE_API MathNodeDoubleReceiver : public flow_document::Node {
+  FLOW_OBJECT_CLASS(MathNodeDoubleReceiver, flow_document::Node)
 
  public:
-  explicit MathNodeFloatReceiver();
-  ~MathNodeFloatReceiver() override;
+  explicit MathNodeDoubleReceiver();
+  ~MathNodeDoubleReceiver() override;
 
   [[nodiscard]] std::unique_ptr<flow_document::Node> clone() const override;
 

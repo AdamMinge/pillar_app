@@ -10,26 +10,26 @@
 #include "export.h"
 /* -------------------------------------------------------------------------- */
 
-class MathNodeFloatEmittersChangeEvent;
-class MathNodeFloatEmitter;
-class MathNodeFloatReceiver;
+class MathNodeDoubleEmittersChangeEvent;
+class MathNodeDoubleEmitter;
+class MathNodeDoubleReceiver;
 
-/* ------------------------ MathNodeFloatEmitterItem ------------------------ */
+/* ------------------------ MathNodeDoubleEmitterItem ----------------------- */
 
-class MATH_NODE_API MathNodeFloatEmitterItem : public flow_document::NodeItem {
+class MATH_NODE_API MathNodeDoubleEmitterItem : public flow_document::NodeItem {
   Q_OBJECT
 
  public:
-  explicit MathNodeFloatEmitterItem(MathNodeFloatEmitter *node,
-                                    flow_document::FlowDocument *document,
-                                    QGraphicsItem *parent);
-  ~MathNodeFloatEmitterItem() override;
+  explicit MathNodeDoubleEmitterItem(MathNodeDoubleEmitter *node,
+                                     flow_document::FlowDocument *document,
+                                     QGraphicsItem *parent);
+  ~MathNodeDoubleEmitterItem() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 
  protected Q_SLOTS:
   void onEvent(const flow_document::ChangeEvent &event) override;
-  void onUpdate(const MathNodeFloatEmittersChangeEvent &event);
+  void onUpdate(const MathNodeDoubleEmittersChangeEvent &event);
 
  private:
   void apply();
@@ -39,16 +39,18 @@ class MATH_NODE_API MathNodeFloatEmitterItem : public flow_document::NodeItem {
   bool m_updating;
 };
 
-/* ------------------------ MathNodeFloatReceiverItem ----------------------- */
+/* ------------------------ MathNodeDoubleReceiverItem -----------------------
+ */
 
-class MATH_NODE_API MathNodeFloatReceiverItem : public flow_document::NodeItem {
+class MATH_NODE_API MathNodeDoubleReceiverItem
+    : public flow_document::NodeItem {
   Q_OBJECT
 
  public:
-  explicit MathNodeFloatReceiverItem(MathNodeFloatReceiver *node,
-                                     flow_document::FlowDocument *document,
-                                     QGraphicsItem *parent);
-  ~MathNodeFloatReceiverItem() override;
+  explicit MathNodeDoubleReceiverItem(MathNodeDoubleReceiver *node,
+                                      flow_document::FlowDocument *document,
+                                      QGraphicsItem *parent);
+  ~MathNodeDoubleReceiverItem() override;
 
   [[nodiscard]] QWidget *getEmbeddedWidget() const override;
 

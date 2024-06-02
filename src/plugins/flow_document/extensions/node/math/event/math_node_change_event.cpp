@@ -2,25 +2,26 @@
 #include "event/math_node_change_event.h"
 /* -------------------------------------------------------------------------- */
 
-/* --------------------- MathNodeFloatEmittersChangeEvent ------------------- */
+/* --------------------- MathNodeDoubleEmittersChangeEvent ------------------ */
 
-MathNodeFloatEmittersChangeEvent::MathNodeFloatEmittersChangeEvent(
-    QList<MathNodeFloatEmitter*> nodes, Properties properties)
+MathNodeDoubleEmittersChangeEvent::MathNodeDoubleEmittersChangeEvent(
+    QList<MathNodeDoubleEmitter*> nodes, Properties properties)
     : ChangeEvent(type), m_nodes(std::move(nodes)), m_properties(properties) {}
 
-MathNodeFloatEmittersChangeEvent::~MathNodeFloatEmittersChangeEvent() = default;
+MathNodeDoubleEmittersChangeEvent::~MathNodeDoubleEmittersChangeEvent() =
+    default;
 
-const QList<MathNodeFloatEmitter*>& MathNodeFloatEmittersChangeEvent::getNodes()
-    const {
+const QList<MathNodeDoubleEmitter*>&
+MathNodeDoubleEmittersChangeEvent::getNodes() const {
   return m_nodes;
 }
 
-MathNodeFloatEmittersChangeEvent::Properties
-MathNodeFloatEmittersChangeEvent::getProperties() const {
+MathNodeDoubleEmittersChangeEvent::Properties
+MathNodeDoubleEmittersChangeEvent::getProperties() const {
   return m_properties;
 }
 
-bool MathNodeFloatEmittersChangeEvent::contains(
-    MathNodeFloatEmitter* node) const {
+bool MathNodeDoubleEmittersChangeEvent::contains(
+    MathNodeDoubleEmitter* node) const {
   return m_nodes.contains(node);
 }

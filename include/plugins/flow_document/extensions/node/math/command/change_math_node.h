@@ -8,20 +8,21 @@
 #include "flow/math_node_value.h"
 /* -------------------------------------------------------------------------- */
 
-/* ----------------------- SetMathNodeFloatEmitterValue --------------------- */
+/* ----------------------- SetMathNodeDoubleEmitterValue -------------------- */
 
-class MATH_NODE_API SetMathNodeFloatEmitterValue
-    : public flow_document::ChangeValue<MathNodeFloatEmitter, float> {
+class MATH_NODE_API SetMathNodeDoubleEmitterValue
+    : public flow_document::ChangeValue<MathNodeDoubleEmitter, double> {
  public:
-  explicit SetMathNodeFloatEmitterValue(flow_document::FlowDocument* document,
-                                        QList<MathNodeFloatEmitter*> nodes,
-                                        float value,
-                                        egnite::Command* parent = nullptr);
-  ~SetMathNodeFloatEmitterValue() override;
+  explicit SetMathNodeDoubleEmitterValue(flow_document::FlowDocument* document,
+                                         QList<MathNodeDoubleEmitter*> nodes,
+                                         double value,
+                                         egnite::Command* parent = nullptr);
+  ~SetMathNodeDoubleEmitterValue() override;
 
  protected:
-  [[nodiscard]] float getValue(const MathNodeFloatEmitter* node) const override;
-  void setValue(MathNodeFloatEmitter* node, const float& value) override;
+  [[nodiscard]] double getValue(
+      const MathNodeDoubleEmitter* node) const override;
+  void setValue(MathNodeDoubleEmitter* node, const double& value) override;
 };
 
 #endif  // CHANGE_MATH_NODE_H

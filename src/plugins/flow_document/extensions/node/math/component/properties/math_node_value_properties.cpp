@@ -9,51 +9,52 @@
 #include <flow_document/flow_document.h>
 /* -------------------------------------------------------------------------- */
 
-/* ---------------------- MathNodeFloatEmitterProperties -------------------- */
+/* ---------------------- MathNodeDoubleEmitterProperties ------------------- */
 
-MathNodeFloatEmitterProperties::MathNodeFloatEmitterProperties(QObject* parent)
+MathNodeDoubleEmitterProperties::MathNodeDoubleEmitterProperties(
+    QObject* parent)
     : flow_document::NodeProperties(parent) {}
 
-MathNodeFloatEmitterProperties::~MathNodeFloatEmitterProperties() = default;
+MathNodeDoubleEmitterProperties::~MathNodeDoubleEmitterProperties() = default;
 
-void MathNodeFloatEmitterProperties::init() {
+void MathNodeDoubleEmitterProperties::init() {
   flow_document::NodeProperties::init();
 
   auto prop = getObjectProperties();
   prop->createProperty(Property::Value, QMetaType::Double, tr("Value"));
 }
 
-void MathNodeFloatEmitterProperties::onEvent(
+void MathNodeDoubleEmitterProperties::onEvent(
     const flow_document::ChangeEvent& event) {
   flow_document::NodeProperties::onEvent(event);
 
-  if (event.getType() == MathNodeFloatEmittersChangeEvent::type) {
-    auto& e = static_cast<const MathNodeFloatEmittersChangeEvent&>(event);
+  if (event.getType() == MathNodeDoubleEmittersChangeEvent::type) {
+    auto& e = static_cast<const MathNodeDoubleEmittersChangeEvent&>(event);
     if (e.getNodes().contains(getNode())) update();
   }
 }
 
-void MathNodeFloatEmitterProperties::updateObject() {
+void MathNodeDoubleEmitterProperties::updateObject() {
   flow_document::NodeProperties::updateObject();
 
   auto prop = getObjectProperties();
-  if (auto node = static_cast<MathNodeFloatEmitter*>(getNode()); node) {
+  if (auto node = static_cast<MathNodeDoubleEmitter*>(getNode()); node) {
     prop->getPropertyById(Property::Value)->setValue(node->getValue());
   }
 }
 
-void MathNodeFloatEmitterProperties::applyObject(size_t id,
-                                                 const QVariant& value) {
+void MathNodeDoubleEmitterProperties::applyObject(size_t id,
+                                                  const QVariant& value) {
   flow_document::NodeProperties::applyObject(id, value);
 
-  auto node = static_cast<MathNodeFloatEmitter*>(getNode());
+  auto node = static_cast<MathNodeDoubleEmitter*>(getNode());
 
   switch (id) {
     case Property::Value: {
-      auto number = value.toFloat();
+      auto number = value.toDouble();
       if (node->getValue() != number) {
         getDocument()->getUndoStack()->push(
-            new SetMathNodeFloatEmitterValue(getDocument(), {node}, number));
+            new SetMathNodeDoubleEmitterValue(getDocument(), {node}, number));
       }
 
       break;

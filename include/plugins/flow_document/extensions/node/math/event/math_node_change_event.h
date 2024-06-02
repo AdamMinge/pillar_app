@@ -8,13 +8,13 @@
 #include "flow/math_node_value.h"
 /* -------------------------------------------------------------------------- */
 
-/* ---------------------- MathNodeFloatEmittersChangeEvent ------------------ */
+/* ---------------------- MathNodeDoubleEmittersChangeEvent ----------------- */
 
-class MATH_NODE_API MathNodeFloatEmittersChangeEvent
+class MATH_NODE_API MathNodeDoubleEmittersChangeEvent
     : public flow_document::ChangeEvent {
  public:
   static constexpr QLatin1String type =
-      QLatin1String("MathNodeFloatEmittersChangeEvent");
+      QLatin1String("MathNodeDoubleEmittersChangeEvent");
 
   enum class Property {
     Value = 1 << 0,
@@ -22,17 +22,17 @@ class MATH_NODE_API MathNodeFloatEmittersChangeEvent
   Q_DECLARE_FLAGS(Properties, Property)
 
  public:
-  explicit MathNodeFloatEmittersChangeEvent(QList<MathNodeFloatEmitter*> nodes,
-                                            Properties properties);
-  ~MathNodeFloatEmittersChangeEvent() override;
+  explicit MathNodeDoubleEmittersChangeEvent(
+      QList<MathNodeDoubleEmitter*> nodes, Properties properties);
+  ~MathNodeDoubleEmittersChangeEvent() override;
 
-  [[nodiscard]] const QList<MathNodeFloatEmitter*>& getNodes() const;
+  [[nodiscard]] const QList<MathNodeDoubleEmitter*>& getNodes() const;
   [[nodiscard]] Properties getProperties() const;
 
-  [[nodiscard]] bool contains(MathNodeFloatEmitter* node) const;
+  [[nodiscard]] bool contains(MathNodeDoubleEmitter* node) const;
 
  private:
-  QList<MathNodeFloatEmitter*> m_nodes;
+  QList<MathNodeDoubleEmitter*> m_nodes;
   Properties m_properties;
 };
 

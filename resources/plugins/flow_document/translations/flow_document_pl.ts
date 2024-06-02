@@ -334,9 +334,9 @@
     </message>
 </context>
 <context>
-    <name>MathNodeFloatEmitterProperties</name>
+    <name>MathNodeDoubleEmitterProperties</name>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/component/properties/math_node_value_properties.cpp" line="23"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/component/properties/math_node_value_properties.cpp" line="24"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -363,7 +363,7 @@
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="26"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="27"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="29"/>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="31"/>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="30"/>
         <source>Math</source>
         <translation type="unfinished"></translation>
     </message>
@@ -429,12 +429,12 @@
     </message>
     <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="29"/>
-        <source>float emitter</source>
+        <source>double emitter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="31"/>
-        <source>float receiver</source>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/math_node_plugin.cpp" line="30"/>
+        <source>double receiver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -876,16 +876,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="17"/>
-        <source>FLOAT_EMITTER</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="46"/>
-        <source>FLOAT_RECEIVER</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_power.cpp" line="17"/>
         <source>POWER</source>
         <translation type="unfinished"></translation>
@@ -989,6 +979,16 @@
         <location filename="../../../../src/plugins/flow_document/extensions/node/math/command/change_math_node.cpp" line="18"/>
         <location filename="../../../../src/plugins/flow_document/extensions/node/string/command/change_string_node.cpp" line="19"/>
         <source>Emiter Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="17"/>
+        <source>DOUBLE_EMITTER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../src/plugins/flow_document/extensions/node/math/flow/math_node_value.cpp" line="46"/>
+        <source>DOUBLE_RECEIVER</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

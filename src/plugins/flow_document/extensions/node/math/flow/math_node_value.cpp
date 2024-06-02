@@ -11,57 +11,57 @@ enum PinOut { Result = 0 };
 
 }  // namespace
 
-/* -------------------------- MathNodeFloatEmitter -------------------------- */
+/* -------------------------- MathNodeDoubleEmitter ------------------------- */
 
-MathNodeFloatEmitter::MathNodeFloatEmitter() : m_value(0) {
-  setName(QObject::tr("FLOAT_EMITTER"));
+MathNodeDoubleEmitter::MathNodeDoubleEmitter() : m_value(0) {
+  setName(QObject::tr("DOUBLE_EMITTER"));
 
   auto value_pin = flow_document::Pin({}, "Q");
   insertPin(flow_document::Pin::Type::Out, std::move(value_pin),
             PinOut::Result);
 }
 
-MathNodeFloatEmitter::~MathNodeFloatEmitter() = default;
+MathNodeDoubleEmitter::~MathNodeDoubleEmitter() = default;
 
-std::unique_ptr<flow_document::Node> MathNodeFloatEmitter::clone() const {
-  auto node = std::make_unique<MathNodeFloatEmitter>();
+std::unique_ptr<flow_document::Node> MathNodeDoubleEmitter::clone() const {
+  auto node = std::make_unique<MathNodeDoubleEmitter>();
   node->init(this);
   return std::move(node);
 }
 
-void MathNodeFloatEmitter::setValue(double value) { m_value = value; }
+void MathNodeDoubleEmitter::setValue(double value) { m_value = value; }
 
-double MathNodeFloatEmitter::getValue() const { return m_value; }
+double MathNodeDoubleEmitter::getValue() const { return m_value; }
 
-void MathNodeFloatEmitter::compute() {
+void MathNodeDoubleEmitter::compute() {
   auto &value_pin = getPin(flow_document::Pin::Type::Out, PinOut::Result);
   const auto value = getValue();
 
   value_pin.setData(value);
 }
 
-/* -------------------------- MathNodeFloatReceiver ------------------------- */
+/* -------------------------- MathNodeDoubleReceiver ------------------------ */
 
-MathNodeFloatReceiver::MathNodeFloatReceiver() : m_value(0) {
-  setName(QObject::tr("FLOAT_RECEIVER"));
+MathNodeDoubleReceiver::MathNodeDoubleReceiver() : m_value(0) {
+  setName(QObject::tr("DOUBLE_RECEIVER"));
 
   auto result_pin = flow_document::Pin({}, "A");
   insertPin(flow_document::Pin::Type::In, std::move(result_pin), PinIn::Value);
 }
 
-MathNodeFloatReceiver::~MathNodeFloatReceiver() = default;
+MathNodeDoubleReceiver::~MathNodeDoubleReceiver() = default;
 
-std::unique_ptr<flow_document::Node> MathNodeFloatReceiver::clone() const {
-  auto node = std::make_unique<MathNodeFloatReceiver>();
+std::unique_ptr<flow_document::Node> MathNodeDoubleReceiver::clone() const {
+  auto node = std::make_unique<MathNodeDoubleReceiver>();
   node->init(this);
   return std::move(node);
 }
 
-void MathNodeFloatReceiver::setValue(double value) { m_value = value; }
+void MathNodeDoubleReceiver::setValue(double value) { m_value = value; }
 
-double MathNodeFloatReceiver::getValue() const { return m_value; }
+double MathNodeDoubleReceiver::getValue() const { return m_value; }
 
-void MathNodeFloatReceiver::compute() {
+void MathNodeDoubleReceiver::compute() {
   auto &result_pin = getPin(flow_document::Pin::Type::In, PinIn::Value);
   m_value = result_pin.getData().toReal();
 }
