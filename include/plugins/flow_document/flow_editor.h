@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QStackedWidget>
 #include <QToolBar>
@@ -86,7 +87,7 @@ class FLOW_DOCUMENT_API FlowEditor
 
  private:
   FlowDocument *m_current_document;
-  QMainWindow *m_main_window;
+  QPointer<QMainWindow> m_main_window;
 
   ToolsBar *m_tools_bar;
   QStackedWidget *m_scene_stack;

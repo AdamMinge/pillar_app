@@ -3,6 +3,7 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QHash>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QStackedLayout>
 #include <QTabBar>
@@ -100,7 +101,7 @@ class LIB_EGNITE_API DocumentManager : public QObject,
   std::vector<std::unique_ptr<Document>> m_documents;
   std::unordered_map<QString, DocumentEditor *> m_editor_for_document_id;
 
-  QWidget *m_widget;
+  QPointer<QWidget> m_widget;
   QWidget *m_no_document_widget;
   QTabBar *m_tab_bar;
   QStackedLayout *m_editor_stack;

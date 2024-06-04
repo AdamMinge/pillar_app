@@ -73,18 +73,7 @@ Application::Application(int &argc, char **argv)
   readSettings();
 }
 
-Application::~Application() {
-  egnite::DocumentManager::deleteInstance();
-  egnite::ProjectManager::deleteInstance();
-  egnite::PluginManager::deleteInstance();
-  egnite::ActionManager::deleteInstance();
-  egnite::PreferencesManager::deleteInstance();
-  egnite::StyleManager::deleteInstance();
-  egnite::LanguageManager::deleteInstance();
-  egnite::LoggingManager::deleteInstance();
-  egnite::IssueManager::deleteInstance();
-  egnite::ScriptManager::deleteInstance();
-}
+Application::~Application() = default;
 
 bool Application::event(QEvent *event) {
   if (event->type() == QEvent::Quit) {

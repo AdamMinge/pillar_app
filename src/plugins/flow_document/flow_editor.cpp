@@ -33,9 +33,9 @@ FlowEditor::FlowEditor(QObject *parent)
     : egnite::DocumentEditor(parent),
       m_current_document(nullptr),
       m_main_window(new QMainWindow()),
-      m_tools_bar(new ToolsBar(m_main_window)),
-      m_scene_stack(new QStackedWidget(m_main_window)),
-      m_undo_dock(new egnite::UndoDock(m_main_window)),
+      m_tools_bar(new ToolsBar(m_main_window.get())),
+      m_scene_stack(new QStackedWidget(m_main_window.get())),
+      m_undo_dock(new egnite::UndoDock(m_main_window.get())),
       m_action_handler(FlowDocumentActionHandler::getInstance()),
       m_preferences(new Preferences) {
   initUi();
@@ -105,7 +105,7 @@ egnite::Document *FlowEditor::getCurrentDocument() const {
   return m_current_document;
 }
 
-QWidget *FlowEditor::getEditorWidget() const { return m_main_window; }
+QWidget *FlowEditor::getEditorWidget() const { return m_main_window.get(); }
 
 void FlowEditor::saveState() {
   m_preferences->editor_state = m_main_window->saveState();
@@ -149,7 +149,7 @@ QString FlowEditor::getDocumentId() const {
 }
 
 void FlowEditor::addedObject(FlowDockWidgetFactory *factory) {
-  auto widget = factory->create(m_main_window);
+  auto widget = factory->create(m_main_window.get());
   auto area = factory->getDockWidgetArea();
 
   m_dock_widget_for_factory[factory] = widget;
@@ -158,7 +158,6 @@ void FlowEditor::addedObject(FlowDockWidgetFactory *factory) {
 
 void FlowEditor::removedObject(FlowDockWidgetFactory *factory) {
   if (m_dock_widget_for_factory.contains(factory)) {
-    m_dock_widget_for_factory[factory]->deleteLater();
     m_dock_widget_for_factory.remove(factory);
   }
 }
