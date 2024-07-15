@@ -1,0 +1,71 @@
+/* ----------------------------------- Local -------------------------------- */
+#include "settings/settings_widget_tree_model.h"
+/* ---------------------------------- Egnite -------------------------------- */
+#include <egnite/settings/settings_widget.h>
+#include <egnite/settings/settings_widget_factory.h>
+/* -------------------------------------------------------------------------- */
+
+SettingsWidgetTreeModel::SettingsWidgetTreeModel(QObject *parent)
+    : qtils::QtStackedWidgetTreeModel(parent) {
+  loadObjects();
+}
+
+SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
+
+bool SettingsWidgetTreeModel::apply() {
+  const auto to_apply = m_to_apply;
+  QSet<egnite::SettingsWidget *> applied_widget;
+
+  std::for_each(to_apply.begin(), to_apply.end(),
+                [&applied_widget](auto settings_widget) {
+                  if (settings_widget->apply())
+                    applied_widget.insert(settings_widget);
+                });
+
+  std::for_each(applied_widget.begin(), applied_widget.end(),
+                [this](auto settings_widget) {
+                  onAppliedChanged(settings_widget, true);
+                });
+
+  return applied();
+}
+
+bool SettingsWidgetTreeModel::applied() const { return m_to_apply.empty(); }
+
+void SettingsWidgetTreeModel::addedObject(
+    egnite::SettingsWidgetFactory *factory) {
+  auto parent_index = QModelIndex{};
+  if (auto parent_name = factory->getParentObjectName(); !parent_name.isEmpty())
+    parent_index = getIndexBy(Role::ObjectNameRole, parent_name, QModelIndex{});
+
+  auto settings_widget = factory->create().release();
+  m_settings_widget_by_factory[factory] = settings_widget;
+
+  append(new qtils::QtStackedWidgetTreeItem(settings_widget), parent_index);
+
+  connect(settings_widget, &egnite::SettingsWidget::appliedChanged, this,
+          [this, settings_widget](auto applied) {
+            onAppliedChanged(settings_widget, applied);
+          });
+}
+
+void SettingsWidgetTreeModel::removedObject(
+    egnite::SettingsWidgetFactory *factory) {
+  if (m_settings_widget_by_factory.contains(factory)) {
+    auto index =
+        getIndexBy(Role::WidgetRole,
+                   QVariant::fromValue(m_settings_widget_by_factory[factory]),
+                   QModelIndex{});
+    remove(index);
+  }
+}
+
+void SettingsWidgetTreeModel::onAppliedChanged(
+    egnite::SettingsWidget *settings_widget, bool applied) {
+  if (!applied)
+    m_to_apply.insert(settings_widget);
+  else if (m_to_apply.contains(settings_widget))
+    m_to_apply.remove(settings_widget);
+
+  Q_EMIT appliedChanged(m_to_apply.empty());
+}

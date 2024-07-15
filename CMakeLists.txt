@@ -15,7 +15,9 @@ include(${EGNITE_SOURCE_DIR}/cmake/macros.cmake)
 # ---------------------------- Add subdirectories ----------------------- #
 # ----------------------------------------------------------------------- #
 add_subdirectory(deps)
-add_subdirectory(src)
+add_subdirectory(modules)
+add_subdirectory(plugins)
+add_subdirectory(apps)
 
 if(EGNITE_BUILD_TEST)
   add_subdirectory(tests)

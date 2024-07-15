@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/utils/line_edit">
-        <file>images/32x32/file_browser.png</file>
-    </qresource>
-</RCC>

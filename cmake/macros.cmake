@@ -103,6 +103,7 @@ function(egnite_export_modules)
   install(
     EXPORT egniteConfigExport
     FILE ${targets_config_filename}
+    NAMESPACE egnite::
     DESTINATION ${config_package_location})
 
   install(
@@ -268,7 +269,7 @@ macro(egnite_add_utils target)
   endif()
 
   add_library(${target} ${THIS_SOURCES})
-  add_library(utils::${target} ALIAS ${target})
+  add_library(qtils::${target} ALIAS ${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})

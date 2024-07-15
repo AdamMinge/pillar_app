@@ -1,0 +1,43 @@
+# ----------------------------------------------------------------------- #
+# -------------------------- Set CMake version -------------------------- #
+# ----------------------------------------------------------------------- #
+cmake_minimum_required(VERSION 3.11)
+# ----------------------------------------------------------------------- #
+# -------------------------- Fetch dependencies ------------------------- #
+# ----------------------------------------------------------------------- #
+project(qtils NONE)
+
+set(deps @EGNITE_BUILD_DEPS_DIR@)
+set(prefix_dir ${deps}/qtils)
+set(src_dir ${prefix_dir}/src/qtils)
+set(build_dir ${prefix_dir}/src/qtils-build)
+set(install_dir ${prefix_dir}/src/qtils-install)
+
+set(QTILS_BUILD_DEPS_DIR @EGNITE_BUILD_DEPS_DIR@)
+
+include(ExternalProject)
+ExternalProject_Add(
+    qtils
+    GIT_REPOSITORY      
+        https://github.com/AdamMinge/qtils.git
+    GIT_TAG             
+        0.1.0
+    PREFIX              
+        ${prefix_dir}
+    CONFIGURE_COMMAND   
+        ${CMAKE_COMMAND} 
+        -B ${build_dir} 
+        -G "${CMAKE_GENERATOR}" 
+        -DCMAKE_INSTALL_PREFIX=${install_dir} 
+        -DQTILS_BUILD_DEPS_DIR=${deps}
+        ${src_dir}
+    BUILD_COMMAND       
+        ${CMAKE_COMMAND} 
+        --build ${build_dir}
+    INSTALL_COMMAND     
+        ${CMAKE_COMMAND} 
+        --build ${build_dir} 
+        --target install
+    TEST_COMMAND        
+        "")
+# ----------------------------------------------------------------------- #

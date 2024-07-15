@@ -17,7 +17,7 @@ macro(egnite_setup_dependency directory dependency)
     message(FATAL_ERROR "CMake step for ${dependency} failed: ${result}")
   endif()
 
-  IF(NOT EXISTS ${directory}/${dependency}/src/${dependency}-install)
+  if(NOT EXISTS ${directory}/${dependency}/src/${dependency}-install)
     execute_process(
       COMMAND ${CMAKE_COMMAND} --build .
       RESULT_VARIABLE result
@@ -45,4 +45,5 @@ endif()
 egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} qt)
 egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} gtest)
 egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} boost)
+egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} qtils)
 # ----------------------------------------------------------------------- #
