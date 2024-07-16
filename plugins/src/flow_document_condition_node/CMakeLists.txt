@@ -27,7 +27,7 @@ set(CMAKE_AUTORCC ON)
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
@@ -37,6 +37,7 @@ egnite_add_plugins(
   ${sources}
   ${includes}
   DEPENDS
+  Qt6::Core
   Qt6::Widgets
   plugin::flow_document)
 
