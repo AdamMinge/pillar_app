@@ -11,10 +11,10 @@ namespace Ui {
 class ProjectWindow;
 }
 
-namespace egnite {
+namespace pillar {
 class Project;
 class Document;
-}  // namespace egnite
+}  // namespace pillar
 
 class ProjectDock;
 class ConsoleDock;
@@ -38,10 +38,10 @@ class ProjectWindow : public QMainWindow {
   void changeEvent(QEvent *event) override;
 
  private Q_SLOTS:
-  void documentChanged(egnite::Document *document);
-  void projectChanged(egnite::Project *project);
+  void documentChanged(pillar::Document *document);
+  void projectChanged(pillar::Project *project);
 
-  bool confirmSave(egnite::Document *document);
+  bool confirmSave(pillar::Document *document);
   bool confirmAllSave();
 
   void updateActions();
@@ -58,8 +58,8 @@ class ProjectWindow : public QMainWindow {
   void openDocument();
   bool closeDocument(int index);
   bool closeDocument();
-  bool saveDocument(egnite::Document *document);
-  bool saveDocumentAs(egnite::Document *document);
+  bool saveDocument(pillar::Document *document);
+  bool saveDocumentAs(pillar::Document *document);
   bool saveAllDocuments();
 
   void performCut();
@@ -75,7 +75,7 @@ class ProjectWindow : public QMainWindow {
 
   void retranslateUi();
 
-  bool switchProject(std::unique_ptr<egnite::Project> project);
+  bool switchProject(std::unique_ptr<pillar::Project> project);
 
  private:
   QScopedPointer<Ui::ProjectWindow> m_ui;

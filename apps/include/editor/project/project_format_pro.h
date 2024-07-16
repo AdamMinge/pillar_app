@@ -1,13 +1,13 @@
 #ifndef PROJECT_FORMAT_PRO_H
 #define PROJECT_FORMAT_PRO_H
 
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/project/project_format.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/project/project_format.h>
 /* -------------------------------------------------------------------------- */
 
-class ProjectFormatPro : public egnite::ProjectFormat {
+class ProjectFormatPro : public pillar::ProjectFormat {
   Q_OBJECT
-  Q_INTERFACES(egnite::ProjectFormat)
+  Q_INTERFACES(pillar::ProjectFormat)
 
  public:
   explicit ProjectFormatPro(QObject *parent = nullptr);
@@ -17,9 +17,9 @@ class ProjectFormatPro : public egnite::ProjectFormat {
   [[nodiscard]] QString getShortName() const override;
   [[nodiscard]] bool supportsFile(const QString &filename) const override;
 
-  std::unique_ptr<egnite::Project> load(const QString &file_name,
+  std::unique_ptr<pillar::Project> load(const QString &file_name,
                                         QString *error) override;
-  bool save(const egnite::Project &project, const QString &file_name,
+  bool save(const pillar::Project &project, const QString &file_name,
             QString *error) override;
 };
 

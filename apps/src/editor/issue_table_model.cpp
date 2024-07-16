@@ -2,23 +2,23 @@
 #include "issue_table_model.h"
 
 #include "resources.h"
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/issue_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/issue_manager.h>
 /* -------------------------------------------------------------------------- */
 
 IssueTableModel::IssueTableModel(QObject *parent)
     : QAbstractTableModel(parent) {
-  auto issue_manager = &egnite::IssueManager::getInstance();
+  auto issue_manager = &pillar::IssueManager::getInstance();
 
-  connect(issue_manager, &egnite::IssueManager::onErrorReport, this,
+  connect(issue_manager, &pillar::IssueManager::onErrorReport, this,
           &IssueTableModel::addIssue);
-  connect(issue_manager, &egnite::IssueManager::onWarningReport, this,
+  connect(issue_manager, &pillar::IssueManager::onWarningReport, this,
           &IssueTableModel::addIssue);
 
   connect(issue_manager,
-          qOverload<const QVariant &>(&egnite::IssueManager::onClear), this,
+          qOverload<const QVariant &>(&pillar::IssueManager::onClear), this,
           &IssueTableModel::removeIssues);
-  connect(issue_manager, qOverload<>(&egnite::IssueManager::onClear), this,
+  connect(issue_manager, qOverload<>(&pillar::IssueManager::onClear), this,
           &IssueTableModel::removeAllIssues);
 }
 
@@ -79,7 +79,7 @@ QVariant IssueTableModel::headerData(int section, Qt::Orientation orientation,
   return QVariant{};
 }
 
-void IssueTableModel::addIssue(const egnite::Issue &issue) {
+void IssueTableModel::addIssue(const pillar::Issue &issue) {
   auto found_issue_iter = std::find_if(
       m_issues.begin(), m_issues.end(),
       [&issue](auto &issue_pair) { return issue_pair.first == issue; });
@@ -123,10 +123,10 @@ QIcon IssueTableModel::getIssueIcon(const QModelIndex &index) const {
   const auto issue = m_issues[index.row()].first;
 
   switch (issue.getSeverity()) {
-    case egnite::Issue::Severity::Error:
+    case pillar::Issue::Severity::Error:
       return QIcon(icons::x32::ErrorIssue);
 
-    case egnite::Issue::Severity::Warning:
+    case pillar::Issue::Severity::Warning:
       return QIcon(icons::x32::WarningIssue);
   }
 
@@ -137,10 +137,10 @@ QString IssueTableModel::getIssueSeverityName(const QModelIndex &index) const {
   const auto issue = m_issues[index.row()].first;
 
   switch (issue.getSeverity()) {
-    case egnite::Issue::Severity::Error:
+    case pillar::Issue::Severity::Error:
       return tr("Error");
 
-    case egnite::Issue::Severity::Warning:
+    case pillar::Issue::Severity::Warning:
       return tr("Warning");
   }
 

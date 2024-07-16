@@ -9,17 +9,17 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCloseEvent>
 #include <QMessageBox>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/action_manager.h>
-#include <egnite/document/document.h>
-#include <egnite/document/document_editor.h>
-#include <egnite/document/document_format.h>
-#include <egnite/document/document_manager.h>
-#include <egnite/format_helper.h>
-#include <egnite/preferences_manager.h>
-#include <egnite/project/project.h>
-#include <egnite/project/project_format.h>
-#include <egnite/project/project_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/action_manager.h>
+#include <pillar/document/document.h>
+#include <pillar/document/document_editor.h>
+#include <pillar/document/document_format.h>
+#include <pillar/document/document_manager.h>
+#include <pillar/format_helper.h>
+#include <pillar/preferences_manager.h>
+#include <pillar/project/project.h>
+#include <pillar/project/project_format.h>
+#include <pillar/project/project_manager.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/action/action.h>
 #include <qtils/dialog/dialog_with_toggle_view.h>
@@ -60,10 +60,10 @@ void adjustMenuSize(QObject *object) {
 /* -------------------------------- Preferences ----------------------------- */
 
 struct ProjectWindow::Preferences {
-  egnite::Preference<QByteArray> project_window_geometry =
-      egnite::Preference<QByteArray>("project_window/geometry");
-  egnite::Preference<QByteArray> project_window_state =
-      egnite::Preference<QByteArray>("project_window/state");
+  pillar::Preference<QByteArray> project_window_geometry =
+      pillar::Preference<QByteArray>("project_window/geometry");
+  pillar::Preference<QByteArray> project_window_state =
+      pillar::Preference<QByteArray>("project_window/state");
 };
 
 /* ------------------------------- ProjectWindow ---------------------------- */
@@ -108,7 +108,7 @@ ProjectWindow::ProjectWindow(QWidget *parent)
       m_view_menu(new QMenu(this)),
       m_views_and_toolbars_menu(new QMenu(this)),
       m_help_menu(new QMenu(this)) {
-  auto undoGroup = egnite::DocumentManager::getInstance().getUndoGroup();
+  auto undoGroup = pillar::DocumentManager::getInstance().getUndoGroup();
   m_undo_action = undoGroup->createUndoAction(this, tr("&Undo"));
   m_undo_action->setShortcut(QKeySequence::Undo);
   m_redo_action = undoGroup->createRedoAction(this, tr("&Redo"));
@@ -147,20 +147,20 @@ void ProjectWindow::changeEvent(QEvent *event) {
   }
 }
 
-void ProjectWindow::documentChanged(egnite::Document *document) {
+void ProjectWindow::documentChanged(pillar::Document *document) {
   updateActions();
   updateRecentProjectFiles();
 }
 
-void ProjectWindow::projectChanged(egnite::Project *project) {
+void ProjectWindow::projectChanged(pillar::Project *project) {
   m_project_dock->setProject(project);
   updateWindowTitle();
 }
 
-bool ProjectWindow::confirmSave(egnite::Document *document) {
+bool ProjectWindow::confirmSave(pillar::Document *document) {
   if (!document || !document->isModified()) return true;
 
-  egnite::DocumentManager::getInstance().switchToDocument(document);
+  pillar::DocumentManager::getInstance().switchToDocument(document);
 
   auto ret = QMessageBox::warning(
       this, tr("Unsaved Changes"),
@@ -180,7 +180,7 @@ bool ProjectWindow::confirmSave(egnite::Document *document) {
 
 bool ProjectWindow::confirmAllSave() {
   for (const auto &document :
-       egnite::DocumentManager::getInstance().getDocuments())
+       pillar::DocumentManager::getInstance().getDocuments())
     if (!confirmSave(document.get())) return false;
 
   return true;
@@ -188,11 +188,11 @@ bool ProjectWindow::confirmAllSave() {
 
 void ProjectWindow::updateActions() {
   auto document_editor =
-      egnite::DocumentManager::getInstance().getCurrentEditor();
+      pillar::DocumentManager::getInstance().getCurrentEditor();
   auto current_document =
-      egnite::DocumentManager::getInstance().getCurrentDocument();
+      pillar::DocumentManager::getInstance().getCurrentDocument();
 
-  egnite::DocumentEditor::StandardActions standard_actions;
+  pillar::DocumentEditor::StandardActions standard_actions;
   if (document_editor)
     standard_actions = document_editor->getEnabledStandardActions();
 
@@ -202,18 +202,18 @@ void ProjectWindow::updateActions() {
   m_save_all_documents_action->setEnabled(current_document);
 
   m_cut_action->setEnabled(standard_actions &
-                           egnite::DocumentEditor::StandardAction::CutAction);
+                           pillar::DocumentEditor::StandardAction::CutAction);
   m_copy_action->setEnabled(standard_actions &
-                            egnite::DocumentEditor::StandardAction::CopyAction);
+                            pillar::DocumentEditor::StandardAction::CopyAction);
   m_paste_action->setEnabled(
-      standard_actions & egnite::DocumentEditor::StandardAction::PasteAction);
+      standard_actions & pillar::DocumentEditor::StandardAction::PasteAction);
   m_delete_action->setEnabled(
-      standard_actions & egnite::DocumentEditor::StandardAction::DeleteAction);
+      standard_actions & pillar::DocumentEditor::StandardAction::DeleteAction);
 }
 
 void ProjectWindow::updateWindowTitle() {
   auto current_project =
-      egnite::ProjectManager::getInstance().getCurrentProject();
+      pillar::ProjectManager::getInstance().getCurrentProject();
 
   const auto project_name =
       current_project ? tr("[*]%1").arg(current_project->getDisplayName())
@@ -223,7 +223,7 @@ void ProjectWindow::updateWindowTitle() {
 
   auto project_is_modified = false;
   for (const auto &document :
-       egnite::DocumentManager::getInstance().getDocuments())
+       pillar::DocumentManager::getInstance().getDocuments())
     project_is_modified |= document->isModified();
 
   setWindowTitle(project_name);
@@ -240,7 +240,7 @@ void ProjectWindow::updateViewsAndToolbarsMenu() {
   m_views_and_toolbars_menu->addAction(m_console_dock->toggleViewAction());
   m_views_and_toolbars_menu->addAction(m_issue_dock->toggleViewAction());
 
-  if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor()) {
+  if (auto editor = pillar::DocumentManager::getInstance().getCurrentEditor()) {
     m_views_and_toolbars_menu->addSeparator();
 
     auto dockWidgets = editor->getDockWidgets();
@@ -260,7 +260,7 @@ void ProjectWindow::updateViewsAndToolbarsMenu() {
 
 void ProjectWindow::updateRecentProjectFiles() {
   auto recent_project_files =
-      egnite::PreferencesManager::getInstance().getRecentProjectFiles();
+      pillar::PreferencesManager::getInstance().getRecentProjectFiles();
 
   for (auto &action : m_open_recent_project_menu->actions()) {
     if (action != m_clear_recent_projects_action) action->deleteLater();
@@ -298,12 +298,12 @@ void ProjectWindow::newProject() {
 
 void ProjectWindow::openProject() {
   const auto recent_project_files =
-      egnite::PreferencesManager::getInstance().getRecentProjectFiles();
+      pillar::PreferencesManager::getInstance().getRecentProjectFiles();
   const auto project_dir =
       recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter =
-      egnite::FormatHelper<egnite::ProjectFormat>{
-          egnite::FileFormat::Capability::Read}
+      pillar::FormatHelper<pillar::ProjectFormat>{
+          pillar::FileFormat::Capability::Read}
           .getFilter();
 
   const auto file_name = qtils::QtExtendedFileDialog::getOpenFileName(
@@ -313,9 +313,9 @@ void ProjectWindow::openProject() {
 }
 
 bool ProjectWindow::openProject(const QString &file_name) {
-  if (!egnite::ProjectManager::getInstance().switchToProject(file_name)) {
+  if (!pillar::ProjectManager::getInstance().switchToProject(file_name)) {
     QString error;
-    auto project = egnite::Project::load(file_name, nullptr, &error);
+    auto project = pillar::Project::load(file_name, nullptr, &error);
     if (!project) {
       QMessageBox::critical(nullptr, tr("Error Opening File"), error);
       return false;
@@ -330,13 +330,13 @@ bool ProjectWindow::openProject(const QString &file_name) {
 bool ProjectWindow::closeProject() {
   if (!confirmAllSave()) return false;
 
-  auto project = egnite::ProjectManager::getInstance().getCurrentProject();
+  auto project = pillar::ProjectManager::getInstance().getCurrentProject();
   auto project_index =
-      egnite::ProjectManager::getInstance().findProject(project);
+      pillar::ProjectManager::getInstance().findProject(project);
   Q_ASSERT(project_index >= 0);
 
-  egnite::DocumentManager::getInstance().removeAllDocuments();
-  egnite::ProjectManager::getInstance().removeProject(project_index);
+  pillar::DocumentManager::getInstance().removeAllDocuments();
+  pillar::ProjectManager::getInstance().removeProject(project_index);
 
   return true;
 }
@@ -345,32 +345,32 @@ void ProjectWindow::newDocument() {
   auto new_document_dialog =
       QScopedPointer<NewDocumentDialog>(new NewDocumentDialog);
   if (auto document = new_document_dialog->create(); document)
-    egnite::DocumentManager::getInstance().addDocument(std::move(document));
+    pillar::DocumentManager::getInstance().addDocument(std::move(document));
 }
 
 void ProjectWindow::openDocument() {
   const auto project =
-      egnite::ProjectManager::getInstance().getCurrentProject();
+      pillar::ProjectManager::getInstance().getCurrentProject();
   const auto project_dir =
       QFileInfo(project->getFileName()).absoluteDir().absolutePath();
   const auto filter =
-      egnite::FormatHelper<egnite::DocumentFormat>{
-          egnite::FileFormat::Capability::Read}
+      pillar::FormatHelper<pillar::DocumentFormat>{
+          pillar::FileFormat::Capability::Read}
           .getFilter();
 
   const auto file_name = qtils::QtExtendedFileDialog::getOpenFileName(
       this, tr("Open Document"), project_dir, filter);
 
   if (!file_name.isEmpty())
-    egnite::DocumentManager::getInstance().loadDocument(file_name);
+    pillar::DocumentManager::getInstance().loadDocument(file_name);
 }
 
 bool ProjectWindow::closeDocument(int index) {
-  auto document = egnite::DocumentManager::getInstance().getDocument(index);
+  auto document = pillar::DocumentManager::getInstance().getDocument(index);
   if (document) {
     if (!confirmSave(document)) return false;
 
-    egnite::DocumentManager::getInstance().removeDocument(index);
+    pillar::DocumentManager::getInstance().removeDocument(index);
   }
 
   return true;
@@ -378,39 +378,39 @@ bool ProjectWindow::closeDocument(int index) {
 
 bool ProjectWindow::closeDocument() {
   auto current_document =
-      egnite::DocumentManager::getInstance().getCurrentDocument();
+      pillar::DocumentManager::getInstance().getCurrentDocument();
   auto current_document_index =
-      egnite::DocumentManager::getInstance().findDocument(current_document);
+      pillar::DocumentManager::getInstance().findDocument(current_document);
 
   return closeDocument(current_document_index);
 }
 
 bool ProjectWindow::saveDocument(
-    egnite::Document
+    pillar::Document
         *document)  // NOLINT(readability-convert-member-functions-to-static)
 {
   Q_ASSERT(document);
 
-  egnite::DocumentManager::getInstance().switchToDocument(document);
+  pillar::DocumentManager::getInstance().switchToDocument(document);
 
   if (!document->getFileName().isEmpty())
-    return egnite::DocumentManager::getInstance().saveDocument(document);
+    return pillar::DocumentManager::getInstance().saveDocument(document);
   else
-    return egnite::DocumentManager::getInstance().saveDocumentAs(document);
+    return pillar::DocumentManager::getInstance().saveDocumentAs(document);
 }
 
 bool ProjectWindow::saveDocumentAs(
-    egnite::Document
+    pillar::Document
         *document)  // NOLINT(readability-convert-member-functions-to-static)
 {
   Q_ASSERT(document);
-  egnite::DocumentManager::getInstance().switchToDocument(document);
-  return egnite::DocumentManager::getInstance().saveDocumentAs(document);
+  pillar::DocumentManager::getInstance().switchToDocument(document);
+  return pillar::DocumentManager::getInstance().saveDocumentAs(document);
 }
 
 bool ProjectWindow::saveAllDocuments() {
   for (const auto &document :
-       egnite::DocumentManager::getInstance().getDocuments())
+       pillar::DocumentManager::getInstance().getDocuments())
     if (!saveDocument(document.get())) return false;
 
   return true;
@@ -419,40 +419,40 @@ bool ProjectWindow::saveAllDocuments() {
 void ProjectWindow::
     performCut()  // NOLINT(readability-convert-member-functions-to-static)
 {
-  if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
+  if (auto editor = pillar::DocumentManager::getInstance().getCurrentEditor())
     editor->performStandardAction(
-        egnite::DocumentEditor::StandardAction::CutAction);
+        pillar::DocumentEditor::StandardAction::CutAction);
 }
 
 void ProjectWindow::
     performCopy()  // NOLINT(readability-convert-member-functions-to-static)
 {
-  if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
+  if (auto editor = pillar::DocumentManager::getInstance().getCurrentEditor())
     editor->performStandardAction(
-        egnite::DocumentEditor::StandardAction::CopyAction);
+        pillar::DocumentEditor::StandardAction::CopyAction);
 }
 
 void ProjectWindow::
     performPaste()  // NOLINT(readability-convert-member-functions-to-static)
 {
-  if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
+  if (auto editor = pillar::DocumentManager::getInstance().getCurrentEditor())
     editor->performStandardAction(
-        egnite::DocumentEditor::StandardAction::PasteAction);
+        pillar::DocumentEditor::StandardAction::PasteAction);
 }
 
 void ProjectWindow::
     performDelete()  // NOLINT(readability-convert-member-functions-to-static)
 {
-  if (auto editor = egnite::DocumentManager::getInstance().getCurrentEditor())
+  if (auto editor = pillar::DocumentManager::getInstance().getCurrentEditor())
     editor->performStandardAction(
-        egnite::DocumentEditor::StandardAction::DeleteAction);
+        pillar::DocumentEditor::StandardAction::DeleteAction);
 }
 
 void ProjectWindow::writeSettings() {
   m_preferences->project_window_geometry = saveGeometry();
   m_preferences->project_window_state = saveState();
 
-  egnite::DocumentManager::getInstance().saveState();
+  pillar::DocumentManager::getInstance().saveState();
 }
 
 void ProjectWindow::readSettings() {
@@ -462,11 +462,11 @@ void ProjectWindow::readSettings() {
   if (!window_geometry.isNull()) restoreGeometry(window_geometry);
   if (!window_state.isNull()) restoreState(window_state);
 
-  egnite::DocumentManager::getInstance().restoreState();
+  pillar::DocumentManager::getInstance().restoreState();
 }
 
 void ProjectWindow::registerActions() {
-  auto &action_manager = egnite::ActionManager::getInstance();
+  auto &action_manager = pillar::ActionManager::getInstance();
 
   action_manager.registerAction(m_new_project_action, "new_project");
   action_manager.registerAction(m_open_project_action, "open_project");
@@ -491,7 +491,7 @@ void ProjectWindow::registerActions() {
 void ProjectWindow::initUi() {
   m_ui->setupUi(this);
 
-  setCentralWidget(egnite::DocumentManager::getInstance().getWidget());
+  setCentralWidget(pillar::DocumentManager::getInstance().getWidget());
   addDockWidget(Qt::LeftDockWidgetArea, m_project_dock);
   addDockWidget(Qt::BottomDockWidgetArea, m_console_dock);
   addDockWidget(Qt::BottomDockWidgetArea, m_issue_dock);
@@ -507,10 +507,10 @@ void ProjectWindow::initUi() {
   m_project_menu->addAction(m_close_project_action);
   m_project_menu->addSeparator();
   m_project_menu->addAction(
-      egnite::ActionManager::getInstance().findAction("settings"));
+      pillar::ActionManager::getInstance().findAction("settings"));
   m_project_menu->addSeparator();
   m_project_menu->addAction(
-      egnite::ActionManager::getInstance().findAction("exit"));
+      pillar::ActionManager::getInstance().findAction("exit"));
 
   m_ui->m_menu_bar->addMenu(m_document_menu);
   m_document_menu->addAction(m_new_document_action);
@@ -535,13 +535,13 @@ void ProjectWindow::initUi() {
 
   m_ui->m_menu_bar->addMenu(m_help_menu);
   m_help_menu->addAction(
-      egnite::ActionManager::getInstance().findAction("about"));
+      pillar::ActionManager::getInstance().findAction("about"));
 
   m_help_menu->setShortcutEnabled(true);
 }
 
 void ProjectWindow::initConnections() {
-  auto undoGroup = egnite::DocumentManager::getInstance().getUndoGroup();
+  auto undoGroup = pillar::DocumentManager::getInstance().getUndoGroup();
 
   connect(undoGroup, &QUndoGroup::cleanChanged, this,
           &ProjectWindow::updateWindowTitle);
@@ -551,7 +551,7 @@ void ProjectWindow::initConnections() {
   connect(m_open_project_action, &QAction::triggered, this,
           qOverload<>(&ProjectWindow::openProject));
   connect(m_clear_recent_projects_action, &QAction::triggered, this, []() {
-    egnite::PreferencesManager::getInstance().clearRecentProjectFiles();
+    pillar::PreferencesManager::getInstance().clearRecentProjectFiles();
   });
   connect(m_close_project_action, &QAction::triggered, this,
           &ProjectWindow::closeProject);
@@ -563,10 +563,10 @@ void ProjectWindow::initConnections() {
   connect(m_close_document_action, &QAction::triggered, this,
           qOverload<>(&ProjectWindow::closeDocument));
   connect(m_save_document_action, &QAction::triggered, this, [this]() {
-    saveDocument(egnite::DocumentManager::getInstance().getCurrentDocument());
+    saveDocument(pillar::DocumentManager::getInstance().getCurrentDocument());
   });
   connect(m_save_document_as_action, &QAction::triggered, this, [this]() {
-    saveDocumentAs(egnite::DocumentManager::getInstance().getCurrentDocument());
+    saveDocumentAs(pillar::DocumentManager::getInstance().getCurrentDocument());
   });
   connect(m_save_all_documents_action, &QAction::triggered, this,
           &ProjectWindow::saveAllDocuments);
@@ -582,22 +582,22 @@ void ProjectWindow::initConnections() {
   connect(m_views_and_toolbars_menu, &QMenu::aboutToShow, this,
           &ProjectWindow::updateViewsAndToolbarsMenu);
 
-  connect(&egnite::DocumentManager::getInstance(),
-          &egnite::DocumentManager::currentDocumentChanged, this,
+  connect(&pillar::DocumentManager::getInstance(),
+          &pillar::DocumentManager::currentDocumentChanged, this,
           &ProjectWindow::documentChanged);
-  connect(&egnite::DocumentManager::getInstance(),
-          &egnite::DocumentManager::documentCloseRequested, this,
+  connect(&pillar::DocumentManager::getInstance(),
+          &pillar::DocumentManager::documentCloseRequested, this,
           qOverload<int>(&ProjectWindow::closeDocument));
-  connect(&egnite::DocumentManager::getInstance(),
-          &egnite::DocumentManager::enabledStandardActionsChanged, this,
+  connect(&pillar::DocumentManager::getInstance(),
+          &pillar::DocumentManager::enabledStandardActionsChanged, this,
           &ProjectWindow::updateActions);
 
-  connect(&egnite::ProjectManager::getInstance(),
-          &egnite::ProjectManager::currentProjectChanged, this,
+  connect(&pillar::ProjectManager::getInstance(),
+          &pillar::ProjectManager::currentProjectChanged, this,
           &ProjectWindow::projectChanged);
 
-  connect(&egnite::PreferencesManager::getInstance(),
-          &egnite::PreferencesManager::recentProjectFilesChanged, this,
+  connect(&pillar::PreferencesManager::getInstance(),
+          &pillar::PreferencesManager::recentProjectFilesChanged, this,
           &ProjectWindow::updateRecentProjectFiles);
 }
 
@@ -651,7 +651,7 @@ void ProjectWindow::retranslateUi() {
   adjustMenuSize(this);
 }
 
-bool ProjectWindow::switchProject(std::unique_ptr<egnite::Project> project) {
+bool ProjectWindow::switchProject(std::unique_ptr<pillar::Project> project) {
   auto ret = QMessageBox::warning(this, tr("Open Project"),
                                   tr("There is currently open project. Do you "
                                      "want to close it and open new one now?"),
@@ -660,9 +660,9 @@ bool ProjectWindow::switchProject(std::unique_ptr<egnite::Project> project) {
   if (ret == QMessageBox::Yes && closeProject()) {
     auto project_ptr = project.get();
 
-    egnite::ProjectManager::getInstance().removeAllProjects();
-    egnite::ProjectManager::getInstance().addProject(std::move(project));
-    egnite::PreferencesManager::getInstance().addRecentProjectFile(
+    pillar::ProjectManager::getInstance().removeAllProjects();
+    pillar::ProjectManager::getInstance().addProject(std::move(project));
+    pillar::PreferencesManager::getInstance().addRecentProjectFile(
         project_ptr->getFileName());
     return true;
   }

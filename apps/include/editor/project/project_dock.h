@@ -10,7 +10,7 @@ class QAbstractFileIconProvider;
 class QFileSystemModel;
 class QTreeView;
 
-namespace egnite {
+namespace pillar {
 class Project;
 }
 
@@ -25,8 +25,8 @@ class ProjectDock : public QDockWidget {
   explicit ProjectDock(QWidget *parent = nullptr);
   ~ProjectDock() override;
 
-  void setProject(egnite::Project *project);
-  [[nodiscard]] egnite::Project *getProject() const;
+  void setProject(pillar::Project *project);
+  [[nodiscard]] pillar::Project *getProject() const;
 
  protected:
   void changeEvent(QEvent *event) override;
@@ -47,7 +47,7 @@ class ProjectDock : public QDockWidget {
   void openDocument(const QModelIndex &index);
 
  private:
-  egnite::Project *m_current_project;
+  pillar::Project *m_current_project;
 
   QTreeView *m_view;
   QFileSystemModel *m_model;

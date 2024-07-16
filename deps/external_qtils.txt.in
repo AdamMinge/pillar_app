@@ -7,13 +7,13 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 project(qtils NONE)
 
-set(deps @EGNITE_BUILD_DEPS_DIR@)
+set(deps @PILLAR_BUILD_DEPS_DIR@)
 set(prefix_dir ${deps}/qtils)
 set(src_dir ${prefix_dir}/src/qtils)
 set(build_dir ${prefix_dir}/src/qtils-build)
 set(install_dir ${prefix_dir}/src/qtils-install)
 
-set(QTILS_BUILD_DEPS_DIR @EGNITE_BUILD_DEPS_DIR@)
+set(QTILS_BUILD_DEPS_DIR @PILLAR_BUILD_DEPS_DIR@)
 
 include(ExternalProject)
 ExternalProject_Add(

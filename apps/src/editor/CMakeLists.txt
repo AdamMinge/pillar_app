@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${EGNITE_SOURCE_DIR}/apps/src/editor)
-set(include_root ${EGNITE_SOURCE_DIR}/apps/include/editor)
-set(ui_root ${EGNITE_SOURCE_DIR}/apps/ui/editor)
-set(resource_root ${EGNITE_SOURCE_DIR}/apps/resource/editor)
+set(source_root ${PILLAR_SOURCE_DIR}/apps/src/editor)
+set(include_root ${PILLAR_SOURCE_DIR}/apps/include/editor)
+set(ui_root ${PILLAR_SOURCE_DIR}/apps/ui/editor)
+set(resource_root ${PILLAR_SOURCE_DIR}/apps/resource/editor)
 
 set(sources
     ${source_root}/main.cpp
@@ -120,7 +120,7 @@ find_package(
 # ----------------------------------------------------------------------- #
 # ---------------------------- Create app editor ------------------------ #
 # ----------------------------------------------------------------------- #
-egnite_add_application(
+pillar_add_application(
   editor
   SOURCES
   ${sources}
@@ -130,7 +130,7 @@ egnite_add_application(
   DEPENDS
   Qt6::Widgets
   Qt6::Qml
-  egnite::egnite
+  pillar::pillar
   DEPENDS_PRIVATE
   qtils::action
   qtils::color
@@ -152,7 +152,7 @@ target_include_directories(
   INTERFACE $<INSTALL_INTERFACE:include>
   PRIVATE ${source_root})
 
-egnite_add_translations(
+pillar_add_translations(
   editor
   QM_DIR
   ${resource_root}/translations

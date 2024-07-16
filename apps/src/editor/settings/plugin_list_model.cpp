@@ -1,13 +1,13 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "settings/plugin_list_model.h"
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/plugin_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------------ PluginListModel --------------------------- */
 
 PluginListModel::PluginListModel(QObject *parent) : QAbstractListModel(parent) {
-  const auto plugins = egnite::PluginManager::getInstance().getPlugins();
+  const auto plugins = pillar::PluginManager::getInstance().getPlugins();
   for (auto &plugin : plugins)
     m_plugins.emplace_back(std::make_pair(plugin, plugin->isEnabled()));
 }
@@ -17,8 +17,8 @@ PluginListModel::~PluginListModel() = default;
 bool PluginListModel::apply() {
   std::for_each(m_plugins.begin(), m_plugins.end(), [](auto &plugin_pair) {
     if (plugin_pair.first->isEnabled() != plugin_pair.second) {
-      auto apply_fun = plugin_pair.second ? &egnite::Plugin::enable
-                                          : &egnite::Plugin::disable;
+      auto apply_fun = plugin_pair.second ? &pillar::Plugin::enable
+                                          : &pillar::Plugin::disable;
       (plugin_pair.first->*apply_fun)();
     }
   });

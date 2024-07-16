@@ -1,11 +1,11 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMessageBox>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/format_helper.h>
-#include <egnite/preferences_manager.h>
-#include <egnite/project/project.h>
-#include <egnite/project/project_format.h>
-#include <egnite/project/project_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/format_helper.h>
+#include <pillar/preferences_manager.h>
+#include <pillar/project/project.h>
+#include <pillar/project/project_format.h>
+#include <pillar/project/project_manager.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "project/new_project_dialog.h"
 #include "project/no_project_window.h"
@@ -20,10 +20,10 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NoProjectWindow::Preferences {
-  egnite::Preference<QByteArray> no_project_window_geometry =
-      egnite::Preference<QByteArray>("no_project_window/geometry");
-  egnite::Preference<QByteArray> no_project_window_state =
-      egnite::Preference<QByteArray>("no_project_window/state");
+  pillar::Preference<QByteArray> no_project_window_geometry =
+      pillar::Preference<QByteArray>("no_project_window/geometry");
+  pillar::Preference<QByteArray> no_project_window_state =
+      pillar::Preference<QByteArray>("no_project_window/state");
 };
 
 /* ------------------------------ NoProjectWindow --------------------------- */
@@ -70,12 +70,12 @@ void NoProjectWindow::changeEvent(QEvent *event) {
 
 void NoProjectWindow::openProject() {
   const auto recent_project_files =
-      egnite::PreferencesManager::getInstance().getRecentProjectFiles();
+      pillar::PreferencesManager::getInstance().getRecentProjectFiles();
   const auto project_dir =
       recent_project_files.empty() ? QString{} : recent_project_files.last();
   const auto filter =
-      egnite::FormatHelper<egnite::ProjectFormat>{
-          egnite::FileFormat::Capability::Read}
+      pillar::FormatHelper<pillar::ProjectFormat>{
+          pillar::FileFormat::Capability::Read}
           .getFilter();
 
   const auto file_name = qtils::QtExtendedFileDialog::getOpenFileName(
@@ -84,12 +84,12 @@ void NoProjectWindow::openProject() {
   if (file_name.isEmpty()) return;
 
   QString error;
-  if (!egnite::ProjectManager::getInstance().loadProject(file_name, &error)) {
+  if (!pillar::ProjectManager::getInstance().loadProject(file_name, &error)) {
     QMessageBox::critical(this, tr("Error Opening File"), error);
     return;
   }
 
-  egnite::PreferencesManager::getInstance().addRecentProjectFile(file_name);
+  pillar::PreferencesManager::getInstance().addRecentProjectFile(file_name);
 }
 
 void NoProjectWindow::createProject() {
@@ -98,8 +98,8 @@ void NoProjectWindow::createProject() {
   if (auto project = new_project_dialog->create(); project) {
     auto project_ptr = project.get();
 
-    egnite::ProjectManager::getInstance().addProject(std::move(project));
-    egnite::PreferencesManager::getInstance().addRecentProjectFile(
+    pillar::ProjectManager::getInstance().addProject(std::move(project));
+    pillar::PreferencesManager::getInstance().addRecentProjectFile(
         project_ptr->getFileName());
   }
 }
@@ -107,7 +107,7 @@ void NoProjectWindow::createProject() {
 void NoProjectWindow::openRecentProject(const QModelIndex &index) {
   auto project_path =
       index.data(RecentProjectListModel::Role::ProjectPathRole).toString();
-  egnite::ProjectManager::getInstance().loadProject(project_path);
+  pillar::ProjectManager::getInstance().loadProject(project_path);
 }
 
 void NoProjectWindow::searchRecentProject(const QString &search) {

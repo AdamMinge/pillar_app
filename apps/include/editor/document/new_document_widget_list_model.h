@@ -5,20 +5,20 @@
 #include <QAbstractListModel>
 #include <QIcon>
 #include <QStringList>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/plugin_listener.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/plugin_listener.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/stacked_widget/stacked_widget_tree_model.h>
 /* -------------------------------------------------------------------------- */
 
-namespace egnite {
+namespace pillar {
 class NewDocumentWidgetFactory;
 class NewDocumentWidget;
-}  // namespace egnite
+}  // namespace pillar
 
 class NewDocumentWidgetListModel
     : public qtils::QtStackedWidgetTreeModel,
-      public egnite::PluginListener<egnite::NewDocumentWidgetFactory> {
+      public pillar::PluginListener<pillar::NewDocumentWidgetFactory> {
   Q_OBJECT
 
  public:
@@ -26,11 +26,11 @@ class NewDocumentWidgetListModel
   ~NewDocumentWidgetListModel() override;
 
  protected:
-  void addedObject(egnite::NewDocumentWidgetFactory *factory) override;
-  void removedObject(egnite::NewDocumentWidgetFactory *factory) override;
+  void addedObject(pillar::NewDocumentWidgetFactory *factory) override;
+  void removedObject(pillar::NewDocumentWidgetFactory *factory) override;
 
  private:
-  QMap<egnite::NewDocumentWidgetFactory *, egnite::NewDocumentWidget *>
+  QMap<pillar::NewDocumentWidgetFactory *, pillar::NewDocumentWidget *>
       m_new_document_widget_by_factory;
 };
 

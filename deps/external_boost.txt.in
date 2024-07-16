@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 project(boost NONE)
 
-set(prefix_dir @EGNITE_BUILD_DEPS_DIR@/boost)
+set(prefix_dir @PILLAR_BUILD_DEPS_DIR@/boost)
 set(install_dir ${prefix_dir}/src/boost-install)
 
 if(WIN32)

@@ -5,10 +5,10 @@
 #include "document/new_document_widget_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/document/document.h>
-#include <egnite/document/new_document_widget.h>
-#include <egnite/preferences_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/document/document.h>
+#include <pillar/document/new_document_widget.h>
+#include <pillar/preferences_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "document/ui_new_document_dialog.h"
 /* -------------------------------------------------------------------------- */
@@ -16,8 +16,8 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct NewDocumentDialog::Preferences {
-  egnite::Preference<QByteArray> new_document_dialog_geometry =
-      egnite::Preference<QByteArray>("new_document_dialog/geometry");
+  pillar::Preference<QByteArray> new_document_dialog_geometry =
+      pillar::Preference<QByteArray>("new_document_dialog/geometry");
 };
 
 /* ----------------------------- NewDocumentDialog -------------------------- */
@@ -43,10 +43,10 @@ NewDocumentDialog::NewDocumentDialog(QWidget *parent)
 
 NewDocumentDialog::~NewDocumentDialog() { writeSettings(); }
 
-std::unique_ptr<egnite::Document> NewDocumentDialog::create() {
+std::unique_ptr<pillar::Document> NewDocumentDialog::create() {
   if (exec() != QDialog::Accepted) return nullptr;
 
-  auto new_document_widget = dynamic_cast<egnite::NewDocumentWidget *>(
+  auto new_document_widget = dynamic_cast<pillar::NewDocumentWidget *>(
       m_ui->m_new_document_widget_stack->currentWidget());
   Q_ASSERT(new_document_widget);
 
@@ -66,13 +66,13 @@ void NewDocumentDialog::changeEvent(QEvent *event) {
 }
 
 void NewDocumentDialog::currentChanged() {
-  auto current_new_document_widget = qobject_cast<egnite::NewDocumentWidget *>(
+  auto current_new_document_widget = qobject_cast<pillar::NewDocumentWidget *>(
       m_ui->m_new_document_widget_stack->currentWidget());
 
   if (current_new_document_widget) {
     disconnect(this, SLOT(isValidChanged(bool)));
     connect(current_new_document_widget,
-            &egnite::NewDocumentWidget::isValidChanged, this,
+            &pillar::NewDocumentWidget::isValidChanged, this,
             &NewDocumentDialog::isValidChanged);
 
     isValidChanged(current_new_document_widget->isValid());

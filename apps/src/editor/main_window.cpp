@@ -8,11 +8,11 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCloseEvent>
 #include <QMessageBox>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/action_manager.h>
-#include <egnite/preferences_manager.h>
-#include <egnite/project/project.h>
-#include <egnite/project/project_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/action_manager.h>
+#include <pillar/preferences_manager.h>
+#include <pillar/project/project.h>
+#include <pillar/project/project_manager.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/action/action.h>
 /* ------------------------------------ Ui ---------------------------------- */
@@ -22,10 +22,10 @@
 /* -------------------------------- Preferences ----------------------------- */
 
 struct MainWindow::Preferences {
-  egnite::Preference<QByteArray> main_window_geometry =
-      egnite::Preference<QByteArray>("main_window/geometry");
-  egnite::Preference<QByteArray> main_window_state =
-      egnite::Preference<QByteArray>("main_window/state");
+  pillar::Preference<QByteArray> main_window_geometry =
+      pillar::Preference<QByteArray>("main_window/geometry");
+  pillar::Preference<QByteArray> main_window_state =
+      pillar::Preference<QByteArray>("main_window/state");
 };
 
 /* -------------------------------- MainWindow ------------------------------ */
@@ -75,10 +75,10 @@ void MainWindow::changeEvent(QEvent *event) {
 }
 
 void MainWindow::registerActions() {
-  egnite::ActionManager::getInstance().registerAction(m_about_action, "about");
-  egnite::ActionManager::getInstance().registerAction(m_settings_action,
+  pillar::ActionManager::getInstance().registerAction(m_about_action, "about");
+  pillar::ActionManager::getInstance().registerAction(m_settings_action,
                                                       "settings");
-  egnite::ActionManager::getInstance().registerAction(m_exit_action, "exit");
+  pillar::ActionManager::getInstance().registerAction(m_exit_action, "exit");
 }
 
 void MainWindow::initUi() {
@@ -91,7 +91,7 @@ void MainWindow::initUi() {
   m_stacked_widget->addWidget(m_no_project_window);
 
   currentProjectChanged(
-      egnite::ProjectManager::getInstance().getCurrentProject());
+      pillar::ProjectManager::getInstance().getCurrentProject());
 
   setCentralWidget(m_stacked_widget);
 }
@@ -102,8 +102,8 @@ void MainWindow::initConnections() {
           &MainWindow::openSettings);
   connect(m_exit_action, &QAction::triggered, this, &MainWindow::close);
 
-  connect(&egnite::ProjectManager::getInstance(),
-          &egnite::ProjectManager::currentProjectChanged, this,
+  connect(&pillar::ProjectManager::getInstance(),
+          &pillar::ProjectManager::currentProjectChanged, this,
           &MainWindow::currentProjectChanged);
 }
 
@@ -143,7 +143,7 @@ void MainWindow::openSettings() {
 
 void MainWindow::openAbout() { AboutDialog::show(QUrl{}, this); }
 
-void MainWindow::currentProjectChanged(egnite::Project *project) {
+void MainWindow::currentProjectChanged(pillar::Project *project) {
   auto prev_current_widget = m_stacked_widget->currentWidget();
   auto next_current_widget = project
                                  ? static_cast<QWidget *>(m_project_window)

@@ -4,20 +4,20 @@
 /* ---------------------------------- Standard ------------------------------ */
 #include <map>
 #include <set>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/plugin_listener.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/plugin_listener.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/stacked_widget/stacked_widget_tree_model.h>
 /* -------------------------------------------------------------------------- */
 
-namespace egnite {
+namespace pillar {
 class SettingsWidgetFactory;
 class SettingsWidget;
-}  // namespace egnite
+}  // namespace pillar
 
 class SettingsWidgetTreeModel
     : public qtils::QtStackedWidgetTreeModel,
-      public egnite::PluginListener<egnite::SettingsWidgetFactory> {
+      public pillar::PluginListener<pillar::SettingsWidgetFactory> {
   Q_OBJECT
 
  public:
@@ -31,15 +31,15 @@ class SettingsWidgetTreeModel
   void appliedChanged(bool applied);
 
  protected:
-  void addedObject(egnite::SettingsWidgetFactory *factory) override;
-  void removedObject(egnite::SettingsWidgetFactory *factory) override;
+  void addedObject(pillar::SettingsWidgetFactory *factory) override;
+  void removedObject(pillar::SettingsWidgetFactory *factory) override;
 
  private Q_SLOTS:
-  void onAppliedChanged(egnite::SettingsWidget *settings_widget, bool applied);
+  void onAppliedChanged(pillar::SettingsWidget *settings_widget, bool applied);
 
  private:
-  QSet<egnite::SettingsWidget *> m_to_apply;
-  QMap<egnite::SettingsWidgetFactory *, egnite::SettingsWidget *>
+  QSet<pillar::SettingsWidget *> m_to_apply;
+  QMap<pillar::SettingsWidgetFactory *, pillar::SettingsWidget *>
       m_settings_widget_by_factory;
 };
 

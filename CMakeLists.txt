@@ -3,14 +3,14 @@
 # ----------------------------------------------------------------------- #
 cmake_minimum_required(VERSION 3.11)
 project(
-  EGNITE
+  PILLAR
   VERSION 0.1.0
   LANGUAGES CXX)
 # ----------------------------------------------------------------------- #
 # ------------------------ Include config and macros -------------------- #
 # ----------------------------------------------------------------------- #
-include(${EGNITE_SOURCE_DIR}/cmake/config.cmake)
-include(${EGNITE_SOURCE_DIR}/cmake/macros.cmake)
+include(${PILLAR_SOURCE_DIR}/cmake/config.cmake)
+include(${PILLAR_SOURCE_DIR}/cmake/macros.cmake)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Add subdirectories ----------------------- #
 # ----------------------------------------------------------------------- #
@@ -19,7 +19,7 @@ add_subdirectory(modules)
 add_subdirectory(plugins)
 add_subdirectory(apps)
 
-if(EGNITE_BUILD_TEST)
+if(PILLAR_BUILD_TEST)
   add_subdirectory(tests)
 endif()
 
@@ -27,6 +27,6 @@ add_subdirectory(docs)
 # ----------------------------------------------------------------------- #
 # ------------------------------- Final steps --------------------------- #
 # ----------------------------------------------------------------------- #
-egnite_export_modules()
-egnite_static_analyzers()
+pillar_export_modules()
+pillar_static_analyzers()
 # ----------------------------------------------------------------------- #

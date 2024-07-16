@@ -7,7 +7,7 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-namespace egnite {
+namespace pillar {
 class Project;
 }
 
@@ -18,9 +18,9 @@ class ProjectReader {
   explicit ProjectReader();
   ~ProjectReader();
 
-  std::unique_ptr<egnite::Project> read(QIODevice &device,
+  std::unique_ptr<pillar::Project> read(QIODevice &device,
                                         QString *error = nullptr);
-  std::unique_ptr<egnite::Project> read(const QString &file_name,
+  std::unique_ptr<pillar::Project> read(const QString &file_name,
                                         QString *error = nullptr);
 
   bool isValid(const QString &file_name);

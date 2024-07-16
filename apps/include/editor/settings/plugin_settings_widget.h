@@ -3,9 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/settings/settings_widget.h>
-#include <egnite/settings/settings_widget_factory.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/settings/settings_widget.h>
+#include <pillar/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
@@ -15,7 +15,7 @@ class PluginSettingsWidget;
 class PluginListModel;
 class PluginListDelegate;
 
-class PluginSettingsWidget : public egnite::SettingsWidget {
+class PluginSettingsWidget : public pillar::SettingsWidget {
   Q_OBJECT
 
  public:
@@ -46,15 +46,15 @@ class PluginSettingsWidget : public egnite::SettingsWidget {
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
-class PluginSettingsWidgetFactory : public egnite::SettingsWidgetFactory {
+class PluginSettingsWidgetFactory : public pillar::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(egnite::SettingsWidgetFactory)
+  Q_INTERFACES(pillar::SettingsWidgetFactory)
 
  public:
   explicit PluginSettingsWidgetFactory(QObject *parent = nullptr);
   ~PluginSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<egnite::SettingsWidget> create() const override;
+  [[nodiscard]] std::unique_ptr<pillar::SettingsWidget> create() const override;
 };
 
 #endif  // PLUGIN_SETTINGS_WIDGET_H

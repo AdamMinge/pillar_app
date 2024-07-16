@@ -41,7 +41,7 @@ void AboutDialog::retranslateUi() {
           "<head/>"
           "<body>"
           "<p align=\"center\"><span style=\" font-size:48pt; "
-          "font-weight:700;\">Egnite</span></p>"
+          "font-weight:700;\">Pillar</span></p>"
           "<p align=\"center\"><span style=\" color:#%1;\">%2</span></p>"
           "<p align=\"center\"><span style=\" font-size:12pt;\">%3</span></p>"
           "<p align=\"center\"><span style=\" font-size:12pt;\">%4 </span><a "
@@ -57,8 +57,8 @@ void AboutDialog::retranslateUi() {
                    .arg(QApplication::instance()->applicationVersion()),
                tr("This Project is open source and <br/> contributions are "
                   "welcomed."),
-               tr("Visit"), tr("https://github.com/AdamMinge/flow_app"),
-               link_color, tr("GitHub/AdamMinge/flow_app"),
+               tr("Visit"), tr("https://github.com/AdamMinge/pillar_app"),
+               link_color, tr("GitHub/AdamMinge/pillar_app"),
                tr("for more information or to report a bug <br> or to suggest "
                   "a new "
                   "feature."),

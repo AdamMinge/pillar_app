@@ -4,8 +4,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QAbstractTableModel>
 #include <QIcon>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/issue.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/issue.h>
 /* -------------------------------------------------------------------------- */
 
 class IssueTableModel : public QAbstractTableModel {
@@ -32,7 +32,7 @@ class IssueTableModel : public QAbstractTableModel {
                                     int role) const override;
 
  public Q_SLOTS:
-  void addIssue(const egnite::Issue &issue);
+  void addIssue(const pillar::Issue &issue);
 
   void removeIssues(const QVariant &context);
   void removeAllIssues();
@@ -42,7 +42,7 @@ class IssueTableModel : public QAbstractTableModel {
   [[nodiscard]] QString getIssueSeverityName(const QModelIndex &index) const;
 
  private:
-  QVector<std::pair<egnite::Issue, unsigned>> m_issues;
+  QVector<std::pair<pillar::Issue, unsigned>> m_issues;
 };
 
 #endif  // ISSUE_TABLE_MODEL_H

@@ -11,9 +11,9 @@ namespace Ui {
 class MainWindow;
 }
 
-namespace egnite {
+namespace pillar {
 class Project;
-}  // namespace egnite
+}  // namespace pillar
 
 class ProjectWindow;
 class NoProjectWindow;
@@ -48,7 +48,7 @@ class MainWindow final : public QMainWindow {
   void openSettings();
   void openAbout();
 
-  void currentProjectChanged(egnite::Project *project);
+  void currentProjectChanged(pillar::Project *project);
 
   void updateWindowTitle();
 

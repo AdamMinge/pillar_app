@@ -1,16 +1,16 @@
 #ifndef APPEARANCE_SETTINGS_WIDGET_H
 #define APPEARANCE_SETTINGS_WIDGET_H
 
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/settings/settings_widget.h>
-#include <egnite/settings/settings_widget_factory.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/settings/settings_widget.h>
+#include <pillar/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
 class AppearanceSettingsWidget;
 }
 
-class AppearanceSettingsWidget : public egnite::SettingsWidget {
+class AppearanceSettingsWidget : public pillar::SettingsWidget {
   Q_OBJECT
 
  public:
@@ -35,15 +35,15 @@ class AppearanceSettingsWidget : public egnite::SettingsWidget {
   QScopedPointer<Ui::AppearanceSettingsWidget> m_ui;
 };
 
-class AppearanceSettingsWidgetFactory : public egnite::SettingsWidgetFactory {
+class AppearanceSettingsWidgetFactory : public pillar::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(egnite::SettingsWidgetFactory)
+  Q_INTERFACES(pillar::SettingsWidgetFactory)
 
  public:
   explicit AppearanceSettingsWidgetFactory(QObject *parent = nullptr);
   ~AppearanceSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<egnite::SettingsWidget> create() const override;
+  [[nodiscard]] std::unique_ptr<pillar::SettingsWidget> create() const override;
   [[nodiscard]] QString getParentObjectName() const override;
 };
 

@@ -7,7 +7,7 @@
 #include <memory>
 /* -------------------------------------------------------------------------- */
 
-namespace egnite {
+namespace pillar {
 class Project;
 }
 
@@ -18,8 +18,8 @@ class ProjectWriter {
   explicit ProjectWriter();
   ~ProjectWriter();
 
-  void write(const egnite::Project &project, QIODevice &device);
-  bool write(const egnite::Project &project, const QString &file_name,
+  void write(const pillar::Project &project, QIODevice &device);
+  bool write(const pillar::Project &project, const QString &file_name,
              QString *error = nullptr);
 
  private:

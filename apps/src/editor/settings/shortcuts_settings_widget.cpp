@@ -6,8 +6,8 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QMenu>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/action_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/action_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_shortcuts_settings_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -122,7 +122,7 @@ void ShortcutsSettingsWidget::setDefaultShortcuts(
     const auto action_id =
         m_search_proxy_model->data(action_id_index, Qt::DisplayRole).toString();
     const auto action_default_shortcut =
-        egnite::ActionManager::getInstance().getDefaultShortcut(action_id);
+        pillar::ActionManager::getInstance().getDefaultShortcut(action_id);
 
     m_search_proxy_model->setData(action_shortcut_index,
                                   action_default_shortcut, Qt::DisplayRole);
@@ -143,11 +143,11 @@ void ShortcutsSettingsWidget::clearShortcuts(
 /* ---------------------- ShortcutsSettingsWidgetFactory -------------------- */
 
 ShortcutsSettingsWidgetFactory::ShortcutsSettingsWidgetFactory(QObject *parent)
-    : egnite::SettingsWidgetFactory(parent) {}
+    : pillar::SettingsWidgetFactory(parent) {}
 
 ShortcutsSettingsWidgetFactory::~ShortcutsSettingsWidgetFactory() = default;
 
-std::unique_ptr<egnite::SettingsWidget> ShortcutsSettingsWidgetFactory::create()
+std::unique_ptr<pillar::SettingsWidget> ShortcutsSettingsWidgetFactory::create()
     const {
   return std::make_unique<ShortcutsSettingsWidget>();
 }

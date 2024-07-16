@@ -7,7 +7,7 @@
 #include <utility>
 /* -------------------------------------------------------------------------- */
 
-namespace egnite {
+namespace pillar {
 class Plugin;
 }
 
@@ -43,7 +43,7 @@ class PluginListModel : public QAbstractListModel {
   void appliedChanged(bool applied);
 
  protected:
-  QVector<std::pair<egnite::Plugin *, bool>> m_plugins;
+  QVector<std::pair<pillar::Plugin *, bool>> m_plugins;
 };
 
 class StaticPluginListModel : public PluginListModel {

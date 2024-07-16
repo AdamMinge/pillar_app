@@ -2,8 +2,8 @@
 #include "project/project_writer.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/project/project.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/project/project.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/serializer/json_archive.h>
 /* -------------------------------------------------------------------------- */
@@ -15,11 +15,11 @@ class ProjectWriter::ProjectWriterImpl {
   explicit ProjectWriterImpl() = default;
   ~ProjectWriterImpl() = default;
 
-  void writeProject(const egnite::Project &project, QIODevice &device);
+  void writeProject(const pillar::Project &project, QIODevice &device);
 };
 
 void ProjectWriter::ProjectWriterImpl::writeProject(
-    const egnite::Project &project, QIODevice &device) {
+    const pillar::Project &project, QIODevice &device) {
   qtils::OJsonArchive archive(device);
   archive << qtils::ArchiveProperty("project", project);
 }
@@ -31,11 +31,11 @@ ProjectWriter::ProjectWriter()
 
 ProjectWriter::~ProjectWriter() = default;
 
-void ProjectWriter::write(const egnite::Project &project, QIODevice &device) {
+void ProjectWriter::write(const pillar::Project &project, QIODevice &device) {
   m_impl->writeProject(project, device);
 }
 
-bool ProjectWriter::write(const egnite::Project &project,
+bool ProjectWriter::write(const pillar::Project &project,
                           const QString &file_name, QString *error) {
   QFile file(file_name);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

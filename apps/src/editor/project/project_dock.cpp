@@ -13,11 +13,11 @@
 #include <QProcess>
 #include <QTreeView>
 #include <QUrl>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/action_manager.h>
-#include <egnite/document/document.h>
-#include <egnite/document/document_manager.h>
-#include <egnite/project/project.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/action_manager.h>
+#include <pillar/document/document.h>
+#include <pillar/document/document_manager.h>
+#include <pillar/project/project.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/file_system/file_system_proxy_model.h>
 #include <qtils/view/unselectable_view.h>
@@ -40,7 +40,7 @@ ProjectDock::ProjectDock(QWidget *parent)
 
 ProjectDock::~ProjectDock() = default;
 
-void ProjectDock::setProject(egnite::Project *project) {
+void ProjectDock::setProject(pillar::Project *project) {
   if (m_current_project == project) return;
 
   m_current_project = project;
@@ -60,7 +60,7 @@ void ProjectDock::setProject(egnite::Project *project) {
   m_view->expand(root_index);
 }
 
-egnite::Project *ProjectDock::getProject() const { return m_current_project; }
+pillar::Project *ProjectDock::getProject() const { return m_current_project; }
 
 void ProjectDock::changeEvent(QEvent *event) {
   QDockWidget::changeEvent(event);
@@ -204,7 +204,7 @@ void ProjectDock::openContextMenu(const QPoint &position) {
   QMenu open_in_menu(tr("&Open In"));
 
   new_menu.addAction(tr("&Document"), []() {
-    egnite::ActionManager::getInstance().findAction("new_document")->trigger();
+    pillar::ActionManager::getInstance().findAction("new_document")->trigger();
   });
   new_menu.addSeparator();
   new_menu.addAction(tr("&Directory"), [this, valid_directory_index]() {
@@ -246,5 +246,5 @@ void ProjectDock::openDocument(const QModelIndex &index) {
   auto file_info = QFileInfo(file_path);
 
   if (file_info.isFile())
-    egnite::DocumentManager::getInstance().loadDocument(file_path);
+    pillar::DocumentManager::getInstance().loadDocument(file_path);
 }

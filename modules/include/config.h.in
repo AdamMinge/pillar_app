@@ -1,42 +1,42 @@
 /* -------------------------------------------------------------------------- */
-#ifndef EGNITE_CONFIG_H
-#define EGNITE_CONFIG_H
+#ifndef PILLAR_CONFIG_H
+#define PILLAR_CONFIG_H
 /* -------------------------------------------------------------------------- */
-/* ---------------------------- Define EGNITE version ----------------------- */
+/* ---------------------------- Define PILLAR version ----------------------- */
 /* -------------------------------------------------------------------------- */
 // clang-format off
 
-#define EGNITE_VERSION_MAJOR @EGNITE_VERSION_MAJOR@
-#define EGNITE_VERSION_MINOR @EGNITE_VERSION_MINOR@
-#define EGNITE_VERSION_PATCH @EGNITE_VERSION_PATCH@
-#define EGNITE_VERSION @EGNITE_VERSION_MAJOR@.@EGNITE_VERSION_MINOR@.@EGNITE_VERSION_PATCH@
-#define EGNITE_VERSION_STR "@EGNITE_VERSION_MAJOR@.@EGNITE_VERSION_MINOR@.@EGNITE_VERSION_PATCH@"
+#define PILLAR_VERSION_MAJOR @PILLAR_VERSION_MAJOR@
+#define PILLAR_VERSION_MINOR @PILLAR_VERSION_MINOR@
+#define PILLAR_VERSION_PATCH @PILLAR_VERSION_PATCH@
+#define PILLAR_VERSION @PILLAR_VERSION_MAJOR@.@PILLAR_VERSION_MINOR@.@PILLAR_VERSION_PATCH@
+#define PILLAR_VERSION_STR "@PILLAR_VERSION_MAJOR@.@PILLAR_VERSION_MINOR@.@PILLAR_VERSION_PATCH@"
 
 // clang-format on
 /* -------------------------------------------------------------------------- */
 /* ----------------------- Identify the operating system -------------------- */
 /* -------------------------------------------------------------------------- */
 #if defined(_WIN32)
-#define EGNITE_OS_WINDOWS
+#define PILLAR_OS_WINDOWS
 #elif defined(__linux__)
-#define EGNITE_OS_LINUX
+#define PILLAR_OS_LINUX
 #else
-#error This operating system is not supported by EGNITE library
+#error This operating system is not supported by PILLAR library
 #endif
 /* -------------------------------------------------------------------------- */
 /* ------------------------ Define a portable debug macro ------------------- */
 /* -------------------------------------------------------------------------- */
 #if !defined(NDEBUG)
-#define EGNITE_DEBUG
+#define PILLAR_DEBUG
 #endif
 /* -------------------------------------------------------------------------- */
 /* -------------------- Define helpers to set items as deprecated ----------- */
 /* -------------------------------------------------------------------------- */
-#if !defined(EGNITE_DEPRECATED_WARNINGS)
-#define EGNITE_DEPRECATED [[deprecated]]
+#if !defined(PILLAR_DEPRECATED_WARNINGS)
+#define PILLAR_DEPRECATED [[deprecated]]
 #else
-#define EGNITE_DEPRECATED
+#define PILLAR_DEPRECATED
 #endif
 /* -------------------------------------------------------------------------- */
-#endif  // EGNITE_CONFIG_H
+#endif  // PILLAR_CONFIG_H
 /* -------------------------------------------------------------------------- */

@@ -2,8 +2,8 @@
 #include "project/project_reader.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFile>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/project/project.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/project/project.h>
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/pointer/unique_ptr_cast.h>
 #include <qtils/serializer/json_archive.h>
@@ -16,14 +16,14 @@ class ProjectReader::ProjectReaderImpl {
   explicit ProjectReaderImpl() = default;
   ~ProjectReaderImpl() = default;
 
-  std::unique_ptr<egnite::Project> readProject(QIODevice &device);
+  std::unique_ptr<pillar::Project> readProject(QIODevice &device);
   bool isValid(QIODevice &device);
 };
 
-std::unique_ptr<egnite::Project> ProjectReader::ProjectReaderImpl::readProject(
+std::unique_ptr<pillar::Project> ProjectReader::ProjectReaderImpl::readProject(
     QIODevice &device) {
   auto project =
-      qtils::cast_unique_ptr<egnite::Project>(egnite::Project::create());
+      qtils::cast_unique_ptr<pillar::Project>(pillar::Project::create());
 
   qtils::IJsonArchive archive(device);
   archive >> qtils::ArchiveProperty("project", project);
@@ -42,7 +42,7 @@ ProjectReader::ProjectReader()
 
 ProjectReader::~ProjectReader() = default;
 
-std::unique_ptr<egnite::Project> ProjectReader::read(QIODevice &device,
+std::unique_ptr<pillar::Project> ProjectReader::read(QIODevice &device,
                                                      QString *error) {
   auto project = m_impl->readProject(device);
   if (!project && error) *error = QObject::tr("Failed to load project");
@@ -50,7 +50,7 @@ std::unique_ptr<egnite::Project> ProjectReader::read(QIODevice &device,
   return project;
 }
 
-std::unique_ptr<egnite::Project> ProjectReader::read(const QString &file_name,
+std::unique_ptr<pillar::Project> ProjectReader::read(const QString &file_name,
                                                      QString *error) {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {

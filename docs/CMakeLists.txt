@@ -5,9 +5,9 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ------------------ Generate and install documentation ----------------- #
 # ----------------------------------------------------------------------- #
-if(EGNITE_BUILD_DOCUMENTATION)
+if(PILLAR_BUILD_DOCUMENTATION)
   find_package(Doxygen REQUIRED)
-  set(DOXYGEN_IN ${EGNITE_SOURCE_DIR}/docs/Doxyfile.in)
+  set(DOXYGEN_IN ${PILLAR_SOURCE_DIR}/docs/Doxyfile.in)
   set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
 
   configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)

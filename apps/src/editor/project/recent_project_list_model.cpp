@@ -4,14 +4,14 @@
 #include "resources.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QFileInfo>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/preferences_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 RecentProjectListModel::RecentProjectListModel(QObject *parent)
     : QAbstractListModel(parent) {
-  connect(std::addressof(egnite::PreferencesManager::getInstance()),
-          &egnite::PreferencesManager::recentProjectFilesChanged, this,
+  connect(std::addressof(pillar::PreferencesManager::getInstance()),
+          &pillar::PreferencesManager::recentProjectFilesChanged, this,
           &RecentProjectListModel::recentProjectFilesChanged);
 
   recentProjectFilesChanged();
@@ -51,7 +51,7 @@ int RecentProjectListModel::rowCount(const QModelIndex &parent) const {
 void RecentProjectListModel::recentProjectFilesChanged() {
   beginResetModel();
   m_projects =
-      egnite::PreferencesManager::getInstance().getRecentProjectFiles();
+      pillar::PreferencesManager::getInstance().getRecentProjectFiles();
   endResetModel();
 }
 

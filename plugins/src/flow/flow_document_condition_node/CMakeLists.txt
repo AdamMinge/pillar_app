@@ -1,0 +1,50 @@
+# ----------------------------------------------------------------------- #
+# ---------------------------- Set CMake Version ------------------------ #
+# ----------------------------------------------------------------------- #
+cmake_minimum_required(VERSION 3.11)
+# ----------------------------------------------------------------------- #
+# ---------------------------- Set files variable ----------------------- #
+# ----------------------------------------------------------------------- #
+set(source_root
+    ${PILLAR_SOURCE_DIR}/plugins/src/flow/flow_document_condition_node)
+set(include_root
+    ${PILLAR_SOURCE_DIR}/plugins/include/flow/flow_document_condition_node)
+
+set(sources
+    ${source_root}/flow/condition_node_switcher.cpp
+    ${source_root}/flow/condition_node_dispatcher.cpp
+    ${source_root}/condition_node_plugin.cpp)
+
+set(includes
+    ${include_root}/export.h ${include_root}/flow/condition_node_switcher.h
+    ${include_root}/flow/condition_node_dispatcher.h
+    ${include_root}/condition_node_plugin.h)
+# ----------------------------------------------------------------------- #
+# ------------------------- Qt libraries configuration ------------------ #
+# ----------------------------------------------------------------------- #
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+# ----------------------------------------------------------------------- #
+# -------------------------- Find external libraries -------------------- #
+# ----------------------------------------------------------------------- #
+find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
+# ----------------------------------------------------------------------- #
+# -------------------------- Create plugin shared lib ------------------- #
+# ----------------------------------------------------------------------- #
+pillar_add_plugins(
+  flow_document_condition_node
+  SOURCES
+  ${sources}
+  ${includes}
+  DEPENDS
+  Qt6::Core
+  Qt6::Widgets
+  plugin::flow_document)
+
+target_include_directories(
+  flow_document_condition_node
+  PUBLIC $<BUILD_INTERFACE:${include_root}>
+  INTERFACE $<INSTALL_INTERFACE:include>
+  PRIVATE ${source_root})
+# ----------------------------------------------------------------------- #

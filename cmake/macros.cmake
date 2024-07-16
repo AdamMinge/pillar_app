@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------- #
 # ------------- Define a macro that helps add engine module ------------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_module target)
+macro(pillar_add_module target)
 
   cmake_parse_arguments(
     THIS
@@ -12,12 +12,12 @@ macro(egnite_add_module target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_module: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_module: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   add_library(${target} ${THIS_SOURCES})
-  add_library(egnite::${target} ALIAS ${target})
+  add_library(pillar::${target} ALIAS ${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -37,7 +37,7 @@ macro(egnite_add_module target)
   endif()
 
   foreach(target_depends ${THIS_DEPENDS_TO_EXPORT})
-    install(TARGETS ${target_depends} EXPORT egniteConfigExport)
+    install(TARGETS ${target_depends} EXPORT pillarConfigExport)
   endforeach()
 
   string(REPLACE "-" "_" NAME_UPPER "${target}")
@@ -57,20 +57,20 @@ macro(egnite_add_module target)
 
   install(
     TARGETS ${target}
-    EXPORT egniteConfigExport
+    EXPORT pillarConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "EGNITE_STATIC")
+    target_compile_definitions(${target} PUBLIC "PILLAR_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # --------------- Define a macro that helps export engine --------------- #
 # ----------------------------------------------------------------------- #
-function(egnite_export_modules)
+function(pillar_export_modules)
 
   if(BUILD_SHARED_LIBS)
     set(config_name "shared")
@@ -78,42 +78,42 @@ function(egnite_export_modules)
     set(config_name "static")
   endif()
 
-  set(current_dir "${EGNITE_SOURCE_DIR}/cmake")
-  set(targets_config_filename "egnite-${config_name}-targets.cmake")
-  set(config_package_location ${CMAKE_INSTALL_LIBDIR}/cmake/egnite)
+  set(current_dir "${PILLAR_SOURCE_DIR}/cmake")
+  set(targets_config_filename "pillar-${config_name}-targets.cmake")
+  set(config_package_location ${CMAKE_INSTALL_LIBDIR}/cmake/pillar)
 
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/egnite-config-version.cmake"
-    VERSION ${EGNITE_VERSION_MAJOR}.${EGNITE_VERSION_MINOR}
+    "${CMAKE_CURRENT_BINARY_DIR}/pillar-config-version.cmake"
+    VERSION ${PILLAR_VERSION_MAJOR}.${PILLAR_VERSION_MINOR}
     COMPATIBILITY SameMajorVersion)
 
-  export(EXPORT egniteConfigExport
+  export(EXPORT pillarConfigExport
          FILE "${CMAKE_CURRENT_BINARY_DIR}/${targets_config_filename}")
 
   configure_package_config_file(
-    "${current_dir}/egnite-config.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/egnite-config.cmake"
+    "${current_dir}/pillar-config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/pillar-config.cmake"
     INSTALL_DESTINATION "${config_package_location}")
   configure_package_config_file(
-    "${current_dir}/egnite-config-dependencies.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/egnite-config-dependencies.cmake"
+    "${current_dir}/pillar-config-dependencies.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/pillar-config-dependencies.cmake"
     INSTALL_DESTINATION "${config_package_location}")
 
   install(
-    EXPORT egniteConfigExport
+    EXPORT pillarConfigExport
     FILE ${targets_config_filename}
-    NAMESPACE egnite::
+    NAMESPACE pillar::
     DESTINATION ${config_package_location})
 
   install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/egnite-config.cmake
-          ${CMAKE_CURRENT_BINARY_DIR}/egnite-config-dependencies.cmake
-          ${CMAKE_CURRENT_BINARY_DIR}/egnite-config-version.cmake
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/pillar-config.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/pillar-config-dependencies.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/pillar-config-version.cmake
     DESTINATION ${config_package_location})
 
   install(
-    DIRECTORY ${EGNITE_SOURCE_DIR}/include
+    DIRECTORY ${PILLAR_SOURCE_DIR}/include
     DESTINATION .
     COMPONENT devel
     FILES_MATCHING
@@ -125,14 +125,14 @@ endfunction()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that helps add application -------------- #
 # ----------------------------------------------------------------------- #
-macro(_egnite_add_executable target)
+macro(_pillar_add_executable target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling _egnite_add_executable: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling _pillar_add_executable: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -169,20 +169,20 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that helps add engine test -------------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_test target)
+macro(pillar_add_test target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_test: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_test: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   find_package(GTest REQUIRED)
 
-  _egnite_add_executable(
+  _pillar_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -199,18 +199,18 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ------------ Define a macro that helps add engine example ------------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_example target)
+macro(pillar_add_example target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_test: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_test: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
-  _egnite_add_executable(
+  _pillar_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -225,18 +225,18 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------------- Define a macro that helps add tool ------------------ #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_application target)
+macro(pillar_add_application target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_application: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_application: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
-  _egnite_add_executable(
+  _pillar_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -253,7 +253,7 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # --------------- Define a macro that helps add utils lib --------------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_utils target)
+macro(pillar_add_utils target)
 
   cmake_parse_arguments(
     THIS
@@ -264,7 +264,7 @@ macro(egnite_add_utils target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -289,7 +289,7 @@ macro(egnite_add_utils target)
   endif()
 
   foreach(target_depends ${THIS_DEPENDS_TO_EXPORT})
-    install(TARGETS ${target_depends} EXPORT egniteConfigExport)
+    install(TARGETS ${target_depends} EXPORT pillarConfigExport)
   endforeach()
 
   string(REPLACE "-" "_" NAME_UPPER "${target}")
@@ -309,20 +309,20 @@ macro(egnite_add_utils target)
 
   install(
     TARGETS ${target}
-    EXPORT egniteConfigExport
+    EXPORT pillarConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "EGNITE_STATIC")
+    target_compile_definitions(${target} PUBLIC "PILLAR_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # ---------------- Define a macro that helps add plugins ---------------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_plugins target)
+macro(pillar_add_plugins target)
 
   cmake_parse_arguments(
     THIS
@@ -333,7 +333,7 @@ macro(egnite_add_plugins target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -374,22 +374,22 @@ macro(egnite_add_plugins target)
 
   install(
     TARGETS ${target}
-    EXPORT egniteConfigExport
+    EXPORT pillarConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib)
 
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "EGNITE_STATIC")
+    target_compile_definitions(${target} PUBLIC "PILLAR_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # ------------- Define a macro that generate documentation -------------- #
 # ----------------------------------------------------------------------- #
-function(egnite_generate_documentation)
+function(pillar_generate_documentation)
   find_package(Doxygen REQUIRED)
-  set(DOXYGEN_IN ${EGNITE_SOURCE_DIR}/docs/Doxyfile.in)
+  set(DOXYGEN_IN ${PILLAR_SOURCE_DIR}/docs/Doxyfile.in)
   set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
 
   configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
@@ -404,20 +404,20 @@ endfunction()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that install documentation -------------- #
 # ----------------------------------------------------------------------- #
-function(egnite_install_documentation)
+function(pillar_install_documentation)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc_doxygen/
           DESTINATION ${CMAKE_INSTALL_PREFIX}/docs)
 endfunction()
 # ----------------------------------------------------------------------- #
 # ----------- Define a macro that helps defining translations ----------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_add_translations target)
+macro(pillar_add_translations target)
 
   cmake_parse_arguments(THIS "" "QM_DIR" "TS_FILES;DIRS" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling egnite_add_translations: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling pillar_add_translations: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -462,8 +462,8 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------- Define a function that helps add static analysis ---------- #
 # ----------------------------------------------------------------------- #
-function(egnite_static_analyzers)
-  if(EGNITE_ENABLE_CLANG_TIDY)
+function(pillar_static_analyzers)
+  if(PILLAR_ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)
     if(CLANGTIDY)
       set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY}
@@ -473,7 +473,7 @@ function(egnite_static_analyzers)
     endif()
   endif()
 
-  if(EGNITE_ENABLE_CPPCHECK)
+  if(PILLAR_ENABLE_CPPCHECK)
     find_program(CPPCHECK cppcheck)
     if(CPPCHECK)
       set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --suppress=missingInclude --enable=all

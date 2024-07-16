@@ -8,11 +8,11 @@
 #include "settings/shortcuts_settings_widget.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/application.h>
-#include <egnite/language_translator.h>
-#include <egnite/plugin_manager.h>
-#include <egnite/preferences_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/application.h>
+#include <pillar/language_translator.h>
+#include <pillar/plugin_manager.h>
+#include <pillar/preferences_manager.h>
 /* -------------------------------------------------------------------------- */
 
 /* ----------------------------- messagesToConsole -------------------------- */
@@ -46,23 +46,23 @@ static void messagesToConsole(QtMsgType type, const QMessageLogContext &context,
 /* -------------------------- RegisterDefaultPlugins ------------------------ */
 
 static void registerDefaultFormats(QApplication &app) {
-  egnite::PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
+  pillar::PluginManager::getInstance().addObject(new ProjectFormatPro(&app));
 }
 
 static void registerDefaultSettings(QApplication &app) {
-  egnite::PluginManager::getInstance().addObject(
+  pillar::PluginManager::getInstance().addObject(
       new GeneralSettingsWidgetFactory(&app));
-  egnite::PluginManager::getInstance().addObject(
+  pillar::PluginManager::getInstance().addObject(
       new AppearanceSettingsWidgetFactory(&app));
-  egnite::PluginManager::getInstance().addObject(
+  pillar::PluginManager::getInstance().addObject(
       new ShortcutsSettingsWidgetFactory(&app));
-  egnite::PluginManager::getInstance().addObject(
+  pillar::PluginManager::getInstance().addObject(
       new PluginSettingsWidgetFactory(&app));
 }
 
 static void registerDefaultLanguageTranslators(QApplication &app) {
-  egnite::PluginManager::getInstance().addObject(
-      new egnite::BaseLanguageTranslator(translations::TranslationsPath, &app));
+  pillar::PluginManager::getInstance().addObject(
+      new pillar::BaseLanguageTranslator(translations::TranslationsPath, &app));
 }
 
 static void registerDefaultPlugins(QApplication &app) {
@@ -74,7 +74,7 @@ static void registerDefaultPlugins(QApplication &app) {
 /* ----------------------------------- main --------------------------------- */
 
 int main(int argc, char **argv) {
-  egnite::Application app(argc, argv);
+  pillar::Application app(argc, argv);
 
   qInstallMessageHandler(messagesToConsole);
 

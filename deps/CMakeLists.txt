@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ----------------------- Setup Dependency Helper ----------------------- #
 # ----------------------------------------------------------------------- #
-macro(egnite_setup_dependency directory dependency)
+macro(pillar_setup_dependency directory dependency)
   configure_file(external_${dependency}.txt.in ${dependency}/CMakeLists.txt
                  @ONLY)
 
@@ -36,14 +36,14 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ------------------------ Set Dependency Directory --------------------- #
 # ----------------------------------------------------------------------- #
-if(NOT EGNITE_BUILD_DEPS_DIR)
-  set(EGNITE_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
+if(NOT PILLAR_BUILD_DEPS_DIR)
+  set(PILLAR_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 # ----------------------------------------------------------------------- #
 # -------------------------- Setup Dependency --------------------------- #
 # ----------------------------------------------------------------------- #
-egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} qt)
-egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} gtest)
-egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} boost)
-egnite_setup_dependency(${EGNITE_BUILD_DEPS_DIR} qtils)
+pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} qt)
+pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} gtest)
+pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} boost)
+pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} qtils)
 # ----------------------------------------------------------------------- #

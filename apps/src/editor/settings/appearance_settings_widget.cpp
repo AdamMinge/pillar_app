@@ -2,9 +2,9 @@
 #include "settings/appearance_settings_widget.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/language_manager.h>
-#include <egnite/style_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/language_manager.h>
+#include <pillar/style_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_appearance_settings_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -36,10 +36,10 @@ void AppearanceSettingsWidget::changeEvent(QEvent *event) {
 void AppearanceSettingsWidget::initUi() {
   m_ui->setupUi(this);
 
-  auto &language_manager = egnite::LanguageManager::getInstance();
+  auto &language_manager = pillar::LanguageManager::getInstance();
   availableLanguagesChanged(language_manager.getAvailableLanguages());
 
-  auto &style_manager = egnite::StyleManager::getInstance();
+  auto &style_manager = pillar::StyleManager::getInstance();
   auto styles = style_manager.getAvailableStyles();
 
   m_ui->m_theme_combobox->addItems(styles);
@@ -54,9 +54,9 @@ void AppearanceSettingsWidget::initConnections() {
   connect(m_ui->m_theme_combobox, &QComboBox::currentTextChanged, this,
           &AppearanceSettingsWidget::styleChanged);
 
-  auto &language_manager = egnite::LanguageManager::getInstance();
+  auto &language_manager = pillar::LanguageManager::getInstance();
   connect(&language_manager,
-          &egnite::LanguageManager::availableLanguagesChanged, this,
+          &pillar::LanguageManager::availableLanguagesChanged, this,
           &AppearanceSettingsWidget::availableLanguagesChanged);
 }
 
@@ -64,18 +64,18 @@ void AppearanceSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 
 void AppearanceSettingsWidget::languageChanged(int index) {
   const auto locale = m_ui->m_language_combobox->itemData(index).toLocale();
-  auto &language_manager = egnite::LanguageManager::getInstance();
+  auto &language_manager = pillar::LanguageManager::getInstance();
   language_manager.setLanguage(locale);
 }
 
 void AppearanceSettingsWidget::styleChanged(const QString &style) {
-  auto &style_manager = egnite::StyleManager::getInstance();
+  auto &style_manager = pillar::StyleManager::getInstance();
   style_manager.setStyle(style);
 }
 
 void AppearanceSettingsWidget::availableLanguagesChanged(
     const QList<QLocale> &locales) {
-  auto &language_manager = egnite::LanguageManager::getInstance();
+  auto &language_manager = pillar::LanguageManager::getInstance();
   const auto current_locale = language_manager.getCurrentLanguage().language();
   const auto available_languages = language_manager.getAvailableLanguages();
 
@@ -96,11 +96,11 @@ void AppearanceSettingsWidget::availableLanguagesChanged(
 
 AppearanceSettingsWidgetFactory::AppearanceSettingsWidgetFactory(
     QObject *parent)
-    : egnite::SettingsWidgetFactory(parent) {}
+    : pillar::SettingsWidgetFactory(parent) {}
 
 AppearanceSettingsWidgetFactory::~AppearanceSettingsWidgetFactory() = default;
 
-std::unique_ptr<egnite::SettingsWidget>
+std::unique_ptr<pillar::SettingsWidget>
 AppearanceSettingsWidgetFactory::create() const {
   return std::make_unique<AppearanceSettingsWidget>();
 }

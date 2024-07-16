@@ -3,9 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QSortFilterProxyModel>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/settings/settings_widget.h>
-#include <egnite/settings/settings_widget_factory.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/settings/settings_widget.h>
+#include <pillar/settings/settings_widget_factory.h>
 /* -------------------------------------------------------------------------- */
 
 namespace Ui {
@@ -15,7 +15,7 @@ class ShortcutsSettingsWidget;
 class ShortcutsTableModel;
 class ShortcutsTableDelegate;
 
-class ShortcutsSettingsWidget : public egnite::SettingsWidget {
+class ShortcutsSettingsWidget : public pillar::SettingsWidget {
   Q_OBJECT
 
  public:
@@ -50,15 +50,15 @@ class ShortcutsSettingsWidget : public egnite::SettingsWidget {
   QScopedPointer<QSortFilterProxyModel> m_search_proxy_model;
 };
 
-class ShortcutsSettingsWidgetFactory : public egnite::SettingsWidgetFactory {
+class ShortcutsSettingsWidgetFactory : public pillar::SettingsWidgetFactory {
   Q_OBJECT
-  Q_INTERFACES(egnite::SettingsWidgetFactory)
+  Q_INTERFACES(pillar::SettingsWidgetFactory)
 
  public:
   explicit ShortcutsSettingsWidgetFactory(QObject *parent = nullptr);
   ~ShortcutsSettingsWidgetFactory() override;
 
-  [[nodiscard]] std::unique_ptr<egnite::SettingsWidget> create() const override;
+  [[nodiscard]] std::unique_ptr<pillar::SettingsWidget> create() const override;
 };
 
 #endif  // SHORTCUTS_SETTINGS_WIDGET_H

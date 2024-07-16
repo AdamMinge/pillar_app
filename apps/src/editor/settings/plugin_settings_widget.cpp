@@ -5,9 +5,9 @@
 #include "settings/plugin_list_model.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
-/* ---------------------------------- Egnite -------------------------------- */
-#include <egnite/document/document.h>
-#include <egnite/document/document_manager.h>
+/* ---------------------------------- Pillar -------------------------------- */
+#include <pillar/document/document.h>
+#include <pillar/document/document_manager.h>
 /* ------------------------------------ Ui ---------------------------------- */
 #include "settings/ui_plugin_settings_widget.h"
 /* -------------------------------------------------------------------------- */
@@ -65,8 +65,8 @@ void PluginSettingsWidget::initConnections() {
   connect(m_plugin_list_model.get(), &PluginListModel::appliedChanged, this,
           &PluginSettingsWidget::appliedChanged);
 
-  connect(&egnite::DocumentManager::getInstance(),
-          &egnite::DocumentManager::currentDocumentChanged, this,
+  connect(&pillar::DocumentManager::getInstance(),
+          &pillar::DocumentManager::currentDocumentChanged, this,
           &PluginSettingsWidget::checkAvailability);
 }
 
@@ -78,17 +78,17 @@ void PluginSettingsWidget::searchPlugin(const QString &search) {
 
 void PluginSettingsWidget::checkAvailability() {
   m_ui->m_plugin_list_view->setEnabled(
-      egnite::DocumentManager::getInstance().getDocuments().empty());
+      pillar::DocumentManager::getInstance().getDocuments().empty());
 }
 
 /* ------------------------ PluginSettingsWidgetFactory --------------------- */
 
 PluginSettingsWidgetFactory::PluginSettingsWidgetFactory(QObject *parent)
-    : egnite::SettingsWidgetFactory(parent) {}
+    : pillar::SettingsWidgetFactory(parent) {}
 
 PluginSettingsWidgetFactory::~PluginSettingsWidgetFactory() = default;
 
-std::unique_ptr<egnite::SettingsWidget> PluginSettingsWidgetFactory::create()
+std::unique_ptr<pillar::SettingsWidget> PluginSettingsWidgetFactory::create()
     const {
   return std::make_unique<PluginSettingsWidget>();
 }
