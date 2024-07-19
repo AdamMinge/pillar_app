@@ -11,7 +11,9 @@
 namespace pillar {
 class ProjectFormat;
 
-class Project : public QObject, public qtils::Serializable {
+class Project : public QObject,
+                public qtils::Serializable,
+                public qtils::Deserializable {
   Q_OBJECT
 
  public:

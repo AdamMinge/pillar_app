@@ -1,5 +1,5 @@
-#ifndef AEGIS_EXPORT_H
-#define AEGIS_EXPORT_H
+#ifndef AEGIX_EXPORT_H
+#define AEGIX_EXPORT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QtCore/QtGlobal>
@@ -11,4 +11,4 @@
 #define LIB_AEGIS_API Q_DECL_IMPORT
 #endif
 
-#endif  // AEGIS_EXPORT_H
+#endif  // AEGIX_EXPORT_H

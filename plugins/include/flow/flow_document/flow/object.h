@@ -68,7 +68,8 @@ namespace flow_document {
 
 /* ----------------------------------- Object ------------------------------- */
 
-class FLOW_DOCUMENT_API Object : public qtils::Serializable {
+class FLOW_DOCUMENT_API Object : public qtils::Serializable,
+                                 public qtils::Deserializable {
  public:
   explicit Object();
   virtual ~Object();

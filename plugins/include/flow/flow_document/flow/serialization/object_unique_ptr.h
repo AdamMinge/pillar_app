@@ -60,7 +60,8 @@ struct SerializeByDefaultFactory {
 /* ------------------------------ ObjectUniquePtr --------------------------- */
 
 template <IsObject TYPE, template <typename> class STRATEGY>
-class ObjectUniquePtr : public qtils::Serializable {
+class ObjectUniquePtr : public qtils::Serializable,
+                        public qtils::Deserializable {
  public:
   ObjectUniquePtr();
   ObjectUniquePtr(std::unique_ptr<TYPE> ptr);

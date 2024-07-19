@@ -11,4 +11,5 @@ configure_file(${include_root}/config.h.in ${include_root}/config.h)
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
 add_subdirectory(src/pillar)
+add_subdirectory(src/aegis)
 # ----------------------------------------------------------------------- #

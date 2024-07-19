@@ -16,7 +16,9 @@ namespace pillar {
 
 class DocumentFormat;
 
-class LIB_PILLAR_API Document : public QObject, public qtils::Serializable {
+class LIB_PILLAR_API Document : public QObject,
+                                public qtils::Serializable,
+                                public qtils::Deserializable {
   Q_OBJECT
 
  public:
