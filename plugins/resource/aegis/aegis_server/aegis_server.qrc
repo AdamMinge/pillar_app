@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/plugins/aegis_server">
+        <file>translations/aegis_server_en.qm</file>
+        <file>translations/aegis_server_pl.qm</file>
+    </qresource>
+</RCC>
