@@ -10,33 +10,30 @@
 /* ----------------------------------- Egnite ------------------------------- */
 #include <qtils/serializer/json_archive.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/export.h"
+#include "aegis_server/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
-/* --------------------------------- Serializer ----------------------------- */
+/* ----------------------------- ResponseSerializer ------------------------- */
 
-class LIB_AEGIS_API Serializer {
+class LIB_AEGIS_SERVER_API ResponseSerializer {
  public:
   enum class Format { Json };
 
  public:
-  explicit Serializer(Format format);
-  ~Serializer();
+  explicit ResponseSerializer(Format format);
+  ~ResponseSerializer();
 
   template <typename Object>
   QByteArray serialize(const Object& object) const;
-
-  template <typename Object>
-  Object deserialize(const QByteArray& data) const;
 
  private:
   Format m_format;
 };
 
 template <typename Object>
-QByteArray Serializer::serialize(const Object& object) const {
+QByteArray ResponseSerializer::serialize(const Object& object) const {
   QByteArray data;
   QBuffer buffer(&data);
   buffer.open(QIODevice::WriteOnly);
@@ -51,22 +48,6 @@ QByteArray Serializer::serialize(const Object& object) const {
   return data;
 }
 
-template <typename Object>
-Object Serializer::deserialize(const QByteArray& data) const {
-  Object object;
-  QBuffer buffer(&data);
-  buffer.open(QIODevice::ReadOnly);
-
-  switch (m_format) {
-    case Format::Json: {
-      qtils::IJsonArchive archive(buffer);
-      archive >> object;
-    }
-  }
-
-  return object;
-}
-
-}  // namespace aegis
+}  // namespace aegis_server
 
 #endif  // AEGIS_SERIALIZER_H

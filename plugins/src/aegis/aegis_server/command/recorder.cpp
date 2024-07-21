@@ -11,13 +11,13 @@ namespace aegis_server {
 
 Recorder::Recorder(QObject *parent) : QObject(parent) {}
 
-Recorder::Result Recorder::start() { return aegis::EmptyMessage(); }
+Recorder::Result Recorder::start() { return EmptyMessage(); }
 
-Recorder::Result Recorder::pause() { return aegis::EmptyMessage(); }
+Recorder::Result Recorder::pause() { return EmptyMessage(); }
 
-Recorder::Result Recorder::stop() { return aegis::EmptyMessage(); }
+Recorder::Result Recorder::stop() { return EmptyMessage(); }
 
-Recorder::Result Recorder::report() { return aegis::EmptyMessage(); }
+Recorder::Result Recorder::report() { return EmptyMessage(); }
 
 bool Recorder::eventFilter(QObject *obj, QEvent *event) {
   return QObject::eventFilter(obj, event);
@@ -25,7 +25,7 @@ bool Recorder::eventFilter(QObject *obj, QEvent *event) {
 
 /* ------------------------------ RecorderCommand --------------------------- */
 
-RecorderCommand::RecorderCommand(const aegis::Serializer &serializer)
+RecorderCommand::RecorderCommand(const ResponseSerializer &serializer)
     : Command(serializer) {
   m_parser.setApplicationDescription("Recorder");
   m_parser.addHelpOption();
@@ -50,8 +50,8 @@ QByteArray RecorderCommand::exec(const QStringList &args) {
     if (m_parser.isSet("report")) return serialize(m_recorder.report());
   }
 
-  auto error = aegis::ErrorMessage(QLatin1String("Recorder Command Error"),
-                                   m_parser.errorText());
+  auto error = ErrorMessage(QLatin1String("Recorder Command Error"),
+                            m_parser.errorText());
   return serialize(error);
 }
 

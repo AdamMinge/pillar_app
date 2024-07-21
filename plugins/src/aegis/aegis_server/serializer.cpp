@@ -1,12 +1,11 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis_server/command/command.h"
+#include "aegis_server/serializer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis_server {
 
-Command::Command(const ResponseSerializer& serializer)
-    : m_serializer(serializer) {}
+ResponseSerializer::ResponseSerializer(Format format) : m_format(format) {}
 
-Command::~Command() = default;
+ResponseSerializer::~ResponseSerializer() = default;
 
 }  // namespace aegis_server

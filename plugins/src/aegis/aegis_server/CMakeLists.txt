@@ -12,14 +12,16 @@ set(resource_root ${PILLAR_SOURCE_DIR}/plugins/resource/aegis/aegis_server)
 
 set(sources
     ${source_root}/aegis_server_plugin.cpp ${source_root}/client.cpp
-    ${source_root}/server.cpp ${source_root}/command/command.cpp
-    ${source_root}/command/recorder.cpp)
+    ${source_root}/server.cpp ${source_root}/serializer.cpp
+    ${source_root}/command/command.cpp ${source_root}/command/recorder.cpp)
 
 set(includes
     ${include_root}/export.h
     ${include_root}/aegis_server_plugin.h
     ${include_root}/client.h
     ${include_root}/server.h
+    ${include_root}/serializer.h
+    ${include_root}/response.h
     ${include_root}/resources.h
     ${include_root}/command/command.h
     ${include_root}/command/recorder.h)
@@ -39,6 +41,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${ui_root})
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network Qml)
+find_package(qtils REQUIRED COMPONENTS serializer)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
@@ -53,7 +56,7 @@ pillar_add_plugins(
   Qt6::Widgets
   Qt6::Network
   pillar::pillar
-  pillar::aegis)
+  qtils::serializer)
 
 target_include_directories(
   aegis_server

@@ -10,14 +10,14 @@
 #include <qtils/serializer/archive_property.h>
 #include <qtils/serializer/serializable.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/export.h"
+#include "aegis_server/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
 /* ------------------------------- ErrorMessage ----------------------------- */
 
-struct LIB_AEGIS_API ErrorMessage {
+struct LIB_AEGIS_SERVER_API ErrorMessage {
   Q_GADGET
 
  public:
@@ -30,14 +30,14 @@ struct LIB_AEGIS_API ErrorMessage {
 
 /* ------------------------------- EmptyMessage ----------------------------- */
 
-struct LIB_AEGIS_API EmptyMessage {
+struct LIB_AEGIS_SERVER_API EmptyMessage {
   Q_GADGET
 };
 
 /* ---------------------------------- Response ------------------------------ */
 
 template <typename T = EmptyMessage, typename E = ErrorMessage>
-class Response : public qtils::Serializable, public qtils::Deserializable {
+class Response : public qtils::Serializable {
   static constexpr QLatin1String success_status = QLatin1String("success");
   static constexpr QLatin1String error_status = QLatin1String("error");
 
@@ -52,7 +52,6 @@ class Response : public qtils::Serializable, public qtils::Deserializable {
   [[nodiscard]] E error() const;
 
   void serialize(qtils::OArchive &archive) const override;
-  void deserialize(qtils::IArchive &archive) override;
 
  private:
   std::variant<T, E> m_body;
@@ -103,23 +102,6 @@ void Response<T, E>::serialize(qtils::OArchive &archive) const {
   }
 }
 
-template <typename T, typename E>
-void Response<T, E>::deserialize(qtils::IArchive &archive) {
-  QString status;
-  archive >> status;
-
-  if (status == success_status) {
-    T t;
-    archive >> t;
-    m_body = t;
-
-  } else {
-    E e;
-    archive >> e;
-    m_body = e;
-  }
-}
-
-}  // namespace aegis
+}  // namespace aegis_server
 
 #endif  // AEGIS_COMMAND_RESPONSE_H

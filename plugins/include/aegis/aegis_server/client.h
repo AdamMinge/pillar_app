@@ -13,14 +13,9 @@
 #include "aegis_server/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
-
-class Serializer;
-
-}  // namespace aegis
-
 namespace aegis_server {
 
+class ResponseSerializer;
 class Command;
 
 class LIB_AEGIS_SERVER_API Client : public QRunnable {
@@ -38,7 +33,7 @@ class LIB_AEGIS_SERVER_API Client : public QRunnable {
   qintptr m_socket_descriptor;
   std::unique_ptr<QTcpSocket> m_socket;
   std::unordered_map<QString, std::unique_ptr<Command>> m_commands;
-  std::unique_ptr<aegis::Serializer> m_serializer;
+  std::unique_ptr<ResponseSerializer> m_serializer;
 };
 
 }  // namespace aegis_server

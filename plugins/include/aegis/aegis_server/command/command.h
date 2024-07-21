@@ -3,10 +3,9 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QByteArray>
-/* ----------------------------------- Aegis -------------------------------- */
-#include <aegis/serializer.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis_server/export.h"
+#include "aegis_server/serializer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace qtils {
@@ -19,7 +18,7 @@ namespace aegis_server {
 
 class LIB_AEGIS_SERVER_API Command {
  public:
-  explicit Command(const aegis::Serializer& serializer);
+  explicit Command(const ResponseSerializer& serializer);
   virtual ~Command();
 
   [[nodiscard]] virtual QByteArray exec(const QStringList& args) = 0;
@@ -29,7 +28,7 @@ class LIB_AEGIS_SERVER_API Command {
   [[nodiscard]] QByteArray serialize(const TYPE& data);
 
  private:
-  const aegis::Serializer& m_serializer;
+  const ResponseSerializer& m_serializer;
 };
 
 template <typename TYPE>
