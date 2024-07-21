@@ -1,31 +1,23 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/command/recorder.h"
+#include "aegis_server/command/recorder.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QMetaEnum>
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
 /* ---------------------------------- Recorder ------------------------------ */
 
 Recorder::Recorder(QObject *parent) : QObject(parent) {}
 
-Recorder::RecorderResult Recorder::start() {
-  return RecorderSuccess(QLatin1String(""));
-}
+Recorder::Result Recorder::start() { return aegis::EmptyMessage(); }
 
-Recorder::RecorderResult Recorder::pause() {
-  return RecorderSuccess(QLatin1String(""));
-}
+Recorder::Result Recorder::pause() { return aegis::EmptyMessage(); }
 
-Recorder::RecorderResult Recorder::stop() {
-  return RecorderSuccess(QLatin1String(""));
-}
+Recorder::Result Recorder::stop() { return aegis::EmptyMessage(); }
 
-Recorder::RecorderResult Recorder::report() {
-  return RecorderSuccess(QLatin1String(""));
-}
+Recorder::Result Recorder::report() { return aegis::EmptyMessage(); }
 
 bool Recorder::eventFilter(QObject *obj, QEvent *event) {
   return QObject::eventFilter(obj, event);
@@ -33,7 +25,7 @@ bool Recorder::eventFilter(QObject *obj, QEvent *event) {
 
 /* ------------------------------ RecorderCommand --------------------------- */
 
-RecorderCommand::RecorderCommand(const Serializer &serializer)
+RecorderCommand::RecorderCommand(const aegis::Serializer &serializer)
     : Command(serializer) {
   m_parser.setApplicationDescription("Recorder");
   m_parser.addHelpOption();
@@ -58,9 +50,9 @@ QByteArray RecorderCommand::exec(const QStringList &args) {
     if (m_parser.isSet("report")) return serialize(m_recorder.report());
   }
 
-  auto error = ErrorResponse(QLatin1String("Recorder Command Error"),
-                             m_parser.errorText());
+  auto error = aegis::ErrorMessage(QLatin1String("Recorder Command Error"),
+                                   m_parser.errorText());
   return serialize(error);
 }
 
-}  // namespace aegis
+}  // namespace aegis_server

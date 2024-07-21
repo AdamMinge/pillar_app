@@ -28,6 +28,9 @@ class LIB_AEGIS_API Serializer {
   template <typename Object>
   QByteArray serialize(const Object& object) const;
 
+  template <typename Object>
+  Object deserialize(const QByteArray& data) const;
+
  private:
   Format m_format;
 };
@@ -46,6 +49,22 @@ QByteArray Serializer::serialize(const Object& object) const {
   }
 
   return data;
+}
+
+template <typename Object>
+Object Serializer::deserialize(const QByteArray& data) const {
+  Object object;
+  QBuffer buffer(&data);
+  buffer.open(QIODevice::ReadOnly);
+
+  switch (m_format) {
+    case Format::Json: {
+      qtils::IJsonArchive archive(buffer);
+      archive >> object;
+    }
+  }
+
+  return object;
 }
 
 }  // namespace aegis

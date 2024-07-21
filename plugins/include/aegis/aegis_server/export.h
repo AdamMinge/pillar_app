@@ -6,9 +6,9 @@
 /* -------------------------------------------------------------------------- */
 
 #if defined(AEGIS_SERVER_EXPORTS)
-#define AEGIS_SERVER_API Q_DECL_EXPORT
+#define LIB_AEGIS_SERVER_API Q_DECL_EXPORT
 #else
-#define AEGIS_SERVER_API Q_DECL_IMPORT
+#define LIB_AEGIS_SERVER_API Q_DECL_IMPORT
 #endif
 
 #endif  // AEGIS_SERVER_EXPORT_H

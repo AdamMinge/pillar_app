@@ -1,5 +1,5 @@
-#ifndef AEGIS_CLIENT_H
-#define AEGIS_CLIENT_H
+#ifndef AEGIS_SERVER_CLIENT_H
+#define AEGIS_SERVER_CLIENT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMap>
@@ -10,15 +10,20 @@
 #include <memory>
 #include <unordered_map>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/export.h"
+#include "aegis_server/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-class Command;
 class Serializer;
 
-class LIB_AEGIS_API Client : public QRunnable {
+}  // namespace aegis
+
+namespace aegis_server {
+
+class Command;
+
+class LIB_AEGIS_SERVER_API Client : public QRunnable {
  public:
   explicit Client(qintptr socket_descriptor);
 
@@ -33,9 +38,9 @@ class LIB_AEGIS_API Client : public QRunnable {
   qintptr m_socket_descriptor;
   std::unique_ptr<QTcpSocket> m_socket;
   std::unordered_map<QString, std::unique_ptr<Command>> m_commands;
-  std::unique_ptr<Serializer> m_serializer;
+  std::unique_ptr<aegis::Serializer> m_serializer;
 };
 
-}  // namespace aegis
+}  // namespace aegis_server
 
-#endif  // AEGIS_CLIENT_H
+#endif  // AEGIS_SERVER_CLIENT_H

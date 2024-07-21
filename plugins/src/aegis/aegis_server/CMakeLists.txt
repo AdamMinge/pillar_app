@@ -10,9 +10,19 @@ set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/aegis_server)
 set(ui_root ${PILLAR_SOURCE_DIR}/plugins/ui/aegis/aegis_server)
 set(resource_root ${PILLAR_SOURCE_DIR}/plugins/resource/aegis/aegis_server)
 
-set(sources ${source_root}/aegis_server_plugin.cpp)
+set(sources
+    ${source_root}/aegis_server_plugin.cpp ${source_root}/client.cpp
+    ${source_root}/server.cpp ${source_root}/command/command.cpp
+    ${source_root}/command/recorder.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/aegis_server_plugin.h)
+set(includes
+    ${include_root}/export.h
+    ${include_root}/aegis_server_plugin.h
+    ${include_root}/client.h
+    ${include_root}/server.h
+    ${include_root}/resources.h
+    ${include_root}/command/command.h
+    ${include_root}/command/recorder.h)
 
 set(resources ${resource_root}/aegis_server.qrc)
 
@@ -28,7 +38,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${ui_root})
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Qml)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network Qml)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
@@ -41,6 +51,7 @@ pillar_add_plugins(
   DEPENDS
   Qt6::Core
   Qt6::Widgets
+  Qt6::Network
   pillar::pillar
   pillar::aegis)
 

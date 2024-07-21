@@ -1,15 +1,15 @@
-#ifndef AEGIS_SERVER_H
-#define AEGIS_SERVER_H
+#ifndef AEGIS_SERVER_SERVER_H
+#define AEGIS_SERVER_SERVER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QTcpServer>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/export.h"
+#include "aegis_server/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
-class LIB_AEGIS_API Server : public QTcpServer {
+class LIB_AEGIS_SERVER_API Server : public QTcpServer {
   Q_OBJECT
  public:
   explicit Server(QObject *parent = nullptr);
@@ -20,6 +20,6 @@ class LIB_AEGIS_API Server : public QTcpServer {
   void incomingConnection(qintptr socketDescriptor) override;
 };
 
-}  // namespace aegis
+}  // namespace aegis_server
 
-#endif  // AEGIS_SERVER_H
+#endif  // AEGIS_SERVER_SERVER_H

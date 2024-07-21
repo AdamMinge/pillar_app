@@ -9,7 +9,7 @@
 
 namespace aegis_server {
 
-class AEGIS_SERVER_API AegisServerPlugin : public pillar::PluginInterface {
+class LIB_AEGIS_SERVER_API AegisServerPlugin : public pillar::PluginInterface {
   Q_OBJECT
   Q_INTERFACES(pillar::PluginInterface)
   Q_PLUGIN_METADATA(IID "org.flow.PluginInterface" FILE "plugin.json")

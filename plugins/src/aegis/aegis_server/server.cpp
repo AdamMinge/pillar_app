@@ -1,12 +1,12 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server.h"
+#include "aegis_server/server.h"
 
-#include "aegis/client.h"
+#include "aegis_server/client.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QThreadPool>
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
 Server::Server(QObject *parent) : QTcpServer(parent) {}
 
@@ -17,4 +17,4 @@ void Server::incomingConnection(qintptr socket_descriptor) {
   QThreadPool::globalInstance()->start(client);
 }
 
-}  // namespace aegis
+}  // namespace aegis_server

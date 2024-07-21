@@ -1,35 +1,33 @@
-#ifndef AEGIS_COMMAND_RECORDER_H
-#define AEGIS_COMMAND_RECORDER_H
+#ifndef AEGIS_SERVER_COMMAND_RECORDER_H
+#define AEGIS_SERVER_COMMAND_RECORDER_H
 
 /* ----------------------------------- Boost -------------------------------- */
 #include <QCommandLineParser>
 #include <QObject>
+/* ----------------------------------- Aegis -------------------------------- */
+#include <aegis/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/command/command.h"
-#include "aegis/command/response.h"
-#include "aegis/export.h"
-#include "aegis/result.h"
+#include "aegis_server/command/command.h"
+#include "aegis_server/export.h"
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
 /* ---------------------------------- Recorder ------------------------------ */
 
-class LIB_AEGIS_API Recorder : public QObject {
+class LIB_AEGIS_SERVER_API Recorder : public QObject {
   Q_OBJECT
 
  public:
-  using RecorderError = ErrorResponse;
-  using RecorderSuccess = SuccessResponse<void>;
-  using RecorderResult = Result<RecorderError, RecorderSuccess>;
+  using Result = aegis::Response<>;
 
  public:
   explicit Recorder(QObject *parent = nullptr);
 
-  RecorderResult start();
-  RecorderResult pause();
-  RecorderResult stop();
-  RecorderResult report();
+  Result start();
+  Result pause();
+  Result stop();
+  Result report();
 
  protected:
   bool eventFilter(QObject *obj, QEvent *event) override;
@@ -44,7 +42,7 @@ class LIB_AEGIS_API RecorderCommand : public Command {
   [[nodiscard]] static QLatin1String name();
 
  public:
-  explicit RecorderCommand(const Serializer &serializer);
+  explicit RecorderCommand(const aegis::Serializer &serializer);
   ~RecorderCommand() override;
 
   QByteArray exec(const QStringList &args) override;
@@ -54,6 +52,6 @@ class LIB_AEGIS_API RecorderCommand : public Command {
   Recorder m_recorder;
 };
 
-}  // namespace aegis
+}  // namespace aegis_server
 
-#endif  // AEGIS_COMMAND_RECORDER_H
+#endif  // AEGIS_SERVER_COMMAND_RECORDER_H

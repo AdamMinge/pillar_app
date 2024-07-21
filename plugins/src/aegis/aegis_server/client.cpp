@@ -1,18 +1,21 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/client.h"
+#include "aegis_server/client.h"
 
-#include "aegis/command/recorder.h"
-#include "aegis/command/response.h"
+#include "aegis_server/command/recorder.h"
+/* ----------------------------------- Aegis -------------------------------- */
+
+#include "aegis/response.h"
 #include "aegis/serializer.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QJsonDocument>
 /* -------------------------------------------------------------------------- */
 
-namespace aegis {
+namespace aegis_server {
 
 Client::Client(qintptr socket_descriptor)
     : m_socket_descriptor(socket_descriptor),
-      m_serializer(std::make_unique<Serializer>(Serializer::Format::Json)) {
+      m_serializer(std::make_unique<aegis::Serializer>(
+          aegis::Serializer::Format::Json)) {
   initCommands();
   setAutoDelete(true);
 }
@@ -53,7 +56,7 @@ void Client::processRequest(const QByteArray& data) {
     auto response = (*iter).second->exec(args);
     sendResponse(response);
   } else {
-    auto error = ErrorResponse(
+    auto error = aegis::ErrorMessage(
         QLatin1String("Process Request Error"),
         QLatin1String("Cannot find command: %1").arg(command_name));
     auto response = m_serializer->serialize(error);
@@ -66,4 +69,4 @@ void Client::sendResponse(const QByteArray& data) {
   m_socket->flush();
 }
 
-}  // namespace aegis
+}  // namespace aegis_server
