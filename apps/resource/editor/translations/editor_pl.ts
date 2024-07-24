@@ -542,12 +542,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="114"/>
+        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="116"/>
         <source>Select configuration element in the tree to edit its settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="150"/>
+        <location filename="../../../src/editor/settings/settings_dialog.cpp" line="152"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>

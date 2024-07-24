@@ -1,5 +1,5 @@
-#ifndef AEGIS_SERVER_SERVER_H
-#define AEGIS_SERVER_SERVER_H
+#ifndef AEGIS_SERVER_SERVER_MANAGER_H
+#define AEGIS_SERVER_SERVER_MANAGER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QTcpServer>
@@ -9,25 +9,30 @@
 
 namespace aegis_server {
 
-class ClientThread;
+class Server;
 
-class LIB_AEGIS_SERVER_API Server : public QTcpServer {
+class LIB_AEGIS_SERVER_API ServerManager : public QObject {
   Q_OBJECT
 
  public:
-  explicit Server(QObject* parent = nullptr);
-  ~Server() override;
+  [[nodiscard]] static ServerManager& getInstance();
+  static void deleteInstance();
+
+ public:
+  ~ServerManager() override;
 
   bool start(const QHostAddress& host, quint16 port);
   void stop();
 
  protected:
-  void incomingConnection(qintptr socketDescriptor) override;
+  explicit ServerManager();
 
  private:
-  QList<ClientThread*> m_threads;
+  static std::unique_ptr<ServerManager> m_instance;
+
+  Server* m_server;
 };
 
 }  // namespace aegis_server
 
-#endif  // AEGIS_SERVER_SERVER_H
+#endif  // AEGIS_SERVER_SERVER_MANAGER_H

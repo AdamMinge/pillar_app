@@ -11,9 +11,14 @@ set(ui_root ${PILLAR_SOURCE_DIR}/plugins/ui/aegis/aegis_server)
 set(resource_root ${PILLAR_SOURCE_DIR}/plugins/resource/aegis/aegis_server)
 
 set(sources
-    ${source_root}/aegis_server_plugin.cpp ${source_root}/client.cpp
-    ${source_root}/server.cpp ${source_root}/serializer.cpp
-    ${source_root}/command/command.cpp ${source_root}/command/recorder.cpp)
+    ${source_root}/aegis_server_plugin.cpp
+    ${source_root}/client.cpp
+    ${source_root}/server.cpp
+    ${source_root}/serializer.cpp
+    ${source_root}/settings/server_settings_widget.cpp
+    ${source_root}/server_manager.cpp
+    ${source_root}/command/command.cpp
+    ${source_root}/command/recorder.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -23,12 +28,14 @@ set(includes
     ${include_root}/serializer.h
     ${include_root}/response.h
     ${include_root}/resources.h
+    ${include_root}/server_manager.h
+    ${include_root}/settings/server_settings_widget.h
     ${include_root}/command/command.h
     ${include_root}/command/recorder.h)
 
 set(resources ${resource_root}/aegis_server.qrc)
 
-set(uis)
+set(uis ${ui_root}/settings/server_settings_widget.ui)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

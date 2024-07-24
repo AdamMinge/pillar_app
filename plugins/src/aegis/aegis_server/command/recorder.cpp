@@ -50,8 +50,8 @@ QByteArray RecorderCommand::exec(const QStringList &args) {
     if (m_parser.isSet("report")) return serialize(m_recorder.report());
   }
 
-  auto error = ErrorMessage(QLatin1String("Recorder Command Error"),
-                            m_parser.errorText());
+  auto error = Response<>(ErrorMessage(QLatin1String("Recorder Command Error"),
+                                       m_parser.errorText()));
   return serialize(error);
 }
 

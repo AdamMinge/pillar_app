@@ -94,11 +94,17 @@ E Response<T, E>::error() const {
 template <typename T, typename E>
 void Response<T, E>::serialize(qtils::OArchive &archive) const {
   if (hasValue()) {
-    archive << success_status;
-    archive << value();
+    auto status = success_status.toString();
+    auto body = value();
+
+    archive << qtils::ArchiveProperty("status", status);
+    archive << qtils::ArchiveProperty("body", body);
   } else {
-    archive << error_status;
-    archive << error();
+    auto status = error_status.toString();
+    auto body = error();
+
+    archive << qtils::ArchiveProperty("status", status);
+    archive << qtils::ArchiveProperty("body", body);
   }
 }
 

@@ -2,10 +2,8 @@
 #define AEGIS_SERVER_CLIENT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QMap>
-#include <QRunnable>
-#include <QScopedPointer>
 #include <QTcpSocket>
+#include <QThread>
 /* --------------------------------- Standard ------------------------------- */
 #include <memory>
 #include <unordered_map>
@@ -18,19 +16,40 @@ namespace aegis_server {
 class ResponseSerializer;
 class Command;
 
-class LIB_AEGIS_SERVER_API Client : public QRunnable {
- public:
-  explicit Client(qintptr socket_descriptor);
+/* -------------------------------- ClientThread ---------------------------- */
 
+class LIB_AEGIS_SERVER_API ClientThread : public QThread {
+  Q_OBJECT
+
+ public:
+  ClientThread(qintptr socket_descriptor, QObject* parent = nullptr);
+  ~ClientThread();
+
+ protected:
   void run() override;
 
  private:
-  void initCommands();
-  void processRequest(const QByteArray& data);
-  void sendResponse(const QByteArray& data);
+  qintptr m_socket_descriptor;
+};
+
+/* ------------------------------- ClientHandler ---------------------------- */
+
+class LIB_AEGIS_SERVER_API ClientHandler : public QObject {
+  Q_OBJECT
+
+ public:
+  explicit ClientHandler(qintptr socket_descriptor, QObject* parent = nullptr);
+  ~ClientHandler() override;
+
+ signals:
+  void error(QTcpSocket::SocketError socketError);
+  void finished();
+
+ public slots:
+  void readyRead();
+  void disconnected();
 
  private:
-  qintptr m_socket_descriptor;
   std::unique_ptr<QTcpSocket> m_socket;
   std::unordered_map<QString, std::unique_ptr<Command>> m_commands;
   std::unique_ptr<ResponseSerializer> m_serializer;

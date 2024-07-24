@@ -104,6 +104,8 @@ void SettingsDialog::initUi() {
   m_settings_widget_filter_model->setFilterCaseSensitivity(
       Qt::CaseSensitivity::CaseInsensitive);
   m_settings_widget_filter_model->setSourceModel(m_settings_widget_model.get());
+  m_settings_widget_filter_model->sort(
+      SettingsWidgetTreeModel::Column::NameColumn);
 
   m_ui->m_setting_list_view->setModel(m_settings_widget_filter_model.get());
   m_ui->m_setting_list_view->setItemDelegate(
