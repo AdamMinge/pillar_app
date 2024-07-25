@@ -13,7 +13,9 @@ namespace aegis {
 
 CommandManager::CommandManager()
     : m_serializer(std::make_unique<ResponseSerializer>(
-          ResponseSerializer::Format::Json)) {}
+          ResponseSerializer::Format::Json)) {
+  loadObjects();
+}
 
 CommandManager::~CommandManager() = default;
 
