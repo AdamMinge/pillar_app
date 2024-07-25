@@ -4,17 +4,19 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
 #include <QObject>
+/* ----------------------------------- Aegis -------------------------------- */
+#include <aegis/server/command/command.h>
+#include <aegis/server/export.h>
+#include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/command.h"
-#include "aegis/server/export.h"
-#include "aegis/server/response.h"
+#include "aegis/recorder_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
 /* ---------------------------------- Recorder ------------------------------ */
 
-class LIB_AEGIS_SERVER_API Recorder : public QObject {
+class LIB_AEGIS_RECORDER_COMMAND_API Recorder : public QObject {
   Q_OBJECT
 
  public:
@@ -36,10 +38,7 @@ class LIB_AEGIS_SERVER_API Recorder : public QObject {
 
 /* ------------------------------ RecorderCommand --------------------------- */
 
-class LIB_AEGIS_SERVER_API RecorderCommand : public Command {
- public:
-  [[nodiscard]] static QLatin1String name();
-
+class LIB_AEGIS_RECORDER_COMMAND_API RecorderCommand : public Command {
  public:
   explicit RecorderCommand(const ResponseSerializer &serializer);
   ~RecorderCommand() override;

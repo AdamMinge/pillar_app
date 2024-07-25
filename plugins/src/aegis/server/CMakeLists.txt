@@ -33,7 +33,8 @@ set(includes
     ${include_root}/settings/server_settings_widget.h
     ${include_root}/command/command.h
     ${include_root}/command/command_manager.h
-    ${include_root}/command/factory/command_factory.h)
+    ${include_root}/command/factory/command_factory.h
+    ${include_root}/command/factory/utils.h)
 
 set(resources ${resource_root}/server.qrc)
 

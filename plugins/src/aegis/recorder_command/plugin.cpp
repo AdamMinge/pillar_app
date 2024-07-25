@@ -10,6 +10,8 @@ RecorderCommandPlugin::RecorderCommandPlugin() = default;
 
 RecorderCommandPlugin::~RecorderCommandPlugin() = default;
 
-void RecorderCommandPlugin::init() {}
+void RecorderCommandPlugin::init() {
+  addObject(new RecorderCommandFactory(this));
+}
 
 }  // namespace aegis
