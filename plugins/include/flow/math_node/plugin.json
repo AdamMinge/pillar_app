@@ -1,0 +1,11 @@
+{
+  "Name": "Math Flow",
+  "Description": [],
+  "Version": "1.0.0",
+  "Dependencies": [
+    {
+      "Name": "Flow FlowDocument",
+      "Version": "1.0.0"
+    }
+  ]
+}
