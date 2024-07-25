@@ -6,7 +6,6 @@
 #include <QObject>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/command.h>
-#include <aegis/server/export.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/recorder_command/export.h"
