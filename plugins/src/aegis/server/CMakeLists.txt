@@ -17,7 +17,9 @@ set(sources
     ${source_root}/serializer.cpp
     ${source_root}/settings/server_settings_widget.cpp
     ${source_root}/server_manager.cpp
-    ${source_root}/command/command.cpp)
+    ${source_root}/command/command.cpp
+    ${source_root}/command/command_manager.cpp
+    ${source_root}/command/factory/command_factory.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -29,7 +31,9 @@ set(includes
     ${include_root}/resources.h
     ${include_root}/server_manager.h
     ${include_root}/settings/server_settings_widget.h
-    ${include_root}/command/command.h)
+    ${include_root}/command/command.h
+    ${include_root}/command/command_manager.h
+    ${include_root}/command/factory/command_factory.h)
 
 set(resources ${resource_root}/server.qrc)
 

@@ -6,15 +6,13 @@
 #include <QThread>
 /* --------------------------------- Standard ------------------------------- */
 #include <memory>
-#include <unordered_map>
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-class ResponseSerializer;
-class Command;
+class CommandManager;
 
 /* -------------------------------- ClientThread ---------------------------- */
 
@@ -51,8 +49,7 @@ class LIB_AEGIS_SERVER_API ClientHandler : public QObject {
 
  private:
   std::unique_ptr<QTcpSocket> m_socket;
-  std::unordered_map<QString, std::unique_ptr<Command>> m_commands;
-  std::unique_ptr<ResponseSerializer> m_serializer;
+  std::unique_ptr<CommandManager> m_command_manager;
 };
 
 }  // namespace aegis

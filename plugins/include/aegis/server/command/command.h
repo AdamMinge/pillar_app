@@ -21,6 +21,8 @@ class LIB_AEGIS_SERVER_API Command {
   explicit Command(const ResponseSerializer& serializer);
   virtual ~Command();
 
+  [[nodiscard]] virtual QString getName() const = 0;
+
   [[nodiscard]] virtual QByteArray exec(const QStringList& args) = 0;
 
  protected:

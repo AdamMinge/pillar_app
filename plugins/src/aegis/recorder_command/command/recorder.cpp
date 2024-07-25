@@ -27,7 +27,6 @@ bool Recorder::eventFilter(QObject *obj, QEvent *event) {
 
 RecorderCommand::RecorderCommand(const ResponseSerializer &serializer)
     : Command(serializer) {
-  m_parser.setApplicationDescription("Recorder");
   m_parser.addHelpOption();
   m_parser.addOptions({
       {{"s", "start"}, "Start the Recorder"},
@@ -40,7 +39,7 @@ RecorderCommand::RecorderCommand(const ResponseSerializer &serializer)
 
 RecorderCommand::~RecorderCommand() = default;
 
-QLatin1String RecorderCommand::name() { return QLatin1String("Recorder"); }
+QString RecorderCommand::getName() const { return QString("Recorder"); }
 
 QByteArray RecorderCommand::exec(const QStringList &args) {
   if (m_parser.parse(args)) {

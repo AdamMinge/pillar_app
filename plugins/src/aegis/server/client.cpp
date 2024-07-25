@@ -1,9 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/client.h"
 
-#include "aegis/server/command/command.h"
-#include "aegis/server/response.h"
-#include "aegis/server/serializer.h"
+#include "aegis/server/command/command_manager.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMutexLocker>
 /* -------------------------------------------------------------------------- */
@@ -32,8 +30,7 @@ void ClientThread::run() {
 ClientHandler::ClientHandler(qintptr socket_descriptor, QObject* parent)
     : QObject(parent),
       m_socket(std::make_unique<QTcpSocket>()),
-      m_serializer(std::make_unique<ResponseSerializer>(
-          ResponseSerializer::Format::Json)) {
+      m_command_manager(std::make_unique<CommandManager>()) {
   if (!m_socket->setSocketDescriptor(socket_descriptor)) {
     emit error(m_socket->error());
     return;
@@ -49,23 +46,7 @@ ClientHandler::~ClientHandler() = default;
 
 void ClientHandler::readyRead() {
   const auto data = m_socket->readAll();
-  const auto splited_data = data.split(' ');
-  const auto command_name = splited_data.front();
-
-  auto response = QByteArray{};
-  if (auto iter = m_commands.find(command_name); iter != m_commands.end()) {
-    auto args = QStringList{};
-    std::transform(splited_data.constBegin(), splited_data.constEnd(),
-                   std::back_inserter(args),
-                   [](const auto& data) { return QString::fromUtf8(data); });
-
-    response = (*iter).second->exec(args);
-  } else {
-    auto error = Response<>(ErrorMessage(
-        QLatin1String("Process Request Error"),
-        QLatin1String("Cannot find command: %1").arg(command_name)));
-    response = m_serializer->serialize(error);
-  }
+  const auto response = m_command_manager->exec(data);
 
   if (!response.isEmpty()) {
     m_socket->write(response);

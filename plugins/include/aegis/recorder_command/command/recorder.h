@@ -44,7 +44,9 @@ class LIB_AEGIS_SERVER_API RecorderCommand : public Command {
   explicit RecorderCommand(const ResponseSerializer &serializer);
   ~RecorderCommand() override;
 
-  QByteArray exec(const QStringList &args) override;
+  [[nodiscard]] QString getName() const override;
+
+  [[nodiscard]] QByteArray exec(const QStringList &args) override;
 
  private:
   QCommandLineParser m_parser;

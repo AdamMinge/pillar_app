@@ -29,10 +29,11 @@ void NewDocumentWidgetListModel::addedObject(
 void NewDocumentWidgetListModel::removedObject(
     pillar::NewDocumentWidgetFactory *factory) {
   if (m_new_document_widget_by_factory.contains(factory)) {
+    auto settings_widget = m_new_document_widget_by_factory[factory];
     auto index = getIndexBy(
-        Role::WidgetRole,
-        QVariant::fromValue(m_new_document_widget_by_factory[factory]),
-        QModelIndex{});
+        Role::WidgetRole, QVariant::fromValue(settings_widget), QModelIndex{});
+
+    settings_widget->deleteLater();
     remove(index);
   }
 }

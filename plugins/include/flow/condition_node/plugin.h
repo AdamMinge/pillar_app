@@ -17,7 +17,7 @@ class LIB_FLOW_CONDITION_NODE_API ConditionNodePlugin
     : public pillar::PluginInterface {
   Q_OBJECT
   Q_INTERFACES(pillar::PluginInterface)
-  Q_PLUGIN_METADATA(IID "org.flow.PluginInterface" FILE "plugin.json")
+  Q_PLUGIN_METADATA(IID "org.pillar.PluginInterface" FILE "plugin.json")
 
  public:
   explicit ConditionNodePlugin();
