@@ -10,7 +10,9 @@ SettingsWidgetTreeModel::SettingsWidgetTreeModel(QObject *parent)
   loadObjects();
 }
 
-SettingsWidgetTreeModel::~SettingsWidgetTreeModel() = default;
+SettingsWidgetTreeModel::~SettingsWidgetTreeModel() {
+  qDeleteAll(m_settings_widget_by_factory);
+}
 
 bool SettingsWidgetTreeModel::apply() {
   const auto to_apply = m_to_apply;
@@ -52,10 +54,11 @@ void SettingsWidgetTreeModel::addedObject(
 void SettingsWidgetTreeModel::removedObject(
     pillar::SettingsWidgetFactory *factory) {
   if (m_settings_widget_by_factory.contains(factory)) {
-    auto index =
-        getIndexBy(Role::WidgetRole,
-                   QVariant::fromValue(m_settings_widget_by_factory[factory]),
-                   QModelIndex{});
+    auto settings_widget = m_settings_widget_by_factory.take(factory);
+    auto index = getIndexBy(
+        Role::WidgetRole, QVariant::fromValue(settings_widget), QModelIndex{});
+
+    settings_widget->deleteLater();
     remove(index);
   }
 }

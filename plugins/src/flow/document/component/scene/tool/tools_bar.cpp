@@ -20,7 +20,7 @@ ToolsBar::ToolsBar(QWidget *parent)
   loadObjects();
 }
 
-ToolsBar::~ToolsBar() = default;
+ToolsBar::~ToolsBar() { qDeleteAll(m_tool_for_factory); }
 
 void ToolsBar::setDocument(FlowDocument *document) {
   if (m_document == document) return;
@@ -111,8 +111,7 @@ void ToolsBar::addedObject(ToolFactory *factory) {
 
 void ToolsBar::removedObject(ToolFactory *factory) {
   if (m_tool_for_factory.contains(factory)) {
-    auto tool = m_tool_for_factory[factory];
-    m_tool_for_factory.remove(factory);
+    auto tool = m_tool_for_factory.take(factory);
 
     unregisterTool(tool);
     tool->deleteLater();

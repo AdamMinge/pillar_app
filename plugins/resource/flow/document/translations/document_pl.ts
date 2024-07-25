@@ -629,7 +629,7 @@
 <context>
     <name>ToolsBar</name>
     <message>
-        <location filename="../../../../src/flow/document/component/scene/tool/tools_bar.cpp" line="154"/>
+        <location filename="../../../../src/flow/document/component/scene/tool/tools_bar.cpp" line="153"/>
         <source>ToolsBar</source>
         <translation type="unfinished"></translation>
     </message>

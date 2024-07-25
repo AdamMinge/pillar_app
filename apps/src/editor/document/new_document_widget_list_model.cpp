@@ -18,22 +18,23 @@ NewDocumentWidgetListModel::~NewDocumentWidgetListModel() {
 
 void NewDocumentWidgetListModel::addedObject(
     pillar::NewDocumentWidgetFactory *factory) {
-  auto settings_widget = factory->create();
-  m_new_document_widget_by_factory[factory] = settings_widget;
+  auto new_document_widget = factory->create();
+  m_new_document_widget_by_factory[factory] = new_document_widget;
 
-  append(
-      new qtils::QtStackedWidgetTreeItem(settings_widget, factory->getIcon()),
-      QModelIndex{});
+  append(new qtils::QtStackedWidgetTreeItem(new_document_widget,
+                                            factory->getIcon()),
+         QModelIndex{});
 }
 
 void NewDocumentWidgetListModel::removedObject(
     pillar::NewDocumentWidgetFactory *factory) {
   if (m_new_document_widget_by_factory.contains(factory)) {
-    auto settings_widget = m_new_document_widget_by_factory[factory];
-    auto index = getIndexBy(
-        Role::WidgetRole, QVariant::fromValue(settings_widget), QModelIndex{});
+    auto new_document_widget = m_new_document_widget_by_factory.take(factory);
+    auto index =
+        getIndexBy(Role::WidgetRole, QVariant::fromValue(new_document_widget),
+                   QModelIndex{});
 
-    settings_widget->deleteLater();
+    new_document_widget->deleteLater();
     remove(index);
   }
 }
