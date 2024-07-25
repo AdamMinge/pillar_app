@@ -4,7 +4,7 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
 #include <QObject>
-/* ----------------------------------- Aegis -------------------------------- */
+/* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/command.h>
 #include <aegis/server/export.h>
 #include <aegis/server/response.h>

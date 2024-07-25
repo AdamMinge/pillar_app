@@ -1,7 +1,7 @@
 #ifndef FLOW_LOGIC_NODE_NAND_H
 #define FLOW_LOGIC_NODE_NAND_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/logic_node/export.h"

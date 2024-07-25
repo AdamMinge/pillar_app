@@ -4,7 +4,7 @@
 /* ------------------------------------- Qt --------------------------------- */
 #include <QLineEdit>
 #include <QScopedPointer>
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/component/scene/item/node_item.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/string_node/export.h"

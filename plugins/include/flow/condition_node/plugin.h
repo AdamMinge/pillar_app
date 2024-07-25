@@ -3,7 +3,7 @@
 
 /* ---------------------------------- Pillar -------------------------------- */
 #include <pillar/plugin_interface.h>
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/flow/factory/node_factory.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/condition_node/export.h"

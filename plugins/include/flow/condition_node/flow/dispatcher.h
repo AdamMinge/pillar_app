@@ -1,7 +1,7 @@
 #ifndef FLOW_CONDITION_NODE_DISPATCHER_H
 #define FLOW_CONDITION_NODE_DISPATCHER_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/condition_node/export.h"

@@ -1,7 +1,7 @@
 #ifndef FLOW_LOGIC_NODE_CHANGE_LOGIC_NODE_H
 #define FLOW_LOGIC_NODE_CHANGE_LOGIC_NODE_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/command/change_value.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/logic_node/export.h"

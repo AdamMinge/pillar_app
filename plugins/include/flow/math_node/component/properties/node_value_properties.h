@@ -4,7 +4,7 @@
 /* ------------------------------------- Qt --------------------------------- */
 #include <QCheckBox>
 #include <QScopedPointer>
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/component/properties/node_properties.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/math_node/export.h"

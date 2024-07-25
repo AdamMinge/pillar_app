@@ -1,7 +1,7 @@
 #ifndef STRING_NODE_CHANGE_EVENT_H
 #define STRING_NODE_CHANGE_EVENT_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/event/change_event.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/string_node/export.h"

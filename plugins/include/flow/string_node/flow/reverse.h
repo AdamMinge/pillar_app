@@ -1,7 +1,7 @@
 #ifndef STRING_NODE_REVERSE_H
 #define STRING_NODE_REVERSE_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/string_node/export.h"

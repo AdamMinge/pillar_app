@@ -1,7 +1,7 @@
 #ifndef FLOW_LOGIC_NODE_NODE_VALUE_CHANGE_EVENT_H
 #define FLOW_LOGIC_NODE_NODE_VALUE_CHANGE_EVENT_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/event/change_event.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/logic_node/export.h"

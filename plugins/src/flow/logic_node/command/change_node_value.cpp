@@ -2,7 +2,7 @@
 #include "flow/logic_node/command/change_node_value.h"
 
 #include "flow/logic_node/event/node_value_change_event.h"
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/document.h>
 /* -------------------------------------------------------------------------- */
 

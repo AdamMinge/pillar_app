@@ -1,7 +1,7 @@
 #ifndef FLOW_LOGIC_NODE_AND_H
 #define FLOW_LOGIC_NODE_AND_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/logic_node/export.h"

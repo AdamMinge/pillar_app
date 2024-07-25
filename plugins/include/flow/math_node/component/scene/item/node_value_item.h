@@ -4,7 +4,7 @@
 /* ------------------------------------- Qt --------------------------------- */
 #include <QDoubleSpinBox>
 #include <QScopedPointer>
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/component/scene/item/node_item.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/math_node/export.h"

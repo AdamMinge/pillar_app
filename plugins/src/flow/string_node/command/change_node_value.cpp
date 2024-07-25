@@ -2,7 +2,7 @@
 #include "flow/string_node/command/change_node_value.h"
 
 #include "flow/string_node/event/node_value_change_event.h"
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/document.h>
 /* -------------------------------------------------------------------------- */
 

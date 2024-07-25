@@ -1,7 +1,7 @@
 #ifndef MATH_NODE_CHANGE_EVENT_H
 #define MATH_NODE_CHANGE_EVENT_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/event/change_event.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/math_node/export.h"

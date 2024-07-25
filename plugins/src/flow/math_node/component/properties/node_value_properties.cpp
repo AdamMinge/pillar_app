@@ -4,7 +4,7 @@
 #include "flow/math_node/command/change_node_value.h"
 #include "flow/math_node/event/node_value_change_event.h"
 #include "flow/math_node/flow/value.h"
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/component/properties/variant_property_manager.h>
 #include <flow/document/document.h>
 /* -------------------------------------------------------------------------- */

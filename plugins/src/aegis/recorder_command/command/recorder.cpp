@@ -2,7 +2,6 @@
 #include "aegis/recorder_command/command/recorder.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
-#include <QMetaEnum>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {

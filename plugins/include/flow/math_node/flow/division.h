@@ -1,7 +1,7 @@
 #ifndef MATH_NODE_DIVISION_H
 #define MATH_NODE_ADDITION_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/flow/node.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/math_node/export.h"

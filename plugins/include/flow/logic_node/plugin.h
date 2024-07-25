@@ -3,7 +3,7 @@
 
 /* ---------------------------------- Pillar -------------------------------- */
 #include <pillar/plugin_interface.h>
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/component/properties/factory/utils.h>
 #include <flow/document/component/scene/item/factory/utils.h>
 #include <flow/document/flow/factory/node_factory.h>

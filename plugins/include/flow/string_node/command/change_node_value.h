@@ -1,7 +1,7 @@
 #ifndef CHANGE_STRING_NODE_H
 #define CHANGE_STRING_NODE_H
 
-/* ----------------------------- PluginFlowDocument ------------------------- */
+/* ---------------------------- Plugin Flow Document ------------------------ */
 #include <flow/document/command/change_value.h>
 /* ----------------------------------- Local -------------------------------- */
 #include "flow/string_node/export.h"
