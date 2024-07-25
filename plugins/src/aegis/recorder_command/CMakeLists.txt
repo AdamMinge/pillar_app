@@ -5,9 +5,8 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/aegis/recorder_command)
-set(include_root
-    ${PILLAR_SOURCE_DIR}/plugins/include/aegis/aegis/recorder_commandd)
+set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/recorder_command)
+set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/recorder_command)
 
 set(sources ${source_root}/plugin.cpp ${source_root}/command/recorder.cpp)
 
@@ -22,7 +21,7 @@ set(CMAKE_AUTORCC ON)
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #

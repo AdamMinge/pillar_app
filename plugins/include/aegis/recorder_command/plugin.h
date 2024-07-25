@@ -5,6 +5,8 @@
 #include <pillar/plugin_interface.h>
 /* -------------------------------------------------------------------------- */
 
+namespace aegis {
+
 class RecorderCommandPlugin : public pillar::PluginInterface {
   Q_OBJECT
   Q_INTERFACES(pillar::PluginInterface)
@@ -16,5 +18,7 @@ class RecorderCommandPlugin : public pillar::PluginInterface {
 
   void init() override;
 };
+
+}  // namespace aegis
 
 #endif  // AEGIS_SERVER_PLUGIN_H

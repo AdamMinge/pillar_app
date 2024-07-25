@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/recorder.h"
+#include "aegis/recorder_command/command/recorder.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QMetaEnum>
