@@ -1,5 +1,5 @@
-#ifndef AEGIS_SERVER_PLUGIN_H
-#define AEGIS_SERVER_PLUGIN_H
+#ifndef AEGIS_RECORDER_COMMAND_PLUGIN_H
+#define AEGIS_RECORDER_COMMAND_PLUGIN_H
 
 /* ---------------------------------- Pillar -------------------------------- */
 #include <pillar/plugin_interface.h>
@@ -33,4 +33,4 @@ DECLARE_COMMAND_FACTORY(LIB_AEGIS_USER_INPUT_COMMAND_API, MouseMoveCommand)
 
 }  // namespace aegis
 
-#endif  // AEGIS_SERVER_PLUGIN_H
+#endif  // AEGIS_RECORDER_COMMAND_PLUGIN_H

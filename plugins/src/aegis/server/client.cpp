@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/client.h"
 
-#include "aegis/server/command/command_manager.h"
+#include "aegis/server/command/manager.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMutexLocker>
 /* -------------------------------------------------------------------------- */

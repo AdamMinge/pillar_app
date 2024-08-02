@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/user_input_command/command/mouse_click.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/command_manager.h>
+#include <aegis/server/command/manager.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 

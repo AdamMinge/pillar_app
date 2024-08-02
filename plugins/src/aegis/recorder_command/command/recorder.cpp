@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/recorder_command/command/recorder.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/command_manager.h>
+#include <aegis/server/command/manager.h>
 #include <aegis/server/serializer.h>
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>

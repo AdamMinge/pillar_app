@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/factory/command_factory.h"
+#include "aegis/server/command/factory/factory.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {

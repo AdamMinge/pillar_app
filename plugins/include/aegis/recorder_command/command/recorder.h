@@ -1,5 +1,5 @@
-#ifndef AEGIS_SERVER_COMMAND_RECORDER_H
-#define AEGIS_SERVER_COMMAND_RECORDER_H
+#ifndef AEGIS_RECORDER_COMMAND_RECORDER_H
+#define AEGIS_RECORDER_COMMAND_RECORDER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
@@ -128,4 +128,4 @@ Q_DECLARE_METATYPE(aegis::event::MouseWheelEvent)
 Q_DECLARE_METATYPE(aegis::event::KeyPressEvent)
 Q_DECLARE_METATYPE(aegis::event::KeyReleaseEvent)
 
-#endif  // AEGIS_SERVER_COMMAND_RECORDER_H
+#endif  // AEGIS_RECORDER_COMMAND_RECORDER_H

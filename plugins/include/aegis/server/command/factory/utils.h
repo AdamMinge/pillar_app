@@ -2,7 +2,7 @@
 #define AEGIS_SERVER_COMMAND_FACTORY_UTILS_H
 
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/factory/command_factory.h"
+#include "aegis/server/command/factory/factory.h"
 #include "aegis/server/export.h"
 /* -------------------------------------------------------------------------- */
 

@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/command_manager.h"
+#include "aegis/server/command/manager.h"
 
 #include "aegis/server/command/command.h"
-#include "aegis/server/command/factory/command_factory.h"
+#include "aegis/server/command/factory/factory.h"
 #include "aegis/server/response.h"
 #include "aegis/server/searcher/searcher.h"
 #include "aegis/server/serializer.h"
