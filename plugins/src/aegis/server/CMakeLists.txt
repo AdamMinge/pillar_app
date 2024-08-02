@@ -19,7 +19,9 @@ set(sources
     ${source_root}/server_manager.cpp
     ${source_root}/command/command.cpp
     ${source_root}/command/command_manager.cpp
-    ${source_root}/command/factory/command_factory.cpp)
+    ${source_root}/command/factory/command_factory.cpp
+    ${source_root}/searcher/searcher.cpp
+    ${source_root}/searcher/strategy.cpp)
 
 set(includes
     ${include_root}/export.h
@@ -34,7 +36,9 @@ set(includes
     ${include_root}/command/command.h
     ${include_root}/command/command_manager.h
     ${include_root}/command/factory/command_factory.h
-    ${include_root}/command/factory/utils.h)
+    ${include_root}/command/factory/utils.h
+    ${include_root}/searcher/searcher.h
+    ${include_root}/searcher/strategy.h)
 
 set(resources ${resource_root}/server.qrc)
 

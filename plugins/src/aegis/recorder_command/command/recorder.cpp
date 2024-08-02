@@ -15,8 +15,7 @@ static constexpr QLatin1String recorder_error =
 /* ---------------------------------- Recorder ------------------------------ */
 
 Recorder::Recorder(QObject* parent) : QObject(parent), m_state(State::Stopped) {
-  auto app = QApplication::instance();
-  moveToThread(app->thread());
+  moveToThread(qApp->thread());
 }
 
 Recorder::~Recorder() = default;
@@ -29,8 +28,7 @@ Recorder::Result Recorder::start() {
             "The start cannot be triggered, the recorder is already working"));
   }
 
-  auto app = QApplication::instance();
-  app->installEventFilter(this);
+  qApp->installEventFilter(this);
   m_state = State::Running;
 
   return EmptyMessage();
@@ -44,8 +42,7 @@ Recorder::Result Recorder::pause() {
             "The pause cannot be triggered, the recorder is not working"));
   }
 
-  auto app = QApplication::instance();
-  app->removeEventFilter(this);
+  qApp->removeEventFilter(this);
   m_state = State::Paused;
 
   return EmptyMessage();
@@ -59,8 +56,7 @@ Recorder::Result Recorder::stop() {
             "The stop cannot be triggered, the recorder is already stopped"));
   }
 
-  auto app = QApplication::instance();
-  app->removeEventFilter(this);
+  qApp->removeEventFilter(this);
   m_state = State::Stopped;
   m_events.clear();
 
