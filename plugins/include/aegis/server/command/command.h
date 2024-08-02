@@ -5,7 +5,6 @@
 #include <QByteArray>
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/export.h"
-#include "aegis/server/serializer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace qtils {
@@ -14,11 +13,13 @@ class OArchive;
 
 namespace aegis {
 
+class CommandManager;
+
 /* ---------------------------------- Command ------------------------------- */
 
 class LIB_AEGIS_SERVER_API Command {
  public:
-  explicit Command(const ResponseSerializer& serializer);
+  explicit Command(const CommandManager& manager);
   virtual ~Command();
 
   [[nodiscard]] virtual QString getName() const = 0;
@@ -26,17 +27,11 @@ class LIB_AEGIS_SERVER_API Command {
   [[nodiscard]] virtual QByteArray exec(const QStringList& args) = 0;
 
  protected:
-  template <typename TYPE>
-  [[nodiscard]] QByteArray serialize(const TYPE& data);
+  const CommandManager& getManager() const;
 
  private:
-  const ResponseSerializer& m_serializer;
+  const CommandManager& m_manager;
 };
-
-template <typename TYPE>
-QByteArray Command::serialize(const TYPE& data) {
-  return m_serializer.serialize(data);
-}
 
 }  // namespace aegis
 

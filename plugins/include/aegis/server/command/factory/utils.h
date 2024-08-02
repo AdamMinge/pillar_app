@@ -17,8 +17,8 @@
         : aegis::CommandFactory(parent) {}                           \
                                                                      \
     [[nodiscard]] std::unique_ptr<aegis::Command> create(            \
-        const ResponseSerializer& serializer) const override {       \
-      return std::make_unique<COMMAND>(serializer);                  \
+        const CommandManager& manager) const override {              \
+      return std::make_unique<COMMAND>(manager);                     \
     }                                                                \
   };
 

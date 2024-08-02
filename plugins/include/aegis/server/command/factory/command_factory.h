@@ -10,7 +10,7 @@
 namespace aegis {
 
 class Command;
-class ResponseSerializer;
+class CommandManager;
 
 /* ------------------------------- CommandFactory --------------------------- */
 
@@ -22,7 +22,7 @@ class LIB_AEGIS_SERVER_API CommandFactory : public QObject {
   ~CommandFactory() override;
 
   [[nodiscard]] virtual std::unique_ptr<Command> create(
-      const ResponseSerializer& serializer) const = 0;
+      const CommandManager& manager) const = 0;
 };
 
 }  // namespace aegis

@@ -4,6 +4,7 @@
 #include "aegis/server/command/command.h"
 #include "aegis/server/command/factory/command_factory.h"
 #include "aegis/server/response.h"
+#include "aegis/server/searcher/searcher.h"
 #include "aegis/server/serializer.h"
 /* -------------------------------------------------------------------------- */
 
@@ -13,7 +14,8 @@ namespace aegis {
 
 CommandManager::CommandManager()
     : m_serializer(std::make_unique<ResponseSerializer>(
-          ResponseSerializer::Format::Json)) {
+          ResponseSerializer::Format::Json)),
+      m_searcher(std::make_unique<ObjectSearcher>()) {
   loadObjects();
 }
 
@@ -41,8 +43,14 @@ QByteArray CommandManager::exec(const QByteArray& data) {
   return response;
 }
 
+ResponseSerializer& CommandManager::getSerializer() const {
+  return *m_serializer;
+}
+
+ObjectSearcher& CommandManager::getSearcher() const { return *m_searcher; }
+
 void CommandManager::addedObject(CommandFactory* factory) {
-  auto command = factory->create(*m_serializer);
+  auto command = factory->create(*this);
 
   m_commands.insert(std::make_pair(command->getName(), command.get()));
   m_command_by_factory.insert(std::make_pair(factory, std::move(command)));

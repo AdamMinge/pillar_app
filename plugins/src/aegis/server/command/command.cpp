@@ -4,9 +4,10 @@
 
 namespace aegis {
 
-Command::Command(const ResponseSerializer& serializer)
-    : m_serializer(serializer) {}
+Command::Command(const CommandManager& manager) : m_manager(manager) {}
 
 Command::~Command() = default;
+
+const CommandManager& Command::getManager() const { return m_manager; }
 
 }  // namespace aegis

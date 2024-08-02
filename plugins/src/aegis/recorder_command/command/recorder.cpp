@@ -1,5 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/recorder_command/command/recorder.h"
+/* ---------------------------- Plugin Aegis Server ------------------------- */
+#include <aegis/server/command/command_manager.h>
+#include <aegis/server/serializer.h>
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QKeyEvent>
@@ -141,8 +144,8 @@ void Recorder::recordKeyRelease(QObject* obj, QKeyEvent* event) {
 
 /* ------------------------------ RecorderCommand --------------------------- */
 
-RecorderCommand::RecorderCommand(const ResponseSerializer& serializer)
-    : Command(serializer) {
+RecorderCommand::RecorderCommand(const CommandManager& manager)
+    : Command(manager) {
   m_parser.addHelpOption();
   m_parser.addOptions({
       {{"s", "start"}, "Start the Recorder"},
@@ -158,6 +161,10 @@ RecorderCommand::~RecorderCommand() = default;
 QString RecorderCommand::getName() const { return QString("Recorder"); }
 
 QByteArray RecorderCommand::exec(const QStringList& args) {
+  const auto serialize = [this](auto object) {
+    return getManager().getSerializer().serialize(object);
+  };
+
   if (m_parser.parse(args)) {
     if (m_parser.isSet("start")) return serialize(m_recorder.start());
     if (m_parser.isSet("pause")) return serialize(m_recorder.pause());

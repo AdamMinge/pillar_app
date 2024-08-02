@@ -16,7 +16,7 @@ namespace aegis {
 
 class LIB_AEGIS_USER_INPUT_COMMAND_API MouseClickCommand : public Command {
  public:
-  explicit MouseClickCommand(const ResponseSerializer &serializer);
+  explicit MouseClickCommand(const CommandManager &manager);
   ~MouseClickCommand() override;
 
   [[nodiscard]] QString getName() const override;
