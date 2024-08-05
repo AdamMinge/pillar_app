@@ -64,7 +64,7 @@ class LIB_AEGIS_RECORDER_COMMAND_API Recorder : public QObject {
 
  public:
   explicit Recorder(QObject* parent = nullptr);
-  ~Recorder();
+  ~Recorder() override;
 
   Result start();
   Result pause();

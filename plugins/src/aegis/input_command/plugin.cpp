@@ -1,14 +1,14 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/user_input_command/plugin.h"
+#include "aegis/input_command/plugin.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-UserInputCommandPlugin::UserInputCommandPlugin() = default;
+InputCommandPlugin::InputCommandPlugin() = default;
 
-UserInputCommandPlugin::~UserInputCommandPlugin() = default;
+InputCommandPlugin::~InputCommandPlugin() = default;
 
-void UserInputCommandPlugin::init() {
+void InputCommandPlugin::init() {
   addObject(new KeyboardClickCommandFactory(this));
   addObject(new MouseClickCommandFactory(this));
   addObject(new MouseMoveCommandFactory(this));

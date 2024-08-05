@@ -14,5 +14,5 @@ add_subdirectory(src/flow/string_node)
 add_subdirectory(src/aegis/server)
 add_subdirectory(src/aegis/recorder_command)
 add_subdirectory(src/aegis/sniffer_command)
-add_subdirectory(src/aegis/user_input_command)
+add_subdirectory(src/aegis/input_command)
 # ----------------------------------------------------------------------- #

@@ -43,11 +43,13 @@ QByteArray CommandManager::exec(const QByteArray& data) {
   return response;
 }
 
-ResponseSerializer& CommandManager::getSerializer() const {
+const ResponseSerializer& CommandManager::getSerializer() const {
   return *m_serializer;
 }
 
-ObjectSearcher& CommandManager::getSearcher() const { return *m_searcher; }
+const ObjectSearcher& CommandManager::getSearcher() const {
+  return *m_searcher;
+}
 
 void CommandManager::addedObject(CommandFactory* factory) {
   auto command = factory->create(*this);

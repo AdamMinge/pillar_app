@@ -20,14 +20,21 @@ ObjectSearcher::ObjectSearcher() {
 
 ObjectSearcher::~ObjectSearcher() = default;
 
-QObject* ObjectSearcher::getObject(const QString& id) {
+QObject* ObjectSearcher::getObject(const QString& id) const {
   const auto query = createQuery(id);
-  const auto object = findObject(query);
+  const auto objects = findObjects(query, 1);
 
-  return object;
+  return objects.empty() ? nullptr : objects.first();
 }
 
-QString ObjectSearcher::getId(QObject* object) {
+QList<QObject*> ObjectSearcher::getObjects(const QString& id) const {
+  const auto query = createQuery(id);
+  const auto objects = findObjects(query);
+
+  return objects;
+}
+
+QString ObjectSearcher::getId(QObject* object) const {
   auto query = QVariantMap{};
   for (const auto& searching_strategy : m_searching_strategies) {
     const auto sub_query = searching_strategy->createQuery(object);
@@ -65,14 +72,16 @@ QString ObjectSearcher::createId(const QVariantMap& query) const {
   return QString(json_document.toJson(QJsonDocument::Compact));
 }
 
-QObject* ObjectSearcher::ObjectSearcher::findObject(const QVariantMap& query) {
+QList<QObject*> ObjectSearcher::findObjects(const QVariantMap& query,
+                                            qsizetype limit) const {
   const auto top_widgets = qApp->topLevelWidgets();
   auto objects = std::queue<QObject*>{};
   for (auto top_widget : top_widgets) {
     objects.push(top_widget);
   }
 
-  while (!objects.empty()) {
+  auto found_objects = QList<QObject*>{};
+  while (!objects.empty() && found_objects.size() <= limit) {
     auto parent = objects.front();
     objects.pop();
 
@@ -82,14 +91,16 @@ QObject* ObjectSearcher::ObjectSearcher::findObject(const QVariantMap& query) {
           return searching_strategy->matchesQuery(parent, query);
         });
 
-    if (matches_query) return parent;
+    if (matches_query) {
+      found_objects.push_back(parent);
+    }
 
     for (const auto child : parent->children()) {
       objects.push(child);
     }
   }
 
-  return nullptr;
+  return found_objects;
 }
 
 }  // namespace aegis

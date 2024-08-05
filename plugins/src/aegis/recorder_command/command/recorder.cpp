@@ -165,14 +165,18 @@ QByteArray RecorderCommand::exec(const QStringList& args) {
     return getManager().getSerializer().serialize(object);
   };
 
-  if (m_parser.parse(args)) {
-    if (m_parser.isSet("start")) return serialize(m_recorder.start());
-    if (m_parser.isSet("pause")) return serialize(m_recorder.pause());
-    if (m_parser.isSet("stop")) return serialize(m_recorder.stop());
-    if (m_parser.isSet("report")) return serialize(m_recorder.report());
+  if (!m_parser.parse(args)) {
+    auto error = Response<>(ErrorMessage(recorder_error, m_parser.errorText()));
+    return serialize(error);
   }
 
-  auto error = Response<>(ErrorMessage(recorder_error, m_parser.errorText()));
+  if (m_parser.isSet("start")) return serialize(m_recorder.start());
+  if (m_parser.isSet("pause")) return serialize(m_recorder.pause());
+  if (m_parser.isSet("stop")) return serialize(m_recorder.stop());
+  if (m_parser.isSet("report")) return serialize(m_recorder.report());
+
+  auto error = Response<>(ErrorMessage(
+      recorder_error, "At least one of options must be provided."));
   return serialize(error);
 }
 

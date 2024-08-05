@@ -8,10 +8,10 @@ cmake_minimum_required(VERSION 3.11)
 set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/sniffer_command)
 set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/sniffer_command)
 
-set(sources ${source_root}/plugin.cpp ${source_root}/command/sniffer.cpp)
+set(sources ${source_root}/plugin.cpp ${source_root}/command/find.cpp)
 
 set(includes ${include_root}/export.h ${include_root}/plugin.h
-             ${include_root}/command/sniffer.h)
+             ${include_root}/command/find.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

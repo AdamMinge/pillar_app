@@ -1,5 +1,5 @@
-#ifndef AEGIS_USER_INPUT_COMMAND_KEYBOARD_CLICK_H
-#define AEGIS_USER_INPUT_COMMAND_KEYBOARD_CLICK_H
+#ifndef AEGIS_INPUT_COMMAND_MOUSE_CLICK_H
+#define AEGIS_INPUT_COMMAND_MOUSE_CLICK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
@@ -7,17 +7,17 @@
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/user_input_command/export.h"
+#include "aegis/input_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ---------------------------- KeyboardClickCommand ------------------------ */
+/* ----------------------------- MouseClickCommand -------------------------- */
 
-class LIB_AEGIS_USER_INPUT_COMMAND_API KeyboardClickCommand : public Command {
+class LIB_AEGIS_INPUT_COMMAND_API MouseClickCommand : public Command {
  public:
-  explicit KeyboardClickCommand(const CommandManager &manager);
-  ~KeyboardClickCommand() override;
+  explicit MouseClickCommand(const CommandManager &manager);
+  ~MouseClickCommand() override;
 
   [[nodiscard]] QString getName() const override;
 
@@ -29,4 +29,4 @@ class LIB_AEGIS_USER_INPUT_COMMAND_API KeyboardClickCommand : public Command {
 
 }  // namespace aegis
 
-#endif  // AEGIS_USER_INPUT_COMMAND_KEYBOARD_CLICK_H
+#endif  // AEGIS_INPUT_COMMAND_MOUSE_CLICK_H

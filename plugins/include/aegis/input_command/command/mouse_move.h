@@ -1,5 +1,5 @@
-#ifndef AEGIS_USER_INPUT_COMMAND_MOUSE_MOVE_H
-#define AEGIS_USER_INPUT_COMMAND_MOUSE_MOVE_H
+#ifndef AEGIS_INPUT_COMMAND_MOUSE_MOVE_H
+#define AEGIS_INPUT_COMMAND_MOUSE_MOVE_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
@@ -7,14 +7,14 @@
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/user_input_command/export.h"
+#include "aegis/input_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
 /* ----------------------------- MouseMoveCommand --------------------------- */
 
-class LIB_AEGIS_USER_INPUT_COMMAND_API MouseMoveCommand : public Command {
+class LIB_AEGIS_INPUT_COMMAND_API MouseMoveCommand : public Command {
  public:
   explicit MouseMoveCommand(const CommandManager &manager);
   ~MouseMoveCommand() override;
@@ -29,4 +29,4 @@ class LIB_AEGIS_USER_INPUT_COMMAND_API MouseMoveCommand : public Command {
 
 }  // namespace aegis
 
-#endif  // AEGIS_USER_INPUT_COMMAND_MOUSE_MOVE_H
+#endif  // AEGIS_INPUT_COMMAND_MOUSE_MOVE_H

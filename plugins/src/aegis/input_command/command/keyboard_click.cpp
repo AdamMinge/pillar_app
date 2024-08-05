@@ -1,11 +1,14 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/user_input_command/command/keyboard_click.h"
+#include "aegis/input_command/command/keyboard_click.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/manager.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
+
+static constexpr QLatin1String keyboard_click_error =
+    QLatin1String("Keyboard Click Command Error");
 
 /* ----------------------------- MouseClickCommand -------------------------- */
 
@@ -25,12 +28,14 @@ QByteArray KeyboardClickCommand::exec(const QStringList &args) {
     return getManager().getSerializer().serialize(object);
   };
 
-  if (m_parser.parse(args)) {
-    return serialize(Response<>(EmptyMessage()));
+  if (!m_parser.parse(args)) {
+    auto error =
+        Response<>(ErrorMessage(keyboard_click_error, m_parser.errorText()));
+    return serialize(error);
   }
 
-  auto error = Response<>(ErrorMessage(QLatin1String("Recorder Command Error"),
-                                       m_parser.errorText()));
+  auto error = Response<>(ErrorMessage(
+      keyboard_click_error, "At least one of options must be provided."));
   return serialize(error);
 }
 

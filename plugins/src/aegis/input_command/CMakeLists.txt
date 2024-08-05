@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/user_input_command)
-set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/user_input_command)
+set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/input_command)
+set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/input_command)
 
 set(sources
     ${source_root}/plugin.cpp ${source_root}/command/mouse_click.cpp
@@ -31,7 +31,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
 pillar_add_plugins(
-  aegis_user_input_command
+  aegis_input_command
   SOURCES
   ${sources}
   ${includes}
@@ -41,7 +41,7 @@ pillar_add_plugins(
   plugin::aegis_server)
 
 target_include_directories(
-  aegis_user_input_command
+  aegis_input_command
   PUBLIC $<BUILD_INTERFACE:${PILLAR_SOURCE_DIR}/plugins/include>
   INTERFACE $<INSTALL_INTERFACE:include>
   PRIVATE ${PILLAR_SOURCE_DIR}/plugins/src)

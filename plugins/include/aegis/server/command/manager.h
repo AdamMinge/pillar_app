@@ -28,8 +28,8 @@ class LIB_AEGIS_SERVER_API CommandManager
 
   QByteArray exec(const QByteArray& data);
 
-  ResponseSerializer& getSerializer() const;
-  ObjectSearcher& getSearcher() const;
+  const ResponseSerializer& getSerializer() const;
+  const ObjectSearcher& getSearcher() const;
 
  protected:
   void addedObject(CommandFactory* factory) override;

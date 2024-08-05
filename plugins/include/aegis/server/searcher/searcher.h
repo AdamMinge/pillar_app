@@ -22,14 +22,18 @@ class ObjectSearcher {
   explicit ObjectSearcher();
   ~ObjectSearcher();
 
-  [[nodiscard]] QObject* getObject(const QString& id);
-  [[nodiscard]] QString getId(QObject* object);
+  [[nodiscard]] QObject* getObject(const QString& id) const;
+  [[nodiscard]] QList<QObject*> getObjects(const QString& id) const;
+
+  [[nodiscard]] QString getId(QObject* object) const;
 
  private:
   [[nodiscard]] QVariantMap createQuery(const QString& id) const;
   [[nodiscard]] QString createId(const QVariantMap& query) const;
 
-  [[nodiscard]] QObject* findObject(const QVariantMap& query);
+  [[nodiscard]] QList<QObject*> findObjects(
+      const QVariantMap& query,
+      qsizetype limit = std::numeric_limits<qsizetype>::max()) const;
 
  private:
   std::list<std::unique_ptr<SearchingStrategy>> m_searching_strategies;

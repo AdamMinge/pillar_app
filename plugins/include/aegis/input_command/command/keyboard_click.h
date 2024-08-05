@@ -1,28 +1,27 @@
-#ifndef AEGIS_SNIFFER_COMMAND_SNIFFER_H
-#define AEGIS_SNIFFER_COMMAND_SNIFFER_H
+#ifndef AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
+#define AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
-#include <QObject>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/export.h"
+#include "aegis/input_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ------------------------------ SnifferCommand ---------------------------- */
+/* ---------------------------- KeyboardClickCommand ------------------------ */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API SnifferCommand : public Command {
+class LIB_AEGIS_INPUT_COMMAND_API KeyboardClickCommand : public Command {
  public:
-  explicit SnifferCommand(const CommandManager& manager);
-  ~SnifferCommand() override;
+  explicit KeyboardClickCommand(const CommandManager &manager);
+  ~KeyboardClickCommand() override;
 
   [[nodiscard]] QString getName() const override;
 
-  [[nodiscard]] QByteArray exec(const QStringList& args) override;
+  [[nodiscard]] QByteArray exec(const QStringList &args) override;
 
  private:
   QCommandLineParser m_parser;
@@ -30,4 +29,4 @@ class LIB_AEGIS_SNIFFER_COMMAND_API SnifferCommand : public Command {
 
 }  // namespace aegis
 
-#endif  // AEGIS_SNIFFER_COMMAND_SNIFFER_H
+#endif  // AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
