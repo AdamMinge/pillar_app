@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/command/find.h"
+#include "aegis/sniffer_command/command/parent.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QCursor>
@@ -12,49 +12,54 @@
 
 namespace aegis {
 
-static constexpr QLatin1String find_error = QLatin1String("Find Command Error");
+static constexpr QLatin1String parent_error =
+    QLatin1String("Parent Command Error");
 
-/* ------------------------------- ObjectsFinder ---------------------------- */
+/* -------------------------------- ParentFinder ---------------------------- */
 
-ObjectsFinder::ObjectsFinder(const ObjectSearcher& searcher)
+ParentFinder::ParentFinder(const ObjectSearcher& searcher)
     : m_searcher(searcher) {}
 
-ObjectsFinder::~ObjectsFinder() = default;
+ParentFinder::~ParentFinder() = default;
 
-ObjectsFinder::Result ObjectsFinder::find(const QString& id) {
+ParentFinder::Result ParentFinder::find(const QString& id) {
   const auto objects = m_searcher.getObjects(id);
 
-  auto message = FoundObjectsMessage{};
+  auto message = FoundParentMessage{};
   for (const auto object : objects) {
-    message.objects.append(m_searcher.getId(object));
+    const auto object_id = m_searcher.getId(object);
+    const auto parent_id =
+        object->parent() ? m_searcher.getId(object->parent()) : "";
+
+    message.parents.insert(object_id, parent_id);
   }
 
   return message;
 }
 
-/* ------------------------------- FindCommand ------------------------------ */
+/* ------------------------------ ParentCommand ----------------------------- */
 
-FindCommand::FindCommand(const CommandManager& manager)
+ParentCommand::ParentCommand(const CommandManager& manager)
     : Command(manager), m_finder(getManager().getSearcher()) {
   m_parser.addHelpOption();
   m_parser.addOptions({
       {{"q", "query"},
-       "Query that identifies the objects we are looking for",
+       "Query that identifies the object whose parent we are looking for",
        "query"},
   });
 }
 
-FindCommand::~FindCommand() = default;
+ParentCommand::~ParentCommand() = default;
 
-QString FindCommand::getName() const { return QString("Find"); }
+QString ParentCommand::getName() const { return QString("Parent"); }
 
-QByteArray FindCommand::exec(const QStringList& args) {
+QByteArray ParentCommand::exec(const QStringList& args) {
   const auto serialize = [this](auto object) {
     return getManager().getSerializer().serialize(object);
   };
 
   if (!m_parser.parse(args)) {
-    auto error = Response<>(ErrorMessage(find_error, m_parser.errorText()));
+    auto error = Response<>(ErrorMessage(parent_error, m_parser.errorText()));
     return serialize(error);
   }
 
@@ -64,7 +69,7 @@ QByteArray FindCommand::exec(const QStringList& args) {
   }
 
   auto error = Response<>(
-      ErrorMessage(find_error, "At least one of options must be provided."));
+      ErrorMessage(parent_error, "At least one of options must be provided."));
   return serialize(error);
 }
 

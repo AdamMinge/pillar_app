@@ -1,5 +1,5 @@
-#ifndef AEGIS_SNIFFER_COMMAND_FIND_H
-#define AEGIS_SNIFFER_COMMAND_FIND_H
+#ifndef AEGIS_SNIFFER_COMMAND_PARENT_H
+#define AEGIS_SNIFFER_COMMAND_PARENT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
@@ -16,26 +16,26 @@ namespace aegis {
 
 class ObjectSearcher;
 
-/* ---------------------------- FoundObjectsMessage ------------------------- */
+/* ----------------------------- FoundParentMessage ------------------------- */
 
-struct LIB_AEGIS_SERVER_API FoundObjectsMessage {
+struct LIB_AEGIS_SERVER_API FoundParentMessage {
   Q_GADGET
 
  public:
-  Q_PROPERTY(QStringList objects MEMBER objects)
+  Q_PROPERTY(QMap<QString, QString> parents MEMBER parents)
 
-  QStringList objects;
+  QMap<QString, QString> parents;
 };
 
-/* ------------------------------- ObjectsFinder ---------------------------- */
+/* -------------------------------- ParentFinder ---------------------------- */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API ObjectsFinder {
+class LIB_AEGIS_SNIFFER_COMMAND_API ParentFinder {
  public:
-  using Result = Response<FoundObjectsMessage>;
+  using Result = Response<FoundParentMessage>;
 
  public:
-  explicit ObjectsFinder(const ObjectSearcher& searcher);
-  ~ObjectsFinder();
+  explicit ParentFinder(const ObjectSearcher& searcher);
+  ~ParentFinder();
 
   Result find(const QString& id);
 
@@ -43,12 +43,12 @@ class LIB_AEGIS_SNIFFER_COMMAND_API ObjectsFinder {
   const ObjectSearcher& m_searcher;
 };
 
-/* ------------------------------- FindCommand ------------------------------ */
+/* ------------------------------ ParentCommand ----------------------------- */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API FindCommand : public Command {
+class LIB_AEGIS_SNIFFER_COMMAND_API ParentCommand : public Command {
  public:
-  explicit FindCommand(const CommandManager& manager);
-  ~FindCommand() override;
+  explicit ParentCommand(const CommandManager& manager);
+  ~ParentCommand() override;
 
   [[nodiscard]] QString getName() const override;
 
@@ -56,9 +56,9 @@ class LIB_AEGIS_SNIFFER_COMMAND_API FindCommand : public Command {
 
  private:
   QCommandLineParser m_parser;
-  ObjectsFinder m_finder;
+  ParentFinder m_finder;
 };
 
 }  // namespace aegis
 
-#endif  // AEGIS_SNIFFER_COMMAND_FIND_H
+#endif  // AEGIS_SNIFFER_COMMAND_PARENT_H
