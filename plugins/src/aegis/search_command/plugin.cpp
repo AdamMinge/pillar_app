@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/plugin.h"
+#include "aegis/search_command/plugin.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {

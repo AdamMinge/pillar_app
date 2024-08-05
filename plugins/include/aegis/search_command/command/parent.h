@@ -1,5 +1,5 @@
-#ifndef AEGIS_SNIFFER_COMMAND_PARENT_H
-#define AEGIS_SNIFFER_COMMAND_PARENT_H
+#ifndef AEGIS_SEARCH_COMMAND_PARENT_H
+#define AEGIS_SEARCH_COMMAND_PARENT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
@@ -9,7 +9,7 @@
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/export.h"
+#include "aegis/search_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
@@ -29,7 +29,7 @@ struct LIB_AEGIS_SERVER_API FoundParentMessage {
 
 /* -------------------------------- ParentFinder ---------------------------- */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API ParentFinder {
+class LIB_AEGIS_SEARCH_COMMAND_API ParentFinder {
  public:
   using Result = Response<FoundParentMessage>;
 
@@ -45,7 +45,7 @@ class LIB_AEGIS_SNIFFER_COMMAND_API ParentFinder {
 
 /* ------------------------------ ParentCommand ----------------------------- */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API ParentCommand : public Command {
+class LIB_AEGIS_SEARCH_COMMAND_API ParentCommand : public Command {
  public:
   explicit ParentCommand(const CommandManager& manager);
   ~ParentCommand() override;
@@ -61,4 +61,4 @@ class LIB_AEGIS_SNIFFER_COMMAND_API ParentCommand : public Command {
 
 }  // namespace aegis
 
-#endif  // AEGIS_SNIFFER_COMMAND_PARENT_H
+#endif  // AEGIS_SEARCH_COMMAND_PARENT_H

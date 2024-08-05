@@ -1,5 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/command/children.h"
+#include "aegis/search_command/command/children.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QCursor>

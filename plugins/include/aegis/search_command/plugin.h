@@ -1,18 +1,18 @@
-#ifndef AEGIS_SNIFFER_COMMAND_PLUGIN_H
-#define AEGIS_SNIFFER_COMMAND_PLUGIN_H
+#ifndef AEGIS_SEARCH_COMMAND_PLUGIN_H
+#define AEGIS_SEARCH_COMMAND_PLUGIN_H
 
 /* ---------------------------------- Pillar -------------------------------- */
 #include <pillar/plugin_interface.h>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/factory/utils.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/command/find.h"
-#include "aegis/sniffer_command/export.h"
+#include "aegis/search_command/command/find.h"
+#include "aegis/search_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-class LIB_AEGIS_SNIFFER_COMMAND_API SnifferCommandPlugin
+class LIB_AEGIS_SEARCH_COMMAND_API SnifferCommandPlugin
     : public pillar::PluginInterface {
   Q_OBJECT
   Q_INTERFACES(pillar::PluginInterface)
@@ -25,8 +25,8 @@ class LIB_AEGIS_SNIFFER_COMMAND_API SnifferCommandPlugin
   void init() override;
 };
 
-DECLARE_COMMAND_FACTORY(LIB_AEGIS_SNIFFER_COMMAND_API, FindCommand)
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_SEARCH_COMMAND_API, FindCommand)
 
 }  // namespace aegis
 
-#endif  // AEGIS_SNIFFER_COMMAND_PLUGIN_H
+#endif  // AEGIS_SEARCH_COMMAND_PLUGIN_H

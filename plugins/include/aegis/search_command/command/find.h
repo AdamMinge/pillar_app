@@ -1,5 +1,5 @@
-#ifndef AEGIS_SNIFFER_COMMAND_FIND_H
-#define AEGIS_SNIFFER_COMMAND_FIND_H
+#ifndef AEGIS_SEARCH_COMMAND_FIND_H
+#define AEGIS_SEARCH_COMMAND_FIND_H
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
@@ -9,7 +9,7 @@
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/sniffer_command/export.h"
+#include "aegis/search_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
@@ -29,7 +29,7 @@ struct LIB_AEGIS_SERVER_API FoundObjectsMessage {
 
 /* ------------------------------- ObjectsFinder ---------------------------- */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API ObjectsFinder {
+class LIB_AEGIS_SEARCH_COMMAND_API ObjectsFinder {
  public:
   using Result = Response<FoundObjectsMessage>;
 
@@ -45,7 +45,7 @@ class LIB_AEGIS_SNIFFER_COMMAND_API ObjectsFinder {
 
 /* ------------------------------- FindCommand ------------------------------ */
 
-class LIB_AEGIS_SNIFFER_COMMAND_API FindCommand : public Command {
+class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
  public:
   explicit FindCommand(const CommandManager& manager);
   ~FindCommand() override;
@@ -61,4 +61,4 @@ class LIB_AEGIS_SNIFFER_COMMAND_API FindCommand : public Command {
 
 }  // namespace aegis
 
-#endif  // AEGIS_SNIFFER_COMMAND_FIND_H
+#endif  // AEGIS_SEARCH_COMMAND_FIND_H
