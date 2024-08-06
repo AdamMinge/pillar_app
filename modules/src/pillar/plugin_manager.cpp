@@ -79,7 +79,7 @@ std::list<Plugin *> PluginManager::getDynamicPlugins() {
 void PluginManager::addObject(QObject *object) {
   Q_ASSERT(object);
 
-  m_objects.append(object);
+  m_objects.push_front(object);
   Q_EMIT objectAdded(object);
 }
 

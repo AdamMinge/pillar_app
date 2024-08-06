@@ -84,4 +84,8 @@ std::unique_ptr<pillar::SettingsWidget> ServerSettingsWidgetFactory::create()
   return std::make_unique<ServerSettingsWidget>();
 }
 
+QString ServerSettingsWidgetFactory::getParentObjectName() const {
+  return QLatin1String("PluginSettingsWidget");
+}
+
 }  // namespace aegis

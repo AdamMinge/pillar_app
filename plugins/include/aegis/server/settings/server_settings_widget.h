@@ -49,6 +49,8 @@ class ServerSettingsWidgetFactory : public pillar::SettingsWidgetFactory {
   ~ServerSettingsWidgetFactory() override;
 
   [[nodiscard]] std::unique_ptr<pillar::SettingsWidget> create() const override;
+
+  [[nodiscard]] QString getParentObjectName() const override;
 };
 
 }  // namespace aegis
