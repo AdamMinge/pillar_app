@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Server</string>
+   <string>Aegis Server</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -79,8 +79,6 @@ QCheckBox::indicator:checked {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../../resource/aegis/aegis/server/aegis_server.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
