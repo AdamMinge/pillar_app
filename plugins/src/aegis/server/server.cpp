@@ -8,13 +8,9 @@ namespace aegis {
 
 Server::Server(QObject* parent) : QTcpServer(parent) {}
 
-Server::~Server() { stop(); }
+Server::~Server() { close(); }
 
-bool Server::start(const QHostAddress& host, quint16 port) {
-  return QTcpServer::listen(host, port);
-}
-
-void Server::stop() {
+void Server::close() {
   if (!QTcpServer::isListening()) return;
 
   for (auto thread : m_threads) {

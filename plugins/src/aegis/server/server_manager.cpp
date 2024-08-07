@@ -22,9 +22,17 @@ ServerManager::ServerManager() : m_server(new Server(this)) {}
 ServerManager::~ServerManager() = default;
 
 bool ServerManager::start(const QHostAddress& host, quint16 port) {
-  return m_server->start(host, port);
+  return m_server->listen(host, port);
 }
 
-void ServerManager::stop() { m_server->stop(); }
+void ServerManager::stop() { m_server->close(); }
+
+bool ServerManager::isRunning() const { return m_server->isListening(); }
+
+QHostAddress ServerManager::getHost() const {
+  return m_server->serverAddress();
+}
+
+quint16 ServerManager::getPort() const { return m_server->serverPort(); }
 
 }  // namespace aegis

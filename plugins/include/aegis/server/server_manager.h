@@ -24,6 +24,11 @@ class LIB_AEGIS_SERVER_API ServerManager : public QObject {
   bool start(const QHostAddress& host, quint16 port);
   void stop();
 
+  [[nodiscard]] bool isRunning() const;
+
+  [[nodiscard]] QHostAddress getHost() const;
+  [[nodiscard]] quint16 getPort() const;
+
  protected:
   explicit ServerManager();
 

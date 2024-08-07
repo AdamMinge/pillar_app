@@ -46,7 +46,10 @@ void ServerSettingsWidget::initUi() {
       QRegularExpression("(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]"
                          "{3}|[1-5][0-9]{4}|[1-9][0-9]{0,3}|0)"),
       this);
+
   m_ui->m_port_edit->setValidator(validator);
+
+  update();
 }
 
 void ServerSettingsWidget::initConnections() {
@@ -55,6 +58,24 @@ void ServerSettingsWidget::initConnections() {
 }
 
 void ServerSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
+
+void ServerSettingsWidget::update() {
+  auto &server_manager = ServerManager::getInstance();
+  const auto isRunning = server_manager.isRunning();
+
+  const auto blocker = QSignalBlocker(m_ui->m_server_checkbox);
+
+  m_ui->m_server_checkbox->setCheckState(isRunning ? Qt::CheckState::Checked
+                                                   : Qt::CheckState::Unchecked);
+  if (isRunning) {
+    const auto port = server_manager.getPort()
+                          ? QString::number(server_manager.getPort())
+                          : "";
+    m_ui->m_port_edit->setText(port);
+  }
+
+  m_ui->m_port_edit->setDisabled(isRunning);
+}
 
 void ServerSettingsWidget::switchServerState(int state) {
   auto &server_manager = ServerManager::getInstance();
@@ -70,6 +91,8 @@ void ServerSettingsWidget::switchServerState(int state) {
       server_manager.stop();
       break;
   }
+
+  update();
 }
 
 /* ------------------------ ServerSettingsWidgetFactory --------------------- */

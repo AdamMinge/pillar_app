@@ -18,8 +18,7 @@ class LIB_AEGIS_SERVER_API Server : public QTcpServer {
   explicit Server(QObject* parent = nullptr);
   ~Server() override;
 
-  bool start(const QHostAddress& host, quint16 port);
-  void stop();
+  void close();
 
  protected:
   void incomingConnection(qintptr socketDescriptor) override;
