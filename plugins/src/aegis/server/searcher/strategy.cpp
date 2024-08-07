@@ -1,8 +1,23 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/searcher/strategy.h"
+/* --------------------------------- Standard ------------------------------- */
+#include <set>
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLabel>
+#include <QLineEdit>
 #include <QMetaProperty>
+#include <QPlainTextEdit>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QScrollBar>
+#include <QSlider>
+#include <QTabWidget>
+#include <QTableWidget>
 #include <QVariantMap>
+#include <QWidget>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
@@ -45,9 +60,10 @@ bool PropertiesSearching::matchesQuery(QObject* object,
                                        const QVariantMap& query) const {
   if (query.contains(PropertiesQuery)) {
     const auto properties = query[PropertiesQuery].toMap();
-    for (auto property_name : properties.keys()) {
-      if (properties[property_name] !=
-          object->property(property_name.toUtf8().constData()))
+
+    const auto used_properties = getUsedProperties(object);
+    for (const auto& property : used_properties) {
+      if (object->property(property.toUtf8().data()) != properties[property])
         return false;
     }
   }
@@ -57,12 +73,14 @@ bool PropertiesSearching::matchesQuery(QObject* object,
 
 QVariantMap PropertiesSearching::createQuery(QObject* object) const {
   auto query = QVariantMap{};
-
   auto properties = QVariantMap{};
-  const auto meta_object = object->metaObject();
-  for (auto i = 0; i < meta_object->propertyCount(); ++i) {
-    const auto property = meta_object->property(i);
-    properties[property.name()] = object->property(property.name());
+
+  const auto used_properties = getUsedProperties(object);
+  for (const auto& property : used_properties) {
+    if (auto value = object->property(property.toUtf8().data());
+        value.isValid()) {
+      properties[property] = value;
+    }
   }
 
   query[PropertiesQuery] = properties;
@@ -70,7 +88,55 @@ QVariantMap PropertiesSearching::createQuery(QObject* object) const {
   return query;
 }
 
-/* ------------------------------- PathSearching ---------------------------- */
+QSet<QString> PropertiesSearching::getUsedProperties(QObject* object) {
+  static const auto type_to_properties = getTypeToProperties();
+
+  auto used_properties = QSet<QString>{};
+
+  auto meta_object = object->metaObject();
+  while (meta_object) {
+    const auto type_id = meta_object->metaType().id();
+    const auto type_properties = type_to_properties.find(type_id);
+
+    if (type_properties != type_to_properties.end()) {
+      return *type_properties;
+    }
+
+    meta_object = meta_object->superClass();
+  }
+
+  return used_properties;
+}
+
+QMap<int, QSet<QString>> PropertiesSearching::getTypeToProperties() {
+#define DEF_PROP(Object, ...)                                  \
+  {                                                            \
+    qMetaTypeId<Object>(),                                     \
+        (QSet<QString>({"objectName", "visible", "enabled"}) + \
+         QSet<QString>({__VA_ARGS__}))                         \
+  }
+
+  const auto type_to_properties = QMap<int, QSet<QString>>{
+      DEF_PROP(QWidget),
+      DEF_PROP(QPushButton, "text"),
+      DEF_PROP(QLineEdit, "text"),
+      DEF_PROP(QLabel, "text"),
+      DEF_PROP(QCheckBox, "checked", "text"),
+      DEF_PROP(QComboBox, "currentText"),
+      DEF_PROP(QRadioButton, "checked", "text"),
+      DEF_PROP(QSlider, "value"),
+      DEF_PROP(QProgressBar, "value"),
+      DEF_PROP(QTabWidget, "currentIndex"),
+      DEF_PROP(QTableWidget, "rowCount", "columnCount"),
+      DEF_PROP(QScrollBar, "value"),
+      DEF_PROP(QPlainTextEdit, "plainText"),
+  };
+
+  return type_to_properties;
+}
+
+/* ------------------------------- PathSearching ----------------------------
+ */
 
 PathSearching::PathSearching() = default;
 

@@ -47,6 +47,10 @@ class PropertiesSearching : public SearchingStrategy {
   [[nodiscard]] bool matchesQuery(QObject* object,
                                   const QVariantMap& query) const override;
   [[nodiscard]] QVariantMap createQuery(QObject* object) const override;
+
+ private:
+  [[nodiscard]] static QSet<QString> getUsedProperties(QObject* object);
+  [[nodiscard]] static QMap<int, QSet<QString>> getTypeToProperties();
 };
 
 /* ------------------------------- PathSearching ---------------------------- */
