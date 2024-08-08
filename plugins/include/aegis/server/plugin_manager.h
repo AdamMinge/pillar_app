@@ -10,32 +10,29 @@
 namespace aegis {
 
 class Server;
+class Sniffer;
 
-class LIB_AEGIS_SERVER_API ServerManager : public QObject {
+class LIB_AEGIS_SERVER_API PluginManager : public QObject {
   Q_OBJECT
 
  public:
-  [[nodiscard]] static ServerManager& getInstance();
+  [[nodiscard]] static PluginManager& getInstance();
   static void deleteInstance();
 
  public:
-  ~ServerManager() override;
+  ~PluginManager() override;
 
-  bool start(const QHostAddress& host, quint16 port);
-  void stop();
-
-  [[nodiscard]] bool isRunning() const;
-
-  [[nodiscard]] QHostAddress getHost() const;
-  [[nodiscard]] quint16 getPort() const;
+  [[nodiscard]] Server* getServer() const;
+  [[nodiscard]] Sniffer* getSniffer() const;
 
  protected:
-  explicit ServerManager();
+  explicit PluginManager();
 
  private:
-  static std::unique_ptr<ServerManager> m_instance;
+  static std::unique_ptr<PluginManager> m_instance;
 
   Server* m_server;
+  Sniffer* m_sniffer;
 };
 
 }  // namespace aegis

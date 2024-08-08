@@ -1,7 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/settings/server_settings_widget.h"
 
-#include "aegis/server/server_manager.h"
+#include "aegis/server/plugin_manager.h"
+#include "aegis/server/server.h"
+#include "aegis/server/sniffer.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QEvent>
 #include <QRegularExpressionValidator>
@@ -49,7 +51,8 @@ void ServerSettingsWidget::initUi() {
 
   m_ui->m_port_edit->setValidator(validator);
 
-  update();
+  onChangeServer();
+  onChangeSniffer();
 }
 
 void ServerSettingsWidget::initConnections() {
@@ -59,40 +62,41 @@ void ServerSettingsWidget::initConnections() {
 
 void ServerSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
 
-void ServerSettingsWidget::update() {
-  auto &server_manager = ServerManager::getInstance();
-  const auto isRunning = server_manager.isRunning();
+void ServerSettingsWidget::onChangeServer() {
+  auto server = PluginManager::getInstance().getServer();
+  const auto isRunning = server->isListening();
 
   const auto blocker = QSignalBlocker(m_ui->m_server_checkbox);
 
   m_ui->m_server_checkbox->setCheckState(isRunning ? Qt::CheckState::Checked
                                                    : Qt::CheckState::Unchecked);
   if (isRunning) {
-    const auto port = server_manager.getPort()
-                          ? QString::number(server_manager.getPort())
-                          : "";
+    const auto port =
+        server->serverPort() ? QString::number(server->serverPort()) : "";
     m_ui->m_port_edit->setText(port);
   }
 
   m_ui->m_port_edit->setDisabled(isRunning);
 }
 
+void ServerSettingsWidget::onChangeSniffer() {}
+
 void ServerSettingsWidget::switchServerState(int state) {
-  auto &server_manager = ServerManager::getInstance();
+  auto server = PluginManager::getInstance().getServer();
 
   switch (state) {
     case Qt::CheckState::Checked: {
       const auto port = m_ui->m_port_edit->text().toUInt();
-      server_manager.start(QHostAddress::Any, port);
+      server->listen(QHostAddress::Any, port);
       break;
     }
 
     case Qt::CheckState::Unchecked:
-      server_manager.stop();
+      server->close();
       break;
   }
 
-  update();
+  onChangeServer();
 }
 
 /* ------------------------ ServerSettingsWidgetFactory --------------------- */

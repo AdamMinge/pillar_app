@@ -132,6 +132,8 @@ QMap<int, QSet<QString>> PropertiesSearching::getTypeToProperties() {
       DEF_PROP(QPlainTextEdit, "plainText"),
   };
 
+#undef DEF_PROP
+
   return type_to_properties;
 }
 

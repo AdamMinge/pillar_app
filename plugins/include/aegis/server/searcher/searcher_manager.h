@@ -15,17 +15,23 @@ namespace aegis {
 
 class SearchingStrategy;
 
-/* ------------------------------- ObjectSearcher --------------------------- */
+/* ------------------------------- SearcherManager -------------------------- */
 
-class ObjectSearcher {
+class SearcherManager {
  public:
-  explicit ObjectSearcher();
-  ~ObjectSearcher();
+  [[nodiscard]] static SearcherManager& getInstance();
+  static void deleteInstance();
+
+ public:
+  ~SearcherManager();
 
   [[nodiscard]] QObject* getObject(const QString& id) const;
   [[nodiscard]] QList<QObject*> getObjects(const QString& id) const;
 
   [[nodiscard]] QString getId(QObject* object) const;
+
+ protected:
+  explicit SearcherManager();
 
  private:
   [[nodiscard]] QVariantMap createQuery(const QString& id) const;
@@ -36,6 +42,8 @@ class ObjectSearcher {
       qsizetype limit = std::numeric_limits<qsizetype>::max()) const;
 
  private:
+  static std::unique_ptr<SearcherManager> m_instance;
+
   std::list<std::unique_ptr<SearchingStrategy>> m_searching_strategies;
 };
 

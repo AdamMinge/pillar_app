@@ -5,8 +5,8 @@
 #include <QCursor>
 #include <QWidget>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/manager.h>
-#include <aegis/server/searcher/searcher.h>
+#include <aegis/server/command/executor.h>
+#include <aegis/server/searcher/searcher_manager.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 
@@ -17,21 +17,21 @@ static constexpr QLatin1String children_error =
 
 /* ------------------------------- ChildrenFinder --------------------------- */
 
-ChildrenFinder::ChildrenFinder(const ObjectSearcher& searcher)
-    : m_searcher(searcher) {}
+ChildrenFinder::ChildrenFinder() = default;
 
 ChildrenFinder::~ChildrenFinder() = default;
 
 ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
-  const auto objects = m_searcher.getObjects(id);
+  const auto& searcher = SearcherManager::getInstance();
+  const auto objects = searcher.getObjects(id);
 
   auto message = FoundChildrenMessage{};
   for (const auto object : objects) {
-    const auto object_id = m_searcher.getId(object);
+    const auto object_id = searcher.getId(object);
 
     auto children = QStringList{};
     for (const auto child : object->children()) {
-      const auto child_id = m_searcher.getId(child);
+      const auto child_id = searcher.getId(child);
       children.append(child_id);
     }
 
@@ -43,8 +43,8 @@ ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
 
 /* ------------------------------ ChildrenCommand --------------------------- */
 
-ChildrenCommand::ChildrenCommand(const CommandManager& manager)
-    : Command(manager), m_finder(getManager().getSearcher()) {
+ChildrenCommand::ChildrenCommand(const CommandExecutor& manager)
+    : Command(manager) {
   m_parser.addHelpOption();
   m_parser.addOptions({
       {{"q", "query"},

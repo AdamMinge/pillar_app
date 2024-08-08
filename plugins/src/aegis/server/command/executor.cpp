@@ -1,27 +1,25 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/manager.h"
+#include "aegis/server/command/executor.h"
 
 #include "aegis/server/command/command.h"
 #include "aegis/server/command/factory/factory.h"
 #include "aegis/server/response.h"
-#include "aegis/server/searcher/searcher.h"
 #include "aegis/server/serializer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ------------------------------- CommandManager --------------------------- */
+/* ------------------------------- CommandExecutor -------------------------- */
 
-CommandManager::CommandManager()
+CommandExecutor::CommandExecutor()
     : m_serializer(std::make_unique<ResponseSerializer>(
-          ResponseSerializer::Format::Json)),
-      m_searcher(std::make_unique<ObjectSearcher>()) {
+          ResponseSerializer::Format::Json)) {
   loadObjects();
 }
 
-CommandManager::~CommandManager() = default;
+CommandExecutor::~CommandExecutor() = default;
 
-QByteArray CommandManager::exec(const QByteArray& data) {
+QByteArray CommandExecutor::exec(const QByteArray& data) {
   const auto splited_data = data.split(' ');
   const auto command_name = splited_data.front();
 
@@ -43,22 +41,18 @@ QByteArray CommandManager::exec(const QByteArray& data) {
   return response;
 }
 
-const ResponseSerializer& CommandManager::getSerializer() const {
+const ResponseSerializer& CommandExecutor::getSerializer() const {
   return *m_serializer;
 }
 
-const ObjectSearcher& CommandManager::getSearcher() const {
-  return *m_searcher;
-}
-
-void CommandManager::addedObject(CommandFactory* factory) {
+void CommandExecutor::addedObject(CommandFactory* factory) {
   auto command = factory->create(*this);
 
   m_commands.insert(std::make_pair(command->getName(), command.get()));
   m_command_by_factory.insert(std::make_pair(factory, std::move(command)));
 }
 
-void CommandManager::removedObject(CommandFactory* factory) {
+void CommandExecutor::removedObject(CommandFactory* factory) {
   if (m_command_by_factory.contains(factory)) {
     auto& command = m_command_by_factory[factory];
 

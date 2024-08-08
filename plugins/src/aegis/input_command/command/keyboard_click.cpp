@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/input_command/command/keyboard_click.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/manager.h>
+#include <aegis/server/command/executor.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 
@@ -12,7 +12,7 @@ static constexpr QLatin1String keyboard_click_error =
 
 /* ----------------------------- MouseClickCommand -------------------------- */
 
-KeyboardClickCommand::KeyboardClickCommand(const CommandManager &manager)
+KeyboardClickCommand::KeyboardClickCommand(const CommandExecutor &manager)
     : Command(manager) {
   m_parser.addHelpOption();
 }

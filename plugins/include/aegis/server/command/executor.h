@@ -13,23 +13,21 @@
 namespace aegis {
 
 class ResponseSerializer;
-class ObjectSearcher;
 
 class CommandFactory;
 class Command;
 
-/* ------------------------------- CommandManager --------------------------- */
+/* ------------------------------- CommandExecutor -------------------------- */
 
-class LIB_AEGIS_SERVER_API CommandManager
+class LIB_AEGIS_SERVER_API CommandExecutor
     : public pillar::PluginListener<CommandFactory> {
  public:
-  explicit CommandManager();
-  ~CommandManager() override;
+  explicit CommandExecutor();
+  ~CommandExecutor() override;
 
   QByteArray exec(const QByteArray& data);
 
   const ResponseSerializer& getSerializer() const;
-  const ObjectSearcher& getSearcher() const;
 
  protected:
   void addedObject(CommandFactory* factory) override;
@@ -37,7 +35,6 @@ class LIB_AEGIS_SERVER_API CommandManager
 
  private:
   std::unique_ptr<ResponseSerializer> m_serializer;
-  std::unique_ptr<ObjectSearcher> m_searcher;
 
   std::unordered_map<QString, Command*> m_commands;
   std::unordered_map<CommandFactory*, std::unique_ptr<Command>>

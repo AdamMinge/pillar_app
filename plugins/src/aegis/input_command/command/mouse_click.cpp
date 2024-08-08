@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/input_command/command/mouse_click.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/manager.h>
+#include <aegis/server/command/executor.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 
@@ -12,7 +12,7 @@ static constexpr QLatin1String mouse_click_error =
 
 /* ----------------------------- MouseClickCommand -------------------------- */
 
-MouseClickCommand::MouseClickCommand(const CommandManager &manager)
+MouseClickCommand::MouseClickCommand(const CommandExecutor &manager)
     : Command(manager) {
   m_parser.addHelpOption();
 }

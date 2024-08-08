@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/input_command/command/mouse_move.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/manager.h>
+#include <aegis/server/command/executor.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 
@@ -12,7 +12,7 @@ static constexpr QLatin1String mouse_move_error =
 
 /* ----------------------------- MouseMoveCommand --------------------------- */
 
-MouseMoveCommand::MouseMoveCommand(const CommandManager &manager)
+MouseMoveCommand::MouseMoveCommand(const CommandExecutor &manager)
     : Command(manager) {
   m_parser.addHelpOption();
 }

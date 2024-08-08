@@ -107,7 +107,7 @@ void Recorder::recordEvent(TYPE&& event) {
 
 class LIB_AEGIS_RECORDER_COMMAND_API RecorderCommand : public Command {
  public:
-  explicit RecorderCommand(const CommandManager& manager);
+  explicit RecorderCommand(const CommandExecutor& manager);
   ~RecorderCommand() override;
 
   [[nodiscard]] QString getName() const override;

@@ -14,8 +14,6 @@
 
 namespace aegis {
 
-class ObjectSearcher;
-
 /* ---------------------------- FoundObjectsMessage ------------------------- */
 
 struct LIB_AEGIS_SERVER_API FoundObjectsMessage {
@@ -34,20 +32,17 @@ class LIB_AEGIS_SEARCH_COMMAND_API ObjectsFinder {
   using Result = Response<FoundObjectsMessage>;
 
  public:
-  explicit ObjectsFinder(const ObjectSearcher& searcher);
+  explicit ObjectsFinder();
   ~ObjectsFinder();
 
   Result find(const QString& id);
-
- private:
-  const ObjectSearcher& m_searcher;
 };
 
 /* ------------------------------- FindCommand ------------------------------ */
 
 class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
  public:
-  explicit FindCommand(const CommandManager& manager);
+  explicit FindCommand(const CommandExecutor& manager);
   ~FindCommand() override;
 
   [[nodiscard]] QString getName() const override;

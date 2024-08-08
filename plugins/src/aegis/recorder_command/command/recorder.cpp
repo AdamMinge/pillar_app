@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/recorder_command/command/recorder.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/manager.h>
+#include <aegis/server/command/executor.h>
 #include <aegis/server/serializer.h>
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
@@ -144,7 +144,7 @@ void Recorder::recordKeyRelease(QObject* obj, QKeyEvent* event) {
 
 /* ------------------------------ RecorderCommand --------------------------- */
 
-RecorderCommand::RecorderCommand(const CommandManager& manager)
+RecorderCommand::RecorderCommand(const CommandExecutor& manager)
     : Command(manager) {
   m_parser.addHelpOption();
   m_parser.addOptions({

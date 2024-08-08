@@ -17,7 +17,7 @@
         : aegis::CommandFactory(parent) {}                           \
                                                                      \
     [[nodiscard]] std::unique_ptr<aegis::Command> create(            \
-        const CommandManager& manager) const override {              \
+        const CommandExecutor& manager) const override {             \
       return std::make_unique<COMMAND>(manager);                     \
     }                                                                \
   };

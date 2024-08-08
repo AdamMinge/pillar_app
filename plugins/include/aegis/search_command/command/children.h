@@ -14,8 +14,6 @@
 
 namespace aegis {
 
-class ObjectSearcher;
-
 /* ---------------------------- FoundChildrenMessage ------------------------ */
 
 struct LIB_AEGIS_SERVER_API FoundChildrenMessage {
@@ -34,20 +32,17 @@ class LIB_AEGIS_SEARCH_COMMAND_API ChildrenFinder {
   using Result = Response<FoundChildrenMessage>;
 
  public:
-  explicit ChildrenFinder(const ObjectSearcher& searcher);
+  explicit ChildrenFinder();
   ~ChildrenFinder();
 
   Result find(const QString& id);
-
- private:
-  const ObjectSearcher& m_searcher;
 };
 
 /* ------------------------------ ChildrenCommand --------------------------- */
 
 class LIB_AEGIS_SEARCH_COMMAND_API ChildrenCommand : public Command {
  public:
-  explicit ChildrenCommand(const CommandManager& manager);
+  explicit ChildrenCommand(const CommandExecutor& manager);
   ~ChildrenCommand() override;
 
   [[nodiscard]] QString getName() const override;

@@ -5,8 +5,8 @@
 #include <QCursor>
 #include <QWidget>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/manager.h>
-#include <aegis/server/searcher/searcher.h>
+#include <aegis/server/command/executor.h>
+#include <aegis/server/searcher/searcher_manager.h>
 #include <aegis/server/serializer.h>
 /* -------------------------------------------------------------------------- */
 
@@ -16,17 +16,17 @@ static constexpr QLatin1String find_error = QLatin1String("Find Command Error");
 
 /* ------------------------------- ObjectsFinder ---------------------------- */
 
-ObjectsFinder::ObjectsFinder(const ObjectSearcher& searcher)
-    : m_searcher(searcher) {}
+ObjectsFinder::ObjectsFinder() = default;
 
 ObjectsFinder::~ObjectsFinder() = default;
 
 ObjectsFinder::Result ObjectsFinder::find(const QString& id) {
-  const auto objects = m_searcher.getObjects(id);
+  const auto& searcher = SearcherManager::getInstance();
+  const auto objects = searcher.getObjects(id);
 
   auto message = FoundObjectsMessage{};
   for (const auto object : objects) {
-    message.objects.append(m_searcher.getId(object));
+    message.objects.append(searcher.getId(object));
   }
 
   return message;
@@ -34,8 +34,7 @@ ObjectsFinder::Result ObjectsFinder::find(const QString& id) {
 
 /* ------------------------------- FindCommand ------------------------------ */
 
-FindCommand::FindCommand(const CommandManager& manager)
-    : Command(manager), m_finder(getManager().getSearcher()) {
+FindCommand::FindCommand(const CommandExecutor& manager) : Command(manager) {
   m_parser.addHelpOption();
   m_parser.addOptions({
       {{"q", "query"},

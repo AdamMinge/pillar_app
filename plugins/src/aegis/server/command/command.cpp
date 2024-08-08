@@ -4,10 +4,10 @@
 
 namespace aegis {
 
-Command::Command(const CommandManager& manager) : m_manager(manager) {}
+Command::Command(const CommandExecutor& manager) : m_manager(manager) {}
 
 Command::~Command() = default;
 
-const CommandManager& Command::getManager() const { return m_manager; }
+const CommandExecutor& Command::getManager() const { return m_manager; }
 
 }  // namespace aegis

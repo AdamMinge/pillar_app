@@ -32,7 +32,9 @@ class ServerSettingsWidget : public pillar::SettingsWidget {
   void initConnections();
 
   void retranslateUi();
-  void update();
+
+  void onChangeServer();
+  void onChangeSniffer();
 
  private Q_SLOTS:
   void switchServerState(int state);
