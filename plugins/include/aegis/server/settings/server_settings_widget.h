@@ -38,6 +38,7 @@ class ServerSettingsWidget : public pillar::SettingsWidget {
 
  private Q_SLOTS:
   void switchServerState(int state);
+  void switchSnifferState(int state);
 
  private:
   QScopedPointer<Ui::ServerSettingsWidget> m_ui;

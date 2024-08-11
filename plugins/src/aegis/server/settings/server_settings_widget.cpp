@@ -58,6 +58,9 @@ void ServerSettingsWidget::initUi() {
 void ServerSettingsWidget::initConnections() {
   connect(m_ui->m_server_checkbox, &QCheckBox::stateChanged, this,
           &ServerSettingsWidget::switchServerState);
+
+  connect(m_ui->m_sniffer_checkbox, &QCheckBox::stateChanged, this,
+          &ServerSettingsWidget::switchSnifferState);
 }
 
 void ServerSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
@@ -79,7 +82,15 @@ void ServerSettingsWidget::onChangeServer() {
   m_ui->m_port_edit->setDisabled(isRunning);
 }
 
-void ServerSettingsWidget::onChangeSniffer() {}
+void ServerSettingsWidget::onChangeSniffer() {
+  auto sniffer = PluginManager::getInstance().getSniffer();
+  const auto isRunning = sniffer->isSniffing();
+
+  const auto blocker = QSignalBlocker(m_ui->m_sniffer_checkbox);
+
+  m_ui->m_sniffer_checkbox->setCheckState(
+      isRunning ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+}
 
 void ServerSettingsWidget::switchServerState(int state) {
   auto server = PluginManager::getInstance().getServer();
@@ -91,12 +102,29 @@ void ServerSettingsWidget::switchServerState(int state) {
       break;
     }
 
-    case Qt::CheckState::Unchecked:
+    case Qt::CheckState::Unchecked: {
       server->close();
       break;
+    }
   }
 
   onChangeServer();
+}
+
+void ServerSettingsWidget::switchSnifferState(int state) {
+  auto sniffer = PluginManager::getInstance().getSniffer();
+
+  switch (state) {
+    case Qt::CheckState::Checked:
+      sniffer->start();
+      break;
+
+    case Qt::CheckState::Unchecked:
+      sniffer->stop();
+      break;
+  }
+
+  onChangeSniffer();
 }
 
 /* ------------------------ ServerSettingsWidgetFactory --------------------- */

@@ -7,6 +7,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMenu>
 #include <QMetaProperty>
 #include <QPlainTextEdit>
 #include <QProgressBar>
@@ -119,16 +120,16 @@ QMap<int, QSet<QString>> PropertiesSearching::getTypeToProperties() {
   const auto type_to_properties = QMap<int, QSet<QString>>{
       DEF_PROP(QWidget),
       DEF_PROP(QPushButton, "text"),
-      DEF_PROP(QLineEdit, "text"),
+      DEF_PROP(QLineEdit, "text", "placeholderText"),
       DEF_PROP(QLabel, "text"),
+      DEF_PROP(QMenu, "title"),
       DEF_PROP(QCheckBox, "checked", "text"),
       DEF_PROP(QComboBox, "currentText"),
       DEF_PROP(QRadioButton, "checked", "text"),
-      DEF_PROP(QSlider, "value"),
-      DEF_PROP(QProgressBar, "value"),
-      DEF_PROP(QTabWidget, "currentIndex"),
+      DEF_PROP(QAbstractSlider, "value", "maximum", "minimum"),
+      DEF_PROP(QProgressBar, "value", "maximum", "minimum"),
+      DEF_PROP(QTabWidget, "currentIndex", "count"),
       DEF_PROP(QTableWidget, "rowCount", "columnCount"),
-      DEF_PROP(QScrollBar, "value"),
       DEF_PROP(QPlainTextEdit, "plainText"),
   };
 

@@ -2,12 +2,58 @@
 #define AEGIS_SERVER_SNIFFER_SNIFFER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
+#include <QDialog>
+#include <QLabel>
 #include <QObject>
+#include <QTimer>
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
+
+/* ---------------------------- SnifferObjectTooltip ------------------------ */
+
+class SnifferObjectTooltip : public QDialog {
+  Q_OBJECT
+
+ public:
+  explicit SnifferObjectTooltip(QWidget *parent = nullptr);
+  ~SnifferObjectTooltip() override;
+
+  [[nodiscard]] QObject *getObject() const;
+  void setObject(QObject *object);
+
+ private:
+  void initUi();
+
+ private:
+  QLabel *m_label;
+  QObject *m_object;
+};
+
+/* ----------------------------- SnifferWidgetMarker ------------------------ */
+
+class SnifferWidgetMarker : public QLabel {
+  Q_OBJECT
+
+ public:
+  explicit SnifferWidgetMarker(QWidget *parent = nullptr);
+  ~SnifferWidgetMarker() override;
+
+  [[nodiscard]] QWidget *getWidget() const;
+  void setWidget(QWidget *widget);
+
+ protected:
+  void paintEvent(QPaintEvent *event) override;
+
+ private:
+  QWidget *m_widget;
+};
+
+/* ---------------------------------- Sniffer ------------------------------- */
+
+class SnifferPrivate;
 
 class Sniffer : public QObject {
   Q_OBJECT
@@ -16,11 +62,19 @@ class Sniffer : public QObject {
   Sniffer(QObject *parent = nullptr);
   ~Sniffer() override;
 
- protected:
-  bool eventFilter(QObject *object, QEvent *event) override;
+  void start();
+  void stop();
+
+  [[nodiscard]] bool isSniffing();
+
+ protected slots:
+  bool eventFilter(QObject *obj, QEvent *event) override;
+  void onMouseMove(QMouseEvent *event);
 
  private:
-  QObject *m_last_object;
+  bool m_sniffing;
+  QScopedPointer<SnifferObjectTooltip> m_tooltip;
+  QScopedPointer<SnifferWidgetMarker> m_marker;
 };
 
 }  // namespace aegis

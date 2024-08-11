@@ -1,6 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/plugin.h"
 
+#include "aegis/server/plugin_manager.h"
 #include "aegis/server/resources.h"
 #include "aegis/server/settings/server_settings_widget.h"
 /* ------------------------------------ Qt ---------------------------------- */
@@ -11,7 +12,7 @@ namespace aegis {
 
 ServerPlugin::ServerPlugin() = default;
 
-ServerPlugin::~ServerPlugin() = default;
+ServerPlugin::~ServerPlugin() { PluginManager::deleteInstance(); }
 
 void ServerPlugin::init() {
   addObject(new ServerSettingsWidgetFactory(this));
