@@ -7,33 +7,24 @@
 
 namespace aegis {
 
-static constexpr QLatin1String mouse_click_error =
-    QLatin1String("Mouse Click Command Error");
-
 /* ----------------------------- MouseClickCommand -------------------------- */
 
 MouseClickCommand::MouseClickCommand(const CommandExecutor &manager)
-    : Command(manager) {
-  m_parser.addHelpOption();
-}
+    : Command(manager) {}
 
 MouseClickCommand::~MouseClickCommand() = default;
 
 QString MouseClickCommand::getName() const { return QString("MouseClick"); }
 
-QByteArray MouseClickCommand::exec(const QStringList &args) {
+QList<QCommandLineOption> MouseClickCommand::getOptions() const { return {}; }
+
+QByteArray MouseClickCommand::exec(const QCommandLineParser &parser) {
   const auto serialize = [this](auto object) {
-    return getManager().getSerializer().serialize(object);
+    return getExecutor().getSerializer().serialize(object);
   };
 
-  if (!m_parser.parse(args)) {
-    auto error =
-        Response<>(ErrorMessage(mouse_click_error, m_parser.errorText()));
-    return serialize(error);
-  }
-
-  auto error = Response<>(ErrorMessage(
-      mouse_click_error, "At least one of options must be provided."));
+  auto error = Response<>(
+      ErrorMessage(getError(), "At least one of options must be provided."));
   return serialize(error);
 }
 

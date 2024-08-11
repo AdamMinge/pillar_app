@@ -2,7 +2,6 @@
 #define AEGIS_SEARCH_COMMAND_FIND_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QCommandLineParser>
 #include <QObject>
 #include <QTimer>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
@@ -47,10 +46,11 @@ class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
 
   [[nodiscard]] QString getName() const override;
 
-  [[nodiscard]] QByteArray exec(const QStringList& args) override;
+ protected:
+  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
+  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
 
  private:
-  QCommandLineParser m_parser;
   ObjectsFinder m_finder;
 };
 

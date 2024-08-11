@@ -12,9 +12,6 @@
 
 namespace aegis {
 
-static constexpr QLatin1String children_error =
-    QLatin1String("Children Command Error");
-
 /* ------------------------------- ChildrenFinder --------------------------- */
 
 ChildrenFinder::ChildrenFinder() = default;
@@ -44,36 +41,31 @@ ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
 /* ------------------------------ ChildrenCommand --------------------------- */
 
 ChildrenCommand::ChildrenCommand(const CommandExecutor& manager)
-    : Command(manager) {
-  m_parser.addHelpOption();
-  m_parser.addOptions({
-      {{"q", "query"},
-       "Query that identifies the object whose children we are looking for",
-       "query"},
-  });
-}
+    : Command(manager) {}
 
 ChildrenCommand::~ChildrenCommand() = default;
 
 QString ChildrenCommand::getName() const { return QString("Children"); }
 
-QByteArray ChildrenCommand::exec(const QStringList& args) {
+QList<QCommandLineOption> ChildrenCommand::getOptions() const {
+  return {{{"q", "query"},
+           "Query that identifies the object whose children we are looking "
+           "for",
+           "query"}};
+}
+
+QByteArray ChildrenCommand::exec(const QCommandLineParser& parser) {
   const auto serialize = [this](auto object) {
-    return getManager().getSerializer().serialize(object);
+    return getExecutor().getSerializer().serialize(object);
   };
 
-  if (!m_parser.parse(args)) {
-    auto error = Response<>(ErrorMessage(children_error, m_parser.errorText()));
-    return serialize(error);
-  }
-
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
+  if (parser.isSet("query")) {
+    const auto query = parser.value("query");
     return serialize(m_finder.find(query));
   }
 
-  auto error = Response<>(ErrorMessage(
-      children_error, "At least one of options must be provided."));
+  auto error = Response<>(
+      ErrorMessage(getError(), "At least one of options must be provided."));
   return serialize(error);
 }
 

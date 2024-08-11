@@ -2,7 +2,6 @@
 #define AEGIS_RECORDER_COMMAND_RECORDER_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QCommandLineParser>
 #include <QObject>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/command.h>
@@ -63,7 +62,7 @@ class LIB_AEGIS_RECORDER_COMMAND_API Recorder : public QObject {
   enum class State { Running, Paused, Stopped };
 
  public:
-  explicit Recorder(QObject* parent = nullptr);
+  explicit Recorder(QString error, QObject* parent = nullptr);
   ~Recorder() override;
 
   Result start();
@@ -88,6 +87,7 @@ class LIB_AEGIS_RECORDER_COMMAND_API Recorder : public QObject {
   void recordEvent(TYPE&& event);
 
  private:
+  QString m_error;
   State m_state;
   QList<QVariant> m_events;
 };
@@ -112,10 +112,11 @@ class LIB_AEGIS_RECORDER_COMMAND_API RecorderCommand : public Command {
 
   [[nodiscard]] QString getName() const override;
 
-  [[nodiscard]] QByteArray exec(const QStringList& args) override;
+ protected:
+  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
+  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
 
  private:
-  QCommandLineParser m_parser;
   Recorder m_recorder;
 };
 

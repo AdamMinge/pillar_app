@@ -1,8 +1,6 @@
 #ifndef AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
 #define AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
 
-/* ------------------------------------ Qt ---------------------------------- */
-#include <QCommandLineParser>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
@@ -16,15 +14,14 @@ namespace aegis {
 
 class LIB_AEGIS_INPUT_COMMAND_API KeyboardClickCommand : public Command {
  public:
-  explicit KeyboardClickCommand(const CommandExecutor &manager);
+  explicit KeyboardClickCommand(const CommandExecutor& manager);
   ~KeyboardClickCommand() override;
 
   [[nodiscard]] QString getName() const override;
 
-  [[nodiscard]] QByteArray exec(const QStringList &args) override;
-
- private:
-  QCommandLineParser m_parser;
+ protected:
+  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
+  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
 };
 
 }  // namespace aegis

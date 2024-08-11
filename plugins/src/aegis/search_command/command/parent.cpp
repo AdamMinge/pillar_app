@@ -12,9 +12,6 @@
 
 namespace aegis {
 
-static constexpr QLatin1String parent_error =
-    QLatin1String("Parent Command Error");
-
 /* -------------------------------- ParentFinder ---------------------------- */
 
 ParentFinder::ParentFinder() = default;
@@ -40,36 +37,30 @@ ParentFinder::Result ParentFinder::find(const QString& id) {
 /* ------------------------------ ParentCommand ----------------------------- */
 
 ParentCommand::ParentCommand(const CommandExecutor& manager)
-    : Command(manager) {
-  m_parser.addHelpOption();
-  m_parser.addOptions({
-      {{"q", "query"},
-       "Query that identifies the object whose parent we are looking for",
-       "query"},
-  });
-}
+    : Command(manager) {}
 
 ParentCommand::~ParentCommand() = default;
 
 QString ParentCommand::getName() const { return QString("Parent"); }
 
-QByteArray ParentCommand::exec(const QStringList& args) {
+QList<QCommandLineOption> ParentCommand::getOptions() const {
+  return {{{"q", "query"},
+           "Query that identifies the object whose parent we are looking for",
+           "query"}};
+}
+
+QByteArray ParentCommand::exec(const QCommandLineParser& parser) {
   const auto serialize = [this](auto object) {
-    return getManager().getSerializer().serialize(object);
+    return getExecutor().getSerializer().serialize(object);
   };
 
-  if (!m_parser.parse(args)) {
-    auto error = Response<>(ErrorMessage(parent_error, m_parser.errorText()));
-    return serialize(error);
-  }
-
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
+  if (parser.isSet("query")) {
+    const auto query = parser.value("query");
     return serialize(m_finder.find(query));
   }
 
   auto error = Response<>(
-      ErrorMessage(parent_error, "At least one of options must be provided."));
+      ErrorMessage(getError(), "At least one of options must be provided."));
   return serialize(error);
 }
 
