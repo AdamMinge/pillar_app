@@ -32,27 +32,22 @@ ObjectsFinder::Result ObjectsFinder::find(const QString& id) {
 
 /* ------------------------------- FindCommand ------------------------------ */
 
-FindCommand::FindCommand(const CommandExecutor& manager) : Command(manager) {}
+FindCommand::FindCommand(const CommandExecutor& manager)
+    : Command(QLatin1String("Find"), manager) {
+  m_parser.addOptions({{{"q", "query"},
+                        "Query that identifies the objects we are looking for",
+                        "query"}});
+}
 
 FindCommand::~FindCommand() = default;
 
-QString FindCommand::getName() const { return QString("Find"); }
-
-QList<QCommandLineOption> FindCommand::getOptions() const {
-  return {
-      {{"q", "query"},
-       "Query that identifies the objects we are looking for",
-       "query"},
-  };
-}
-
-QByteArray FindCommand::exec(const QCommandLineParser& parser) {
+QByteArray FindCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };
 
-  if (parser.isSet("query")) {
-    const auto query = parser.value("query");
+  if (m_parser.isSet("query")) {
+    const auto query = m_parser.value("query");
     return serialize(m_finder.find(query));
   }
 

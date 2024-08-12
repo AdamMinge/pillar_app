@@ -3,7 +3,6 @@
 
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QByteArray>
-#include <QCommandLineOption>
 #include <QCommandLineParser>
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/export.h"
@@ -21,23 +20,23 @@ class CommandExecutor;
 
 class LIB_AEGIS_SERVER_API Command {
  public:
-  explicit Command(const CommandExecutor& manager);
+  explicit Command(const QString& name, const CommandExecutor& manager);
   virtual ~Command();
 
   [[nodiscard]] QByteArray exec(const QStringList& args);
 
-  [[nodiscard]] virtual QString getName() const = 0;
-  [[nodiscard]] virtual QString getError() const;
+  [[nodiscard]] QString getName() const;
+  [[nodiscard]] QString getError() const;
+  [[nodiscard]] QString getHelp() const;
 
   const CommandExecutor& getExecutor() const;
 
  protected:
-  [[nodiscard]] virtual QList<QCommandLineOption> getOptions() const = 0;
-  [[nodiscard]] virtual QByteArray exec(const QCommandLineParser& parser) = 0;
+  [[nodiscard]] virtual QByteArray exec() = 0;
 
-  [[nodiscard]] QString getHelp(const QCommandLineParser& parser) const;
-
- private:
+ protected:
+  QString m_name;
+  QCommandLineParser m_parser;
   const CommandExecutor& m_executor;
 };
 

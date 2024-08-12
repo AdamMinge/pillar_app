@@ -37,25 +37,22 @@ ParentFinder::Result ParentFinder::find(const QString& id) {
 /* ------------------------------ ParentCommand ----------------------------- */
 
 ParentCommand::ParentCommand(const CommandExecutor& manager)
-    : Command(manager) {}
+    : Command(QLatin1String("Parent"), manager) {
+  m_parser.addOptions(
+      {{{"q", "query"},
+        "Query that identifies the object whose parent we are looking for",
+        "query"}});
+}
 
 ParentCommand::~ParentCommand() = default;
 
-QString ParentCommand::getName() const { return QString("Parent"); }
-
-QList<QCommandLineOption> ParentCommand::getOptions() const {
-  return {{{"q", "query"},
-           "Query that identifies the object whose parent we are looking for",
-           "query"}};
-}
-
-QByteArray ParentCommand::exec(const QCommandLineParser& parser) {
+QByteArray ParentCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };
 
-  if (parser.isSet("query")) {
-    const auto query = parser.value("query");
+  if (m_parser.isSet("query")) {
+    const auto query = m_parser.value("query");
     return serialize(m_finder.find(query));
   }
 

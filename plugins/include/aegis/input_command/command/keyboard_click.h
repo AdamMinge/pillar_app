@@ -17,11 +17,8 @@ class LIB_AEGIS_INPUT_COMMAND_API KeyboardClickCommand : public Command {
   explicit KeyboardClickCommand(const CommandExecutor& manager);
   ~KeyboardClickCommand() override;
 
-  [[nodiscard]] QString getName() const override;
-
  protected:
-  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
-  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
+  [[nodiscard]] QByteArray exec() override;
 };
 
 }  // namespace aegis

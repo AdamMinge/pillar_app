@@ -10,15 +10,11 @@ namespace aegis {
 /* ----------------------------- MouseMoveCommand --------------------------- */
 
 MouseMoveCommand::MouseMoveCommand(const CommandExecutor &manager)
-    : Command(manager) {}
+    : Command(QLatin1String("MouseMove"), manager) {}
 
 MouseMoveCommand::~MouseMoveCommand() = default;
 
-QString MouseMoveCommand::getName() const { return QString("MouseMove"); }
-
-QList<QCommandLineOption> MouseMoveCommand::getOptions() const { return {}; }
-
-QByteArray MouseMoveCommand::exec(const QCommandLineParser &parser) {
+QByteArray MouseMoveCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };

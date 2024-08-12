@@ -10,15 +10,11 @@ namespace aegis {
 /* ----------------------------- MouseClickCommand -------------------------- */
 
 MouseClickCommand::MouseClickCommand(const CommandExecutor &manager)
-    : Command(manager) {}
+    : Command(QLatin1String("MouseClick"), manager) {}
 
 MouseClickCommand::~MouseClickCommand() = default;
 
-QString MouseClickCommand::getName() const { return QString("MouseClick"); }
-
-QList<QCommandLineOption> MouseClickCommand::getOptions() const { return {}; }
-
-QByteArray MouseClickCommand::exec(const QCommandLineParser &parser) {
+QByteArray MouseClickCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };

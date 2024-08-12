@@ -44,11 +44,8 @@ class LIB_AEGIS_SEARCH_COMMAND_API ParentCommand : public Command {
   explicit ParentCommand(const CommandExecutor& manager);
   ~ParentCommand() override;
 
-  [[nodiscard]] QString getName() const override;
-
  protected:
-  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
-  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
+  [[nodiscard]] QByteArray exec() override;
 
  private:
   ParentFinder m_finder;

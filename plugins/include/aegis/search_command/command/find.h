@@ -44,11 +44,8 @@ class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
   explicit FindCommand(const CommandExecutor& manager);
   ~FindCommand() override;
 
-  [[nodiscard]] QString getName() const override;
-
  protected:
-  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
-  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
+  [[nodiscard]] QByteArray exec() override;
 
  private:
   ObjectsFinder m_finder;

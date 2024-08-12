@@ -41,26 +41,23 @@ ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
 /* ------------------------------ ChildrenCommand --------------------------- */
 
 ChildrenCommand::ChildrenCommand(const CommandExecutor& manager)
-    : Command(manager) {}
+    : Command(QLatin1String("Children"), manager) {
+  m_parser.addOptions(
+      {{{"q", "query"},
+        "Query that identifies the object whose children we are looking "
+        "for",
+        "query"}});
+}
 
 ChildrenCommand::~ChildrenCommand() = default;
 
-QString ChildrenCommand::getName() const { return QString("Children"); }
-
-QList<QCommandLineOption> ChildrenCommand::getOptions() const {
-  return {{{"q", "query"},
-           "Query that identifies the object whose children we are looking "
-           "for",
-           "query"}};
-}
-
-QByteArray ChildrenCommand::exec(const QCommandLineParser& parser) {
+QByteArray ChildrenCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };
 
-  if (parser.isSet("query")) {
-    const auto query = parser.value("query");
+  if (m_parser.isSet("query")) {
+    const auto query = m_parser.value("query");
     return serialize(m_finder.find(query));
   }
 

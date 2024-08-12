@@ -10,19 +10,11 @@ namespace aegis {
 /* ----------------------------- MouseClickCommand -------------------------- */
 
 KeyboardClickCommand::KeyboardClickCommand(const CommandExecutor &manager)
-    : Command(manager) {}
+    : Command(QLatin1String("KeyboardClick"), manager) {}
 
 KeyboardClickCommand::~KeyboardClickCommand() = default;
 
-QString KeyboardClickCommand::getName() const {
-  return QString("KeyboardClick");
-}
-
-QList<QCommandLineOption> KeyboardClickCommand::getOptions() const {
-  return {};
-}
-
-QByteArray KeyboardClickCommand::exec(const QCommandLineParser &parser) {
+QByteArray KeyboardClickCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };

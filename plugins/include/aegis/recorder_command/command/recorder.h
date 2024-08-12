@@ -110,11 +110,8 @@ class LIB_AEGIS_RECORDER_COMMAND_API RecorderCommand : public Command {
   explicit RecorderCommand(const CommandExecutor& manager);
   ~RecorderCommand() override;
 
-  [[nodiscard]] QString getName() const override;
-
  protected:
-  [[nodiscard]] QList<QCommandLineOption> getOptions() const override;
-  [[nodiscard]] QByteArray exec(const QCommandLineParser& parser) override;
+  [[nodiscard]] QByteArray exec() override;
 
  private:
   Recorder m_recorder;

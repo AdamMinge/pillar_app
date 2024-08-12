@@ -143,30 +143,26 @@ void Recorder::recordKeyRelease(QObject* obj, QKeyEvent* event) {
 /* ------------------------------ RecorderCommand --------------------------- */
 
 RecorderCommand::RecorderCommand(const CommandExecutor& manager)
-    : Command(manager), m_recorder(getError()) {}
-
-RecorderCommand::~RecorderCommand() = default;
-
-QString RecorderCommand::getName() const { return QLatin1String("Recorder"); }
-
-QList<QCommandLineOption> RecorderCommand::getOptions() const {
-  return {
+    : Command(QLatin1String("Recorder"), manager), m_recorder(getError()) {
+  m_parser.addOptions({
       {{"s", "start"}, "Start the Recorder"},
       {{"p", "pause"}, "Pause the Recorder"},
       {{"t", "stop"}, "Stop the Recorder"},
       {{"r", "report"}, "Report the Recorder"},
-  };
+  });
 }
 
-QByteArray RecorderCommand::exec(const QCommandLineParser& parser) {
+RecorderCommand::~RecorderCommand() = default;
+
+QByteArray RecorderCommand::exec() {
   const auto serialize = [this](auto object) {
     return getExecutor().getSerializer().serialize(object);
   };
 
-  if (parser.isSet("start")) return serialize(m_recorder.start());
-  if (parser.isSet("pause")) return serialize(m_recorder.pause());
-  if (parser.isSet("stop")) return serialize(m_recorder.stop());
-  if (parser.isSet("report")) return serialize(m_recorder.report());
+  if (m_parser.isSet("start")) return serialize(m_recorder.start());
+  if (m_parser.isSet("pause")) return serialize(m_recorder.pause());
+  if (m_parser.isSet("stop")) return serialize(m_recorder.stop());
+  if (m_parser.isSet("report")) return serialize(m_recorder.report());
 
   auto error = Response<>(
       ErrorMessage(getError(), "At least one of options must be provided."));
