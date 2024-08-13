@@ -44,11 +44,15 @@ class SnifferWidgetMarker : public QLabel {
   [[nodiscard]] QWidget *getWidget() const;
   void setWidget(QWidget *widget);
 
+  [[nodiscard]] QColor getColor() const;
+  void setColor(QColor color);
+
  protected:
   void paintEvent(QPaintEvent *event) override;
 
  private:
   QWidget *m_widget;
+  QColor m_color;
 };
 
 /* ---------------------------------- Sniffer ------------------------------- */
@@ -66,6 +70,9 @@ class Sniffer : public QObject {
   void stop();
 
   [[nodiscard]] bool isSniffing();
+
+  [[nodiscard]] QColor getMarkerColor() const;
+  void setMarkerColor(QColor color);
 
  protected slots:
   bool eventFilter(QObject *obj, QEvent *event) override;

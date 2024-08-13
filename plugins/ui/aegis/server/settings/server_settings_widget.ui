@@ -77,7 +77,30 @@ QCheckBox::indicator:checked {
       <string>Sniffer</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="1" column="1" colspan="2">
+       <widget class="qtils::QtColorPicker" name="m_color_picker" native="true"/>
+      </item>
+      <item row="1" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Color:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="4">
        <widget class="QCheckBox" name="m_sniffer_checkbox">
         <property name="styleSheet">
          <string notr="true">QCheckBox::indicator:unchecked {
@@ -117,6 +140,14 @@ QCheckBox::indicator:checked {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qtils::QtColorPicker</class>
+   <extends>QWidget</extends>
+   <header location="global">qtils/widget/color_picker.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

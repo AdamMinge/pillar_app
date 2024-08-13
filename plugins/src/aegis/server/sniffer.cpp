@@ -60,7 +60,7 @@ void SnifferObjectTooltip::initUi() {
 /* ----------------------------- SnifferWidgetMarker ------------------------ */
 
 SnifferWidgetMarker::SnifferWidgetMarker(QWidget *parent)
-    : QLabel(parent), m_widget(nullptr) {
+    : QLabel(parent), m_widget(nullptr), m_color(Qt::red) {
   setWindowFlags(Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint |
                  Qt::WindowTransparentForInput | Qt::WindowDoesNotAcceptFocus |
                  Qt::WindowStaysOnTopHint | Qt::ToolTip);
@@ -88,11 +88,15 @@ void SnifferWidgetMarker::setWidget(QWidget *widget) {
   }
 }
 
+QColor SnifferWidgetMarker::getColor() const { return m_color; }
+
+void SnifferWidgetMarker::setColor(QColor color) { m_color = color; }
+
 void SnifferWidgetMarker::paintEvent(QPaintEvent *event) {
   if (!m_widget) return;
 
   auto painter = QPainter(this);
-  auto pen = QPen(Qt::red, 2);
+  auto pen = QPen(m_color, 2);
 
   painter.setPen(pen);
   painter.drawRect(rect().adjusted(1, 1, -2, -2));
@@ -100,7 +104,11 @@ void SnifferWidgetMarker::paintEvent(QPaintEvent *event) {
 
 /* ---------------------------------- Sniffer ------------------------------- */
 
-Sniffer::Sniffer(QObject *parent) : QObject(parent), m_sniffing(false) {}
+Sniffer::Sniffer(QObject *parent)
+    : QObject(parent),
+      m_sniffing(false),
+      m_tooltip(new SnifferObjectTooltip),
+      m_marker(new SnifferWidgetMarker) {}
 
 Sniffer::~Sniffer() = default;
 
@@ -110,8 +118,8 @@ void Sniffer::start() {
 
     qApp->installEventFilter(this);
 
-    m_tooltip.reset(new SnifferObjectTooltip);
-    m_marker.reset(new SnifferWidgetMarker);
+    m_tooltip->show();
+    m_marker->show();
   }
 }
 
@@ -121,12 +129,16 @@ void Sniffer::stop() {
 
     qApp->removeEventFilter(this);
 
-    m_tooltip.reset(nullptr);
-    m_marker.reset(nullptr);
+    m_tooltip->hide();
+    m_marker->hide();
   }
 }
 
 bool Sniffer::isSniffing() { return m_sniffing; }
+
+QColor Sniffer::getMarkerColor() const { return m_marker->getColor(); }
+
+void Sniffer::setMarkerColor(QColor color) { m_marker->setColor(color); }
 
 bool Sniffer::eventFilter(QObject *obj, QEvent *event) {
   if (event->type() == QEvent::MouseMove) {

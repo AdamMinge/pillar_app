@@ -61,6 +61,9 @@ void ServerSettingsWidget::initConnections() {
 
   connect(m_ui->m_sniffer_checkbox, &QCheckBox::stateChanged, this,
           &ServerSettingsWidget::switchSnifferState);
+
+  connect(m_ui->m_color_picker, &qtils::QtColorPicker::valueChanged, this,
+          &ServerSettingsWidget::switchMarkerColor);
 }
 
 void ServerSettingsWidget::retranslateUi() { m_ui->retranslateUi(this); }
@@ -84,12 +87,14 @@ void ServerSettingsWidget::onChangeServer() {
 
 void ServerSettingsWidget::onChangeSniffer() {
   auto sniffer = PluginManager::getInstance().getSniffer();
-  const auto isRunning = sniffer->isSniffing();
+  const auto running = sniffer->isSniffing();
+  const auto marker_color = sniffer->getMarkerColor();
 
   const auto blocker = QSignalBlocker(m_ui->m_sniffer_checkbox);
 
-  m_ui->m_sniffer_checkbox->setCheckState(
-      isRunning ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+  m_ui->m_sniffer_checkbox->setCheckState(running ? Qt::CheckState::Checked
+                                                  : Qt::CheckState::Unchecked);
+  m_ui->m_color_picker->setValue(marker_color);
 }
 
 void ServerSettingsWidget::switchServerState(int state) {
@@ -123,6 +128,13 @@ void ServerSettingsWidget::switchSnifferState(int state) {
       sniffer->stop();
       break;
   }
+
+  onChangeSniffer();
+}
+
+void ServerSettingsWidget::switchMarkerColor(QColor color) {
+  auto sniffer = PluginManager::getInstance().getSniffer();
+  sniffer->setMarkerColor(color);
 
   onChangeSniffer();
 }
