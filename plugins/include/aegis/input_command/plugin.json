@@ -1,7 +1,7 @@
 {
-  "Name": "Recorder Command",
+  "Name": "Input Commands",
   "Description": [
-    "Add recorder command into aegis server"
+    "Add input commands into aegis server"
   ],
   "Version": "1.0.0"
 }

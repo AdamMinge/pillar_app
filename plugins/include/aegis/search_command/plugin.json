@@ -1,7 +1,7 @@
 {
-  "Name": "Sniffer Command",
+  "Name": "Search Commands",
   "Description": [
-    "Add sniffer command into aegis server"
+    "Add search commands into aegis server"
   ],
   "Version": "1.0.0"
 }

@@ -15,4 +15,5 @@ add_subdirectory(src/aegis/server)
 add_subdirectory(src/aegis/recorder_command)
 add_subdirectory(src/aegis/search_command)
 add_subdirectory(src/aegis/input_command)
+add_subdirectory(src/aegis/object_command)
 # ----------------------------------------------------------------------- #
