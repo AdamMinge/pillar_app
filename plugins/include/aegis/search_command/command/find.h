@@ -15,7 +15,7 @@ namespace aegis {
 
 /* ---------------------------- FoundObjectsMessage ------------------------- */
 
-struct LIB_AEGIS_SERVER_API FoundObjectsMessage {
+struct LIB_AEGIS_SEARCH_COMMAND_API FoundObjectsMessage {
   Q_GADGET
 
  public:

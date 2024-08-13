@@ -15,7 +15,7 @@ namespace aegis {
 
 /* ----------------------------- FoundParentMessage ------------------------- */
 
-struct LIB_AEGIS_SERVER_API FoundParentMessage {
+struct LIB_AEGIS_SEARCH_COMMAND_API FoundParentMessage {
   Q_GADGET
 
  public:

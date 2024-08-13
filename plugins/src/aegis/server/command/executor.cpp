@@ -45,6 +45,15 @@ const ResponseSerializer& CommandExecutor::getSerializer() const {
   return *m_serializer;
 }
 
+QList<Command*> CommandExecutor::getCommands() const {
+  auto commands = QList<Command*>{};
+  for (auto command : m_commands) {
+    commands.append(command.second);
+  }
+
+  return commands;
+}
+
 void CommandExecutor::addedObject(CommandFactory* factory) {
   auto command = factory->create(*this);
 

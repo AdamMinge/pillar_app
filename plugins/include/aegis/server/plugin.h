@@ -4,6 +4,8 @@
 /* ---------------------------------- Pillar -------------------------------- */
 #include <pillar/plugin_interface.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "aegis/server/command/factory/utils.h"
+#include "aegis/server/command/help.h"
 #include "aegis/server/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -20,6 +22,8 @@ class LIB_AEGIS_SERVER_API ServerPlugin : public pillar::PluginInterface {
 
   void init() override;
 };
+
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_SERVER_API, HelpCommand)
 
 }  // namespace aegis
 

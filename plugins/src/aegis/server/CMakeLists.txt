@@ -19,6 +19,7 @@ set(sources
     ${source_root}/plugin_manager.cpp
     ${source_root}/settings/server_settings_widget.cpp
     ${source_root}/command/command.cpp
+    ${source_root}/command/help.cpp
     ${source_root}/command/executor.cpp
     ${source_root}/command/factory/factory.cpp
     ${source_root}/searcher/searcher_manager.cpp
@@ -36,6 +37,7 @@ set(includes
     ${include_root}/plugin_manager.h
     ${include_root}/settings/server_settings_widget.h
     ${include_root}/command/command.h
+    ${include_root}/command/help.h
     ${include_root}/command/executor.h
     ${include_root}/command/factory/factory.h
     ${include_root}/command/factory/utils.h

@@ -16,6 +16,17 @@ namespace aegis {
 
 class CommandExecutor;
 
+/* ------------------------------- HelpMessage ------------------------------ */
+
+struct LIB_AEGIS_SERVER_API HelpMessage {
+  Q_GADGET
+
+ public:
+  Q_PROPERTY(QString help MEMBER help)
+
+  QString help;
+};
+
 /* ---------------------------------- Command ------------------------------- */
 
 class LIB_AEGIS_SERVER_API Command {

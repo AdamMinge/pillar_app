@@ -28,6 +28,7 @@ class LIB_AEGIS_SERVER_API CommandExecutor
   QByteArray exec(const QByteArray& data);
 
   const ResponseSerializer& getSerializer() const;
+  QList<Command*> getCommands() const;
 
  protected:
   void addedObject(CommandFactory* factory) override;

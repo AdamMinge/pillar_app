@@ -15,6 +15,8 @@ ServerPlugin::ServerPlugin() = default;
 ServerPlugin::~ServerPlugin() { PluginManager::deleteInstance(); }
 
 void ServerPlugin::init() {
+  addObject(new HelpCommandFactory(this));
+
   addObject(new ServerSettingsWidgetFactory(this));
 
   addObject(

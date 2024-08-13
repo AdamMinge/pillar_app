@@ -28,17 +28,6 @@ struct LIB_AEGIS_SERVER_API ErrorMessage {
   QString detail;
 };
 
-/* ------------------------------- HelpMessage ------------------------------ */
-
-struct LIB_AEGIS_SERVER_API HelpMessage {
-  Q_GADGET
-
- public:
-  Q_PROPERTY(QString help MEMBER help)
-
-  QString help;
-};
-
 /* ------------------------------- EmptyMessage ----------------------------- */
 
 struct LIB_AEGIS_SERVER_API EmptyMessage {
