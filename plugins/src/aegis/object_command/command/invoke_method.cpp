@@ -1,18 +1,19 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/input_command/command/mouse_click.h"
+#include "aegis/object_command/command/invoke_method.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ----------------------------- MouseClickCommand -------------------------- */
+/* ---------------------------- InvokeMethodCommand ------------------------- */
 
-MouseClickCommand::MouseClickCommand() : Command(QLatin1String("MouseClick")) {}
+InvokeMethodCommand::InvokeMethodCommand()
+    : Command(QLatin1String("InvokeMethod")) {}
 
-MouseClickCommand::~MouseClickCommand() = default;
+InvokeMethodCommand::~InvokeMethodCommand() = default;
 
-QByteArray MouseClickCommand::exec() {
+QByteArray InvokeMethodCommand::exec() {
   auto error = Response<>(
       ErrorMessage(getError(), "At least one of options must be provided."));
   return serializer()->serialize(error);

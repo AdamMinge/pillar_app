@@ -8,9 +8,14 @@ cmake_minimum_required(VERSION 3.11)
 set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/object_command)
 set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/object_command)
 
-set(sources ${source_root}/plugin.cpp)
+set(sources
+    ${source_root}/plugin.cpp ${source_root}/command/invoke_method.cpp
+    ${source_root}/command/set_property.cpp ${source_root}/command/dump.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/plugin.h)
+set(includes
+    ${include_root}/export.h ${include_root}/plugin.h
+    ${include_root}/command/invoke_method.h
+    ${include_root}/command/set_property.h ${include_root}/command/dump.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

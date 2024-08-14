@@ -12,8 +12,6 @@
 
 namespace aegis {
 
-class CommandExecutor;
-
 /* -------------------------------- ClientThread ---------------------------- */
 
 class LIB_AEGIS_SERVER_API ClientThread : public QThread {
@@ -49,7 +47,6 @@ class LIB_AEGIS_SERVER_API ClientHandler : public QObject {
 
  private:
   std::unique_ptr<QTcpSocket> m_socket;
-  std::unique_ptr<CommandExecutor> m_command_manager;
 };
 
 }  // namespace aegis

@@ -107,7 +107,7 @@ void Recorder::recordEvent(TYPE&& event) {
 
 class LIB_AEGIS_RECORDER_COMMAND_API RecorderCommand : public Command {
  public:
-  explicit RecorderCommand(const CommandExecutor& manager);
+  explicit RecorderCommand();
   ~RecorderCommand() override;
 
  protected:

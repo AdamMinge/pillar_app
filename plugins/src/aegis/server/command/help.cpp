@@ -1,8 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/command/help.h"
 
-#include <aegis/server/command/executor.h>
-#include <aegis/server/serializer.h>
+#include "aegis/server/plugin_manager.h"
+#include "aegis/server/serializer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
@@ -13,20 +13,20 @@ HelpGetter::HelpGetter() = default;
 
 HelpGetter::~HelpGetter() = default;
 
-Response<CommandsHelpMessage> HelpGetter::helps(
-    const CommandExecutor& executor) {
+Response<CommandsHelpMessage> HelpGetter::helps() {
   auto message = CommandsHelpMessage{};
-  for (const auto command : executor.getCommands()) {
+
+  for (const auto command : commandExecutor()->getCommands()) {
     message.helps.insert(command->getName(), command->getHelp());
   }
 
   return message;
 }
 
-Response<CommandsListMessage> HelpGetter::commands(
-    const CommandExecutor& executor) {
+Response<CommandsListMessage> HelpGetter::commands() {
   auto message = CommandsListMessage{};
-  for (const auto command : executor.getCommands()) {
+
+  for (const auto command : commandExecutor()->getCommands()) {
     message.commands.append(command->getName());
   }
 
@@ -35,22 +35,17 @@ Response<CommandsListMessage> HelpGetter::commands(
 
 /* ------------------------------ ParentCommand ----------------------------- */
 
-HelpCommand::HelpCommand(const CommandExecutor& executor)
-    : Command(QLatin1String("Help"), executor) {
+HelpCommand::HelpCommand() : Command(QLatin1String("Help")) {
   m_parser.addOptions({{{"d", "details"}, "Display details for each command"}});
 }
 
 HelpCommand::~HelpCommand() = default;
 
 QByteArray HelpCommand::exec() {
-  const auto serialize = [this](auto object) {
-    return getExecutor().getSerializer().serialize(object);
-  };
-
   if (m_parser.isSet("details")) {
-    return serialize(m_help_getter.helps(getExecutor()));
+    return serializer()->serialize(m_help_getter.helps());
   } else {
-    return serialize(m_help_getter.commands(getExecutor()));
+    return serializer()->serialize(m_help_getter.commands());
   }
 }
 

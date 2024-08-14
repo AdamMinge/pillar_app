@@ -1,21 +1,21 @@
-#ifndef AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
-#define AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
+#ifndef AEGIS_OBJECT_COMMAND_COMMAND_INVOKE_METHOD_H
+#define AEGIS_OBJECT_COMMAND_COMMAND_INVOKE_METHOD_H
 
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/command.h>
 #include <aegis/server/response.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/input_command/export.h"
+#include "aegis/object_command/export.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ---------------------------- KeyboardClickCommand ------------------------ */
+/* ----------------------------- InvokeMethodCommand ------------------------ */
 
-class LIB_AEGIS_INPUT_COMMAND_API KeyboardClickCommand : public Command {
+class LIB_AEGIS_OBJECT_COMMAND_API InvokeMethodCommand : public Command {
  public:
-  explicit KeyboardClickCommand();
-  ~KeyboardClickCommand() override;
+  explicit InvokeMethodCommand();
+  ~InvokeMethodCommand() override;
 
  protected:
   [[nodiscard]] QByteArray exec() override;
@@ -23,4 +23,4 @@ class LIB_AEGIS_INPUT_COMMAND_API KeyboardClickCommand : public Command {
 
 }  // namespace aegis
 
-#endif  // AEGIS_INPUT_COMMAND_KEYBOARD_CLICK_H
+#endif  // AEGIS_OBJECT_COMMAND_COMMAND_INVOKE_METHOD_H

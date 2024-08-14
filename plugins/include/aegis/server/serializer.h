@@ -15,15 +15,17 @@
 
 namespace aegis {
 
-/* ----------------------------- ResponseSerializer ------------------------- */
+/* --------------------------------- Serializer ----------------------------- */
 
-class LIB_AEGIS_SERVER_API ResponseSerializer {
+class LIB_AEGIS_SERVER_API Serializer : public QObject {
+  Q_OBJECT
+
  public:
   enum class Format { Json };
 
  public:
-  explicit ResponseSerializer(Format format);
-  ~ResponseSerializer();
+  explicit Serializer(Format format, QObject* parent = nullptr);
+  ~Serializer();
 
   template <typename Object>
   QByteArray serialize(const Object& object) const;
@@ -33,7 +35,7 @@ class LIB_AEGIS_SERVER_API ResponseSerializer {
 };
 
 template <typename Object>
-QByteArray ResponseSerializer::serialize(const Object& object) const {
+QByteArray Serializer::serialize(const Object& object) const {
   QByteArray data;
   QBuffer buffer(&data);
   buffer.open(QIODevice::WriteOnly);

@@ -14,7 +14,7 @@ namespace aegis {
 
 class LIB_AEGIS_INPUT_COMMAND_API MouseMoveCommand : public Command {
  public:
-  explicit MouseMoveCommand(const CommandExecutor& manager);
+  explicit MouseMoveCommand();
   ~MouseMoveCommand() override;
 
  protected:

@@ -14,8 +14,6 @@ class OArchive;
 
 namespace aegis {
 
-class CommandExecutor;
-
 /* ------------------------------- HelpMessage ------------------------------ */
 
 struct LIB_AEGIS_SERVER_API HelpMessage {
@@ -31,7 +29,7 @@ struct LIB_AEGIS_SERVER_API HelpMessage {
 
 class LIB_AEGIS_SERVER_API Command {
  public:
-  explicit Command(const QString& name, const CommandExecutor& manager);
+  explicit Command(const QString& name);
   virtual ~Command();
 
   [[nodiscard]] QByteArray exec(const QStringList& args);
@@ -40,15 +38,12 @@ class LIB_AEGIS_SERVER_API Command {
   [[nodiscard]] QString getError() const;
   [[nodiscard]] QString getHelp() const;
 
-  const CommandExecutor& getExecutor() const;
-
  protected:
   [[nodiscard]] virtual QByteArray exec() = 0;
 
  protected:
   QString m_name;
   QCommandLineParser m_parser;
-  const CommandExecutor& m_executor;
 };
 
 }  // namespace aegis

@@ -14,7 +14,7 @@ namespace aegis {
 
 class LIB_AEGIS_INPUT_COMMAND_API MouseClickCommand : public Command {
  public:
-  explicit MouseClickCommand(const CommandExecutor& manager);
+  explicit MouseClickCommand();
   ~MouseClickCommand() override;
 
  protected:

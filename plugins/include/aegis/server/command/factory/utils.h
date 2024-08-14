@@ -8,18 +8,17 @@
 
 /* ----------------------- Helper macro to create factory ------------------- */
 
-#define DECLARE_COMMAND_FACTORY(EXPORT_API, COMMAND)                 \
-  class EXPORT_API COMMAND##Factory : public aegis::CommandFactory { \
-    Q_OBJECT                                                         \
-    Q_INTERFACES(aegis::CommandFactory)                              \
-   public:                                                           \
-    explicit COMMAND##Factory(QObject* parent = nullptr)             \
-        : aegis::CommandFactory(parent) {}                           \
-                                                                     \
-    [[nodiscard]] std::unique_ptr<aegis::Command> create(            \
-        const CommandExecutor& manager) const override {             \
-      return std::make_unique<COMMAND>(manager);                     \
-    }                                                                \
+#define DECLARE_COMMAND_FACTORY(EXPORT_API, COMMAND)                        \
+  class EXPORT_API COMMAND##Factory : public aegis::CommandFactory {        \
+    Q_OBJECT                                                                \
+    Q_INTERFACES(aegis::CommandFactory)                                     \
+   public:                                                                  \
+    explicit COMMAND##Factory(QObject* parent = nullptr)                    \
+        : aegis::CommandFactory(parent) {}                                  \
+                                                                            \
+    [[nodiscard]] std::unique_ptr<aegis::Command> create() const override { \
+      return std::make_unique<COMMAND>();                                   \
+    }                                                                       \
   };
 
 #endif  // AEGIS_SERVER_COMMAND_FACTORY_UTILS_H

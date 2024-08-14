@@ -1,7 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/client.h"
 
-#include "aegis/server/command/executor.h"
+#include "aegis/server/plugin_manager.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QMutexLocker>
 /* -------------------------------------------------------------------------- */
@@ -28,9 +28,7 @@ void ClientThread::run() {
 /* ----------------------------------- Client ------------------------------- */
 
 ClientHandler::ClientHandler(qintptr socket_descriptor, QObject* parent)
-    : QObject(parent),
-      m_socket(std::make_unique<QTcpSocket>()),
-      m_command_manager(std::make_unique<CommandExecutor>()) {
+    : QObject(parent), m_socket(std::make_unique<QTcpSocket>()) {
   if (!m_socket->setSocketDescriptor(socket_descriptor)) {
     emit error(m_socket->error());
     return;
@@ -45,8 +43,7 @@ ClientHandler::ClientHandler(qintptr socket_descriptor, QObject* parent)
 ClientHandler::~ClientHandler() = default;
 
 void ClientHandler::readyRead() {
-  const auto data = m_socket->readAll();
-  const auto response = m_command_manager->exec(data);
+  const auto response = commandExecutor()->exec(m_socket->readAll());
 
   if (!response.isEmpty()) {
     m_socket->write(response);

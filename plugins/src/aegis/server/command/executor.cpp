@@ -1,8 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/command/executor.h"
-
 #include "aegis/server/command/command.h"
 #include "aegis/server/command/factory/factory.h"
+#include "aegis/server/plugin_manager.h"
 #include "aegis/server/response.h"
 #include "aegis/server/serializer.h"
 /* -------------------------------------------------------------------------- */
@@ -11,9 +10,7 @@ namespace aegis {
 
 /* ------------------------------- CommandExecutor -------------------------- */
 
-CommandExecutor::CommandExecutor()
-    : m_serializer(std::make_unique<ResponseSerializer>(
-          ResponseSerializer::Format::Json)) {
+CommandExecutor::CommandExecutor(QObject* parent) : QObject(parent) {
   loadObjects();
 }
 
@@ -35,14 +32,11 @@ QByteArray CommandExecutor::exec(const QByteArray& data) {
     auto error = Response<>(ErrorMessage(
         QLatin1String("Process Request Error"),
         QLatin1String("Cannot find command: %1").arg(command_name)));
-    response = m_serializer->serialize(error);
+
+    response = PluginManager::getInstance().getSerializer()->serialize(error);
   }
 
   return response;
-}
-
-const ResponseSerializer& CommandExecutor::getSerializer() const {
-  return *m_serializer;
 }
 
 QList<Command*> CommandExecutor::getCommands() const {
@@ -55,7 +49,7 @@ QList<Command*> CommandExecutor::getCommands() const {
 }
 
 void CommandExecutor::addedObject(CommandFactory* factory) {
-  auto command = factory->create(*this);
+  auto command = factory->create();
 
   m_commands.insert(std::make_pair(command->getName(), command.get()));
   m_command_by_factory.insert(std::make_pair(factory, std::move(command)));

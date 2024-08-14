@@ -41,15 +41,15 @@ class LIB_AEGIS_SERVER_API HelpGetter {
   explicit HelpGetter();
   ~HelpGetter();
 
-  Response<CommandsHelpMessage> helps(const CommandExecutor& executor);
-  Response<CommandsListMessage> commands(const CommandExecutor& executor);
+  Response<CommandsHelpMessage> helps();
+  Response<CommandsListMessage> commands();
 };
 
 /* ------------------------------- HelpCommand ------------------------------ */
 
 class LIB_AEGIS_SERVER_API HelpCommand : public Command {
  public:
-  explicit HelpCommand(const CommandExecutor& executor);
+  explicit HelpCommand();
   ~HelpCommand() override;
 
  protected:

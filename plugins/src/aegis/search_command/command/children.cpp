@@ -5,9 +5,7 @@
 #include <QCursor>
 #include <QWidget>
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/executor.h>
-#include <aegis/server/searcher/searcher_manager.h>
-#include <aegis/server/serializer.h>
+#include <aegis/server/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
@@ -19,16 +17,15 @@ ChildrenFinder::ChildrenFinder() = default;
 ChildrenFinder::~ChildrenFinder() = default;
 
 ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
-  const auto& searcher = SearcherManager::getInstance();
-  const auto objects = searcher.getObjects(id);
+  const auto objects = searcher()->getObjects(id);
 
   auto message = FoundChildrenMessage{};
   for (const auto object : objects) {
-    const auto object_id = searcher.getId(object);
+    const auto object_id = searcher()->getId(object);
 
     auto children = QStringList{};
     for (const auto child : object->children()) {
-      const auto child_id = searcher.getId(child);
+      const auto child_id = searcher()->getId(child);
       children.append(child_id);
     }
 
@@ -40,8 +37,7 @@ ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
 
 /* ------------------------------ ChildrenCommand --------------------------- */
 
-ChildrenCommand::ChildrenCommand(const CommandExecutor& manager)
-    : Command(QLatin1String("Children"), manager) {
+ChildrenCommand::ChildrenCommand() : Command(QLatin1String("Children")) {
   m_parser.addOptions(
       {{{"q", "query"},
         "Query that identifies the object whose children we are looking "
@@ -52,18 +48,14 @@ ChildrenCommand::ChildrenCommand(const CommandExecutor& manager)
 ChildrenCommand::~ChildrenCommand() = default;
 
 QByteArray ChildrenCommand::exec() {
-  const auto serialize = [this](auto object) {
-    return getExecutor().getSerializer().serialize(object);
-  };
-
   if (m_parser.isSet("query")) {
     const auto query = m_parser.value("query");
-    return serialize(m_finder.find(query));
+    return serializer()->serialize(m_finder.find(query));
   }
 
   auto error = Response<>(
       ErrorMessage(getError(), "At least one of options must be provided."));
-  return serialize(error);
+  return serializer()->serialize(error);
 }
 
 }  // namespace aegis

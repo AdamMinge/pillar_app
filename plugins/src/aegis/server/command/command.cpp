@@ -1,17 +1,16 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/command/command.h"
-/* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/executor.h>
-#include <aegis/server/response.h>
-#include <aegis/server/serializer.h>
+
+#include "aegis/server/plugin_manager.h"
+#include "aegis/server/response.h"
+#include "aegis/server/serializer.h"
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QCommandLineParser>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-Command::Command(const QString& name, const CommandExecutor& executor)
-    : m_name(name), m_executor(executor) {
+Command::Command(const QString& name) : m_name(name) {
   m_parser.addOptions({{{"h", "help"}, "Displays help for command."}});
 }
 
@@ -30,21 +29,15 @@ QString Command::getHelp() const {
   return help;
 }
 
-const CommandExecutor& Command::getExecutor() const { return m_executor; }
-
 QByteArray Command::exec(const QStringList& args) {
-  const auto serialize = [this](auto object) {
-    return getExecutor().getSerializer().serialize(object);
-  };
-
   if (!m_parser.parse(args)) {
     auto error = Response<>(ErrorMessage(getError(), m_parser.errorText()));
-    return serialize(error);
+    return serializer()->serialize(error);
   }
 
   if (m_parser.isSet("help")) {
     auto help = Response<HelpMessage>(HelpMessage(getHelp()));
-    return serialize(help);
+    return serializer()->serialize(help);
   }
 
   return exec();

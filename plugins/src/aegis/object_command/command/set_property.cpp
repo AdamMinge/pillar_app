@@ -1,18 +1,19 @@
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/input_command/command/mouse_click.h"
+#include "aegis/object_command/command/set_property.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ----------------------------- MouseClickCommand -------------------------- */
+/* ----------------------------- SetPropertyCommand ------------------------- */
 
-MouseClickCommand::MouseClickCommand() : Command(QLatin1String("MouseClick")) {}
+SetPropertyCommand::SetPropertyCommand()
+    : Command(QLatin1String("SetProperty")) {}
 
-MouseClickCommand::~MouseClickCommand() = default;
+SetPropertyCommand::~SetPropertyCommand() = default;
 
-QByteArray MouseClickCommand::exec() {
+QByteArray SetPropertyCommand::exec() {
   auto error = Response<>(
       ErrorMessage(getError(), "At least one of options must be provided."));
   return serializer()->serialize(error);

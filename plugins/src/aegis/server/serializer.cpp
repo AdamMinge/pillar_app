@@ -4,8 +4,9 @@
 
 namespace aegis {
 
-ResponseSerializer::ResponseSerializer(Format format) : m_format(format) {}
+Serializer::Serializer(Format format, QObject* parent)
+    : QObject(parent), m_format(format) {}
 
-ResponseSerializer::~ResponseSerializer() = default;
+Serializer::~Serializer() = default;
 
 }  // namespace aegis

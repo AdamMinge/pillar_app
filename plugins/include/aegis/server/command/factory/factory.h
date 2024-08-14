@@ -21,8 +21,7 @@ class LIB_AEGIS_SERVER_API CommandFactory : public QObject {
   explicit CommandFactory(QObject* parent = nullptr);
   ~CommandFactory() override;
 
-  [[nodiscard]] virtual std::unique_ptr<Command> create(
-      const CommandExecutor& manager) const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Command> create() const = 0;
 };
 
 }  // namespace aegis

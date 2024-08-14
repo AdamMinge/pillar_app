@@ -1,8 +1,5 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/plugin_manager.h"
-
-#include "aegis/server/server.h"
-#include "aegis/server/sniffer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
@@ -19,12 +16,24 @@ PluginManager& PluginManager::getInstance() {
 void PluginManager::deleteInstance() { m_instance.reset(nullptr); }
 
 PluginManager::PluginManager()
-    : m_server(new Server(this)), m_sniffer(new Sniffer(this)) {}
+    : m_server(new Server(this)),
+      m_sniffer(new Sniffer(this)),
+      m_searcher(new Searcher(this)),
+      m_serializer(new Serializer(Serializer::Format::Json, this)),
+      m_command_executor(new CommandExecutor(this)) {}
 
 PluginManager::~PluginManager() = default;
 
 Server* PluginManager::getServer() const { return m_server; }
 
 Sniffer* PluginManager::getSniffer() const { return m_sniffer; }
+
+Searcher* PluginManager::getSearcher() const { return m_searcher; }
+
+Serializer* PluginManager::getSerializer() const { return m_serializer; }
+
+CommandExecutor* PluginManager::getCommandExecutor() const {
+  return m_command_executor;
+}
 
 }  // namespace aegis

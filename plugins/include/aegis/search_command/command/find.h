@@ -41,7 +41,7 @@ class LIB_AEGIS_SEARCH_COMMAND_API ObjectsFinder {
 
 class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
  public:
-  explicit FindCommand(const CommandExecutor& manager);
+  explicit FindCommand();
   ~FindCommand() override;
 
  protected:

@@ -6,48 +6,37 @@
 /* --------------------------------- Standard ------------------------------- */
 #include <queue>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/server/searcher/searcher_manager.h"
-#include "aegis/server/searcher/strategy.h"
+#include "aegis/server/search/searcher.h"
+#include "aegis/server/search/strategy.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
-/* ------------------------------- SearcherManager -------------------------- */
+/* ----------------------------------- Searcher ----------------------------- */
 
-std::unique_ptr<SearcherManager> SearcherManager::m_instance =
-    std::unique_ptr<SearcherManager>(nullptr);
-
-SearcherManager& SearcherManager::getInstance() {
-  if (!m_instance) m_instance.reset(new SearcherManager);
-
-  return *m_instance;
-}
-
-void SearcherManager::deleteInstance() { m_instance.reset(nullptr); }
-
-SearcherManager::SearcherManager() {
+Searcher::Searcher(QObject* parent) : QObject(parent) {
   m_searching_strategies.emplace_back(std::make_unique<TypeSearching>());
   m_searching_strategies.emplace_back(std::make_unique<PropertiesSearching>());
   m_searching_strategies.emplace_back(std::make_unique<PathSearching>());
 }
 
-SearcherManager::~SearcherManager() = default;
+Searcher::~Searcher() = default;
 
-QObject* SearcherManager::getObject(const QString& id) const {
+QObject* Searcher::getObject(const QString& id) const {
   const auto query = createQuery(id);
   const auto objects = findObjects(query, 1);
 
   return objects.empty() ? nullptr : objects.first();
 }
 
-QList<QObject*> SearcherManager::getObjects(const QString& id) const {
+QList<QObject*> Searcher::getObjects(const QString& id) const {
   const auto query = createQuery(id);
   const auto objects = findObjects(query);
 
   return objects;
 }
 
-QString SearcherManager::getId(QObject* object) const {
+QString Searcher::getId(QObject* object) const {
   auto query = QVariantMap{};
   for (const auto& searching_strategy : m_searching_strategies) {
     const auto sub_query = searching_strategy->createQuery(object);
@@ -57,7 +46,7 @@ QString SearcherManager::getId(QObject* object) const {
   return createId(query);
 }
 
-QVariantMap SearcherManager::createQuery(const QString& id) const {
+QVariantMap Searcher::createQuery(const QString& id) const {
   auto query = QVariantMap{};
 
   auto parser_error = QJsonParseError{};
@@ -75,7 +64,7 @@ QVariantMap SearcherManager::createQuery(const QString& id) const {
   return query;
 }
 
-QString SearcherManager::createId(const QVariantMap& query) const {
+QString Searcher::createId(const QVariantMap& query) const {
   auto json_object = QJsonObject{};
   for (auto it = query.begin(); it != query.end(); ++it) {
     json_object.insert(it.key(), QJsonValue::fromVariant(it.value()));
@@ -85,8 +74,8 @@ QString SearcherManager::createId(const QVariantMap& query) const {
   return QString(json_document.toJson(QJsonDocument::Compact));
 }
 
-QList<QObject*> SearcherManager::findObjects(const QVariantMap& query,
-                                             qsizetype limit) const {
+QList<QObject*> Searcher::findObjects(const QVariantMap& query,
+                                      qsizetype limit) const {
   const auto top_widgets = qApp->topLevelWidgets();
   auto objects = std::queue<QObject*>{};
   for (auto top_widget : top_widgets) {

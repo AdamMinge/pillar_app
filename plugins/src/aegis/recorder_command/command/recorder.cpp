@@ -1,8 +1,7 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/recorder_command/command/recorder.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/executor.h>
-#include <aegis/server/serializer.h>
+#include <aegis/server/plugin_manager.h>
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QApplication>
 #include <QKeyEvent>
@@ -142,8 +141,8 @@ void Recorder::recordKeyRelease(QObject* obj, QKeyEvent* event) {
 
 /* ------------------------------ RecorderCommand --------------------------- */
 
-RecorderCommand::RecorderCommand(const CommandExecutor& manager)
-    : Command(QLatin1String("Recorder"), manager), m_recorder(getError()) {
+RecorderCommand::RecorderCommand()
+    : Command(QLatin1String("Recorder")), m_recorder(getError()) {
   m_parser.addOptions({
       {{"s", "start"}, "Start the Recorder"},
       {{"p", "pause"}, "Pause the Recorder"},
@@ -155,18 +154,17 @@ RecorderCommand::RecorderCommand(const CommandExecutor& manager)
 RecorderCommand::~RecorderCommand() = default;
 
 QByteArray RecorderCommand::exec() {
-  const auto serialize = [this](auto object) {
-    return getExecutor().getSerializer().serialize(object);
-  };
-
-  if (m_parser.isSet("start")) return serialize(m_recorder.start());
-  if (m_parser.isSet("pause")) return serialize(m_recorder.pause());
-  if (m_parser.isSet("stop")) return serialize(m_recorder.stop());
-  if (m_parser.isSet("report")) return serialize(m_recorder.report());
+  if (m_parser.isSet("start"))
+    return serializer()->serialize(m_recorder.start());
+  if (m_parser.isSet("pause"))
+    return serializer()->serialize(m_recorder.pause());
+  if (m_parser.isSet("stop")) return serializer()->serialize(m_recorder.stop());
+  if (m_parser.isSet("report"))
+    return serializer()->serialize(m_recorder.report());
 
   auto error = Response<>(
       ErrorMessage(getError(), "At least one of options must be provided."));
-  return serialize(error);
+  return serializer()->serialize(error);
 }
 
 }  // namespace aegis

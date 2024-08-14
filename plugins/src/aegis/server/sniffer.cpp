@@ -1,7 +1,8 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/server/sniffer.h"
 
-#include "aegis/server/searcher/searcher_manager.h"
+#include "aegis/server/plugin_manager.h"
+#include "aegis/server/search/searcher.h"
 /* ----------------------------------- Qtils -------------------------------- */
 #include <qtils/dpi/dpi.h>
 /* ------------------------------------ Qt ---------------------------------- */
@@ -32,8 +33,7 @@ void SnifferObjectTooltip::setObject(QObject *object) {
     m_object = object;
 
     if (m_object) {
-      const auto id =
-          m_object ? SearcherManager::getInstance().getId(m_object) : "";
+      const auto id = m_object ? searcher()->getId(m_object) : "";
       m_label->setText(id);
       show();
     } else {

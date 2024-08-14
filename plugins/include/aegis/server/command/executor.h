@@ -12,22 +12,22 @@
 
 namespace aegis {
 
-class ResponseSerializer;
-
 class CommandFactory;
 class Command;
 
 /* ------------------------------- CommandExecutor -------------------------- */
 
 class LIB_AEGIS_SERVER_API CommandExecutor
-    : public pillar::PluginListener<CommandFactory> {
+    : public QObject,
+      public pillar::PluginListener<CommandFactory> {
+  Q_OBJECT
+
  public:
-  explicit CommandExecutor();
+  explicit CommandExecutor(QObject* parent = nullptr);
   ~CommandExecutor() override;
 
   QByteArray exec(const QByteArray& data);
 
-  const ResponseSerializer& getSerializer() const;
   QList<Command*> getCommands() const;
 
  protected:
@@ -35,8 +35,6 @@ class LIB_AEGIS_SERVER_API CommandExecutor
   void removedObject(CommandFactory* factory) override;
 
  private:
-  std::unique_ptr<ResponseSerializer> m_serializer;
-
   std::unordered_map<QString, Command*> m_commands;
   std::unordered_map<CommandFactory*, std::unique_ptr<Command>>
       m_command_by_factory;

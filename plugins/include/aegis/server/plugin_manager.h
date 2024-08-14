@@ -4,13 +4,15 @@
 /* ------------------------------------ Qt ---------------------------------- */
 #include <QTcpServer>
 /* ----------------------------------- Local -------------------------------- */
+#include "aegis/server/command/executor.h"
 #include "aegis/server/export.h"
+#include "aegis/server/search/searcher.h"
+#include "aegis/server/serializer.h"
+#include "aegis/server/server.h"
+#include "aegis/server/sniffer.h"
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
-
-class Server;
-class Sniffer;
 
 class LIB_AEGIS_SERVER_API PluginManager : public QObject {
   Q_OBJECT
@@ -24,6 +26,9 @@ class LIB_AEGIS_SERVER_API PluginManager : public QObject {
 
   [[nodiscard]] Server* getServer() const;
   [[nodiscard]] Sniffer* getSniffer() const;
+  [[nodiscard]] Searcher* getSearcher() const;
+  [[nodiscard]] Serializer* getSerializer() const;
+  [[nodiscard]] CommandExecutor* getCommandExecutor() const;
 
  protected:
   explicit PluginManager();
@@ -33,7 +38,26 @@ class LIB_AEGIS_SERVER_API PluginManager : public QObject {
 
   Server* m_server;
   Sniffer* m_sniffer;
+  Searcher* m_searcher;
+  Serializer* m_serializer;
+  CommandExecutor* m_command_executor;
 };
+
+inline Server* server() { return PluginManager::getInstance().getServer(); }
+
+inline Sniffer* sniffer() { return PluginManager::getInstance().getSniffer(); }
+
+inline Searcher* searcher() {
+  return PluginManager::getInstance().getSearcher();
+}
+
+inline Serializer* serializer() {
+  return PluginManager::getInstance().getSerializer();
+}
+
+inline CommandExecutor* commandExecutor() {
+  return PluginManager::getInstance().getCommandExecutor();
+}
 
 }  // namespace aegis
 

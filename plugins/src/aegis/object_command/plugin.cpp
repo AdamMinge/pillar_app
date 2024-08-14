@@ -8,6 +8,10 @@ ObjectCommandPlugin::ObjectCommandPlugin() = default;
 
 ObjectCommandPlugin::~ObjectCommandPlugin() = default;
 
-void ObjectCommandPlugin::init() {}
+void ObjectCommandPlugin::init() {
+  addObject(new InvokeMethodCommandFactory(this));
+  addObject(new SetPropertyCommandFactory(this));
+  addObject(new DumpCommandFactory(this));
+}
 
 }  // namespace aegis

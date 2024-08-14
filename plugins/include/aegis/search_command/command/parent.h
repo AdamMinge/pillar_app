@@ -41,7 +41,7 @@ class LIB_AEGIS_SEARCH_COMMAND_API ParentFinder {
 
 class LIB_AEGIS_SEARCH_COMMAND_API ParentCommand : public Command {
  public:
-  explicit ParentCommand(const CommandExecutor& manager);
+  explicit ParentCommand();
   ~ParentCommand() override;
 
  protected:

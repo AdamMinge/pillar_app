@@ -1,27 +1,21 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "aegis/input_command/command/mouse_move.h"
 /* ---------------------------- Plugin Aegis Server ------------------------- */
-#include <aegis/server/command/executor.h>
-#include <aegis/server/serializer.h>
+#include <aegis/server/plugin_manager.h>
 /* -------------------------------------------------------------------------- */
 
 namespace aegis {
 
 /* ----------------------------- MouseMoveCommand --------------------------- */
 
-MouseMoveCommand::MouseMoveCommand(const CommandExecutor &manager)
-    : Command(QLatin1String("MouseMove"), manager) {}
+MouseMoveCommand::MouseMoveCommand() : Command(QLatin1String("MouseMove")) {}
 
 MouseMoveCommand::~MouseMoveCommand() = default;
 
 QByteArray MouseMoveCommand::exec() {
-  const auto serialize = [this](auto object) {
-    return getExecutor().getSerializer().serialize(object);
-  };
-
   auto error = Response<>(
       ErrorMessage(getError(), "At least one of options must be provided."));
-  return serialize(error);
+  return serializer()->serialize(error);
 }
 
 }  // namespace aegis
