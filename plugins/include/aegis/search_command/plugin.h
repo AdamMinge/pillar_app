@@ -6,7 +6,9 @@
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/factory/utils.h>
 /* ----------------------------------- Local -------------------------------- */
+#include "aegis/search_command/command/children.h"
 #include "aegis/search_command/command/find.h"
+#include "aegis/search_command/command/parent.h"
 #include "aegis/search_command/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -26,6 +28,8 @@ class LIB_AEGIS_SEARCH_COMMAND_API SnifferCommandPlugin
 };
 
 DECLARE_COMMAND_FACTORY(LIB_AEGIS_SEARCH_COMMAND_API, FindCommand)
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_SEARCH_COMMAND_API, ChildrenCommand)
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_SEARCH_COMMAND_API, ParentCommand)
 
 }  // namespace aegis
 

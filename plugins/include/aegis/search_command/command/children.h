@@ -13,28 +13,47 @@
 
 namespace aegis {
 
-/* ---------------------------- FoundChildrenMessage ------------------------ */
+/* ---------------------------- ObjectChildrenMessage ----------------------- */
 
-struct LIB_AEGIS_SEARCH_COMMAND_API FoundChildrenMessage {
+struct LIB_AEGIS_SEARCH_COMMAND_API ObjectChildrenMessage {
   Q_GADGET
 
  public:
-  Q_PROPERTY(QMap<QString, QStringList> children MEMBER children)
+  Q_PROPERTY(QString object MEMBER object)
+  Q_PROPERTY(QStringList children MEMBER children)
 
-  QMap<QString, QStringList> children;
+  [[nodiscard]] bool operator==(const ObjectChildrenMessage& other) const;
+  [[nodiscard]] bool operator!=(const ObjectChildrenMessage& other) const;
+
+  QString object;
+  QStringList children;
+};
+
+/* --------------------------- ObjectsChildrenMessage ----------------------- */
+
+struct LIB_AEGIS_SEARCH_COMMAND_API ObjectsChildrenMessage {
+  Q_GADGET
+
+ public:
+  Q_PROPERTY(QList<ObjectChildrenMessage> objects MEMBER objects)
+
+  QList<ObjectChildrenMessage> objects;
 };
 
 /* ------------------------------- ChildrenFinder --------------------------- */
 
 class LIB_AEGIS_SEARCH_COMMAND_API ChildrenFinder {
  public:
-  using Result = Response<FoundChildrenMessage>;
+  using Result = Response<ObjectsChildrenMessage>;
 
  public:
   explicit ChildrenFinder();
   ~ChildrenFinder();
 
   Result find(const QString& id);
+
+ private:
+  [[nodiscard]] QStringList getChildren(const QObject* object) const;
 };
 
 /* ------------------------------ ChildrenCommand --------------------------- */

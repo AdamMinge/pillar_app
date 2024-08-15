@@ -6,7 +6,8 @@
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/factory/utils.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/object_command/command/dump.h"
+#include "aegis/object_command/command/dump_methods.h"
+#include "aegis/object_command/command/dump_properties.h"
 #include "aegis/object_command/command/invoke_method.h"
 #include "aegis/object_command/command/set_property.h"
 #include "aegis/object_command/export.h"
@@ -29,7 +30,8 @@ class LIB_AEGIS_OBJECT_COMMAND_API ObjectCommandPlugin
 
 DECLARE_COMMAND_FACTORY(LIB_AEGIS_OBJECT_COMMAND_API, InvokeMethodCommand)
 DECLARE_COMMAND_FACTORY(LIB_AEGIS_OBJECT_COMMAND_API, SetPropertyCommand)
-DECLARE_COMMAND_FACTORY(LIB_AEGIS_OBJECT_COMMAND_API, DumpCommand)
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_OBJECT_COMMAND_API, DumpPropertiesCommand)
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_OBJECT_COMMAND_API, DumpMethodsCommand)
 
 }  // namespace aegis
 

@@ -148,7 +148,7 @@ PathSearching::~PathSearching() = default;
 bool PathSearching::matchesQuery(QObject* object,
                                  const QVariantMap& query) const {
   if (query.contains(pathQuery)) {
-    return getPath(object) == query[pathQuery];
+    return getPath(object).contains(query[pathQuery].toString());
   }
 
   return true;

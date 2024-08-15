@@ -10,6 +10,18 @@
 
 namespace aegis {
 
+/* ---------------------------- ObjectChildrenMessage ----------------------- */
+
+bool ObjectChildrenMessage::operator==(
+    const ObjectChildrenMessage& other) const {
+  return object == other.object && children == other.children;
+}
+
+bool ObjectChildrenMessage::operator!=(
+    const ObjectChildrenMessage& other) const {
+  return object != other.object || children != other.children;
+}
+
 /* ------------------------------- ChildrenFinder --------------------------- */
 
 ChildrenFinder::ChildrenFinder() = default;
@@ -19,20 +31,25 @@ ChildrenFinder::~ChildrenFinder() = default;
 ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
   const auto objects = searcher()->getObjects(id);
 
-  auto message = FoundChildrenMessage{};
+  auto message = ObjectsChildrenMessage{};
   for (const auto object : objects) {
     const auto object_id = searcher()->getId(object);
+    const auto children = getChildren(object);
 
-    auto children = QStringList{};
-    for (const auto child : object->children()) {
-      const auto child_id = searcher()->getId(child);
-      children.append(child_id);
-    }
-
-    message.children.insert(object_id, children);
+    message.objects.append(ObjectChildrenMessage{object_id, children});
   }
 
   return message;
+}
+
+QStringList ChildrenFinder::getChildren(const QObject* object) const {
+  auto children = QStringList{};
+  for (const auto child : object->children()) {
+    const auto child_id = searcher()->getId(child);
+    children.append(child_id);
+  }
+
+  return children;
 }
 
 /* ------------------------------ ChildrenCommand --------------------------- */

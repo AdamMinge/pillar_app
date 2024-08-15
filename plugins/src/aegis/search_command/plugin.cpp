@@ -8,6 +8,10 @@ SnifferCommandPlugin::SnifferCommandPlugin() = default;
 
 SnifferCommandPlugin::~SnifferCommandPlugin() = default;
 
-void SnifferCommandPlugin::init() { addObject(new FindCommandFactory(this)); }
+void SnifferCommandPlugin::init() {
+  addObject(new FindCommandFactory(this));
+  addObject(new ChildrenCommandFactory(this));
+  addObject(new ParentCommandFactory(this));
+}
 
 }  // namespace aegis

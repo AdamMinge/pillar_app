@@ -10,6 +10,16 @@
 
 namespace aegis {
 
+/* ---------------------------- ObjectParentMessage ----------------------- */
+
+bool ObjectParentMessage::operator==(const ObjectParentMessage& other) const {
+  return object == other.object && parent == other.parent;
+}
+
+bool ObjectParentMessage::operator!=(const ObjectParentMessage& other) const {
+  return object != other.object || parent != other.parent;
+}
+
 /* -------------------------------- ParentFinder ---------------------------- */
 
 ParentFinder::ParentFinder() = default;
@@ -19,16 +29,22 @@ ParentFinder::~ParentFinder() = default;
 ParentFinder::Result ParentFinder::find(const QString& id) {
   const auto objects = searcher()->getObjects(id);
 
-  auto message = FoundParentMessage{};
+  auto message = ObjectsParentMessage{};
   for (const auto object : objects) {
     const auto object_id = searcher()->getId(object);
-    const auto parent_id =
-        object->parent() ? searcher()->getId(object->parent()) : "";
+    const auto parent = getParent(object);
 
-    message.parents.insert(object_id, parent_id);
+    message.objects.append(ObjectParentMessage{object_id, parent});
   }
 
   return message;
+}
+
+QString ParentFinder::getParent(const QObject* object) const {
+  const auto parent_id =
+      object->parent() ? searcher()->getId(object->parent()) : "";
+
+  return parent_id;
 }
 
 /* ------------------------------ ParentCommand ----------------------------- */
