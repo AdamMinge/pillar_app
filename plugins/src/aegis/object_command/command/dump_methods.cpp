@@ -41,9 +41,18 @@ QStringList MethodsDumper::getMethods(const QObject* object) const {
   auto methods = QStringList{};
 
   for (auto i = 0; i < meta_object->methodCount(); ++i) {
-    const auto name = meta_object->method(i).name();
+    const auto method = meta_object->method(i);
+    const auto method_name = method.name();
 
-    methods.append(name);
+    auto parameters = QStringList{};
+    for (auto j = 0; j < method.parameterCount(); ++j) {
+      const auto parameter_type = method.parameterTypeName(j);
+
+      parameters.append(QLatin1String("%1").arg(parameter_type));
+    }
+
+    methods.append(
+        QLatin1String("%1(%2)").arg(method_name).arg(parameters.join(", ")));
   }
 
   return methods;
