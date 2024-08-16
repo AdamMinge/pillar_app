@@ -15,6 +15,28 @@ namespace aegis {
 
 class SearchingStrategy;
 
+/* ---------------------------------- ObjectQuery --------------------------- */
+
+class ObjectQuery {
+  friend class Searcher;
+
+ public:
+  [[nodiscard]] static ObjectQuery fromString(const QString& id);
+
+ public:
+  explicit ObjectQuery();
+  ~ObjectQuery();
+
+  [[nodiscard]] QString toString() const;
+  [[nodiscard]] bool isValid() const;
+
+ protected:
+  explicit ObjectQuery(QVariantMap data);
+
+ private:
+  QVariantMap m_data;
+};
+
 /* ----------------------------------- Searcher ----------------------------- */
 
 class Searcher : public QObject {
@@ -24,18 +46,14 @@ class Searcher : public QObject {
   explicit Searcher(QObject* parent = nullptr);
   ~Searcher() override;
 
-  [[nodiscard]] QObject* getObject(const QString& id) const;
-  [[nodiscard]] QList<QObject*> getObjects(const QString& id) const;
+  [[nodiscard]] QObject* getObject(const ObjectQuery& query) const;
+  [[nodiscard]] QList<QObject*> getObjects(const ObjectQuery& query) const;
 
-  [[nodiscard]] QString getId(QObject* object) const;
+  [[nodiscard]] ObjectQuery getId(QObject* object) const;
 
- protected:
  private:
-  [[nodiscard]] QVariantMap createQuery(const QString& id) const;
-  [[nodiscard]] QString createId(const QVariantMap& query) const;
-
   [[nodiscard]] QList<QObject*> findObjects(
-      const QVariantMap& query,
+      const ObjectQuery& query,
       qsizetype limit = std::numeric_limits<qsizetype>::max()) const;
 
  private:

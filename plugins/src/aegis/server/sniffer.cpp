@@ -33,7 +33,7 @@ void SnifferObjectTooltip::setObject(QObject *object) {
     m_object = object;
 
     if (m_object) {
-      const auto id = m_object ? searcher()->getId(m_object) : "";
+      const auto id = m_object ? searcher()->getId(m_object).toString() : "";
       m_label->setText(id);
       show();
     } else {

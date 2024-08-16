@@ -22,16 +22,25 @@ FindCommand::FindCommand() : Command(QLatin1String("Find")) {
 FindCommand::~FindCommand() = default;
 
 QByteArray FindCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   return serializer()->serialize(find(query));
 }
 
-Response<FoundObjectsMessage> FindCommand::find(const QString& id) {
-  const auto objects = searcher()->getObjects(id);
+Response<FoundObjectsMessage> FindCommand::find(
+    const ObjectQuery& query) const {
+  const auto objects = searcher()->getObjects(query);
 
   auto message = FoundObjectsMessage{};
   for (const auto object : objects) {
-    message.objects.append(searcher()->getId(object));
+    message.objects.append(searcher()->getId(object).toString());
   }
 
   return message;

@@ -31,20 +31,29 @@ DumpPropertiesCommand::DumpPropertiesCommand()
 DumpPropertiesCommand::~DumpPropertiesCommand() = default;
 
 QByteArray DumpPropertiesCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   return serializer()->serialize(dump(query));
 }
 
 Response<PropertiesDumpsMessage> DumpPropertiesCommand::dump(
-    const QString& id) const {
-  const auto objects = searcher()->getObjects(id);
+    const ObjectQuery& query) const {
+  const auto objects = searcher()->getObjects(query);
 
   auto message = PropertiesDumpsMessage{};
   for (const auto object : objects) {
-    const auto id = searcher()->getId(object);
+    const auto object_id = searcher()->getId(object);
     const auto properties = getProperties(object);
 
-    message.objects.append(PropertiesDumpMessage{id, properties});
+    message.objects.append(
+        PropertiesDumpMessage{object_id.toString(), properties});
   }
 
   return message;

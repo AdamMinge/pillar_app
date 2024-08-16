@@ -13,6 +13,8 @@
 
 namespace aegis {
 
+class ObjectQuery;
+
 /* ---------------------------- ObjectChildrenMessage ----------------------- */
 
 struct LIB_AEGIS_SEARCH_COMMAND_API ObjectChildrenMessage {
@@ -51,8 +53,9 @@ class LIB_AEGIS_SEARCH_COMMAND_API ChildrenCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  [[nodiscard]] Response<ObjectsChildrenMessage> find(const QString& id);
-  [[nodiscard]] QStringList getChildren(const QObject* object) const;
+  [[nodiscard]] Response<ObjectsChildrenMessage> find(
+      const ObjectQuery& query) const;
+  [[nodiscard]] QList<ObjectQuery> getChildren(const QObject* object) const;
 };
 
 }  // namespace aegis

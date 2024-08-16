@@ -36,26 +36,41 @@ ChildrenCommand::ChildrenCommand() : Command(QLatin1String("Children")) {
 ChildrenCommand::~ChildrenCommand() = default;
 
 QByteArray ChildrenCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   return serializer()->serialize(find(query));
 }
 
-Response<ObjectsChildrenMessage> ChildrenCommand::find(const QString& id) {
-  const auto objects = searcher()->getObjects(id);
+Response<ObjectsChildrenMessage> ChildrenCommand::find(
+    const ObjectQuery& query) const {
+  const auto objects = searcher()->getObjects(query);
 
   auto message = ObjectsChildrenMessage{};
   for (const auto object : objects) {
     const auto object_id = searcher()->getId(object);
-    const auto children = getChildren(object);
+    const auto children_ids = getChildren(object);
 
-    message.objects.append(ObjectChildrenMessage{object_id, children});
+    auto children = QStringList{};
+    std::transform(children_ids.begin(), children_ids.end(),
+                   std::back_inserter(children),
+                   [](const auto& child) { return child.toString(); });
+
+    message.objects.append(
+        ObjectChildrenMessage{object_id.toString(), children});
   }
 
   return message;
 }
 
-QStringList ChildrenCommand::getChildren(const QObject* object) const {
-  auto children = QStringList{};
+QList<ObjectQuery> ChildrenCommand::getChildren(const QObject* object) const {
+  auto children = QList<ObjectQuery>{};
   for (const auto child : object->children()) {
     const auto child_id = searcher()->getId(child);
     children.append(child_id);

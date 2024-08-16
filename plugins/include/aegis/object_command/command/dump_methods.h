@@ -13,6 +13,8 @@
 
 namespace aegis {
 
+class ObjectQuery;
+
 /* ---------------------------- MethodsDumpMessage -------------------------- */
 
 struct LIB_AEGIS_OBJECT_COMMAND_API MethodsDumpMessage {
@@ -51,7 +53,8 @@ class LIB_AEGIS_OBJECT_COMMAND_API DumpMethodsCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  [[nodiscard]] Response<MethodsDumpsMessage> dump(const QString& id) const;
+  [[nodiscard]] Response<MethodsDumpsMessage> dump(
+      const ObjectQuery& query) const;
   [[nodiscard]] QStringList getMethods(const QObject* object) const;
 };
 

@@ -23,17 +23,25 @@ SetPropertyCommand::SetPropertyCommand()
 SetPropertyCommand::~SetPropertyCommand() = default;
 
 QByteArray SetPropertyCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   const auto name = m_parser.value("name");
   const auto value = m_parser.value("value");
 
   return serializer()->serialize(setProperty(query, name, value));
 }
 
-Response<> SetPropertyCommand::setProperty(const QString& id,
+Response<> SetPropertyCommand::setProperty(const ObjectQuery& query,
                                            const QString& name,
                                            const QString& value) {
-  const auto objects = searcher()->getObjects(id);
+  const auto objects = searcher()->getObjects(query);
   if (objects.empty()) return EmptyMessage{};
 
   const auto property_name = name.toUtf8().data();

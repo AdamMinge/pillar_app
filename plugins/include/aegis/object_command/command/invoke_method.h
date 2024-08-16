@@ -10,6 +10,8 @@
 
 namespace aegis {
 
+class ObjectQuery;
+
 /* ----------------------------- InvokeMethodCommand ------------------------ */
 
 class LIB_AEGIS_OBJECT_COMMAND_API InvokeMethodCommand : public Command {
@@ -21,7 +23,8 @@ class LIB_AEGIS_OBJECT_COMMAND_API InvokeMethodCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  [[nodiscard]] Response<> invokeMethod(const QString& id, const QString& name,
+  [[nodiscard]] Response<> invokeMethod(const ObjectQuery& query,
+                                        const QString& name,
                                         const QStringList& values);
 
   [[nodiscard]] QMetaMethod getMethod(const QObject* object,

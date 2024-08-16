@@ -13,6 +13,8 @@
 
 namespace aegis {
 
+class ObjectQuery;
+
 /* --------------------------- PropertiesDumpMessage ------------------------ */
 
 struct LIB_AEGIS_OBJECT_COMMAND_API PropertiesDumpMessage {
@@ -51,7 +53,8 @@ class LIB_AEGIS_OBJECT_COMMAND_API DumpPropertiesCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  [[nodiscard]] Response<PropertiesDumpsMessage> dump(const QString& id) const;
+  [[nodiscard]] Response<PropertiesDumpsMessage> dump(
+      const ObjectQuery& query) const;
   [[nodiscard]] QMap<QString, QVariant> getProperties(
       const QObject* object) const;
 };

@@ -25,17 +25,25 @@ InvokeMethodCommand::InvokeMethodCommand()
 InvokeMethodCommand::~InvokeMethodCommand() = default;
 
 QByteArray InvokeMethodCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   const auto name = m_parser.value("name");
   const auto values = m_parser.positionalArguments();
 
   return serializer()->serialize(invokeMethod(query, name, values));
 }
 
-Response<> InvokeMethodCommand::invokeMethod(const QString& id,
+Response<> InvokeMethodCommand::invokeMethod(const ObjectQuery& query,
                                              const QString& name,
                                              const QStringList& values) {
-  const auto objects = searcher()->getObjects(id);
+  const auto objects = searcher()->getObjects(query);
   if (objects.empty()) return EmptyMessage{};
 
   auto method = getMethod(objects.front(), name);

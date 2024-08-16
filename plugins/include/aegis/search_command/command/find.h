@@ -13,6 +13,8 @@
 
 namespace aegis {
 
+class ObjectQuery;
+
 /* ---------------------------- FoundObjectsMessage ------------------------- */
 
 struct LIB_AEGIS_SEARCH_COMMAND_API FoundObjectsMessage {
@@ -35,7 +37,8 @@ class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  [[nodiscard]] Response<FoundObjectsMessage> find(const QString& id);
+  [[nodiscard]] Response<FoundObjectsMessage> find(
+      const ObjectQuery& query) const;
 };
 
 }  // namespace aegis

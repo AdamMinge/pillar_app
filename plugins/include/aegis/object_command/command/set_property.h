@@ -10,6 +10,8 @@
 
 namespace aegis {
 
+class ObjectQuery;
+
 /* ----------------------------- SetPropertyCommand ------------------------- */
 
 class LIB_AEGIS_OBJECT_COMMAND_API SetPropertyCommand : public Command {
@@ -21,7 +23,8 @@ class LIB_AEGIS_OBJECT_COMMAND_API SetPropertyCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  [[nodiscard]] Response<> setProperty(const QString& id, const QString& name,
+  [[nodiscard]] Response<> setProperty(const ObjectQuery& query,
+                                       const QString& name,
                                        const QString& value);
 };
 

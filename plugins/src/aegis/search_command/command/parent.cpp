@@ -33,27 +33,37 @@ ParentCommand::ParentCommand() : Command(QLatin1String("Parent")) {
 ParentCommand::~ParentCommand() = default;
 
 QByteArray ParentCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   return serializer()->serialize(find(query));
 }
 
-Response<ObjectsParentMessage> ParentCommand::find(const QString& id) {
-  const auto objects = searcher()->getObjects(id);
+Response<ObjectsParentMessage> ParentCommand::find(
+    const ObjectQuery& query) const {
+  const auto objects = searcher()->getObjects(query);
 
   auto message = ObjectsParentMessage{};
   for (const auto object : objects) {
     const auto object_id = searcher()->getId(object);
-    const auto parent = getParent(object);
+    const auto parent_id = getParent(object);
 
-    message.objects.append(ObjectParentMessage{object_id, parent});
+    message.objects.append(
+        ObjectParentMessage{object_id.toString(), parent_id.toString()});
   }
 
   return message;
 }
 
-QString ParentCommand::getParent(const QObject* object) const {
+ObjectQuery ParentCommand::getParent(const QObject* object) const {
   const auto parent_id =
-      object->parent() ? searcher()->getId(object->parent()) : "";
+      object->parent() ? searcher()->getId(object->parent()) : ObjectQuery{};
 
   return parent_id;
 }

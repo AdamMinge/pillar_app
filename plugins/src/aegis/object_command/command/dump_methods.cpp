@@ -29,20 +29,28 @@ DumpMethodsCommand::DumpMethodsCommand()
 DumpMethodsCommand::~DumpMethodsCommand() = default;
 
 QByteArray DumpMethodsCommand::exec() {
-  const auto query = m_parser.value("query");
+  const auto query_str = m_parser.value("query");
+  const auto query = ObjectQuery::fromString(query_str);
+  if (!query.isValid()) {
+    auto error = Response<>(ErrorMessage(
+        getError(),
+        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    return serializer()->serialize(error);
+  }
+
   return serializer()->serialize(dump(query));
 }
 
 Response<MethodsDumpsMessage> DumpMethodsCommand::dump(
-    const QString& id) const {
-  const auto objects = searcher()->getObjects(id);
+    const ObjectQuery& query) const {
+  const auto objects = searcher()->getObjects(query);
 
   auto message = MethodsDumpsMessage{};
   for (const auto object : objects) {
-    const auto id = searcher()->getId(object);
+    const auto object_id = searcher()->getId(object);
     const auto methods = getMethods(object);
 
-    message.objects.append(MethodsDumpMessage{id, methods});
+    message.objects.append(MethodsDumpMessage{object_id.toString(), methods});
   }
 
   return message;
