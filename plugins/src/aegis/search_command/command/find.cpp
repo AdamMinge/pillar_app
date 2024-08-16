@@ -10,13 +10,23 @@
 
 namespace aegis {
 
-/* ------------------------------- ObjectsFinder ---------------------------- */
+/* ------------------------------- FindCommand ------------------------------ */
 
-ObjectsFinder::ObjectsFinder() = default;
+FindCommand::FindCommand() : Command(QLatin1String("Find")) {
+  m_parser.addOptions({{{"q", "query"},
+                        "Query that identifies the objects we are looking for",
+                        "query"}});
+  m_required_options.append("query");
+}
 
-ObjectsFinder::~ObjectsFinder() = default;
+FindCommand::~FindCommand() = default;
 
-ObjectsFinder::Result ObjectsFinder::find(const QString& id) {
+QByteArray FindCommand::exec() {
+  const auto query = m_parser.value("query");
+  return serializer()->serialize(find(query));
+}
+
+Response<FoundObjectsMessage> FindCommand::find(const QString& id) {
   const auto objects = searcher()->getObjects(id);
 
   auto message = FoundObjectsMessage{};
@@ -25,27 +35,6 @@ ObjectsFinder::Result ObjectsFinder::find(const QString& id) {
   }
 
   return message;
-}
-
-/* ------------------------------- FindCommand ------------------------------ */
-
-FindCommand::FindCommand() : Command(QLatin1String("Find")) {
-  m_parser.addOptions({{{"q", "query"},
-                        "Query that identifies the objects we are looking for",
-                        "query"}});
-}
-
-FindCommand::~FindCommand() = default;
-
-QByteArray FindCommand::exec() {
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
-    return serializer()->serialize(m_finder.find(query));
-  }
-
-  auto error = Response<>(
-      ErrorMessage(getError(), "At least one of options must be provided."));
-  return serializer()->serialize(error);
 }
 
 }  // namespace aegis

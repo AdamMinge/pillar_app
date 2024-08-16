@@ -40,6 +40,15 @@ QByteArray Command::exec(const QStringList& args) {
     return serializer()->serialize(help);
   }
 
+  for (auto required_option : m_required_options) {
+    if (!m_parser.isSet(required_option)) {
+      auto error = Response<>(ErrorMessage(
+          getError(),
+          QLatin1String("Option '%1' must be provided.").arg(required_option)));
+      return serializer()->serialize(error);
+    }
+  }
+
   return exec();
 }
 

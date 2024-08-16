@@ -40,22 +40,6 @@ struct LIB_AEGIS_OBJECT_COMMAND_API MethodsDumpsMessage {
   QList<MethodsDumpMessage> objects;
 };
 
-/* ------------------------------ MethodsDumper ----------------------------- */
-
-class LIB_AEGIS_OBJECT_COMMAND_API MethodsDumper {
- public:
-  using Result = Response<MethodsDumpsMessage>;
-
- public:
-  explicit MethodsDumper();
-  ~MethodsDumper();
-
-  Result dump(const QString& id) const;
-
- private:
-  [[nodiscard]] QStringList getMethods(const QObject* object) const;
-};
-
 /* ---------------------------- DumpMethodsCommand -------------------------- */
 
 class LIB_AEGIS_OBJECT_COMMAND_API DumpMethodsCommand : public Command {
@@ -67,7 +51,8 @@ class LIB_AEGIS_OBJECT_COMMAND_API DumpMethodsCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  MethodsDumper m_dumper;
+  [[nodiscard]] Response<MethodsDumpsMessage> dump(const QString& id) const;
+  [[nodiscard]] QStringList getMethods(const QObject* object) const;
 };
 
 }  // namespace aegis

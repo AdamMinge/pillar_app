@@ -44,6 +44,7 @@ class LIB_AEGIS_SERVER_API Command {
  protected:
   QString m_name;
   QCommandLineParser m_parser;
+  QStringList m_required_options;
 };
 
 }  // namespace aegis

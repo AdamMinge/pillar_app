@@ -18,13 +18,25 @@ bool PropertiesDumpMessage::operator!=(
   return object != other.object || properties != other.properties;
 }
 
-/* ----------------------------- PropertiesDumper --------------------------- */
+/* --------------------------- DumpPropertiesCommand ------------------------ */
 
-PropertiesDumper::PropertiesDumper() = default;
+DumpPropertiesCommand::DumpPropertiesCommand()
+    : Command(QLatin1String("DumpProperties")) {
+  m_parser.addOptions({{{"q", "query"},
+                        "Query that identifies the objects we are dumping for",
+                        "query"}});
+  m_required_options.append("query");
+}
 
-PropertiesDumper::~PropertiesDumper() = default;
+DumpPropertiesCommand::~DumpPropertiesCommand() = default;
 
-PropertiesDumper::Result PropertiesDumper::dump(const QString& id) const {
+QByteArray DumpPropertiesCommand::exec() {
+  const auto query = m_parser.value("query");
+  return serializer()->serialize(dump(query));
+}
+
+Response<PropertiesDumpsMessage> DumpPropertiesCommand::dump(
+    const QString& id) const {
   const auto objects = searcher()->getObjects(id);
 
   auto message = PropertiesDumpsMessage{};
@@ -38,7 +50,7 @@ PropertiesDumper::Result PropertiesDumper::dump(const QString& id) const {
   return message;
 }
 
-QMap<QString, QVariant> PropertiesDumper::getProperties(
+QMap<QString, QVariant> DumpPropertiesCommand::getProperties(
     const QObject* object) const {
   auto meta_object = object->metaObject();
   auto properties = QMap<QString, QVariant>{};
@@ -51,28 +63,6 @@ QMap<QString, QVariant> PropertiesDumper::getProperties(
   }
 
   return properties;
-}
-
-/* --------------------------- DumpPropertiesCommand ------------------------ */
-
-DumpPropertiesCommand::DumpPropertiesCommand()
-    : Command(QLatin1String("DumpProperties")) {
-  m_parser.addOptions({{{"q", "query"},
-                        "Query that identifies the objects we are dumping for",
-                        "query"}});
-}
-
-DumpPropertiesCommand::~DumpPropertiesCommand() = default;
-
-QByteArray DumpPropertiesCommand::exec() {
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
-    return serializer()->serialize(m_dumper.dump(query));
-  }
-
-  auto error = Response<>(
-      ErrorMessage(getError(), "At least one of options must be provided."));
-  return serializer()->serialize(error);
 }
 
 }  // namespace aegis

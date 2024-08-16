@@ -40,23 +40,6 @@ struct LIB_AEGIS_OBJECT_COMMAND_API PropertiesDumpsMessage {
   QList<PropertiesDumpMessage> objects;
 };
 
-/* ----------------------------- PropertiesDumper --------------------------- */
-
-class LIB_AEGIS_OBJECT_COMMAND_API PropertiesDumper {
- public:
-  using Result = Response<PropertiesDumpsMessage>;
-
- public:
-  explicit PropertiesDumper();
-  ~PropertiesDumper();
-
-  Result dump(const QString& id) const;
-
- private:
-  [[nodiscard]] QMap<QString, QVariant> getProperties(
-      const QObject* object) const;
-};
-
 /* --------------------------- DumpPropertiesCommand ------------------------ */
 
 class LIB_AEGIS_OBJECT_COMMAND_API DumpPropertiesCommand : public Command {
@@ -68,7 +51,9 @@ class LIB_AEGIS_OBJECT_COMMAND_API DumpPropertiesCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  PropertiesDumper m_dumper;
+  [[nodiscard]] Response<PropertiesDumpsMessage> dump(const QString& id) const;
+  [[nodiscard]] QMap<QString, QVariant> getProperties(
+      const QObject* object) const;
 };
 
 }  // namespace aegis

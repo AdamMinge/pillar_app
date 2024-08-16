@@ -19,6 +19,13 @@ class LIB_AEGIS_OBJECT_COMMAND_API InvokeMethodCommand : public Command {
 
  protected:
   [[nodiscard]] QByteArray exec() override;
+
+ private:
+  [[nodiscard]] Response<> invokeMethod(const QString& id, const QString& name,
+                                        const QStringList& values);
+
+  [[nodiscard]] QMetaMethod getMethod(const QObject* object,
+                                      const QString& name) const;
 };
 
 }  // namespace aegis

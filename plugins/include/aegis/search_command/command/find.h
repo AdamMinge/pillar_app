@@ -24,19 +24,6 @@ struct LIB_AEGIS_SEARCH_COMMAND_API FoundObjectsMessage {
   QStringList objects;
 };
 
-/* ------------------------------- ObjectsFinder ---------------------------- */
-
-class LIB_AEGIS_SEARCH_COMMAND_API ObjectsFinder {
- public:
-  using Result = Response<FoundObjectsMessage>;
-
- public:
-  explicit ObjectsFinder();
-  ~ObjectsFinder();
-
-  Result find(const QString& id);
-};
-
 /* ------------------------------- FindCommand ------------------------------ */
 
 class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
@@ -48,7 +35,7 @@ class LIB_AEGIS_SEARCH_COMMAND_API FindCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  ObjectsFinder m_finder;
+  [[nodiscard]] Response<FoundObjectsMessage> find(const QString& id);
 };
 
 }  // namespace aegis

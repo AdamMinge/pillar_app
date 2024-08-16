@@ -22,13 +22,25 @@ bool ObjectChildrenMessage::operator!=(
   return object != other.object || children != other.children;
 }
 
-/* ------------------------------- ChildrenFinder --------------------------- */
+/* ------------------------------ ChildrenCommand --------------------------- */
 
-ChildrenFinder::ChildrenFinder() = default;
+ChildrenCommand::ChildrenCommand() : Command(QLatin1String("Children")) {
+  m_parser.addOptions(
+      {{{"q", "query"},
+        "Query that identifies the object whose children we are looking "
+        "for",
+        "query"}});
+  m_required_options.append("query");
+}
 
-ChildrenFinder::~ChildrenFinder() = default;
+ChildrenCommand::~ChildrenCommand() = default;
 
-ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
+QByteArray ChildrenCommand::exec() {
+  const auto query = m_parser.value("query");
+  return serializer()->serialize(find(query));
+}
+
+Response<ObjectsChildrenMessage> ChildrenCommand::find(const QString& id) {
   const auto objects = searcher()->getObjects(id);
 
   auto message = ObjectsChildrenMessage{};
@@ -42,7 +54,7 @@ ChildrenFinder::Result ChildrenFinder::find(const QString& id) {
   return message;
 }
 
-QStringList ChildrenFinder::getChildren(const QObject* object) const {
+QStringList ChildrenCommand::getChildren(const QObject* object) const {
   auto children = QStringList{};
   for (const auto child : object->children()) {
     const auto child_id = searcher()->getId(child);
@@ -50,29 +62,6 @@ QStringList ChildrenFinder::getChildren(const QObject* object) const {
   }
 
   return children;
-}
-
-/* ------------------------------ ChildrenCommand --------------------------- */
-
-ChildrenCommand::ChildrenCommand() : Command(QLatin1String("Children")) {
-  m_parser.addOptions(
-      {{{"q", "query"},
-        "Query that identifies the object whose children we are looking "
-        "for",
-        "query"}});
-}
-
-ChildrenCommand::~ChildrenCommand() = default;
-
-QByteArray ChildrenCommand::exec() {
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
-    return serializer()->serialize(m_finder.find(query));
-  }
-
-  auto error = Response<>(
-      ErrorMessage(getError(), "At least one of options must be provided."));
-  return serializer()->serialize(error);
 }
 
 }  // namespace aegis

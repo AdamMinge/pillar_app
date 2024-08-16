@@ -19,6 +19,10 @@ class LIB_AEGIS_OBJECT_COMMAND_API SetPropertyCommand : public Command {
 
  protected:
   [[nodiscard]] QByteArray exec() override;
+
+ private:
+  [[nodiscard]] Response<> setProperty(const QString& id, const QString& name,
+                                       const QString& value);
 };
 
 }  // namespace aegis

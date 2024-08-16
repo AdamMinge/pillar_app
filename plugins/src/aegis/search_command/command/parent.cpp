@@ -20,13 +20,24 @@ bool ObjectParentMessage::operator!=(const ObjectParentMessage& other) const {
   return object != other.object || parent != other.parent;
 }
 
-/* -------------------------------- ParentFinder ---------------------------- */
+/* ------------------------------ ParentCommand ----------------------------- */
 
-ParentFinder::ParentFinder() = default;
+ParentCommand::ParentCommand() : Command(QLatin1String("Parent")) {
+  m_parser.addOptions(
+      {{{"q", "query"},
+        "Query that identifies the object whose parent we are looking for",
+        "query"}});
+  m_required_options.append("query");
+}
 
-ParentFinder::~ParentFinder() = default;
+ParentCommand::~ParentCommand() = default;
 
-ParentFinder::Result ParentFinder::find(const QString& id) {
+QByteArray ParentCommand::exec() {
+  const auto query = m_parser.value("query");
+  return serializer()->serialize(find(query));
+}
+
+Response<ObjectsParentMessage> ParentCommand::find(const QString& id) {
   const auto objects = searcher()->getObjects(id);
 
   auto message = ObjectsParentMessage{};
@@ -40,33 +51,11 @@ ParentFinder::Result ParentFinder::find(const QString& id) {
   return message;
 }
 
-QString ParentFinder::getParent(const QObject* object) const {
+QString ParentCommand::getParent(const QObject* object) const {
   const auto parent_id =
       object->parent() ? searcher()->getId(object->parent()) : "";
 
   return parent_id;
-}
-
-/* ------------------------------ ParentCommand ----------------------------- */
-
-ParentCommand::ParentCommand() : Command(QLatin1String("Parent")) {
-  m_parser.addOptions(
-      {{{"q", "query"},
-        "Query that identifies the object whose parent we are looking for",
-        "query"}});
-}
-
-ParentCommand::~ParentCommand() = default;
-
-QByteArray ParentCommand::exec() {
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
-    return serializer()->serialize(m_finder.find(query));
-  }
-
-  auto error = Response<>(
-      ErrorMessage(getError(), "At least one of options must be provided."));
-  return serializer()->serialize(error);
 }
 
 }  // namespace aegis

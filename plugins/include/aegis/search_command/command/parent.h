@@ -40,22 +40,6 @@ struct LIB_AEGIS_SEARCH_COMMAND_API ObjectsParentMessage {
   QList<ObjectParentMessage> objects;
 };
 
-/* -------------------------------- ParentFinder ---------------------------- */
-
-class LIB_AEGIS_SEARCH_COMMAND_API ParentFinder {
- public:
-  using Result = Response<ObjectsParentMessage>;
-
- public:
-  explicit ParentFinder();
-  ~ParentFinder();
-
-  Result find(const QString& id);
-
- private:
-  [[nodiscard]] QString getParent(const QObject* object) const;
-};
-
 /* ------------------------------ ParentCommand ----------------------------- */
 
 class LIB_AEGIS_SEARCH_COMMAND_API ParentCommand : public Command {
@@ -67,7 +51,8 @@ class LIB_AEGIS_SEARCH_COMMAND_API ParentCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  ParentFinder m_finder;
+  [[nodiscard]] Response<ObjectsParentMessage> find(const QString& id);
+  [[nodiscard]] QString getParent(const QObject* object) const;
 };
 
 }  // namespace aegis

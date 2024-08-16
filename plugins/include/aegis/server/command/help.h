@@ -34,17 +34,6 @@ struct LIB_AEGIS_SERVER_API CommandsListMessage {
   QStringList commands;
 };
 
-/* --------------------------------- HelpGetter ----------------------------- */
-
-class LIB_AEGIS_SERVER_API HelpGetter {
- public:
-  explicit HelpGetter();
-  ~HelpGetter();
-
-  Response<CommandsHelpMessage> helps();
-  Response<CommandsListMessage> commands();
-};
-
 /* ------------------------------- HelpCommand ------------------------------ */
 
 class LIB_AEGIS_SERVER_API HelpCommand : public Command {
@@ -56,7 +45,8 @@ class LIB_AEGIS_SERVER_API HelpCommand : public Command {
   [[nodiscard]] QByteArray exec() override;
 
  private:
-  HelpGetter m_help_getter;
+  [[nodiscard]] Response<CommandsHelpMessage> helps();
+  [[nodiscard]] Response<CommandsListMessage> commands();
 };
 
 }  // namespace aegis

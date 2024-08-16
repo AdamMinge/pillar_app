@@ -16,13 +16,25 @@ bool MethodsDumpMessage::operator!=(const MethodsDumpMessage& other) const {
   return object != other.object || methods != other.methods;
 }
 
-/* ------------------------------ MethodsDumper ----------------------------- */
+/* ---------------------------- DumpMethodsCommand -------------------------- */
 
-MethodsDumper::MethodsDumper() = default;
+DumpMethodsCommand::DumpMethodsCommand()
+    : Command(QLatin1String("DumpMethods")) {
+  m_parser.addOptions({{{"q", "query"},
+                        "Query that identifies the objects we are dumping for",
+                        "query"}});
+  m_required_options.append("query");
+}
 
-MethodsDumper::~MethodsDumper() = default;
+DumpMethodsCommand::~DumpMethodsCommand() = default;
 
-MethodsDumper::Result MethodsDumper::dump(const QString& id) const {
+QByteArray DumpMethodsCommand::exec() {
+  const auto query = m_parser.value("query");
+  return serializer()->serialize(dump(query));
+}
+
+Response<MethodsDumpsMessage> DumpMethodsCommand::dump(
+    const QString& id) const {
   const auto objects = searcher()->getObjects(id);
 
   auto message = MethodsDumpsMessage{};
@@ -36,7 +48,7 @@ MethodsDumper::Result MethodsDumper::dump(const QString& id) const {
   return message;
 }
 
-QStringList MethodsDumper::getMethods(const QObject* object) const {
+QStringList DumpMethodsCommand::getMethods(const QObject* object) const {
   auto meta_object = object->metaObject();
   auto methods = QStringList{};
 
@@ -56,28 +68,6 @@ QStringList MethodsDumper::getMethods(const QObject* object) const {
   }
 
   return methods;
-}
-
-/* ---------------------------- DumpMethodsCommand -------------------------- */
-
-DumpMethodsCommand::DumpMethodsCommand()
-    : Command(QLatin1String("DumpMethods")) {
-  m_parser.addOptions({{{"q", "query"},
-                        "Query that identifies the objects we are dumping for",
-                        "query"}});
-}
-
-DumpMethodsCommand::~DumpMethodsCommand() = default;
-
-QByteArray DumpMethodsCommand::exec() {
-  if (m_parser.isSet("query")) {
-    const auto query = m_parser.value("query");
-    return serializer()->serialize(m_dumper.dump(query));
-  }
-
-  auto error = Response<>(
-      ErrorMessage(getError(), "At least one of options must be provided."));
-  return serializer()->serialize(error);
 }
 
 }  // namespace aegis
