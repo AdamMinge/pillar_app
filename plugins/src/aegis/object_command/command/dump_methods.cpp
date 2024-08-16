@@ -32,9 +32,8 @@ QByteArray DumpMethodsCommand::exec() {
   const auto query_str = m_parser.value("query");
   const auto query = ObjectQuery::fromString(query_str);
   if (!query.isValid()) {
-    auto error = Response<>(ErrorMessage(
-        getError(),
-        QLatin1String("Query '%1' has incorrect format.").arg(query_str)));
+    auto error = Response<>(
+        ErrorMessage(getError(), QLatin1String("Query has incorrect format.")));
     return serializer()->serialize(error);
   }
 
