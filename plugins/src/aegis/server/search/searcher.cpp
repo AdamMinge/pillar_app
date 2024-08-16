@@ -48,7 +48,7 @@ QString ObjectQuery::toString() const {
   return QString(json_document.toJson(QJsonDocument::Compact));
 }
 
-bool ObjectQuery::isValid() const { return m_data.isEmpty(); }
+bool ObjectQuery::isValid() const { return !m_data.isEmpty(); }
 
 /* ----------------------------------- Searcher ----------------------------- */
 
