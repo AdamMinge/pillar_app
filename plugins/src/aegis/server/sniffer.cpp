@@ -43,24 +43,30 @@ void SnifferObjectTooltip::setObject(QObject *object) {
 }
 
 void SnifferObjectTooltip::initUi() {
-  setWindowFlags(Qt::ToolTip);
+  setVisible(false);
+  setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip);
   setAttribute(Qt::WA_TranslucentBackground);
   setStyleSheet(
       "QDialog { background-color: rgba(255, 255, 224, 230); border: 1px solid "
       "gray; border-radius: 5px; }");
 
-  auto layout = new QVBoxLayout(this);
   m_label = new QLabel(this);
   m_label->setWordWrap(true);
   m_label->setAlignment(Qt::AlignLeft);
+  m_label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+  auto layout = new QVBoxLayout(this);
   layout->addWidget(m_label);
   layout->setContentsMargins(8, 8, 8, 8);
+
+  setLayout(layout);
 }
 
 /* ----------------------------- SnifferWidgetMarker ------------------------ */
 
 SnifferWidgetMarker::SnifferWidgetMarker(QWidget *parent)
     : QLabel(parent), m_widget(nullptr), m_color(Qt::red) {
+  setVisible(false);
   setWindowFlags(Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint |
                  Qt::WindowTransparentForInput | Qt::WindowDoesNotAcceptFocus |
                  Qt::WindowStaysOnTopHint | Qt::ToolTip);
