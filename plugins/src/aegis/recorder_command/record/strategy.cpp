@@ -19,7 +19,7 @@
 #include <QToolBox>
 #include <QToolButton>
 /* -------------------------------------------------------------------------- */
-
+#include "aegis/server/plugin_manager.h"
 namespace aegis {
 
 /* ----------------------------------- Utils -------------------------------- */
@@ -295,29 +295,36 @@ RecordMenuStrategy::RecordMenuStrategy(QObject *parent)
 
 RecordMenuStrategy::~RecordMenuStrategy() = default;
 
-void RecordMenuStrategy::installConnections(QWidget *widget) {
-  auto menu = qobject_cast<QMenu *>(widget);
-  Q_ASSERT(menu);
+bool RecordMenuStrategy::eventFilter(QObject *obj, QEvent *event) {
+  if (auto widget = getWidget(); widget == obj) {
+    switch (event->type()) {
+      case QEvent::MouseButtonRelease: {
+        const auto menu = qobject_cast<QMenu *>(widget);
+        Q_ASSERT(menu);
 
-  connect(menu, &QMenu::triggered, this, &RecordMenuStrategy::onTriggered);
+        const auto mouse_event = static_cast<QMouseEvent *>(event);
+        const auto mouse_position = mouse_event->position().toPoint();
+
+        const auto action = menu->actionAt(mouse_position);
+        if (!action) break;
+        if (!action->isEnabled()) break;
+        if (action != menu->activeAction()) break;
+
+        const auto rect = menu->actionGeometry(action);
+        if (!rect.contains(mouse_position)) break;
+
+        onTriggered(action);
+
+        break;
+      }
+    }
+  }
+
+  return QObject::eventFilter(obj, event);
 }
 
 void RecordMenuStrategy::onTriggered(QAction *action) {
   qDebug() << "RecordMenuStrategy::onTriggered = " << action->text();
-}
-
-/* ---------------------------- RecordMenuBarStrategy ----------------------- */
-
-const int RecordMenuBarStrategy::type = qMetaTypeId<QMenuBar>();
-
-RecordMenuBarStrategy::RecordMenuBarStrategy(QObject *parent)
-    : RecordStrategy(parent) {}
-
-RecordMenuBarStrategy::~RecordMenuBarStrategy() = default;
-
-void RecordMenuBarStrategy::installConnections(QWidget *widget) {
-  auto menubar = qobject_cast<QMenuBar *>(widget);
-  Q_ASSERT(menubar);
 }
 
 /* --------------------------- RecordTextEditStrategy ----------------------- */
@@ -402,6 +409,16 @@ void RecordItemViewStrategy::installConnections(QWidget *widget) {
   if (model) {
     connect(model, &QAbstractItemModel::dataChanged, this,
             &RecordItemViewStrategy::onDataChanged);
+  }
+}
+
+void RecordItemViewStrategy::removeConnections(QWidget *widget) {
+  auto itemview = qobject_cast<QAbstractItemView *>(widget);
+  Q_ASSERT(itemview);
+
+  auto model = itemview->model();
+  if (model) {
+    model->disconnect(this);
   }
 }
 

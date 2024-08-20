@@ -176,27 +176,10 @@ class LIB_AEGIS_RECORDER_COMMAND_API RecordMenuStrategy
   ~RecordMenuStrategy() override;
 
  protected:
-  void installConnections(QWidget *widget) override;
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
  private Q_SLOTS:
   void onTriggered(QAction *action);
-};
-
-/* ---------------------------- RecordMenuBarStrategy ----------------------- */
-
-class LIB_AEGIS_RECORDER_COMMAND_API RecordMenuBarStrategy
-    : public RecordStrategy {
-  Q_OBJECT
-
- public:
-  static const int type;
-
- public:
-  explicit RecordMenuBarStrategy(QObject *parent = nullptr);
-  ~RecordMenuBarStrategy() override;
-
- protected:
-  void installConnections(QWidget *widget) override;
 };
 
 /* --------------------------- RecordTextEditStrategy ----------------------- */
@@ -256,6 +239,7 @@ class LIB_AEGIS_RECORDER_COMMAND_API RecordItemViewStrategy
 
  protected:
   void installConnections(QWidget *widget) override;
+  void removeConnections(QWidget *widget) override;
 
  private Q_SLOTS:
   void onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,

@@ -113,7 +113,6 @@ Recorder::Recorder(QObject *parent)
       {RecordTabBarStrategy::type, new RecordTabBarStrategy(this)},
       {RecordToolBoxStrategy::type, new RecordToolBoxStrategy(this)},
       {RecordMenuStrategy::type, new RecordMenuStrategy(this)},
-      {RecordMenuBarStrategy::type, new RecordMenuBarStrategy(this)},
       {RecordTextEditStrategy::type, new RecordTextEditStrategy(this)},
       {RecordLineEditStrategy::type, new RecordLineEditStrategy(this)},
       {RecordItemViewStrategy::type, new RecordItemViewStrategy(this)},
