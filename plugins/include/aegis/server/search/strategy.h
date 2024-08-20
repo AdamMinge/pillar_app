@@ -24,7 +24,8 @@ class SearchingStrategy {
 /* ------------------------------- TypeSearching ---------------------------- */
 
 class TypeSearching : public SearchingStrategy {
-  static constexpr QLatin1String TypeQuery = QLatin1String("type");
+ public:
+  static constexpr QLatin1String type_query = QLatin1String("type");
 
  public:
   explicit TypeSearching();
@@ -38,7 +39,8 @@ class TypeSearching : public SearchingStrategy {
 /* ---------------------------- PropertiesSearching ------------------------- */
 
 class PropertiesSearching : public SearchingStrategy {
-  static constexpr QLatin1String PropertiesQuery = QLatin1String("properties");
+ public:
+  static constexpr QLatin1String properties_query = QLatin1String("properties");
 
  public:
   explicit PropertiesSearching();
@@ -56,7 +58,8 @@ class PropertiesSearching : public SearchingStrategy {
 /* ------------------------------- PathSearching ---------------------------- */
 
 class PathSearching : public SearchingStrategy {
-  static constexpr QLatin1String pathQuery = QLatin1String("path");
+ public:
+  static constexpr QLatin1String path_query = QLatin1String("path");
 
  public:
   explicit PathSearching();

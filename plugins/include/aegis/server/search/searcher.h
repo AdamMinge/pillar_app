@@ -19,6 +19,7 @@ class SearchingStrategy;
 
 class ObjectQuery {
   friend class Searcher;
+  friend class CommonQueries;
 
  public:
   [[nodiscard]] static ObjectQuery fromString(const QString& id);
@@ -35,6 +36,16 @@ class ObjectQuery {
 
  private:
   QVariantMap m_data;
+};
+
+/* --------------------------------- CommonQueries -------------------------- */
+
+class CommonQueries {
+ public:
+  [[nodiscard]] static ObjectQuery createPathQuery(const QString& path);
+  [[nodiscard]] static ObjectQuery createTypeQuery(const QMetaType& type);
+  [[nodiscard]] static ObjectQuery createPropertiesQuery(
+      const QVariantMap& properties);
 };
 
 /* ----------------------------------- Searcher ----------------------------- */

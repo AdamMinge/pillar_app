@@ -8,10 +8,14 @@ cmake_minimum_required(VERSION 3.11)
 set(source_root ${PILLAR_SOURCE_DIR}/plugins/src/aegis/recorder_command)
 set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/recorder_command)
 
-set(sources ${source_root}/plugin.cpp ${source_root}/command/recorder.cpp)
+set(sources
+    ${source_root}/plugin.cpp ${source_root}/command/record.cpp
+    ${source_root}/record/recorder.cpp ${source_root}/record/strategy.cpp)
 
-set(includes ${include_root}/export.h ${include_root}/plugin.h
-             ${include_root}/command/recorder.h)
+set(includes
+    ${include_root}/export.h ${include_root}/plugin.h
+    ${include_root}/command/record.h ${include_root}/record/recorder.h
+    ${include_root}/record/strategy.h)
 # ----------------------------------------------------------------------- #
 # ------------------------- Qt libraries configuration ------------------ #
 # ----------------------------------------------------------------------- #

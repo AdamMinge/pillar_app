@@ -50,6 +50,24 @@ QString ObjectQuery::toString() const {
 
 bool ObjectQuery::isValid() const { return !m_data.isEmpty(); }
 
+/* --------------------------------- CommonQueries -------------------------- */
+
+ObjectQuery CommonQueries::createPathQuery(const QString& path) {
+  return ObjectQuery(
+      QVariantMap{{PathSearching::path_query, QVariant::fromValue(path)}});
+}
+
+ObjectQuery CommonQueries::createTypeQuery(const QMetaType& type) {
+  return ObjectQuery(QVariantMap{
+      {TypeSearching::type_query, QVariant::fromValue(type.name())}});
+}
+
+ObjectQuery CommonQueries::createPropertiesQuery(
+    const QVariantMap& properties) {
+  return ObjectQuery(QVariantMap{{PropertiesSearching::properties_query,
+                                  QVariant::fromValue(properties)}});
+}
+
 /* ----------------------------------- Searcher ----------------------------- */
 
 Searcher::Searcher(QObject* parent) : QObject(parent) {

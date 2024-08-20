@@ -37,8 +37,8 @@ TypeSearching::~TypeSearching() = default;
 
 bool TypeSearching::matchesQuery(QObject* object,
                                  const QVariantMap& query) const {
-  if (query.contains(TypeQuery)) {
-    return object->metaObject()->className() == query[TypeQuery];
+  if (query.contains(type_query)) {
+    return object->metaObject()->className() == query[type_query];
   }
 
   return true;
@@ -46,7 +46,7 @@ bool TypeSearching::matchesQuery(QObject* object,
 
 QVariantMap TypeSearching::createQuery(QObject* object) const {
   auto query = QVariantMap{};
-  query[TypeQuery] = object->metaObject()->className();
+  query[type_query] = object->metaObject()->className();
 
   return query;
 }
@@ -59,8 +59,8 @@ PropertiesSearching::~PropertiesSearching() = default;
 
 bool PropertiesSearching::matchesQuery(QObject* object,
                                        const QVariantMap& query) const {
-  if (query.contains(PropertiesQuery)) {
-    const auto properties = query[PropertiesQuery].toMap();
+  if (query.contains(properties_query)) {
+    const auto properties = query[properties_query].toMap();
 
     const auto used_properties = getUsedProperties(object);
     for (const auto& property : used_properties) {
@@ -84,7 +84,7 @@ QVariantMap PropertiesSearching::createQuery(QObject* object) const {
     }
   }
 
-  query[PropertiesQuery] = properties;
+  query[properties_query] = properties;
 
   return query;
 }
@@ -147,8 +147,8 @@ PathSearching::~PathSearching() = default;
 
 bool PathSearching::matchesQuery(QObject* object,
                                  const QVariantMap& query) const {
-  if (query.contains(pathQuery)) {
-    return getPath(object).contains(query[pathQuery].toString());
+  if (query.contains(path_query)) {
+    return getPath(object).contains(query[path_query].toString());
   }
 
   return true;
@@ -156,7 +156,7 @@ bool PathSearching::matchesQuery(QObject* object,
 
 QVariantMap PathSearching::createQuery(QObject* object) const {
   auto query = QVariantMap{};
-  query[pathQuery] = getPath(object);
+  query[path_query] = getPath(object);
 
   return query;
 }

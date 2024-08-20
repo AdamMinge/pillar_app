@@ -127,7 +127,7 @@ void ConsoleDock::initConnections() {
           &qtils::QtLineEditWithHistory::movePrev);
   connect(next_shortcut, &QShortcut::activated, m_line_edit_with_history,
           &qtils::QtLineEditWithHistory::moveNext);
-  connect(m_clear_button, &QPushButton::pressed, m_plain_text_edit,
+  connect(m_clear_button, &QPushButton::clicked, m_plain_text_edit,
           &QPlainTextEdit::clear);
 
   auto &logging_manager = pillar::LoggingManager::getInstance();

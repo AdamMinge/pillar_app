@@ -6,7 +6,7 @@
 /* ---------------------------- Plugin Aegis Server ------------------------- */
 #include <aegis/server/command/factory/utils.h>
 /* ----------------------------------- Local -------------------------------- */
-#include "aegis/recorder_command/command/recorder.h"
+#include "aegis/recorder_command/command/record.h"
 #include "aegis/recorder_command/export.h"
 /* -------------------------------------------------------------------------- */
 
@@ -25,7 +25,7 @@ class LIB_AEGIS_RECORDER_COMMAND_API RecorderCommandPlugin
   void init() override;
 };
 
-DECLARE_COMMAND_FACTORY(LIB_AEGIS_RECORDER_COMMAND_API, RecorderCommand)
+DECLARE_COMMAND_FACTORY(LIB_AEGIS_RECORDER_COMMAND_API, RecordCommand)
 
 }  // namespace aegis
 

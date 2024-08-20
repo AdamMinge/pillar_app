@@ -37,11 +37,11 @@ class LIB_AEGIS_SERVER_API ClientHandler : public QObject {
   explicit ClientHandler(qintptr socket_descriptor, QObject* parent = nullptr);
   ~ClientHandler() override;
 
- signals:
+ Q_SIGNALS:
   void error(QTcpSocket::SocketError socketError);
   void finished();
 
- public slots:
+ public Q_SLOTS:
   void readyRead();
   void disconnected();
 

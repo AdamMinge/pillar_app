@@ -136,11 +136,11 @@ void SettingsDialog::initConnections() {
   connect(settings_model, &SettingsWidgetTreeModel::appliedChanged, this,
           [this](auto applied) { m_ui->m_apply_button->setEnabled(!applied); });
 
-  connect(m_ui->m_apply_button, &QPushButton::pressed, this,
+  connect(m_ui->m_apply_button, &QPushButton::clicked, this,
           &SettingsDialog::apply);
-  connect(m_ui->m_cancel_button, &QPushButton::pressed, this,
+  connect(m_ui->m_cancel_button, &QPushButton::clicked, this,
           &SettingsDialog::cancel);
-  connect(m_ui->m_ok_button, &QPushButton::pressed, this, &SettingsDialog::ok);
+  connect(m_ui->m_ok_button, &QPushButton::clicked, this, &SettingsDialog::ok);
 
   connect(m_ui->m_setting_label, &qtils::QtStackedWidgetLabel::currentChanged,
           this, &SettingsDialog::currentChanged);

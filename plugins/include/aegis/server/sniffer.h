@@ -74,7 +74,7 @@ class Sniffer : public QObject {
   [[nodiscard]] QColor getMarkerColor() const;
   void setMarkerColor(QColor color);
 
- protected slots:
+ protected Q_SLOTS:
   bool eventFilter(QObject *obj, QEvent *event) override;
   void onMouseMove(QMouseEvent *event);
 

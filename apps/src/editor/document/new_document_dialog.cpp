@@ -102,7 +102,7 @@ void NewDocumentDialog::initUi() {
 }
 
 void NewDocumentDialog::initConnections() {
-  connect(m_ui->m_create_button, &QPushButton::pressed, this,
+  connect(m_ui->m_create_button, &QPushButton::clicked, this,
           &NewDocumentDialog::accept);
   connect(m_ui->m_new_document_widget_stack,
           &qtils::QtStackedWidget::currentChanged, this,

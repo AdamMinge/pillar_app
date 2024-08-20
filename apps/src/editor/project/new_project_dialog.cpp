@@ -85,7 +85,7 @@ void NewProjectDialog::initUi() {
 }
 
 void NewProjectDialog::initConnections() {
-  connect(m_ui->m_create_button, &QPushButton::pressed, this,
+  connect(m_ui->m_create_button, &QPushButton::clicked, this,
           &NewProjectDialog::accept);
   connect(m_ui->m_name_and_path_filler,
           &qtils::QtNameAndPathFiller::validStateChanged, this,

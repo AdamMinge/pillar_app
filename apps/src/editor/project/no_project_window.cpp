@@ -130,9 +130,9 @@ void NoProjectWindow::initUi() {
 }
 
 void NoProjectWindow::initConnections() {
-  connect(m_ui->m_open_button, &QPushButton::pressed, this,
+  connect(m_ui->m_open_button, &QPushButton::clicked, this,
           &NoProjectWindow::openProject);
-  connect(m_ui->m_new_project_button, &QPushButton::pressed, this,
+  connect(m_ui->m_new_project_button, &QPushButton::clicked, this,
           &NoProjectWindow::createProject);
 
   connect(m_ui->m_projects_list_view, &QListView::activated, this,
