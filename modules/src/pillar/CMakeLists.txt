@@ -100,8 +100,8 @@ pillar_add_module(
   ${resources}
   DEPENDS
   Qt6::Widgets
-  Qt6::Qml
   DEPENDS_PRIVATE
+  Qt6::Qml
   qtils::dialog
   qtils::serializer
   qtils::file_system)

@@ -10,39 +10,13 @@ set(include_root ${PILLAR_SOURCE_DIR}/plugins/include/aegis/server)
 set(ui_root ${PILLAR_SOURCE_DIR}/plugins/ui/aegis/server)
 set(resource_root ${PILLAR_SOURCE_DIR}/plugins/resource/aegis/server)
 
-set(sources
-    ${source_root}/plugin.cpp
-    ${source_root}/client.cpp
-    ${source_root}/server.cpp
-    ${source_root}/sniffer.cpp
-    ${source_root}/serializer.cpp
-    ${source_root}/plugin_manager.cpp
-    ${source_root}/settings/server_settings_widget.cpp
-    ${source_root}/command/command.cpp
-    ${source_root}/command/help.cpp
-    ${source_root}/command/executor.cpp
-    ${source_root}/command/factory/factory.cpp
-    ${source_root}/search/searcher.cpp
-    ${source_root}/search/strategy.cpp)
+set(sources ${source_root}/plugin.cpp
+            ${source_root}/settings/server_settings_widget.cpp)
 
 set(includes
-    ${include_root}/export.h
-    ${include_root}/plugin.h
-    ${include_root}/client.h
-    ${include_root}/server.h
-    ${include_root}/sniffer.h
-    ${include_root}/serializer.h
-    ${include_root}/response.h
+    ${include_root}/export.h ${include_root}/plugin.h
     ${include_root}/resources.h
-    ${include_root}/plugin_manager.h
-    ${include_root}/settings/server_settings_widget.h
-    ${include_root}/command/command.h
-    ${include_root}/command/help.h
-    ${include_root}/command/executor.h
-    ${include_root}/command/factory/factory.h
-    ${include_root}/command/factory/utils.h
-    ${include_root}/search/searcher.h
-    ${include_root}/search/strategy.h)
+    ${include_root}/settings/server_settings_widget.h)
 
 set(resources ${resource_root}/server.qrc)
 
@@ -58,8 +32,8 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${ui_root})
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network Qml)
-find_package(qtils REQUIRED COMPONENTS serializer)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(aegis REQUIRED COMPONENTS aegis)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
@@ -74,7 +48,7 @@ pillar_add_plugins(
   Qt6::Widgets
   Qt6::Network
   pillar::pillar
-  qtils::serializer)
+  aegis::aegis)
 
 target_include_directories(
   aegis_server

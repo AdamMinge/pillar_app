@@ -12,7 +12,4 @@ add_subdirectory(src/flow/math_node)
 add_subdirectory(src/flow/string_node)
 
 add_subdirectory(src/aegis/server)
-add_subdirectory(src/aegis/recorder_command)
-add_subdirectory(src/aegis/search_command)
-add_subdirectory(src/aegis/object_command)
 # ----------------------------------------------------------------------- #

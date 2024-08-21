@@ -222,7 +222,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${ui_root})
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Qml)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 find_package(qtils REQUIRED COMPONENTS pointer model dialog delegate serializer
                                        property_browser)
 # ----------------------------------------------------------------------- #

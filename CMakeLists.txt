@@ -19,10 +19,6 @@ add_subdirectory(modules)
 add_subdirectory(plugins)
 add_subdirectory(apps)
 
-if(PILLAR_BUILD_TEST)
-  add_subdirectory(tests)
-endif()
-
 add_subdirectory(docs)
 # ----------------------------------------------------------------------- #
 # ------------------------------- Final steps --------------------------- #

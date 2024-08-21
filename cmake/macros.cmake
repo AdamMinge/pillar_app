@@ -113,7 +113,7 @@ function(pillar_export_modules)
     DESTINATION ${config_package_location})
 
   install(
-    DIRECTORY ${PILLAR_SOURCE_DIR}/include
+    DIRECTORY ${PILLAR_SOURCE_DIR}/modules/include
     DESTINATION .
     COMPONENT devel
     FILES_MATCHING
