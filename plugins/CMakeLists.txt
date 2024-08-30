@@ -10,6 +10,4 @@ add_subdirectory(src/flow/condition_node)
 add_subdirectory(src/flow/logic_node)
 add_subdirectory(src/flow/math_node)
 add_subdirectory(src/flow/string_node)
-
-add_subdirectory(src/aegis/server)
 # ----------------------------------------------------------------------- #

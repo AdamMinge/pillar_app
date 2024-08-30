@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/aegis/server">
-        <file>images/32x32/start.png</file>
-        <file>images/32x32/stop.png</file>
-
-        <file>translations/server_en.qm</file>
-        <file>translations/server_pl.qm</file>
-    </qresource>
-</RCC>
