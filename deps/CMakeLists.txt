@@ -43,7 +43,6 @@ endif()
 # -------------------------- Setup Dependency --------------------------- #
 # ----------------------------------------------------------------------- #
 pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} qt)
-pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} gtest)
 pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} boost)
 pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} qtils)
 # ----------------------------------------------------------------------- #

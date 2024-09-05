@@ -1,13 +1,65 @@
 # ----------------------------------------------------------------------- #
-# ------------- Define a macro that helps add engine module ------------- #
+# -------------- Define a macro that prepare target module -------------- #
+# ----------------------------------------------------------------------- #
+macro(_pillar_prepare_module_target target)
+  string(REPLACE "-" "_" NAME_UPPER "${target}")
+  string(TOUPPER "${NAME_UPPER}" NAME_UPPER)
+  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL
+                                             ${NAME_UPPER}_EXPORTS)
+
+  if(BUILD_SHARED_LIBS)
+    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
+  else()
+    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -s-d)
+    set_target_properties(${target} PROPERTIES RELEASE_POSTFIX -s)
+  endif()
+
+  set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
+  set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
+
+  install(
+    TARGETS ${target}
+    EXPORT pillarConfigExport
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
+
+  if(NOT BUILD_SHARED_LIBS)
+    target_compile_definitions(${target} PUBLIC "QTILS_STATIC")
+  endif()
+endmacro()
+# ----------------------------------------------------------------------- #
+# ---------- Define a macro that helps add headers only module ---------- #
+# ----------------------------------------------------------------------- #
+macro(pillar_add_headers_only_module target)
+
+  cmake_parse_arguments(THIS "" "" "SOURCES;DEPENDS" ${ARGN})
+  if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
+    message(
+      FATAL_ERROR
+        "Extra unparsed arguments when calling pillar_add_module: ${THIS_UNPARSED_ARGUMENTS}"
+    )
+  endif()
+
+  add_library(${target} INTERFACE ${THIS_SOURCES})
+  add_library(pillar::${target} ALIAS ${target})
+
+  if(THIS_DEPENDS)
+    target_link_libraries(${target} INTERFACE ${THIS_DEPENDS})
+  endif()
+
+  _pillar_prepare_module_target(${target})
+
+endmacro()
+# ----------------------------------------------------------------------- #
+# ----------------- Define a macro that helps add module ---------------- #
 # ----------------------------------------------------------------------- #
 macro(pillar_add_module target)
-
   cmake_parse_arguments(
     THIS
     ""
     ""
-    "SOURCES;DEPENDS;DEPENDS_PRIVATE;DEPENDS_TO_EXPORT;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
+    "SOURCES;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
     ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
@@ -36,35 +88,7 @@ macro(pillar_add_module target)
                               ${THIS_PRECOMPILE_PRIVATE_HEADERS})
   endif()
 
-  foreach(target_depends ${THIS_DEPENDS_TO_EXPORT})
-    install(TARGETS ${target_depends} EXPORT pillarConfigExport)
-  endforeach()
-
-  string(REPLACE "-" "_" NAME_UPPER "${target}")
-  string(TOUPPER "${NAME_UPPER}" NAME_UPPER)
-  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL
-                                             ${NAME_UPPER}_EXPORTS)
-
-  if(BUILD_SHARED_LIBS)
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
-  else()
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -s-d)
-    set_target_properties(${target} PROPERTIES RELEASE_POSTFIX -s)
-  endif()
-
-  set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
-  set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
-
-  install(
-    TARGETS ${target}
-    EXPORT pillarConfigExport
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
-
-  if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "PILLAR_STATIC")
-  endif()
+  _pillar_prepare_module_target(${target})
 
 endmacro()
 # ----------------------------------------------------------------------- #
@@ -269,7 +293,7 @@ macro(pillar_add_utils target)
   endif()
 
   add_library(${target} ${THIS_SOURCES})
-  add_library(qtils::${target} ALIAS ${target})
+  add_library(pillar::${target} ALIAS ${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})

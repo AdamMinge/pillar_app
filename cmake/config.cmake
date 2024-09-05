@@ -31,13 +31,13 @@ pillar_set_option(
 pillar_set_option(
   PILLAR_DEPRECATED_WARNINGS TRUE BOOL
   "FALSE to disable deprecated warning, TRUE to enable depracated warning")
-pillar_set_option(PILLAR_BUILD_TEST TRUE BOOL
+pillar_set_option(PILLAR_BUILD_TEST FALSE BOOL
                   "TRUE to build the pillar-tests, FALSE to ignore them")
 pillar_set_option(PILLAR_BUILD_DOCUMENTATION FALSE BOOL
                   "TRUE to build the documentation, FALSE to ignore them")
-pillar_set_option(PILLAR_ENABLE_CLANG_TIDY TRUE BOOL
+pillar_set_option(PILLAR_ENABLE_CLANG_TIDY FALSE BOOL
                   "TRUE to enable clang tidy, FALSE to ignore them")
-pillar_set_option(PILLAR_ENABLE_CPPCHECK TRUE BOOL
+pillar_set_option(PILLAR_ENABLE_CPPCHECK FALSE BOOL
                   "TRUE to enable cppcheck, FALSE to ignore them")
 # ----------------------------------------------------------------------- #
 # -------------------------- Set other options -------------------------- #
