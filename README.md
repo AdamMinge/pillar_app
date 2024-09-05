@@ -42,20 +42,6 @@ Flow Plugins
   </tr>
 </table>
 
-Aegis Plugins
--------------------------------------------------------------------------------
-
-<table>
-  <tr>
-    <th>Plugin Name</th>
-    <th>Dependencies</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    
-  </tr>
-</table>
-
 Others
 -------------------------------------------------------------------------------
 
