@@ -30,6 +30,7 @@ ExternalProject_Add(
         -G "${CMAKE_GENERATOR}" 
         -DCMAKE_INSTALL_PREFIX=${install_dir} 
         -DQTILS_BUILD_DEPS_DIR=${deps}
+        -DBUILD_SHARED_LIBS=FALSE
         ${src_dir}
     BUILD_COMMAND       
         ${CMAKE_COMMAND} 

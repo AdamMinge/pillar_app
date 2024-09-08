@@ -42,6 +42,7 @@ set(sources
     ${source_root}/command/group_command.cpp)
 
 set(includes
+    ${include_root}/config.h
     ${include_root}/export.h
     ${include_root}/concept.h
     ${include_root}/application.h
@@ -87,6 +88,8 @@ set(CMAKE_AUTORCC ON)
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
+set(QTILS_STATIC_LIBRARIES TRUE)
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 find_package(qtils REQUIRED COMPONENTS dialog serializer file_system)
 # ----------------------------------------------------------------------- #

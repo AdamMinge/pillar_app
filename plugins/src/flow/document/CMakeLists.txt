@@ -222,9 +222,19 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${ui_root})
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
+set(QTILS_STATIC_LIBRARIES TRUE)
+
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
-find_package(qtils REQUIRED COMPONENTS pointer model dialog delegate serializer
-                                       property_browser)
+find_package(
+  qtils REQUIRED
+  COMPONENTS pointer
+             model
+             widget
+             action
+             dialog
+             delegate
+             serializer
+             property_browser)
 # ----------------------------------------------------------------------- #
 # -------------------------- Create plugin shared lib ------------------- #
 # ----------------------------------------------------------------------- #
@@ -241,6 +251,8 @@ pillar_add_plugins(
   qtils::pointer
   DEPENDS_PRIVATE
   qtils::model
+  qtils::action
+  qtils::widget
   qtils::dialog
   qtils::delegate
   qtils::serializer

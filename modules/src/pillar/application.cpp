@@ -1,9 +1,9 @@
 /* ----------------------------------- Local -------------------------------- */
 #include "pillar/application.h"
 
-#include "./config.h"
 #include "pillar/action_manager.h"
 #include "pillar/command_line_parser.h"
+#include "pillar/config.h"
 #include "pillar/document/document_manager.h"
 #include "pillar/issue_manager.h"
 #include "pillar/language_manager.h"

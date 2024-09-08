@@ -101,6 +101,8 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${ui_root})
 # ----------------------------------------------------------------------- #
 # -------------------------- Find external libraries -------------------- #
 # ----------------------------------------------------------------------- #
+set(QTILS_STATIC_LIBRARIES TRUE)
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets Qml)
 find_package(
   qtils REQUIRED

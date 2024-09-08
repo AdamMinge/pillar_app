@@ -2,13 +2,13 @@
 #define PILLAR_EXPORT_H
 
 /* ------------------------------------ Qt ---------------------------------- */
-#include <QtCore/QtGlobal>
+#include "pillar/config.h"
 /* -------------------------------------------------------------------------- */
 
 #if defined(LIB_PILLAR_EXPORTS)
-#define LIB_PILLAR_API Q_DECL_EXPORT
+#define LIB_PILLAR_API PILLAR_API_EXPORT
 #else
-#define LIB_PILLAR_API Q_DECL_IMPORT
+#define LIB_PILLAR_API PILLAR_API_IMPORT
 #endif
 
 #endif  // PILLAR_EXPORT_H
