@@ -1,48 +1,31 @@
-About Pillar
+About Metis
 -------------------------------------------------------------------------------
 
-Pillar is a application that mainly focus on extensibility, Pillar is designed to be the platform for managing and customizing your documents through an array of powerful plugins. It's a versatile tool that opening up a world of possibilities for users across various domains.
+Metis is an advanced, modular architecture designed to manage structured data migration and visualize differences between snapshots using Protocol Buffers (Protobuf).
 
-
-Flow Plugins
+Metis Plugins
 -------------------------------------------------------------------------------
-
-![alt text](https://user-images.githubusercontent.com/26785529/272376935-cf722e8f-061b-4e5e-8db6-48c0cbafa6e4.png)
 
 <table>
   <tr>
     <th>Plugin Name</th>
-    <th>Dependencies</th>
     <th>Description</th>
   </tr>
   <tr>
-    <td>Flow Document</td>
-    <td>None</td>
-    <td>Core plugin for creating node-based flows.</td>
+    <td>diff_v1.0.0</td>
+    <td>Add possibility to make diff of snapshots v1.0.0.</td>
   </tr>
   <tr>
-    <td>Logic Flow</td>
-    <td>Flow Document</td>
-    <td>Adds logic nodes like Or, And, and Not.</td>
+    <td>diff_v2.0.0</td>
+    <td>Add possibility to make diff of snapshots v2.0.0.</td>
   </tr>
   <tr>
-    <td>Math Flow</td>
-    <td>Flow Document</td>
-    <td>Adds Math nodes like Addition, Division, Negation, etc.</td>
-  </tr>
-  <tr>
-    <td>String Flow</td>
-    <td>Flow Document</td>
-    <td>Adds String nodes like Contains, Insert, Replace, etc..</td>
-  </tr>
-  <tr>
-    <td>Condition Flow</td>
-    <td>Flow Document</td>
-    <td>Adds Condition nodes like Switcher, Dispatcher</td>
+    <td>migrate_v1.0.0_to_v2.0.0</td>
+    <td>Add possibility to make snapshots migration from v1.0.0 to v2.0.0.</td>
   </tr>
 </table>
 
 Others
 -------------------------------------------------------------------------------
 
-[News](https://github.com/AdamMinge/flow_app/blob/master/NEWS.md) - Read the latest updates and release notes for more details on each version's major changes.
+[News](https://github.com/AdamMinge/metis/blob/master/NEWS.md) - Read the latest updates and release notes for more details on each version's major changes.

@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ----------------------- Setup Dependency Helper ----------------------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_setup_dependency directory dependency)
+macro(metis_setup_dependency directory dependency)
   configure_file(external_${dependency}.txt.in ${dependency}/CMakeLists.txt
                  @ONLY)
 
@@ -36,13 +36,12 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ------------------------ Set Dependency Directory --------------------- #
 # ----------------------------------------------------------------------- #
-if(NOT PILLAR_BUILD_DEPS_DIR)
-  set(PILLAR_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
+if(NOT METIS_BUILD_DEPS_DIR)
+  set(METIS_BUILD_DEPS_DIR ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 # ----------------------------------------------------------------------- #
 # -------------------------- Setup Dependency --------------------------- #
 # ----------------------------------------------------------------------- #
-pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} qt)
-pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} boost)
-pillar_setup_dependency(${PILLAR_BUILD_DEPS_DIR} qtils)
+metis_setup_dependency(${METIS_BUILD_DEPS_DIR} qt)
+metis_setup_dependency(${METIS_BUILD_DEPS_DIR} grpc)
 # ----------------------------------------------------------------------- #

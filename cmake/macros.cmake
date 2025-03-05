@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that prepare target module -------------- #
 # ----------------------------------------------------------------------- #
-macro(_pillar_prepare_module_target target)
+macro(_metis_prepare_module_target target)
   string(REPLACE "-" "_" NAME_UPPER "${target}")
   string(TOUPPER "${NAME_UPPER}" NAME_UPPER)
   set_target_properties(${target} PROPERTIES DEFINE_SYMBOL
@@ -19,33 +19,94 @@ macro(_pillar_prepare_module_target target)
 
   install(
     TARGETS ${target}
-    EXPORT pillarConfigExport
+    EXPORT metisConfigExport
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 
 endmacro()
+# ----------------------------------------------------------------------- # 
+# ---- Define a macro that create proto libs and link it to target ------ #
+# ----------------------------------------------------------------------- #
+macro(__metis_add_proto_modules target)
+  cmake_parse_arguments(THIS "" "" "PROTOS" ${ARGN})
+  if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
+    message(
+      FATAL_ERROR
+        "Extra unparsed arguments when calling metis_add_proto_modules: ${THIS_UNPARSED_ARGUMENTS}"
+    )
+  endif()
+
+  find_package(protobuf CONFIG REQUIRED)
+  find_package(gRPC CONFIG REQUIRED)
+
+  foreach(PROTO_FILE ${THIS_PROTOS})
+    get_filename_component(PROTO_FILENAME ${PROTO_FILE} NAME)
+    string(REGEX REPLACE "\\.proto$" "" PROTO_FILENAME_WE ${PROTO_FILENAME})
+    
+    get_filename_component(PROTO_IMPORT_DIRS ${PROTO_FILE} DIRECTORY)
+
+    set(PROTO_TARGET ${target}_${PROTO_FILENAME_WE}_proto)
+    set(PROTO_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROTO_FILENAME_WE}_proto)
+
+    add_custom_target(
+      ${PROTO_TARGET}_create_proto_dir ALL
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${PROTO_BINARY_DIR}
+      COMMENT "Creating directory ${PROTO_BINARY_DIR}")
+
+    add_library(${PROTO_TARGET} OBJECT ${PROTO_FILE})
+    target_link_libraries(${PROTO_TARGET} PUBLIC protobuf::libprotobuf
+                                                 gRPC::grpc++)
+    target_include_directories(${PROTO_TARGET}
+                               PUBLIC $<BUILD_INTERFACE:${PROTO_BINARY_DIR}/..>)
+    add_dependencies(${PROTO_TARGET} ${PROTO_TARGET}_create_proto_dir)
+    set_target_properties(${PROTO_TARGET} PROPERTIES POSITION_INDEPENDENT_CODE
+                                                     TRUE)
+
+    protobuf_generate(TARGET ${PROTO_TARGET} IMPORT_DIRS ${PROTO_IMPORT_DIRS}
+                      PROTOC_OUT_DIR ${PROTO_BINARY_DIR})
+
+    protobuf_generate(
+      TARGET
+      ${PROTO_TARGET}
+      LANGUAGE
+      grpc
+      GENERATE_EXTENSIONS
+      .grpc.pb.h
+      .grpc.pb.cc
+      PLUGIN
+      "protoc-gen-grpc=\$<TARGET_FILE:gRPC::grpc_cpp_plugin>"
+      IMPORT_DIRS
+      ${PROTO_IMPORT_DIRS}
+      PROTOC_OUT_DIR
+      ${PROTO_BINARY_DIR})
+
+    target_link_libraries(${target} PRIVATE ${PROTO_TARGET})
+
+  endforeach()
+
+endmacro()
 # ----------------------------------------------------------------------- #
 # ---------- Define a macro that helps add headers only module ---------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_headers_only_module target)
+macro(metis_add_headers_only_module target)
 
   cmake_parse_arguments(THIS "" "" "SOURCES;DEPENDS" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_module: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_module: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   add_library(${target} INTERFACE ${THIS_SOURCES})
-  add_library(pillar::${target} ALIAS ${target})
+  add_library(metis::${target} ALIAS ${target})
+
+  _metis_prepare_module_target(${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} INTERFACE ${THIS_DEPENDS})
   endif()
-
-  _pillar_prepare_module_target(${target})
 
   if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(${target} INTERFACE "QTILS_STATIC")
@@ -55,7 +116,7 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------------- Define a macro that helps add module ---------------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_module target)
+macro(metis_add_module target)
   cmake_parse_arguments(
     THIS
     ""
@@ -65,12 +126,14 @@ macro(pillar_add_module target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_module: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_module: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   add_library(${target} ${THIS_SOURCES})
-  add_library(pillar::${target} ALIAS ${target})
+  add_library(metis::${target} ALIAS ${target})
+
+  _metis_prepare_module_target(${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -89,8 +152,6 @@ macro(pillar_add_module target)
                               ${THIS_PRECOMPILE_PRIVATE_HEADERS})
   endif()
 
-  _pillar_prepare_module_target(${target})
-
   if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(${target} PUBLIC "QTILS_STATIC")
   endif()
@@ -99,7 +160,7 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # --------------- Define a macro that helps export engine --------------- #
 # ----------------------------------------------------------------------- #
-function(pillar_export_modules)
+function(metis_export_modules)
 
   if(BUILD_SHARED_LIBS)
     set(config_name "shared")
@@ -107,42 +168,42 @@ function(pillar_export_modules)
     set(config_name "static")
   endif()
 
-  set(current_dir "${PILLAR_SOURCE_DIR}/cmake")
-  set(targets_config_filename "pillar-${config_name}-targets.cmake")
-  set(config_package_location ${CMAKE_INSTALL_LIBDIR}/cmake/pillar)
+  set(current_dir "${METIS_SOURCE_DIR}/cmake")
+  set(targets_config_filename "metis-${config_name}-targets.cmake")
+  set(config_package_location ${CMAKE_INSTALL_LIBDIR}/cmake/metis)
 
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/pillar-config-version.cmake"
-    VERSION ${PILLAR_VERSION_MAJOR}.${PILLAR_VERSION_MINOR}
+    "${CMAKE_CURRENT_BINARY_DIR}/metis-config-version.cmake"
+    VERSION ${METIS_VERSION_MAJOR}.${METIS_VERSION_MINOR}
     COMPATIBILITY SameMajorVersion)
 
-  export(EXPORT pillarConfigExport
+  export(EXPORT metisConfigExport
          FILE "${CMAKE_CURRENT_BINARY_DIR}/${targets_config_filename}")
 
   configure_package_config_file(
-    "${current_dir}/pillar-config.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/pillar-config.cmake"
+    "${current_dir}/metis-config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/metis-config.cmake"
     INSTALL_DESTINATION "${config_package_location}")
   configure_package_config_file(
-    "${current_dir}/pillar-config-dependencies.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/pillar-config-dependencies.cmake"
+    "${current_dir}/metis-config-dependencies.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/metis-config-dependencies.cmake"
     INSTALL_DESTINATION "${config_package_location}")
 
   install(
-    EXPORT pillarConfigExport
+    EXPORT metisConfigExport
     FILE ${targets_config_filename}
-    NAMESPACE pillar::
+    NAMESPACE metis::
     DESTINATION ${config_package_location})
 
   install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/pillar-config.cmake
-          ${CMAKE_CURRENT_BINARY_DIR}/pillar-config-dependencies.cmake
-          ${CMAKE_CURRENT_BINARY_DIR}/pillar-config-version.cmake
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/metis-config.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/metis-config-dependencies.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/metis-config-version.cmake
     DESTINATION ${config_package_location})
 
   install(
-    DIRECTORY ${PILLAR_SOURCE_DIR}/modules/include
+    DIRECTORY ${METIS_SOURCE_DIR}/modules/include
     DESTINATION .
     COMPONENT devel
     FILES_MATCHING
@@ -154,14 +215,14 @@ endfunction()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that helps add application -------------- #
 # ----------------------------------------------------------------------- #
-macro(_pillar_add_executable target)
+macro(_metis_add_executable target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling _pillar_add_executable: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling _metis_add_executable: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -198,20 +259,20 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that helps add engine test -------------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_test target)
+macro(metis_add_test target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_test: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_test: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   find_package(GTest REQUIRED)
 
-  _pillar_add_executable(
+  _metis_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -228,18 +289,18 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ------------ Define a macro that helps add engine example ------------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_example target)
+macro(metis_add_example target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_test: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_test: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
-  _pillar_add_executable(
+  _metis_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -254,18 +315,18 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------------- Define a macro that helps add tool ------------------ #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_application target)
+macro(metis_add_application target)
 
   cmake_parse_arguments(THIS "" "RESOURCES_DIR"
                         "SOURCES;DEPENDS;DEPENDS_PRIVATE" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_application: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_application: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
-  _pillar_add_executable(
+  _metis_add_executable(
     ${target}
     SOURCES
     ${THIS_SOURCES}
@@ -282,7 +343,7 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # --------------- Define a macro that helps add utils lib --------------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_utils target)
+macro(metis_add_utils target)
 
   cmake_parse_arguments(
     THIS
@@ -293,12 +354,14 @@ macro(pillar_add_utils target)
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   add_library(${target} ${THIS_SOURCES})
-  add_library(pillar::${target} ALIAS ${target})
+  add_library(metis::${target} ALIAS ${target})
+
+  _metis_prepare_module_target(${target})
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -318,56 +381,40 @@ macro(pillar_add_utils target)
   endif()
 
   foreach(target_depends ${THIS_DEPENDS_TO_EXPORT})
-    install(TARGETS ${target_depends} EXPORT pillarConfigExport)
+    install(TARGETS ${target_depends} EXPORT metisConfigExport)
   endforeach()
 
-  string(REPLACE "-" "_" NAME_UPPER "${target}")
-  string(TOUPPER "${NAME_UPPER}" NAME_UPPER)
-  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL
-                                             ${NAME_UPPER}_EXPORTS)
-
-  if(BUILD_SHARED_LIBS)
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
-  else()
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -s-d)
-    set_target_properties(${target} PROPERTIES RELEASE_POSTFIX -s)
-  endif()
-
-  set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
-  set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
-
-  install(
-    TARGETS ${target}
-    EXPORT pillarConfigExport
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
-
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "PILLAR_STATIC")
+    target_compile_definitions(${target} PUBLIC "METIS_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # ---------------- Define a macro that helps add plugins ---------------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_plugins target)
+macro(metis_add_plugins target)
 
   cmake_parse_arguments(
     THIS
     ""
     ""
-    "SOURCES;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
+    "SOURCES;PROTOS;DEPENDS;DEPENDS_PRIVATE;PRECOMPILE_HEADERS;PRECOMPILE_PRIVATE_HEADERS"
     ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_utils: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
   add_library(${target} ${THIS_SOURCES})
   add_library(plugin::${target} ALIAS ${target})
+
+  _metis_prepare_module_target(${target})
+
+  if(THIS_PROTOS)
+    __metis_add_proto_modules(${target} PROTOS ${THIS_PROTOS})
+  endif()
 
   if(THIS_DEPENDS)
     target_link_libraries(${target} PUBLIC ${THIS_DEPENDS})
@@ -391,34 +438,17 @@ macro(pillar_add_plugins target)
   set_target_properties(${target} PROPERTIES DEFINE_SYMBOL
                                              ${NAME_UPPER}_EXPORTS)
 
-  if(BUILD_SHARED_LIBS)
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
-  else()
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -s-d)
-    set_target_properties(${target} PROPERTIES RELEASE_POSTFIX -s)
-  endif()
-
-  set_target_properties(${target} PROPERTIES COMPILE_FEATURES cxx_std_20)
-  set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
-
-  install(
-    TARGETS ${target}
-    EXPORT pillarConfigExport
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin
-    LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT lib)
-
   if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(${target} PUBLIC "PILLAR_STATIC")
+    target_compile_definitions(${target} PUBLIC "METIS_STATIC")
   endif()
 
 endmacro()
 # ----------------------------------------------------------------------- #
 # ------------- Define a macro that generate documentation -------------- #
 # ----------------------------------------------------------------------- #
-function(pillar_generate_documentation)
+function(metis_generate_documentation)
   find_package(Doxygen REQUIRED)
-  set(DOXYGEN_IN ${PILLAR_SOURCE_DIR}/docs/Doxyfile.in)
+  set(DOXYGEN_IN ${METIS_SOURCE_DIR}/docs/Doxyfile.in)
   set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
 
   configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
@@ -433,20 +463,20 @@ endfunction()
 # ----------------------------------------------------------------------- #
 # -------------- Define a macro that install documentation -------------- #
 # ----------------------------------------------------------------------- #
-function(pillar_install_documentation)
+function(metis_install_documentation)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc_doxygen/
           DESTINATION ${CMAKE_INSTALL_PREFIX}/docs)
 endfunction()
 # ----------------------------------------------------------------------- #
 # ----------- Define a macro that helps defining translations ----------- #
 # ----------------------------------------------------------------------- #
-macro(pillar_add_translations target)
+macro(metis_add_translations target)
 
   cmake_parse_arguments(THIS "" "QM_DIR" "TS_FILES;DIRS" ${ARGN})
   if(NOT "${THIS_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(
       FATAL_ERROR
-        "Extra unparsed arguments when calling pillar_add_translations: ${THIS_UNPARSED_ARGUMENTS}"
+        "Extra unparsed arguments when calling metis_add_translations: ${THIS_UNPARSED_ARGUMENTS}"
     )
   endif()
 
@@ -491,8 +521,8 @@ endmacro()
 # ----------------------------------------------------------------------- #
 # ----------- Define a function that helps add static analysis ---------- #
 # ----------------------------------------------------------------------- #
-function(pillar_static_analyzers)
-  if(PILLAR_ENABLE_CLANG_TIDY)
+function(metis_static_analyzers)
+  if(METIS_ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)
     if(CLANGTIDY)
       set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY}
@@ -502,7 +532,7 @@ function(pillar_static_analyzers)
     endif()
   endif()
 
-  if(PILLAR_ENABLE_CPPCHECK)
+  if(METIS_ENABLE_CPPCHECK)
     find_program(CPPCHECK cppcheck)
     if(CPPCHECK)
       set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --suppress=missingInclude --enable=all

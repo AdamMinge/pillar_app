@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/pillar">
-        <file>images/16x16/undo_clean.png</file>
-        <file>images/64x64/plugin.png</file>
-
-        <file>translations/pillar_en.qm</file>
-        <file>translations/pillar_pl.qm</file>
-    </qresource>
-</RCC>

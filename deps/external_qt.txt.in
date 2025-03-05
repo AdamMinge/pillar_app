@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 project(qt NONE)
 
-set(prefix_dir @PILLAR_BUILD_DEPS_DIR@/qt)
+set(prefix_dir @METIS_BUILD_DEPS_DIR@/qt)
 set(install_dir ${prefix_dir}/src/qt-install)
 
 if(WIN32)
@@ -20,9 +20,9 @@ include(ExternalProject)
 ExternalProject_Add(
     qt
     URL                         
-        https://download.qt.io/official_releases/qt/6.6/6.6.0/single/qt-everywhere-src-6.6.0.tar.xz
+        https://download.qt.io/official_releases/qt/6.8/6.8.0/single/qt-everywhere-src-6.8.0.tar.xz
     URL_MD5                     
-        efc59647689c2548961a7312d075baf6
+        ce8676e8302d82c7e80ae0f1a316c132
     PREFIX                      
         ${prefix_dir}
     BUILD_IN_SOURCE             

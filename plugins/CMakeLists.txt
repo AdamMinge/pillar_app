@@ -5,9 +5,9 @@ cmake_minimum_required(VERSION 3.11)
 # ----------------------------------------------------------------------- #
 # ---------------------------- Set files variable ----------------------- #
 # ----------------------------------------------------------------------- #
-add_subdirectory(src/flow/document)
-add_subdirectory(src/flow/condition_node)
-add_subdirectory(src/flow/logic_node)
-add_subdirectory(src/flow/math_node)
-add_subdirectory(src/flow/string_node)
+add_subdirectory(src/diff_v1.0.0)
+add_subdirectory(src/diff_v2.0.0)
+add_subdirectory(src/diff_v3.0.0)
+add_subdirectory(src/migrate_v1.0.0_to_v2.0.0)
+add_subdirectory(src/migrate_v2.0.0_to_v3.0.0)
 # ----------------------------------------------------------------------- #
